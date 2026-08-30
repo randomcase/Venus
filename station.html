@@ -164,6 +164,10 @@
   .march .rank span{margin-left:auto;color:var(--dim);font-size:10px}
   .gunsn::after{content:counter(guns)}
   .escn::after{content:counter(esc)}
+  .crewn::after{content:counter(crew)}
+  .bunksn::after{content:counter(bunks)}
+  .offn::after{content:counter(off)}
+  .raten::after{content:counter(rate)}
   /* the clamps only come out for the one that cannot leave */
   .clamp{opacity:0;transition:opacity .3s}
   .app:has(#c-yam:checked) .clamp{opacity:1}
@@ -193,54 +197,85 @@
   .opt input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
 
   /* the arithmetic. every checked option adds to the counters. */
-  body{counter-reset:heze 0 weeks 0 tons 0 slips 0 guns 0 esc 0}
-  #c-buck:checked+label{counter-increment:heze 1000   weeks 2  tons 900}
-  #c-cors:checked+label{counter-increment:heze 4600   weeks 5  tons 2600}
-  #c-dd:checked  +label{counter-increment:heze 12400  weeks 9  tons 8300}
-  #c-cl:checked  +label{counter-increment:heze 28000  weeks 16 tons 14600}
-  #c-cv:checked  +label{counter-increment:heze 61000  weeks 27 tons 47000}
-  #c-bb:checked  +label{counter-increment:heze 84000  weeks 34 tons 64000}
-  #c-yam:checked +label{counter-increment:heze 150000 weeks 52 tons 72800}
+  /* Counters carry the personnel return as well as the money. crew = off +
+     rate exactly, declared on every line, because CSS can add but it cannot
+     subtract — so anything the return states has to be stated, not derived. */
+  body{counter-reset:heze 0 weeks 0 tons 0 slips 0 guns 0 esc 0
+       crew 0 bunks 0 off 0 rate 0}
+  #c-buck:checked+label{counter-increment:heze 1000   weeks 2  tons 900
+    crew 12   bunks 16   off 2   rate 10}
+  #c-cors:checked+label{counter-increment:heze 4600   weeks 5  tons 2600
+    crew 46   bunks 54   off 5   rate 41}
+  #c-dd:checked  +label{counter-increment:heze 12400  weeks 9  tons 8300
+    crew 210  bunks 236  off 16  rate 194}
+  #c-cl:checked  +label{counter-increment:heze 28000  weeks 16 tons 14600
+    crew 560  bunks 610  off 34  rate 526}
+  #c-cv:checked  +label{counter-increment:heze 61000  weeks 27 tons 47000
+    crew 1900 bunks 2100 off 140 rate 1760}
+  #c-bb:checked  +label{counter-increment:heze 84000  weeks 34 tons 64000
+    crew 1850 bunks 1980 off 96  rate 1754}
+  #c-yam:checked +label{counter-increment:heze 150000 weeks 52 tons 72800
+    crew 2750 bunks 2900 off 148 rate 2602}
 
   #y-cradle:checked+label{counter-increment:heze 0    weeks 0 slips 1}
   #y-bay:checked   +label{counter-increment:heze 2400 weeks 2 slips 2}
   #y-dock:checked  +label{counter-increment:heze 6100 weeks 4 slips 3}
 
   #d-tug:checked  +label{counter-increment:heze 0     weeks 0}
-  #d-plate:checked+label{counter-increment:heze 800   weeks 1 tons 120}
-  #d-ion:checked  +label{counter-increment:heze 5200  weeks 3 tons 640}
-  #d-torch:checked+label{counter-increment:heze 14000 weeks 6 tons 1900}
+  #d-plate:checked+label{counter-increment:heze 800   weeks 1 tons 120
+    crew 2  rate 2}
+  #d-ion:checked  +label{counter-increment:heze 5200  weeks 3 tons 640
+    crew 8  rate 7  off 1}
+  #d-torch:checked+label{counter-increment:heze 14000 weeks 6 tons 1900
+    crew 16 rate 13 off 3}
 
   #f-none:checked +label{counter-increment:heze 0}
   #f-foil:checked +label{counter-increment:heze 1900 weeks 2 tons 300}
   #f-cush:checked +label{counter-increment:heze 3300 weeks 3 tons 520}
   #f-gas:checked  +label{counter-increment:heze 7500 weeks 5 tons 880}
 
-  #c-mer:checked +label{counter-increment:heze 2100  weeks 3  tons 9400}
-  #c-aux:checked +label{counter-increment:heze 3200  weeks 4  tons 6800}
-  #c-mon:checked +label{counter-increment:heze 47000 weeks 22 tons 26500}
+  #c-mer:checked +label{counter-increment:heze 2100  weeks 3  tons 9400
+    crew 22  bunks 30  off 4  rate 18}
+  #c-aux:checked +label{counter-increment:heze 3200  weeks 4  tons 6800
+    crew 180 bunks 240 off 14 rate 166}
+  #c-mon:checked +label{counter-increment:heze 47000 weeks 22 tons 26500
+    crew 340 bunks 360 off 20 rate 320}
 
   #k-wheel:checked+label{counter-increment:heze 300  tons 4}
   #k-lant:checked +label{counter-increment:heze 180  tons 2}
   #k-crane:checked+label{counter-increment:heze 1400 weeks 1 tons 260}
   #k-ice:checked  +label{counter-increment:heze 900  weeks 1 tons 410}
 
+  /* a system that is not manned is not fitted, so every mount carries its crew */
   #a-ram:checked  +label{counter-increment:heze 2200  weeks 1 tons 340  guns 1}
-  #a-broad:checked+label{counter-increment:heze 8600  weeks 3 tons 1800 guns 1}
-  #a-ciws:checked +label{counter-increment:heze 1800  weeks 1 tons 120  guns 1}
-  #a-vls:checked  +label{counter-increment:heze 9400  weeks 4 tons 980  guns 1}
-  #a-asm:checked  +label{counter-increment:heze 6200  weeks 2 tons 540  guns 1}
-  #a-tor:checked  +label{counter-increment:heze 3100  weeks 2 tons 380  guns 1}
-  #a-rail:checked +label{counter-increment:heze 16800 weeks 6 tons 1450 guns 1}
-  #a-mine:checked +label{counter-increment:heze 1200  weeks 1 tons 220  guns 1}
-  #a-dc:checked   +label{counter-increment:heze 700   weeks 1 tons 90   guns 1}
-  #a-uav:checked  +label{counter-increment:heze 4300  weeks 2 tons 260  guns 1}
-  #a-laser:checked+label{counter-increment:heze 11500 weeks 4 tons 610  guns 1}
+  #a-broad:checked+label{counter-increment:heze 8600  weeks 3 tons 1800 guns 1
+    crew 60 rate 60}
+  #a-ciws:checked +label{counter-increment:heze 1800  weeks 1 tons 120  guns 1
+    crew 6  rate 6}
+  #a-vls:checked  +label{counter-increment:heze 9400  weeks 4 tons 980  guns 1
+    crew 14 rate 12 off 2}
+  #a-asm:checked  +label{counter-increment:heze 6200  weeks 2 tons 540  guns 1
+    crew 10 rate 10}
+  #a-tor:checked  +label{counter-increment:heze 3100  weeks 2 tons 380  guns 1
+    crew 12 rate 12}
+  #a-rail:checked +label{counter-increment:heze 16800 weeks 6 tons 1450 guns 1
+    crew 22 rate 20 off 2}
+  #a-mine:checked +label{counter-increment:heze 1200  weeks 1 tons 220  guns 1
+    crew 8  rate 8}
+  #a-dc:checked   +label{counter-increment:heze 700   weeks 1 tons 90   guns 1
+    crew 6  rate 6}
+  #a-uav:checked  +label{counter-increment:heze 4300  weeks 2 tons 260  guns 1
+    crew 18 rate 15 off 3}
+  #a-laser:checked+label{counter-increment:heze 11500 weeks 4 tons 610  guns 1
+    crew 9  rate 8  off 1}
 
   #e-0:checked+label{counter-increment:heze 0}
-  #e-1:checked+label{counter-increment:heze 2500 weeks 1 esc 1}
-  #e-2:checked+label{counter-increment:heze 5000 weeks 2 esc 2}
-  #e-3:checked+label{counter-increment:heze 7500 weeks 3 esc 3}
+  #e-1:checked+label{counter-increment:heze 2500 weeks 1 esc 1
+    crew 46  bunks 54  off 5  rate 41}
+  #e-2:checked+label{counter-increment:heze 5000 weeks 2 esc 2
+    crew 92  bunks 108 off 10 rate 82}
+  #e-3:checked+label{counter-increment:heze 7500 weeks 3 esc 3
+    crew 138 bunks 162 off 15 rate 123}
 
   /* --------------------------------------------------- the Yamato exception */
   .flight{transition:opacity .2s}
@@ -1007,6 +1042,19 @@
     <div class="tot"><span>Slip grade</span><b class="slipn"></b></div>
     <div class="tot"><span>Systems fitted</span><b class="gunsn"></b></div>
     <div class="tot"><span>Escort hulls</span><b class="escn"></b></div>
+
+    <h2 style="margin-top:16px">Personnel return <b>readiness</b></h2>
+    <div class="tot"><span>Complement required</span><b class="crewn"></b></div>
+    <div class="tot"><span>— officers</span><b class="offn"></b></div>
+    <div class="tot"><span>— ratings</span><b class="raten"></b></div>
+    <div class="tot"><span>Berths fitted</span><b class="bunksn"></b></div>
+    <div class="tot"><span>Systems to be manned</span><b class="gunsn"></b></div>
+    <p class="note">This is the whole return, and it is the only thing the
+      commandant is required to send up: what she needs, what she sleeps, and
+      how many mounts have to be closed up before she is called ready. Staffed
+      to capacity means the two numbers meet. The sergeant reads the gap; the
+      corporal answers for it at the rear guard. Nothing above the syndicate
+      asks for more detail than this.</p>
 
     <h2 style="margin-top:16px">Order of march <b>syndicate</b></h2>
     <div class="march">
