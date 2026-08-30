@@ -1,0 +1,480 @@
+<title>Heze Orbital Yard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Heze Orbital Yard — an order desk that runs on nothing.
+
+  No script. Not one line, and no framework underneath it either. Every moving
+  part on this page is CSS doing something CSS has always been able to do:
+
+    · the running total is a CSS counter. Each checked option increments it,
+      and the docket further down the document prints the sum. Real arithmetic,
+      done by the layout engine.
+    · the ship in the berth changes because .app:has(:checked) matches a
+      different silhouette. No state, no re-render.
+    · the confirmation panel is :target — a link changes the URL fragment and
+      the panel is what matches it.
+    · the ring turns, the lights blink and the stars drift on @keyframes.
+
+  Because the total is a counter, the docket has to come after the form in the
+  document; the grid puts it back on the right where it belongs. That is the
+  one constraint the whole page is built around.
+
+  Nothing here signs, sends, or settles anything. It is an order form.
+-->
+<style>
+  :root{
+    --void:#070a0e; --deck:#101821; --deck2:#16212c; --edge:#243444;
+    --ink:#e6eef5; --dim:#8497a8; --gold:#e0b155; --live:#65d6a8;
+    --warn:#e0705a; --cool:#6ec6ff; --hot:#ff9d5c;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;color:var(--ink);background:var(--void);
+    font:13px/1.55 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(1.4px 1.4px at 12% 22%,#fff,transparent),
+      radial-gradient(1.2px 1.2px at 68% 12%,#cfe6ff,transparent),
+      radial-gradient(1px 1px at 32% 71%,#fff,transparent),
+      radial-gradient(1.6px 1.6px at 84% 58%,#ffe9c9,transparent),
+      radial-gradient(1px 1px at 52% 41%,#fff,transparent),
+      radial-gradient(1.2px 1.2px at 8% 84%,#dff,transparent),
+      radial-gradient(1px 1px at 92% 88%,#fff,transparent),
+      radial-gradient(circle at 78% 8%,rgba(110,198,255,.10),transparent 46%),
+      radial-gradient(circle at 14% 92%,rgba(224,177,85,.09),transparent 44%);
+    background-size:cover;
+    animation:drift 140s linear infinite;
+  }
+  @keyframes drift{to{background-position:-240px 120px,0 0,180px -90px,0 0,
+    -120px 60px,0 0,90px -45px,0 0,0 0}}
+
+  a{color:var(--gold)}
+  h1{margin:0;font-size:19px;letter-spacing:-.01em}
+  h2{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--dim);margin:0 0 8px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-weight:600;letter-spacing:0;text-transform:none;
+    font-size:10.5px}
+  p.note{color:var(--dim);font-size:10.5px;line-height:1.6;margin:8px 0 0}
+
+  .app{
+    display:grid;gap:14px;padding:14px;min-height:100vh;
+    grid-template-columns:1fr 340px 300px;
+    grid-template-areas:"head head head" "berth desk docket";
+    align-items:start;
+  }
+  header{grid-area:head;display:flex;align-items:baseline;gap:12px;
+    border-bottom:1px solid var(--edge);padding-bottom:10px;flex-wrap:wrap}
+  header .sub{color:var(--dim);font-size:11px}
+  header .tag{margin-left:auto;font-size:9px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:3px 8px}
+
+  .panel{background:linear-gradient(180deg,var(--deck),var(--deck2));
+    border:1px solid var(--edge);border-radius:10px;padding:12px}
+  .berth{grid-area:berth}
+  .desk{grid-area:desk}
+  .docket{grid-area:docket;position:sticky;top:14px}
+
+  /* ------------------------------------------------------------ the station */
+  .sky{position:relative;height:330px;border-radius:8px;overflow:hidden;
+    background:radial-gradient(circle at 30% 24%,#16222e,#080c11 70%);
+    border:1px solid var(--edge)}
+  .hub{position:absolute;left:50%;top:44%;width:74px;height:74px;margin:-37px 0 0 -37px;
+    border-radius:14px;background:linear-gradient(160deg,#2c3d4e,#131c25);
+    border:1px solid #3d5468;box-shadow:0 0 24px rgba(110,198,255,.16)}
+  .hub::after{content:"";position:absolute;inset:12px;border-radius:8px;
+    background:repeating-linear-gradient(180deg,#1a2733 0 4px,#22303e 4px 8px)}
+  .ring{position:absolute;left:50%;top:44%;width:236px;height:236px;
+    margin:-118px 0 0 -118px;border-radius:50%;
+    border:9px solid #23323f;border-top-color:#33485a;border-bottom-color:#1a2632;
+    animation:spin 26s linear infinite}
+  .ring::before,.ring::after{content:"";position:absolute;inset:-9px;
+    border-radius:50%;border:1px solid rgba(110,198,255,.22)}
+  .ring::after{inset:9px;border-color:rgba(224,177,85,.14)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .spoke{position:absolute;left:50%;top:44%;width:118px;height:5px;margin-top:-2.5px;
+    transform-origin:0 50%;background:linear-gradient(90deg,#33485a,#1d2a35)}
+  .spoke.a{transform:rotate(28deg)} .spoke.b{transform:rotate(148deg)}
+  .spoke.c{transform:rotate(268deg)}
+  .wing{position:absolute;top:20px;width:96px;height:44px;
+    background:repeating-linear-gradient(90deg,#16344d 0 6px,#0f2739 6px 12px);
+    border:1px solid #26506e;border-radius:3px;opacity:.9}
+  .wing.l{left:16px;transform:skewY(9deg)} .wing.r{right:16px;transform:skewY(-9deg)}
+  .beacon{position:absolute;width:5px;height:5px;border-radius:50%;
+    background:var(--warn);box-shadow:0 0 9px var(--warn);animation:blink 2.4s infinite}
+  .beacon.b2{animation-delay:.8s;background:var(--live);box-shadow:0 0 9px var(--live)}
+  .beacon.b3{animation-delay:1.6s;background:var(--cool);box-shadow:0 0 9px var(--cool)}
+  @keyframes blink{0%,44%{opacity:.15}50%,60%{opacity:1}66%,100%{opacity:.15}}
+
+  /* ------------------------------------------------------- ships in the slip */
+  .slip{position:absolute;left:0;right:0;bottom:16px;height:132px}
+  .ship{position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+    opacity:0;transition:opacity .25s ease}
+  .hull{position:relative;background:linear-gradient(180deg,#4a6070,#1b2833);
+    border:1px solid #0d141a;border-radius:4px 22px 8px 4px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 22px rgba(0,0,0,.5)}
+  .hull::after{content:"";position:absolute;left:6%;right:6%;top:52%;height:1px;
+    background:rgba(0,0,0,.45);box-shadow:0 5px 0 rgba(255,255,255,.07)}
+  .tower{position:absolute;bottom:100%;background:linear-gradient(180deg,#5a7284,#26343f);
+    border:1px solid #0d141a;border-radius:3px 3px 0 0}
+  .gun{position:absolute;bottom:100%;width:20px;height:9px;border-radius:3px;
+    background:#3c4f5e;border:1px solid #0d141a}
+  .gun::after{content:"";position:absolute;left:100%;top:3px;width:16px;height:2px;
+    background:#8ba0b0}
+  .stack{position:absolute;bottom:100%;width:13px;height:22px;border-radius:2px;
+    background:linear-gradient(180deg,#4a5f6e,#22303a);border:1px solid #0d141a}
+  .deckplate{position:absolute;bottom:100%;left:0;right:0;height:12px;
+    background:repeating-linear-gradient(90deg,#2f4250 0 12px,#26363f 12px 24px);
+    border:1px solid #0d141a;border-radius:3px}
+  .mast{position:absolute;bottom:100%;width:3px;background:#7d93a4}
+  .sail{position:absolute;bottom:100%;background:linear-gradient(180deg,#e8dfc6,#c3b48f);
+    border:1px solid #0d141a;border-radius:2px 14px 2px 2px;transform:skewX(-8deg)}
+  .bucket{position:absolute;bottom:100%;width:30px;height:24px;border-radius:0 0 8px 8px;
+    background:linear-gradient(180deg,#6b5a3a,#3a3020);border:1px solid #0d141a}
+  .glow{position:absolute;right:100%;top:50%;width:34px;height:8px;margin-top:-4px;
+    border-radius:6px;background:linear-gradient(90deg,transparent,var(--hot));
+    filter:blur(3px);animation:burn 1.7s ease-in-out infinite}
+  @keyframes burn{50%{width:52px;opacity:.75}}
+
+  .s-buck .hull{width:120px;height:26px}
+  .s-cors .hull{width:172px;height:28px}
+  .s-dd   .hull{width:250px;height:30px}
+  .s-cl   .hull{width:310px;height:38px}
+  .s-cv   .hull{width:360px;height:36px}
+  .s-bb   .hull{width:344px;height:46px}
+  .s-yam  .hull{width:430px;height:58px;
+    background:linear-gradient(180deg,#5d7080,#16222c);border-radius:4px 34px 10px 4px}
+
+  .name{position:absolute;left:0;bottom:-22px;font-size:9.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);white-space:nowrap}
+  .name b{color:var(--gold);letter-spacing:0;text-transform:none;font-size:10.5px}
+
+  /* which ship is in the slip */
+  .app:has(#c-buck:checked) .s-buck,
+  .app:has(#c-cors:checked) .s-cors,
+  .app:has(#c-dd:checked)   .s-dd,
+  .app:has(#c-cl:checked)   .s-cl,
+  .app:has(#c-cv:checked)   .s-cv,
+  .app:has(#c-bb:checked)   .s-bb,
+  .app:has(#c-yam:checked)  .s-yam{opacity:1}
+
+  /* ------------------------------------------------------------- the ledger */
+  fieldset{border:0;padding:0;margin:0 0 14px}
+  legend{padding:0}
+  .opt{display:block;margin:0}
+  .opt input{position:absolute;opacity:0;width:0;height:0}
+  .opt label{display:flex;gap:8px;align-items:baseline;cursor:pointer;
+    padding:5px 8px;border:1px solid transparent;border-radius:6px;
+    font-size:11.5px;transition:background .12s,border-color .12s}
+  .opt label:hover{background:rgba(110,198,255,.06)}
+  .opt label .cost{margin-left:auto;color:var(--dim);
+    font:11px/1 ui-monospace,Menlo,monospace}
+  .opt label .tick{width:11px;height:11px;border:1px solid var(--edge);
+    border-radius:50%;flex:none;position:relative;top:2px}
+  .opt input[type=checkbox]+label .tick{border-radius:3px}
+  .opt input:checked+label{background:rgba(224,177,85,.10);border-color:var(--gold)}
+  .opt input:checked+label .tick{background:var(--gold);border-color:var(--gold);
+    box-shadow:inset 0 0 0 2px var(--deck)}
+  .opt input:checked+label .cost{color:var(--gold)}
+  .opt input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* the arithmetic. every checked option adds to the counters. */
+  body{counter-reset:heze 0 weeks 0 tons 0 slips 0}
+  #c-buck:checked+label{counter-increment:heze 1000  weeks 2  tons 900}
+  #c-cors:checked+label{counter-increment:heze 4600  weeks 5  tons 2600}
+  #c-dd:checked  +label{counter-increment:heze 12400 weeks 9  tons 8300}
+  #c-cl:checked  +label{counter-increment:heze 28000 weeks 16 tons 14600}
+  #c-cv:checked  +label{counter-increment:heze 61000 weeks 27 tons 47000}
+  #c-bb:checked  +label{counter-increment:heze 84000 weeks 34 tons 64000}
+  #c-yam:checked +label{counter-increment:heze 150000 weeks 52 tons 72800}
+
+  #y-cradle:checked+label{counter-increment:heze 0    weeks 0 slips 1}
+  #y-bay:checked   +label{counter-increment:heze 2400 weeks 2 slips 2}
+  #y-dock:checked  +label{counter-increment:heze 6100 weeks 4 slips 3}
+
+  #d-tug:checked  +label{counter-increment:heze 0     weeks 0}
+  #d-plate:checked+label{counter-increment:heze 800   weeks 1 tons 120}
+  #d-ion:checked  +label{counter-increment:heze 5200  weeks 3 tons 640}
+  #d-torch:checked+label{counter-increment:heze 14000 weeks 6 tons 1900}
+
+  #f-none:checked +label{counter-increment:heze 0}
+  #f-foil:checked +label{counter-increment:heze 1900 weeks 2 tons 300}
+  #f-cush:checked +label{counter-increment:heze 3300 weeks 3 tons 520}
+  #f-gas:checked  +label{counter-increment:heze 7500 weeks 5 tons 880}
+
+  #k-wheel:checked+label{counter-increment:heze 300  tons 4}
+  #k-lant:checked +label{counter-increment:heze 180  tons 2}
+  #k-ram:checked  +label{counter-increment:heze 2200 weeks 1 tons 340}
+  #k-broad:checked+label{counter-increment:heze 8600 weeks 3 tons 1800}
+  #k-crane:checked+label{counter-increment:heze 1400 weeks 1 tons 260}
+  #k-ice:checked  +label{counter-increment:heze 900  weeks 1 tons 410}
+
+  #e-0:checked+label{counter-increment:heze 0}
+  #e-1:checked+label{counter-increment:heze 2500 weeks 1}
+  #e-2:checked+label{counter-increment:heze 5000 weeks 2}
+  #e-3:checked+label{counter-increment:heze 7500 weeks 3}
+
+  /* --------------------------------------------------- the Yamato exception */
+  .flight{transition:opacity .2s}
+  .app:has(#c-yam:checked) .flight{opacity:.32;pointer-events:none}
+  .app:has(#c-yam:checked) .flight label{text-decoration:line-through}
+  .grounded{display:none;margin-top:8px;padding:8px 10px;border-radius:7px;
+    border:1px solid var(--warn);background:rgba(224,112,90,.10);
+    color:var(--warn);font-size:10.5px;line-height:1.6}
+  .app:has(#c-yam:checked) .grounded{display:block}
+  .app:has(#c-yam:checked) .s-yam .clamp{opacity:1}
+  .clamp{position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);
+    width:210px;height:12px;border-radius:3px;opacity:0;
+    background:repeating-linear-gradient(45deg,#5a3a2c 0 8px,#3d271d 8px 16px);
+    border:1px solid #12181d}
+
+  /* ------------------------------------------------------------- the docket */
+  .tot{display:flex;justify-content:space-between;align-items:baseline;
+    padding:5px 0;border-bottom:1px solid var(--edge);font-size:11.5px}
+  .tot:last-of-type{border-bottom:0}
+  .tot b{font:13px/1 ui-monospace,Menlo,monospace}
+  .big{font:22px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+    display:block;margin:2px 0 0}
+  .price::after{content:counter(heze)}
+  .weeks::after{content:counter(weeks)}
+  .tons::after {content:counter(tons)}
+  .slipn::after{content:counter(slips)}
+
+  .addr{width:100%;margin-top:6px;font:11px ui-monospace,Menlo,monospace;
+    padding:7px 9px;border-radius:6px;border:1px solid var(--edge);
+    background:#0b1118;color:var(--ink)}
+  .addr:focus{outline:none;border-color:var(--gold)}
+  .send{display:block;margin-top:10px;text-align:center;text-decoration:none;
+    background:var(--gold);color:#12181d;font-weight:650;font-size:12px;
+    padding:9px;border-radius:7px}
+  .send:hover{filter:brightness(1.08)}
+
+  /* -------------------------------------------------------- :target receipt */
+  .receipt{position:fixed;inset:0;display:none;place-items:center;z-index:9;
+    background:rgba(4,7,10,.72);backdrop-filter:blur(3px)}
+  .receipt:target{display:grid}
+  .receipt .card{width:min(460px,92vw);background:var(--deck);
+    border:1px solid var(--gold);border-radius:12px;padding:18px}
+  .receipt h3{margin:0 0 4px;font-size:15px}
+  .receipt .close{display:inline-block;margin-top:12px;font-size:11px}
+  .stamp{font:10px/1 ui-monospace,monospace;letter-spacing:.2em;color:var(--live);
+    border:1px solid var(--live);border-radius:4px;padding:3px 7px;
+    display:inline-block;margin-bottom:8px}
+
+  @media (max-width:1020px){
+    .app{grid-template-columns:1fr;
+      grid-template-areas:"head" "berth" "desk" "docket"}
+    .docket{position:static}
+  }
+</style>
+
+<div class="app">
+
+  <header>
+    <h1>Heze Orbital Yard</h1>
+    <span class="sub">Slip 4 · order desk · settlement in HEZE</span>
+    <span class="tag">no script on this page</span>
+  </header>
+
+  <!-- The form comes first in the document because the totals are CSS counters
+       and a counter can only be printed after the things that increment it.
+       The grid puts the docket back on the right. -->
+  <form class="panel desk">
+    <h2>Class <b>seven hulls</b></h2>
+    <fieldset>
+      <div class="opt"><input type="radio" name="class" id="c-buck">
+        <label for="c-buck"><i class="tick"></i>Bucketeer<span class="cost">1,000</span></label></div>
+      <div class="opt"><input type="radio" name="class" id="c-cors" checked>
+        <label for="c-cors"><i class="tick"></i>Corsair<span class="cost">4,600</span></label></div>
+      <div class="opt"><input type="radio" name="class" id="c-dd">
+        <label for="c-dd"><i class="tick"></i>Destroyer<span class="cost">12,400</span></label></div>
+      <div class="opt"><input type="radio" name="class" id="c-cl">
+        <label for="c-cl"><i class="tick"></i>Cruiser<span class="cost">28,000</span></label></div>
+      <div class="opt"><input type="radio" name="class" id="c-cv">
+        <label for="c-cv"><i class="tick"></i>Carrier<span class="cost">61,000</span></label></div>
+      <div class="opt"><input type="radio" name="class" id="c-bb">
+        <label for="c-bb"><i class="tick"></i>Battleship<span class="cost">84,000</span></label></div>
+      <div class="opt"><input type="radio" name="class" id="c-yam">
+        <label for="c-yam"><i class="tick"></i>Yamato<span class="cost">150,000</span></label></div>
+    </fieldset>
+
+    <h2>Slip</h2>
+    <fieldset>
+      <div class="opt"><input type="radio" name="slip" id="y-cradle" checked>
+        <label for="y-cradle"><i class="tick"></i>Open cradle<span class="cost">0</span></label></div>
+      <div class="opt"><input type="radio" name="slip" id="y-bay">
+        <label for="y-bay"><i class="tick"></i>Pressurised bay<span class="cost">2,400</span></label></div>
+      <div class="opt"><input type="radio" name="slip" id="y-dock">
+        <label for="y-dock"><i class="tick"></i>Graving dock<span class="cost">6,100</span></label></div>
+    </fieldset>
+
+    <h2>Drive</h2>
+    <fieldset>
+      <div class="opt"><input type="radio" name="drive" id="d-tug" checked>
+        <label for="d-tug"><i class="tick"></i>Tug-only<span class="cost">0</span></label></div>
+      <div class="opt"><input type="radio" name="drive" id="d-plate">
+        <label for="d-plate"><i class="tick"></i>Sail plate<span class="cost">800</span></label></div>
+      <div class="opt"><input type="radio" name="drive" id="d-ion">
+        <label for="d-ion"><i class="tick"></i>Ion bank<span class="cost">5,200</span></label></div>
+      <div class="opt"><input type="radio" name="drive" id="d-torch">
+        <label for="d-torch"><i class="tick"></i>Torch<span class="cost">14,000</span></label></div>
+    </fieldset>
+
+    <h2 class="flight">Flight package</h2>
+    <fieldset class="flight">
+      <div class="opt"><input type="radio" name="flight" id="f-none" checked>
+        <label for="f-none"><i class="tick"></i>None — stays wet<span class="cost">0</span></label></div>
+      <div class="opt"><input type="radio" name="flight" id="f-foil">
+        <label for="f-foil"><i class="tick"></i>Hydrofoil<span class="cost">1,900</span></label></div>
+      <div class="opt"><input type="radio" name="flight" id="f-cush">
+        <label for="f-cush"><i class="tick"></i>Air cushion<span class="cost">3,300</span></label></div>
+      <div class="opt"><input type="radio" name="flight" id="f-gas">
+        <label for="f-gas"><i class="tick"></i>Lift gas<span class="cost">7,500</span></label></div>
+    </fieldset>
+    <div class="grounded">
+      <b>Yamato does not fly.</b> Seventy-two thousand tonnes on a hull built to
+      displace water, and no plant on this station lifts it. The flight package
+      is struck from the order — she is big, she is bad, and she stays wet.
+    </div>
+
+    <h2>Fit-out</h2>
+    <fieldset>
+      <div class="opt"><input type="checkbox" id="k-wheel" checked>
+        <label for="k-wheel"><i class="tick"></i>Captain’s wheel<span class="cost">300</span></label></div>
+      <div class="opt"><input type="checkbox" id="k-lant">
+        <label for="k-lant"><i class="tick"></i>Lanterns<span class="cost">180</span></label></div>
+      <div class="opt"><input type="checkbox" id="k-ram">
+        <label for="k-ram"><i class="tick"></i>Ram<span class="cost">2,200</span></label></div>
+      <div class="opt"><input type="checkbox" id="k-broad">
+        <label for="k-broad"><i class="tick"></i>Broadside<span class="cost">8,600</span></label></div>
+      <div class="opt"><input type="checkbox" id="k-crane">
+        <label for="k-crane"><i class="tick"></i>Cargo cranes<span class="cost">1,400</span></label></div>
+      <div class="opt"><input type="checkbox" id="k-ice">
+        <label for="k-ice"><i class="tick"></i>Ice sheathing<span class="cost">900</span></label></div>
+    </fieldset>
+
+    <h2>Escort <b>syndicate hulls</b></h2>
+    <fieldset>
+      <div class="opt"><input type="radio" name="esc" id="e-0" checked>
+        <label for="e-0"><i class="tick"></i>None<span class="cost">0</span></label></div>
+      <div class="opt"><input type="radio" name="esc" id="e-1">
+        <label for="e-1"><i class="tick"></i>One<span class="cost">2,500</span></label></div>
+      <div class="opt"><input type="radio" name="esc" id="e-2">
+        <label for="e-2"><i class="tick"></i>Two<span class="cost">5,000</span></label></div>
+      <div class="opt"><input type="radio" name="esc" id="e-3">
+        <label for="e-3"><i class="tick"></i>Three<span class="cost">7,500</span></label></div>
+    </fieldset>
+    <p class="note">Syndicates, not factions. An escort is hulls hired off the
+      ring for the delivery run — whoever is berthed and idle takes the work.</p>
+  </form>
+
+  <!-- The berth. Every hull is drawn here; :has() decides which one is lit. -->
+  <section class="panel berth">
+    <h2>Slip 4 <b>under the ring</b></h2>
+    <div class="sky">
+      <div class="wing l"></div><div class="wing r"></div>
+      <div class="ring"></div>
+      <div class="spoke a"></div><div class="spoke b"></div><div class="spoke c"></div>
+      <div class="hub"></div>
+      <div class="beacon"    style="left:22px;top:14px"></div>
+      <div class="beacon b2" style="right:26px;top:20px"></div>
+      <div class="beacon b3" style="left:50%;top:8px"></div>
+
+      <div class="slip">
+        <div class="ship s-buck"><div class="hull">
+          <div class="bucket" style="left:34px"></div>
+          <div class="mast" style="left:76px;height:26px"></div>
+        </div><span class="name">class <b>Bucketeer</b> · 900 t</span></div>
+
+        <div class="ship s-cors"><div class="hull">
+          <div class="mast" style="left:70px;height:56px"></div>
+          <div class="sail" style="left:74px;width:56px;height:44px"></div>
+          <div class="tower" style="left:120px;width:24px;height:14px"></div>
+          <div class="glow"></div>
+        </div><span class="name">class <b>Corsair</b> · 2,600 t</span></div>
+
+        <div class="ship s-dd"><div class="hull">
+          <div class="tower" style="left:104px;width:34px;height:26px"></div>
+          <div class="stack" style="left:146px"></div>
+          <div class="gun" style="left:34px"></div>
+          <div class="gun" style="left:190px"></div>
+          <div class="glow"></div>
+        </div><span class="name">class <b>Destroyer</b> · 8,300 t</span></div>
+
+        <div class="ship s-cl"><div class="hull">
+          <div class="tower" style="left:126px;width:44px;height:34px"></div>
+          <div class="stack" style="left:178px"></div>
+          <div class="stack" style="left:196px;height:18px"></div>
+          <div class="gun" style="left:28px"></div>
+          <div class="gun" style="left:62px"></div>
+          <div class="gun" style="left:238px"></div>
+          <div class="glow"></div>
+        </div><span class="name">class <b>Cruiser</b> · 14,600 t</span></div>
+
+        <div class="ship s-cv"><div class="hull">
+          <div class="deckplate"></div>
+          <div class="tower" style="left:250px;width:30px;height:30px;bottom:calc(100% + 12px)"></div>
+          <div class="mast" style="left:262px;height:18px;bottom:calc(100% + 42px)"></div>
+          <div class="glow"></div>
+        </div><span class="name">class <b>Carrier</b> · 47,000 t</span></div>
+
+        <div class="ship s-bb"><div class="hull">
+          <div class="tower" style="left:150px;width:52px;height:44px"></div>
+          <div class="stack" style="left:210px;height:26px"></div>
+          <div class="gun" style="left:26px"></div>
+          <div class="gun" style="left:60px"></div>
+          <div class="gun" style="left:262px"></div>
+          <div class="gun" style="left:296px"></div>
+          <div class="glow"></div>
+        </div><span class="name">class <b>Battleship</b> · 64,000 t</span></div>
+
+        <div class="ship s-yam"><div class="hull">
+          <div class="tower" style="left:186px;width:64px;height:58px"></div>
+          <div class="tower" style="left:200px;width:36px;height:78px"></div>
+          <div class="stack" style="left:262px;height:32px;width:18px"></div>
+          <div class="gun" style="left:24px"></div>
+          <div class="gun" style="left:58px"></div>
+          <div class="gun" style="left:92px"></div>
+          <div class="gun" style="left:322px"></div>
+          <div class="gun" style="left:356px"></div>
+          <div class="clamp"></div>
+        </div><span class="name">class <b>Yamato</b> · 72,800 t · will not fly</span></div>
+      </div>
+    </div>
+    <p class="note">The ring turns on a keyframe, the beacons blink on another,
+      and the hull in the slip changes because a different radio is checked.
+      There is no script on this page to do any of it.</p>
+  </section>
+
+  <!-- After the form, so the counters have something to count. -->
+  <aside class="panel docket">
+    <h2>Docket <b>slip 4</b></h2>
+    <div class="tot"><span>Order</span><b class="price"></b></div>
+    <span class="big"><span class="price"></span> HEZE</span>
+    <div class="tot" style="margin-top:10px"><span>Build time</span><b class="weeks"></b></div>
+    <div class="tot"><span>Displacement, t</span><b class="tons"></b></div>
+    <div class="tot"><span>Slip grade</span><b class="slipn"></b></div>
+
+    <h2 style="margin-top:16px">Settlement</h2>
+    <input class="addr" placeholder="0x… public address only" spellcheck="false"
+      autocomplete="off">
+    <a class="send" href="#lodged">Lodge the order</a>
+    <p class="note">The figure above is a CSS counter, summed from the options
+      you checked. Nothing on this page signs, transmits, or settles anything —
+      it has no way to. Take the docket to the yard yourself.</p>
+  </aside>
+</div>
+
+<div class="receipt" id="lodged">
+  <div class="card">
+    <span class="stamp">LODGED · SLIP 4</span>
+    <h3>Order stands at <span class="price"></span> HEZE</h3>
+    <div class="tot"><span>Build time, weeks</span><b class="weeks"></b></div>
+    <div class="tot"><span>Displacement, t</span><b class="tons"></b></div>
+    <p class="note">Held at the desk. No transaction was created, no address was
+      read, and nothing left this file — the panel you are looking at is a URL
+      fragment matching <code>:target</code>, which is the whole mechanism.</p>
+    <a class="close" href="#">Back to the desk</a>
+  </div>
+</div>
