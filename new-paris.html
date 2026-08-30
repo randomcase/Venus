@@ -1,0 +1,374 @@
+<title>New Paris · an outpost on Venus</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  New Paris floats. It has to.
+
+  The surface of Venus is about 92 bar and 464 °C — lead melts there, and every
+  lander that ever reached it died within about two hours. But between roughly
+  50 and 60 km altitude the atmosphere passes through one bar and room
+  temperature, and that band is the most Earth-like environment in the solar
+  system outside Earth itself.
+
+  The thing that makes an outpost there work is the atmosphere being almost all
+  carbon dioxide, which is heavy. Ordinary breathable air — nitrogen and oxygen
+  — is about two thirds the density of CO2 at the same pressure, so a bag of
+  air you can live in is also the bag that holds you up. The envelope is not a
+  balloon attached to the habitat. The envelope IS the habitat.
+
+  Every figure on this page is computed from the ideal gas law with standard
+  Venus atmosphere values, and the working is printed beside it. They are
+  engineering ballpark, not a design document: right to about a significant
+  figure, and stated that way rather than dressed up.
+
+  No script. The lift budget is a compound :has() lookup — altitude by envelope
+  size — because CSS can add but cannot multiply, so the nine products are
+  written out.
+-->
+<style>
+  :root{
+    --void:#0a0806; --card:#1a1410; --card2:#211a14; --edge:#3a2c22;
+    --ink:#f4ece2; --dim:#b09a86; --gold:#e0b155; --amber:#e8a34a;
+    --acid:#cbd36a; --sky:#e8c77a; --deep:#7a4a2c;
+    --green:#65d6a8; --red:#e0705a; --blue:#5b9ed6; --plum:#8a6ab8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.6 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 20% 4%,rgba(232,199,122,.10),transparent 44%),
+      radial-gradient(circle at 84% 92%,rgba(122,74,44,.14),transparent 46%)}
+  .wrap{max-width:1020px;margin:0 auto}
+
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:23px;letter-spacing:-.02em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:22px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.65;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--sky);background:#140f0b;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ------------------------------------------------------------- the view */
+  .view{position:relative;height:290px;border-radius:13px;overflow:hidden;
+    border:1px solid var(--edge)}
+  .view svg{display:block;width:100%;height:100%}
+  .drift{animation:drift 26s ease-in-out infinite}
+  @keyframes drift{50%{transform:translate(-16px,-9px)}}
+  .drift2{animation:drift 34s ease-in-out infinite reverse}
+  .bob{animation:bob 13s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-11px)}}
+  .blink{animation:bl 3.4s ease-in-out infinite}
+  .blink.d{animation-delay:1.7s}
+  @keyframes bl{0%,44%{opacity:.2}52%,62%{opacity:1}70%,100%{opacity:.2}}
+  @media (prefers-reduced-motion:reduce){.drift,.drift2,.bob,.blink{animation:none}}
+
+  /* the station rides at the altitude you choose */
+  .rig{transition:transform .6s cubic-bezier(.4,0,.2,1)}
+  .board:has(#a-50:checked) .rig{transform:translateY(52px)}
+  .board:has(#a-53:checked) .rig{transform:translateY(16px)}
+  .board:has(#a-56:checked) .rig{transform:translateY(-22px)}
+
+  /* ------------------------------------------------------------- controls */
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;min-width:120px;cursor:pointer;padding:11px 12px;
+    border-radius:10px;border:1px solid var(--edge);color:var(--dim);
+    font:11.5px/1.35 ui-monospace,monospace}
+  .seg label b{display:block;color:var(--ink);font-size:13px;margin-bottom:3px}
+  .seg input:checked+label{border-color:var(--gold);background:rgba(224,177,85,.10)}
+  .seg input:checked+label b{color:var(--gold)}
+  .seg input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .stack input{position:absolute;opacity:0;width:0;height:0}
+  .stack label{display:flex;align-items:baseline;gap:11px;cursor:pointer;
+    padding:11px 13px;border-radius:10px;border:1px solid var(--edge);font-size:13px}
+  .stack label .tick{width:15px;height:15px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);position:relative;top:2px}
+  .stack label .amt{margin-left:auto;font:12px/1 ui-monospace,monospace;color:var(--dim)}
+  .stack input:checked+label{border-color:var(--gold);background:rgba(224,177,85,.08)}
+  .stack input:checked+label .tick{background:var(--gold);border-color:var(--gold);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--gold)}
+  .stack input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* --------------------------------------------------------- the arithmetic
+     Lift is density difference times volume. CSS cannot multiply, so the nine
+     products — three altitudes by three envelopes — are written out and the
+     pair of choices selects one. The same trick the personnel board uses. */
+  body{counter-reset:lift 0 mass 0 crew 0 vol 0}
+  .board:has(#a-50:checked):has(#e-1:checked) .x{counter-increment:lift 56  vol 100}
+  .board:has(#a-50:checked):has(#e-2:checked) .x{counter-increment:lift 140 vol 250}
+  .board:has(#a-50:checked):has(#e-3:checked) .x{counter-increment:lift 280 vol 500}
+  .board:has(#a-53:checked):has(#e-1:checked) .x{counter-increment:lift 42  vol 100}
+  .board:has(#a-53:checked):has(#e-2:checked) .x{counter-increment:lift 105 vol 250}
+  .board:has(#a-53:checked):has(#e-3:checked) .x{counter-increment:lift 210 vol 500}
+  .board:has(#a-56:checked):has(#e-1:checked) .x{counter-increment:lift 28  vol 100}
+  .board:has(#a-56:checked):has(#e-2:checked) .x{counter-increment:lift 70  vol 250}
+  .board:has(#a-56:checked):has(#e-3:checked) .x{counter-increment:lift 140 vol 500}
+
+  /* what you are asking it to hold up */
+  #m-env:checked  +label{counter-increment:mass 18}
+  #m-deck:checked +label{counter-increment:mass 26}
+  #m-life:checked +label{counter-increment:mass 14}
+  #m-power:checked+label{counter-increment:mass 9}
+  #m-dock:checked +label{counter-increment:mass 22 }
+  #m-farm:checked +label{counter-increment:mass 31}
+  #m-crew:checked +label{counter-increment:mass 12 crew 40}
+  #m-lab:checked  +label{counter-increment:mass 8  crew 12}
+  .x{display:inline;font-size:0}
+  .n-lift::after{content:counter(lift)}  .n-mass::after{content:counter(mass)}
+  .n-crew::after{content:counter(crew)}  .n-vol::after{content:counter(vol)}
+
+  .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .head{background:#140f0b;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:23px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  .head.m b{color:var(--amber)}
+
+  /* conditions at the chosen altitude */
+  .cond{display:none;margin-top:11px;border-radius:10px;padding:11px 13px;
+    border:1px solid var(--edge);background:#140f0b;font-size:12px;line-height:1.62}
+  .board:has(#a-50:checked) .c50,
+  .board:has(#a-53:checked) .c53,
+  .board:has(#a-56:checked) .c56{display:block}
+  .cond b{color:var(--sky)}
+  .cond .warm{color:var(--red)} .cond .good{color:var(--green)}
+
+  table{width:100%;border-collapse:collapse;font-size:12px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:5px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td .q{color:var(--dim);font-size:10.5px}
+
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:880px){.two{grid-template-columns:1fr}
+    .heads{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<div class="board wrap">
+  <header>
+    <h1>New Paris</h1>
+    <span class="sub">An outpost on Venus — fifty kilometres above a surface
+      that would crush and melt it, in the one band of this planet where a
+      person could stand outside in shirtsleeves and only need air.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="view">
+    <svg viewBox="0 0 1020 290" role="img"
+         aria-label="An aerostat outpost floating in the Venus cloud layer, sunlight above, the deep haze below.">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   stop-color="#f6d99a"/>
+          <stop offset=".34" stop-color="#e0a860"/>
+          <stop offset=".66" stop-color="#a86438"/>
+          <stop offset="1"   stop-color="#4a2418"/></linearGradient>
+        <radialGradient id="sun"><stop offset="0" stop-color="#fff6dd"/>
+          <stop offset=".4" stop-color="#ffe0a0" stop-opacity=".7"/>
+          <stop offset="1" stop-color="#ffd08a" stop-opacity="0"/></radialGradient>
+        <linearGradient id="env" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f2ece0"/><stop offset=".5" stop-color="#cbbfae"/>
+          <stop offset="1" stop-color="#8c7f70"/></linearGradient>
+        <linearGradient id="gon" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#6c7a86"/><stop offset="1" stop-color="#232c34"/>
+        </linearGradient>
+      </defs>
+
+      <rect width="1020" height="290" fill="url(#sky)"/>
+      <circle cx="838" cy="44" r="120" fill="url(#sun)"/>
+
+      <!-- cloud decks -->
+      <g opacity=".5" fill="#f0cf9a">
+        <ellipse class="drift"  cx="200" cy="96"  rx="190" ry="26"/>
+        <ellipse class="drift2" cx="700" cy="72"  rx="230" ry="20"/>
+      </g>
+      <g opacity=".38" fill="#c98d54">
+        <ellipse class="drift2" cx="330" cy="206" rx="280" ry="34"/>
+        <ellipse class="drift"  cx="840" cy="228" rx="240" ry="30"/>
+      </g>
+      <path d="M0 262h1020v28H0z" fill="#3a1d13" opacity=".85"/>
+
+      <!-- the station -->
+      <g class="rig"><g class="bob" transform="translate(392,74)">
+        <!-- envelope: the habitat is the lifting body -->
+        <ellipse cx="118" cy="52" rx="118" ry="46" fill="url(#env)" stroke="#5d5245"/>
+        <path d="M14 42q104-30 208 0" stroke="#a89a88" fill="none"/>
+        <path d="M22 64q96 26 192 0" stroke="#a89a88" fill="none" opacity=".6"/>
+        <g fill="#7c8f9c" opacity=".9">
+          <rect x="66"  y="40" width="12" height="9" rx="2"/>
+          <rect x="90"  y="38" width="12" height="9" rx="2"/>
+          <rect x="114" y="37" width="12" height="9" rx="2"/>
+          <rect x="138" y="38" width="12" height="9" rx="2"/>
+          <rect x="162" y="40" width="12" height="9" rx="2"/>
+        </g>
+        <!-- solar wings: above most of the cloud, the light is strong -->
+        <rect x="-56" y="30" width="60" height="20" rx="2" fill="#1d3a52"
+              stroke="#2f5b7e" transform="skewY(8)"/>
+        <rect x="232" y="30" width="60" height="20" rx="2" fill="#1d3a52"
+              stroke="#2f5b7e" transform="skewY(-8)"/>
+        <!-- gondola and dock -->
+        <path d="M76 96h84l-8 26H84z" fill="url(#gon)" stroke="#141a1f"/>
+        <g fill="#ffcf87" fill-opacity=".9">
+          <rect x="88"  y="103" width="7" height="5"/>
+          <rect x="102" y="103" width="7" height="5"/>
+          <rect x="116" y="103" width="7" height="5"/>
+          <rect x="130" y="103" width="7" height="5"/>
+          <rect x="144" y="103" width="7" height="5"/>
+        </g>
+        <path d="M60 96h16M160 96h16" stroke="#4a5b68" stroke-width="3"/>
+        <path d="M118 98v26" stroke="#4a5b68" stroke-width="2"/>
+        <!-- a hull alongside -->
+        <g transform="translate(178,118)">
+          <path d="M0 12h44l14-5-9-6H6L0 8z" fill="#78b843" stroke="#0b1116"/>
+          <rect x="20" y="-2" width="14" height="6" rx="1.5" fill="#8a6ab8"
+                stroke="#0b1116"/>
+        </g>
+        <circle class="blink"   cx="0"   cy="52" r="4" fill="#e0705a"/>
+        <circle class="blink d" cx="236" cy="52" r="4" fill="#65d6a8"/>
+      </g></g>
+    </svg>
+  </div>
+
+  <h2>Station-keeping altitude <b>the whole trade</b></h2>
+  <div class="seg">
+    <input type="radio" name="a" id="a-50"><label for="a-50">
+      <b>50 km</b>1.07 bar · 75 °C<br>lift 0.56 kg/m³</label>
+    <input type="radio" name="a" id="a-53" checked><label for="a-53">
+      <b>53 km</b>0.76 bar · 50 °C<br>lift 0.42 kg/m³</label>
+    <input type="radio" name="a" id="a-56"><label for="a-56">
+      <b>56 km</b>0.45 bar · 20 °C<br>lift 0.28 kg/m³</label>
+  </div>
+
+  <div class="cond c50"><b>Fifty kilometres.</b> Pressure is close to sea level
+    on Earth and the air outside is <span class="warm">75 °C</span> — survivable
+    in a suit, unpleasant, and a constant load on the cooling plant. In exchange
+    the atmosphere is dense and every cubic metre of breathable air holds up
+    more than half a kilogram. <b>Best lift, worst heat.</b></div>
+  <div class="cond c53"><b>Fifty-three kilometres.</b> Three quarters of an
+    atmosphere and <span class="warm">50 °C</span> outside. The compromise band:
+    enough density to lift a real structure, cool enough that the radiators are
+    not the whole design. This is where New Paris rides.</div>
+  <div class="cond c56"><b>Fifty-six kilometres.</b> Half an atmosphere and
+    <span class="good">20 °C</span> — genuinely shirtsleeve weather, the most
+    Earth-like air anywhere off Earth. But the atmosphere is thin, lift is half
+    what it is down at fifty, and the envelope has to be enormous to hold
+    anything up. <b>Best air, worst lift.</b></div>
+
+  <div class="two" style="margin-top:16px">
+    <div class="panel">
+      <h2 style="margin-top:0">Envelope <b>the habitat is the balloon</b></h2>
+      <div class="seg">
+        <input type="radio" name="e" id="e-1"><label for="e-1">
+          <b>100,000 m³</b>a quarter</label>
+        <input type="radio" name="e" id="e-2" checked><label for="e-2">
+          <b>250,000 m³</b>the arrondissement</label>
+        <input type="radio" name="e" id="e-3"><label for="e-3">
+          <b>500,000 m³</b>greater New Paris</label>
+      </div>
+      <p class="note"><b>Why this works at all.</b> Venus air is 96.5% carbon
+        dioxide — molar mass 44. Breathable nitrogen–oxygen is 29. At the same
+        pressure and temperature the light gas is about two thirds the density
+        of the heavy one, so a volume of air you can live in displaces more than
+        it weighs. There is no separate lifting gas and no separate hull: the
+        room is the balloon. Nowhere else in the solar system is that true.</p>
+      <p class="note"><b>And the acid.</b> The cloud deck is sulphuric acid
+        droplets. Nothing structural can be bare aluminium or ordinary polymer;
+        the envelope skin is a fluoropolymer over the load-bearing weave, which
+        is well-understood material and the reason the mass figures below are
+        not optimistic.</p>
+    </div>
+
+    <div class="panel">
+      <h2 style="margin-top:0">What it is holding up <b>tonnes</b></h2>
+      <div class="stack">
+        <input type="checkbox" id="m-env" checked><label for="m-env">
+          <i class="tick"></i>Envelope and rigging<span class="amt">18 t</span></label>
+        <input type="checkbox" id="m-deck" checked><label for="m-deck">
+          <i class="tick"></i>Habitat decks<span class="amt">26 t</span></label>
+        <input type="checkbox" id="m-life" checked><label for="m-life">
+          <i class="tick"></i>Life support and scrubbers<span class="amt">14 t</span></label>
+        <input type="checkbox" id="m-power" checked><label for="m-power">
+          <i class="tick"></i>Solar array and cells<span class="amt">9 t</span></label>
+        <input type="checkbox" id="m-dock"><label for="m-dock">
+          <i class="tick"></i>Docking gantry<span class="amt">22 t</span></label>
+        <input type="checkbox" id="m-farm"><label for="m-farm">
+          <i class="tick"></i>Growing decks<span class="amt">31 t</span></label>
+        <input type="checkbox" id="m-crew" checked><label for="m-crew">
+          <i class="tick"></i>Complement, forty<span class="amt">12 t</span></label>
+        <input type="checkbox" id="m-lab"><label for="m-lab">
+          <i class="tick"></i>Atmospheric laboratory<span class="amt">8 t</span></label>
+      </div>
+    </div>
+  </div>
+
+  <span class="x"></span>
+  <div class="heads">
+    <div class="head"><span>Envelope, ×1000 m³</span><b class="n-vol"></b></div>
+    <div class="head"><span>Lift available, t</span><b class="n-lift"></b></div>
+    <div class="head m"><span>Mass carried, t</span><b class="n-mass"></b></div>
+    <div class="head"><span>Complement</span><b class="n-crew"></b></div>
+  </div>
+  <p class="note"><b>The difference is not printed, and that is deliberate.</b>
+    CSS adds; it does not subtract. This page will not show a margin it did not
+    compute, so it shows both numbers and leaves the comparison to you — which
+    is the honest version anyway, because a lift margin is the one number on an
+    aerostat you should never be handed pre-chewed. If mass carried is above
+    lift available, New Paris descends, and it descends toward 464 °C.</p>
+
+  <h2>The quarters <b>what is actually up there</b></h2>
+  <table>
+    <tr><th>Quarter</th><th>What it does</th><th>Deck</th></tr>
+    <tr><td><b>Montgolfier</b></td>
+        <td>Envelope watch — pressure, seam integrity, acid inspection
+          <span class="q">· the only crew who go outside</span></td><td>upper</td></tr>
+    <tr><td><b>La Serre</b></td>
+        <td>Growing decks. Carbon is the one thing this planet has in surplus
+          <span class="q">· the atmosphere is the feedstock</span></td><td>mid</td></tr>
+    <tr><td><b>Le Quai</b></td>
+        <td>The dock. Hulls come alongside here and nowhere else
+          <span class="q">· mass budget is checked before a line is passed</span></td>
+        <td>lower</td></tr>
+    <tr><td><b>Sextant</b></td>
+        <td>Navigation and station-keeping. New Paris drifts with the wind at
+          about 100 m/s and circles the planet in four days
+          <span class="q">· it does not hover, it sails</span></td><td>mid</td></tr>
+    <tr><td><b>La Presse</b></td>
+        <td>The syndicate office, the bank, and the only door with a clause
+          nailed to it<span class="q">· see the ledger</span></td><td>upper</td></tr>
+  </table>
+
+  <h2>On the numbers</h2>
+  <p class="note">Lift densities are computed as
+    <code>ρ = PM/RT</code> for each band — carbon dioxide at M = 0.044 against
+    breathable air at M = 0.029 — and the difference rounded to two figures.
+    Pressures and temperatures are standard Venus atmosphere values for those
+    altitudes. They are right to about a significant figure and they are
+    presented that way: enough to show the trade honestly, nowhere near enough
+    to build from. The four-day circulation, the acid cloud composition and the
+    surface conditions are all well-established; the tonnages for decks and
+    plant are my own estimates and should be read as such.</p>
+  <p class="note"><b>Why an outpost here and not on the ground.</b> Because the
+    ground is 92 bar and 464 °C, and every probe that has reached it has died in
+    about two hours. Fifty kilometres up, the pressure is one bar, the
+    temperature is room temperature, the gravity is 90% of Earth's, and the
+    atmosphere above you is thick enough to stop the radiation that makes Mars
+    difficult. It is the second-best air in the solar system. You just have to
+    stay in it.</p>
+</div>

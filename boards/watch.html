@@ -1,0 +1,257 @@
+<title>Watch Bill</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  A BOARD. Copy this file, fill in the marked places, delete what you do not use.
+
+  Every board in this yard is the same six moves. They are all here, wired and
+  working, with the rules that matter marked. Nothing runs: there is no script
+  in this file and there does not need to be.
+
+    1  COUNTERS ARE ARITHMETIC   §counter-reset / counter-increment / counter()
+    2  :has() IS STATE           §show and hide
+    3  COMPOUND :has() IS LOOKUP  §two keys, one answer
+    4  CASCADE ORDER IS AUTHORITY §what is written last wins
+    5  A GET FORM IS TRANSPORT    §send it on
+    6  application/json IS DATA   §carry a document
+
+  THE ONE RULE YOU CANNOT BREAK
+  A counter can only be printed after the things that increment it. So inputs
+  come first in the DOM and totals come after — always. Use CSS grid `order` or
+  grid-template-areas to put the totals wherever you like on screen. Every
+  board here is built around that single constraint and nothing else.
+
+  WHAT CSS WILL NOT DO
+  It adds. It does not subtract, multiply, divide or take a minimum. If you
+  need a product, write the products out (see §3). If you need a difference,
+  either declare it or print both numbers and say why the difference is absent.
+  Do not fake it. A number the page did not compute must not appear as though
+  it did — that is the whole ethic of these boards and it is worth more than
+  any feature you would gain by breaking it.
+-->
+<style>
+  /* ============================================================ 0 · PALETTE
+     Replace these five and the board is re-themed. Everything below refers to
+     them and nothing hard-codes a colour. */
+  :root{
+    --void:#080b0f;   /* page ground        */
+    --card:#111a22;   /* panel, top of gradient */
+    --card2:#16212b;  /* panel, bottom      */
+    --edge:#26333f;   /* every border       */
+    --ink:#e9f0f5;    /* body text          */
+    --dim:#8a9aa8;    /* secondary text     */
+    --gold:#6ec6ff;   /* the accent — selection, totals, the one bright thing */
+    --good:#65d6a8; --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 40px;color:var(--ink);background:var(--void);
+    font:13.5px/1.6 ui-rounded,system-ui,-apple-system,sans-serif}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:20px;letter-spacing:-.015em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:72ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:22px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.65;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ---- controls. One look for radios, one for checkboxes. Reuse, don't invent. */
+  .opts{display:flex;gap:6px;flex-wrap:wrap}
+  .opts input,.stack input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;padding:10px 14px;
+    border-radius:8px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .stack label{display:flex;align-items:baseline;gap:11px;cursor:pointer;
+    padding:11px 13px;border-radius:10px;border:1px solid var(--edge);font-size:13px}
+  .stack label .tick{width:15px;height:15px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);position:relative;top:2px}
+  .stack label .amt{margin-left:auto;font:12px/1 ui-monospace,monospace;color:var(--dim)}
+  .stack input:checked+label{border-color:var(--gold);background:rgba(224,177,85,.08)}
+  .stack input:checked+label .tick{background:var(--gold);border-color:var(--gold);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--gold)}
+  /* keyboard users exist. Do not delete this. */
+  .opts input:focus-visible+label,.stack input:focus-visible+label
+    {outline:2px solid var(--cool);outline-offset:2px}
+
+  /* ============================================ 1 · COUNTERS ARE ARITHMETIC
+     Declare every counter on body, increment on the LABEL next to the checked
+     input, print with ::after. The label must be the input's next sibling. */
+  body{counter-reset:units 0 mass 0 crew 0}
+
+  #o-three:checked+label{counter-increment:units 3 mass 0}
+  #o-two:checked+label{counter-increment:units 2 mass 0}
+  #o-ps:checked+label{counter-increment:units 2 mass 0}
+  #k-1:checked+label{counter-increment:mass 0 crew 6}
+  #k-2:checked+label{counter-increment:mass 0 crew 11}
+  #k-3:checked+label{counter-increment:mass 0 crew 24}
+
+  .n-units::after{content:counter(units)}
+  .n-mass::after {content:counter(mass)}
+  .n-crew::after {content:counter(crew)}
+
+  /* ==================================================== 2 · :has() IS STATE
+     Scope from the nearest ancestor that contains BOTH the switch and the
+     thing it drives. Getting this wrong is the most common bug: a rule scoped
+     to the row will never reach an element in a different subtree. */
+  .state{display:none}
+  .board:has(#s-on:checked)  .st-on {display:block}
+  .board:has(#s-off:checked) .st-off{display:block}
+
+  /* ============================================ 3 · COMPOUND :has() IS LOOKUP
+     Two keys, one answer. Neither input can state the value alone, so the PAIR
+     states it. This is how you get multiplication out of a language that has
+     none: write the products. n options × m options = n×m rules, and there is
+     no shortcut — but the table is visible and every cell was written by
+     someone who can be asked about it. */
+  .board:has(#o-three:checked):has(#s-on:checked)  .look::after{content:"8"}
+  .board:has(#o-two:checked):has(#s-on:checked)  .look::after{content:"12"}
+  .board:has(#o-ps:checked):has(#s-on:checked)  .look::after{content:"12"}
+  .board:has(#o-three:checked):has(#s-off:checked) .look::after{content:"4"}
+  .board:has(#o-two:checked):has(#s-off:checked) .look::after{content:"6"}
+  .board:has(#o-ps:checked):has(#s-off:checked) .look::after{content:"6"}
+
+  /* ======================================= 4 · CASCADE ORDER IS AUTHORITY
+     Rules written later win over equally specific rules above them. So the
+     thing that must not be overridden goes LAST. Below: a hold that beats
+     every speed rule, no matter what is selected. Move it above them and it
+     silently stops working — which is worth trying once, on purpose. */
+  .mover{width:20px;height:20px;border-radius:6px;background:var(--cool);
+    animation:slide 3s linear infinite alternate}
+  @keyframes slide{to{transform:translateX(160px)}}
+  .board:has(#s-on:checked)  .mover{animation-duration:1.4s}
+  .board:has(#s-off:checked) .mover{animation-play-state:paused;background:var(--warn)}
+  .track{border:1px solid var(--edge);border-radius:8px;padding:9px;
+    background:#0a1017;overflow:hidden;margin-top:9px}
+  @media (prefers-reduced-motion:reduce){.mover{animation:none}}
+
+  .heads{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .head{background:#0d151c;border:1px solid var(--edge);border-radius:9px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:820px){.two{grid-template-columns:1fr}
+    .heads{grid-template-columns:1fr 1fr}}
+</style>
+
+<!-- 5 · A GET FORM IS TRANSPORT
+     Declared once, empty, near the top. Every input that should travel carries
+     form="vy" — the attribute associates an input with a form anywhere in the
+     document, so your markup does not have to be reorganised around it. On
+     submit the browser encodes the checked inputs into the query string and
+     opens the target. That is the entire mechanism: no fetch, no server. -->
+<form id="vy" action="bridge.html" method="get">
+  <input type="hidden" name="board" value="watch" form="vy">
+</form>
+
+<div class="board wrap">
+  <header>
+    <h1>Watch Bill</h1>
+    <span class="sub">Who has the deck, and what the rest of the ship is doing while they do.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <!-- ============ INPUTS FIRST. This is the constraint, not a style choice. -->
+  <div class="two">
+    <div class="panel">
+      <h2 style="margin-top:0">Watch system <b>one of three</b></h2>
+      <div class="opts">
+        <input type="radio" name="o" id="o-three" form="vy" value="three"><label for="o-three">Three watch</label>
+        <input type="radio" name="o" id="o-two" form="vy" value="two" checked><label for="o-two">Two watch</label>
+        <input type="radio" name="o" id="o-ps" form="vy" value="ps"><label for="o-ps">Port and starboard</label>
+      </div>
+
+      <h2>Condition <b>two states</b></h2>
+      <div class="opts">
+        <input type="radio" name="s" id="s-on" form="vy" value="on" checked><label for="s-on">Cruising</label>
+        <input type="radio" name="s" id="s-off" form="vy" value="off"><label for="s-off">Action</label>
+      </div>
+      <div class="track"><div class="mover"></div></div>
+      <p class="note">§4 — the hold is written last, so it wins over the speed
+        rule above it whatever else is selected.</p>
+    </div>
+
+    <div class="panel">
+      <h2 style="margin-top:0">Additions <b>each declares its own numbers</b></h2>
+      <div class="stack">
+        <input type="checkbox" id="k-1" form="vy" name="k" value="1" checked>
+        <label for="k-1"><i class="tick"></i>Bridge team<span class="amt">0</span></label>
+        <input type="checkbox" id="k-2" form="vy" name="k" value="2">
+        <label for="k-2"><i class="tick"></i>Engine room<span class="amt">0</span></label>
+        <input type="checkbox" id="k-3" form="vy" name="k" value="3">
+        <label for="k-3"><i class="tick"></i>Damage control<span class="amt">0</span></label>
+      </div>
+      <p class="note">§1 — every number on this board is on one of these lines.
+        There is no hidden model: what a thing costs is written where you
+        select it.</p>
+    </div>
+  </div>
+
+  <!-- ============ TOTALS AFTER. They can only count what precedes them. ==== -->
+  <h2>Totals <b>counted, not declared</b></h2>
+  <div class="heads">
+    <div class="head"><span>Units</span><b class="n-units"></b></div>
+    <div class="head"><span>Mass</span><b class="n-mass"></b></div>
+    <div class="head"><span>Crew</span><b class="n-crew"></b></div>
+  </div>
+
+  <h2>Lookup <b>two keys, one answer</b></h2>
+  <div class="head" style="max-width:220px">
+    <span>Choice × switch</span><b class="look"></b></div>
+  <p class="note">Hours on before relief. At action stations nobody is relieved on a schedule; the figure is how long before it starts to tell.</p>
+
+  <h2>State <b>shown and hidden</b></h2>
+  <div class="state st-on panel" style="border-color:var(--good)">
+    Condition: <b>Cruising</b>.</div>
+  <div class="state st-off panel" style="border-color:var(--warn)">
+    Condition: <b>Action</b>.</div>
+
+  <h2>Carry it on <b>§5 and §6</b></h2>
+  <div class="panel">
+    <!-- 6 · application/json IS DATA
+         The browser stores this and never executes it. Mirror it in a <pre> if
+         a reader should see it, and if you post it, post the identical string
+         and verify the copies match before shipping. -->
+    <script type="application/json" id="doc">
+{ "manifest": "venus.yard/1", "board": "watch", "$note": "Who has the deck, and what the rest of the ship is doing while they do." }
+    </script>
+    <button type="submit" form="vy" style="font:inherit;font-size:13px;
+      font-weight:650;cursor:pointer;background:var(--gold);color:#12181d;
+      border:1px solid var(--gold);border-radius:9px;padding:11px 22px">
+      Send to the bridge →</button>
+    <p class="note">The button is inside no form of its own — it carries
+      <code>form="vy"</code> like the inputs do. Press it and the browser opens
+      <code>bridge.html?board=watch&amp;o=b&amp;s=on&amp;k=1</code>. Nothing
+      was fetched and nothing was sent anywhere but to another file.</p>
+  </div>
+
+  <h2>Before you ship it</h2>
+  <p class="note">
+    <b>1.</b> Totals appear after every input that feeds them. &nbsp;
+    <b>2.</b> No number on the page is one the page did not compute — if you
+    cannot compute it, print the parts and say why. &nbsp;
+    <b>3.</b> Every <code>:has()</code> is scoped to an ancestor of both the
+    switch and its target. &nbsp;
+    <b>4.</b> Anything that must not be overridden is written last. &nbsp;
+    <b>5.</b> Focus outlines still present. &nbsp;
+    <b>6.</b> <code>prefers-reduced-motion</code> honoured. &nbsp;
+    <b>7.</b> If you embedded a document, the copies are byte-identical.
+  </p>
+</div>
