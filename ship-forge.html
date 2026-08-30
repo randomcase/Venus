@@ -142,6 +142,7 @@
       <button id="pCalm" class="on">Calm</button>
       <button id="pSea">Sea running</button>
       <button id="png">Export PNG</button>
+      <button id="mani">Manifest</button>
       <button id="save">Save</button>
       <button id="load">Load</button>
     </div>
@@ -1636,6 +1637,60 @@ $('cap').addEventListener('input',()=>{D.capt=$('cap').value;paint();});
     recostFleet();paint();}));
 $('pCalm').onclick=()=>{D.sea='calm';syncUI();};
 $('pSea').onclick=()=>{D.sea='sea';syncUI();};
+/* --------------------------------------------------- venus.yard/1 emitter
+ * The forge is the only board that knows what a hull is actually made of, so
+ * it is the one that can author the order section honestly: the tonnage is the
+ * displacement it just computed, and the fastening count is the number that
+ * came off the drawing. Nothing here is a guess and nothing is sent — the
+ * document is written to a file for you to carry to the bridge. */
+function manifest(){
+  const S=stats(),V=value(),H=hullOf();
+  return{
+    manifest:'venus.yard/1',
+    id:'FORGE-'+(D.name||'unnamed').toUpperCase().replace(/[^A-Z0-9]+/g,'-'),
+    syndicate:'Heze',
+    price:{unit:'BTC',amount:1,covers:'lane franchise — one cycle',
+      denomination_note:'In-project denomination. No transfer exists in these '+
+        'files and no exchange rate is implied.'},
+    powers:{arm:'clause',may:['assess','record_forfeit','mark_shut_down'],
+      may_never:['set_aspect','hold_a_hull','amend_the_cap','conceal_the_ledger',
+        'act_without_a_stated_cap'],
+      requires:{stated_cap:true,preserved_ledger:true,recomputable:true},
+      audited_by:'any holder of this manifest',
+      appeal:'Recompute the ledger from run. If the finding does not reproduce, '+
+        'it is void.'},
+    order:{$from:'ship-forge.html',class:H[0],hull_name:H[1],
+      tradition:H[2],ship_name:D.name,master:D.capt,
+      displacement_t:Math.round(S.disp),loa_m:+S.loa.toFixed(1),
+      beam_m:+S.beam.toFixed(1),draft_m:+S.depth.toFixed(2),
+      element:D.mode,method:D.method,
+      rig:optOf('rig')[1],planking:optOf('plank')[1],helm:optOf('helm')[1],
+      arsenal:D.parts.arms==='none'?[]:[optOf('arms')[1]],
+      arsenal_policy:'conventional-only',
+      crew:S.crew,build_cost_usd:Math.round(V.total),
+      bill_of_materials:{strakes:BOM.planks,frames:BOM.frames,
+        fastenings:BOM.bolts,plates:BOM.plates,seams:BOM.seams,
+        sail_panels:BOM.panels,oars:BOM.oars,lanterns:BOM.lamps}},
+    run:{lane:{from:'land-one',to:'land-two',length_ly:10},
+      cargo_ratio:{outbound:2,inbound:1},
+      hulls:[{name:D.name||'unnamed',aspect:'blue',role:'principal'}],
+      stages:[{at_ly:2,auxiliary:'Cistern',service:'fuel',band:320},
+              {at_ly:9,auxiliary:'Granary',service:'stores',band:140}],
+      demurrage_band:0},
+    clause:{name:'infinite',cap_heze:2000,beneficiary:'Heze',on_breach:'terminate'}
+  };
+}
+$('mani').onclick=()=>{
+  const txt=JSON.stringify(manifest(),null,2);
+  const b=new Blob([txt],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);
+  a.download=(D.name||'ship').replace(/\s+/g,'-').toLowerCase()+'.manifest.json';
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  if(navigator.clipboard)navigator.clipboard.writeText(txt).catch(()=>{});
+  say('Manifest saved. Open it in the bridge.');
+};
 $('png').onclick=()=>{const a=document.createElement('a');
   a.download=(D.name||'ship').replace(/\s+/g,'-').toLowerCase()+'.png';
   a.href=cv.toDataURL('image/png');a.click();say('Exported.');};

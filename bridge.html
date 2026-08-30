@@ -152,8 +152,12 @@
  * One schema, checked field by field. Nothing is coerced silently: if a value
  * is the wrong shape it is reported and the manifest is refused. */
 const ASPECTS=['red','yellow','blue','green'];
+/* Two vocabularies reach this page and both are legitimate: the order desk
+   builds classes, the forge builds hulls off a coast. Refusing one because the
+   other was written first would just be the bridge preferring its own habits. */
 const CLASSES=['bucketeer','merchant','auxiliary','corsair','destroyer','cruiser',
-  'monitor','carrier','battleship','yamato'];
+  'monitor','carrier','battleship','yamato',
+  'dhow','junk','long','tri','car','waka','gal','umiak','reed','iron'];
 const READY=['R1','R2','R3'];
 /* The yard fits conventional systems only. A manifest asking for anything on
    this list is refused outright rather than normalised into something else. */
