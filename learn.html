@@ -1,0 +1,403 @@
+<title>Learn · HTML and CSS, from what actually went wrong</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  A workbook. Two halves.
+
+  The first half is the technique: what CSS will do for you, what it will not,
+  and the one constraint everything else arranges itself around.
+
+  The second half is nine mistakes. Not invented teaching examples — these are
+  defects that were actually in these files, with the code that was wrong, the
+  symptom, and what fixed it. That half is the more useful one. Anybody can
+  publish the patterns; the traps are what cost the hours.
+
+  No script, and every example on this page is live.
+-->
+<style>
+  :root{
+    --void:#080b0f; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --bad:#e0705a; --good:#65d6a8; --cool:#6ec6ff; --plum:#8a6ab8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:14px/1.68 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 50% 0%,rgba(224,177,85,.06),transparent 44%)}
+  .wrap{max-width:920px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:14px;margin-bottom:8px}
+  h1{margin:0 0 6px;font-size:27px;letter-spacing:-.022em}
+  .lede{color:var(--dim);font-size:13.5px;margin:0;max-width:76ch}
+  .lede b{color:var(--ink)}
+  h2{font:10px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:34px 0 12px;font-weight:600;
+    padding-top:14px;border-top:1px solid var(--edge)}
+  h3{margin:26px 0 6px;font-size:17px;letter-spacing:-.012em}
+  h3 .n{font:9px/1 ui-monospace,monospace;letter-spacing:.2em;color:var(--plum);
+    display:block;margin-bottom:5px}
+  p{max-width:78ch}
+  .dim{color:var(--dim);font-size:12.5px}
+  code{font:12px ui-monospace,Menlo,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  pre{margin:10px 0 0;overflow-x:auto;font:11.5px/1.62 ui-monospace,Menlo,monospace;
+    background:#0a1017;border:1px solid var(--edge);border-radius:9px;
+    padding:12px 13px;color:#bdd3e0}
+  pre.wrong{border-color:rgba(224,112,90,.5);background:rgba(224,112,90,.05)}
+  pre.right{border-color:rgba(101,214,168,.45);background:rgba(101,214,168,.04)}
+  pre b{color:var(--gold);font-weight:400}
+  .tag{display:inline-block;font:8.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;border-radius:4px;padding:4px 7px;margin-bottom:2px}
+  .tag.w{color:var(--bad);border:1px solid var(--bad)}
+  .tag.r{color:var(--good);border:1px solid var(--good)}
+  .sym{border-left:2px solid var(--gold);padding:2px 0 2px 13px;margin:12px 0;
+    color:var(--dim);font-size:12.5px;max-width:76ch}
+  .sym b{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px;margin-top:14px}
+
+  /* live demos */
+  .demo{background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:12px 13px;margin-top:12px}
+  .demo .row{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+  .demo input{position:absolute;opacity:0;width:0;height:0}
+  .demo label{cursor:pointer;font:11px/1 ui-monospace,monospace;padding:8px 12px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim)}
+  .demo label:hover{color:var(--ink)}
+  .demo input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .demo input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+  .out{font:22px/1.2 ui-monospace,Menlo,monospace;color:var(--gold)}
+  .out small{display:block;font:8.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+
+  /* demo 1 — counters */
+  body{counter-reset:d1 0 d2 0}
+  #q-1:checked+label{counter-increment:d1 1 d2 40}
+  #q-2:checked+label{counter-increment:d1 2 d2 80}
+  #q-3:checked+label{counter-increment:d1 4 d2 160}
+  #q-x:checked+label{counter-increment:d1 3 d2 120}
+  .n-d1::after{content:counter(d1)} .n-d2::after{content:counter(d2)}
+
+  /* demo 2 — scope */
+  .scoped:has(#s-on:checked) .lamp{background:var(--good);box-shadow:0 0 12px var(--good)}
+  .lamp{width:22px;height:22px;border-radius:50%;background:#1b242c;
+    border:1px solid #0b1116;display:inline-block;vertical-align:-5px;
+    transition:background .2s,box-shadow .2s}
+
+  /* demo 3 — cascade order */
+  .mv{width:18px;height:18px;border-radius:5px;background:var(--cool);
+    animation:sl 2.6s linear infinite alternate}
+  @keyframes sl{to{transform:translateX(150px)}}
+  .lane{border:1px solid var(--edge);border-radius:8px;background:#0a1017;
+    padding:8px;overflow:hidden;margin-top:8px}
+  .casc:has(#g-fast:checked) .mv{animation-duration:1s;background:var(--good)}
+  .casc:has(#g-stop:checked) .mv{animation-play-state:paused;background:var(--bad)}
+  @media (prefers-reduced-motion:reduce){.mv{animation:none}}
+
+  ol.ex{max-width:78ch;padding-left:20px}
+  ol.ex li{margin:9px 0;color:var(--dim);font-size:13px}
+  ol.ex li b{color:var(--ink)}
+  .check{max-width:78ch;font-size:13px;color:var(--dim);line-height:1.9}
+  .check b{color:var(--ink)}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Learn</h1>
+    <p class="lede">HTML and CSS can compute, hold state, and hand work between
+      pages with no script at all. This is how — and then, at more length,
+      <b>nine mistakes that were really in these files</b>, with the code that
+      was wrong and what fixed it. The second half is the useful half.</p>
+  </header>
+
+  <h2>Part one · the technique</h2>
+
+  <h3><span class="n">the one rule</span>Document order is the constraint</h3>
+  <p>A CSS counter can only be printed <em>after</em> the things that increment
+    it. Everything else about these pages is arranged around that single fact:
+    inputs come first in the markup, totals come after, and the layout is put
+    back the way you want it with grid. Fight this and nothing works; accept it
+    and the rest is easy.</p>
+  <pre><b>body</b>{counter-reset: crates 0}
+<b>#q-2:checked + label</b>{counter-increment: crates 2}   <i>← must come first in the DOM</i>
+<b>.total::after</b>{content: counter(crates)}          <i>← and this after</i></pre>
+
+  <div class="demo">
+    <div class="row">
+      <input type="radio" name="q" id="q-1"><label for="q-1">1 crate</label>
+      <input type="radio" name="q" id="q-2" checked><label for="q-2">2 crates</label>
+      <input type="radio" name="q" id="q-3"><label for="q-3">4 crates</label>
+      <input type="checkbox" id="q-x"><label for="q-x">+ deck cargo</label>
+    </div>
+    <div class="out"><small>crates</small><span class="n-d1"></span></div>
+    <div class="out" style="margin-top:8px"><small>tonnes</small><span class="n-d2"></span></div>
+  </div>
+
+  <h3><span class="n">the limits</span>CSS adds. That is all it does.</h3>
+  <p>No subtraction, no multiplication, no division, no minimum. This is not a
+    gap to route around cleverly — it is the shape of the tool, and the honest
+    responses are:</p>
+  <p class="dim"><b>Need a product?</b> Write the products out. Three options by
+    three states is nine rules, keyed on a pair with
+    <code>:has(A):has(B)</code>. There is no shortcut and the table is better
+    for it: every cell was written by somebody who can be asked why.<br>
+    <b>Need a difference?</b> Declare it, or print both numbers and say why the
+    difference is absent. Never let a figure appear as if the page computed it
+    when it did not.</p>
+
+  <h3><span class="n">state</span>:has() lets a parent see its children</h3>
+  <p>A hidden radio anywhere inside a container can style anything else in that
+    container. That is a whole state machine with nothing to keep in sync,
+    because there is only one copy of the truth — the DOM.</p>
+  <div class="demo scoped">
+    <div class="row">
+      <input type="radio" name="s" id="s-on" checked><label for="s-on">On</label>
+      <input type="radio" name="s" id="s-off"><label for="s-off">Off</label>
+      <span style="margin-left:8px" class="lamp"></span>
+    </div>
+    <pre style="margin:0"><b>.scoped:has(#s-on:checked) .lamp</b>{background:var(--good)}</pre>
+  </div>
+
+  <h3><span class="n">authority</span>What is written last, wins</h3>
+  <p>Equally specific rules resolve by order. So the thing that must not be
+    overridden goes at the bottom of the stylesheet. A stop written above a
+    speed is a suggestion; written below it, it is a stop.</p>
+  <div class="demo casc">
+    <div class="row">
+      <input type="radio" name="g" id="g-cruise" checked><label for="g-cruise">Cruise</label>
+      <input type="radio" name="g" id="g-fast"><label for="g-fast">Full</label>
+      <input type="radio" name="g" id="g-stop"><label for="g-stop">Stop</label>
+    </div>
+    <div class="lane"><div class="mv"></div></div>
+    <pre style="margin-top:9px"><b>.casc:has(#g-fast:checked) .mv</b>{animation-duration:1s}
+<b>.casc:has(#g-stop:checked) .mv</b>{animation-play-state:paused}  <i>← last, so it wins</i></pre>
+  </div>
+
+  <h3><span class="n">transport</span>A GET form is an API call</h3>
+  <p>Give inputs names and values, point a form at another file, and the browser
+    serialises everything checked into the query string and opens it. The
+    sending page does nothing. Add <code>form="id"</code> to associate an input
+    with a form anywhere in the document, so your markup does not have to be
+    reorganised around it.</p>
+  <pre>&lt;form id="vy" action="bridge.html" method="get"&gt;&lt;/form&gt;
+&lt;input type="radio" name="class" value="cruiser" <b>form="vy"</b> checked&gt;
+&lt;button type="submit" <b>form="vy"</b>&gt;Send&lt;/button&gt;
+<b>→ bridge.html?class=cruiser</b></pre>
+
+  <h2>Part two · nine things that were wrong in these files</h2>
+  <p class="lede" style="margin-bottom:4px">Each of these shipped, or nearly
+    did. The code is the actual code.</p>
+
+  <div class="panel">
+    <h3 style="margin-top:4px"><span class="n">mistake one</span>A
+      <code>:has()</code> scoped to the wrong subtree</h3>
+    <span class="tag w">wrong</span>
+<pre class="wrong"><b>.row:has(.k-red:checked) .ship</b>{animation-play-state:paused}</pre>
+    <div class="sym"><b>Symptom:</b> nothing happened. No error, no warning —
+      the rule simply never matched, which is the worst kind of failure because
+      it looks like the property is unsupported.</div>
+    <p class="dim">The switches were in a <code>.row</code> in the switchboard.
+      The hulls were in a completely different part of the document. A
+      descendant combinator cannot cross to a sibling subtree.</p>
+    <span class="tag r">right</span>
+<pre class="right"><b>.board:has(#c1r:checked) .sh1</b>{animation-play-state:paused}</pre>
+    <p class="dim"><b>The rule to remember:</b> scope from the nearest ancestor
+      that contains <em>both</em> the switch and its target — not from whatever
+      element happens to be near the switch.</p>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:4px"><span class="n">mistake two</span>
+      <code>alternate</code> plays your keyframes backwards</h3>
+    <span class="tag w">wrong</span>
+<pre class="wrong">.ship{animation: run 19s linear infinite <b>alternate</b>}
+@keyframes run{from{left:0} to{left:calc(100% - 64px)}}</pre>
+    <div class="sym"><b>Symptom:</b> every ship sailed the return leg
+      stern-first. Obvious once seen, invisible while writing it.</div>
+    <p class="dim"><code>alternate</code> does not "go back" — it replays the
+      same frames in reverse, including everything you did not think of as
+      directional.</p>
+    <span class="tag r">right</span>
+<pre class="right">@keyframes run{
+  0%  {left:0;                 transform:scaleX(1)}
+  49% {left:calc(100% - 64px); transform:scaleX(1)}
+  50% {left:calc(100% - 64px); <b>transform:scaleX(-1)</b>}   <i>← comes about</i>
+  99% {left:0;                 transform:scaleX(-1)}
+  100%{left:0;                 transform:scaleX(1)}}</pre>
+    <p class="dim">Write the whole cycle out. And remember the duration now
+      covers a round trip, so double it to keep the same speed — I missed that
+      the first time too.</p>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:4px"><span class="n">mistake three</span>A total that
+      could only ever grow</h3>
+    <span class="tag w">wrong</span>
+<pre class="wrong">#v-2:checked+label{counter-increment: cr 1840 <b>net 1840</b>}
+#o-wage:checked+label{counter-increment: dr 2400}
+.balance::after{content: counter(<b>net</b>)}      <i>labelled "net position"</i></pre>
+    <div class="sym"><b>Symptom:</b> none. It rendered perfectly and was
+      wrong — the "net" was gross credits with the debits silently missing,
+      because a counter cannot go down.</div>
+    <span class="tag r">right</span>
+<pre class="right"><i>Show both, and say why the difference is absent:</i>
+&lt;div&gt;Taken in &lt;b class="n-cr"&gt;&lt;/b&gt;, against &lt;b class="n-dr"&gt;&lt;/b&gt; paid out&lt;/div&gt;
+&lt;p&gt;The difference is not printed. CSS adds and cannot subtract, and this
+   page will not show a figure it did not compute.&lt;/p&gt;</pre>
+    <p class="dim">This is the one worth internalising. A wrong number that
+      renders beautifully is more dangerous than a broken layout, because
+      nothing about it looks like a bug.</p>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:4px"><span class="n">mistake four</span>An interlock a
+      keyboard walks straight around</h3>
+    <span class="tag w">wrong</span>
+<pre class="wrong">.board:not(:has(#k-arm:checked)) .throw label{<b>pointer-events:none</b>}</pre>
+    <div class="sym"><b>Symptom:</b> the mouse could not reach the kill switch.
+      The Tab key could. So could a browser restoring form state on reload.</div>
+    <p class="dim"><code>pointer-events</code> is about pointers. It is not
+      access control, and a safety interlock that only stops a mouse is
+      decoration.</p>
+    <span class="tag r">right</span>
+<pre class="right">.board:not(:has(#k-arm:checked)) .throw label{opacity:.32;pointer-events:none}
+.board:not(:has(#k-arm:checked)) <b>#k-throw{visibility:hidden}</b>   <i>← out of tab order</i>
+
+<i>and every consequence names both inputs, so a restored state cannot fake it:</i>
+<b>.board:has(#k-arm:checked):has(#k-throw:checked)</b> .ship{animation-play-state:paused}</pre>
+    <p class="dim">Then check all four input combinations, not just the two you
+      were thinking about.</p>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:4px"><span class="n">mistake five</span>Inline styles
+      faking a class</h3>
+    <span class="tag w">wrong</span>
+<pre class="wrong">&lt;i class="b on" <b>style="background:var(--red);box-shadow:0 0 10px var(--red)"</b>&gt;</pre>
+    <div class="sym"><b>Symptom:</b> it looked right. It was a blue lamp wearing
+      red paint, so nothing could select it as red and the next change broke
+      it.</div>
+    <span class="tag r">right</span>
+<pre class="right">.lamps i.on.r{background:var(--red);box-shadow:0 0 10px var(--red)}
+&lt;i class="<b>r on</b>"&gt;</pre>
+    <p class="dim">When you find yourself writing an inline style to say what a
+      thing <em>is</em>, you wanted a class.</p>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:4px"><span class="n">mistake six</span>A non-greedy
+      regex that stopped too early</h3>
+    <span class="tag w">wrong</span>
+<pre class="wrong">s.replace(/\.board:has\(#o-a[\s\S]<b>*?</b>content:"0"\}/, replacement)</pre>
+    <div class="sym"><b>Symptom:</b> two stale rules survived into every
+      generated file, referencing ids that no generated board had. Harmless
+      until a board used those ids, and then silently wrong.</div>
+    <p class="dim">The block being replaced contained <code>content:"0"</code>
+      in the middle, so the lazy quantifier stopped there instead of at the
+      end.</p>
+    <span class="tag r">right</span>
+<pre class="right"><i>anchor on something that only appears at the end:</i>
+s.replace(/\.board:has\(#o-a[\s\S]*?<b>#o-c:checked\):has\(#s-off:checked\)[^}]*\}</b>/, r)</pre>
+    <p class="dim">Then count the output. <code>6 rules in, 8 rules out</code>
+      is how this was caught — not by reading it.</p>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:4px"><span class="n">mistake seven</span>Reading a
+      computed style mid-transition and believing it</h3>
+    <span class="tag w">wrong</span>
+<pre class="wrong">el.checked = true;
+await sleep(400);
+getComputedStyle(ship).opacity   <i>→ "0"  … so the rule must be broken?</i></pre>
+    <div class="sym"><b>Symptom:</b> I "found" three bugs that did not exist and
+      nearly rewrote working CSS to fix them.</div>
+    <p class="dim">The element had <code>transition: opacity .3s</code>. The
+      read landed mid-flight, or before the engine had recalculated at all — so
+      the number was true and meaningless at the same time.</p>
+    <span class="tag r">right</span>
+<pre class="right">el.checked = true;
+for (let i=0;i&lt;3;i++){ <b>document.body.offsetHeight</b>;      <i>force a reflow</i>
+                       await new Promise(requestAnimationFrame); }
+await sleep(450); document.body.offsetHeight;
+getComputedStyle(ship).opacity   <i>→ "1"  — the truth</i></pre>
+    <p class="dim">Verification has its own bugs. A test that lies costs more
+      than no test, because you act on it.</p>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:4px"><span class="n">mistake eight</span>A file
+      describing itself as it used to be</h3>
+    <div class="sym"><b>Symptom:</b> the comment at the top of the lane board
+      said <em>"the run has no blocker in it anywhere… the only way to stop
+      them is to close the page."</em> A kill switch had been wired in an hour
+      earlier.</div>
+    <p class="dim">Documentation does not rot gently; it becomes a confident
+      lie. The header was the most authoritative text in the file and it was
+      the wrong text. Prose that describes behaviour is part of the behaviour —
+      when the code changes, it is not finished until the sentence about it
+      changes too.</p>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:4px"><span class="n">mistake nine</span>
+      <code>git add -A</code> in a repository you did not survey</h3>
+    <span class="tag w">wrong</span>
+<pre class="wrong">git add -A &amp;&amp; git commit -m "..."     <i>→ 240 unrelated files, 2 embedded repos</i></pre>
+    <div class="sym"><b>Symptom:</b> a two-file change became a commit
+      containing most of a home directory.</div>
+    <span class="tag r">right</span>
+<pre class="right">git add bridge.html cargo.html manifest.example.json
+<i>and to undo it before anyone pulls:</i>
+git reset --soft HEAD~1 &amp;&amp; git reset</pre>
+    <p class="dim">Name your files. It takes four seconds and it is the
+      difference between a commit and a landslide.</p>
+  </div>
+
+  <h2>Part three · what to do next</h2>
+  <h3 style="margin-top:12px"><span class="n">exercises</span>On
+    <code>template.html</code>, in this order</h3>
+  <ol class="ex">
+    <li><b>Move the totals above the inputs.</b> Watch every number go to zero.
+      That is the one rule, felt rather than read — put them back.</li>
+    <li><b>Add a fourth option</b> to the choice group. You will write two more
+      lookup rules by hand. That cost is the honest price of a language with no
+      multiplication.</li>
+    <li><b>Move the stop rule above the speed rule</b> in the cascade. It stops
+      working. Move it back.</li>
+    <li><b>Break a <code>:has()</code> on purpose</b> — scope it to the row
+      instead of the board — so you recognise the silence when it happens for
+      real.</li>
+    <li><b>Try to display a difference</b> between two counters. You cannot.
+      Decide what you will show instead, and write the sentence explaining
+      it.</li>
+    <li><b>Tab through your page with the mouse untouched.</b> Everything
+      reachable? Everything that should not be, unreachable?</li>
+  </ol>
+
+  <h3><span class="n">checklist</span>Before anything ships</h3>
+  <p class="check">
+    <b>1.</b> Totals appear after every input that feeds them.<br>
+    <b>2.</b> No number on the page is one the page did not compute.<br>
+    <b>3.</b> Every <code>:has()</code> is scoped to an ancestor of both the
+    switch and its target.<br>
+    <b>4.</b> Anything that must not be overridden is written last.<br>
+    <b>5.</b> Guards work for the keyboard, not only the pointer.<br>
+    <b>6.</b> Focus outlines still present; <code>prefers-reduced-motion</code>
+    honoured.<br>
+    <b>7.</b> The comment at the top still describes the file as it is now.<br>
+    <b>8.</b> You counted the output rather than reading it.
+  </p>
+
+  <p class="dim" style="margin-top:26px;max-width:78ch"><b>The through-line.</b>
+    Six of these nine mistakes rendered perfectly while being wrong. That is the
+    thing to take from this — in a language with no runtime and no error
+    messages, "it looks right" is not evidence of anything, and the discipline
+    that matters is deciding what would prove it and then going and checking.
+    The patterns in part one you will pick up in an afternoon. Part two is the
+    part that takes a while.</p>
+
+  <p class="dim" style="margin-top:18px">Companion pages:
+    <a href="whale.html" style="color:var(--gold)">The Whale</a> for the six
+    patterns with live examples, and
+    <a href="template.html" style="color:var(--gold)">the template</a> to build
+    on.</p>
+</div>
