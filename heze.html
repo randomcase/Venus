@@ -1,0 +1,344 @@
+<title>HEZE — the yard's unit of account</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Six slides, no script.
+
+  Navigation is :target — each slide is a section with an id, the links change
+  the fragment, and CSS shows whichever section matches. The first slide shows
+  when nothing is targeted, via body:not(:has(:target)). The dot rail at the
+  bottom is the same six links again, styled small.
+
+  Everything stated here is a design document for a unit of account inside this
+  project's files. There is no chain, no contract, no token, and nothing that
+  can be bought or sold. Slide six says so at length, and it is not a footnote —
+  it is the point of including it.
+-->
+<style>
+  :root{
+    --void:#080b0f; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --green:#78b843; --plum:#8a6ab8; --cream:#f2e9d6; --rose:#e58593;
+    --live:#65d6a8; --warn:#e0705a;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;color:var(--ink);background:var(--void);
+    font:14px/1.6 ui-rounded,system-ui,-apple-system,sans-serif;
+    display:grid;place-items:center;padding:20px;
+    background-image:
+      radial-gradient(circle at 18% 12%,rgba(120,184,67,.10),transparent 46%),
+      radial-gradient(circle at 84% 82%,rgba(138,106,184,.10),transparent 44%),
+      radial-gradient(1.2px 1.2px at 22% 34%,#fff,transparent),
+      radial-gradient(1px 1px at 72% 22%,#cfe6ff,transparent),
+      radial-gradient(1.3px 1.3px at 58% 76%,#ffe9c9,transparent);
+  }
+  .deck{width:min(940px,100%)}
+
+  /* ------------------------------------------------------------- the slides */
+  .slide{display:none;background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:14px;padding:30px 34px 22px;
+    min-height:min(620px,86vh);position:relative;
+    box-shadow:0 22px 60px rgba(0,0,0,.45)}
+  .slide:target{display:block}
+  body:not(:has(.slide:target)) #s1{display:block}
+
+  .kicker{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px;display:inline-block;margin-bottom:16px}
+  h1{margin:0 0 6px;font-size:40px;line-height:1.06;letter-spacing:-.02em}
+  h1 small{display:block;font-size:15px;font-weight:400;color:var(--dim);
+    letter-spacing:0;margin-top:10px;max-width:60ch}
+  h2{margin:0 0 4px;font-size:25px;letter-spacing:-.015em}
+  .lede{color:var(--dim);font-size:13px;margin:0 0 20px;max-width:72ch}
+  p{max-width:74ch}
+  strong{color:var(--ink)}
+  em{font-style:normal;color:var(--gold)}
+
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(3,1fr);margin:18px 0}
+  .grid.two{grid-template-columns:repeat(2,1fr)}
+  .cell{background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:13px 14px}
+  .cell b{display:block;font:26px/1.2 ui-monospace,Menlo,monospace;color:var(--gold)}
+  .cell b.sm{font-size:19px}
+  .cell span{font-size:10.5px;color:var(--dim);letter-spacing:.06em;
+    text-transform:uppercase}
+  .cell p{font-size:11.5px;color:var(--dim);margin:6px 0 0}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin:14px 0}
+  th{text-align:left;font:9.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:5px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  tr.sum td{border-top:1.5px solid var(--gold);font-weight:700;padding-top:8px}
+  tr.sum td:last-child{color:var(--gold)}
+  td .q{color:var(--dim);font-size:10.5px}
+
+  .rule{height:1px;background:var(--edge);margin:18px 0}
+  .band{display:flex;gap:0;height:9px;border-radius:5px;overflow:hidden;margin:18px 0}
+  .band i{flex:1}
+  .band .g{background:var(--green)} .band .p{background:var(--plum)}
+  .band .c{background:var(--cream)} .band .r{background:var(--rose)}
+  .band .o{background:var(--gold)}
+
+  .flag{border:1px solid var(--warn);background:rgba(224,112,90,.09);
+    border-radius:9px;padding:12px 14px;color:var(--warn);font-size:12.5px;
+    margin:16px 0}
+  .flag b{color:var(--warn)}
+  .ok{border-color:var(--live);background:rgba(101,214,168,.08);color:var(--live)}
+  .ok b{color:var(--live)}
+
+  code{font:12px ui-monospace,Menlo,monospace;color:var(--cream);
+    background:#0b1219;border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+  /* ------------------------------------------------------------ navigation */
+  .nav{position:absolute;left:34px;right:34px;bottom:20px;display:flex;
+    align-items:center;gap:10px}
+  .nav a{font:11px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;text-decoration:none;color:var(--dim);
+    border:1px solid var(--edge);border-radius:6px;padding:7px 12px}
+  .nav a:hover{color:var(--gold);border-color:var(--gold)}
+  .nav a.p{background:var(--gold);color:#12181d;border-color:var(--gold);
+    font-weight:700}
+  .nav .no{margin-left:auto;font:11px ui-monospace,monospace;color:var(--dim)}
+  .dots{display:flex;gap:6px;justify-content:center;margin-top:14px}
+  .dots a{width:9px;height:9px;border-radius:50%;background:#22303c;
+    border:1px solid var(--edge);display:block}
+  .dots a:hover{background:var(--gold)}
+
+  @media (max-width:720px){
+    .grid,.grid.two{grid-template-columns:1fr}
+    h1{font-size:30px}
+    .slide{padding:22px 18px 74px}
+    .nav{left:18px;right:18px;flex-wrap:wrap}
+  }
+  @media print{
+    .slide{display:block !important;page-break-after:always;box-shadow:none}
+    .nav,.dots{display:none}
+  }
+</style>
+
+<div class="deck">
+
+  <!-- ------------------------------------------------------------- slide 1 -->
+  <section class="slide" id="s1">
+    <span class="kicker">Heze Orbital Yard · unit of account</span>
+    <h1>HEZE
+      <small>The yard quotes in it, the docket sums in it, and a hull is
+        released against it. It is a unit of account for the files in this
+        project — not a chain, not a contract, and not for sale.</small></h1>
+    <div class="band"><i class="g"></i><i class="p"></i><i class="c"></i>
+      <i class="r"></i><i class="o"></i></div>
+    <div class="grid">
+      <div class="cell"><span>Supply</span><b>21,000,000</b>
+        <p>Fixed by definition. Nothing in these files issues more.</p></div>
+      <div class="cell"><span>Backing</span><b class="sm">A costed fleet</b>
+        <p>Ten hulls, priced from their own bills of materials.</p></div>
+      <div class="cell"><span>Where it settles</span><b class="sm">Nowhere yet</b>
+        <p>No transfer exists. The docket is a piece of paper.</p></div>
+    </div>
+    <p class="lede">Six slides. What the number is, what stands behind it, how a
+      hull is drawn from an address, what the yard charges, and — at the end,
+      in full — what this is not.</p>
+    <nav class="nav">
+      <a class="p" href="#s2">Next ▸</a>
+      <span class="no">01 / 06</span>
+    </nav>
+  </section>
+
+  <!-- ------------------------------------------------------------- slide 2 -->
+  <section class="slide" id="s2">
+    <span class="kicker">02 · the number</span>
+    <h2>Twenty-one million, and not one more</h2>
+    <p class="lede">The cap is not a marketing figure carried over from
+      somewhere else. It is the constraint the rest of the design was built to
+      satisfy, and everything downstream had to clear it.</p>
+
+    <div class="grid">
+      <div class="cell"><span>Cap</span><b>21,000,000</b>
+        <p>Whole units. Divisible for accounting, never extended.</p></div>
+      <div class="cell"><span>Combination floor</span><b class="sm">21,000,000</b>
+        <p>The design rule: a coin must address at least this many distinct
+          hulls, so no two are forced to collide.</p></div>
+      <div class="cell"><span>Actually achieved</span><b class="sm">1.536 × 10¹²</b>
+        <p>73,142 times the floor, counting only the discrete slots.</p></div>
+    </div>
+
+    <div class="rule"></div>
+    <p><strong>Why the floor matters.</strong> If the number of buildable hulls
+      were smaller than the number of coins, coins would have to share hulls,
+      and a hull would stop being a thing a coin could stand for. The forge
+      clears it by six orders of magnitude before the continuous axes — the
+      length, beam, freeboard, sheer and rig sliders — are counted at all. With
+      those, the space is around <code>2 × 10²⁵</code>.</p>
+
+    <nav class="nav">
+      <a href="#s1">◂ Back</a><a class="p" href="#s3">Next ▸</a>
+      <span class="no">02 / 06</span>
+    </nav>
+  </section>
+
+  <!-- ------------------------------------------------------------- slide 3 -->
+  <section class="slide" id="s3">
+    <span class="kicker">03 · what stands behind it</span>
+    <h2>A costed fleet, not a promise</h2>
+    <p class="lede">Every hull in the forge is priced from the geometry that was
+      actually drawn: cubic metres of oak, metres of seam to caulk, square
+      metres of cloth, kilos of ironwork, and shipwright hours. Change a strake
+      count and the timber volume changes, so the price changes, because there
+      is more boat.</p>
+
+    <table>
+      <tr><th>Hull</th><th>Displacement</th><th>Build cost</th></tr>
+      <tr><td>Dhow <span class="q">· 18 m</span></td><td>90 t</td><td>$117,081</td></tr>
+      <tr><td>Umiak <span class="q">· 9 m</span></td><td>21 t</td><td>$78,400</td></tr>
+      <tr><td>Waka <span class="q">· 20 m</span></td><td>58 t</td><td>$126,812</td></tr>
+      <tr><td>Longship <span class="q">· 24 m</span></td><td>91 t</td><td>$162,092</td></tr>
+      <tr><td>Caravel <span class="q">· 23 m</span></td><td>162 t</td><td>$194,883</td></tr>
+      <tr><td>Reed barge <span class="q">· 26 m</span></td><td>148 t</td><td>$204,600</td></tr>
+      <tr><td>Junk <span class="q">· 30 m</span></td><td>333 t</td><td>$286,371</td></tr>
+      <tr><td>Trireme <span class="q">· 37 m</span></td><td>195 t</td><td>$286,487</td></tr>
+      <tr><td>Galleon <span class="q">· 40 m</span></td><td>937 t</td><td>$477,946</td></tr>
+      <tr><td>Ironclad <span class="q">· 52 m</span></td><td>1,993 t</td><td>$3,630,161</td></tr>
+      <tr class="sum"><td>Fleet of ten</td><td>4,028 t</td><td>$20,387,410</td></tr>
+    </table>
+
+    <div class="grid two">
+      <div class="cell"><span>Fleet cost ÷ 21,000,000</span><b>$0.97</b>
+        <p>Arithmetic on a costing. It is a ratio between two numbers on this
+          page, not a price, not a valuation, and not a forecast.</p></div>
+      <div class="cell"><span>Rates behind it</span><b class="sm">Editable</b>
+        <p>Oak $/m³, shipwright $/hr, canvas $/m², yard overhead %. Move any of
+          them and every figure above moves. They are defaults to argue with.</p></div>
+    </div>
+
+    <nav class="nav">
+      <a href="#s2">◂ Back</a><a class="p" href="#s4">Next ▸</a>
+      <span class="no">03 / 06</span>
+    </nav>
+  </section>
+
+  <!-- ------------------------------------------------------------- slide 4 -->
+  <section class="slide" id="s4">
+    <span class="kicker">04 · issuance</span>
+    <h2>One address in, one hull out</h2>
+    <p class="lede">A public address is read as a number and seeded into the
+      forge. The same address always yields the same ship — that determinism is
+      the only property that makes a build worth claiming.</p>
+
+    <div class="grid">
+      <div class="cell"><span>Step one</span><b class="sm">Read</b>
+        <p>The address is hashed locally with FNV-1a into a seed. It is never
+          transmitted, and it is never signed with.</p></div>
+      <div class="cell"><span>Step two</span><b class="sm">Draw</b>
+        <p>The seed picks hull, element, method, twelve slots, palette, finish,
+          fastening and every proportion. Then the ship is drawn.</p></div>
+      <div class="cell"><span>Step three</span><b class="sm">Count</b>
+        <p>The bill of materials falls out of the drawing — strakes, frames,
+          fastenings, seams — and the cost falls out of the bill.</p></div>
+    </div>
+
+    <div class="rule"></div>
+    <p><strong>Build the ten.</strong> One address also lays down a whole fleet:
+      ten hulls, one per tradition, each seeded from
+      <code>address:index:hull</code> so they are ten different ships rather
+      than ten paint jobs on one. The fleet is berthed locally and costed at the
+      current yard rates.</p>
+    <div class="flag ok"><b>Nothing leaves the file.</b> There is no network
+      call in the forge. The address sits in an input, is read, and is used to
+      pick options. Closing the tab ends it.</div>
+
+    <nav class="nav">
+      <a href="#s3">◂ Back</a><a class="p" href="#s5">Next ▸</a>
+      <span class="no">04 / 06</span>
+    </nav>
+  </section>
+
+  <!-- ------------------------------------------------------------- slide 5 -->
+  <section class="slide" id="s5">
+    <span class="kicker">05 · the price list</span>
+    <h2>What the yard quotes</h2>
+    <p class="lede">Ten classes on the order desk, quoted in HEZE. The desk sums
+      them with CSS counters — the running total on the docket is arithmetic
+      done by the layout engine, with no script on the page.</p>
+
+    <table>
+      <tr><th>Class</th><th>Displacement</th><th>Weeks</th><th>HEZE</th></tr>
+      <tr><td>Bucketeer</td><td>900 t</td><td>2</td><td>1,000</td></tr>
+      <tr><td>Merchant</td><td>9,400 t</td><td>3</td><td>2,100</td></tr>
+      <tr><td>Auxiliary</td><td>6,800 t</td><td>4</td><td>3,200</td></tr>
+      <tr><td>Corsair</td><td>2,600 t</td><td>5</td><td>4,600</td></tr>
+      <tr><td>Destroyer</td><td>8,300 t</td><td>9</td><td>12,400</td></tr>
+      <tr><td>Cruiser</td><td>14,600 t</td><td>16</td><td>28,000</td></tr>
+      <tr><td>Monitor</td><td>26,500 t</td><td>22</td><td>47,000</td></tr>
+      <tr><td>Carrier</td><td>47,000 t</td><td>27</td><td>61,000</td></tr>
+      <tr><td>Battleship</td><td>64,000 t</td><td>34</td><td>84,000</td></tr>
+      <tr><td>Yamato <span class="q">· will not fly</span></td><td>72,800 t</td>
+        <td>52</td><td>150,000</td></tr>
+    </table>
+
+    <div class="grid two">
+      <div class="cell"><span>Distinct orders on the desk</span><b>62,914,560</b>
+        <p>Ten classes × slip × drive × flight × escort × four fittings × eleven
+          conventional mounts.</p></div>
+      <div class="cell"><span>Arsenal</span><b class="sm">Conventional only</b>
+        <p>The yard fits no nuclear weapons and there is no option to order
+          them. Every mount you check is drawn on the band under the hull.</p></div>
+    </div>
+
+    <nav class="nav">
+      <a href="#s4">◂ Back</a><a class="p" href="#s6">Next ▸</a>
+      <span class="no">05 / 06</span>
+    </nav>
+  </section>
+
+  <!-- ------------------------------------------------------------- slide 6 -->
+  <section class="slide" id="s6">
+    <span class="kicker">06 · what this is not</span>
+    <h2>Read this one twice</h2>
+    <p class="lede">The five slides before this describe a unit of account
+      inside a set of local HTML files. This slide describes everything it
+      isn't, and none of it is hedging — each line is a fact about the code.</p>
+
+    <div class="flag"><b>There is no token.</b> No chain, no contract, no
+      deployment, no address that holds anything. <code>0x48455a45</code> is the
+      ASCII for “HEZE” printed on a docket, not a function selector on any
+      network.</div>
+
+    <div class="flag"><b>Nothing here can be bought or sold.</b> These files
+      have no transfer, no order book, no custody and no counterparty. There is
+      nothing to acquire, so nothing on these slides is an offer, a solicitation
+      or a sale.</div>
+
+    <div class="flag"><b>The dollar figures are a costing, not a valuation.</b>
+      $20,387,410 is what ten drawn hulls would cost to build at rates you can
+      edit. Dividing it by 21,000,000 gives a ratio between two numbers in this
+      project. It is not a price, it does not imply one, and no one is obliged
+      to honour it.</div>
+
+    <div class="flag"><b>Nothing is signed and nothing is sent.</b> The address
+      field is read locally to seed a drawing. There is no network call, no
+      wallet connection, no signature request, and no key ever touches these
+      files.</div>
+
+    <div class="flag"><b>This is not financial advice.</b> Nothing here is a
+      recommendation to buy, sell or hold anything, and nobody involved is a
+      licensed adviser.</div>
+
+    <p class="lede" style="margin-top:18px">What it <em>is</em>: a design
+      document for the unit a fictional shipyard quotes in, sitting alongside
+      two files that draw ships and count their fastenings. That is the whole
+      of it, and it is enough.</p>
+
+    <nav class="nav">
+      <a href="#s5">◂ Back</a><a class="p" href="#s1">Start over</a>
+      <span class="no">06 / 06</span>
+    </nav>
+  </section>
+
+  <div class="dots">
+    <a href="#s1"></a><a href="#s2"></a><a href="#s3"></a>
+    <a href="#s4"></a><a href="#s5"></a><a href="#s6"></a>
+  </div>
+</div>
