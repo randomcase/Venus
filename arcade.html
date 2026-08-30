@@ -170,6 +170,50 @@
   .hubnote{font-size:10px;color:var(--dim);max-width:38ch;line-height:1.5}
   .hubnote b{color:var(--ink)}
 
+  /* --------------------------------------------------- SLIME, in the hub
+     The wallet does not just sit here as a number: what it can afford is what
+     is lit on the wall. At seed capacity the three heavy programmes — the
+     train, the supply paths and New Paris — are not funded, so their cabinets
+     go dark and say why. Every figure below is from slime.html; none of it is
+     recomputed here, because two pages disagreeing about the same money is
+     how a yard loses track of it. */
+  body{counter-reset:cap 0 draw 0 spare 0}
+  #s-seed:checked+label{counter-increment:cap 20000 draw 18000 spare 2000}
+  #s-work:checked+label{counter-increment:cap 50000 draw 48600 spare 1400}
+  #s-fund:checked+label{counter-increment:cap 90000 draw 48600 spare 41400}
+  .n-cap::after{content:counter(cap)}
+  .n-draw::after{content:counter(draw)}
+  .n-spare::after{content:counter(spare)}
+
+  .slime{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    border-left:1px solid var(--edge);padding-left:16px}
+  .slime .fig{font:19px/1 ui-monospace,Menlo,monospace;color:#9ed45c}
+  .slime .fig small{display:block;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+    margin-bottom:5px;font-family:ui-monospace,monospace}
+  .slime .fig.sm{font-size:13px;color:var(--dim)}
+  .slime .fig.sm b{color:var(--ink);font-weight:400}
+  .coins{display:flex;gap:5px}
+  .coins input{position:absolute;opacity:0;width:0;height:0}
+  .coins label{cursor:pointer;font:10px/1 ui-monospace,monospace;padding:9px 11px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim)}
+  .coins input:checked+label{border-color:#9ed45c;color:#9ed45c;
+    background:rgba(158,212,92,.12);font-weight:700}
+  .coins input:focus-visible+label{outline:2px solid var(--cyan);outline-offset:2px}
+
+  /* unfunded cabinets go dark and say so */
+  .cab .unfunded{display:none;position:absolute;left:9px;right:9px;top:34px;
+    bottom:30px;border-radius:8px;background:rgba(6,9,13,.82);
+    place-items:center;text-align:center;padding:12px;
+    font:9px/1.6 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--red);border:1px dashed rgba(224,112,90,.5)}
+  .board:has(#s-seed:checked) .k-train .unfunded,
+  .board:has(#s-seed:checked) .k-supply .unfunded,
+  .board:has(#s-seed:checked) .k-paris .unfunded{display:grid}
+  .board:has(#s-seed:checked) .k-train .screen iframe,
+  .board:has(#s-seed:checked) .k-supply .screen iframe,
+  .board:has(#s-seed:checked) .k-paris .screen iframe{filter:grayscale(1) brightness(.5)}
+
   /* the arcade's own cut. Written last, so it beats attract mode. */
   .board:has(#h-cut:checked) .cab{animation:none;border-color:#3a2622;
     filter:grayscale(.7) brightness(.72)}
@@ -203,11 +247,12 @@
       <div class="foot"><span>order desk</span><em>no script</em></div>
     </div>
 
-    <div class="cab">
+    <div class="cab k-train">
       <div class="marquee"><span class="n">03</span><h3>Fleet Train</h3>
         <a href="auxiliaries.html">open</a></div>
       <div class="screen"><iframe src="auxiliaries.html" title="The Fleet Train"
         loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="unfunded">not funded at seed<br>9,400 slime</div>
       <div class="foot"><span>twelve auxiliaries</span><em>no script</em></div>
     </div>
 
@@ -280,6 +325,7 @@
         <a href="new-paris.html">open</a></div>
       <div class="screen"><iframe src="new-paris.html" title="New Paris"
         loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="unfunded">not funded at seed<br>12,500 slime</div>
       <div class="foot"><span>the outpost</span><em>no script</em></div>
     </div>
 
@@ -288,6 +334,7 @@
         <a href="supply.html">open</a></div>
       <div class="screen"><iframe src="supply.html" title="Two Supply Paths"
         loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="unfunded">not funded at seed<br>8,700 slime</div>
       <div class="foot"><span>B2 → 2B</span><em>no script</em></div>
     </div>
 
@@ -374,6 +421,17 @@
       <input type="radio" name="c" id="c-paris"><label for="c-paris">Paris</label>
       <input type="radio" name="c" id="c-supply"><label for="c-supply">Supply</label>
       <input type="radio" name="c" id="c-kill"><label for="c-kill">Cut</label>
+    </div>
+
+    <div class="slime">
+      <div class="fig"><small>slime · capacity</small><span class="n-cap"></span></div>
+      <div class="coins">
+        <input type="radio" name="s" id="s-seed"><label for="s-seed">seed</label>
+        <input type="radio" name="s" id="s-work" checked><label for="s-work">working</label>
+        <input type="radio" name="s" id="s-fund"><label for="s-fund">funded</label>
+      </div>
+      <div class="fig sm"><small>drawing</small><b class="n-draw"></b>
+        &nbsp;·&nbsp; spare <b class="n-spare"></b></div>
     </div>
 
     <p class="hubnote"><b>The hub drives the arcade, not the boards.</b> Without
