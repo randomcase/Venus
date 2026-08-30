@@ -87,9 +87,20 @@
      a percentage of `left` resolves against the track — so the run is exactly
      the width of the lane less the width of the hull, at any screen size. */
   .ship{position:absolute;top:6px;left:0;width:64px;
-    animation:run 19s linear infinite alternate}
+    animation:run 38s linear infinite}
   .ship svg{display:block;width:64px;height:22px}
-  @keyframes run{from{left:0} to{left:calc(100% - 64px)}}
+  /* One keyframe covers the round trip. `alternate` was replaying the same
+     frames backwards, which sent every hull home stern-first — so the cycle is
+     written out instead, and she comes about at each land before the return
+     leg. The flip is instantaneous and happens alongside, which is where a
+     ship turns. */
+  @keyframes run{
+    0%  {left:0;                 transform:scaleX(1)}
+    49% {left:calc(100% - 64px); transform:scaleX(1)}
+    50% {left:calc(100% - 64px); transform:scaleX(-1)}
+    99% {left:0;                 transform:scaleX(-1)}
+    100%{left:0;                 transform:scaleX(1)}
+  }
 
   /* Aspects. The switches sit in the switchboard and the hulls sit in the lane,
      which are different subtrees — so every rule is scoped from .board, the
@@ -105,17 +116,17 @@
   .board:has(#c3y:checked) .sh3,.board:has(#c4y:checked) .sh4,
   .board:has(#c5y:checked) .sh5,.board:has(#c6y:checked) .sh6,
   .board:has(#c7y:checked) .sh7,.board:has(#c8y:checked) .sh8
-    {animation-duration:34s}
+    {animation-duration:68s}
   .board:has(#c1b:checked) .sh1,.board:has(#c2b:checked) .sh2,
   .board:has(#c3b:checked) .sh3,.board:has(#c4b:checked) .sh4,
   .board:has(#c5b:checked) .sh5,.board:has(#c6b:checked) .sh6,
   .board:has(#c7b:checked) .sh7,.board:has(#c8b:checked) .sh8
-    {animation-duration:19s}
+    {animation-duration:38s}
   .board:has(#c1g:checked) .sh1,.board:has(#c2g:checked) .sh2,
   .board:has(#c3g:checked) .sh3,.board:has(#c4g:checked) .sh4,
   .board:has(#c5g:checked) .sh5,.board:has(#c6g:checked) .sh6,
   .board:has(#c7g:checked) .sh7,.board:has(#c8g:checked) .sh8
-    {animation-duration:9s}
+    {animation-duration:18s}
 
   /* hull colour follows the aspect, so the lane reads at a glance */
   .board:has(#c1r:checked) .sh1 .hull,.board:has(#c2r:checked) .sh2 .hull,
