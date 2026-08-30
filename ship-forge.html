@@ -1,0 +1,1356 @@
+<title>Ship Forge</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{
+    --ground:#0c0f12; --panel:#141a1f; --panel2:#1a222a; --edge:#26313a;
+    --ink:#e8eef2; --dim:#8797a3; --gold:#d0a445; --live:#6fbf9b;
+    --warn:#d4614c; --cool:#4fa8ff;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#f1f0eb; --panel:#fff; --panel2:#f7f6f1; --edge:#dcd7cd;
+      --ink:#151a1e; --dim:#67717b; --gold:#8a6a1e; --live:#2c7a5c;
+      --warn:#9a3f30; --cool:#2f6f9e;
+    }
+  }
+  :root[data-theme="light"]{
+    --ground:#f1f0eb; --panel:#fff; --panel2:#f7f6f1; --edge:#dcd7cd;
+    --ink:#151a1e; --dim:#67717b; --gold:#8a6a1e; --live:#2c7a5c;
+    --warn:#9a3f30; --cool:#2f6f9e;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--ground);color:var(--ink);overflow:hidden;
+    font:13px/1.5 ui-rounded,system-ui,-apple-system,sans-serif}
+  .app{display:grid;grid-template-columns:272px 1fr 308px;height:100vh;gap:1px;
+    background:var(--edge)}
+  .col{background:var(--ground);overflow:auto;padding:12px}
+  .stage{background:var(--ground);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden}
+  canvas{max-width:100%;max-height:62vh}
+
+  h1{margin:0 0 2px;font-size:17px;letter-spacing:-.01em}
+  .sub{color:var(--dim);font-size:11px;margin:0 0 12px}
+  h3{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+    margin:16px 0 7px;font-weight:600;display:flex;justify-content:space-between}
+  h3:first-of-type{margin-top:0}
+  h3 span{color:var(--gold);letter-spacing:0;text-transform:none;font-size:10.5px}
+
+  .slot{margin-bottom:9px}
+  .slot .lbl{font-size:10.5px;color:var(--dim);margin-bottom:3px;display:flex;
+    justify-content:space-between}
+  .slot .lbl b{color:var(--ink);font-weight:600}
+  .opts{display:flex;flex-wrap:wrap;gap:3px}
+  .opts button{font:inherit;font-size:10.5px;background:var(--panel);color:var(--ink);
+    border:1px solid var(--edge);border-radius:5px;padding:3px 8px;cursor:pointer}
+  .opts button.on{border-color:var(--gold);color:var(--gold);background:var(--panel2)}
+
+  .sw{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+  .sw button{width:26px;height:26px;border-radius:5px;border:2px solid transparent;
+    cursor:pointer;padding:0}
+  .sw button.on{border-color:var(--ink)}
+  .rowlbl{font-size:10.5px;color:var(--dim);margin-bottom:3px}
+
+  input[type=range]{width:100%;accent-color:var(--gold)}
+  input.t{width:100%;font:inherit;font-size:11px;padding:6px 8px;border-radius:6px;
+    border:1px solid var(--edge);background:var(--panel);color:var(--ink)}
+  input.w{font-family:ui-monospace,Menlo,monospace}
+  #wout{margin-top:5px;font:10px/1.55 ui-monospace,monospace;color:var(--dim);
+    word-break:break-all}
+
+  .stat{display:flex;justify-content:space-between;align-items:baseline;
+    font-size:11.5px;padding:3px 0;border-bottom:1px solid var(--edge)}
+  .stat:last-child{border-bottom:0}
+  .stat b{font-variant-numeric:tabular-nums}
+  .stat.good b{color:var(--live)} .stat.bad b{color:var(--warn)}
+  .meter{height:3px;background:var(--panel2);border-radius:2px;margin:3px 0 6px;overflow:hidden}
+  .meter i{display:block;height:100%;background:var(--gold)}
+  .meter.over i{background:var(--warn)}
+
+  table.bom{width:100%;border-collapse:collapse;font-size:11px;
+    font-variant-numeric:tabular-nums}
+  table.bom td{padding:2.5px 0;border-bottom:1px solid var(--edge)}
+  table.bom td:last-child{text-align:right;color:var(--dim)}
+  table.bom tr.tot td{border-bottom:0;border-top:1px solid var(--edge);
+    padding-top:5px;font-weight:700}
+  table.bom tr.tot td:last-child{color:var(--gold)}
+
+  .bar{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;padding:0 12px}
+  .bar button{font:inherit;font-size:11.5px;background:var(--panel);color:var(--ink);
+    border:1px solid var(--edge);border-radius:6px;padding:6px 12px;cursor:pointer}
+  .bar button.p{background:var(--gold);color:#141a1e;border-color:var(--gold);font-weight:650}
+  .bar button.on{border-color:var(--gold);color:var(--gold)}
+
+  .fleet{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;padding:0 12px 12px;
+    max-width:840px}
+  .fleet button{font:inherit;font-size:10px;background:var(--panel);color:var(--dim);
+    border:1px solid var(--edge);border-radius:5px;padding:4px 7px;cursor:pointer;
+    text-align:left;line-height:1.35;min-width:76px}
+  .fleet button.full{color:var(--ink)}
+  .fleet button i{display:block;font-style:normal;font-size:8.5px;color:var(--gold);
+    letter-spacing:.08em;text-transform:uppercase}
+
+  .name{font-size:15px;font-weight:650;text-align:center}
+  .name span{color:var(--dim);font-weight:400;font-size:11px}
+  .say{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-size:11.5px;
+    background:var(--panel);border:1px solid var(--edge);border-radius:7px;padding:5px 13px;
+    opacity:0;transition:opacity .2s;pointer-events:none;z-index:3}
+  .say.on{opacity:1}
+  .tiny{font-size:10px;color:var(--dim);line-height:1.55;margin-top:8px}
+  .exc{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);
+    border:1px solid var(--gold);border-radius:4px;padding:2px 6px;display:inline-block;
+    margin-bottom:6px}
+  @media (max-width:1080px){
+    .app{grid-template-columns:1fr;grid-template-rows:auto 56vh auto;height:auto}
+    body{overflow:auto}
+  }
+</style>
+
+<div class="app">
+  <div class="col" id="left">
+    <h1>Ship Forge</h1>
+    <p class="sub">Ten hulls off ten coasts. Twelve slots, and every fastening counted.</p>
+    <h3>Hull <span id="hulln"></span></h3>
+    <div class="opts" id="hull" style="margin-bottom:6px"></div>
+    <p class="tiny" id="hulldesc" style="margin-top:0"></p>
+    <div id="slots"></div>
+  </div>
+
+  <div class="stage">
+    <div class="say" id="say"></div>
+    <canvas id="c"></canvas>
+    <div class="name" id="sname">—<br><span id="sclass"></span></div>
+    <div class="bar">
+      <button class="p" id="ten">Build the ten</button>
+      <button id="rnd">Randomise</button>
+      <button id="pCalm" class="on">Calm</button>
+      <button id="pSea">Sea running</button>
+      <button id="png">Export PNG</button>
+      <button id="save">Save</button>
+      <button id="load">Load</button>
+    </div>
+    <div class="fleet" id="fleet"></div>
+  </div>
+
+  <div class="col" id="right">
+    <h3>Paint</h3>
+    <div class="rowlbl">Topsides</div><div class="sw" id="sw0"></div>
+    <div class="rowlbl">Bottom</div><div class="sw" id="sw1"></div>
+    <div class="rowlbl">Trim</div><div class="sw" id="sw2"></div>
+    <div class="rowlbl">Canvas</div><div class="sw" id="sw3"></div>
+    <div class="slot"><div class="lbl">Finish</div><div class="opts" id="finish"></div></div>
+
+    <h3>Hardware <span id="boltn"></span></h3>
+    <div class="slot"><div class="lbl">Fastening</div><div class="opts" id="bolt"></div></div>
+    <div class="rowlbl">Strakes <b id="skv">11</b></div>
+    <input type="range" id="sk" min="5" max="16" step="1" value="11">
+    <div class="rowlbl">Frame stations <b id="frv">14</b></div>
+    <input type="range" id="fr" min="6" max="24" step="1" value="14">
+    <div class="rowlbl">Weathering <b id="wrv">1</b></div>
+    <input type="range" id="wr" min="0" max="5" step="1" value="1">
+
+    <h3>Lines</h3>
+    <div class="opts" id="preset" style="margin-bottom:7px"></div>
+    <div id="props"></div>
+
+    <h3>Ship</h3>
+    <input class="t" id="dn" value="" placeholder="ship name" maxlength="20">
+    <div class="rowlbl" style="margin-top:8px">Master</div>
+    <input class="t" id="cap" value="" placeholder="captain" maxlength="20">
+
+    <h3>Trials</h3>
+    <div id="stats"></div>
+
+    <h3>Bill of materials <span id="partn"></span></h3>
+    <table class="bom" id="bom"></table>
+
+    <h3>Wallet</h3>
+    <span class="exc">Heze exchange exclusive</span>
+    <input class="t w" id="waddr" spellcheck="false" autocomplete="off"
+      placeholder="0x… public address only">
+    <div id="wout"></div>
+    <p class="tiny">The slot holds an address and nothing else. Nothing is signed,
+      nothing is sent, and there is no network call in this file. The fingerprint
+      is a local FNV-1a hash of the build string — it is not keccak, it is not a
+      token id, and it mints nothing on any chain.</p>
+  </div>
+</div>
+
+<script>
+/* Ship Forge — a companion hull to the Droid Forge.
+ *
+ * Same rule, different trade: the bill of materials is accumulated while the
+ * ship is drawn, never declared. Every strake laid adds a plank; every frame
+ * station a strake crosses adds a fastening at the crossing, because that is
+ * where a real fastening goes. Move the strake count and the tally moves with
+ * it — the number under the table is the geometry on the canvas.
+ *
+ * Ten hulls, each from a working tradition that put real crews on real water:
+ * the Gulf and Swahili dhow, the South China junk, the Norse longship, the
+ * Aegean trireme, the Iberian caravel, the Pacific voyaging waka, the Atlantic
+ * galleon, the Arctic skin umiak, the Nile-and-Tigris reed barge, and the
+ * industrial ironclad. They are drawn as craft, not as costumes.
+ *
+ * The captain stands at the wheel. He is the droid off the first forge — at
+ * the helm rather than on a plinth, built from the same primitives, and the
+ * roll he is correcting is the roll the hull is actually drawn at.
+ */
+const $=(id)=>document.getElementById(id);
+const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+const lerp=(a,b,t)=>a+(b-a)*t;
+
+/* ------------------------------------------------------------------- hulls
+ * loa  = length overall, metres     free = freeboard, px
+ * rise = sheer rise at the ends     draft= depth below the waterline, px
+ * cb   = block coefficient          crew = working complement */
+const HULLS=[
+  ['dhow','Dhow','Gulf & Swahili coast',
+   {L:430,loa:18,free:40,rise:30,draft:34,rake:52,over:10,stern:'transom',
+    cb:0.52,masts:1,rig:'lateen',plank:'sewn',crew:12,
+    note:'One raked mast, a yard longer than the boat, and a hull stitched '+
+         'before it was ever nailed. Works to windward better than it looks.'}],
+  ['junk','Junk','South China Sea',
+   {L:470,loa:30,free:52,rise:44,draft:32,rake:20,over:34,stern:'transom',
+    cb:0.66,masts:3,rig:'junk',plank:'carvel',crew:26,
+    note:'Battened sails reef like a blind, and watertight bulkheads make a '+
+         'holed compartment a wet compartment rather than a lost ship.'}],
+  ['long','Longship','North Atlantic & Baltic',
+   {L:500,loa:24,free:26,rise:46,draft:20,rake:44,over:44,stern:'dbl',
+    cb:0.42,masts:1,rig:'square',plank:'clink',crew:40,
+    note:'Overlapping strakes, shallow draft, and oars for the days the wind '+
+         'is wrong. Beaches bow-first and leaves the same way.'}],
+  ['tri','Trireme','Aegean & eastern Mediterranean',
+   {L:520,loa:37,free:28,rise:24,draft:18,rake:30,over:26,stern:'curl',
+    cb:0.40,masts:1,rig:'oar',plank:'carvel',crew:170,
+    note:'A hull built around a bronze ram and three banks of oars. Fast, '+
+         'thin, and wholly dependent on the people inside it.'}],
+  ['car','Caravel','Iberian Atlantic',
+   {L:440,loa:23,free:48,rise:36,draft:32,rake:34,over:30,stern:'transom',
+    cb:0.56,masts:3,rig:'lateen',plank:'carvel',crew:22,
+    note:'Small, weatherly, and shallow enough to survey a coast. The hull '+
+         'that made the long reaches survivable.'}],
+  ['waka','Waka','Pacific voyaging routes',
+   {L:480,loa:20,free:30,rise:38,draft:22,rake:40,over:38,stern:'dbl',
+    cb:0.38,masts:2,rig:'crab',plank:'sewn',crew:16,
+    note:'Twin hulls lashed to a platform, a crab-claw sail, and the pilotage '+
+         'held in the head. Crossed more open water than anything else here.'}],
+  ['gal','Galleon','Atlantic trade routes',
+   {L:490,loa:40,free:66,rise:52,draft:40,rake:30,over:52,stern:'gal',
+    cb:0.68,masts:3,rig:'square',plank:'carvel',crew:120,
+    note:'A cargo hold with a castle on the back of it. Slow, deep, and built '+
+         'to carry weight across an ocean and arrive still holding it.'}],
+  ['umiak','Umiak','Arctic coast',
+   {L:390,loa:9,free:24,rise:22,draft:14,rake:36,over:32,stern:'dbl',
+    cb:0.44,masts:1,rig:'oar',plank:'hide',crew:8,
+    note:'A driftwood frame under a stitched skin. Light enough to be carried '+
+         'over ice by the crew that just rowed it.'}],
+  ['reed','Reed barge','Nile & the Tigris',
+   {L:450,loa:26,free:34,rise:56,draft:24,rake:56,over:56,stern:'curl',
+    cb:0.60,masts:1,rig:'square',plank:'sewn',crew:18,
+    note:'Bundled reed lashed into a hull with both ends curled clear of the '+
+         'water. The oldest working shape on this list.'}],
+  ['iron','Ironclad','Industrial rivers & coasts',
+   {L:510,loa:52,free:30,rise:12,draft:38,rake:14,over:20,stern:'count',
+    cb:0.74,masts:0,rig:'steam',plank:'steel',crew:90,
+    note:'Iron strake over a wooden frame, a casemate instead of a rig, and a '+
+         'stack where the mainmast used to be. Rivets by the thousand.'}],
+];
+
+/* -------------------------------------------------------------------- slots
+ * t = tonnes added, a = scantling/armour, sa = sail-area multiplier,
+ * v = speed multiplier, b = fastenings inherent to the fitting,
+ * c = cargo tonnes. */
+const SLOTS=[
+  {k:'keel', label:'Keel', opts:[
+    ['full','Full keel',  {t:9, a:6,v:0.96,b:120}],
+    ['fin','Fin keel',    {t:6, a:3,v:1.10,b:64}],
+    ['lee','Leeboards',   {t:3, a:1,v:1.02,b:48}],
+    ['flat','Flat floor', {t:2, a:1,v:0.99,b:36}],
+  ]},
+  {k:'bow', label:'Stem', opts:[
+    ['rake','Raked stem', {t:2,a:2,v:1.02,b:30}],
+    ['plumb','Plumb stem',{t:3,a:3,v:1.00,b:34}],
+    ['clip','Clipper',    {t:3,a:2,v:1.06,b:42}],
+    ['ram','Bronze ram',  {t:7,a:9,v:0.97,b:56}],
+    ['spoon','Spoon bow', {t:2,a:2,v:1.04,b:28}],
+  ]},
+  {k:'stern', label:'Stern', opts:[
+    ['tuck','Tucked',     {t:2,a:2,v:1.03,b:30}],
+    ['tran','Transom',    {t:4,a:3,v:0.99,b:44}],
+    ['count','Counter',   {t:5,a:3,v:1.02,b:50}],
+    ['dbl','Double-ended',{t:2,a:2,v:1.04,b:26}],
+    ['gall','Galleried',  {t:9,a:4,v:0.94,b:78}],
+  ]},
+  {k:'rig', label:'Rig', opts:[
+    ['lateen','Lateen',   {t:4,a:0,sa:1.00,v:1.06,b:40}],
+    ['junk','Battened',   {t:6,a:1,sa:0.94,v:1.02,b:96}],
+    ['square','Square',   {t:7,a:0,sa:1.12,v:1.04,b:72}],
+    ['gaff','Gaff',       {t:5,a:0,sa:1.02,v:1.05,b:58}],
+    ['crab','Crab-claw',  {t:3,a:0,sa:0.90,v:1.12,b:24}],
+    ['oar','Oars only',   {t:2,a:0,sa:0.00,v:0.92,b:88}],
+  ]},
+  {k:'cut', label:'Cloth', opts:[
+    ['cross','Cross-cut', {t:1,a:0,sa:1.00,b:0}],
+    ['radial','Radial',   {t:1,a:0,sa:1.06,b:0}],
+    ['tan','Tanbark',     {t:1,a:0,sa:0.98,b:0}],
+    ['mat','Matting',     {t:2,a:0,sa:0.92,b:0}],
+    ['hide','Hide',       {t:3,a:1,sa:0.88,b:0}],
+  ]},
+  {k:'deck', label:'Deck', opts:[
+    ['plank','Planked',   {t:5, a:2,b:180,c:0}],
+    ['grate','Gratings',  {t:3, a:1,b:120,c:2}],
+    ['caulk','Caulked',   {t:6, a:3,b:210,c:0}],
+    ['iron','Iron plate', {t:14,a:9,b:340,c:-2}],
+  ]},
+  {k:'house', label:'Works', opts:[
+    ['open','Open boat',    {t:0, a:0, b:0,  c:4}],
+    ['cabin','Cabin',       {t:6, a:2, b:90, c:1}],
+    ['castle','Sterncastle',{t:16,a:6, b:210,c:-1}],
+    ['case','Casemate',     {t:26,a:16,b:420,c:-3}],
+    ['awn','Awning',        {t:2, a:0, b:36, c:2}],
+  ]},
+  {k:'helm', label:'Helm', opts:[
+    ['wheel','Ship’s wheel',{t:2,a:0,v:1.02,b:44}],
+    ['tiller','Tiller',     {t:1,a:0,v:1.00,b:18}],
+    ['soar','Steering oar', {t:1,a:0,v:0.98,b:12}],
+    ['yoke','Yoke',         {t:1,a:0,v:0.99,b:22}],
+  ]},
+  {k:'arms', label:'Armament', opts:[
+    ['none','Unarmed',    {t:0, a:0, b:0}],
+    ['swiv','Swivel guns',{t:4, a:2, b:64}],
+    ['broad','Broadside', {t:34,a:12,b:280}],
+    ['ram','Ram only',    {t:6, a:8, b:40}],
+    ['bal','Ballista',    {t:5, a:3, b:70}],
+  ]},
+  {k:'lant', label:'Lights', opts:[
+    ['none','Dark ship',     {t:0,a:0,b:0}],
+    ['stern','Stern lantern',{t:1,a:0,b:14}],
+    ['rig','Rigging lights', {t:1,a:0,b:26}],
+    ['deck','Deck lamps',    {t:2,a:0,b:38}],
+  ]},
+  {k:'fig', label:'Figurehead', opts:[
+    ['none','None',           {t:0,a:0,b:0}],
+    ['eye','Oculus',          {t:1,a:0,b:8}],
+    ['beast','Beast head',    {t:3,a:1,b:22}],
+    ['scroll','Billet scroll',{t:1,a:0,b:12}],
+    ['eff','Effigy',          {t:2,a:0,b:18}],
+  ]},
+  {k:'plank', label:'Planking', opts:[
+    ['carvel','Carvel',     {t:6, a:5, v:1.02,b:0}],
+    ['clink','Clinker',     {t:4, a:4, v:1.00,b:0}],
+    ['sewn','Sewn',         {t:3, a:2, v:1.01,b:0}],
+    ['steel','Steel strake',{t:22,a:18,v:0.94,b:0}],
+  ]},
+];
+const FINISH=[['matte','Matte'],['gloss','Varnish'],['metal','Metallic'],['anod','Tarred']];
+const BOLTS=[['hex','Hex'],['torx','Torx'],['rivet','Rivet'],['flush','Treenail']];
+/* topsides, bottom, trim, canvas */
+const PAL=[
+  ['#26374d','#1f2a38','#dfe6ec','#e8e2d0'],
+  ['#8e3a2c','#5d2620','#d9d2c4','#e6c9a0'],
+  ['#4a4f3c','#2c3026','#c9cbb6','#d8d2ba'],
+  ['#2f5f57','#1c3d38','#cfe0d6','#dfe8dd'],
+  ['#e8ecef','#7d3a2e','#26313a','#f2eee2'],
+  ['#3a2f4d','#241d33','#d8cfe8','#e2d8ee'],
+  ['#1d2226','#0f1315','#c8a445','#c9c2ad'],
+  ['#6b5330','#43331c','#e6d9bd','#efe2c4'],
+  ['#0f3b52','#08232f','#d7c26a','#e9dcc0'],
+  ['#5a2f3a','#331a21','#e0c9b0','#f0e0cc'],
+];
+const NAMES=['Meridian','Kestrel','Ash Lantern','Sable','Long Water','Cormorant',
+  'Ninth Wind','Saltspar','Bellwether','Deep Bell','Anvil','Harrow','Tern',
+  'Cold Harbour','Pilgrim','Wren','Threadneedle','Cinder','Bight','Lodestone'];
+const CAPS=['Warden','Bulwark','Vigil','Aegis','Ferrum','Praetor','Lictor','Signum'];
+
+const PROPS=[
+  ['len','Length',    0.80,1.25],
+  ['beam','Beam',     0.70,1.50],
+  ['free','Freeboard',0.70,1.60],
+  ['sheer','Sheer',   0.50,1.70],
+  ['rig','Rig height',0.70,1.45],
+];
+const PRESETS={
+  drawn:  {len:1.00,beam:1.00,free:1.00,sheer:1.00,rig:1.00},
+  sharp:  {len:1.18,beam:0.78,free:0.86,sheer:0.82,rig:1.22},
+  burden: {len:0.94,beam:1.40,free:1.34,sheer:1.16,rig:0.88},
+  coastal:{len:0.86,beam:1.12,free:0.80,sheer:1.44,rig:0.94},
+};
+
+/* -------------------------------------------------------------------- state */
+const D={
+  hull:'dhow',parts:{},cols:PAL[0].slice(),pal:0,
+  finish:'matte',bolt:'hex',strakes:11,frames:14,wear:1,
+  name:'Meridian',capt:'Warden',sea:'calm',t:0,
+  prop:Object.assign({},PRESETS.drawn),
+};
+for(const s of SLOTS)D.parts[s.k]=s.opts[0][0];
+
+const hullOf=()=>(HULLS.find((h)=>h[0]===D.hull)||HULLS[0]);
+const spec=()=>hullOf()[3];
+const optOf=(k)=>{const s=SLOTS.find((x)=>x.k===k);
+  return s.opts.find((o)=>o[0]===D.parts[k])||s.opts[0];};
+
+/* Fit the hull's own tradition into the slots, so choosing a longship gives a
+   longship and not a longship-shaped dhow. Every slot stays overridable. */
+function fitHull(){
+  const H=spec();
+  D.parts.rig=H.rig;D.parts.plank=H.plank;
+  D.parts.stern={transom:'tran',dbl:'dbl',curl:'tuck',count:'count',gal:'gall'}[H.stern]||'tran';
+  const F={
+    dhow: {keel:'full',helm:'tiller',house:'open', bow:'rake', arms:'none', fig:'eye'},
+    junk: {keel:'lee', helm:'wheel', house:'cabin',bow:'plumb',arms:'swiv', fig:'eye'},
+    long: {keel:'full',helm:'soar',  house:'open', bow:'rake', arms:'none', fig:'beast'},
+    tri:  {keel:'full',helm:'soar',  house:'open', bow:'ram',  arms:'ram',  fig:'eye'},
+    car:  {keel:'full',helm:'tiller',house:'cabin',bow:'rake', arms:'swiv', fig:'scroll'},
+    waka: {keel:'flat',helm:'soar',  house:'open', bow:'spoon',arms:'none', fig:'beast'},
+    gal:  {keel:'full',helm:'wheel', house:'castle',bow:'clip',arms:'broad',fig:'eff'},
+    umiak:{keel:'flat',helm:'soar',  house:'open', bow:'spoon',arms:'none', fig:'none'},
+    reed: {keel:'flat',helm:'soar',  house:'awn',  bow:'rake', arms:'none', fig:'scroll'},
+    iron: {keel:'full',helm:'wheel', house:'case', bow:'plumb',arms:'broad',fig:'none',deck:'iron'},
+  }[D.hull]||{};
+  Object.assign(D.parts,F);
+  D.strakes=clamp(Math.round(6+H.loa/5),5,16);
+  D.frames=clamp(Math.round(6+H.loa/2.6),6,24);
+}
+
+/* ---------------------------------------------------------------- the tally
+ * Accumulated during the draw. Nothing in the table is typed in. */
+let BOM=null;
+const newBOM=()=>({planks:0,frames:0,bolts:0,plates:0,beams:0,ropes:0,blocks:0,
+  panels:0,battens:0,oars:0,lamps:0,spokes:0,seams:0});
+
+/* --------------------------------------------------------------------- draw */
+const cv=$('c'),X=cv.getContext('2d');
+const CW=940,CH=560,WATER=396,CX=470;
+const DPR=Math.min(devicePixelRatio||1,2);
+cv.width=CW*DPR;cv.height=CH*DPR;
+cv.style.width=CW+'px';cv.style.height=CH+'px';
+X.scale(DPR,DPR);
+
+function rr(x,y,w,h,r){
+  const k=Math.min(r,Math.abs(w)/2,Math.abs(h)/2);
+  X.beginPath();X.moveTo(x+k,y);
+  X.arcTo(x+w,y,x+w,y+h,k);X.arcTo(x+w,y+h,x,y+h,k);
+  X.arcTo(x,y+h,x,y,k);X.arcTo(x,y,x+w,y,k);
+  X.closePath();
+}
+function shade(x,y,w,h){
+  const g=X.createLinearGradient(x,y,x,y+h),f=D.finish;
+  if(f==='gloss'){
+    g.addColorStop(0,'rgba(255,255,255,0.42)');g.addColorStop(0.30,'rgba(255,255,255,0.05)');
+    g.addColorStop(0.55,'rgba(0,0,0,0.10)');g.addColorStop(1,'rgba(255,255,255,0.18)');
+  }else if(f==='metal'){
+    g.addColorStop(0,'rgba(255,255,255,0.30)');g.addColorStop(0.24,'rgba(255,255,255,0.10)');
+    g.addColorStop(0.46,'rgba(0,0,0,0.26)');g.addColorStop(0.62,'rgba(255,255,255,0.22)');
+    g.addColorStop(1,'rgba(0,0,0,0.34)');
+  }else if(f==='anod'){
+    g.addColorStop(0,'rgba(255,255,255,0.14)');g.addColorStop(0.5,'rgba(0,0,0,0.06)');
+    g.addColorStop(1,'rgba(0,0,0,0.44)');
+  }else{
+    g.addColorStop(0,'rgba(255,255,255,0.15)');g.addColorStop(0.45,'rgba(255,255,255,0.02)');
+    g.addColorStop(1,'rgba(0,0,0,0.28)');
+  }
+  return g;
+}
+/* One fastening, in the chosen head pattern. Counted. */
+function bolt(x,y,r){
+  BOM.bolts++;
+  if(r<0.75)return;
+  X.fillStyle='rgba(0,0,0,0.42)';
+  X.beginPath();X.arc(x,y+0.5,r,0,7);X.fill();
+  X.fillStyle=D.cols[2];
+  X.beginPath();X.arc(x,y,r,0,7);X.fill();
+  if(r<1.4)return;
+  X.strokeStyle='rgba(0,0,0,0.55)';X.lineWidth=0.6;
+  if(D.bolt==='hex'){
+    X.beginPath();
+    for(let i=0;i<6;i++){const a=i/6*6.283;
+      const px=x+Math.cos(a)*r*0.62,py=y+Math.sin(a)*r*0.62;
+      i?X.lineTo(px,py):X.moveTo(px,py);}
+    X.closePath();X.stroke();
+  }else if(D.bolt==='torx'){
+    X.beginPath();
+    for(let i=0;i<6;i++){const a=i/6*6.283;
+      X.moveTo(x,y);X.lineTo(x+Math.cos(a)*r*0.6,y+Math.sin(a)*r*0.6);}
+    X.stroke();
+  }else if(D.bolt==='rivet'){
+    X.fillStyle='rgba(255,255,255,0.5)';
+    X.beginPath();X.arc(x-r*0.25,y-r*0.25,r*0.4,0,7);X.fill();
+  }else{
+    X.beginPath();X.moveTo(x-r*0.55,y);X.lineTo(x+r*0.55,y);X.stroke();
+  }
+}
+/* A plate is a plate, whether it is a deckhouse side or the captain's chest. */
+function plate(x,y,w,h,fill,r=3,bolts=true){
+  BOM.plates++;
+  rr(x,y,w,h,r);X.fillStyle=fill;X.fill();
+  rr(x,y,w,h,r);X.fillStyle=shade(x,y,w,h);X.fill();
+  if(D.wear>0&&w>8&&h>8){
+    X.save();rr(x,y,w,h,r);X.clip();
+    X.globalAlpha=0.05*D.wear;X.fillStyle='#d8cbb0';
+    for(let i=0;i<D.wear*3;i++){
+      X.beginPath();X.arc(x+Math.random()*w,y+Math.random()*h,Math.random()*2.1,0,7);X.fill();}
+    X.globalAlpha=1;X.restore();
+  }
+  rr(x,y,w,h,r);X.strokeStyle='rgba(0,0,0,0.60)';X.lineWidth=1;X.stroke();
+  X.save();rr(x,y,w,h,r);X.clip();
+  X.strokeStyle='rgba(255,255,255,0.30)';X.lineWidth=1.5;
+  X.beginPath();X.moveTo(x+1,y+h);X.lineTo(x+1,y);X.lineTo(x+w,y);X.stroke();
+  X.restore();
+  if(bolts&&w>9&&h>9){
+    const br=Math.max(0.9,Math.min(w,h)*0.055),ins=Math.max(3,br*2.4);
+    const cols=clamp(Math.round(w/26)+1,1,4),rows=clamp(Math.round(h/26)+1,1,3);
+    for(let i=0;i<cols;i++)for(let j=0;j<rows;j++){
+      if(cols>1&&rows>1&&i>0&&i<cols-1&&j>0&&j<rows-1)continue;
+      const px=x+ins+(cols>1?i*(w-ins*2)/(cols-1):(w-ins*2)/2);
+      const py=y+ins+(rows>1?j*(h-ins*2)/(rows-1):(h-ins*2)/2);
+      bolt(px,py,br);
+    }
+  }
+}
+function lamp(x,y,r,col,power=1){
+  BOM.lamps++;
+  const g=X.createRadialGradient(x,y,0,x,y,r*5);
+  g.addColorStop(0,col);g.addColorStop(0.2,col);g.addColorStop(1,'rgba(0,0,0,0)');
+  X.globalAlpha=0.5*power;X.fillStyle=g;
+  X.beginPath();X.arc(x,y,r*5,0,7);X.fill();
+  X.globalAlpha=1;X.fillStyle=col;
+  X.beginPath();X.arc(x,y,r,0,7);X.fill();
+  X.fillStyle='rgba(255,255,255,0.9)';
+  X.beginPath();X.arc(x-r*0.28,y-r*0.28,r*0.4,0,7);X.fill();
+}
+function rope(x1,y1,x2,y2,sag=0){
+  BOM.ropes++;
+  X.strokeStyle='rgba(20,24,26,0.72)';X.lineWidth=1.3;X.lineCap='round';
+  X.beginPath();X.moveTo(x1,y1);
+  X.quadraticCurveTo((x1+x2)/2,(y1+y2)/2+sag,x2,y2);X.stroke();
+}
+function block(x,y,r){
+  BOM.blocks++;
+  X.fillStyle='#241d18';X.beginPath();X.arc(x,y,r,0,7);X.fill();
+  X.fillStyle=D.cols[2];X.beginPath();X.arc(x,y,r*0.4,0,7);X.fill();
+}
+
+/* ----------------------------------------------------------------- the hull
+ * The sheer line and the keel line are sampled, not hand-drawn, so every
+ * fitting downstream can ask the hull where its own deck is. */
+function geom(){
+  const H=spec(),P=D.prop;
+  const L=H.L*P.len,free=H.free*P.free,rise=H.rise*P.sheer;
+  const draft=H.draft*(0.72+P.beam*0.28);
+  const bx=CX-L*0.52,DY=WATER-free;
+  const rake=H.rake*P.sheer,over=H.over*P.sheer;
+  const st=D.parts.stern;
+  const yTop=(t)=>DY-rise*(Math.pow(1-t,2.1)+
+    Math.pow(t,2.1)*(st==='gall'?1.35:st==='dbl'?1.0:0.62));
+  const xTop=(t)=>bx+t*L-rake*Math.pow(1-t,2.6)+
+    over*Math.pow(t,2.6)*((st==='count'||st==='gall')?1:0.55);
+  const foot=L*0.10,heel=L*(st==='dbl'?0.10:0.05);
+  const xBot=(t)=>bx+foot+t*(L-foot-heel);
+  const yBot=(t)=>WATER+draft*(1-Math.pow(Math.abs(2*t-1),2.4)*(st==='dbl'?0.95:0.72));
+  return{H,L,free,rise,draft,bx,DY,yTop,xTop,xBot,yBot,st,
+    deck:(t)=>({x:xTop(t),y:yTop(t)})};
+}
+function hullOutline(g,N=54){
+  const pts=[];
+  for(let i=0;i<=N;i++)pts.push([g.xTop(i/N),g.yTop(i/N)]);
+  for(let i=N;i>=0;i--)pts.push([g.xBot(i/N),g.yBot(i/N)]);
+  return pts;
+}
+function pathPts(pts){
+  X.beginPath();X.moveTo(pts[0][0],pts[0][1]);
+  for(let i=1;i<pts.length;i++)X.lineTo(pts[i][0],pts[i][1]);
+  X.closePath();
+}
+function drawHull(g){
+  const C1=D.cols[0],C2=D.cols[1],C3=D.cols[2];
+  const pts=hullOutline(g);
+  pathPts(pts);X.fillStyle=C1;X.fill();
+  pathPts(pts);X.fillStyle=shade(g.DY-g.rise,g.DY-g.rise,g.L,g.draft+g.free+g.rise);X.fill();
+
+  X.save();pathPts(pts);X.clip();
+  // bottom paint below the waterline
+  X.fillStyle=C2;X.fillRect(0,WATER,CW,CH-WATER);
+  X.globalAlpha=0.30;X.fillStyle='#000';X.fillRect(0,WATER+2,CW,CH-WATER);
+  X.globalAlpha=1;
+
+  // strakes — every one laid is a plank in the book
+  const n=D.strakes,fr=D.frames,clink=D.parts.plank==='clink';
+  for(let k=1;k<n;k++){
+    BOM.planks++;
+    const u=k/n;
+    X.strokeStyle=clink?'rgba(0,0,0,0.52)':'rgba(0,0,0,0.34)';
+    X.lineWidth=clink?1.7:1.0;
+    X.beginPath();
+    for(let i=0;i<=48;i++){
+      const t=i/48;
+      const x=lerp(g.xTop(t),g.xBot(t),u),y=lerp(g.yTop(t),g.yBot(t),u);
+      i?X.lineTo(x,y):X.moveTo(x,y);
+    }
+    X.stroke();
+    if(clink){
+      X.strokeStyle='rgba(255,255,255,0.16)';X.lineWidth=1.1;
+      X.beginPath();
+      for(let i=0;i<=48;i++){
+        const t=i/48;
+        const x=lerp(g.xTop(t),g.xBot(t),u),y=lerp(g.yTop(t),g.yBot(t),u)-1.6;
+        i?X.lineTo(x,y):X.moveTo(x,y);
+      }
+      X.stroke();
+    }
+  }
+  BOM.planks++;   // the sheer strake itself
+
+  // frame stations, and a fastening wherever a strake crosses one
+  for(let f=0;f<fr;f++){
+    BOM.frames++;
+    const t=(f+0.5)/fr;
+    X.strokeStyle='rgba(0,0,0,0.13)';X.lineWidth=1;
+    X.beginPath();X.moveTo(g.xTop(t),g.yTop(t));X.lineTo(g.xBot(t),g.yBot(t));X.stroke();
+    const br=D.parts.plank==='steel'?1.5:1.15;
+    for(let k=0;k<=n;k++){
+      const u=k/n;
+      bolt(lerp(g.xTop(t),g.xBot(t),u),lerp(g.yTop(t),g.yBot(t),u),br);
+    }
+  }
+  X.restore();
+
+  pathPts(pts);X.strokeStyle='rgba(0,0,0,0.66)';X.lineWidth=1.6;X.stroke();
+  X.save();pathPts(pts);X.clip();
+  // the wale
+  X.strokeStyle=C3;X.lineWidth=3.2;X.globalAlpha=0.85;
+  X.beginPath();
+  for(let i=0;i<=48;i++){const t=i/48;
+    const x=lerp(g.xTop(t),g.xBot(t),0.22),y=lerp(g.yTop(t),g.yBot(t),0.22);
+    i?X.lineTo(x,y):X.moveTo(x,y);}
+  X.stroke();X.globalAlpha=1;
+  X.strokeStyle='rgba(255,255,255,0.20)';X.lineWidth=2;
+  X.beginPath();X.moveTo(0,WATER);X.lineTo(CW,WATER);X.stroke();
+  X.restore();
+
+  BOM.seams=Math.round(BOM.planks*2+BOM.frames*1.2);
+}
+
+/* --------------------------------------------------------------------- deck */
+function drawDeck(g){
+  const C3=D.cols[2];
+  const beams=clamp(Math.round(D.frames*0.6),4,16);
+  for(let i=0;i<beams;i++){
+    BOM.beams++;
+    const t=0.10+0.80*i/(beams-1||1),d=g.deck(t);
+    X.strokeStyle='rgba(0,0,0,0.18)';X.lineWidth=1;
+    X.beginPath();X.moveTo(d.x,d.y);X.lineTo(d.x+5,d.y-4);X.stroke();
+  }
+  const bw=D.parts.deck==='iron'?7:5;
+  X.save();
+  X.beginPath();
+  for(let i=0;i<=48;i++){const t=0.06+0.88*i/48,d=g.deck(t);
+    i?X.lineTo(d.x,d.y):X.moveTo(d.x,d.y);}
+  for(let i=48;i>=0;i--){const t=0.06+0.88*i/48,d=g.deck(t);X.lineTo(d.x,d.y-bw);}
+  X.closePath();
+  X.fillStyle=C3;X.globalAlpha=0.9;X.fill();X.globalAlpha=1;
+  X.strokeStyle='rgba(0,0,0,0.5)';X.lineWidth=1;X.stroke();
+  X.restore();
+  BOM.plates++;
+  if(D.parts.deck==='grate'){
+    for(let i=0;i<14;i++){const t=0.12+0.74*i/13,d=g.deck(t);bolt(d.x,d.y-bw/2,1.1);}
+  }
+}
+
+/* ---------------------------------------------------------------------- rig */
+function mastX(g,i,n){
+  const t=n===1?0.42:0.22+0.52*i/(n-1);
+  return g.deck(t);
+}
+function sailFill(){
+  const cut=D.parts.cut;
+  if(cut==='tan')return '#9c5a37';
+  if(cut==='hide')return '#b09274';
+  if(cut==='mat')return '#c7b487';
+  return D.cols[3];
+}
+function drawRig(g){
+  const rig=D.parts.rig,H=spec(),P=D.prop;
+  if(rig==='oar'){drawOars(g);return;}
+  if(rig==='steam'){drawStack(g);return;}
+  const n=Math.max(1,H.masts||1),sc=D.cols[2];
+  for(let i=0;i<n;i++){
+    const m=mastX(g,i,n);
+    const hgt=(150+H.loa*2.4)*P.rig*(i===1?1.14:i===2?0.86:1.0);
+    const top=m.y-hgt;
+    plate(m.x-3.5,top,7,hgt,sc,2,false);
+    for(let b=0;b<4;b++)bolt(m.x,top+hgt*(0.2+b*0.2),1.4);
+    rope(m.x,top+6,m.x-hgt*0.42,g.deck(0.10).y,4);
+    rope(m.x,top+6,m.x+hgt*0.40,g.deck(0.92).y,4);
+    block(m.x,top+8,3);
+
+    if(rig==='lateen'){
+      const yl=hgt*1.18,ax=m.x-yl*0.36,ay=top+hgt*0.30,bx2=m.x+yl*0.30,by=m.y-6;
+      X.beginPath();X.moveTo(ax,ay);X.lineTo(bx2,by);X.lineTo(m.x+8,m.y-4);X.closePath();
+      X.fillStyle=sailFill();X.fill();
+      X.fillStyle='rgba(0,0,0,0.10)';X.fill();
+      X.strokeStyle='rgba(0,0,0,0.45)';X.lineWidth=1.2;X.stroke();
+      BOM.panels+=4;
+      X.strokeStyle='#3a2c1e';X.lineWidth=3;
+      X.beginPath();X.moveTo(ax,ay);X.lineTo(bx2,by);X.stroke();
+      rope(bx2,by,g.deck(0.86).x,g.deck(0.86).y-6,6);
+    }else if(rig==='junk'){
+      const w=hgt*0.62,h=hgt*0.70,x0=m.x+4,y0=top+hgt*0.16;
+      X.fillStyle=sailFill();X.fillRect(x0,y0,w,h);
+      X.fillStyle='rgba(0,0,0,0.10)';X.fillRect(x0,y0,w,h);
+      X.strokeStyle='rgba(0,0,0,0.45)';X.lineWidth=1.1;X.strokeRect(x0,y0,w,h);
+      const nb=7;
+      for(let b=0;b<=nb;b++){
+        BOM.battens++;
+        const y=y0+h*b/nb;
+        X.strokeStyle='#3a2c1e';X.lineWidth=2.2;
+        X.beginPath();X.moveTo(x0-5,y);X.lineTo(x0+w,y);X.stroke();
+        bolt(x0-2,y,1.2);
+        if(b<nb)rope(x0+w,y,g.deck(0.90).x,g.deck(0.90).y-8,2);
+      }
+      BOM.panels+=nb;
+    }else if(rig==='square'){
+      const yards=(i===1||n===1)?2:1;
+      for(let q=0;q<yards;q++){
+        const yy=top+hgt*(0.16+q*0.34),w=hgt*(0.86-q*0.18),h=hgt*0.34;
+        X.strokeStyle='#3a2c1e';X.lineWidth=3.4;
+        X.beginPath();X.moveTo(m.x-w/2,yy);X.lineTo(m.x+w/2,yy);X.stroke();
+        bolt(m.x-w/2+4,yy,1.3);bolt(m.x+w/2-4,yy,1.3);
+        X.beginPath();
+        X.moveTo(m.x-w/2,yy);X.lineTo(m.x+w/2,yy);
+        X.lineTo(m.x+w/2*0.86,yy+h);X.lineTo(m.x-w/2*0.86,yy+h);X.closePath();
+        X.fillStyle=sailFill();X.fill();
+        X.fillStyle='rgba(0,0,0,0.08)';X.fill();
+        X.strokeStyle='rgba(0,0,0,0.42)';X.lineWidth=1.1;X.stroke();
+        for(let rp=1;rp<5;rp++){
+          BOM.panels++;
+          X.strokeStyle='rgba(0,0,0,0.18)';X.lineWidth=0.8;
+          X.beginPath();X.moveTo(m.x-w/2+w*rp/5,yy);
+          X.lineTo(m.x-w/2*0.86+w*0.86*rp/5,yy+h);X.stroke();
+        }
+        block(m.x-w/2,yy,2.6);block(m.x+w/2,yy,2.6);
+      }
+    }else if(rig==='gaff'){
+      const gx=m.x+hgt*0.10,gy=top+hgt*0.22;
+      X.strokeStyle='#3a2c1e';X.lineWidth=3;
+      X.beginPath();X.moveTo(m.x,gy+hgt*0.10);X.lineTo(gx+hgt*0.46,gy);X.stroke();
+      X.beginPath();
+      X.moveTo(m.x,gy+hgt*0.10);X.lineTo(gx+hgt*0.46,gy);
+      X.lineTo(m.x+hgt*0.52,m.y-8);X.lineTo(m.x,m.y-8);X.closePath();
+      X.fillStyle=sailFill();X.fill();
+      X.fillStyle='rgba(0,0,0,0.09)';X.fill();
+      X.strokeStyle='rgba(0,0,0,0.42)';X.lineWidth=1.1;X.stroke();
+      BOM.panels+=3;
+      X.strokeStyle='#3a2c1e';X.lineWidth=3;
+      X.beginPath();X.moveTo(m.x,m.y-8);X.lineTo(m.x+hgt*0.52,m.y-8);X.stroke();
+    }else if(rig==='crab'){
+      const ax=m.x-hgt*0.30,ay=m.y-4,bx2=m.x+hgt*0.16,by=top+hgt*0.06;
+      X.beginPath();
+      X.moveTo(ax,ay);
+      X.quadraticCurveTo(m.x-hgt*0.22,top+hgt*0.30,bx2,by);
+      X.quadraticCurveTo(m.x+hgt*0.24,m.y-hgt*0.36,m.x+6,m.y-4);
+      X.closePath();
+      X.fillStyle=sailFill();X.fill();
+      X.fillStyle='rgba(0,0,0,0.09)';X.fill();
+      X.strokeStyle='rgba(0,0,0,0.45)';X.lineWidth=1.2;X.stroke();
+      BOM.panels+=3;
+      X.strokeStyle='#3a2c1e';X.lineWidth=3;
+      X.beginPath();X.moveTo(ax,ay);X.lineTo(bx2,by);X.stroke();
+      X.beginPath();X.moveTo(m.x+6,m.y-4);X.lineTo(bx2,by);X.stroke();
+    }
+  }
+}
+function drawOars(g){
+  const n=clamp(Math.round(spec().crew/(D.hull==='tri'?9:2.6)),4,22);
+  for(let i=0;i<n;i++){
+    BOM.oars++;
+    const t=0.14+0.68*i/(n-1||1),d=g.deck(t);
+    const sw=Math.sin(D.t*2.2+i*0.4)*5;
+    X.strokeStyle='#7a6247';X.lineWidth=2.6;X.lineCap='round';
+    X.beginPath();X.moveTo(d.x,d.y+4);X.lineTo(d.x-16+sw,WATER+16);X.stroke();
+    X.strokeStyle='rgba(0,0,0,0.30)';X.lineWidth=1;
+    X.beginPath();X.moveTo(d.x,d.y+4);X.lineTo(d.x-16+sw,WATER+16);X.stroke();
+    bolt(d.x,d.y+4,1.2);
+  }
+  // a short mast even on an oared hull — it is still a ship
+  const m=g.deck(0.42),h=90*D.prop.rig;
+  plate(m.x-3,m.y-h,6,h,D.cols[2],2,false);
+  rope(m.x,m.y-h+4,g.deck(0.12).x,g.deck(0.12).y-4,4);
+  rope(m.x,m.y-h+4,g.deck(0.90).x,g.deck(0.90).y-4,4);
+}
+function drawStack(g){
+  const d=g.deck(0.46);
+  plate(d.x-13,d.y-92,26,92,D.cols[2],3);
+  plate(d.x-17,d.y-98,34,10,D.cols[1],2);
+  for(let i=0;i<6;i++){
+    X.globalAlpha=0.16-i*0.022;X.fillStyle='#9aa3a8';
+    X.beginPath();
+    X.arc(d.x+i*9+Math.sin(D.t*0.9+i)*4,d.y-104-i*15,7+i*3.6,0,7);X.fill();
+  }
+  X.globalAlpha=1;
+  plate(d.x-2.5,d.y-130,5,54,D.cols[2],2,false);
+  rope(d.x,d.y-128,g.deck(0.14).x,g.deck(0.14).y-6,5);
+  rope(d.x,d.y-128,g.deck(0.88).x,g.deck(0.88).y-6,5);
+}
+
+/* ----------------------------------------------------------------- fittings */
+function lampWin(x,y){
+  BOM.plates++;
+  X.fillStyle='#0d1114';rr(x-7,y-6,14,12,2);X.fill();
+  if(D.parts.lant!=='none'){
+    X.fillStyle='rgba(255,196,96,0.55)';rr(x-6,y-5,12,10,2);X.fill();
+  }
+  bolt(x-8,y-7,1);bolt(x+8,y-7,1);
+}
+function drawWorks(g){
+  const h=D.parts.house,C1=D.cols[0],C2=D.cols[1],C3=D.cols[2];
+  if(h==='cabin'){
+    const d=g.deck(0.76);
+    plate(d.x-46,d.y-34,80,34,C1,3);
+    plate(d.x-40,d.y-42,68,10,C3,2);
+    for(let i=0;i<3;i++)lampWin(d.x-34+i*22,d.y-20);
+  }else if(h==='castle'){
+    const d=g.deck(0.80);
+    plate(d.x-54,d.y-46,88,46,C1,3);
+    plate(d.x-46,d.y-76,72,32,C1,3);
+    plate(d.x-52,d.y-84,84,10,C3,2);
+    for(let i=0;i<4;i++)lampWin(d.x-40+i*20,d.y-60);
+    for(let i=0;i<4;i++)lampWin(d.x-40+i*20,d.y-28);
+  }else if(h==='case'){
+    const d=g.deck(0.52);
+    X.beginPath();
+    X.moveTo(d.x-104,d.y);X.lineTo(d.x-88,d.y-40);X.lineTo(d.x+84,d.y-40);
+    X.lineTo(d.x+100,d.y);X.closePath();
+    X.fillStyle=C1;X.fill();X.fillStyle=shade(d.x,d.y-40,1,40);X.fill();
+    X.strokeStyle='rgba(0,0,0,0.6)';X.lineWidth=1.2;X.stroke();
+    BOM.plates++;
+    for(let i=0;i<9;i++)for(let j=0;j<3;j++)bolt(d.x-84+i*21,d.y-32+j*11,1.5);
+    for(let i=0;i<4;i++){
+      const px=d.x-64+i*40;
+      plate(px-9,d.y-26,18,13,C2,2);
+      X.fillStyle='#0a0d0f';X.beginPath();X.arc(px,d.y-19,4,0,7);X.fill();
+    }
+  }else if(h==='awn'){
+    const d=g.deck(0.62);
+    X.fillStyle=sailFill();X.globalAlpha=0.9;
+    X.beginPath();X.moveTo(d.x-50,d.y-30);X.lineTo(d.x+44,d.y-30);
+    X.lineTo(d.x+40,d.y-26);X.lineTo(d.x-46,d.y-26);X.closePath();X.fill();
+    X.globalAlpha=1;BOM.plates++;
+    for(let i=0;i<4;i++){
+      const px=d.x-46+i*30;
+      X.strokeStyle=D.cols[2];X.lineWidth=2.4;
+      X.beginPath();X.moveTo(px,d.y-28);X.lineTo(px,d.y);X.stroke();
+      bolt(px,d.y-2,1.2);
+    }
+  }
+}
+function drawFigurehead(g){
+  const f=D.parts.fig;if(f==='none')return;
+  const d=g.deck(0.02),C3=D.cols[2];
+  if(f==='eye'){
+    X.fillStyle='#f2efe6';X.beginPath();X.ellipse(d.x+22,d.y+16,11,7,0,0,7);X.fill();
+    X.fillStyle='#14181b';X.beginPath();X.arc(d.x+22,d.y+16,4,0,7);X.fill();
+    X.strokeStyle='rgba(0,0,0,0.6)';X.lineWidth=1.2;
+    X.beginPath();X.ellipse(d.x+22,d.y+16,11,7,0,0,7);X.stroke();
+    BOM.plates++;
+  }else if(f==='beast'){
+    X.fillStyle=C3;
+    X.beginPath();X.moveTo(d.x,d.y+4);
+    X.quadraticCurveTo(d.x-16,d.y-18,d.x-2,d.y-26);
+    X.quadraticCurveTo(d.x+8,d.y-14,d.x+6,d.y+2);X.closePath();X.fill();
+    X.strokeStyle='rgba(0,0,0,0.6)';X.lineWidth=1.2;X.stroke();
+    BOM.plates++;bolt(d.x-2,d.y-8,1.4);
+  }else if(f==='scroll'){
+    X.strokeStyle=C3;X.lineWidth=3;
+    X.beginPath();X.arc(d.x+2,d.y+2,9,2.2,5.6);X.stroke();
+    BOM.plates++;bolt(d.x+2,d.y+2,1.2);
+  }else if(f==='eff'){
+    plate(d.x-6,d.y-24,11,26,C3,4);
+    X.fillStyle='#0d1114';X.beginPath();X.arc(d.x-0.5,d.y-19,3.4,0,7);X.fill();
+  }
+}
+function drawArms(g){
+  const a=D.parts.arms;
+  if(a==='broad'&&D.parts.house!=='case'){
+    for(let i=0;i<5;i++){
+      const t=0.22+0.52*i/4,d=g.deck(t);
+      plate(d.x-8,d.y-2,16,11,D.cols[1],2);
+      X.fillStyle='#0a0d0f';X.beginPath();X.arc(d.x,d.y+4,3.4,0,7);X.fill();
+    }
+  }else if(a==='swiv'){
+    for(let i=0;i<3;i++){
+      const t=0.30+0.40*i/2,d=g.deck(t);
+      X.strokeStyle=D.cols[2];X.lineWidth=2.4;
+      X.beginPath();X.moveTo(d.x,d.y-6);X.lineTo(d.x-9,d.y-13);X.stroke();
+      bolt(d.x,d.y-6,1.3);
+    }
+  }else if(a==='bal'){
+    const d=g.deck(0.40);
+    plate(d.x-16,d.y-16,32,14,D.cols[1],2);
+    X.strokeStyle=D.cols[2];X.lineWidth=2.6;
+    X.beginPath();X.moveTo(d.x-16,d.y-22);X.lineTo(d.x+16,d.y-22);X.stroke();
+    rope(d.x-16,d.y-22,d.x+16,d.y-22,7);
+  }
+  if(a==='ram'||D.parts.bow==='ram'){
+    const d=g.deck(0.0);
+    X.fillStyle='#8a6a2e';
+    X.beginPath();X.moveTo(d.x+2,WATER-6);X.lineTo(d.x-40,WATER+4);
+    X.lineTo(d.x+2,WATER+16);X.closePath();X.fill();
+    X.strokeStyle='rgba(0,0,0,0.6)';X.lineWidth=1.2;X.stroke();
+    BOM.plates++;
+    for(let i=0;i<4;i++)bolt(d.x-6-i*7,WATER+4,1.3);
+  }
+}
+function drawLights(g){
+  const l=D.parts.lant;if(l==='none')return;
+  const warm='#ffc46a';
+  if(l==='stern'){const d=g.deck(0.97);lamp(d.x,d.y-14,3.2,warm,1);}
+  if(l==='deck'){for(let i=0;i<4;i++){const d=g.deck(0.24+i*0.20);lamp(d.x,d.y-10,2.4,warm,0.8);}}
+  if(l==='rig'){
+    const H=spec(),n=Math.max(1,H.masts||1);
+    for(let i=0;i<n;i++){const m=mastX(g,i,n);
+      lamp(m.x,m.y-(150+H.loa*2.4)*D.prop.rig*0.92,2.6,'#7fe3ff',0.9);}
+  }
+}
+
+/* ------------------------------------------------ the captain, at the wheel
+ * The same droid, the same primitives. He is not decoration: the helm slot
+ * decides what his hands are on, and the roll he is fighting is the roll the
+ * hull is actually being drawn at. */
+function armTo(x1,y1,x2,y2,col){
+  const mx=(x1+x2)/2,my=(y1+y2)/2+6;
+  const a1=Math.atan2(my-y1,mx-x1),a2=Math.atan2(y2-my,x2-mx);
+  X.save();X.translate(x1,y1);X.rotate(a1);
+  plate(0,-5,Math.hypot(mx-x1,my-y1),10,col,4);
+  X.restore();
+  X.save();X.translate(mx,my);X.rotate(a2);
+  plate(0,-4.5,Math.hypot(x2-mx,y2-my),9,col,4);
+  X.restore();
+  X.fillStyle=D.cols[2];X.beginPath();X.arc(x2,y2,4.5,0,7);X.fill();
+  bolt(x2,y2,1.4);
+}
+function drawCaptain(g){
+  const d=g.deck(0.86),C1=D.cols[0],C2=D.cols[1],C3=D.cols[2],C4=D.cols[3];
+  const s=0.58,roll=Math.sin(D.t*(D.sea==='sea'?1.9:0.8));
+  X.save();X.translate(d.x-6,d.y-4);X.scale(s,s);
+  const helm=D.parts.helm;
+  let wx=-30,wy=-30;
+  if(helm==='wheel'){
+    const wr=26;
+    X.save();X.translate(wx,wy);
+    X.fillStyle='#241d18';X.beginPath();X.arc(0,0,wr,0,7);X.fill();
+    X.strokeStyle=C3;X.lineWidth=5;X.beginPath();X.arc(0,0,wr-3,0,7);X.stroke();
+    X.rotate(roll*0.5);
+    for(let i=0;i<8;i++){
+      BOM.spokes++;
+      const a=i/8*6.283;
+      X.strokeStyle=C3;X.lineWidth=3;
+      X.beginPath();X.moveTo(0,0);X.lineTo(Math.cos(a)*(wr+7),Math.sin(a)*(wr+7));X.stroke();
+      bolt(Math.cos(a)*(wr-6),Math.sin(a)*(wr-6),1.6);
+    }
+    X.fillStyle=C3;X.beginPath();X.arc(0,0,5,0,7);X.fill();
+    bolt(0,0,1.8);
+    X.restore();
+  }else if(helm==='tiller'){
+    X.strokeStyle=C3;X.lineWidth=5;X.lineCap='round';
+    X.beginPath();X.moveTo(-8,-16);X.lineTo(-52+roll*6,-30);X.stroke();
+    bolt(-8,-16,1.8);wx=-46;wy=-28;
+  }else if(helm==='soar'){
+    X.strokeStyle='#7a6247';X.lineWidth=6;X.lineCap='round';
+    X.beginPath();X.moveTo(-14,-26);X.lineTo(46,60+roll*5);X.stroke();
+    bolt(-14,-26,1.8);wx=-8;wy=-32;
+  }else{
+    X.strokeStyle=C3;X.lineWidth=4;
+    X.beginPath();X.moveTo(-34,-30);X.lineTo(14,-30);X.stroke();
+    bolt(-34,-30,1.6);bolt(14,-30,1.6);wx=-24;wy=-30;
+  }
+  plate(-16,-30,11,30,C1,3);
+  plate(2,-30,11,30,C1,3);
+  plate(-18,-3,15,6,C2,2);
+  plate(0,-3,15,6,C2,2);
+  plate(-15,-52,28,24,C2,3);
+  plate(-20,-84,38,34,C1,4);
+  X.save();rr(-16,-80,30,26,3);X.clip();
+  X.strokeStyle='rgba(0,0,0,0.4)';X.lineWidth=1.2;
+  for(let i=0;i<5;i++){BOM.panels++;
+    X.beginPath();X.moveTo(-16,-78+i*5.5);X.lineTo(14,-78+i*5.5);X.stroke();}
+  X.restore();
+  plate(-31,-84,15,17,C1,5);
+  plate(16,-84,15,17,C1,5);
+  armTo(-24,-72,wx-4,wy+4,C2);
+  armTo(20,-72,wx+8,wy-6,C2);
+  plate(-13,-106,25,22,C1,5);
+  X.fillStyle='#0d1114';rr(-10,-101,19,9,2);X.fill();
+  lamp(-3,-96.5,2.6,C4,1.1);
+  plate(-15,-112,29,7,C3,2);
+  X.restore();
+}
+
+/* -------------------------------------------------------------------- water */
+function drawSky(){
+  const g=X.createLinearGradient(0,0,0,WATER);
+  g.addColorStop(0,'rgba(120,150,170,0.10)');
+  g.addColorStop(1,'rgba(190,200,205,0.18)');
+  X.fillStyle=g;X.fillRect(0,0,CW,WATER);
+  X.strokeStyle='rgba(120,140,150,0.35)';X.lineWidth=1;
+  X.beginPath();X.moveTo(0,WATER);X.lineTo(CW,WATER);X.stroke();
+}
+function drawSea(){
+  const rough=D.sea==='sea'?1:0.34;
+  const g=X.createLinearGradient(0,WATER-10,0,CH);
+  g.addColorStop(0,'rgba(52,86,104,0.92)');
+  g.addColorStop(0.35,'rgba(28,50,64,0.95)');
+  g.addColorStop(1,'rgba(12,22,30,1)');
+  X.fillStyle=g;X.fillRect(0,WATER,CW,CH-WATER);
+  for(let i=0;i<26;i++){
+    const y=WATER+4+i*6.0,amp=(2+i*0.5)*rough,ph=D.t*(0.5+i*0.07);
+    X.strokeStyle='rgba(255,255,255,'+(0.13-i*0.004).toFixed(3)+')';
+    X.lineWidth=1;
+    X.beginPath();
+    for(let x=0;x<=CW;x+=12){
+      const yy=y+Math.sin(x*0.017+ph)*amp+Math.sin(x*0.043+ph*1.7)*amp*0.4;
+      x?X.lineTo(x,yy):X.moveTo(x,yy);
+    }
+    X.stroke();
+  }
+}
+
+function render(){
+  BOM=newBOM();
+  X.clearRect(0,0,CW,CH);
+  drawSky();
+  const roll=Math.sin(D.t*(D.sea==='sea'?1.9:0.8))*(D.sea==='sea'?0.030:0.010);
+  const heave=Math.sin(D.t*(D.sea==='sea'?1.4:0.6))*(D.sea==='sea'?7:2.4);
+  const g=geom();
+  X.save();
+  X.translate(CX,WATER);X.rotate(roll);X.translate(-CX,-WATER+heave);
+  drawHull(g);
+  drawDeck(g);
+  drawWorks(g);
+  drawArms(g);
+  drawFigurehead(g);
+  drawRig(g);
+  drawCaptain(g);
+  drawLights(g);
+  X.restore();
+  drawSea();
+  X.save();X.globalAlpha=0.20;X.fillStyle='#fff';
+  X.beginPath();X.ellipse(CX+g.L*0.5,WATER+6,54,7,0,0,7);X.fill();
+  X.restore();
+}
+
+/* ------------------------------------------------------------------- trials */
+function stats(){
+  const H=spec(),P=D.prop;
+  const mPerPx=H.loa/(H.L*P.len);
+  const loa=H.L*P.len*mPerPx;
+  const beam=loa*(0.20+0.10*(H.cb-0.4))*P.beam;
+  const depth=(H.draft*(0.72+P.beam*0.28))*mPerPx;
+  let disp=loa*beam*depth*H.cb*1.025;
+  let t=0,a=0,sa=1,v=1,cargo=0;
+  for(const sl of SLOTS){
+    const o=optOf(sl.k)[2];
+    t+=o.t||0;a+=o.a||0;if(o.sa!==undefined)sa*=o.sa;if(o.v)v*=o.v;
+    cargo+=o.c||0;
+  }
+  // hardware has mass. This is the whole reason it is counted.
+  const hw=BOM?(BOM.bolts*0.0009+BOM.planks*0.22+BOM.frames*0.34+BOM.plates*0.06):0;
+  disp+=t+hw;
+  const rigH=(150+H.loa*2.4)*P.rig*mPerPx;
+  const sailArea=(D.parts.rig==='oar'||D.parts.rig==='steam')?0
+    :rigH*rigH*0.62*Math.max(1,H.masts||1)*sa*0.42;
+  const oarPower=D.parts.rig==='oar'?H.crew*0.045:0;
+  const sc=sailArea/Math.max(1,Math.pow(disp,0.66));
+  const speed=clamp((D.parts.rig==='steam'?9.2:0)+Math.sqrt(Math.max(0,sc))*3.1*v+oarPower,0.8,17);
+  const stiff=disp*0.62+a*1.4;      // what she can carry standing up
+  const press=sailArea*0.55;        // what the rig puts on her
+  const crew=Math.round(H.crew*(D.parts.rig==='oar'?1.0:0.7)+
+    (D.parts.arms==='broad'?26:D.parts.arms==='swiv'?6:0));
+  return{loa,beam,depth,disp,sailArea,speed,crew,armour:a,hw,stiff,press,
+    cargo:Math.max(0,H.loa*H.cb*1.6+cargo*4),over:press>stiff,mPerPx};
+}
+
+const row=(k,v,cls='')=>'<div class="stat '+cls+'"><span>'+k+'</span><b>'+v+'</b></div>';
+
+function paint(){
+  render();
+  const S=stats(),H=hullOf();
+  $('sname').firstChild.textContent=D.name||'—';
+  $('sclass').textContent=
+    (S.disp>900?'first rate':S.disp>320?'rated':S.disp>90?'coaster':'small craft')+
+    ' · '+H[1].toLowerCase()+' · '+optOf('rig')[1].toLowerCase()+' · '+
+    (D.capt||'no master')+' at the '+
+    (D.parts.helm==='wheel'?'wheel':D.parts.helm==='tiller'?'tiller':
+     D.parts.helm==='soar'?'steering oar':'yoke');
+  $('hulldesc').textContent=H[2]+' — '+spec().note;
+  $('hulln').textContent=H[2];
+
+  $('stats').innerHTML=
+    row('Length overall',S.loa.toFixed(1)+' m')+
+    row('Beam',S.beam.toFixed(1)+' m')+
+    row('Draft',S.depth.toFixed(2)+' m')+
+    row('Displacement',Math.round(S.disp)+' t')+
+    row('— of that, hardware',S.hw.toFixed(1)+' t')+
+    row('Sail area',Math.round(S.sailArea)+' m²')+
+    row('Speed',S.speed.toFixed(1)+' kn')+
+    row('Complement',S.crew)+
+    row('Cargo',Math.round(S.cargo)+' t')+
+    row('Sail pressure',Math.round(S.press),S.over?'bad':'good')+
+    row('Righting moment',Math.round(S.stiff))+
+    '<div class="meter '+(S.over?'over':'')+'"><i style="width:'+
+    clamp(S.press/Math.max(1,S.stiff)*100,0,100)+'%"></i></div>'+
+    (S.over?'<div class="tiny" style="color:var(--warn)">Over-canvassed by '+
+      Math.round(S.press-S.stiff)+'. Reef her, shorten the rig, or get ballast '+
+      'into the bottom — as drawn she goes over before she goes fast.</div>':'');
+
+  const rows=[['Strakes',BOM.planks],['Frame stations',BOM.frames],
+    ['Fastenings',BOM.bolts],['Plates & fittings',BOM.plates],
+    ['Deck beams',BOM.beams],['Caulked seams',BOM.seams],
+    ['Rope runs',BOM.ropes],['Blocks',BOM.blocks],
+    ['Sail panels',BOM.panels],['Battens',BOM.battens],
+    ['Oars',BOM.oars],['Lanterns',BOM.lamps],['Wheel spokes',BOM.spokes]];
+  const total=rows.reduce((a,r)=>a+r[1],0);
+  $('bom').innerHTML=rows.map((r)=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>').join('')+
+    '<tr class="tot"><td>Discrete parts</td><td>'+total+'</td></tr>';
+  $('partn').textContent=total+' pcs';
+  $('boltn').textContent=BOM.bolts+' fastenings';
+  if($('waddr').value)wallet();
+}
+
+/* ------------------------------------------------------------------- chrome */
+let FLEET=[];
+try{FLEET=JSON.parse(localStorage.getItem('shipforge_fleet'))||[];}catch(e){FLEET=[];}
+
+function buildUI(){
+  $('hull').innerHTML=HULLS.map((h)=>
+    '<button data-h="'+h[0]+'">'+h[1]+'</button>').join('');
+  $('hull').querySelectorAll('button').forEach((b)=>b.onclick=()=>{
+    D.hull=b.dataset.h;fitHull();syncUI();paint();
+    say(hullOf()[1]+' — '+hullOf()[2]+'.');
+  });
+  $('slots').innerHTML=SLOTS.map((s)=>
+    '<div class="slot"><div class="lbl"><span>'+s.label+'</span><b id="lb_'+s.k+'"></b></div>'+
+    '<div class="opts" id="op_'+s.k+'">'+
+    s.opts.map((o)=>'<button data-k="'+s.k+'" data-v="'+o[0]+'">'+o[1]+'</button>').join('')+
+    '</div></div>').join('');
+  $('slots').querySelectorAll('button').forEach((b)=>b.onclick=()=>{
+    D.parts[b.dataset.k]=b.dataset.v;syncUI();paint();});
+
+  $('finish').innerHTML=FINISH.map((f)=>
+    '<button data-f="'+f[0]+'">'+f[1]+'</button>').join('');
+  $('finish').querySelectorAll('button').forEach((b)=>b.onclick=()=>{
+    D.finish=b.dataset.f;syncUI();paint();});
+  $('bolt').innerHTML=BOLTS.map((f)=>
+    '<button data-f="'+f[0]+'">'+f[1]+'</button>').join('');
+  $('bolt').querySelectorAll('button').forEach((b)=>b.onclick=()=>{
+    D.bolt=b.dataset.f;syncUI();paint();});
+
+  for(let i=0;i<4;i++){
+    $('sw'+i).innerHTML=PAL.map((p,j)=>
+      '<button data-i="'+i+'" data-j="'+j+'" style="background:'+p[i]+'"></button>').join('');
+    $('sw'+i).querySelectorAll('button').forEach((b)=>b.onclick=()=>{
+      D.cols[+b.dataset.i]=PAL[+b.dataset.j][+b.dataset.i];syncUI();paint();});
+  }
+  $('preset').innerHTML=Object.keys(PRESETS).map((k)=>
+    '<button data-p="'+k+'">'+k[0].toUpperCase()+k.slice(1)+'</button>').join('');
+  $('preset').querySelectorAll('button').forEach((b)=>b.onclick=()=>{
+    D.prop=Object.assign({},PRESETS[b.dataset.p]);syncUI();paint();});
+  $('props').innerHTML=PROPS.map((p)=>
+    '<div class="rowlbl">'+p[1]+' <b id="pv_'+p[0]+'"></b></div>'+
+    '<input type="range" id="pr_'+p[0]+'" min="'+p[2]+'" max="'+p[3]+'" step="0.02">').join('');
+  PROPS.forEach((p)=>{
+    const k=p[0];
+    $('pr_'+k).addEventListener('input',()=>{
+      D.prop[k]=+$('pr_'+k).value;$('pv_'+k).textContent=D.prop[k].toFixed(2);paint();});
+  });
+
+  $('fleet').innerHTML=HULLS.map((h,i)=>
+    '<button data-b="'+i+'"><i>berth '+(i+1)+'</i><span id="bn_'+i+'">'+h[1]+'</span></button>').join('');
+  $('fleet').querySelectorAll('button').forEach((b)=>b.onclick=()=>{
+    const i=+b.dataset.b,f=FLEET[i];
+    if(!f){D.hull=HULLS[i][0];fitHull();syncUI();paint();
+      return say('Empty berth — hull fitted, not yet built.');}
+    Object.assign(D,JSON.parse(JSON.stringify(f)));syncUI();paint();
+    say(D.name+' warped out of berth '+(i+1)+'.');
+  });
+}
+function syncUI(){
+  $('hull').querySelectorAll('button').forEach((b)=>
+    b.classList.toggle('on',b.dataset.h===D.hull));
+  for(const s of SLOTS){
+    $('op_'+s.k).querySelectorAll('button').forEach((b)=>
+      b.classList.toggle('on',b.dataset.v===D.parts[s.k]));
+    $('lb_'+s.k).textContent=optOf(s.k)[1];
+  }
+  $('finish').querySelectorAll('button').forEach((b)=>
+    b.classList.toggle('on',b.dataset.f===D.finish));
+  $('bolt').querySelectorAll('button').forEach((b)=>
+    b.classList.toggle('on',b.dataset.f===D.bolt));
+  for(let i=0;i<4;i++)$('sw'+i).querySelectorAll('button').forEach((b)=>
+    b.classList.toggle('on',PAL[+b.dataset.j][i]===D.cols[i]));
+  $('sk').value=D.strakes;$('skv').textContent=D.strakes;
+  $('fr').value=D.frames;$('frv').textContent=D.frames;
+  $('wr').value=D.wear;$('wrv').textContent=D.wear;
+  PROPS.forEach((p)=>{$('pr_'+p[0]).value=D.prop[p[0]];
+    $('pv_'+p[0]).textContent=(+D.prop[p[0]]).toFixed(2);});
+  $('dn').value=D.name;$('cap').value=D.capt;
+  $('pCalm').classList.toggle('on',D.sea==='calm');
+  $('pSea').classList.toggle('on',D.sea==='sea');
+  for(let i=0;i<HULLS.length;i++){
+    const f=FLEET[i],el=$('bn_'+i);
+    if(el)el.textContent=f?f.name:HULLS[i][1];
+    const btn=$('fleet').querySelector('[data-b="'+i+'"]');
+    if(btn)btn.classList.toggle('full',!!f);
+  }
+}
+function say(t){const el=$('say');el.textContent=t;el.classList.add('on');
+  clearTimeout(say._t);say._t=setTimeout(()=>el.classList.remove('on'),2400);}
+
+$('sk').addEventListener('input',()=>{D.strakes=+$('sk').value;$('skv').textContent=D.strakes;paint();});
+$('fr').addEventListener('input',()=>{D.frames=+$('fr').value;$('frv').textContent=D.frames;paint();});
+$('wr').addEventListener('input',()=>{D.wear=+$('wr').value;$('wrv').textContent=D.wear;paint();});
+$('dn').addEventListener('input',()=>{D.name=$('dn').value;paint();});
+$('cap').addEventListener('input',()=>{D.capt=$('cap').value;paint();});
+$('pCalm').onclick=()=>{D.sea='calm';syncUI();};
+$('pSea').onclick=()=>{D.sea='sea';syncUI();};
+$('png').onclick=()=>{const a=document.createElement('a');
+  a.download=(D.name||'ship').replace(/\s+/g,'-').toLowerCase()+'.png';
+  a.href=cv.toDataURL('image/png');a.click();say('Exported.');};
+$('save').onclick=()=>{try{
+  localStorage.setItem('shipforge',JSON.stringify(D));say('Saved.');}catch(e){say('No storage.');}};
+$('load').onclick=()=>{try{
+  const s=JSON.parse(localStorage.getItem('shipforge'));
+  if(!s)return say('Nothing saved.');
+  Object.assign(D,s);syncUI();paint();say('Loaded.');}catch(e){say('Nothing saved.');}};
+
+/* ------------------------------------------------------ deterministic build
+ * One address in, one ship out, every time. The address is read as a number
+ * and nothing about it leaves this file — the same address always yields the
+ * same hull, which is the only property that makes a build worth claiming. */
+function rngFrom(seedStr){
+  let h=2166136261>>>0;
+  for(let i=0;i<seedStr.length;i++){h^=seedStr.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}
+  return function(){h^=h<<13;h>>>=0;h^=h>>>17;h^=h<<5;h>>>=0;return h/4294967296;};
+}
+function fnv(s){
+  let a=0xcbf29ce4>>>0,b=0x84222325>>>0;
+  for(let i=0;i<s.length;i++){
+    a^=s.charCodeAt(i);a=Math.imul(a,16777619)>>>0;
+    b^=(s.charCodeAt(i)*7+i)&255;b=Math.imul(b,16777619)>>>0;
+  }
+  return a.toString(16).padStart(8,'0')+b.toString(16).padStart(8,'0');
+}
+function buildFrom(seed,forceHull){
+  const R=rngFrom(seed);
+  D.hull=forceHull||HULLS[Math.floor(R()*HULLS.length)][0];
+  fitHull();
+  // the hull's own tradition gets the first vote; the seed still overrules it
+  for(const s of SLOTS){
+    if(R()<0.42)D.parts[s.k]=s.opts[Math.floor(R()*s.opts.length)][0];
+  }
+  D.pal=Math.floor(R()*PAL.length);
+  D.cols=PAL[D.pal].slice();
+  D.finish=FINISH[Math.floor(R()*FINISH.length)][0];
+  D.bolt=BOLTS[Math.floor(R()*BOLTS.length)][0];
+  D.strakes=clamp(D.strakes+Math.floor(R()*5)-2,5,16);
+  D.frames=clamp(D.frames+Math.floor(R()*7)-3,6,24);
+  D.wear=Math.floor(R()*4);
+  PROPS.forEach((p)=>{D.prop[p[0]]=+(p[2]+R()*(p[3]-p[2])).toFixed(2);});
+  D.name=NAMES[Math.floor(R()*NAMES.length)];
+  D.capt=CAPS[Math.floor(R()*CAPS.length)];
+}
+$('rnd').onclick=()=>{
+  buildFrom('r'+Math.random());syncUI();paint();say(D.name+' laid down.');
+};
+
+/* The ten. One per tradition, all from the one address, all different ships —
+   a fleet, not ten paint jobs on one boat. */
+$('ten').onclick=()=>{
+  const a=$('waddr').value.trim();
+  const known=/^0x[0-9a-fA-F]{40}$/.test(a);
+  const seed=known?a.toLowerCase():'unmoored:'+Math.random();
+  FLEET=HULLS.map((h,i)=>{
+    buildFrom(seed+':'+i+':'+h[0],h[0]);
+    return JSON.parse(JSON.stringify(D));
+  });
+  try{localStorage.setItem('shipforge_fleet',JSON.stringify(FLEET));}catch(e){}
+  Object.assign(D,JSON.parse(JSON.stringify(FLEET[0])));
+  syncUI();paint();
+  say(known?'Ten hulls laid down from your address.'
+           :'Ten hulls laid down. Paste an address to make them yours.');
+};
+
+/* ------------------------------------------------------------------- wallet */
+const HEZE='0x48455a45';   /* "HEZE" in ascii — a local tag, not a live selector */
+const word=(v)=>BigInt(Math.max(0,Math.round(v))).toString(16).padStart(64,'0');
+function combos(){
+  return SLOTS.reduce((a,s)=>a*s.opts.length,1)*HULLS.length*
+    PAL.length*FINISH.length*BOLTS.length;
+}
+function wallet(){
+  const a=$('waddr').value.trim(),o=$('wout');
+  if(!a){o.textContent='';return;}
+  if(!/^0x[0-9a-fA-F]{40}$/.test(a)){o.innerHTML='<b>Not a 20-byte address.</b>';return;}
+  const S=stats();
+  const build=[D.hull,D.finish,D.bolt,D.strakes,D.frames,
+    SLOTS.map((s)=>D.parts[s.k]).join('.'),
+    PROPS.map((p)=>D.prop[p[0]]).join('.')].join('|');
+  const fp=fnv(a.toLowerCase()+'|'+build);
+  const d=HEZE+word(S.disp)+word(BOM.bolts)+word(BOM.planks)+word(S.crew);
+  const C=combos();
+  o.innerHTML=
+    '<b>from</b> '+a.slice(0,10)+'…'+a.slice(-6)+'<br>'+
+    '<b>hull</b> '+hullOf()[1]+' · '+Math.round(S.disp)+' t · '+
+    BOM.bolts+' fastenings · '+BOM.planks+' strakes<br>'+
+    '<b>fingerprint</b> '+fp+' <span style="color:var(--dim)">(FNV-1a, local)</span><br>'+
+    '<b>space</b> '+C.toLocaleString()+' builds '+
+    '<span style="color:var(--live)">('+Math.floor(C/21e6).toLocaleString()+
+    '× the 21,000,000 floor)</span><br>'+
+    '<b>calldata</b> '+d.slice(0,24)+'… '+
+    '<span style="color:var(--gold)">(not sent)</span>';
+}
+$('waddr').addEventListener('input',()=>{
+  const a=$('waddr').value.trim(),ok=/^0x[0-9a-fA-F]{40}$/.test(a);
+  if(ok&&$('waddr').dataset.minted!=='1'){
+    $('waddr').dataset.minted='1';
+    buildFrom(a.toLowerCase());syncUI();paint();
+    say('Built from your address. “Build the ten” for the fleet.');
+  }
+  if(!ok)$('waddr').dataset.minted='';
+  wallet();
+});
+
+/* --------------------------------------------------------------------- loop */
+let G={t:0};
+function loop(now){
+  D.t=now/1000;G.t=D.t;
+  render();
+  requestAnimationFrame(loop);
+}
+fitHull();buildUI();syncUI();paint();
+requestAnimationFrame(loop);
+setInterval(paint,900);
+
+function REPORT(){
+  const S=stats();
+  return{hull:D.hull,loa_m:+S.loa.toFixed(1),beam_m:+S.beam.toFixed(1),
+    draft_m:+S.depth.toFixed(2),displacement_t:Math.round(S.disp),
+    hardware_t:+S.hw.toFixed(1),sail_area_m2:Math.round(S.sailArea),
+    speed_kn:+S.speed.toFixed(2),crew:S.crew,cargo_t:Math.round(S.cargo),
+    over_canvassed:S.over?1:0,
+    strakes:BOM.planks,frames:BOM.frames,fastenings:BOM.bolts,plates:BOM.plates,
+    beams:BOM.beams,seams:BOM.seams,ropes:BOM.ropes,blocks:BOM.blocks,
+    sail_panels:BOM.panels,battens:BOM.battens,oars:BOM.oars,lanterns:BOM.lamps,
+    spokes:BOM.spokes,
+    discrete_parts:BOM.planks+BOM.frames+BOM.bolts+BOM.plates+BOM.beams+BOM.seams+
+      BOM.ropes+BOM.blocks+BOM.panels+BOM.battens+BOM.oars+BOM.lamps+BOM.spokes,
+    hulls:HULLS.length,slots:SLOTS.length,combinations:combos(),
+    fleet_berthed:FLEET.length,seconds:Math.round(G.t)};
+}
+if(window.parent!==window){
+  setInterval(function(){
+    var r={};try{r=REPORT();}catch(e){}
+    try{parent.postMessage({slag:1,slug:'shipforge',r:r},'*');}catch(e){}
+  },1000);
+}
+</script>
