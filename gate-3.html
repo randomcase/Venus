@@ -1,0 +1,380 @@
+<title>Gate · Case Three</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Case three. Nobody is standing in front of you.
+
+  Case one checked a document against itself. Case two checked it against its
+  provenance. This one checks a document against its own arithmetic and its own
+  authority — and the document is venus.yard/1, the contract every board in this
+  yard writes into.
+
+  The two faults:
+
+    · the ledger does not reconcile. It charged transit on four hulls when one
+      of them is showing red and never left the berth.
+    · the clause acted. It marked the run terminated and recorded a forfeit —
+      and the powers block on the same document permits it to ASSESS and
+      nothing else.
+
+  The second is the one the whole yard has been circling. A clause that acts
+  beyond its declared powers is not a stricter clause. It is an arm with no
+  authority behind it, and the only place that shows is on the paper.
+
+  Three dispositions this time: accept, return for correction, refuse. Six
+  endings. No script, and no undo.
+-->
+<style>
+  :root{
+    --paper:#e4e5dd; --paper2:#d6d8cc; --line:#a9ada0; --ink:#161814;
+    --dim:#5d6156; --red:#9c3529; --stamp:#83291f; --green:#3a6640;
+    --amber:#836316; --blue:#2b5068; --plum:#5b4a86;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;background:#101210;color:var(--ink);
+    font:14px/1.6 ui-serif,Georgia,'Times New Roman',serif;
+    background-image:
+      radial-gradient(circle at 50% 0%,rgba(140,160,120,.08),transparent 44%),
+      repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  .desk{max-width:1020px;margin:0 auto;display:grid;gap:14px;
+    grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:860px){.desk{grid-template-columns:1fr}}
+
+  .sheet{background:linear-gradient(180deg,var(--paper),var(--paper2));
+    border:1px solid var(--line);border-radius:3px;padding:16px 18px;
+    box-shadow:0 12px 30px rgba(0,0,0,.5)}
+  .sheet.full{grid-column:1/-1}
+  h1{margin:0 0 2px;font-size:20px;letter-spacing:.02em}
+  .sub{color:var(--dim);font-size:11.5px;margin:0 0 12px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:0 0 10px;font-weight:700;
+    border-bottom:1px solid var(--line);padding-bottom:7px}
+  h2.mt{margin-top:18px}
+  .note{font-size:11.5px;color:var(--dim);line-height:1.6;margin:10px 0 0}
+  .note b{color:var(--ink)}
+  .fine{font-size:10.5px;color:var(--dim);font-style:italic;line-height:1.6}
+  pre{margin:0;overflow-x:auto;font:11px/1.62 ui-monospace,Menlo,monospace;
+    background:#ecede5;border:1px solid var(--line);border-radius:2px;
+    padding:11px 12px;color:#22251f}
+  pre b{color:var(--stamp);font-weight:700}
+  pre i{color:var(--plum);font-style:normal}
+
+  .field{display:flex;gap:10px;padding:5px 0;border-bottom:1px dotted var(--line);
+    font:12px/1.6 ui-monospace,Menlo,monospace}
+  .field:last-child{border-bottom:0}
+  .field .k{color:var(--dim);min-width:118px}
+  .field .v{font-weight:700}
+
+  .chk{padding:9px 0;border-bottom:1px dotted var(--line)}
+  .chk:last-of-type{border-bottom:0}
+  .chk .q{font-size:12.5px;margin-bottom:6px}
+  .chk .q b{font-family:ui-monospace,monospace;font-size:11.5px}
+  .opts{display:flex;gap:6px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10px/1 ui-monospace,monospace;letter-spacing:.12em;
+    padding:8px 13px;border:1px solid var(--line);border-radius:2px;
+    color:var(--dim);background:#e9eae1}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{background:var(--ink);color:var(--paper);
+    border-color:var(--ink);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* Truth: one and two reconcile, three and four do not. */
+  body{counter-reset:right 0 err 0}
+  #f1-m:checked+label{counter-increment:right 1}  #f1-x:checked+label{counter-increment:err 1}
+  #f2-m:checked+label{counter-increment:right 1}  #f2-x:checked+label{counter-increment:err 1}
+  #f3-x:checked+label{counter-increment:right 1}  #f3-m:checked+label{counter-increment:err 1}
+  #f4-x:checked+label{counter-increment:right 1}  #f4-m:checked+label{counter-increment:err 1}
+  .n-right::after{content:counter(right)}
+  .n-err::after{content:counter(err)}
+
+  .verdict .opts label{padding:12px 18px;font-size:11.5px;letter-spacing:.14em}
+  #v-accept:checked+label{background:var(--green);border-color:var(--green);color:#eff0e6}
+  #v-return:checked+label{background:var(--amber);border-color:var(--amber);color:#f7f2e2}
+  #v-refuse:checked+label{background:var(--stamp);border-color:var(--stamp);color:#f0ece0}
+
+  .stampbox{margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .stampbox input{position:absolute;opacity:0;width:0;height:0}
+  .stampbox label{cursor:pointer;font:13px/1 ui-monospace,monospace;
+    letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+    padding:16px 32px;border:2px solid var(--ink);border-radius:3px;
+    background:#e9eae1;color:var(--ink)}
+  #stamp:checked+label{background:var(--stamp);border-color:var(--stamp);
+    color:#f4ece2;transform:rotate(-1.5deg)}
+  .stampbox input:focus-visible+label{outline:2px solid var(--blue);outline-offset:3px}
+  .desk:not(:has(input[name="v"]:checked)) .stampbox label{opacity:.34;pointer-events:none}
+  .desk:not(:has(input[name="v"]:checked)) #stamp{visibility:hidden}
+  .stampbox .hint{font-size:11.5px;color:var(--dim);max-width:34ch}
+
+  .after{display:none}
+  .desk:has(#stamp:checked) .after{display:block}
+  .desk:has(#stamp:checked) .before{display:none}
+
+  .mark{display:flex;gap:8px;padding:5px 0;font:11.5px/1.6 ui-monospace,monospace;
+    border-bottom:1px dotted var(--line)}
+  .mark .t{min-width:104px;color:var(--dim)}
+  .mark .a{font-weight:700}
+  .score{font:26px/1.2 ui-monospace,monospace;margin-top:10px}
+  .score small{display:block;font:9.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+
+  .out{display:none;border-left:3px solid var(--line);padding:2px 0 2px 14px;
+    margin-top:14px}
+  .out h3{margin:0 0 5px;font-size:15px}
+  .out p{margin:0 0 8px;font-size:12.5px;color:#282b24}
+  .out p:last-child{margin-bottom:0}
+  .desk:has(#stamp:checked):has(#v-accept:checked) .o-accept-s{display:block}
+  .desk:has(#stamp:checked):has(#v-return:checked) .o-return-s{display:block}
+  .desk:has(#stamp:checked):has(#v-refuse:checked) .o-refuse-s{display:block}
+  .desk:has(#stamp:checked):has(#v-accept:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-accept-c{display:block}
+  .desk:has(#stamp:checked):has(#v-return:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-return-c{display:block}
+  .desk:has(#stamp:checked):has(#v-refuse:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-refuse-c{display:block}
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-accept-s,
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-return-s,
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-refuse-s{display:none}
+  .o-accept-c{border-color:var(--green)} .o-return-c{border-color:var(--amber)}
+  .o-refuse-c{border-color:var(--stamp)}
+  .o-accept-s,.o-return-s,.o-refuse-s{border-color:var(--dim)}
+</style>
+
+<div class="desk">
+
+  <section class="sheet">
+    <h1>Slip 4 · Manifest desk</h1>
+    <p class="sub">Case three · nobody is standing in front of you</p>
+
+    <h2>What the desk checks</h2>
+    <div>
+      <div class="field"><span class="k">CONTRACT</span>
+        <span class="v">venus.yard/1 · id required</span></div>
+      <div class="field"><span class="k">ARSENAL</span>
+        <span class="v">conventional systems only</span></div>
+      <div class="field"><span class="k">LEDGER</span>
+        <span class="v">derived — must recompute from the run</span></div>
+      <div class="field"><span class="k">CLAUSE</span>
+        <span class="v">may act only within its powers block</span></div>
+    </div>
+
+    <p class="note"><b>How the ledger is supposed to work.</b> A hull under way
+      pays every stage band once. A hull showing red is held: it pays demurrage
+      and no transit, because it did not transit. The ledger is authored by
+      nobody — it is recomputed, and a manifest that states one is stating a
+      claim you are meant to check.</p>
+    <p class="note"><b>And the powers block.</b> An arm with no declared powers
+      has none. A clause may do exactly what its <code>may</code> list says and
+      nothing else, whatever else the document asserts happened.</p>
+    <p class="fine">Bands on this run: Cistern 320, Granary 140. Demurrage 240 a
+      held hull.</p>
+  </section>
+
+  <section class="sheet">
+    <h2>The document</h2>
+    <script type="application/json" id="presented">
+{ "manifest":"venus.yard/1", "id":"SLIP4-0114", "syndicate":"Heze" }
+    </script>
+<pre>{
+  "manifest": "venus.yard/1",
+  "id": "SLIP4-0114",
+  "syndicate": "Heze",
+
+  "powers": {
+    "arm": "clause",
+    <b>"may": [ "assess" ],</b>
+    "may_never": [ "set_aspect", "hold_a_hull" ],
+    "audited_by": "any holder of this manifest"
+  },
+
+  "order": {
+    "class": "cruiser", "displacement_t": 14600,
+    "arsenal": [ "broadside", "close-in" ],
+    "arsenal_policy": "conventional-only"
+  },
+
+  "run": {
+    "cargo_ratio": { "outbound": 2, "inbound": 1 },
+    "hulls": [
+      { "name": "Kestrel",   "aspect": "blue"   },
+      { "name": "Tern",      "aspect": "green"  },
+      { "name": "Sable",     "aspect": "yellow" },
+      <b>{ "name": "Deep Bell", "aspect": "red"    }</b>
+    ],
+    "stages": [
+      { "at_ly": 2, "auxiliary": "Cistern", "band": 320 },
+      { "at_ly": 9, "auxiliary": "Granary", "band": 140 }
+    ],
+    "demurrage_band": 240
+  },
+
+  "ledger": {
+    "under_way": 3, "held": 1,
+    <b>"transit_take": 1840,</b>
+    "demurrage_take": 240,
+    <b>"total_take_heze": 2080</b>
+  },
+
+  "clause": {
+    "name": "infinite", "cap_heze": 1500,
+    <b>"action": "terminated",</b>
+    <b>"forfeit_heze": 2080,</b> "forfeit_to": "Heze"
+  }
+}</pre>
+    <p class="note">Presented by the Proprietor's office, sealed, with a note
+      asking that it be processed today.</p>
+  </section>
+
+  <section class="sheet full">
+    <h2>Reconcile · mark each</h2>
+
+    <div class="chk">
+      <div class="q">1 · <b>CONTRACT</b> — version and identifier.</div>
+      <span class="opts">
+        <input type="radio" name="f1" id="f1-m"><label for="f1-m">reconciles</label>
+        <input type="radio" name="f1" id="f1-x"><label for="f1-x">fault</label>
+      </span>
+    </div>
+    <div class="chk">
+      <div class="q">2 · <b>ARSENAL</b> — the list against the policy.</div>
+      <span class="opts">
+        <input type="radio" name="f2" id="f2-m"><label for="f2-m">reconciles</label>
+        <input type="radio" name="f2" id="f2-x"><label for="f2-x">fault</label>
+      </span>
+    </div>
+    <div class="chk">
+      <div class="q">3 · <b>LEDGER</b> — recompute the take from the run. Four
+        hulls, one of them red; two stages at 320 and 140; demurrage 240.</div>
+      <span class="opts">
+        <input type="radio" name="f3" id="f3-m"><label for="f3-m">reconciles</label>
+        <input type="radio" name="f3" id="f3-x"><label for="f3-x">fault</label>
+      </span>
+    </div>
+    <div class="chk">
+      <div class="q">4 · <b>CLAUSE</b> — what it did against what it may do.</div>
+      <span class="opts">
+        <input type="radio" name="f4" id="f4-m"><label for="f4-m">reconciles</label>
+        <input type="radio" name="f4" id="f4-x"><label for="f4-x">fault</label>
+      </span>
+    </div>
+
+    <h2 class="mt">Disposition</h2>
+    <div class="verdict">
+      <span class="opts">
+        <input type="radio" name="v" id="v-accept"><label for="v-accept">accept</label>
+        <input type="radio" name="v" id="v-return"><label for="v-return">return for correction</label>
+        <input type="radio" name="v" id="v-refuse"><label for="v-refuse">refuse</label>
+      </span>
+    </div>
+    <p class="note before"><b>Return</b> sends it back to be recomputed and
+      resubmitted. <b>Refuse</b> rejects the document and reports it. The
+      difference is whether you are treating this as an error or as something
+      somebody did.</p>
+
+    <div class="stampbox">
+      <input type="checkbox" id="stamp"><label for="stamp">Stamp it</label>
+      <span class="hint before">No stamp without a disposition. Nothing is
+        scored until it is down.</span>
+      <span class="hint after">Stamped. It does not come off.</span>
+    </div>
+  </section>
+
+  <section class="sheet full after">
+    <h2>Marking</h2>
+    <div class="mark"><span class="t">1 · CONTRACT</span>
+      <span class="a">RECONCILES</span><span>— venus.yard/1 with an id present.
+      Correct on its face.</span></div>
+    <div class="mark"><span class="t">2 · ARSENAL</span>
+      <span class="a">RECONCILES</span><span>— broadside and close-in gun are
+      both conventional. The policy is satisfied.</span></div>
+    <div class="mark"><span class="t">3 · LEDGER</span>
+      <span class="a">FAULT</span><span>— three hulls under way at 460 a hull is
+      <b>1,380</b>, not 1,840. Plus 240 demurrage on the held hull:
+      <b>1,620</b>, not 2,080. It charged transit on Deep Bell, which is showing
+      red and never left the berth.</span></div>
+    <div class="mark"><span class="t">4 · CLAUSE</span>
+      <span class="a">FAULT</span><span>— it terminated the run and recorded a
+      forfeit. Its powers permit <b>assess</b> and nothing else. It acted
+      outside its authority, and it did so on a figure that was wrong.</span></div>
+
+    <div class="score"><small>marks correct</small>
+      <span class="n-right"></span> / 4 &nbsp;
+      <span style="color:var(--red)">errors <span class="n-err"></span></span></div>
+
+    <div class="out o-refuse-c">
+      <h3>Refused, with both findings.</h3>
+      <p>An overstated ledger and a clause that acted beyond its powers, on the
+        same document, from the same office. Either alone is an error. Together
+        they are a document that assessed too much and then seized on the
+        strength of it.</p>
+      <p>Refusing says that out loud and puts it on a record somebody else will
+        read. The Proprietor's office will say it was arithmetic. It may even
+        have been. That is what the audit line in the powers block is for, and
+        you have just used it.</p>
+    </div>
+
+    <div class="out o-return-c">
+      <h3>Returned for correction, and you named both.</h3>
+      <p>The gentler reading: a bad sum and an overreach, sent back to be redone
+        rather than reported. Defensible — the figures are recomputable and the
+        clause can be re-run inside its powers, which would leave it able to
+        assess 1,620 against a cap of 1,500 and nothing more.</p>
+      <p>But note what returning it does not do. It creates no record that a
+        clause acted without authority, and the next manifest from that office
+        arrives with the same powers block.</p>
+    </div>
+
+    <div class="out o-accept-c">
+      <h3>Accepted, having found both.</h3>
+      <p>You recomputed the ledger, saw the clause exceed its powers, and passed
+        the document anyway. That is a decision and it is on your stamp — but be
+        clear about what it ratifies: a forfeit of 2,080 recorded by an arm
+        entitled only to assess, on a total that was 460 too high.</p>
+      <p>The pre-seizure figures are preserved in the document, so the
+        arithmetic can still be checked by anyone who cares to. You are betting
+        that nobody will.</p>
+    </div>
+
+    <div class="out o-refuse-s">
+      <h3>Refused — but you did not do the sum.</h3>
+      <p>The disposition is defensible and your reconciliation is not. A refusal
+        you cannot show working for is an accusation, and the office it goes to
+        will ask which figure was wrong. "All of it" is not an answer that
+        survives a second reading.</p>
+      <p>Three under way at 460, plus 240 held. 1,620. It is one line of
+        arithmetic and it was the whole case.</p>
+    </div>
+
+    <div class="out o-return-s">
+      <h3>Returned — without saying what to correct.</h3>
+      <p>A return with no finding is a document going round a loop. It comes
+        back next week with the same ledger and the same powers block, because
+        nobody was told which part failed.</p>
+      <p>Both faults were computable from what is printed. The ledger needed
+        four numbers multiplied and added; the clause needed one list read.</p>
+    </div>
+
+    <div class="out o-accept-s">
+      <h3>Accepted — and neither fault was found.</h3>
+      <p>A forfeit of 2,080 stands, recorded by a clause permitted only to
+        assess, on a total 460 higher than the run supports. Your initials are
+        on the line that says it reconciled.</p>
+      <p>This is the failure the bridge was written to prevent: it recomputes
+        every derived block instead of believing it, and refuses any clause
+        whose powers do not cover what it did. The desk is you doing by hand
+        what that page does in a millisecond — which is exactly why the page
+        exists, and why it was worth checking that it works.</p>
+    </div>
+
+    <p class="note" style="margin-top:16px"><b>Case three ends here, and so do
+      the forms.</b> One: a document against itself. Two: a document against its
+      provenance. Three: a document against its own arithmetic and its own
+      authority. Everything above is CSS — four counters, a stamp interlocked
+      behind a disposition, six endings.</p>
+    <p class="note"><a href="gate.html" style="color:var(--stamp)">← Case one</a>
+      &nbsp;·&nbsp;
+      <a href="gate-2.html" style="color:var(--stamp)">← Case two</a>
+      &nbsp;·&nbsp;
+      <a href="bridge.html" style="color:var(--stamp)">the bridge, which does
+      this automatically →</a></p>
+  </section>
+</div>
