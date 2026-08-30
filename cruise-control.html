@@ -10,11 +10,15 @@
       · the master stop         — the board cannot be halted from the board
       · demurrage               — nothing is held, so nothing accrues for being held
 
-  What that means, plainly: the run has no blocker in it anywhere. Once the
-  aspect is set the hulls run to land two and back, and the only way to stop
-  them is to close the page. The earlier board was built the other way round —
-  three levels of stop, each above the last — and if that is wanted back it is
-  the previous commit, not a rebuild.
+  That was the state of this board for one commit. A stop has since been wired
+  back in — but deliberately NOT as a fourth aspect. It is the cut: two
+  actions, arm then throw, sitting outside the speed selector entirely.
+
+  The distinction is the whole lesson of having removed it. As one of four
+  aspects, red was a signal, an order and a brake in a single control, so
+  taking it off the panel took all three away at once and nothing noticed. A
+  stop that lives in the speed selector can be deselected by anyone choosing a
+  speed. This one cannot be reached by choosing anything.
 
   What is left is the thing that was asked for: one path, one focus, to the
   point. Eight hulls nose to tail on a single lane, one aspect governing all of
@@ -29,7 +33,7 @@
   :root{
     --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
     --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
-    --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8;
+    --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8; --red-c:#e0705a;
     --plum:#8a6ab8; --cream:#f2e9d6; --hull:#78b843;
   }
   *{box-sizing:border-box}
@@ -108,6 +112,80 @@
   .board:has(#a-cruise:checked) .hull{fill:var(--blue)}
   .board:has(#a-full:checked)   .hull{fill:var(--green)}
   @media (prefers-reduced-motion:reduce){.ship{animation:none}}
+
+  /* ================================================================ the cut
+     A stop returns to this lane — but not as a fourth aspect. It is wired
+     apart from the speeds and behind two actions, because the reason red came
+     off in the first place was that it was overloaded: a signal, an order and
+     a brake in the same control, so removing it took all three at once.
+
+     Every consequence below names BOTH the arm and the throw. A cut that was
+     never armed cannot exist, whatever the form state says. */
+  .cut{border:1px solid var(--red-c);border-radius:12px;padding:13px 14px;
+    background:rgba(224,112,90,.05);margin-top:12px}
+  .cut input{position:absolute;opacity:0;width:0;height:0}
+  .cut .arm,.cut .throw{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .cut .throw{margin-top:10px}
+  .cut label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;padding:12px 22px;border-radius:9px;
+    border:1px solid var(--edge);color:var(--dim)}
+  .cut label.big{font-size:13.5px;font-weight:700;padding:15px 30px}
+  #k-arm:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.14)}
+  #k-throw:checked+label{border-color:var(--red-c);background:var(--red-c);color:#12181d}
+  .cut input:focus-visible+label{outline:2px solid var(--blue);outline-offset:3px}
+  .cut .said{font-size:10.5px;color:var(--dim);max-width:56ch}
+  /* Unarmed, the throw is out of reach by both routes — pointer-events stops a
+     mouse, visibility:hidden takes the input out of the tab order. An interlock
+     a keyboard can walk around is decoration. */
+  .board:not(:has(#k-arm:checked)) .throw label{opacity:.32;pointer-events:none}
+  .board:not(:has(#k-arm:checked)) #k-throw{visibility:hidden}
+
+  .cstate{display:none;border-radius:10px;padding:10px 12px;margin-top:11px;
+    border:1px solid;font-size:11.5px;line-height:1.6}
+  .board:not(:has(#k-arm:checked)) .cs-safe{display:block}
+  .board:has(#k-arm:checked):not(:has(#k-throw:checked)) .cs-armed{display:block}
+  .board:has(#k-arm:checked):has(#k-throw:checked) .cs-cut{display:block}
+  .cs-safe{border-color:var(--green);background:rgba(101,214,168,.07);color:var(--green)}
+  .cs-armed{border-color:var(--gold);background:rgba(224,177,85,.08);color:var(--gold)}
+  .cs-cut{border-color:var(--red-c);background:rgba(224,112,90,.10);color:var(--red-c)}
+  .cstate b{color:inherit}
+
+  /* --------------------------------------------------------- the lamp rack */
+  .rack{display:flex;gap:9px;align-items:center;margin-top:12px}
+  .rack i{width:22px;height:22px;border-radius:50%;border:1px solid #0b1116;
+    background:#141c24;display:block;transition:background .2s,box-shadow .2s}
+  .rack .lbl{font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-left:6px}
+  .board:has(#a-slow:checked)   .l-y{background:var(--yellow);box-shadow:0 0 11px var(--yellow)}
+  .board:has(#a-cruise:checked) .l-b{background:var(--blue);box-shadow:0 0 11px var(--blue)}
+  .board:has(#a-full:checked)   .l-g{background:var(--green);box-shadow:0 0 11px var(--green)}
+  /* the fourth lamp: one job at a time, in the colour of that job */
+  .board:has(#x-tow:checked) .l-x{background:var(--gold);box-shadow:0 0 11px var(--gold)}
+  .board:has(#x-pow:checked) .l-x{background:#6ec6ff;box-shadow:0 0 11px #6ec6ff}
+  .board:has(#x-med:checked) .l-x{background:#f2f2f2;box-shadow:0 0 11px #fff}
+  .board:has(#x-std:checked) .l-x{background:var(--red-c);box-shadow:0 0 11px var(--red-c)}
+
+  .aux{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+  .aux input{position:absolute;opacity:0;width:0;height:0}
+  .aux label{cursor:pointer;font:10.5px/1 ui-monospace,monospace;padding:8px 13px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim)}
+  .aux input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .aux input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* ============ WRITTEN LAST, SO IT BEATS EVERY ASPECT RULE ABOVE IT ========
+     The cut is not a speed and does not argue with one. Whatever aspect is
+     selected, a thrown cut stops the file where it stands. */
+  .board:has(#k-arm:checked):has(#k-throw:checked) .ship
+    {animation-play-state:paused;filter:grayscale(1) brightness(.8)}
+  .board:has(#k-arm:checked):has(#k-throw:checked) .l-x{background:var(--red-c);
+    box-shadow:0 0 16px var(--red-c);animation:flash 1s steps(1) infinite}
+  .board:has(#k-arm:checked):has(#k-throw:checked) .l-y,
+  .board:has(#k-arm:checked):has(#k-throw:checked) .l-b,
+  .board:has(#k-arm:checked):has(#k-throw:checked) .l-g
+    {background:#141c24;box-shadow:none}
+  @keyframes flash{50%{background:#3a1a16;box-shadow:none}}
 
   /* stages */
   .stages{position:absolute;left:112px;right:112px;top:0;bottom:0;
@@ -270,7 +348,47 @@
   <input type="radio" name="asp" id="a-full" form="vy" value="full"><label class="l-full" for="a-full">Full</label>
   <button type="submit" form="vy" style="margin-left:auto;background:none;color:var(--gold);border:1px solid var(--gold);cursor:pointer;font:inherit;font-size:11.5px;padding:9px 16px;border-radius:8px">Send run to the bridge</button>
   <p>One control, the whole file. Blue is the setting the lane is run on; full
-    is a request, not a state. There is no fourth aspect.</p>
+    is a request, not a state. There is still no fourth aspect — the stop is
+    below, and it is not a speed.</p>
+</div>
+
+<div class="rack">
+  <i class="l-y"></i><i class="l-b"></i><i class="l-g"></i><i class="l-x"></i>
+  <span class="lbl">three aspects · one auxiliary</span>
+</div>
+<div class="aux">
+  <input type="radio" name="x" id="x-tow" checked form="vy" value="tow"><label for="x-tow">Tow</label>
+  <input type="radio" name="x" id="x-pow" form="vy" value="power"><label for="x-pow">Power</label>
+  <input type="radio" name="x" id="x-med" form="vy" value="medical"><label for="x-med">Medical</label>
+  <input type="radio" name="x" id="x-std" form="vy" value="standby"><label for="x-std">Cut standing by</label>
+</div>
+<p class="note" style="margin-top:8px">The fourth lamp is the auxiliary channel:
+  one job at a time, each in its own colour. Not a lamp that means four things —
+  a lamp that means exactly one and says which.</p>
+
+<div class="cut">
+  <h2 style="margin-top:0">The cut <b>two actions, and it is not an aspect</b></h2>
+  <div class="arm">
+    <input type="checkbox" id="k-arm" form="vy" name="cut" value="armed">
+    <label for="k-arm">1 · Arm</label>
+    <span class="said">Reversible, and it announces itself. Arming is how the
+      lane finds out somebody is about to do this.</span>
+  </div>
+  <div class="throw">
+    <input type="checkbox" id="k-throw" form="vy" name="cut" value="thrown">
+    <label for="k-throw" class="big">2 · Throw the cut</label>
+    <span class="said">Out of reach until armed — by mouse and by keyboard both.
+      Nothing on this board restarts the lane afterwards.</span>
+  </div>
+
+  <div class="cstate cs-safe"><b>Safe.</b> The cut is unarmed and the throw
+    cannot be reached. The file runs on the aspect showing.</div>
+  <div class="cstate cs-armed"><b>Armed.</b> Nothing has happened and the lane
+    has not changed. The difference between this and safe is entirely social —
+    somebody has declared an intention, in the open.</div>
+  <div class="cstate cs-cut"><b>Cut.</b> The file is stopped where it stood, the
+    aspect lamps are dark because a speed is not an answer to a stop, and the
+    auxiliary lamp is flashing red over whatever it was doing.</div>
 </div>
 
 <div class="panel" style="margin-top:14px">
@@ -338,12 +456,47 @@
     <div class="head"><span>Units back</span><b>8</b></div>
   </div>
 
+  <h2>Complexity, and where it stops being mine <b>B2 · P2P · 2B</b></h2>
+  <table class="ledger">
+    <tr><th>Leg</th><th>What varies</th><th>States</th></tr>
+    <tr><td>This board <span class="q">· the lane</span></td>
+        <td>3 aspects × 3 cut states × 4 auxiliary jobs</td><td>36</td></tr>
+    <tr><td>Tariff desk</td><td>4 stages × 3 bands each — 3⁴</td><td>81</td></tr>
+    <tr><td><b>Lane subtotal</b></td><td>36 × 81</td><td><b>2,916</b></td></tr>
+    <tr><td>B2 <span class="q">· Earth departure</span></td>
+        <td>2 supply paths × 3 payload classes</td><td>6</td></tr>
+    <tr><td>P2P <span class="q">· the relay</span></td>
+        <td>holding or forwarding — store-and-forward has two states and no third</td>
+        <td>2</td></tr>
+    <tr class="sum"><td>Accounted for</td><td>2,916 × 6 × 2</td><td>34,992</td></tr>
+    <tr><td>2B <span class="q">· Venus arrival</span></td>
+        <td colspan="2" style="text-align:right;color:var(--dim)">
+          not counted — see below</td></tr>
+  </table>
+  <p class="note"><strong>Why 2B is absent and not zero.</strong> The arrival
+    end is not mine to consider, so it is not in the total — and the honest way
+    to exclude something is to name it in the table and leave the cell empty,
+    not to quietly multiply by one. A missing factor written as 1 is a claim
+    that the arrival end has exactly one state, which is a much stronger
+    statement than "I did not count it" and happens to be false.</p>
+  <p class="note"><strong>What the accounted figure is worth.</strong> 34,992 is
+    the number of distinct configurations this lane can be in, counting only
+    what is set on this page, the Earth-side departure and whether the relay is
+    holding or forwarding. It is a state count, not a difficulty measure —
+    two-thirds of those states differ only in what a stage charges, and nobody
+    has to think about most of them. The three that matter are safe, armed and
+    cut.</p>
+
   <h2>What was taken out</h2>
   <p class="note"><strong>Every blocker, on instruction.</strong> The red aspect
     is gone, the four station stops are gone, the master stop is gone, and
     demurrage went with them — nothing is held, so nothing accrues for being
-    held. The file runs from the moment the page opens and the only thing that
-    stops it is closing the page.</p>
+    held. The file runs from the moment the page opens.</p>
+  <p class="note"><strong>And then the cut came back.</strong> Not as any of
+    those. The station stops were three levels of the same idea and the red
+    aspect was a speed pretending to be a stop; the cut is neither. It is one
+    control, outside the aspect code, behind two actions, and it is the only
+    thing on this board that can end the run.</p>
   <p class="note">That is a real change and it is worth being clear about it,
     because the board was built the other way round: three levels of stop, each
     one above the last, specifically so that no state could be entered that
