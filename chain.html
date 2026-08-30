@@ -1,0 +1,276 @@
+<title>The Chain · B2 · P2P · 2B</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Three legs, three lamp sets, and each one can say less than the one before it.
+
+      B2   Earth departure   red yellow blue green   16 states   can refuse
+      P2P  the relay             yellow blue green    8 states   can only pace
+      2B   Venus arrival              blue green      4 states   can only receive
+
+  That is the whole system and it is strictly decreasing. Not by accident and
+  not by economy — each leg is further from the authority that can say no, and
+  the vocabulary shrinks to match. By the time you reach the arrival end there
+  are two lamps and neither of them is a refusal.
+
+  THE THING THIS PAGE IS FOR
+  A chain where only the first link can stop is not a chain with one brake. It
+  is a chain where the end that can SEE the problem is the end with no word for
+  it — and where the word would take 2.1 to 14.3 minutes to travel back even if
+  it existed. That is not a flaw in the signal code. It is the signal code
+  telling you the truth about where the power sits.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --red:#e0705a; --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8;
+    --plum:#8a6ab8; --earth:#5b9ed6; --venus:#e8a34a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 46px;color:var(--ink);background:var(--void);
+    font:13.5px/1.64 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 10% 4%,rgba(91,158,214,.10),transparent 42%),
+      radial-gradient(circle at 90% 92%,rgba(232,163,74,.10),transparent 42%)}
+  .wrap{max-width:1040px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.018em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.66;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+  /* ------------------------------------------------------------- the legs */
+  .legs{display:grid;gap:12px;grid-template-columns:repeat(3,1fr)}
+  @media (max-width:860px){.legs{grid-template-columns:1fr}}
+  .leg{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px;
+    position:relative}
+  .leg .code{font:9px/1 ui-monospace,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--plum)}
+  .leg h3{margin:5px 0 2px;font-size:17px;letter-spacing:-.012em}
+  .leg .where{font-size:11px;color:var(--dim);margin-bottom:11px}
+  .leg.b2{border-color:rgba(91,158,214,.5)}
+  .leg.b2 .code{color:var(--earth)}
+  .leg.p2p{border-color:rgba(138,106,184,.5)}
+  .leg.b2b{border-color:rgba(232,163,74,.5)}
+  .leg.b2b .code{color:var(--venus)}
+
+  .rack{display:flex;gap:7px;margin-bottom:11px}
+  .rack i{width:24px;height:24px;border-radius:50%;border:1px solid #0b1116;
+    background:#141c24;display:block;transition:background .2s,box-shadow .2s}
+  .rack i.absent{background:#0c1116;border-style:dashed;border-color:#22303c;
+    position:relative}
+  .rack i.absent::after{content:"";position:absolute;inset:5px 4px;
+    border-top:1px solid #33414e;transform:rotate(-45deg)}
+
+  .opts{display:flex;gap:5px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10.5px/1 ui-monospace,monospace;padding:9px 12px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+  #a-stop:checked+label{border-color:var(--red);color:var(--red);
+    background:rgba(224,112,90,.14);font-weight:700}
+  #a-slow:checked+label,#b-slow:checked+label{border-color:var(--yellow);
+    color:var(--yellow);background:rgba(232,194,92,.12);font-weight:700}
+  #a-cruise:checked+label,#b-cruise:checked+label,#c-cruise:checked+label{
+    border-color:var(--blue);color:var(--blue);
+    background:rgba(91,158,214,.14);font-weight:700}
+  #a-full:checked+label,#b-full:checked+label,#c-full:checked+label{
+    border-color:var(--green);color:var(--green);
+    background:rgba(101,214,168,.14);font-weight:700}
+
+  /* lamps follow the selection, per leg */
+  .board:has(#a-stop:checked)   .b2 .l-r{background:var(--red);box-shadow:0 0 11px var(--red)}
+  .board:has(#a-slow:checked)   .b2 .l-y{background:var(--yellow);box-shadow:0 0 11px var(--yellow)}
+  .board:has(#a-cruise:checked) .b2 .l-b{background:var(--blue);box-shadow:0 0 11px var(--blue)}
+  .board:has(#a-full:checked)   .b2 .l-g{background:var(--green);box-shadow:0 0 11px var(--green)}
+  .board:has(#b-slow:checked)   .p2p .l-y{background:var(--yellow);box-shadow:0 0 11px var(--yellow)}
+  .board:has(#b-cruise:checked) .p2p .l-b{background:var(--blue);box-shadow:0 0 11px var(--blue)}
+  .board:has(#b-full:checked)   .p2p .l-g{background:var(--green);box-shadow:0 0 11px var(--green)}
+  .board:has(#c-cruise:checked) .b2b .l-b{background:var(--blue);box-shadow:0 0 11px var(--blue)}
+  .board:has(#c-full:checked)   .b2b .l-g{background:var(--green);box-shadow:0 0 11px var(--green)}
+
+  /* what each leg cannot say */
+  .cant{margin-top:11px;border-top:1px solid var(--edge);padding-top:9px;
+    font-size:11px;color:var(--dim);line-height:1.6}
+  .cant b{color:var(--red)}
+
+  /* stop at B2 empties the legs downstream — nothing is in transit to pace */
+  .idle{display:none;position:absolute;inset:auto 15px 15px;font:9px/1.6
+    ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--red);border:1px dashed rgba(224,112,90,.5);border-radius:7px;
+    padding:8px 10px;background:rgba(224,112,90,.07)}
+  .board:has(#a-stop:checked) .p2p .idle,
+  .board:has(#a-stop:checked) .b2b .idle{display:block}
+  .board:has(#a-stop:checked) .p2p .opts,
+  .board:has(#a-stop:checked) .b2b .opts{opacity:.28;pointer-events:none}
+  .board:has(#a-stop:checked) .p2p .rack i,
+  .board:has(#a-stop:checked) .b2b .rack i{background:#141c24;box-shadow:none}
+
+  /* ---------------------------------------------------------------- tiers */
+  .tiers{display:grid;gap:10px;grid-template-columns:repeat(4,1fr);margin-top:12px}
+  @media (max-width:760px){.tiers{grid-template-columns:repeat(2,1fr)}}
+  .tier{background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .tier span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .tier b{display:block;font:23px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  .tier.t1 b{color:var(--earth)} .tier.t2 b{color:var(--plum)}
+  .tier.t3 b{color:var(--venus)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td.no{color:var(--red)}
+  tr.sum td{border-top:1.5px solid var(--gold);font-weight:700}
+  tr.sum td:last-child{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px;margin-top:14px}
+</style>
+
+<div class="board wrap">
+  <header>
+    <h1>The Chain</h1>
+    <span class="sub">Three legs, three lamp sets, and each one can say less
+      than the one before it. Only the first can refuse.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="legs">
+
+    <!-- ---------------------------------------------------------- B2 -->
+    <div class="leg b2">
+      <span class="code">B2 · four lamps</span>
+      <h3>Earth departure</h3>
+      <div class="where">where the cargo is loaded and the only place in the
+        system a thing can be stopped</div>
+      <div class="rack"><i class="l-r"></i><i class="l-y"></i>
+        <i class="l-b"></i><i class="l-g"></i></div>
+      <div class="opts">
+        <input type="radio" name="a" id="a-stop"><label for="a-stop">stop</label>
+        <input type="radio" name="a" id="a-slow"><label for="a-slow">slow</label>
+        <input type="radio" name="a" id="a-cruise" checked><label for="a-cruise">cruise</label>
+        <input type="radio" name="a" id="a-full"><label for="a-full">full</label>
+      </div>
+      <div class="cant"><b>Can refuse.</b> Red exists here and nowhere else. A
+        sailing that should not happen is prevented at this end or it is not
+        prevented at all.</div>
+    </div>
+
+    <!-- ---------------------------------------------------------- P2P -->
+    <div class="leg p2p">
+      <span class="code">P2P · three lamps</span>
+      <h3>The relay</h3>
+      <div class="where">store and forward, holding what it was given until the
+        geometry allows</div>
+      <div class="rack"><i class="absent"></i><i class="l-y"></i>
+        <i class="l-b"></i><i class="l-g"></i></div>
+      <div class="opts">
+        <input type="radio" name="b" id="b-slow"><label for="b-slow">slow</label>
+        <input type="radio" name="b" id="b-cruise" checked><label for="b-cruise">cruise</label>
+        <input type="radio" name="b" id="b-full"><label for="b-full">full</label>
+      </div>
+      <div class="cant"><b>Cannot refuse.</b> Three ways to pace what is already
+        moving and no way to say it should not have been sent. The relay holds
+        and forwards; holding is not refusing, it is a delay with a destination
+        already fixed.</div>
+      <div class="idle">upstream at stop · nothing in transit to pace</div>
+    </div>
+
+    <!-- ---------------------------------------------------------- 2B -->
+    <div class="leg b2b">
+      <span class="code">2B · two lamps</span>
+      <h3>Venus arrival</h3>
+      <div class="where">the outpost, fifty kilometres up, taking what
+        arrives</div>
+      <div class="rack"><i class="absent"></i><i class="absent"></i>
+        <i class="l-b"></i><i class="l-g"></i></div>
+      <div class="opts">
+        <input type="radio" name="c" id="c-cruise" checked><label for="c-cruise">cruise</label>
+        <input type="radio" name="c" id="c-full"><label for="c-full">full</label>
+      </div>
+      <div class="cant"><b>Cannot refuse and cannot even slow.</b> Two lamps,
+        both of them a way of saying yes. The arrival end may take a delivery
+        briskly or steadily. There is no third thing it is able to say.</div>
+      <div class="idle">upstream at stop · nothing inbound</div>
+    </div>
+  </div>
+
+  <h2>The tiers <b>strictly decreasing, and that is the design</b></h2>
+  <div class="tiers">
+    <div class="tier t1"><span>B2 · 2⁴</span><b>16</b></div>
+    <div class="tier t2"><span>P2P · 2³</span><b>8</b></div>
+    <div class="tier t3"><span>2B · 2²</span><b>4</b></div>
+    <div class="tier"><span>chain · 16 × 8 × 4</span><b>512</b></div>
+  </div>
+
+  <table>
+    <tr><th>&nbsp;</th><th>B2</th><th>P2P</th><th>2B</th></tr>
+    <tr><td>Lamps</td><td>4</td><td>3</td><td>2</td></tr>
+    <tr><td>States</td><td>16</td><td>8</td><td>4</td></tr>
+    <tr><td>Can say <b>stop</b></td><td>yes</td><td class="no">no</td><td class="no">no</td></tr>
+    <tr><td>Can say <b>slow</b></td><td>yes</td><td>yes</td><td class="no">no</td></tr>
+    <tr><td>Can report a fault <span class="q">(three lit)</span></td>
+        <td>yes</td><td class="no">no — three lit is all lit</td>
+        <td class="no">no</td></tr>
+    <tr><td>Distance from the authority</td><td>none</td><td>in transit</td>
+        <td>2.1–14.3 min of light</td></tr>
+    <tr class="sum"><td>Chain states</td><td colspan="2"></td><td>512</td></tr>
+  </table>
+
+  <div class="panel">
+    <h2 style="margin-top:0">What it costs to be last <b>read this one twice</b></h2>
+    <p class="note" style="margin-top:0"><b>The end that can see the problem is
+      the end with no word for it.</b> The outpost is the only party that knows
+      whether it can take what is coming — whether the berth is clear, whether
+      the lift margin is there, whether the last consignment already filled the
+      hold. It has two lamps and both of them mean yes.</p>
+    <p class="note"><b>And the word would arrive too late anyway.</b> One-way
+      light time between the planets runs from 2.1 minutes at closest approach
+      to 14.3 at furthest. Even if 2B had a red lamp, a refusal sent the moment
+      a ship appeared on the scope would reach Earth long after the ship reached
+      the outpost. The vocabulary is not the binding constraint. The vocabulary
+      is an honest description of a constraint that already existed.</p>
+    <p class="note"><b>Which is why the whole burden sits at B2.</b> Everything
+      downstream is a lane with no brake in it — exactly what the cruiser board
+      became the day red came off, and the reason the cut had to be wired back
+      in as its own control rather than as a fourth aspect. A system with one
+      red light is not underspecified. It is telling you, precisely, where the
+      decision has to be made: <b>before departure, by the only party that can
+      still change its mind.</b></p>
+    <p class="note">Set B2 to stop and watch the other two legs go dark. They do
+      not disagree, they do not queue, they do not hold an opinion — there is
+      simply nothing for them to pace. That is not deference. It is the
+      arithmetic of being downstream.</p>
+  </div>
+
+  <div class="panel">
+    <h2 style="margin-top:0">Where the codes are written out</h2>
+    <p class="note" style="margin-top:0">B2's sixteen states, each with a job,
+      are on <a href="signals.html" style="color:var(--gold)">Signal Code</a> —
+      including the four degraded states named by the lamp that is missing.
+      P2P's eight are on <a href="signals-3.html" style="color:var(--gold)">Three
+      Lamps</a>, which also shows what is lost when a lamp comes off: half the
+      code, and the entire ability to report a fault. 2B's four are the trivial
+      remainder — dark, cruise, full, both — and only two of them are orders.</p>
+  </div>
+</div>
