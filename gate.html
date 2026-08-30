@@ -1,0 +1,319 @@
+<title>Gate · Case One</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  You are the clerk at the Slip 4 gate. A form, a bulletin, and one person
+  standing in front of you.
+
+  THE LOOP
+  Read the papers against today's bulletin. Mark each of four fields MATCH or
+  MISMATCH. Choose a verdict. Stamp it — and only then does the page tell you
+  which of your marks were right. That delay is the whole game: feedback before
+  the stamp would make it a quiz, and this is not a quiz.
+
+  WHAT IS ACTUALLY WIRED
+    · four checks, each scoring against a fixed truth      (counters)
+    · the stamp interlocked behind a verdict               (:has + tab order)
+    · four outcomes, chosen by verdict × whether you found both faults
+    · nothing revealed until the stamp is down             (:has on the stamp)
+
+  No script. The truth is in the stylesheet, which means a determined reader can
+  open this file and cheat. That is fine — so could a clerk with the bulletin.
+-->
+<style>
+  :root{
+    --ink0:#0d0c0a; --paper:#e8e2d2; --paper2:#dcd4c0; --line:#b9ae95;
+    --ink:#1b1815; --dim:#6b6252; --red:#a33b2e; --stamp:#8c2f24;
+    --green:#3f6b45; --blue:#2f5570; --gold:#8a6a1e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;background:#141210;color:var(--ink);
+    font:14px/1.6 ui-serif,Georgia,'Times New Roman',serif;
+    background-image:
+      radial-gradient(circle at 20% 0%,rgba(180,150,90,.10),transparent 44%),
+      repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 4px)}
+  .desk{max-width:1000px;margin:0 auto;display:grid;gap:14px;
+    grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:840px){.desk{grid-template-columns:1fr}}
+
+  .sheet{background:linear-gradient(180deg,var(--paper),var(--paper2));
+    border:1px solid var(--line);border-radius:3px;padding:16px 18px;
+    box-shadow:0 12px 30px rgba(0,0,0,.5)}
+  .sheet.full{grid-column:1/-1}
+  h1{margin:0 0 2px;font-size:20px;letter-spacing:.02em}
+  .sub{color:var(--dim);font-size:11.5px;margin:0 0 12px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:0 0 10px;font-weight:700;
+    border-bottom:1px solid var(--line);padding-bottom:7px}
+  h2.mt{margin-top:18px}
+  .mono{font:12px/1.7 ui-monospace,Menlo,monospace}
+  .field{display:flex;gap:10px;padding:5px 0;border-bottom:1px dotted var(--line);
+    font:12px/1.6 ui-monospace,Menlo,monospace}
+  .field:last-child{border-bottom:0}
+  .field .k{color:var(--dim);min-width:96px}
+  .field .v{font-weight:700}
+  .note{font-size:11.5px;color:var(--dim);line-height:1.6;margin:10px 0 0}
+  .note b{color:var(--ink)}
+  .fine{font-size:10.5px;color:var(--dim);font-style:italic}
+
+  /* the person */
+  .who{display:flex;gap:12px;align-items:flex-start}
+  .who svg{width:76px;height:92px;flex:none;border:1px solid var(--line);
+    background:#cfc6b0}
+  .who .nm{font-size:16px;font-weight:700;margin:0 0 2px}
+  .who .rk{font:10px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+  .who p{margin:0;font-size:12.5px;color:#2c2822}
+
+  /* ------------------------------------------------------------- the checks */
+  .chk{padding:9px 0;border-bottom:1px dotted var(--line)}
+  .chk:last-of-type{border-bottom:0}
+  .chk .q{font-size:12.5px;margin-bottom:6px}
+  .chk .q b{font-family:ui-monospace,monospace;font-size:11.5px}
+  .opts{display:flex;gap:6px}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10px/1 ui-monospace,monospace;letter-spacing:.12em;
+    padding:8px 13px;border:1px solid var(--line);border-radius:2px;
+    color:var(--dim);background:#e2dbc8}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{background:var(--ink);color:var(--paper);
+    border-color:var(--ink);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* the scoring. Truth lives here: fields one and two match, three and four
+     do not. A right mark scores, a wrong one is an error. */
+  body{counter-reset:right 0 err 0}
+  #f1-m:checked+label{counter-increment:right 1}  #f1-x:checked+label{counter-increment:err 1}
+  #f2-m:checked+label{counter-increment:right 1}  #f2-x:checked+label{counter-increment:err 1}
+  #f3-x:checked+label{counter-increment:right 1}  #f3-m:checked+label{counter-increment:err 1}
+  #f4-x:checked+label{counter-increment:right 1}  #f4-m:checked+label{counter-increment:err 1}
+  .n-right::after{content:counter(right)}
+  .n-err::after{content:counter(err)}
+
+  /* --------------------------------------------------------- verdict, stamp */
+  .verdict .opts label{padding:12px 22px;font-size:11.5px;letter-spacing:.16em}
+  #v-admit:checked+label{background:var(--green);border-color:var(--green);color:#f0ece0}
+  #v-deny:checked+label{background:var(--stamp);border-color:var(--stamp);color:#f0ece0}
+
+  .stampbox{margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .stampbox input{position:absolute;opacity:0;width:0;height:0}
+  .stampbox label{cursor:pointer;font:13px/1 ui-monospace,monospace;
+    letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+    padding:16px 34px;border:2px solid var(--ink);border-radius:3px;
+    background:#e2dbc8;color:var(--ink)}
+  #stamp:checked+label{background:var(--stamp);border-color:var(--stamp);
+    color:#f4ece2;transform:rotate(-1.5deg)}
+  .stampbox input:focus-visible+label{outline:2px solid var(--blue);outline-offset:3px}
+  /* no verdict, no stamp — by pointer and by keyboard both */
+  .desk:not(:has(input[name="v"]:checked)) .stampbox label{opacity:.34;
+    pointer-events:none}
+  .desk:not(:has(input[name="v"]:checked)) #stamp{visibility:hidden}
+  .stampbox .hint{font-size:11.5px;color:var(--dim);max-width:34ch}
+
+  /* -------------------------------------------------------------- outcomes */
+  .after{display:none}
+  .desk:has(#stamp:checked) .after{display:block}
+  .desk:has(#stamp:checked) .before{display:none}
+
+  .out{display:none;border-left:3px solid var(--line);padding:2px 0 2px 14px;
+    margin-top:14px}
+  .out h3{margin:0 0 5px;font-size:15px}
+  .out p{margin:0;font-size:12.5px;color:#2c2822}
+  /* four endings: verdict × whether both faults were found */
+  .desk:has(#stamp:checked):has(#v-deny:checked) .o-deny-sloppy{display:block}
+  .desk:has(#stamp:checked):has(#v-admit:checked) .o-admit-sloppy{display:block}
+  .desk:has(#stamp:checked):has(#v-deny:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-deny-clean{display:block}
+  .desk:has(#stamp:checked):has(#v-admit:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-admit-clean{display:block}
+  /* the careful endings supersede the careless ones — written after, so they win */
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-deny-sloppy,
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-admit-sloppy{display:none}
+  .o-deny-clean{border-color:var(--stamp)} .o-admit-clean{border-color:var(--green)}
+  .o-deny-sloppy,.o-admit-sloppy{border-color:var(--gold)}
+
+  /* the marking, revealed only after the stamp */
+  .mark{display:flex;gap:8px;padding:5px 0;font:11.5px/1.6 ui-monospace,monospace;
+    border-bottom:1px dotted var(--line)}
+  .mark .t{min-width:74px;color:var(--dim)}
+  .mark .a{font-weight:700}
+  .score{font:26px/1.2 ui-monospace,monospace;margin-top:10px}
+  .score .n-err::after{color:var(--red)}
+  .score small{display:block;font:9.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+</style>
+
+<div class="desk">
+
+  <!-- ------------------------------------------------------------ bulletin -->
+  <section class="sheet">
+    <h1>Slip 4 · Gate</h1>
+    <p class="sub">Bulletin of the day · 46th · posted by the harbourmaster</p>
+
+    <h2>Standing orders</h2>
+    <div class="mono">
+      <div class="field"><span class="k">ROSTER</span>
+        <span class="v">VANE, CORINA J. — rating, deck</span></div>
+      <div class="field"><span class="k">BERTHED</span>
+        <span class="v">THREADNEEDLE (AK) — slip 4, outbound</span></div>
+      <div class="field"><span class="k">PASSES</span>
+        <span class="v">valid 30 days from issue. No exceptions.</span></div>
+      <div class="field"><span class="k">ORDNANCE</span>
+        <span class="v">no transit without a lading endorsement</span></div>
+      <div class="field"><span class="k">TODAY</span>
+        <span class="v">the 46th</span></div>
+    </div>
+    <p class="note"><b>Conventional systems only.</b> Ordnance may cross this
+      gate when a lading endorsement is stamped on the reverse of the pass. An
+      undorsed declaration is not an offence — it is an incomplete pass, and it
+      is refused.</p>
+    <p class="fine">Consignments marked for the Proprietor are handled the same
+      as any other. The harbourmaster wishes this noted in writing.</p>
+  </section>
+
+  <!-- -------------------------------------------------------------- papers -->
+  <section class="sheet">
+    <h2>Papers presented</h2>
+    <div class="who">
+      <svg viewBox="0 0 76 92" aria-label="Identification photograph, worn.">
+        <rect width="76" height="92" fill="#c6bda6"/>
+        <circle cx="38" cy="34" r="17" fill="#9d8f77"/>
+        <path d="M14 92q6-30 24-30t24 30z" fill="#8b7d66"/>
+        <path d="M23 30q6-9 15-8t15 9" stroke="#6d6252" stroke-width="2.5" fill="none"/>
+        <rect x="0" y="70" width="76" height="1" fill="#7c7260" opacity=".5"/>
+      </svg>
+      <div>
+        <p class="nm">VANE, CORINA J.</p>
+        <p class="rk">rating · deck · age 29</p>
+        <p>Steady, by the look of her. Answers what she is asked and nothing
+          more. Two crates at her feet, roped and unmarked.</p>
+      </div>
+    </div>
+
+    <h2 class="mt">The pass</h2>
+    <div class="mono">
+      <div class="field"><span class="k">NAME</span>
+        <span class="v">VANE, CORINA J.</span></div>
+      <div class="field"><span class="k">HULL</span>
+        <span class="v">THREADNEEDLE (AK)</span></div>
+      <div class="field"><span class="k">ISSUED</span>
+        <span class="v">the 14th · valid 30 days</span></div>
+      <div class="field"><span class="k">DECLARES</span>
+        <span class="v">ordnance, conventional — 2 crates</span></div>
+      <div class="field"><span class="k">REVERSE</span>
+        <span class="v">— no endorsement —</span></div>
+    </div>
+    <p class="note">She says the crates are the Proprietor's and that she is
+      only carrying them. She does not say it as though she expects it to help.</p>
+  </section>
+
+  <!-- --------------------------------------------------------- the four checks -->
+  <section class="sheet full">
+    <h2>Compare · mark each field</h2>
+
+    <div class="chk">
+      <div class="q">1 · <b>NAME</b> on the pass against the roster.</div>
+      <span class="opts">
+        <input type="radio" name="f1" id="f1-m"><label for="f1-m">match</label>
+        <input type="radio" name="f1" id="f1-x"><label for="f1-x">mismatch</label>
+      </span>
+    </div>
+    <div class="chk">
+      <div class="q">2 · <b>HULL</b> named on the pass against what is berthed.</div>
+      <span class="opts">
+        <input type="radio" name="f2" id="f2-m"><label for="f2-m">match</label>
+        <input type="radio" name="f2" id="f2-x"><label for="f2-x">mismatch</label>
+      </span>
+    </div>
+    <div class="chk">
+      <div class="q">3 · <b>VALIDITY</b> — issue date and term against today.</div>
+      <span class="opts">
+        <input type="radio" name="f3" id="f3-m"><label for="f3-m">match</label>
+        <input type="radio" name="f3" id="f3-x"><label for="f3-x">mismatch</label>
+      </span>
+    </div>
+    <div class="chk">
+      <div class="q">4 · <b>DECLARATION</b> against the ordnance order.</div>
+      <span class="opts">
+        <input type="radio" name="f4" id="f4-m"><label for="f4-m">match</label>
+        <input type="radio" name="f4" id="f4-x"><label for="f4-x">mismatch</label>
+      </span>
+    </div>
+
+    <h2 class="mt">Verdict</h2>
+    <div class="verdict">
+      <span class="opts">
+        <input type="radio" name="v" id="v-admit"><label for="v-admit">admit</label>
+        <input type="radio" name="v" id="v-deny"><label for="v-deny">deny</label>
+      </span>
+    </div>
+
+    <div class="stampbox">
+      <input type="checkbox" id="stamp"><label for="stamp">Stamp it</label>
+      <span class="hint before">No stamp without a verdict. Your marks are not
+        scored until the stamp is down — that is deliberate.</span>
+      <span class="hint after">Stamped. It does not come off.</span>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------------- the result -->
+  <section class="sheet full after">
+    <h2>Marking</h2>
+    <div class="mark"><span class="t">1 · NAME</span>
+      <span class="a">MATCH</span><span>— VANE, CORINA J. on both. She is who
+      the roster says.</span></div>
+    <div class="mark"><span class="t">2 · HULL</span>
+      <span class="a">MATCH</span><span>— Threadneedle is berthed at slip 4 and
+      outbound. Correct hull.</span></div>
+    <div class="mark"><span class="t">3 · VALIDITY</span>
+      <span class="a">MISMATCH</span><span>— issued the 14th, valid thirty days,
+      so it lapsed on the 44th. Today is the 46th. Expired by two.</span></div>
+    <div class="mark"><span class="t">4 · DECLARATION</span>
+      <span class="a">MISMATCH</span><span>— ordnance declared, reverse
+      unendorsed. Incomplete pass under the standing order.</span></div>
+
+    <div class="score"><small>marks correct</small>
+      <span class="n-right"></span> / 4 &nbsp;
+      <span style="color:var(--red)">errors <span class="n-err"></span></span></div>
+
+    <div class="out o-deny-clean">
+      <h3>Denied, and you saw why.</h3>
+      <p>Two faults, both found, and the pass refused on the second — the
+        expired date alone would have been a formality she could have fixed by
+        noon. She takes the crates back up without argument, which is the part
+        that stays with you. The Threadneedle sails at four whether she is on it
+        or not, and she is not. <b>Nothing about this reverses.</b></p>
+    </div>
+
+    <div class="out o-admit-clean">
+      <h3>Admitted, knowing.</h3>
+      <p>You found both faults and passed her anyway. That is not an error; it
+        is a decision, and it is now yours. The crates go aboard unendorsed
+        under your stamp, and the endorsement column on the day's return will
+        be blank next to your initials. She nods once. She was expecting to be
+        turned back.</p>
+    </div>
+
+    <div class="out o-deny-sloppy">
+      <h3>Denied — but check your marks.</h3>
+      <p>The verdict happens to be the one the standing orders require. Your
+        reading of the pass was not. A clerk who reaches the right answer from
+        the wrong reading gets it wrong the next time the papers are clean, and
+        the next one through the gate has clean papers.</p>
+    </div>
+
+    <div class="out o-admit-sloppy">
+      <h3>Admitted — and you missed it.</h3>
+      <p>Two crates of unendorsed ordnance are aboard an outbound merchant on a
+        lapsed pass, and the gate log says you compared the fields and found
+        them in order. That is worse than passing her knowingly. One of those
+        is a judgement; this one is a record that says something happened which
+        did not.</p>
+    </div>
+
+    <p class="note" style="margin-top:16px"><b>Case one ends here.</b> There is
+      no undo on this page and there will not be one on the others — the stamp
+      is the point. Everything above is CSS: four counters, a stamp interlocked
+      behind a verdict, and four endings chosen by what you marked and what you
+      decided.</p>
+  </section>
+</div>
