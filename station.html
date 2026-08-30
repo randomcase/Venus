@@ -4,20 +4,28 @@
   Heze Orbital Yard — an order desk that runs on nothing.
 
   No script. Not one line, and no framework underneath it either. Every moving
-  part on this page is CSS doing something CSS has always been able to do:
+  part on this page is markup and CSS doing what markup and CSS have always
+  been able to do:
 
     · the running total is a CSS counter. Each checked option increments it,
       and the docket further down the document prints the sum. Real arithmetic,
       done by the layout engine.
-    · the ship in the berth changes because .app:has(:checked) matches a
-      different silhouette. No state, no re-render.
+    · the hull in the slip changes because .app:has(:checked) matches a
+      different <svg>. No state, no re-render, no event handler.
     · the confirmation panel is :target — a link changes the URL fragment and
       the panel is what matches it.
-    · the ring turns, the lights blink and the stars drift on @keyframes.
+    · the ring turns, the radar sweeps, the beacons blink and the engines
+      breathe on @keyframes, applied to SVG nodes.
+
+  The ships are inline SVG, sharing one <defs> block: gradients, a plating
+  pattern, and <symbol>s for the parts that repeat — turrets, funnels, bridge
+  tiers, engine bells, cradles. A battleship is not thirty hand-drawn shapes,
+  it is four <use> of the same turret at different scales, which is also how
+  the real ones were built.
 
   Because the total is a counter, the docket has to come after the form in the
-  document; the grid puts it back on the right where it belongs. That is the
-  one constraint the whole page is built around.
+  document; the grid puts it back on the right. That is the one constraint the
+  whole page is built around.
 
   Nothing here signs, sends, or settles anything. It is an order form.
 -->
@@ -43,7 +51,7 @@
       radial-gradient(circle at 78% 8%,rgba(110,198,255,.10),transparent 46%),
       radial-gradient(circle at 14% 92%,rgba(224,177,85,.09),transparent 44%);
     background-size:cover;
-    animation:drift 140s linear infinite;
+    animation:drift 160s linear infinite;
   }
   @keyframes drift{to{background-position:-240px 120px,0 0,180px -90px,0 0,
     -120px 60px,0 0,90px -45px,0 0,0 0}}
@@ -76,90 +84,95 @@
   .desk{grid-area:desk}
   .docket{grid-area:docket;position:sticky;top:14px}
 
-  /* ------------------------------------------------------------ the station */
-  .sky{position:relative;height:330px;border-radius:8px;overflow:hidden;
-    background:radial-gradient(circle at 30% 24%,#16222e,#080c11 70%);
-    border:1px solid var(--edge)}
-  .hub{position:absolute;left:50%;top:44%;width:74px;height:74px;margin:-37px 0 0 -37px;
-    border-radius:14px;background:linear-gradient(160deg,#2c3d4e,#131c25);
-    border:1px solid #3d5468;box-shadow:0 0 24px rgba(110,198,255,.16)}
-  .hub::after{content:"";position:absolute;inset:12px;border-radius:8px;
-    background:repeating-linear-gradient(180deg,#1a2733 0 4px,#22303e 4px 8px)}
-  .ring{position:absolute;left:50%;top:44%;width:236px;height:236px;
-    margin:-118px 0 0 -118px;border-radius:50%;
-    border:9px solid #23323f;border-top-color:#33485a;border-bottom-color:#1a2632;
-    animation:spin 26s linear infinite}
-  .ring::before,.ring::after{content:"";position:absolute;inset:-9px;
-    border-radius:50%;border:1px solid rgba(110,198,255,.22)}
-  .ring::after{inset:9px;border-color:rgba(224,177,85,.14)}
+  /* --------------------------------------------------------------- the view */
+  .sky{position:relative;border-radius:8px;overflow:hidden;
+    border:1px solid var(--edge);
+    background:
+      radial-gradient(circle at 26% 18%,rgba(110,198,255,.10),transparent 52%),
+      radial-gradient(circle at 78% 84%,rgba(224,177,85,.08),transparent 46%),
+      linear-gradient(180deg,#0d151d,#070b10 72%)}
+  .sky svg{display:block;width:100%;height:auto}
+
+  /* things that move */
+  .spin  {transform-box:fill-box;transform-origin:center;animation:spin 54s linear infinite}
+  .spin-r{transform-box:fill-box;transform-origin:center;animation:spin 78s linear infinite reverse}
+  .sweep {transform-box:fill-box;transform-origin:center;animation:spin 4.5s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .spoke{position:absolute;left:50%;top:44%;width:118px;height:5px;margin-top:-2.5px;
-    transform-origin:0 50%;background:linear-gradient(90deg,#33485a,#1d2a35)}
-  .spoke.a{transform:rotate(28deg)} .spoke.b{transform:rotate(148deg)}
-  .spoke.c{transform:rotate(268deg)}
-  .wing{position:absolute;top:20px;width:96px;height:44px;
-    background:repeating-linear-gradient(90deg,#16344d 0 6px,#0f2739 6px 12px);
-    border:1px solid #26506e;border-radius:3px;opacity:.9}
-  .wing.l{left:16px;transform:skewY(9deg)} .wing.r{right:16px;transform:skewY(-9deg)}
-  .beacon{position:absolute;width:5px;height:5px;border-radius:50%;
-    background:var(--warn);box-shadow:0 0 9px var(--warn);animation:blink 2.4s infinite}
-  .beacon.b2{animation-delay:.8s;background:var(--live);box-shadow:0 0 9px var(--live)}
-  .beacon.b3{animation-delay:1.6s;background:var(--cool);box-shadow:0 0 9px var(--cool)}
-  @keyframes blink{0%,44%{opacity:.15}50%,60%{opacity:1}66%,100%{opacity:.15}}
+  .blink   {animation:blink 2.6s ease-in-out infinite}
+  .blink.d1{animation-delay:.7s} .blink.d2{animation-delay:1.4s}
+  .blink.d3{animation-delay:2.1s}
+  @keyframes blink{0%,42%{opacity:.12}50%,58%{opacity:1}68%,100%{opacity:.12}}
+  .burn{transform-box:fill-box;transform-origin:right center;
+    animation:burn 2.1s ease-in-out infinite}
+  @keyframes burn{50%{transform:scaleX(1.5);opacity:.85}}
+  .bob{animation:bob 9s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-4px)}}
 
-  /* ------------------------------------------------------- ships in the slip */
-  .slip{position:absolute;left:0;right:0;bottom:16px;height:132px}
-  .ship{position:absolute;left:50%;bottom:0;transform:translateX(-50%);
-    opacity:0;transition:opacity .25s ease}
-  .hull{position:relative;background:linear-gradient(180deg,#4a6070,#1b2833);
-    border:1px solid #0d141a;border-radius:4px 22px 8px 4px;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 22px rgba(0,0,0,.5)}
-  .hull::after{content:"";position:absolute;left:6%;right:6%;top:52%;height:1px;
-    background:rgba(0,0,0,.45);box-shadow:0 5px 0 rgba(255,255,255,.07)}
-  .tower{position:absolute;bottom:100%;background:linear-gradient(180deg,#5a7284,#26343f);
-    border:1px solid #0d141a;border-radius:3px 3px 0 0}
-  .gun{position:absolute;bottom:100%;width:20px;height:9px;border-radius:3px;
-    background:#3c4f5e;border:1px solid #0d141a}
-  .gun::after{content:"";position:absolute;left:100%;top:3px;width:16px;height:2px;
-    background:#8ba0b0}
-  .stack{position:absolute;bottom:100%;width:13px;height:22px;border-radius:2px;
-    background:linear-gradient(180deg,#4a5f6e,#22303a);border:1px solid #0d141a}
-  .deckplate{position:absolute;bottom:100%;left:0;right:0;height:12px;
-    background:repeating-linear-gradient(90deg,#2f4250 0 12px,#26363f 12px 24px);
-    border:1px solid #0d141a;border-radius:3px}
-  .mast{position:absolute;bottom:100%;width:3px;background:#7d93a4}
-  .sail{position:absolute;bottom:100%;background:linear-gradient(180deg,#e8dfc6,#c3b48f);
-    border:1px solid #0d141a;border-radius:2px 14px 2px 2px;transform:skewX(-8deg)}
-  .bucket{position:absolute;bottom:100%;width:30px;height:24px;border-radius:0 0 8px 8px;
-    background:linear-gradient(180deg,#6b5a3a,#3a3020);border:1px solid #0d141a}
-  .glow{position:absolute;right:100%;top:50%;width:34px;height:8px;margin-top:-4px;
-    border-radius:6px;background:linear-gradient(90deg,transparent,var(--hot));
-    filter:blur(3px);animation:burn 1.7s ease-in-out infinite}
-  @keyframes burn{50%{width:52px;opacity:.75}}
+  @media (prefers-reduced-motion:reduce){
+    .spin,.spin-r,.sweep,.blink,.burn,.bob,body{animation:none}
+  }
 
-  .s-buck .hull{width:120px;height:26px}
-  .s-cors .hull{width:172px;height:28px}
-  .s-dd   .hull{width:250px;height:30px}
-  .s-cl   .hull{width:310px;height:38px}
-  .s-cv   .hull{width:360px;height:36px}
-  .s-bb   .hull{width:344px;height:46px}
-  .s-yam  .hull{width:430px;height:58px;
-    background:linear-gradient(180deg,#5d7080,#16222c);border-radius:4px 34px 10px 4px}
-
-  .name{position:absolute;left:0;bottom:-22px;font-size:9.5px;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--dim);white-space:nowrap}
-  .name b{color:var(--gold);letter-spacing:0;text-transform:none;font-size:10.5px}
-
-  /* which ship is in the slip */
+  /* which hull is in the slip */
+  .ship{opacity:0;transition:opacity .3s ease;pointer-events:none}
   .app:has(#c-buck:checked) .s-buck,
   .app:has(#c-cors:checked) .s-cors,
   .app:has(#c-dd:checked)   .s-dd,
   .app:has(#c-cl:checked)   .s-cl,
   .app:has(#c-cv:checked)   .s-cv,
   .app:has(#c-bb:checked)   .s-bb,
-  .app:has(#c-yam:checked)  .s-yam{opacity:1}
+  .app:has(#c-yam:checked)  .s-yam,
+  .app:has(#c-mer:checked)  .s-mer,
+  .app:has(#c-aux:checked)  .s-aux,
+  .app:has(#c-mon:checked)  .s-mon{opacity:1}
 
-  /* ------------------------------------------------------------- the ledger */
+  /* the mount band: every station is drawn, the ordered ones are lit */
+  .w{opacity:.16;transition:opacity .25s}
+  .app:has(#a-ram:checked)   .w-ram,
+  .app:has(#a-broad:checked) .w-broad,
+  .app:has(#a-ciws:checked)  .w-ciws,
+  .app:has(#a-vls:checked)   .w-vls,
+  .app:has(#a-asm:checked)   .w-asm,
+  .app:has(#a-tor:checked)   .w-tor,
+  .app:has(#a-rail:checked)  .w-rail,
+  .app:has(#a-mine:checked)  .w-mine,
+  .app:has(#a-dc:checked)    .w-dc,
+  .app:has(#a-uav:checked)   .w-uav,
+  .app:has(#a-laser:checked) .w-laser{opacity:1}
+  .wlab{font:8px/1 ui-monospace,Menlo,monospace;letter-spacing:.1em;fill:#8497a8}
+  .app:has(#a-ram:checked)   .w-ram   .wlab,
+  .app:has(#a-broad:checked) .w-broad .wlab,
+  .app:has(#a-ciws:checked)  .w-ciws  .wlab,
+  .app:has(#a-vls:checked)   .w-vls   .wlab,
+  .app:has(#a-asm:checked)   .w-asm   .wlab,
+  .app:has(#a-tor:checked)   .w-tor   .wlab,
+  .app:has(#a-rail:checked)  .w-rail  .wlab,
+  .app:has(#a-mine:checked)  .w-mine  .wlab,
+  .app:has(#a-dc:checked)    .w-dc    .wlab,
+  .app:has(#a-uav:checked)   .w-uav   .wlab,
+  .app:has(#a-laser:checked) .w-laser .wlab{fill:#e0b155}
+
+  /* order of march */
+  .march{margin-top:6px}
+  .march .rank{display:flex;gap:8px;align-items:baseline;font-size:11px;
+    padding:4px 0;border-bottom:1px solid var(--edge)}
+  .march .rank:last-child{border-bottom:0}
+  .march .rank i{width:9px;height:9px;border-radius:2px;flex:none;
+    background:var(--dim);position:relative;top:1px}
+  .march .rank.gen i{background:var(--gold)}
+  .march .rank.sgt i{background:var(--cool)}
+  .march .rank.cpl i{background:var(--live)}
+  .march .rank span{margin-left:auto;color:var(--dim);font-size:10px}
+  .gunsn::after{content:counter(guns)}
+  .escn::after{content:counter(esc)}
+  /* the clamps only come out for the one that cannot leave */
+  .clamp{opacity:0;transition:opacity .3s}
+  .app:has(#c-yam:checked) .clamp{opacity:1}
+
+  .plate{font:9px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;
+    fill:#7e93a4;text-transform:uppercase}
+  .plate.g{fill:var(--gold);letter-spacing:.06em}
+
+  /* --------------------------------------------------------------- the desk */
   fieldset{border:0;padding:0;margin:0 0 14px}
   legend{padding:0}
   .opt{display:block;margin:0}
@@ -180,13 +193,13 @@
   .opt input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
 
   /* the arithmetic. every checked option adds to the counters. */
-  body{counter-reset:heze 0 weeks 0 tons 0 slips 0}
-  #c-buck:checked+label{counter-increment:heze 1000  weeks 2  tons 900}
-  #c-cors:checked+label{counter-increment:heze 4600  weeks 5  tons 2600}
-  #c-dd:checked  +label{counter-increment:heze 12400 weeks 9  tons 8300}
-  #c-cl:checked  +label{counter-increment:heze 28000 weeks 16 tons 14600}
-  #c-cv:checked  +label{counter-increment:heze 61000 weeks 27 tons 47000}
-  #c-bb:checked  +label{counter-increment:heze 84000 weeks 34 tons 64000}
+  body{counter-reset:heze 0 weeks 0 tons 0 slips 0 guns 0 esc 0}
+  #c-buck:checked+label{counter-increment:heze 1000   weeks 2  tons 900}
+  #c-cors:checked+label{counter-increment:heze 4600   weeks 5  tons 2600}
+  #c-dd:checked  +label{counter-increment:heze 12400  weeks 9  tons 8300}
+  #c-cl:checked  +label{counter-increment:heze 28000  weeks 16 tons 14600}
+  #c-cv:checked  +label{counter-increment:heze 61000  weeks 27 tons 47000}
+  #c-bb:checked  +label{counter-increment:heze 84000  weeks 34 tons 64000}
   #c-yam:checked +label{counter-increment:heze 150000 weeks 52 tons 72800}
 
   #y-cradle:checked+label{counter-increment:heze 0    weeks 0 slips 1}
@@ -203,17 +216,31 @@
   #f-cush:checked +label{counter-increment:heze 3300 weeks 3 tons 520}
   #f-gas:checked  +label{counter-increment:heze 7500 weeks 5 tons 880}
 
+  #c-mer:checked +label{counter-increment:heze 2100  weeks 3  tons 9400}
+  #c-aux:checked +label{counter-increment:heze 3200  weeks 4  tons 6800}
+  #c-mon:checked +label{counter-increment:heze 47000 weeks 22 tons 26500}
+
   #k-wheel:checked+label{counter-increment:heze 300  tons 4}
   #k-lant:checked +label{counter-increment:heze 180  tons 2}
-  #k-ram:checked  +label{counter-increment:heze 2200 weeks 1 tons 340}
-  #k-broad:checked+label{counter-increment:heze 8600 weeks 3 tons 1800}
   #k-crane:checked+label{counter-increment:heze 1400 weeks 1 tons 260}
   #k-ice:checked  +label{counter-increment:heze 900  weeks 1 tons 410}
 
+  #a-ram:checked  +label{counter-increment:heze 2200  weeks 1 tons 340  guns 1}
+  #a-broad:checked+label{counter-increment:heze 8600  weeks 3 tons 1800 guns 1}
+  #a-ciws:checked +label{counter-increment:heze 1800  weeks 1 tons 120  guns 1}
+  #a-vls:checked  +label{counter-increment:heze 9400  weeks 4 tons 980  guns 1}
+  #a-asm:checked  +label{counter-increment:heze 6200  weeks 2 tons 540  guns 1}
+  #a-tor:checked  +label{counter-increment:heze 3100  weeks 2 tons 380  guns 1}
+  #a-rail:checked +label{counter-increment:heze 16800 weeks 6 tons 1450 guns 1}
+  #a-mine:checked +label{counter-increment:heze 1200  weeks 1 tons 220  guns 1}
+  #a-dc:checked   +label{counter-increment:heze 700   weeks 1 tons 90   guns 1}
+  #a-uav:checked  +label{counter-increment:heze 4300  weeks 2 tons 260  guns 1}
+  #a-laser:checked+label{counter-increment:heze 11500 weeks 4 tons 610  guns 1}
+
   #e-0:checked+label{counter-increment:heze 0}
-  #e-1:checked+label{counter-increment:heze 2500 weeks 1}
-  #e-2:checked+label{counter-increment:heze 5000 weeks 2}
-  #e-3:checked+label{counter-increment:heze 7500 weeks 3}
+  #e-1:checked+label{counter-increment:heze 2500 weeks 1 esc 1}
+  #e-2:checked+label{counter-increment:heze 5000 weeks 2 esc 2}
+  #e-3:checked+label{counter-increment:heze 7500 weeks 3 esc 3}
 
   /* --------------------------------------------------- the Yamato exception */
   .flight{transition:opacity .2s}
@@ -223,18 +250,13 @@
     border:1px solid var(--warn);background:rgba(224,112,90,.10);
     color:var(--warn);font-size:10.5px;line-height:1.6}
   .app:has(#c-yam:checked) .grounded{display:block}
-  .app:has(#c-yam:checked) .s-yam .clamp{opacity:1}
-  .clamp{position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);
-    width:210px;height:12px;border-radius:3px;opacity:0;
-    background:repeating-linear-gradient(45deg,#5a3a2c 0 8px,#3d271d 8px 16px);
-    border:1px solid #12181d}
 
   /* ------------------------------------------------------------- the docket */
   .tot{display:flex;justify-content:space-between;align-items:baseline;
     padding:5px 0;border-bottom:1px solid var(--edge);font-size:11.5px}
   .tot:last-of-type{border-bottom:0}
   .tot b{font:13px/1 ui-monospace,Menlo,monospace}
-  .big{font:22px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+  .big{font:24px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
     display:block;margin:2px 0 0}
   .price::after{content:counter(heze)}
   .weeks::after{content:counter(weeks)}
@@ -269,6 +291,122 @@
   }
 </style>
 
+<!-- One defs block for the whole page: gradients, the plating pattern, and the
+     parts that repeat. A battleship is four <use> of one turret. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <!-- The hull scheme, off the reference: a hard green body, plum works, a
+       cream deck like a turned-back collar, and the red-pink binding running
+       the length of her as a boot stripe. Blue sash at the waterline. It is
+       not a paint job with a personality — it is the personality, painted:
+       heavy, deliberate, and not interested in being liked. -->
+  <linearGradient id="hullG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0"   stop-color="#9ed45c"/>
+    <stop offset=".16" stop-color="#78b843"/>
+    <stop offset=".52" stop-color="#42802c"/>
+    <stop offset="1"   stop-color="#1c3d18"/>
+  </linearGradient>
+  <linearGradient id="deckG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f2e9d6"/><stop offset="1" stop-color="#b0a48a"/>
+  </linearGradient>
+  <linearGradient id="towerG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#a184cc"/><stop offset=".55" stop-color="#6b4a9e"/>
+    <stop offset="1" stop-color="#2f2054"/>
+  </linearGradient>
+  <linearGradient id="beltG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#e58593"/><stop offset=".6" stop-color="#b94e5c"/>
+    <stop offset="1" stop-color="#6d2a34"/>
+  </linearGradient>
+  <linearGradient id="sashG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#5b8fd6"/><stop offset="1" stop-color="#27467e"/>
+  </linearGradient>
+  <linearGradient id="panelG" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#12324a"/><stop offset=".5" stop-color="#1d5079"/>
+    <stop offset="1" stop-color="#0e2739"/>
+  </linearGradient>
+  <linearGradient id="ringG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#4a627a"/><stop offset=".5" stop-color="#22303d"/>
+    <stop offset="1" stop-color="#151f28"/>
+  </linearGradient>
+  <linearGradient id="flameG" x1="1" y1="0" x2="0" y2="0">
+    <stop offset="0"   stop-color="#ffd9a0"/>
+    <stop offset=".35" stop-color="#ff9d5c" stop-opacity=".8"/>
+    <stop offset="1"   stop-color="#ff6a4c" stop-opacity="0"/>
+  </linearGradient>
+  <radialGradient id="planetG" cx=".32" cy=".28">
+    <stop offset="0"   stop-color="#2a5a72"/>
+    <stop offset=".62" stop-color="#123246"/>
+    <stop offset="1"   stop-color="#050a10"/>
+  </radialGradient>
+  <radialGradient id="lampG">
+    <stop offset="0" stop-color="#fff3d6"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/>
+  </radialGradient>
+
+  <pattern id="plating" width="16" height="9" patternUnits="userSpaceOnUse">
+    <rect width="16" height="9" fill="none"/>
+    <path d="M0 .5H16M8 0V9" stroke="#000" stroke-opacity=".16" stroke-width=".7"/>
+  </pattern>
+  <pattern id="solar" width="9" height="9" patternUnits="userSpaceOnUse">
+    <rect width="9" height="9" fill="url(#panelG)"/>
+    <path d="M0 0H9M0 0V9" stroke="#0a1a26" stroke-width="1.1"/>
+  </pattern>
+  <pattern id="rivets" width="11" height="11" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r=".9" fill="#0b1116" fill-opacity=".5"/>
+  </pattern>
+
+  <!-- a triple turret: barbette, house, three barrels -->
+  <symbol id="t3" viewBox="0 0 44 26">
+    <ellipse cx="22" cy="23" rx="16" ry="4" fill="#1b262f"/>
+    <rect x="7" y="8" width="30" height="15" rx="3" fill="url(#towerG)" stroke="#0b1116"/>
+    <rect x="7" y="8" width="30" height="15" rx="3" fill="url(#rivets)"/>
+    <path d="M9 11h-9M9 14.5h-9M9 18h-9" stroke="#93a7b6" stroke-width="2.6"
+      stroke-linecap="round"/>
+    <path d="M10 10.5h26" stroke="#a9bccb" stroke-opacity=".5"/>
+  </symbol>
+  <!-- a twin turret -->
+  <symbol id="t2" viewBox="0 0 38 24">
+    <ellipse cx="19" cy="21" rx="13" ry="3.4" fill="#1b262f"/>
+    <rect x="7" y="8" width="24" height="13" rx="3" fill="url(#towerG)" stroke="#0b1116"/>
+    <path d="M9 11.5h-9M9 16h-9" stroke="#93a7b6" stroke-width="2.4" stroke-linecap="round"/>
+  </symbol>
+  <!-- a funnel with a cap -->
+  <symbol id="fun" viewBox="0 0 22 34">
+    <path d="M4 34 6 6h10l2 28z" fill="url(#towerG)" stroke="#0b1116"/>
+    <rect x="3" y="2" width="16" height="6" rx="2" fill="#1e2a34" stroke="#0b1116"/>
+    <path d="M6 12h10M6 18h10" stroke="#0b1116" stroke-opacity=".45"/>
+  </symbol>
+  <!-- a bridge tier stack -->
+  <symbol id="brg" viewBox="0 0 60 56">
+    <rect x="2"  y="34" width="56" height="22" rx="2" fill="url(#towerG)" stroke="#0b1116"/>
+    <rect x="10" y="20" width="40" height="15" rx="2" fill="url(#towerG)" stroke="#0b1116"/>
+    <rect x="18" y="9"  width="24" height="12" rx="2" fill="url(#towerG)" stroke="#0b1116"/>
+    <rect x="26" y="0"  width="8"  height="10" rx="1" fill="#41535f" stroke="#0b1116"/>
+    <g fill="#ffcf87" fill-opacity=".85">
+      <rect x="7"  y="40" width="5" height="3"/><rect x="15" y="40" width="5" height="3"/>
+      <rect x="23" y="40" width="5" height="3"/><rect x="31" y="40" width="5" height="3"/>
+      <rect x="39" y="40" width="5" height="3"/><rect x="47" y="40" width="5" height="3"/>
+      <rect x="14" y="25" width="5" height="3"/><rect x="22" y="25" width="5" height="3"/>
+      <rect x="30" y="25" width="5" height="3"/><rect x="38" y="25" width="5" height="3"/>
+    </g>
+  </symbol>
+  <!-- engine bell + exhaust -->
+  <symbol id="eng" viewBox="0 0 54 24">
+    <path d="M54 4v16l-12-3V7z" fill="#3b4d5b" stroke="#0b1116"/>
+    <rect x="40" y="6" width="6" height="12" rx="2" fill="#22303a" stroke="#0b1116"/>
+    <path d="M42 7 0 12l42 5z" fill="url(#flameG)" class="burn"/>
+  </symbol>
+  <!-- the cradle a hull sits in -->
+  <symbol id="cradle" viewBox="0 0 60 40">
+    <path d="M4 0 12 34M56 0 48 34" stroke="#33454f" stroke-width="4"/>
+    <rect x="2" y="33" width="56" height="6" rx="2" fill="#26343e" stroke="#0b1116"/>
+    <path d="M10 0h40" stroke="#4a606f" stroke-width="3"/>
+  </symbol>
+  <!-- a small craft on a flight deck -->
+  <symbol id="craft" viewBox="0 0 30 12">
+    <path d="M2 8h20l6-3-6-3H2z" fill="#5d7280" stroke="#0b1116" stroke-width=".8"/>
+    <path d="M8 8 4 12M12 2l-4-2" stroke="#7f94a2" stroke-width="1.4"/>
+  </symbol>
+</defs></svg>
+
 <div class="app">
 
   <header>
@@ -298,6 +436,20 @@
       <div class="opt"><input type="radio" name="class" id="c-yam">
         <label for="c-yam"><i class="tick"></i>Yamato<span class="cost">150,000</span></label></div>
     </fieldset>
+    <h2>Non-combatant <b>three hulls</b></h2>
+    <fieldset>
+      <div class="opt"><input type="radio" name="class" id="c-mer">
+        <label for="c-mer"><i class="tick"></i>Merchant<span class="cost">2,100</span></label></div>
+      <div class="opt"><input type="radio" name="class" id="c-aux">
+        <label for="c-aux"><i class="tick"></i>Auxiliary<span class="cost">3,200</span></label></div>
+      <div class="opt"><input type="radio" name="class" id="c-mon">
+        <label for="c-mon"><i class="tick"></i>Monitor<span class="cost">47,000</span></label></div>
+    </fieldset>
+    <p class="note">A merchant carries cargo and nothing else. An auxiliary
+      carries the fleet — fuel, stores, spares, and the rig to pass them across
+      to a hull under way. A monitor is neither: almost no freeboard, almost no
+      speed, and the heaviest belt and gun the yard can put on a hull that
+      shallow.</p>
 
     <h2>Slip</h2>
     <fieldset>
@@ -335,7 +487,8 @@
     <div class="grounded">
       <b>Yamato does not fly.</b> Seventy-two thousand tonnes on a hull built to
       displace water, and no plant on this station lifts it. The flight package
-      is struck from the order — she is big, she is bad, and she stays wet.
+      is struck from the order, and the yard clamps stay on — she is big, she is
+      bad, and she stays wet.
     </div>
 
     <h2>Fit-out</h2>
@@ -344,15 +497,41 @@
         <label for="k-wheel"><i class="tick"></i>Captain’s wheel<span class="cost">300</span></label></div>
       <div class="opt"><input type="checkbox" id="k-lant">
         <label for="k-lant"><i class="tick"></i>Lanterns<span class="cost">180</span></label></div>
-      <div class="opt"><input type="checkbox" id="k-ram">
-        <label for="k-ram"><i class="tick"></i>Ram<span class="cost">2,200</span></label></div>
-      <div class="opt"><input type="checkbox" id="k-broad">
-        <label for="k-broad"><i class="tick"></i>Broadside<span class="cost">8,600</span></label></div>
       <div class="opt"><input type="checkbox" id="k-crane">
         <label for="k-crane"><i class="tick"></i>Cargo cranes<span class="cost">1,400</span></label></div>
       <div class="opt"><input type="checkbox" id="k-ice">
         <label for="k-ice"><i class="tick"></i>Ice sheathing<span class="cost">900</span></label></div>
     </fieldset>
+
+    <h2>Arsenal <b>conventional only</b></h2>
+    <fieldset>
+      <div class="opt"><input type="checkbox" id="a-ram">
+        <label for="a-ram"><i class="tick"></i>Ram<span class="cost">2,200</span></label></div>
+      <div class="opt"><input type="checkbox" id="a-broad">
+        <label for="a-broad"><i class="tick"></i>Broadside battery<span class="cost">8,600</span></label></div>
+      <div class="opt"><input type="checkbox" id="a-ciws">
+        <label for="a-ciws"><i class="tick"></i>Close-in gun<span class="cost">1,800</span></label></div>
+      <div class="opt"><input type="checkbox" id="a-vls">
+        <label for="a-vls"><i class="tick"></i>Launch cells<span class="cost">9,400</span></label></div>
+      <div class="opt"><input type="checkbox" id="a-asm">
+        <label for="a-asm"><i class="tick"></i>Anti-ship canisters<span class="cost">6,200</span></label></div>
+      <div class="opt"><input type="checkbox" id="a-tor">
+        <label for="a-tor"><i class="tick"></i>Torpedo tubes<span class="cost">3,100</span></label></div>
+      <div class="opt"><input type="checkbox" id="a-rail">
+        <label for="a-rail"><i class="tick"></i>Railgun<span class="cost">16,800</span></label></div>
+      <div class="opt"><input type="checkbox" id="a-mine">
+        <label for="a-mine"><i class="tick"></i>Mine rails<span class="cost">1,200</span></label></div>
+      <div class="opt"><input type="checkbox" id="a-dc">
+        <label for="a-dc"><i class="tick"></i>Depth charges<span class="cost">700</span></label></div>
+      <div class="opt"><input type="checkbox" id="a-uav">
+        <label for="a-uav"><i class="tick"></i>UAV flight<span class="cost">4,300</span></label></div>
+      <div class="opt"><input type="checkbox" id="a-laser">
+        <label for="a-laser"><i class="tick"></i>Point-defence laser<span class="cost">11,500</span></label></div>
+    </fieldset>
+    <p class="note">Everything on this list is conventional. The yard does not
+      fit nuclear weapons, and there is no option on this page to order them.
+      Every system you check appears on the mount band under the hull, drawn and
+      labelled — you can see what you are buying and what it does.</p>
 
     <h2>Escort <b>syndicate hulls</b></h2>
     <fieldset>
@@ -373,88 +552,477 @@
   <section class="panel berth">
     <h2>Slip 4 <b>under the ring</b></h2>
     <div class="sky">
-      <div class="wing l"></div><div class="wing r"></div>
-      <div class="ring"></div>
-      <div class="spoke a"></div><div class="spoke b"></div><div class="spoke c"></div>
-      <div class="hub"></div>
-      <div class="beacon"    style="left:22px;top:14px"></div>
-      <div class="beacon b2" style="right:26px;top:20px"></div>
-      <div class="beacon b3" style="left:50%;top:8px"></div>
+      <svg viewBox="0 0 900 580" role="img"
+           aria-label="An orbital shipyard: a rotating habitat ring with solar wings, a gantry, and one hull under construction in the slip below.">
 
-      <div class="slip">
-        <div class="ship s-buck"><div class="hull">
-          <div class="bucket" style="left:34px"></div>
-          <div class="mast" style="left:76px;height:26px"></div>
-        </div><span class="name">class <b>Bucketeer</b> · 900 t</span></div>
+        <!-- the planet she is being built over -->
+        <circle cx="742" cy="600" r="300" fill="url(#planetG)"/>
+        <circle cx="742" cy="600" r="300" fill="none" stroke="#5fb2d8"
+                stroke-opacity=".30" stroke-width="2"/>
+        <path d="M470 470q120-58 262-40" stroke="#7fd0ee" stroke-opacity=".14"
+              stroke-width="16" fill="none"/>
 
-        <div class="ship s-cors"><div class="hull">
-          <div class="mast" style="left:70px;height:56px"></div>
-          <div class="sail" style="left:74px;width:56px;height:44px"></div>
-          <div class="tower" style="left:120px;width:24px;height:14px"></div>
-          <div class="glow"></div>
-        </div><span class="name">class <b>Corsair</b> · 2,600 t</span></div>
+        <!-- a few near stars -->
+        <g fill="#fff">
+          <circle cx="84"  cy="52"  r="1.6" opacity=".9"/>
+          <circle cx="212" cy="28"  r="1.1" opacity=".6"/>
+          <circle cx="596" cy="44"  r="1.4" opacity=".75"/>
+          <circle cx="824" cy="96"  r="1"   opacity=".5"/>
+          <circle cx="356" cy="76"  r="1.2" opacity=".65"/>
+        </g>
 
-        <div class="ship s-dd"><div class="hull">
-          <div class="tower" style="left:104px;width:34px;height:26px"></div>
-          <div class="stack" style="left:146px"></div>
-          <div class="gun" style="left:34px"></div>
-          <div class="gun" style="left:190px"></div>
-          <div class="glow"></div>
-        </div><span class="name">class <b>Destroyer</b> · 8,300 t</span></div>
+        <!-- ---------------------------------------------------- the station -->
+        <g class="bob">
+          <!-- solar wings -->
+          <g>
+            <rect x="52"  y="96" width="150" height="66" rx="3" fill="url(#solar)"
+                  stroke="#20496a" transform="skewY(7)"/>
+            <rect x="700" y="96" width="150" height="66" rx="3" fill="url(#solar)"
+                  stroke="#20496a" transform="skewY(-7)"/>
+            <path d="M202 150h60M638 150h62" stroke="#3d5468" stroke-width="5"/>
+          </g>
+          <!-- radiator fins -->
+          <g stroke="#2b3b47" stroke-width="4">
+            <path d="M300 60h300M320 48h260M340 36h220"/>
+          </g>
 
-        <div class="ship s-cl"><div class="hull">
-          <div class="tower" style="left:126px;width:44px;height:34px"></div>
-          <div class="stack" style="left:178px"></div>
-          <div class="stack" style="left:196px;height:18px"></div>
-          <div class="gun" style="left:28px"></div>
-          <div class="gun" style="left:62px"></div>
-          <div class="gun" style="left:238px"></div>
-          <div class="glow"></div>
-        </div><span class="name">class <b>Cruiser</b> · 14,600 t</span></div>
+          <!-- the ring -->
+          <g class="spin">
+            <circle cx="450" cy="188" r="132" fill="none" stroke="url(#ringG)" stroke-width="26"/>
+            <circle cx="450" cy="188" r="132" fill="none" stroke="#0b1116"
+                    stroke-width="26" stroke-dasharray="4 26" stroke-opacity=".55"/>
+            <circle cx="450" cy="188" r="145" fill="none" stroke="#6ec6ff"
+                    stroke-opacity=".22"/>
+            <circle cx="450" cy="188" r="119" fill="none" stroke="#e0b155"
+                    stroke-opacity=".16"/>
+            <g fill="#ffcf87" fill-opacity=".9">
+              <rect x="444" y="50"  width="12" height="5" rx="1"/>
+              <rect x="444" y="321" width="12" height="5" rx="1"/>
+              <rect x="312" y="185" width="5"  height="12" rx="1"/>
+              <rect x="583" y="185" width="5"  height="12" rx="1"/>
+            </g>
+          </g>
+          <!-- inner ring, turning the other way -->
+          <circle class="spin-r" cx="450" cy="188" r="82" fill="none"
+                  stroke="#22303d" stroke-width="10" stroke-dasharray="18 10"/>
 
-        <div class="ship s-cv"><div class="hull">
-          <div class="deckplate"></div>
-          <div class="tower" style="left:250px;width:30px;height:30px;bottom:calc(100% + 12px)"></div>
-          <div class="mast" style="left:262px;height:18px;bottom:calc(100% + 42px)"></div>
-          <div class="glow"></div>
-        </div><span class="name">class <b>Carrier</b> · 47,000 t</span></div>
+          <!-- spokes and hub -->
+          <g stroke="#33485a" stroke-width="7">
+            <path d="M450 188 375 300M450 188 560 250M450 188 450 62"/>
+          </g>
+          <g>
+            <rect x="410" y="150" width="80" height="76" rx="10" fill="url(#towerG)"
+                  stroke="#0b1116"/>
+            <rect x="410" y="150" width="80" height="76" rx="10" fill="url(#plating)"/>
+            <g fill="#ffcf87" fill-opacity=".9">
+              <rect x="420" y="163" width="7" height="5"/><rect x="432" y="163" width="7" height="5"/>
+              <rect x="444" y="163" width="7" height="5"/><rect x="456" y="163" width="7" height="5"/>
+              <rect x="468" y="163" width="7" height="5"/>
+              <rect x="420" y="178" width="7" height="5"/><rect x="432" y="178" width="7" height="5"/>
+              <rect x="456" y="178" width="7" height="5"/><rect x="468" y="178" width="7" height="5"/>
+            </g>
+            <!-- the sweep -->
+            <g class="sweep">
+              <path d="M450 188 500 188" stroke="#65d6a8" stroke-width="2.5"
+                    stroke-opacity=".85"/>
+              <circle cx="500" cy="188" r="3" fill="#65d6a8"/>
+            </g>
+          </g>
 
-        <div class="ship s-bb"><div class="hull">
-          <div class="tower" style="left:150px;width:52px;height:44px"></div>
-          <div class="stack" style="left:210px;height:26px"></div>
-          <div class="gun" style="left:26px"></div>
-          <div class="gun" style="left:60px"></div>
-          <div class="gun" style="left:262px"></div>
-          <div class="gun" style="left:296px"></div>
-          <div class="glow"></div>
-        </div><span class="name">class <b>Battleship</b> · 64,000 t</span></div>
+          <!-- beacons -->
+          <g>
+            <circle class="blink"    cx="88"  cy="104" r="4" fill="#e0705a"/>
+            <circle class="blink d1" cx="846" cy="104" r="4" fill="#65d6a8"/>
+            <circle class="blink d2" cx="450" cy="42"  r="4" fill="#6ec6ff"/>
+            <circle class="blink d3" cx="450" cy="336" r="4" fill="#e0b155"/>
+          </g>
+        </g>
 
-        <div class="ship s-yam"><div class="hull">
-          <div class="tower" style="left:186px;width:64px;height:58px"></div>
-          <div class="tower" style="left:200px;width:36px;height:78px"></div>
-          <div class="stack" style="left:262px;height:32px;width:18px"></div>
-          <div class="gun" style="left:24px"></div>
-          <div class="gun" style="left:58px"></div>
-          <div class="gun" style="left:92px"></div>
-          <div class="gun" style="left:322px"></div>
-          <div class="gun" style="left:356px"></div>
-          <div class="clamp"></div>
-        </div><span class="name">class <b>Yamato</b> · 72,800 t · will not fly</span></div>
-      </div>
+        <!-- ------------------------------------------------------ the gantry -->
+        <g>
+          <path d="M120 344h660" stroke="#2b3b47" stroke-width="9"/>
+          <path d="M120 344v122M780 344v122M300 344v40M600 344v40"
+                stroke="#26343e" stroke-width="7"/>
+          <path d="M120 356h660M120 368h660" stroke="#1b262f" stroke-width="3"/>
+          <g fill="#4a606f">
+            <rect x="286" y="382" width="30" height="16" rx="3"/>
+            <rect x="586" y="382" width="30" height="16" rx="3"/>
+          </g>
+          <path d="M301 398v18M601 398v18" stroke="#7f94a2" stroke-width="2"/>
+          <circle class="blink d1" cx="301" cy="420" r="3.5" fill="#e0b155"/>
+          <circle class="blink d3" cx="601" cy="420" r="3.5" fill="#e0b155"/>
+        </g>
+
+        <!-- ------------------------------------------------ hulls in the slip
+             All seven are drawn. CSS lights exactly one. -->
+        <g transform="translate(0,0)">
+
+          <!-- Bucketeer — a hopper with an engine bolted to it -->
+          <g class="ship s-buck">
+            <use href="#cradle" x="330" y="452" width="70" height="40"/>
+            <use href="#cradle" x="470" y="452" width="70" height="40"/>
+            <path d="M340 452h200l22-16-16-30H352l-12 30z" fill="url(#hullG)" stroke="#0b1116"/>
+            <path d="M340 452h200l22-16-16-30H352l-12 30z" fill="url(#plating)"/>
+            <rect x="392" y="376" width="86" height="32" rx="4" fill="#5c4c31"
+                  stroke="#0b1116"/>
+            <path d="M396 384h78M396 394h78" stroke="#0b1116" stroke-opacity=".4"/>
+            <rect x="494" y="382" width="34" height="26" rx="3" fill="url(#towerG)"
+                  stroke="#0b1116"/>
+            <rect x="502" y="388" width="6" height="5" fill="#ffcf87"/>
+            <rect x="514" y="388" width="6" height="5" fill="#ffcf87"/>
+            <use href="#eng" x="332" y="414" width="46" height="20"/>
+            <text class="plate" x="340" y="486">class</text>
+            <text class="plate g" x="378" y="486">Bucketeer · 900 t · syndicate hauler</text>
+          </g>
+
+          <!-- Corsair — light, raked, one gun and a sail plate -->
+          <g class="ship s-cors">
+            <use href="#cradle" x="316" y="452" width="70" height="40"/>
+            <use href="#cradle" x="486" y="452" width="70" height="40"/>
+            <path d="M300 448h270l30-18-40-24H322l-22 24z" fill="url(#hullG)" stroke="#0b1116"/>
+            <path d="M300 448h270l30-18-40-24H322l-22 24z" fill="url(#plating)"/>
+            <path d="M322 418h248" stroke="#93a7b6" stroke-opacity=".35"/>
+            <rect x="300" y="430" width="300" height="6" fill="url(#beltG)" opacity=".8"/>
+            <use href="#brg" x="440" y="358" width="52" height="48"/>
+            <use href="#t2"  x="352" y="384" width="34" height="22"/>
+            <rect x="404" y="330" width="62" height="46" rx="2" fill="url(#solar)"
+                  stroke="#20496a" transform="skewX(-10)"/>
+            <path d="M470 376v-40" stroke="#7f94a2" stroke-width="2.5"/>
+            <use href="#eng" x="292" y="416" width="48" height="20"/>
+            <text class="plate" x="300" y="486">class</text>
+            <text class="plate g" x="338" y="486">Corsair · 2,600 t · sail plate fitted</text>
+          </g>
+
+          <!-- Destroyer — long, thin, two turrets and a stack -->
+          <g class="ship s-dd">
+            <use href="#cradle" x="290" y="452" width="70" height="40"/>
+            <use href="#cradle" x="520" y="452" width="70" height="40"/>
+            <path d="M262 448h380l32-18-30-26H286l-24 26z" fill="url(#hullG)" stroke="#0b1116"/>
+            <path d="M262 448h380l32-18-30-26H286l-24 26z" fill="url(#plating)"/>
+            <rect x="262" y="432" width="412" height="5" fill="url(#beltG)" opacity=".75"/>
+            <use href="#brg" x="440" y="352" width="56" height="52"/>
+            <use href="#fun" x="524" y="374" width="18" height="30"/>
+            <use href="#t2"  x="316" y="382" width="36" height="23"/>
+            <use href="#t2"  x="592" y="382" width="36" height="23"/>
+            <rect x="500" y="392" width="18" height="12" rx="2" fill="#3c4f5e" stroke="#0b1116"/>
+            <path d="M468 352v-26" stroke="#7f94a2" stroke-width="2"/>
+            <circle class="blink" cx="468" cy="322" r="3" fill="#e0705a"/>
+            <use href="#eng" x="252" y="416" width="50" height="20"/>
+            <text class="plate" x="262" y="486">class</text>
+            <text class="plate g" x="300" y="486">Destroyer · 8,300 t · 2 mounts</text>
+          </g>
+
+          <!-- Cruiser — three turrets, two funnels, a radar that turns -->
+          <g class="ship s-cl">
+            <use href="#cradle" x="270" y="452" width="70" height="40"/>
+            <use href="#cradle" x="560" y="452" width="70" height="40"/>
+            <path d="M232 450h440l38-22-34-30H258l-26 30z" fill="url(#hullG)" stroke="#0b1116"/>
+            <path d="M232 450h440l38-22-34-30H258l-26 30z" fill="url(#plating)"/>
+            <rect x="232" y="428" width="478" height="7" fill="url(#beltG)" opacity=".8"/>
+            <use href="#brg" x="424" y="338" width="62" height="58"/>
+            <use href="#fun" x="506" y="362" width="20" height="34"/>
+            <use href="#fun" x="546" y="368" width="18" height="30"/>
+            <use href="#t3"  x="286" y="374" width="42" height="25"/>
+            <use href="#t3"  x="338" y="374" width="42" height="25"/>
+            <use href="#t3"  x="612" y="374" width="42" height="25"/>
+            <g transform="translate(455,330)">
+              <path d="M0 8V0" stroke="#7f94a2" stroke-width="2.5"/>
+              <g class="sweep"><path d="M-11 0h22" stroke="#93a7b6" stroke-width="3"/></g>
+            </g>
+            <use href="#eng" x="222" y="414" width="52" height="22"/>
+            <text class="plate" x="232" y="486">class</text>
+            <text class="plate g" x="270" y="486">Cruiser · 14,600 t · 9 rifles</text>
+          </g>
+
+          <!-- Carrier — a flat deck, an island aft, and aircraft ranged on it -->
+          <g class="ship s-cv">
+            <use href="#cradle" x="256" y="452" width="70" height="40"/>
+            <use href="#cradle" x="576" y="452" width="70" height="40"/>
+            <path d="M222 450h466l34-20-28-24H246l-24 24z" fill="url(#hullG)" stroke="#0b1116"/>
+            <path d="M222 450h466l34-20-28-24H246l-24 24z" fill="url(#plating)"/>
+            <rect x="200" y="386" width="524" height="20" rx="3" fill="url(#deckG)"
+                  stroke="#0b1116"/>
+            <path d="M206 396h512" stroke="#e6eef5" stroke-opacity=".45"
+                  stroke-width="2" stroke-dasharray="18 14"/>
+            <rect x="200" y="386" width="524" height="20" fill="url(#rivets)"/>
+            <use href="#craft" x="252" y="368" width="30" height="12"/>
+            <use href="#craft" x="300" y="368" width="30" height="12"/>
+            <use href="#craft" x="348" y="368" width="30" height="12"/>
+            <use href="#craft" x="396" y="368" width="30" height="12"/>
+            <rect x="560" y="336" width="40" height="50" rx="3" fill="url(#towerG)"
+                  stroke="#0b1116"/>
+            <g fill="#ffcf87" fill-opacity=".85">
+              <rect x="566" y="344" width="6" height="4"/><rect x="578" y="344" width="6" height="4"/>
+              <rect x="566" y="356" width="6" height="4"/><rect x="578" y="356" width="6" height="4"/>
+            </g>
+            <path d="M580 336v-22" stroke="#7f94a2" stroke-width="2"/>
+            <g transform="translate(580,312)" class="sweep">
+              <path d="M-10 0h20" stroke="#93a7b6" stroke-width="3"/></g>
+            <use href="#eng" x="212" y="414" width="52" height="22"/>
+            <text class="plate" x="222" y="486">class</text>
+            <text class="plate g" x="260" y="486">Carrier · 47,000 t · deck ranged</text>
+          </g>
+
+          <!-- Battleship — belt armour, four turrets, a pagoda -->
+          <g class="ship s-bb">
+            <use href="#cradle" x="262" y="452" width="70" height="40"/>
+            <use href="#cradle" x="566" y="452" width="70" height="40"/>
+            <path d="M228 452h452l40-24-34-34H256l-28 34z" fill="url(#hullG)" stroke="#0b1116"/>
+            <path d="M228 452h452l40-24-34-34H256l-28 34z" fill="url(#plating)"/>
+            <rect x="228" y="424" width="492" height="11" fill="url(#beltG)"/>
+            <rect x="228" y="424" width="492" height="11" fill="url(#rivets)"/>
+            <use href="#brg" x="418" y="322" width="66" height="62"/>
+            <use href="#fun" x="500" y="348" width="22" height="36"/>
+            <use href="#t3"  x="276" y="360" width="46" height="27"/>
+            <use href="#t3"  x="332" y="360" width="46" height="27"/>
+            <use href="#t3"  x="586" y="360" width="46" height="27"/>
+            <use href="#t3"  x="640" y="360" width="46" height="27"/>
+            <g fill="#3c4f5e" stroke="#0b1116">
+              <rect x="398" y="374" width="16" height="11" rx="2"/>
+              <rect x="490" y="374" width="16" height="11" rx="2"/>
+              <rect x="546" y="374" width="16" height="11" rx="2"/>
+            </g>
+            <path d="M450 322v-30" stroke="#7f94a2" stroke-width="2.5"/>
+            <g transform="translate(450,290)" class="sweep">
+              <path d="M-13 0h26" stroke="#93a7b6" stroke-width="3"/></g>
+            <use href="#eng" x="218" y="416" width="54" height="22"/>
+            <text class="plate" x="228" y="486">class</text>
+            <text class="plate g" x="266" y="486">Battleship · 64,000 t · 12 rifles</text>
+          </g>
+
+          <!-- Yamato — the largest hull the yard will lay down, and the only one
+               that never leaves the cradle. The clamps are hers alone. -->
+          <g class="ship s-yam">
+            <use href="#cradle" x="236" y="452" width="80" height="42"/>
+            <use href="#cradle" x="420" y="452" width="80" height="42"/>
+            <use href="#cradle" x="600" y="452" width="80" height="42"/>
+            <path d="M186 456h530l52-30-44-44H216l-30 44z" fill="url(#hullG)" stroke="#0b1116"/>
+            <path d="M186 456h530l52-30-44-44H216l-30 44z" fill="url(#plating)"/>
+            <rect x="186" y="418" width="582" height="16" fill="url(#beltG)"/>
+            <rect x="186" y="418" width="582" height="16" fill="url(#rivets)"/>
+            <path d="M216 392h500" stroke="#a9bccb" stroke-opacity=".28" stroke-width="2"/>
+            <!-- pagoda -->
+            <use href="#brg" x="398" y="286" width="78" height="74"/>
+            <use href="#fun" x="500" y="316" width="26" height="44"/>
+            <!-- three triples, and they are bigger than anyone else's -->
+            <use href="#t3" x="240" y="330" width="58" height="34"/>
+            <use href="#t3" x="308" y="330" width="58" height="34"/>
+            <use href="#t3" x="612" y="330" width="58" height="34"/>
+            <g fill="#3c4f5e" stroke="#0b1116">
+              <rect x="380" y="352" width="18" height="12" rx="2"/>
+              <rect x="486" y="352" width="18" height="12" rx="2"/>
+              <rect x="556" y="352" width="18" height="12" rx="2"/>
+              <rect x="586" y="352" width="18" height="12" rx="2"/>
+            </g>
+            <path d="M437 286v-36" stroke="#7f94a2" stroke-width="3"/>
+            <g transform="translate(437,248)" class="sweep">
+              <path d="M-15 0h30" stroke="#93a7b6" stroke-width="3.4"/></g>
+            <!-- no engine glow: she is held down, and she is not going anywhere -->
+            <g class="clamp">
+              <g fill="#5a3a2c" stroke="#12181d">
+                <rect x="250" y="446" width="56" height="16" rx="3"/>
+                <rect x="430" y="446" width="56" height="16" rx="3"/>
+                <rect x="612" y="446" width="56" height="16" rx="3"/>
+              </g>
+              <path d="M278 446v-14M458 446v-14M640 446v-14" stroke="#e0705a"
+                    stroke-width="3"/>
+              <text class="plate" x="700" y="440" fill="#e0705a">clamped</text>
+            </g>
+            <text class="plate" x="186" y="490">class</text>
+            <text class="plate g" x="224" y="490">Yamato · 72,800 t · will not fly</text>
+          </g>
+
+          <!-- Merchant — holds, hatch covers, one crane, accommodation aft.
+               No belt, no mounts, and nothing on her that is not cargo. -->
+          <g class="ship s-mer">
+            <use href="#cradle" x="300" y="452" width="70" height="40"/>
+            <use href="#cradle" x="510" y="452" width="70" height="40"/>
+            <path d="M276 448h380l28-16-22-26H298l-22 26z" fill="url(#hullG)" stroke="#0b1116"/>
+            <path d="M276 448h380l28-16-22-26H298l-22 26z" fill="url(#plating)"/>
+            <rect x="276" y="430" width="408" height="5" fill="url(#sashG)" opacity=".85"/>
+            <g fill="url(#deckG)" stroke="#0b1116">
+              <rect x="308" y="392" width="72" height="14" rx="2"/>
+              <rect x="392" y="392" width="72" height="14" rx="2"/>
+              <rect x="476" y="392" width="72" height="14" rx="2"/>
+            </g>
+            <path d="M318 399h52M402 399h52M486 399h52" stroke="#0b1116"
+                  stroke-opacity=".35"/>
+            <rect x="572" y="368" width="66" height="38" rx="3" fill="url(#towerG)"
+                  stroke="#0b1116"/>
+            <g fill="#ffcf87" fill-opacity=".85">
+              <rect x="580" y="376" width="6" height="4"/><rect x="592" y="376" width="6" height="4"/>
+              <rect x="604" y="376" width="6" height="4"/><rect x="616" y="376" width="6" height="4"/>
+            </g>
+            <use href="#fun" x="644" y="376" width="16" height="28"/>
+            <path d="M440 392v-44M440 348h44" stroke="#7f94a2" stroke-width="3"/>
+            <path d="M484 348v22" stroke="#7f94a2" stroke-width="1.6"/>
+            <use href="#eng" x="266" y="416" width="46" height="20"/>
+            <text class="plate" x="276" y="486">class</text>
+            <text class="plate g" x="314" y="486">Merchant · 9,400 t · cargo only</text>
+          </g>
+
+          <!-- Auxiliary — the fleet train. Stores holds, two heavy cranes, and
+               the highline rig amidships for passing fuel to a hull under way. -->
+          <g class="ship s-aux">
+            <use href="#cradle" x="300" y="452" width="70" height="40"/>
+            <use href="#cradle" x="520" y="452" width="70" height="40"/>
+            <path d="M270 448h390l30-18-24-26H292l-22 26z" fill="url(#hullG)" stroke="#0b1116"/>
+            <path d="M270 448h390l30-18-24-26H292l-22 26z" fill="url(#plating)"/>
+            <rect x="270" y="430" width="420" height="6" fill="url(#sashG)" opacity=".85"/>
+            <rect x="300" y="392" width="120" height="14" rx="2" fill="url(#deckG)"
+                  stroke="#0b1116"/>
+            <rect x="546" y="392" width="96" height="14" rx="2" fill="url(#deckG)"
+                  stroke="#0b1116"/>
+            <!-- replenishment rig: kingposts and the highline between them -->
+            <path d="M446 392v-58M506 392v-58" stroke="#7f94a2" stroke-width="4"/>
+            <path d="M446 340h60" stroke="#93a7b6" stroke-width="2"/>
+            <path d="M446 346q30 16 60 0" stroke="#e0b155" stroke-width="1.6" fill="none"/>
+            <rect x="466" y="352" width="20" height="12" rx="2" fill="#4a606f"
+                  stroke="#0b1116"/>
+            <!-- cranes -->
+            <path d="M348 392v-40M348 352l46 18" stroke="#7f94a2" stroke-width="3.4"/>
+            <path d="M394 370v16" stroke="#93a7b6" stroke-width="1.4"/>
+            <path d="M596 392v-40M596 352l-42 16" stroke="#7f94a2" stroke-width="3.4"/>
+            <rect x="516" y="366" width="26" height="26" rx="3" fill="url(#towerG)"
+                  stroke="#0b1116"/>
+            <use href="#fun" x="556" y="366" width="16" height="28"/>
+            <use href="#eng" x="260" y="416" width="46" height="20"/>
+            <text class="plate" x="270" y="486">class</text>
+            <text class="plate g" x="308" y="486">Auxiliary · 6,800 t · fleet train</text>
+          </g>
+
+          <!-- Monitor — the armoured one. Two feet of freeboard, one triple
+               turret forward, and belt out of all proportion to her tonnage. -->
+          <g class="ship s-mon">
+            <use href="#cradle" x="330" y="452" width="70" height="40"/>
+            <use href="#cradle" x="500" y="452" width="70" height="40"/>
+            <path d="M300 450h330l26-14-16-20H316l-16 20z" fill="url(#hullG)" stroke="#0b1116"/>
+            <path d="M300 450h330l26-14-16-20H316l-16 20z" fill="url(#plating)"/>
+            <rect x="300" y="422" width="356" height="22" fill="url(#beltG)"/>
+            <rect x="300" y="422" width="356" height="22" fill="url(#rivets)"/>
+            <path d="M316 416h330" stroke="#f2e9d6" stroke-opacity=".35" stroke-width="2"/>
+            <use href="#t3" x="336" y="376" width="62" height="36"/>
+            <rect x="452" y="382" width="58" height="30" rx="3" fill="url(#towerG)"
+                  stroke="#0b1116"/>
+            <g fill="#ffcf87" fill-opacity=".85">
+              <rect x="460" y="390" width="6" height="4"/><rect x="472" y="390" width="6" height="4"/>
+              <rect x="484" y="390" width="6" height="4"/><rect x="496" y="390" width="6" height="4"/>
+            </g>
+            <use href="#fun" x="528" y="386" width="16" height="26"/>
+            <path d="M481 382v-30" stroke="#7f94a2" stroke-width="2.5"/>
+            <g transform="translate(481,350)" class="sweep">
+              <path d="M-11 0h22" stroke="#93a7b6" stroke-width="3"/></g>
+            <use href="#eng" x="292" y="420" width="42" height="18"/>
+            <text class="plate" x="300" y="486">class</text>
+            <text class="plate g" x="338" y="486">Monitor · 26,500 t · belt over speed</text>
+          </g>
+        </g>
+
+        <!-- ---------------------------------------------------- mount band
+             Eleven stations, drawn whether or not they are ordered. The ones on
+             the docket are lit; the rest stay as ghosted outlines, so the band
+             reads as a layout and not a shopping list. -->
+        <g transform="translate(0,504)">
+          <path d="M120 0h660" stroke="#243444" stroke-width="2"/>
+          <text class="plate" x="120" y="-8">mount band · conventional systems only</text>
+
+          <g class="w w-ram" transform="translate(140,0)">
+            <path d="M2 26 22 14 2 2z" fill="#8a6a2e" stroke="#0b1116"/>
+            <text class="wlab" x="0" y="42">RAM</text>
+          </g>
+          <g class="w w-broad" transform="translate(200,0)">
+            <rect x="0" y="10" width="34" height="12" rx="2" fill="url(#towerG)" stroke="#0b1116"/>
+            <path d="M34 13h9M34 19h9" stroke="#93a7b6" stroke-width="2.2"/>
+            <text class="wlab" x="0" y="42">BROADSIDE</text>
+          </g>
+          <g class="w w-ciws" transform="translate(280,0)">
+            <circle cx="12" cy="16" r="8" fill="url(#towerG)" stroke="#0b1116"/>
+            <path d="M20 13h10M20 17h10" stroke="#93a7b6" stroke-width="2"/>
+            <text class="wlab" x="0" y="42">CLOSE-IN</text>
+          </g>
+          <g class="w w-vls" transform="translate(348,0)">
+            <rect x="0" y="6" width="36" height="18" rx="2" fill="#2c3b47" stroke="#0b1116"/>
+            <g fill="#5b8fd6">
+              <rect x="3"  y="9" width="6" height="6"/><rect x="12" y="9" width="6" height="6"/>
+              <rect x="21" y="9" width="6" height="6"/><rect x="3"  y="17" width="6" height="4"/>
+              <rect x="12" y="17" width="6" height="4"/><rect x="21" y="17" width="6" height="4"/>
+            </g>
+            <text class="wlab" x="0" y="42">CELLS</text>
+          </g>
+          <g class="w w-asm" transform="translate(414,0)">
+            <rect x="0" y="8" width="30" height="16" rx="2" fill="url(#towerG)"
+                  stroke="#0b1116" transform="skewY(-8)"/>
+            <path d="M6 14h18" stroke="#e58593" stroke-width="2"/>
+            <text class="wlab" x="0" y="42">ANTI-SHIP</text>
+          </g>
+          <g class="w w-tor" transform="translate(486,0)">
+            <rect x="0" y="12" width="34" height="9" rx="4" fill="#3c4f5e" stroke="#0b1116"/>
+            <circle cx="34" cy="16.5" r="4" fill="#1b262f" stroke="#0b1116"/>
+            <text class="wlab" x="0" y="42">TORPEDO</text>
+          </g>
+          <g class="w w-rail" transform="translate(552,0)">
+            <path d="M0 20h14l30-8" stroke="#93a7b6" stroke-width="3" fill="none"/>
+            <rect x="0" y="14" width="14" height="12" rx="2" fill="url(#towerG)" stroke="#0b1116"/>
+            <circle cx="45" cy="12" r="2.5" fill="#5b8fd6"/>
+            <text class="wlab" x="0" y="42">RAILGUN</text>
+          </g>
+          <g class="w w-mine" transform="translate(620,0)">
+            <path d="M0 24h34" stroke="#4a606f" stroke-width="3"/>
+            <circle cx="8"  cy="18" r="5" fill="#2c3b47" stroke="#0b1116"/>
+            <circle cx="22" cy="18" r="5" fill="#2c3b47" stroke="#0b1116"/>
+            <text class="wlab" x="0" y="42">MINE RAIL</text>
+          </g>
+          <g class="w w-dc" transform="translate(686,0)">
+            <rect x="2"  y="12" width="9" height="12" rx="2" fill="#3c4f5e" stroke="#0b1116"/>
+            <rect x="15" y="12" width="9" height="12" rx="2" fill="#3c4f5e" stroke="#0b1116"/>
+            <text class="wlab" x="0" y="42">DEPTH</text>
+          </g>
+          <g class="w w-uav" transform="translate(740,0)">
+            <use href="#craft" x="0" y="10" width="30" height="12"/>
+            <text class="wlab" x="0" y="42">UAV</text>
+          </g>
+          <g class="w w-laser" transform="translate(800,0)">
+            <circle cx="10" cy="16" r="7" fill="url(#towerG)" stroke="#0b1116"/>
+            <path d="M17 16h22" stroke="#65d6a8" stroke-width="2"/>
+            <text class="wlab" x="0" y="42">LASER</text>
+          </g>
+        </g>
+      </svg>
     </div>
-    <p class="note">The ring turns on a keyframe, the beacons blink on another,
+    <p class="note">The ring turns on a keyframe, the radar sweeps on another,
       and the hull in the slip changes because a different radio is checked.
-      There is no script on this page to do any of it.</p>
+      Seven ships share one <code>&lt;defs&gt;</code> — the turrets, funnels,
+      bridge tiers, engine bells and cradles are <code>&lt;use&gt;</code> of the
+      same handful of parts at different sizes, which is roughly how the real
+      ones were built. There is no script on this page to do any of it.</p>
   </section>
 
   <!-- After the form, so the counters have something to count. -->
   <aside class="panel docket">
     <h2>Docket <b>slip 4</b></h2>
-    <div class="tot"><span>Order</span><b class="price"></b></div>
-    <span class="big"><span class="price"></span> HEZE</span>
-    <div class="tot" style="margin-top:10px"><span>Build time</span><b class="weeks"></b></div>
+    <div class="tot"><span>Order, in HEZE</span><b class="price"></b></div>
+    <span class="big"><span class="price"></span></span>
+    <div class="tot" style="margin-top:10px"><span>Build time, weeks</span><b class="weeks"></b></div>
     <div class="tot"><span>Displacement, t</span><b class="tons"></b></div>
     <div class="tot"><span>Slip grade</span><b class="slipn"></b></div>
+    <div class="tot"><span>Systems fitted</span><b class="gunsn"></b></div>
+    <div class="tot"><span>Escort hulls</span><b class="escn"></b></div>
+
+    <h2 style="margin-top:16px">Order of march <b>syndicate</b></h2>
+    <div class="march">
+      <div class="rank gen"><i></i>General<span>van</span></div>
+      <div class="rank sgt"><i></i>Sergeant ×3<span>centre and flanks</span></div>
+      <div class="rank cpl"><i></i>Corporal<span>rear guard</span></div>
+      <div class="rank"><i></i>Merchant<span>3 or 6 days astern</span></div>
+      <div class="rank"><i></i>Commandant<span>rides the merchant</span></div>
+    </div>
+    <p class="note">The merchant is the peer interface, and it is perpendicular
+      to the line of march: it runs cargo <em>toward</em> the rear guard, never
+      out from it, and it is never closer than three days nor further than six.
+      Because it sits off the line it carries its own authority — a commandant,
+      an old sergeant, kept on past the point where he was still doing the
+      walking. He is AI now. The corporal holds the rear guard; the commandant
+      is what the corporal answers to when the general is out of reach.</p>
 
     <h2 style="margin-top:16px">Settlement</h2>
     <input class="addr" placeholder="0x… public address only" spellcheck="false"
