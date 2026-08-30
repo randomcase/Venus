@@ -1,0 +1,319 @@
+<title>Two Supply Paths · B2 → 2B</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Everything New Paris eats comes from Earth, and there are exactly two ways to
+  send it. They diverge at departure and reconverge in the cloud layer, and the
+  choice between them is the whole logistics problem.
+
+    PATH ONE — the long arc. A minimum-energy Hohmann transfer: about 146 days,
+    roughly 3.5 km/s from low Earth orbit, and a departure window only when the
+    two planets line up — every 584 days. Cheapest per tonne that exists, and
+    you wait a year and a half for the door to open.
+
+    PATH TWO — through the relay. A faster, higher-energy crossing staged via a
+    station that is already in transfer space: about 98 days, but near 5.2 km/s,
+    which buys the speed out of the payload. The window is wider because the
+    relay is not waiting on the same alignment you are.
+
+  B2 is Earth. 2B is Venus. The relay between them is peer to peer in the only
+  sense that survives the distance: store and forward. One-way light time runs
+  from 2.1 minutes at closest approach to 14.3 at furthest, so nothing out there
+  is under live control by anyone. The relay holds what it is given and passes
+  it on when the geometry allows. That is not a limitation of the design — it is
+  the speed of light, and no protocol negotiates with it.
+
+  Figures are standard mission-planning ballpark, right to about a significant
+  figure and labelled as such. No script.
+-->
+<style>
+  :root{
+    --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --earth:#5b9ed6; --venus:#e8a34a; --relay:#8a6ab8;
+    --good:#65d6a8; --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.6 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 10% 6%,rgba(91,158,214,.10),transparent 42%),
+      radial-gradient(circle at 90% 90%,rgba(232,163,74,.10),transparent 42%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.018em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:72ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:22px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.65;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--cool);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ------------------------------------------------------------ the diagram */
+  .map{position:relative;border-radius:13px;overflow:hidden;
+    border:1px solid var(--edge);background:#060a0f}
+  .map svg{display:block;width:100%;height:auto}
+  .flow{stroke-dasharray:5 9;animation:march 3.4s linear infinite}
+  @keyframes march{to{stroke-dashoffset:-28}}
+  .spin{transform-box:fill-box;transform-origin:center;
+    animation:sp 40s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .pulse{animation:pl 4s ease-in-out infinite}
+  @keyframes pl{0%,100%{opacity:.25}50%{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.flow,.spin,.pulse{animation:none}}
+
+  /* the chosen path is lit, the other is left drawn but dim */
+  .p1,.p2{transition:opacity .3s}
+  .board:has(#p-direct:checked) .p2,
+  .board:has(#p-relay:checked)  .p1{opacity:.18}
+
+  /* ------------------------------------------------------------- controls */
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;min-width:150px;cursor:pointer;padding:12px 13px;
+    border-radius:10px;border:1px solid var(--edge);color:var(--dim);
+    font:11.5px/1.4 ui-monospace,monospace}
+  .seg label b{display:block;color:var(--ink);font-size:13.5px;margin-bottom:3px}
+  .seg input:checked+label{border-color:var(--gold);background:rgba(224,177,85,.10)}
+  .seg input:checked+label b{color:var(--gold)}
+  .seg input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* --------------------------------------------------------- the arithmetic
+     Path × payload is a two-key lookup: neither states the landed mass alone,
+     because what a path costs in delta-v it takes out of what you can land.
+     Six cells, written out. */
+  body{counter-reset:days 0 dv 0 land 0 win 0}
+  .board:has(#p-direct:checked):has(#l-4:checked)  .x{counter-increment:days 146 dv 35 land 4  win 584}
+  .board:has(#p-direct:checked):has(#l-12:checked) .x{counter-increment:days 146 dv 35 land 12 win 584}
+  .board:has(#p-direct:checked):has(#l-30:checked) .x{counter-increment:days 146 dv 35 land 30 win 584}
+  .board:has(#p-relay:checked):has(#l-4:checked)   .x{counter-increment:days 98 dv 52 land 2  win 210}
+  .board:has(#p-relay:checked):has(#l-12:checked)  .x{counter-increment:days 98 dv 52 land 7  win 210}
+  .board:has(#p-relay:checked):has(#l-30:checked)  .x{counter-increment:days 98 dv 52 land 17 win 210}
+  .x{display:inline;font-size:0}
+  .n-days::after{content:counter(days)}  .n-dv::after{content:counter(dv)}
+  .n-land::after{content:counter(land)}  .n-win::after{content:counter(win)}
+
+  .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .head{background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  .head b em{font-style:normal;font-size:11px;color:var(--dim);letter-spacing:.1em}
+
+  /* which path's argument is showing */
+  .arg{display:none;margin-top:12px}
+  .board:has(#p-direct:checked) .a1,
+  .board:has(#p-relay:checked)  .a2{display:block}
+
+  table{width:100%;border-collapse:collapse;font-size:12px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td .q{color:var(--dim);font-size:10.5px}
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:880px){.two{grid-template-columns:1fr}
+    .heads{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<div class="board wrap">
+  <header>
+    <h1>Two Supply Paths</h1>
+    <span class="sub">B2 is Earth. 2B is Venus. Everything New Paris eats
+      crosses between them, and there are exactly two ways to send it — they
+      diverge at departure and meet again in the cloud layer.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="map">
+    <svg viewBox="0 0 1020 300" role="img"
+         aria-label="Earth at left, Venus at right, with a long low-energy arc and a shorter relay path between them.">
+      <defs>
+        <radialGradient id="eg" cx=".35" cy=".3">
+          <stop offset="0" stop-color="#8fc6f2"/><stop offset=".6" stop-color="#2f6fa8"/>
+          <stop offset="1" stop-color="#0d2b45"/></radialGradient>
+        <radialGradient id="vg" cx=".35" cy=".3">
+          <stop offset="0" stop-color="#f6d79a"/><stop offset=".55" stop-color="#d08f42"/>
+          <stop offset="1" stop-color="#5d3117"/></radialGradient>
+        <radialGradient id="sun2"><stop offset="0" stop-color="#fff4d6"/>
+          <stop offset="1" stop-color="#ffd98a" stop-opacity="0"/></radialGradient>
+      </defs>
+
+      <g fill="#fff" opacity=".7">
+        <circle cx="140" cy="40" r="1.2"/><circle cx="420" cy="28" r="1"/>
+        <circle cx="700" cy="52" r="1.3"/><circle cx="880" cy="34" r="1"/>
+        <circle cx="300" cy="266" r="1.1"/><circle cx="640" cy="272" r="1"/>
+      </g>
+      <circle cx="510" cy="150" r="70" fill="url(#sun2)" opacity=".5"/>
+
+      <!-- path one: the long low-energy arc -->
+      <g class="p1">
+        <path d="M150 168 Q510 292 872 176" fill="none" stroke="var(--earth)"
+              stroke-width="3" opacity=".55"/>
+        <path class="flow" d="M150 168 Q510 292 872 176" fill="none"
+              stroke="var(--earth)" stroke-width="3"/>
+        <text x="470" y="266" fill="var(--earth)" text-anchor="middle"
+              style="font:11px ui-monospace,monospace;letter-spacing:.16em">
+          PATH ONE · 146 DAYS · WINDOW EVERY 584</text>
+      </g>
+
+      <!-- path two: via the relay -->
+      <g class="p2">
+        <path d="M150 134 Q330 44 510 96" fill="none" stroke="var(--relay)"
+              stroke-width="3" opacity=".55"/>
+        <path d="M510 96 Q700 140 872 142" fill="none" stroke="var(--relay)"
+              stroke-width="3" opacity=".55"/>
+        <path class="flow" d="M150 134 Q330 44 510 96" fill="none"
+              stroke="var(--relay)" stroke-width="3"/>
+        <path class="flow" d="M510 96 Q700 140 872 142" fill="none"
+              stroke="var(--relay)" stroke-width="3"/>
+        <text x="470" y="34" fill="var(--relay)" text-anchor="middle"
+              style="font:11px ui-monospace,monospace;letter-spacing:.16em">
+          PATH TWO · 98 DAYS · THROUGH THE RELAY</text>
+      </g>
+
+      <!-- the relay itself -->
+      <g transform="translate(510,96)">
+        <circle class="spin" r="26" fill="none" stroke="#3d3060" stroke-width="7"
+                stroke-dasharray="12 8"/>
+        <rect x="-13" y="-13" width="26" height="26" rx="6" fill="#2a2140"
+              stroke="#5b4a86"/>
+        <circle class="pulse" cx="0" cy="0" r="4" fill="var(--relay)"/>
+        <text y="52" fill="var(--dim)" text-anchor="middle"
+              style="font:9.5px ui-monospace,monospace;letter-spacing:.14em">
+          RELAY · STORE AND FORWARD</text>
+      </g>
+
+      <!-- the two ends -->
+      <g transform="translate(112,150)">
+        <circle r="42" fill="url(#eg)" stroke="#0d2b45"/>
+        <text y="70" fill="var(--earth)" text-anchor="middle"
+              style="font:11px ui-monospace,monospace;letter-spacing:.2em">B2 · EARTH</text>
+      </g>
+      <g transform="translate(908,150)">
+        <circle r="38" fill="url(#vg)" stroke="#5d3117"/>
+        <circle r="46" fill="none" stroke="#e8c77a" stroke-opacity=".3"/>
+        <text y="70" fill="var(--venus)" text-anchor="middle"
+              style="font:11px ui-monospace,monospace;letter-spacing:.2em">2B · VENUS</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="two" style="margin-top:16px">
+    <div class="panel">
+      <h2 style="margin-top:0">Path <b>they diverge at departure</b></h2>
+      <div class="seg">
+        <input type="radio" name="p" id="p-direct" checked><label for="p-direct">
+          <b>One · the long arc</b>minimum energy<br>146 d · 3.5 km/s</label>
+        <input type="radio" name="p" id="p-relay"><label for="p-relay">
+          <b>Two · via the relay</b>bought speed<br>98 d · 5.2 km/s</label>
+      </div>
+    </div>
+    <div class="panel">
+      <h2 style="margin-top:0">Payload launched <b>tonnes</b></h2>
+      <div class="seg">
+        <input type="radio" name="l" id="l-4"><label for="l-4"><b>4 t</b>a lighter</label>
+        <input type="radio" name="l" id="l-12" checked><label for="l-12"><b>12 t</b>a run</label>
+        <input type="radio" name="l" id="l-30"><label for="l-30"><b>30 t</b>a full hull</label>
+      </div>
+    </div>
+  </div>
+
+  <span class="x"></span>
+  <div class="heads">
+    <div class="head"><span>Transit</span><b><span class="n-days"></span><em> days</em></b></div>
+    <div class="head"><span>Δv from LEO</span><b><span class="n-dv"></span><em> ×0.1 km/s</em></b></div>
+    <div class="head"><span>Landed at New Paris</span><b><span class="n-land"></span><em> t</em></b></div>
+    <div class="head"><span>Window opens every</span><b><span class="n-win"></span><em> days</em></b></div>
+  </div>
+  <p class="note"><b>Δv is shown in tenths</b> because CSS counters are integers
+    and 3.5 is not one. It is not a trick to make a number look bigger — the
+    unit is on the tile, and a page that rounded 3.5 to 4 to keep the label tidy
+    would be lying about half a kilometre a second.</p>
+
+  <div class="arg a1 panel">
+    <h2 style="margin-top:0">Path one <b>the long arc</b></h2>
+    <p class="note" style="margin-top:0"><b>You wait, and then you send
+      everything.</b> A Hohmann transfer is the cheapest crossing that physics
+      allows: the ship leaves when Earth and Venus are aligned for it, coasts a
+      hundred and forty-six days on an ellipse that touches both orbits, and
+      arrives having spent almost nothing beyond the departure burn. Nearly all
+      of what you launched is still there to land.</p>
+    <p class="note"><b>The cost is the calendar.</b> The alignment comes round
+      every 584 days — the synodic period — so a missed window is nineteen
+      months, not next month. Everything New Paris cannot make for itself has to
+      be on that ship, and the station has to hold enough to live on until the
+      next one. Path one is not slow shipping. It is a nineteen-month
+      inventory problem wearing a ship.</p>
+  </div>
+
+  <div class="arg a2 panel">
+    <h2 style="margin-top:0">Path two <b>through the relay</b></h2>
+    <p class="note" style="margin-top:0"><b>You pay for the crossing out of the
+      cargo.</b> Leaving faster than the minimum-energy arc means burning harder,
+      and every extra metre per second comes off what the same launcher can
+      throw. Twelve tonnes off Earth lands as seven. Thirty lands as seventeen.
+      The ship is not smaller — the fuel took the difference.</p>
+    <p class="note"><b>What you buy is not just speed, it is cadence.</b> The
+      relay is already in transfer space and is not waiting on your alignment,
+      so departures come round about every 210 days instead of 584. Three
+      sendings in the time path one manages one, each carrying less. For
+      anything perishable, medical, or simply late, that is the only path that
+      exists.</p>
+    <p class="note"><b>And peer to peer, at this distance, means store and
+      forward.</b> One-way light time between the two planets runs from 2.1
+      minutes at closest approach to 14.3 at furthest. Nothing out there is
+      under live control by anyone, so the relay does not negotiate — it holds
+      what it was given and passes it on when the geometry allows. That is not
+      a protocol decision. It is the speed of light, and there is no version of
+      this design in which it is different.</p>
+  </div>
+
+  <h2>Side by side <b>the whole trade</b></h2>
+  <table>
+    <tr><th>&nbsp;</th><th>Path one · long arc</th><th>Path two · relay</th></tr>
+    <tr><td>Transit</td><td>146 days</td><td>98 days</td></tr>
+    <tr><td>Δv from LEO</td><td>≈3.5 km/s</td><td>≈5.2 km/s</td></tr>
+    <tr><td>Departures</td><td>every 584 days</td><td>every ~210 days</td></tr>
+    <tr><td>Landed from 12 t launched</td><td>12 t</td><td>7 t</td></tr>
+    <tr><td>Landed per Earth year <span class="q">· 12 t launches</span></td>
+        <td>≈7.5 t</td><td>≈12 t</td></tr>
+    <tr><td>Good for</td><td>mass, structure, anything that keeps</td>
+        <td>people, medicine, spares, anything late</td></tr>
+    <tr><td>Fails at</td><td>a missed window costs nineteen months</td>
+        <td>never carrying enough in one go</td></tr>
+  </table>
+  <p class="note"><b>Which is why there are two.</b> Neither path is better;
+    they fail in opposite directions. Run only the long arc and the outpost is
+    one missed launch from rationing. Run only the relay and it never receives a
+    girder. New Paris is supplied by both because a single path is a single
+    point of failure with a schedule attached — and the divergence is the whole
+    design, not a hedge.</p>
+
+  <h2>On the numbers</h2>
+  <p class="note">The 584-day synodic period and the ~146-day Hohmann transit
+    are standard and well-established. The 3.5 km/s departure Δv is the usual
+    planning figure from low Earth orbit; the 5.2 for a faster crossing is
+    representative rather than the product of a specific trajectory, and the
+    landed-mass reductions follow from the rocket equation at that Δv rather
+    than from a real vehicle. Light times are exact for Venus at closest and
+    furthest approach. Read the first three as facts, the rest as arithmetic
+    done honestly on assumptions I have named.</p>
+  <p class="note"><b>One thing Venus gives you free.</b> Arrival is into an
+    atmosphere, at a station floating in it — so the last stage is aerocapture
+    and a parachute rather than a landing burn. The planet that makes the
+    surface impossible is the same planet that makes the delivery cheap.</p>
+</div>
