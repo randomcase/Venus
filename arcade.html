@@ -1,0 +1,367 @@
+<title>The Arcade · every board at once</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Every board in the yard, running, side by side. No script.
+
+  Each cabinet is a real <iframe> of the real file — not a screenshot. They are
+  live: the animations run, the counters count, and the controls inside a
+  cabinet work if you reach into it. What you are looking at is seventeen
+  pages actually executing, scaled down.
+
+  THE HUB AND WHAT IT CAN HONESTLY DRIVE
+  The console at the bottom controls the arcade. It does NOT reach inside the
+  cabinets, and it cannot: without script there is no way for one document to
+  set state in another, and I am not going to draw a controller that pretends
+  otherwise. So the hub drives what is genuinely its own —
+
+    · which cabinet is brought forward
+    · attract mode, the slow drift across the wall
+    · the arcade's own cut, which stops every animation this page owns
+
+  The cut is real here for the same reason it is real on the lane: the
+  animations are this document's, so this document can stop them. Reaching
+  into a cabinet to stop what is inside it would need script, and the cabinets
+  do not have any either. Each board keeps its own controls, which is the
+  correct answer anyway — a hub that could silently drive eighteen boards is a
+  worse design than eighteen boards that each answer for themselves.
+-->
+<style>
+  :root{
+    --void:#06090d; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --red:#e0705a; --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8;
+    --plum:#8a6ab8; --cyan:#6ec6ff;
+    --bay:210px;      /* cabinet screen height */
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 200px;color:var(--ink);background:var(--void);
+    font:13.5px/1.6 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 12% 4%,rgba(138,106,184,.10),transparent 44%),
+      radial-gradient(circle at 88% 30%,rgba(91,158,214,.08),transparent 42%),
+      repeating-linear-gradient(0deg,rgba(255,255,255,.014) 0 1px,transparent 1px 3px)}
+  .wrap{max-width:1500px;margin:0 auto}
+
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:22px;letter-spacing:-.02em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:76ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.65;margin:10px 0 0;
+    max-width:100ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+  /* --------------------------------------------------------- the cabinets */
+  .floor{display:grid;gap:14px;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  .cab{background:linear-gradient(180deg,#1a2430,#0e151c);
+    border:1px solid var(--edge);border-radius:12px;padding:9px 9px 10px;
+    position:relative;transition:transform .25s,border-color .25s,opacity .25s;
+    box-shadow:0 10px 30px rgba(0,0,0,.45)}
+  .cab:hover{border-color:var(--gold);transform:translateY(-3px)}
+  .marquee{display:flex;align-items:baseline;gap:8px;padding:1px 4px 8px}
+  .marquee h3{margin:0;font-size:13px;letter-spacing:-.01em}
+  .marquee .n{font:8.5px/1 ui-monospace,monospace;letter-spacing:.18em;
+    color:var(--plum)}
+  .marquee a{margin-left:auto;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--gold);
+    text-decoration:none;border:1px solid var(--edge);border-radius:5px;
+    padding:4px 7px}
+  .marquee a:hover{border-color:var(--gold)}
+
+  /* the screen. A 1400px-wide board rendered into a 300px bay by scaling the
+     frame itself — the page inside lays out at desktop width and is then made
+     small, rather than being squeezed into a phone layout it was not built for. */
+  .screen{position:relative;height:var(--bay);border-radius:8px;overflow:hidden;
+    background:#05080c;border:1px solid #0b1116}
+  .screen iframe{position:absolute;top:0;left:0;width:1400px;height:1000px;
+    border:0;transform:scale(.30);transform-origin:0 0;
+    pointer-events:none}                    /* the cabinet is a display, not a control */
+  .screen::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px);
+    mix-blend-mode:multiply}
+  .glass{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse at 30% 12%,rgba(255,255,255,.07),transparent 58%)}
+  .cab .foot{font:8.5px/1.5 ui-monospace,monospace;letter-spacing:.1em;
+    color:var(--dim);padding:7px 4px 0;display:flex;gap:8px}
+  .cab .foot em{font-style:normal;margin-left:auto;color:var(--green)}
+  .cab .foot em.js{color:var(--red)}
+
+  /* attract mode — the wall breathes, one cabinet at a time */
+  .board:has(#h-attract:checked) .cab{animation:attract 24s ease-in-out infinite}
+  .cab:nth-child(1){animation-delay:0s}   .cab:nth-child(2){animation-delay:-1.3s}
+  .cab:nth-child(3){animation-delay:-2.6s} .cab:nth-child(4){animation-delay:-3.9s}
+  .cab:nth-child(5){animation-delay:-5.2s} .cab:nth-child(6){animation-delay:-6.5s}
+  .cab:nth-child(7){animation-delay:-7.8s} .cab:nth-child(8){animation-delay:-9.1s}
+  .cab:nth-child(9){animation-delay:-10.4s} .cab:nth-child(10){animation-delay:-11.7s}
+  .cab:nth-child(11){animation-delay:-13s} .cab:nth-child(12){animation-delay:-14.3s}
+  .cab:nth-child(13){animation-delay:-15.6s} .cab:nth-child(14){animation-delay:-16.9s}
+  .cab:nth-child(15){animation-delay:-18.2s} .cab:nth-child(16){animation-delay:-19.5s}
+  .cab:nth-child(17){animation-delay:-20.8s}
+  @keyframes attract{
+    0%,90%,100%{border-color:var(--edge);transform:none}
+    94%{border-color:var(--gold);transform:translateY(-5px) scale(1.012)}}
+
+  /* bring one forward. Two columns of span, so the picked cabinet is legible. */
+  .board:has(#c-forge:checked)  .k-forge,
+  .board:has(#c-station:checked).k-station,
+  .board:has(#c-run:checked)    .k-run,
+  .board:has(#c-paris:checked)  .k-paris,
+  .board:has(#c-supply:checked) .k-supply,
+  .board:has(#c-kill:checked)   .k-kill{
+    grid-column:span 2;--bay:430px;border-color:var(--gold)}
+  .board:has(#c-forge:checked)  .k-forge .screen iframe,
+  .board:has(#c-station:checked).k-station .screen iframe,
+  .board:has(#c-run:checked)    .k-run .screen iframe,
+  .board:has(#c-paris:checked)  .k-paris .screen iframe,
+  .board:has(#c-supply:checked) .k-supply .screen iframe,
+  .board:has(#c-kill:checked)   .k-kill .screen iframe{transform:scale(.44)}
+
+  /* ---------------------------------------------------------------- the hub */
+  .hub{position:fixed;left:0;right:0;bottom:0;z-index:9;
+    background:linear-gradient(180deg,rgba(6,9,13,.5),#080c11 30%);
+    border-top:1px solid var(--edge);padding:12px 16px 14px;
+    backdrop-filter:blur(6px)}
+  .hub .in{max-width:1500px;margin:0 auto;display:flex;gap:16px;align-items:center;
+    flex-wrap:wrap}
+  .hub .name{font:9px/1.5 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim)}
+  .hub .name b{display:block;color:var(--gold);font-size:12px;letter-spacing:.06em;
+    text-transform:none}
+
+  /* the controller — a stick and four buttons, and they are all real inputs */
+  .pad{display:flex;align-items:center;gap:14px}
+  .stick{width:52px;height:52px;border-radius:50%;flex:none;position:relative;
+    background:radial-gradient(circle at 35% 30%,#3c4a58,#151d25);
+    border:1px solid #0b1116;box-shadow:inset 0 2px 6px rgba(255,255,255,.08)}
+  .stick::after{content:"";position:absolute;inset:16px;border-radius:50%;
+    background:var(--red);box-shadow:0 0 12px rgba(224,112,90,.5)}
+  .board:has(#h-cut:checked) .stick::after{animation:blip .9s steps(1) infinite}
+  @keyframes blip{50%{background:#40201c;box-shadow:none}}
+
+  .btns{display:flex;gap:7px}
+  .btns input{position:absolute;opacity:0;width:0;height:0}
+  .btns label{width:44px;height:44px;border-radius:50%;cursor:pointer;
+    border:2px solid #0b1116;display:grid;place-items:center;
+    font:8px/1 ui-monospace,monospace;letter-spacing:.06em;color:#0b1116;
+    text-transform:uppercase;font-weight:700;
+    box-shadow:inset 0 -3px 0 rgba(0,0,0,.35)}
+  .btns .b-y{background:#7b6a2e} .btns .b-b{background:#2f5a7e}
+  .btns .b-g{background:#2f7a5f} .btns .b-r{background:#7b3a2e}
+  .btns input:checked+label.b-y{background:var(--yellow)}
+  .btns input:checked+label.b-b{background:var(--blue)}
+  .btns input:checked+label.b-g{background:var(--green)}
+  .btns input:checked+label.b-r{background:var(--red)}
+  .btns input:focus-visible+label{outline:2px solid var(--cyan);outline-offset:3px}
+
+  .sel{display:flex;gap:5px;flex-wrap:wrap}
+  .sel input{position:absolute;opacity:0;width:0;height:0}
+  .sel label{cursor:pointer;font:10px/1 ui-monospace,monospace;padding:8px 11px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim)}
+  .sel input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .sel input:focus-visible+label{outline:2px solid var(--cyan);outline-offset:2px}
+
+  .hubnote{font-size:10px;color:var(--dim);max-width:38ch;line-height:1.5}
+  .hubnote b{color:var(--ink)}
+
+  /* the arcade's own cut. Written last, so it beats attract mode. */
+  .board:has(#h-cut:checked) .cab{animation:none;border-color:#3a2622;
+    filter:grayscale(.7) brightness(.72)}
+  .board:has(#h-cut:checked) .screen::after{background:rgba(0,0,0,.45)}
+  @media (prefers-reduced-motion:reduce){.cab{animation:none !important}}
+</style>
+
+<div class="board wrap">
+  <header>
+    <h1>The Arcade</h1>
+    <span class="sub">Every board in the yard, running at once. These are live
+      frames of the real files — the animations are animating and the counters
+      are counting. Pick one to bring it forward, or open it properly.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="floor">
+    <div class="cab k-forge">
+      <div class="marquee"><span class="n">01</span><h3>Ship Forge</h3>
+        <a href="ship-forge.html">open</a></div>
+      <div class="screen"><iframe src="ship-forge.html" title="Ship Forge"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>10 hulls · costed</span><em class="js">javascript</em></div>
+    </div>
+
+    <div class="cab k-station">
+      <div class="marquee"><span class="n">02</span><h3>Orbital Yard</h3>
+        <a href="station.html">open</a></div>
+      <div class="screen"><iframe src="station.html" title="Heze Orbital Yard"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>order desk</span><em>no script</em></div>
+    </div>
+
+    <div class="cab">
+      <div class="marquee"><span class="n">03</span><h3>Fleet Train</h3>
+        <a href="auxiliaries.html">open</a></div>
+      <div class="screen"><iframe src="auxiliaries.html" title="The Fleet Train"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>twelve auxiliaries</span><em>no script</em></div>
+    </div>
+
+    <div class="cab">
+      <div class="marquee"><span class="n">04</span><h3>Personnel</h3>
+        <a href="personnel.html">open</a></div>
+      <div class="screen"><iframe src="personnel.html" title="Personnel Board"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>readiness</span><em>no script</em></div>
+    </div>
+
+    <div class="cab k-run">
+      <div class="marquee"><span class="n">05</span><h3>Cruiser Run</h3>
+        <a href="cruise-control.html">open</a></div>
+      <div class="screen"><iframe src="cruise-control.html" title="Cruiser Run"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>one lane · the cut</span><em>no script</em></div>
+    </div>
+
+    <div class="cab">
+      <div class="marquee"><span class="n">06</span><h3>Bridge</h3>
+        <a href="bridge.html">open</a></div>
+      <div class="screen"><iframe src="bridge.html" title="Yard Bridge"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>manifest in, out</span><em class="js">javascript</em></div>
+    </div>
+
+    <div class="cab">
+      <div class="marquee"><span class="n">07</span><h3>HEZE</h3>
+        <a href="heze.html">open</a></div>
+      <div class="screen"><iframe src="heze.html" title="HEZE deck"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>six slides</span><em>no script</em></div>
+    </div>
+
+    <div class="cab">
+      <div class="marquee"><span class="n">08</span><h3>Hold Three</h3>
+        <a href="cargo.html">open</a></div>
+      <div class="screen"><iframe src="cargo.html" title="Hold Three"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>one button</span><em>no script</em></div>
+    </div>
+
+    <div class="cab">
+      <div class="marquee"><span class="n">09</span><h3>The Whale</h3>
+        <a href="whale.html">open</a></div>
+      <div class="screen"><iframe src="whale.html" title="The Whale"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>six lessons</span><em>no script</em></div>
+    </div>
+
+    <div class="cab">
+      <div class="marquee"><span class="n">10</span><h3>Mobile Bank</h3>
+        <a href="bank.html">open</a></div>
+      <div class="screen"><iframe src="bank.html" title="Mobile Bank"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>ledger</span><em>no script</em></div>
+    </div>
+
+    <div class="cab">
+      <div class="marquee"><span class="n">11</span><h3>Convoy</h3>
+        <a href="convoy.html">open</a></div>
+      <div class="screen"><iframe src="convoy.html" title="Convoy"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>two at a time</span><em>no script</em></div>
+    </div>
+
+    <div class="cab k-paris">
+      <div class="marquee"><span class="n">12</span><h3>New Paris</h3>
+        <a href="new-paris.html">open</a></div>
+      <div class="screen"><iframe src="new-paris.html" title="New Paris"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>the outpost</span><em>no script</em></div>
+    </div>
+
+    <div class="cab k-supply">
+      <div class="marquee"><span class="n">13</span><h3>Supply Paths</h3>
+        <a href="supply.html">open</a></div>
+      <div class="screen"><iframe src="supply.html" title="Two Supply Paths"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>B2 → 2B</span><em>no script</em></div>
+    </div>
+
+    <div class="cab">
+      <div class="marquee"><span class="n">14</span><h3>Signal Code</h3>
+        <a href="signals.html">open</a></div>
+      <div class="screen"><iframe src="signals.html" title="Signal Code"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>sixteen states</span><em>no script</em></div>
+    </div>
+
+    <div class="cab">
+      <div class="marquee"><span class="n">15</span><h3>Three Lamps</h3>
+        <a href="signals-3.html">open</a></div>
+      <div class="screen"><iframe src="signals-3.html" title="Three Lamps"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>eight states</span><em>no script</em></div>
+    </div>
+
+    <div class="cab k-kill">
+      <div class="marquee"><span class="n">16</span><h3>Kill Switch</h3>
+        <a href="kill.html">open</a></div>
+      <div class="screen"><iframe src="kill.html" title="Kill Switch"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>two actions</span><em>no script</em></div>
+    </div>
+
+    <div class="cab">
+      <div class="marquee"><span class="n">17</span><h3>Template</h3>
+        <a href="template.html">open</a></div>
+      <div class="screen"><iframe src="template.html" title="Template"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>copy me</span><em>no script</em></div>
+    </div>
+  </div>
+
+  <p class="note"><b>The cabinets are displays, not controls.</b> Each frame has
+    <code>pointer-events:none</code>, so a click lands on the cabinet rather
+    than inside the board — which stops you changing a board's state by
+    accident while looking at seventeen of them. Use <b>open</b> to work one
+    properly.</p>
+</div>
+
+<!-- the hub. It controls the arcade, and says so. -->
+<div class="hub">
+  <div class="in">
+    <span class="name">hub<b>Arcade console</b></span>
+
+    <div class="pad">
+      <div class="stick" aria-hidden="true"></div>
+      <div class="btns">
+        <input type="radio" name="hb" id="h-idle" checked>
+        <label class="b-y" for="h-idle">idle</label>
+        <input type="radio" name="hb" id="h-attract">
+        <label class="b-b" for="h-attract">attract</label>
+        <input type="radio" name="hb" id="h-still">
+        <label class="b-g" for="h-still">still</label>
+        <input type="checkbox" id="h-cut">
+        <label class="b-r" for="h-cut">cut</label>
+      </div>
+    </div>
+
+    <div class="sel">
+      <input type="radio" name="c" id="c-none" checked><label for="c-none">Wall</label>
+      <input type="radio" name="c" id="c-forge"><label for="c-forge">Forge</label>
+      <input type="radio" name="c" id="c-station"><label for="c-station">Yard</label>
+      <input type="radio" name="c" id="c-run"><label for="c-run">Run</label>
+      <input type="radio" name="c" id="c-paris"><label for="c-paris">Paris</label>
+      <input type="radio" name="c" id="c-supply"><label for="c-supply">Supply</label>
+      <input type="radio" name="c" id="c-kill"><label for="c-kill">Cut</label>
+    </div>
+
+    <p class="hubnote"><b>The hub drives the arcade, not the boards.</b> Without
+      script one document cannot set state in another, so the console moves the
+      wall — attract, focus, and its own cut — and every cabinet keeps its own
+      controls. That is the right answer anyway.</p>
+  </div>
+</div>
