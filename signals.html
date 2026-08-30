@@ -1,0 +1,277 @@
+<title>Signal Code · all sixteen</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Four lamps, every combination, each one given a job.
+
+  Sixteen states — 2^4 — and they sort themselves by how many are lit. That is
+  not a decorative grouping: the weight of a signal is what a person reads
+  first, at distance, in bad light, before they can resolve which colour is
+  which. So the code is built on it.
+
+      0 lit   1 state    NO SIGNAL      the dangerous one
+      1 lit   4 states   ASPECT         the ordinary orders
+      2 lit   6 states   TRANSITION     changing from one to another
+      3 lit   4 states   DEGRADED       named by the lamp that is missing
+      4 lit   1 state    ALL            test, or everything at once
+
+  Bit order is R Y B G — stop, slow, cruise, full. Read left to right.
+
+  The three-lit states are the interesting ones, because a signal code that
+  only says what IS available is half a code. Naming the missing lamp is how
+  you say "no stop" out loud, which is a thing a crew needs to hear before they
+  need it rather than at the moment they reach for it.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --red:#e0705a; --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8;
+    --plum:#8a6ab8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.6 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 50% 0%,rgba(224,177,85,.07),transparent 46%)}
+  .wrap{max-width:1060px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:14px}
+  h1{margin:0;font-size:21px;letter-spacing:-.018em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:22px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.65;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+  /* ---------------------------------------------------------------- filter */
+  .filter{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+  .filter input{position:absolute;opacity:0;width:0;height:0}
+  .filter label{cursor:pointer;font:11px/1 ui-monospace,monospace;padding:8px 13px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim)}
+  .filter label:hover{color:var(--ink)}
+  .filter input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .filter input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+  .board:has(#f-0:checked) .s:not(.w0),
+  .board:has(#f-1:checked) .s:not(.w1),
+  .board:has(#f-2:checked) .s:not(.w2),
+  .board:has(#f-3:checked) .s:not(.w3),
+  .board:has(#f-4:checked) .s:not(.w4){display:none}
+
+  /* ----------------------------------------------------------- the states */
+  .grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(238px,1fr))}
+  .s{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:11px;padding:12px 13px}
+  .s.crit{border-color:var(--red)}
+  .s.key{border-color:var(--gold)}
+  .lamps{display:flex;gap:6px;margin-bottom:9px}
+  .lamps i{width:19px;height:19px;border-radius:50%;border:1px solid #0b1116;
+    background:#141c24;display:block}
+  .lamps i.on.r{background:var(--red);box-shadow:0 0 10px var(--red)}
+  .lamps i.on.y{background:var(--yellow);box-shadow:0 0 10px var(--yellow)}
+  .lamps i.on.b{background:var(--blue);box-shadow:0 0 10px var(--blue)}
+  .lamps i.on.g{background:var(--green);box-shadow:0 0 10px var(--green)}
+  .s .bits{margin-left:auto;font:10px/1.9 ui-monospace,monospace;color:var(--dim);
+    letter-spacing:.14em}
+  .s h3{margin:0 0 3px;font-size:14.5px;letter-spacing:-.01em}
+  .s .cat{font:8.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--plum);display:block;margin-bottom:6px}
+  .s.crit .cat{color:var(--red)}
+  .s p{margin:0;font-size:11.5px;color:var(--dim);line-height:1.55}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  tr.sum td{border-top:1.5px solid var(--gold);font-weight:700}
+  tr.sum td:last-child{color:var(--gold)}
+</style>
+
+<div class="board wrap">
+  <header>
+    <h1>Signal Code</h1>
+    <span class="sub">Four lamps — red, yellow, blue, green — and every one of
+      the sixteen states they can hold, sorted by the thing a person reads
+      first: how many are lit.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="filter">
+    <input type="radio" name="f" id="f-all" checked><label for="f-all">All sixteen</label>
+    <input type="radio" name="f" id="f-0"><label for="f-0">None lit · 1</label>
+    <input type="radio" name="f" id="f-1"><label for="f-1">Aspects · 4</label>
+    <input type="radio" name="f" id="f-2"><label for="f-2">Transitions · 6</label>
+    <input type="radio" name="f" id="f-3"><label for="f-3">Degraded · 4</label>
+    <input type="radio" name="f" id="f-4"><label for="f-4">All lit · 1</label>
+  </div>
+
+  <div class="grid">
+
+    <!-- weight 0 -->
+    <div class="s w0 crit">
+      <div class="lamps"><i class="r"></i><i class="y"></i><i class="b"></i><i class="g"></i>
+        <span class="bits">0000</span></div>
+      <span class="cat">no signal</span>
+      <h3>Dark</h3>
+      <p>Nothing lit. The dangerous state, because it is indistinguishable from
+        a dead panel — a ship with nothing to say and a ship that has lost the
+        ability to say it look identical from outside. Every other state on this
+        page is safer than this one.</p>
+    </div>
+
+    <!-- weight 1 · the four aspects -->
+    <div class="s w1 key">
+      <div class="lamps"><i class="r on"></i><i class="y"></i><i class="b"></i><i class="g"></i>
+        <span class="bits">1000</span></div>
+      <span class="cat">aspect</span><h3>Stop</h3>
+      <p>Held. Not a speed — a different kind of thing entirely, which is why it
+        is one lamp on its own and never a qualifier.</p>
+    </div>
+    <div class="s w1 key">
+      <div class="lamps"><i class="r"></i><i class="y on"></i><i class="b"></i><i class="g"></i>
+        <span class="bits">0100</span></div>
+      <span class="cat">aspect</span><h3>Slow</h3>
+      <p>Under way and short of cruise. Something is in the way; this is not the
+        economical setting, it is the constrained one.</p>
+    </div>
+    <div class="s w1 key">
+      <div class="lamps"><i class="r"></i><i class="y"></i><i class="b on"></i><i class="g"></i>
+        <span class="bits">0010</span></div>
+      <span class="cat">aspect</span><h3>Cruise</h3>
+      <p>The setting a hull should sit on for a long lane. Slow, and slow on
+        purpose — the only aspect that is meant to be held indefinitely.</p>
+    </div>
+    <div class="s w1 key">
+      <div class="lamps"><i class="r"></i><i class="y"></i><i class="b"></i><i class="g on"></i>
+        <span class="bits">0001</span></div>
+      <span class="cat">aspect</span><h3>Full</h3>
+      <p>Everything she has, for as long as it takes and no longer. A request,
+        not a state — nothing crosses ten light years green.</p>
+    </div>
+
+    <!-- weight 2 · transitions -->
+    <div class="s w2">
+      <div class="lamps"><i class="r on"></i><i class="y on"></i><i class="b"></i><i class="g"></i>
+        <span class="bits">1100</span></div>
+      <span class="cat">transition</span><h3>Coming to a stop</h3>
+      <p>Slowing under control, will be stopped shortly. The ordinary way a hull
+        stops: red is already showing so nobody is surprised by it.</p>
+    </div>
+    <div class="s w2">
+      <div class="lamps"><i class="r on"></i><i class="y"></i><i class="b on"></i><i class="g"></i>
+        <span class="bits">1010</span></div>
+      <span class="cat">transition</span><h3>Holding on station</h3>
+      <p>Stopped, but stopped somewhere on purpose — alongside a stage, taking
+        on fuel or stores. Under way again without a new order.</p>
+    </div>
+    <div class="s w2 crit">
+      <div class="lamps"><i class="r on"></i><i class="y"></i><i class="b"></i><i class="g on"></i>
+        <span class="bits">1001</span></div>
+      <span class="cat">transition · emergency</span><h3>Crash stop</h3>
+      <p>Full and stop together, which is a contradiction and is meant to be:
+        everything astern, now, damage accepted. The only state on this page
+        that asks for a machinery casualty and gets one.</p>
+    </div>
+    <div class="s w2">
+      <div class="lamps"><i class="r"></i><i class="y on"></i><i class="b on"></i><i class="g"></i>
+        <span class="bits">0110</span></div>
+      <span class="cat">transition</span><h3>Rejoining cruise</h3>
+      <p>Coming up off slow to the economical setting. The obstruction is
+        cleared and she is settling back onto the lane.</p>
+    </div>
+    <div class="s w2">
+      <div class="lamps"><i class="r"></i><i class="y on"></i><i class="b"></i><i class="g on"></i>
+        <span class="bits">0101</span></div>
+      <span class="cat">transition</span><h3>Working up</h3>
+      <p>Slow, going to full, skipping cruise. Boilers or bank coming on line —
+        the interval where power is arriving but is not there yet.</p>
+    </div>
+    <div class="s w2">
+      <div class="lamps"><i class="r"></i><i class="y"></i><i class="b on"></i><i class="g on"></i>
+        <span class="bits">0011</span></div>
+      <span class="cat">transition</span><h3>Released</h3>
+      <p>At cruise with standing authority to go full without asking. The only
+        two-lamp state that is a permission rather than a movement.</p>
+    </div>
+
+    <!-- weight 3 · degraded, named by what is missing -->
+    <div class="s w3">
+      <div class="lamps"><i class="r on"></i><i class="y on"></i><i class="b on"></i><i class="g"></i>
+        <span class="bits">1110</span></div>
+      <span class="cat">degraded · no green</span><h3>No full power</h3>
+      <p>She can stop, crawl and cruise; she cannot sprint. Least serious of the
+        four, and the most common — a plant down a bank, not a casualty.</p>
+    </div>
+    <div class="s w3">
+      <div class="lamps"><i class="r on"></i><i class="y on"></i><i class="b"></i><i class="g on"></i>
+        <span class="bits">1101</span></div>
+      <span class="cat">degraded · no blue</span><h3>No cruise</h3>
+      <p>Stop, slow and full available; nothing in between that can be held.
+        She can cross the lane but not economically, and she will arrive
+        needing more fuel than she was budgeted.</p>
+    </div>
+    <div class="s w3">
+      <div class="lamps"><i class="r on"></i><i class="y"></i><i class="b on"></i><i class="g on"></i>
+        <span class="bits">1011</span></div>
+      <span class="cat">degraded · no yellow</span><h3>No slow</h3>
+      <p>No steerage speed below cruise. She cannot creep, so she cannot come
+        alongside anything — a hull in this state can sail and can stop, and
+        can do nothing careful.</p>
+    </div>
+    <div class="s w3 crit">
+      <div class="lamps"><i class="r"></i><i class="y on"></i><i class="b on"></i><i class="g on"></i>
+        <span class="bits">0111</span></div>
+      <span class="cat">degraded · no red</span><h3>No stop available</h3>
+      <p>Three speeds and no brake. The most serious state in the code, and the
+        reason the code names the missing lamp rather than the lit ones — a
+        crew must hear this before they need it, not at the moment they reach
+        for the stop and find it is not there.</p>
+    </div>
+
+    <!-- weight 4 -->
+    <div class="s w4">
+      <div class="lamps"><i class="r on"></i><i class="y on"></i><i class="b on"></i><i class="g on"></i>
+        <span class="bits">1111</span></div>
+      <span class="cat">all lit</span><h3>Test, or general alarm</h3>
+      <p>Every lamp answering. Struck before departure to prove the panel, and
+        otherwise meaning that everything is happening at once — which, at a
+        signal panel, is the same message as nothing being legible.</p>
+    </div>
+  </div>
+
+  <h2>The count <b>where sixteen comes from</b></h2>
+  <table>
+    <tr><th>Lit</th><th>Category</th><th>Combinations</th><th>C(4,k)</th></tr>
+    <tr><td>0</td><td>No signal</td><td>Dark</td><td>1</td></tr>
+    <tr><td>1</td><td>Aspect</td><td>Stop, slow, cruise, full</td><td>4</td></tr>
+    <tr><td>2</td><td>Transition</td><td>Six ordered pairs of aspects</td><td>6</td></tr>
+    <tr><td>3</td><td>Degraded</td><td>Four, one per missing lamp</td><td>4</td></tr>
+    <tr><td>4</td><td>All lit</td><td>Test or alarm</td><td>1</td></tr>
+    <tr class="sum"><td>&nbsp;</td><td>Total</td><td>2⁴</td><td>16</td></tr>
+  </table>
+  <p class="note"><b>The row of the triangle.</b> 1 4 6 4 1 is the fourth row of
+    Pascal's triangle, and it is not a coincidence that the code falls into it —
+    the categories are the binomial coefficients because a signal is a subset of
+    the lamps, and there are exactly C(4,k) subsets of size k. The design did
+    not choose five categories; four lamps did.</p>
+  <p class="note"><b>Why sixteen and not four billion.</b> Four lamps admit
+    4,294,967,296 possible functions from their states to a four-valued output
+    — the arithmetic is in the other direction and it is enormous. This page
+    uses sixteen, because the useful capacity of a signal panel is not how many
+    states it can hold but how many a tired person can read correctly at three
+    in the morning. Sixteen is already generous. The four single-lamp aspects
+    carry almost all the traffic, and everything else on this page exists for
+    the moments when the ordinary four are not enough.</p>
+</div>
