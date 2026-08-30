@@ -223,6 +223,30 @@ function check(m){
       at('personnel.readiness','must be one of '+READY.join(', ')+'.');
   }
 
+  /* powers — checked whenever a clause is present, because a clause without
+     one is the thing this block exists to prevent */
+  const pw0=m.powers;
+  if(m.clause&&!pw0)
+    soft('powers','absent while a clause is present. The clause will not act: '+
+      'an arm with no declared powers has none.');
+  if(pw0!==undefined){
+    if(typeof pw0!=='object'||pw0===null)at('powers','must be an object.');
+    else{
+      if(!Array.isArray(pw0.may))at('powers.may','a list of permitted actions '+
+        'is required — an empty list is a valid answer, an absent one is not.');
+      if(!Array.isArray(pw0.may_never))
+        soft('powers.may_never','absent; nothing is explicitly forbidden.');
+      if(!isStr(pw0.audited_by))
+        at('powers.audited_by','someone must be named as able to check this.');
+      if(Array.isArray(pw0.may)&&Array.isArray(pw0.may_never)){
+        const both=pw0.may.filter((a)=>pw0.may_never.includes(a));
+        if(both.length)at('powers','"'+both.join('", "')+'" appears in both may '+
+          'and may_never. A power that is both granted and forbidden is not a '+
+          'power, it is an argument.');
+      }
+    }
+  }
+
   /* run */
   const r=m.run;
   if(typeof r!=='object'||r===null)at('run','required, and must be an object.');
@@ -298,8 +322,22 @@ function render(m,res){
      arithmetic can be checked afterwards. A seizure nobody can audit is not a
      clause, it is just a taking. Nothing moves — there is nothing here to
      move — this is a line in a JSON file. */
+  /* Powers first, and the order is the point: an arm with no declared powers
+     has none. The clause is not asked what it would like to do — it is checked
+     against a block the manifest had to carry, and anything it needs that is
+     not listed simply does not happen. A refusal here is silent about blame
+     and loud about facts. */
+  const pw=m.powers;
+  const need=['assess','record_forfeit','mark_shut_down'];
+  const may=(pw&&Array.isArray(pw.may))?pw.may:[];
+  const never=(pw&&Array.isArray(pw.may_never))?pw.may_never:[];
+  const lacking=need.filter((a)=>!may.includes(a));
+  const armed=!!pw&&lacking.length===0&&!never.some((a)=>need.includes(a));
+  if(pw)out.powers=Object.assign({},pw,{$checked_by:'bridge.html',
+    armed:armed,withheld:lacking});
+
   const cl=m.clause;
-  if(cl&&typeof cl==='object'&&isNum(cl.cap_heze)){
+  if(cl&&typeof cl==='object'&&isNum(cl.cap_heze)&&armed){
     const over=L.total_take_heze>cl.cap_heze;
     out.clause=Object.assign({},cl,{
       $evaluated_by:'bridge.html',
@@ -322,6 +360,16 @@ function render(m,res){
       out.clause.action='none';
       out.clause.headroom_heze=cl.cap_heze-L.total_take_heze;
     }
+    out.clause.void_if='the ledger does not recompute from run';
+  }else if(cl&&typeof cl==='object'){
+    /* A clause that cannot act still gets recorded, with the reason. Silence
+       here would look identical to a clause that simply did not apply. */
+    out.clause=Object.assign({},cl,{$evaluated_by:'bridge.html',armed:false,
+      action:'none',
+      reason:!pw?'no powers block; an arm with no declared powers has none'
+        :lacking.length?'powers withhold '+lacking.join(', ')
+        :!isNum(cl.cap_heze)?'no stated cap'
+        :'the powers block forbids an action this clause requires'});
   }
   $('out').value=JSON.stringify(out,null,2);
   stamp(out);
@@ -353,6 +401,11 @@ function render(m,res){
     html+='<div class="msg warn"><b>The document disagreed with itself.</b> The '+
       'recomputed values are what go out.<ul><li>'+drift.join('</li><li>')+
       '</li></ul></div>';
+  if(out.clause&&out.clause.armed===false)
+    html+='<div class="msg warn"><b>The clause did not act.</b> '+
+      out.clause.reason+'. It is recorded in the outbound document with the '+
+      'reason, because a clause that stayed silent and a clause that could not '+
+      'speak should not look the same.</div>';
   if(out.clause&&out.clause.breached)
     html+='<div class="msg bad"><b>Clause fired.</b> Assessed '+
       out.clause.assessed_heze+' against a stated cap of '+out.clause.cap_heze+

@@ -71,6 +71,30 @@
     "demurrage_band": 240
   },
 
+  "powers": {
+    "$comment": "What the enforcement arm may do, what it may never do, and who checks it. An arm with no declared powers has none: the bridge will not let a clause act without this block.",
+    "arm": "clause",
+    "may": [
+      "assess",
+      "record_forfeit",
+      "mark_shut_down"
+    ],
+    "may_never": [
+      "set_aspect",
+      "hold_a_hull",
+      "amend_the_cap",
+      "conceal_the_ledger",
+      "act_without_a_stated_cap"
+    ],
+    "requires": {
+      "stated_cap": true,
+      "preserved_ledger": true,
+      "recomputable": true
+    },
+    "audited_by": "any holder of this manifest",
+    "appeal": "Recompute the ledger from run. If the finding does not reproduce, it is void."
+  },
+
   "ledger": {
     "$derived": true,
     "$comment": "Computed from `run`, not authored. Each hull under way pays every stage band; each held hull pays demurrage once.",

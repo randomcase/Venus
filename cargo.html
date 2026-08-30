@@ -165,19 +165,81 @@
   "manifest": "venus.yard/1",
   "id": "HOLD3-0001",
   "syndicate": "Heze",
-  "price": { "unit": "BTC", "amount": 1, "covers": "lane franchise — one cycle" },
-  "clause": { "name": "infinite", "cap_heze": 2000, "beneficiary": "Heze", "on_breach": "terminate" },
-  "order": { "class": "merchant", "displacement_t": 9400, "arsenal": [], "arsenal_policy": "conventional-only" },
+  "price": {
+    "unit": "BTC",
+    "amount": 1,
+    "covers": "lane franchise — one cycle"
+  },
+  "clause": {
+    "name": "infinite",
+    "cap_heze": 2000,
+    "beneficiary": "Heze",
+    "on_breach": "terminate"
+  },
+  "powers": {
+    "$comment": "What the enforcement arm may do, what it may never do, and who checks it. An arm with no declared powers has none: the bridge will not let a clause act without this block.",
+    "arm": "clause",
+    "may": [
+      "assess",
+      "record_forfeit",
+      "mark_shut_down"
+    ],
+    "may_never": [
+      "set_aspect",
+      "hold_a_hull",
+      "amend_the_cap",
+      "conceal_the_ledger",
+      "act_without_a_stated_cap"
+    ],
+    "requires": {
+      "stated_cap": true,
+      "preserved_ledger": true,
+      "recomputable": true
+    },
+    "audited_by": "any holder of this manifest",
+    "appeal": "Recompute the ledger from run. If the finding does not reproduce, it is void."
+  },
+  "order": {
+    "class": "merchant",
+    "displacement_t": 9400,
+    "arsenal": [],
+    "arsenal_policy": "conventional-only"
+  },
   "run": {
-    "lane": { "from": "land-one", "to": "land-two", "length_ly": 10 },
-    "cargo_ratio": { "outbound": 2, "inbound": 1 },
+    "lane": {
+      "from": "land-one",
+      "to": "land-two",
+      "length_ly": 10
+    },
+    "cargo_ratio": {
+      "outbound": 2,
+      "inbound": 1
+    },
     "hulls": [
-      { "name": "Threadneedle", "aspect": "blue", "role": "merchant" },
-      { "name": "Anvil", "aspect": "yellow", "role": "tender" }
+      {
+        "name": "Threadneedle",
+        "aspect": "blue",
+        "role": "merchant"
+      },
+      {
+        "name": "Anvil",
+        "aspect": "yellow",
+        "role": "tender"
+      }
     ],
     "stages": [
-      { "at_ly": 2, "auxiliary": "Cistern", "service": "fuel", "band": 320 },
-      { "at_ly": 9, "auxiliary": "Granary", "service": "stores", "band": 140 }
+      {
+        "at_ly": 2,
+        "auxiliary": "Cistern",
+        "service": "fuel",
+        "band": 320
+      },
+      {
+        "at_ly": 9,
+        "auxiliary": "Granary",
+        "service": "stores",
+        "band": 140
+      }
     ],
     "demurrage_band": 0
   }
@@ -185,29 +247,91 @@
     </script>
 
     <pre>{
-  "manifest": "venus.yard/1",
-  "id": "HOLD3-0001",
-  "syndicate": "Heze",
-  "price": { "unit": "BTC", "amount": 1, "covers": "lane franchise — one cycle" },
-  "clause": { "name": "infinite", "cap_heze": 2000, "beneficiary": "Heze", "on_breach": "terminate" },
-  "order": { "class": "merchant", "displacement_t": 9400, "arsenal": [], "arsenal_policy": "conventional-only" },
-  "run": {
-    "lane": { "from": "land-one", "to": "land-two", "length_ly": 10 },
-    "cargo_ratio": { "outbound": 2, "inbound": 1 },
-    "hulls": [
-      { "name": "Threadneedle", "aspect": "blue", "role": "merchant" },
-      { "name": "Anvil", "aspect": "yellow", "role": "tender" }
+  &quot;manifest&quot;: &quot;venus.yard/1&quot;,
+  &quot;id&quot;: &quot;HOLD3-0001&quot;,
+  &quot;syndicate&quot;: &quot;Heze&quot;,
+  &quot;price&quot;: {
+    &quot;unit&quot;: &quot;BTC&quot;,
+    &quot;amount&quot;: 1,
+    &quot;covers&quot;: &quot;lane franchise — one cycle&quot;
+  },
+  &quot;clause&quot;: {
+    &quot;name&quot;: &quot;infinite&quot;,
+    &quot;cap_heze&quot;: 2000,
+    &quot;beneficiary&quot;: &quot;Heze&quot;,
+    &quot;on_breach&quot;: &quot;terminate&quot;
+  },
+  &quot;powers&quot;: {
+    &quot;$comment&quot;: &quot;What the enforcement arm may do, what it may never do, and who checks it. An arm with no declared powers has none: the bridge will not let a clause act without this block.&quot;,
+    &quot;arm&quot;: &quot;clause&quot;,
+    &quot;may&quot;: [
+      &quot;assess&quot;,
+      &quot;record_forfeit&quot;,
+      &quot;mark_shut_down&quot;
     ],
-    "stages": [
-      { "at_ly": 2, "auxiliary": "Cistern", "service": "fuel", "band": 320 },
-      { "at_ly": 9, "auxiliary": "Granary", "service": "stores", "band": 140 }
+    &quot;may_never&quot;: [
+      &quot;set_aspect&quot;,
+      &quot;hold_a_hull&quot;,
+      &quot;amend_the_cap&quot;,
+      &quot;conceal_the_ledger&quot;,
+      &quot;act_without_a_stated_cap&quot;
     ],
-    "demurrage_band": 0
+    &quot;requires&quot;: {
+      &quot;stated_cap&quot;: true,
+      &quot;preserved_ledger&quot;: true,
+      &quot;recomputable&quot;: true
+    },
+    &quot;audited_by&quot;: &quot;any holder of this manifest&quot;,
+    &quot;appeal&quot;: &quot;Recompute the ledger from run. If the finding does not reproduce, it is void.&quot;
+  },
+  &quot;order&quot;: {
+    &quot;class&quot;: &quot;merchant&quot;,
+    &quot;displacement_t&quot;: 9400,
+    &quot;arsenal&quot;: [],
+    &quot;arsenal_policy&quot;: &quot;conventional-only&quot;
+  },
+  &quot;run&quot;: {
+    &quot;lane&quot;: {
+      &quot;from&quot;: &quot;land-one&quot;,
+      &quot;to&quot;: &quot;land-two&quot;,
+      &quot;length_ly&quot;: 10
+    },
+    &quot;cargo_ratio&quot;: {
+      &quot;outbound&quot;: 2,
+      &quot;inbound&quot;: 1
+    },
+    &quot;hulls&quot;: [
+      {
+        &quot;name&quot;: &quot;Threadneedle&quot;,
+        &quot;aspect&quot;: &quot;blue&quot;,
+        &quot;role&quot;: &quot;merchant&quot;
+      },
+      {
+        &quot;name&quot;: &quot;Anvil&quot;,
+        &quot;aspect&quot;: &quot;yellow&quot;,
+        &quot;role&quot;: &quot;tender&quot;
+      }
+    ],
+    &quot;stages&quot;: [
+      {
+        &quot;at_ly&quot;: 2,
+        &quot;auxiliary&quot;: &quot;Cistern&quot;,
+        &quot;service&quot;: &quot;fuel&quot;,
+        &quot;band&quot;: 320
+      },
+      {
+        &quot;at_ly&quot;: 9,
+        &quot;auxiliary&quot;: &quot;Granary&quot;,
+        &quot;service&quot;: &quot;stores&quot;,
+        &quot;band&quot;: 140
+      }
+    ],
+    &quot;demurrage_band&quot;: 0
   }
 }</pre>
 
     <form action="bridge.html" method="get" class="go">
-      <input type="hidden" name="doc" value='{"manifest":"venus.yard/1","id":"HOLD3-0001","syndicate":"Heze","price":{"unit":"BTC","amount":1,"covers":"lane franchise — one cycle"},"clause":{"name":"infinite","cap_heze":2000,"beneficiary":"Heze","on_breach":"terminate"},"order":{"class":"merchant","displacement_t":9400,"arsenal":[],"arsenal_policy":"conventional-only"},"run":{"lane":{"from":"land-one","to":"land-two","length_ly":10},"cargo_ratio":{"outbound":2,"inbound":1},"hulls":[{"name":"Threadneedle","aspect":"blue","role":"merchant"},{"name":"Anvil","aspect":"yellow","role":"tender"}],"stages":[{"at_ly":2,"auxiliary":"Cistern","service":"fuel","band":320},{"at_ly":9,"auxiliary":"Granary","service":"stores","band":140}],"demurrage_band":0}}'>
+      <input type="hidden" name="doc" value='{"manifest":"venus.yard/1","id":"HOLD3-0001","syndicate":"Heze","price":{"unit":"BTC","amount":1,"covers":"lane franchise — one cycle"},"clause":{"name":"infinite","cap_heze":2000,"beneficiary":"Heze","on_breach":"terminate"},"powers":{"$comment":"What the enforcement arm may do, what it may never do, and who checks it. An arm with no declared powers has none: the bridge will not let a clause act without this block.","arm":"clause","may":["assess","record_forfeit","mark_shut_down"],"may_never":["set_aspect","hold_a_hull","amend_the_cap","conceal_the_ledger","act_without_a_stated_cap"],"requires":{"stated_cap":true,"preserved_ledger":true,"recomputable":true},"audited_by":"any holder of this manifest","appeal":"Recompute the ledger from run. If the finding does not reproduce, it is void."},"order":{"class":"merchant","displacement_t":9400,"arsenal":[],"arsenal_policy":"conventional-only"},"run":{"lane":{"from":"land-one","to":"land-two","length_ly":10},"cargo_ratio":{"outbound":2,"inbound":1},"hulls":[{"name":"Threadneedle","aspect":"blue","role":"merchant"},{"name":"Anvil","aspect":"yellow","role":"tender"}],"stages":[{"at_ly":2,"auxiliary":"Cistern","service":"fuel","band":320},{"at_ly":9,"auxiliary":"Granary","service":"stores","band":140}],"demurrage_band":0}}'>
       <button type="submit">Walk it through →</button>
       <span>Carries the document to the bridge, where it gets checked against
         itself and sealed. Two hulls under way, two stages on tariff: assessed
