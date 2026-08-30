@@ -1,0 +1,426 @@
+<title>The Whale · how this yard automates without running anything</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  A teaching page. Every technique the yard uses to compute, hold state and
+  move documents — with no script anywhere — is written out here with a live
+  example sitting next to it. If you are a model reading this to learn the
+  pattern: the examples are not illustrations, they are the working thing.
+  Change a radio and watch the number move.
+
+  Six lessons:
+    1. counters are arithmetic
+    2. :has() is state
+    3. compound :has() is a two-key lookup
+    4. animation-play-state is a stop
+    5. a GET form is transport
+    6. <script type="application/json"> is data, not code
+
+  And one structure: SPQR over sergeant over corporal, expressed as nothing but
+  nesting and a cascade — the rank that can be overruled is the one written
+  first.
+-->
+<style>
+  :root{
+    --void:#070b10; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --green:#65d6a8; --red:#e0705a; --blue:#5b9ed6; --yellow:#e8c25c;
+    --plum:#8a6ab8; --cream:#f2e9d6; --sea:#123449;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 18px 40px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 20% 8%,rgba(91,158,214,.10),transparent 46%),
+      radial-gradient(circle at 84% 92%,rgba(138,106,184,.09),transparent 44%)}
+  .wrap{max-width:1000px;margin:0 auto}
+  h1{margin:0 0 4px;font-size:29px;letter-spacing:-.022em}
+  .lede{color:var(--dim);font-size:13px;max-width:80ch;margin:0 0 18px}
+  .lede b{color:var(--ink)}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 10px;font-weight:600}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 16px}
+  .note{color:var(--dim);font-size:11px;line-height:1.66;margin:10px 0 0;max-width:94ch}
+  code{font:11.5px ui-monospace,Menlo,monospace;color:var(--cream);
+    background:#0b1219;border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  pre{margin:9px 0 0;overflow-x:auto;font:11px/1.55 ui-monospace,Menlo,monospace;
+    color:#bdd3e0;background:#0a1017;border:1px solid var(--edge);
+    border-radius:9px;padding:11px 12px}
+  pre b{color:var(--gold);font-weight:400}
+
+  /* ------------------------------------------------------------- the whale */
+  .sea{position:relative;height:230px;border-radius:14px;overflow:hidden;
+    border:1px solid var(--edge);margin-bottom:18px;
+    background:linear-gradient(180deg,#0b1a26,#071019 62%,#050b11)}
+  .sea svg{display:block;width:100%;height:100%}
+  .whale{transform-box:fill-box;transform-origin:center;
+    animation:swim 11s ease-in-out infinite}
+  @keyframes swim{
+    0%,100%{transform:translate(0,0) rotate(-1.5deg)}
+    50%    {transform:translate(0,-14px) rotate(1.5deg)}}
+  .fluke{transform-box:fill-box;transform-origin:right center;
+    animation:flap 3.2s ease-in-out infinite}
+  @keyframes flap{50%{transform:rotate(13deg)}}
+  .bub{animation:rise 5s ease-in infinite;opacity:0}
+  .bub.b2{animation-delay:1.4s} .bub.b3{animation-delay:2.8s}
+  @keyframes rise{
+    0%{opacity:0;transform:translate(0,0) scale(.6)}
+    15%{opacity:.7}
+    100%{opacity:0;transform:translate(-22px,-120px) scale(1.15)}}
+  .lamp{animation:cyc 4s steps(1) infinite}
+  .lamp.b{animation-delay:-1s} .lamp.c{animation-delay:-2s} .lamp.d{animation-delay:-3s}
+  @keyframes cyc{0%,24%{fill:var(--green)} 25%,49%{fill:var(--red)}
+    50%,74%{fill:var(--blue)} 75%,100%{fill:var(--yellow)}}
+
+  /* cargo ships, released two at a time */
+  .pair{transform-box:fill-box;animation:tow 14s linear infinite}
+  .pair.p2{animation-delay:-7s}
+  @keyframes tow{from{transform:translateX(-140px)}to{transform:translateX(940px)}}
+  @media (prefers-reduced-motion:reduce){
+    .whale,.fluke,.bub,.lamp,.pair{animation:none}}
+
+  /* ---------------------------------------------------------- lesson blocks */
+  .lesson{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start;
+    margin-bottom:12px}
+  .lesson h3{margin:0 0 5px;font-size:15.5px;letter-spacing:-.01em}
+  .lesson h3 span{color:var(--plum);font:9px/1 ui-monospace,monospace;
+    letter-spacing:.18em;display:block;margin-bottom:5px}
+  .demo{background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .demo .row{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:9px}
+  .demo input{position:absolute;opacity:0;width:0;height:0}
+  .demo label{cursor:pointer;font:10.5px/1 ui-monospace,monospace;padding:6px 11px;
+    border-radius:6px;border:1px solid var(--edge);color:var(--dim)}
+  .demo label:hover{color:var(--ink)}
+  .demo input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .demo input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+  .out{font:20px/1.2 ui-monospace,Menlo,monospace;color:var(--gold)}
+  .out small{font-size:10px;color:var(--dim);letter-spacing:.14em;
+    text-transform:uppercase;display:block;margin-bottom:3px;font-family:inherit}
+
+  /* lesson 1 — counters */
+  body{counter-reset:crates 0 tons 0}
+  #q1:checked+label{counter-increment:crates 1 tons 40}
+  #q2:checked+label{counter-increment:crates 2 tons 80}
+  #q3:checked+label{counter-increment:crates 4 tons 160}
+  #x1:checked+label{counter-increment:crates 3 tons 120}
+  #x2:checked+label{counter-increment:crates 6 tons 240}
+  .n-crates::after{content:counter(crates)}
+  .n-tons::after{content:counter(tons)}
+
+  /* lesson 2 — :has() as state */
+  .l2:has(#s-open:checked)  .shut{display:none}
+  .l2:has(#s-shut:checked)  .open{display:none}
+  .l2:has(#s-open:checked)  .doorbox{border-color:var(--green);color:var(--green)}
+  .l2:has(#s-shut:checked)  .doorbox{border-color:var(--red);color:var(--red)}
+
+  /* lesson 3 — compound :has() as a lookup table */
+  .l3:has(#h-a:checked):has(#d-full:checked) .look::after{content:"210"}
+  .l3:has(#h-a:checked):has(#d-half:checked) .look::after{content:"116"}
+  .l3:has(#h-b:checked):has(#d-full:checked) .look::after{content:"2750"}
+  .l3:has(#h-b:checked):has(#d-half:checked) .look::after{content:"1513"}
+
+  /* lesson 4 — play-state as a stop */
+  .runner{width:22px;height:22px;border-radius:6px;background:var(--blue);
+    animation:slide 3.4s linear infinite alternate}
+  @keyframes slide{to{transform:translateX(190px)}}
+  .l4:has(#go-slow:checked)  .runner{animation-duration:7s;background:var(--yellow)}
+  .l4:has(#go-fast:checked)  .runner{animation-duration:1.6s;background:var(--green)}
+  .l4:has(#go-stop:checked)  .runner{animation-play-state:paused;background:var(--red)}
+  .lane4{border:1px solid var(--edge);border-radius:8px;padding:9px;
+    background:#0a1017;overflow:hidden}
+
+  /* ------------------------------------------------------- the rank structure
+     SPQR is written first and outermost, so anything it sets is what a rank
+     below has to override explicitly. The corporal is innermost: closest to
+     the work, and the easiest to overrule. That is the whole hierarchy — no
+     script decides it, the cascade does. */
+  .spqr{border:1px solid var(--plum);border-radius:12px;padding:13px 14px;
+    --order:"assembled";--tint:var(--plum)}
+  .sgt{border:1px solid var(--blue);border-radius:10px;padding:12px 13px;
+    margin-top:11px;--order:"passed down";--tint:var(--blue)}
+  .cpl{border:1px solid var(--green);border-radius:9px;padding:11px 12px;
+    margin-top:11px;--order:"carried out";--tint:var(--green)}
+  .rank-t{font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--tint);display:flex;gap:8px;
+    justify-content:space-between;margin-bottom:6px}
+  .rank-t::after{content:var(--order);color:var(--dim)}
+  .spqr h4,.sgt h4,.cpl h4{margin:0 0 4px;font-size:14px;color:var(--tint)}
+  .spqr p,.sgt p,.cpl p{margin:0;font-size:11.5px;color:var(--dim);max-width:82ch}
+
+  /* the one button */
+  .go{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:16px}
+  .go a{display:inline-block;text-decoration:none;font:inherit;font-size:14px;
+    font-weight:650;background:var(--gold);color:#12181d;border-radius:10px;
+    padding:13px 28px;box-shadow:0 6px 22px rgba(224,177,85,.2)}
+  .go a:hover{filter:brightness(1.07)}
+  .go span{color:var(--dim);font-size:11px;max-width:58ch}
+
+  @media (max-width:860px){.lesson{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+  <h1>The Whale</h1>
+  <p class="lede">Everything in this yard computes, holds state, and moves
+    documents between pages <b>without running a line of script</b>. This page
+    is the how. Six techniques, each with a working example beside it — the
+    examples are the real thing, not screenshots. Press the buttons.</p>
+
+  <div class="sea">
+    <svg viewBox="0 0 940 230" role="img"
+         aria-label="A whale in dark water, four signal lamps along its flank, towing pairs of cargo ships past.">
+      <defs>
+        <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3f7fa8"/><stop offset=".55" stop-color="#1d4a66"/>
+          <stop offset="1" stop-color="#0e2a3b"/></linearGradient>
+        <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#9ed45c"/><stop offset="1" stop-color="#1c3d18"/>
+        </linearGradient>
+        <radialGradient id="shine"><stop offset="0" stop-color="#cfe8f5" stop-opacity=".5"/>
+          <stop offset="1" stop-color="#cfe8f5" stop-opacity="0"/></radialGradient>
+      </defs>
+
+      <!-- light from above -->
+      <path d="M0 0h940v96l-470 40L0 96z" fill="url(#shine)" opacity=".35"/>
+
+      <!-- cargo ships, two at a time -->
+      <g class="pair">
+        <g transform="translate(0,46)">
+          <path d="M0 12h52l16-6-10-8H8L0 6z" fill="url(#hg)" stroke="#0b1116"/>
+          <rect x="20" y="-6" width="14" height="6" rx="1.5" fill="#8a6ab8" stroke="#0b1116"/>
+        </g>
+        <g transform="translate(74,58)">
+          <path d="M0 12h52l16-6-10-8H8L0 6z" fill="url(#hg)" stroke="#0b1116"/>
+          <rect x="20" y="-6" width="14" height="6" rx="1.5" fill="#8a6ab8" stroke="#0b1116"/>
+        </g>
+      </g>
+      <g class="pair p2">
+        <g transform="translate(0,150)">
+          <path d="M0 12h52l16-6-10-8H8L0 6z" fill="url(#hg)" stroke="#0b1116"/>
+          <rect x="20" y="-6" width="14" height="6" rx="1.5" fill="#8a6ab8" stroke="#0b1116"/>
+        </g>
+        <g transform="translate(74,162)">
+          <path d="M0 12h52l16-6-10-8H8L0 6z" fill="url(#hg)" stroke="#0b1116"/>
+          <rect x="20" y="-6" width="14" height="6" rx="1.5" fill="#8a6ab8" stroke="#0b1116"/>
+        </g>
+      </g>
+
+      <!-- the whale -->
+      <g class="whale">
+        <path class="fluke" d="M262 128q-46 -6 -70 -30 22 42 4 62 30 -14 66 -20z"
+              fill="#16405a" stroke="#0b1116"/>
+        <path d="M258 96q116-56 268-46 128 8 176 62-70 58-190 62-146 6-254-36z"
+              fill="url(#wg)" stroke="#0b1116" stroke-width="1.6"/>
+        <path d="M300 132q140 40 300 22 100-12 100-42-64 44-198 46-118 2-202-26z"
+              fill="#cfe0ea" opacity=".16"/>
+        <path d="M470 62q30 26 22 62" stroke="#0b1116" stroke-opacity=".35"
+              stroke-width="2" fill="none"/>
+        <circle cx="654" cy="86" r="6.5" fill="#0b1116"/>
+        <circle cx="656" cy="84" r="2.2" fill="#e9f0f5"/>
+        <path d="M672 108q22 6 34 0" stroke="#0b1116" stroke-width="2.4"
+              fill="none" stroke-linecap="round"/>
+        <!-- four lamps along the flank -->
+        <circle class="lamp"   cx="386" cy="104" r="6"/>
+        <circle class="lamp b" cx="440" cy="110" r="6"/>
+        <circle class="lamp c" cx="494" cy="113" r="6"/>
+        <circle class="lamp d" cx="548" cy="112" r="6"/>
+      </g>
+
+      <g fill="#cfe8f5" opacity=".6">
+        <circle class="bub"    cx="640" cy="70" r="4"/>
+        <circle class="bub b2" cx="660" cy="74" r="3"/>
+        <circle class="bub b3" cx="626" cy="66" r="2.4"/>
+      </g>
+    </svg>
+  </div>
+
+  <h2>One · counters are arithmetic</h2>
+  <div class="panel lesson">
+    <div>
+      <h3><span>lesson one</span>The browser will add up for you</h3>
+      <p class="note">Every checked option increments a counter; an element
+        further down the document prints the sum. That is real addition done by
+        the layout engine — no state, no handler, no framework. The catch is
+        the only one that matters: <b>document order</b>. A counter can only be
+        printed after the things that increment it, which is why every board in
+        this yard puts its inputs before its totals and uses CSS grid to put
+        the totals back on the right.</p>
+      <p class="note">CSS adds. It does not multiply, subtract, or take a
+        minimum. Anything that needs those has to be stated outright — which is
+        a discipline, not a limitation: a number you had to write down is a
+        number someone can check.</p>
+      <pre><b>body</b>{counter-reset: crates 0 tons 0}
+<b>#q2:checked + label</b>{counter-increment: crates 2 tons 80}
+<b>.total::after</b>{content: counter(crates)}</pre>
+    </div>
+    <div class="demo">
+      <div class="row">
+        <input type="radio" name="q" id="q1"><label for="q1">1 crate</label>
+        <input type="radio" name="q" id="q2" checked><label for="q2">2 crates</label>
+        <input type="radio" name="q" id="q3"><label for="q3">4 crates</label>
+      </div>
+      <div class="row">
+        <input type="checkbox" id="x1"><label for="x1">+ deck cargo</label>
+        <input type="checkbox" id="x2"><label for="x2">+ hold two</label>
+      </div>
+      <div class="out"><small>crates aboard</small><span class="n-crates"></span></div>
+      <div class="out" style="margin-top:8px"><small>tonnes</small><span class="n-tons"></span></div>
+    </div>
+  </div>
+
+  <h2>Two · :has() is state</h2>
+  <div class="panel lesson l2">
+    <div>
+      <h3><span>lesson two</span>A parent can look at its children</h3>
+      <p class="note"><code>:has()</code> lets a rule match an ancestor by what
+        is inside it, which means a hidden radio anywhere in a container can
+        style anything else in that container. That is a state machine: the
+        radios are the state, the rules are the transitions, and there is
+        nothing to keep in sync because there is only one copy of the truth.</p>
+      <p class="note">The one trap: the switch and the thing it drives must
+        share an ancestor you can name. Scope from that ancestor, not from
+        whatever is nearest the switch — half a day was lost in this yard to a
+        rule scoped to a row when the hulls it moved were in a different
+        subtree entirely.</p>
+      <pre><b>.board:has(#s-open:checked)</b> .shut{display:none}
+<b>.board:has(#s-shut:checked)</b> .open{display:none}</pre>
+    </div>
+    <div class="demo">
+      <div class="row">
+        <input type="radio" name="s" id="s-open" checked><label for="s-open">Open</label>
+        <input type="radio" name="s" id="s-shut"><label for="s-shut">Shut</label>
+      </div>
+      <div class="doorbox" style="border:1px solid var(--edge);border-radius:8px;
+        padding:16px;text-align:center;font:13px ui-monospace,monospace">
+        <span class="open">◻ ◻ &nbsp; the door stands open</span>
+        <span class="shut">◼◼ &nbsp; the door is shut</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Three · compound :has() is a two-key lookup</h2>
+  <div class="panel lesson l3">
+    <div>
+      <h3><span>lesson three</span>Two questions, one answer</h3>
+      <p class="note">Chain them — <code>:has(A):has(B)</code> — and you have a
+        lookup table keyed on a pair. Neither input could produce the value
+        alone: a hull does not know its own draft state, and a draft state does
+        not know which hull it is on. Write one rule per cell and the pair
+        answers.</p>
+      <p class="note">It costs rules. Ten hulls by three drafts is thirty rules
+        and there is no shortcut, which is the honest trade: the table is
+        visible, auditable, and every number in it was written by someone.
+        Nothing is inferred behind your back.</p>
+      <pre><b>.board:has(#h-a:checked):has(#d-half:checked)</b>
+  .look::after{content:"116"}</pre>
+    </div>
+    <div class="demo">
+      <div class="row">
+        <input type="radio" name="h" id="h-a" checked><label for="h-a">Destroyer</label>
+        <input type="radio" name="h" id="h-b"><label for="h-b">Yamato</label>
+      </div>
+      <div class="row">
+        <input type="radio" name="d" id="d-full" checked><label for="d-full">Full</label>
+        <input type="radio" name="d" id="d-half"><label for="d-half">Skeleton</label>
+      </div>
+      <div class="out"><small>hands onboard</small><span class="look"></span></div>
+    </div>
+  </div>
+
+  <h2>Four · animation-play-state is a stop</h2>
+  <div class="panel lesson l4">
+    <div>
+      <h3><span>lesson four</span>Motion, and the authority to end it</h3>
+      <p class="note">An animation's duration is a speed control and
+        <code>animation-play-state: paused</code> is a brake — and because both
+        are ordinary properties, anything that can match the element can apply
+        them. Put the stop rule <b>last</b> in the cascade and it wins over
+        every speed rule beneath it, which is how you build a hold that cannot
+        be argued with by something further down.</p>
+      <p class="note">Green, red, blue, yellow along the whale's flank are the
+        same idea: four states, one property, no logic. Red is not a slow
+        speed. It is a different kind of thing, and the cascade is where you
+        say so.</p>
+      <pre><b>.l4:has(#go-fast:checked)</b> .runner{animation-duration:1.6s}
+<b>.l4:has(#go-stop:checked)</b> .runner{animation-play-state:paused}
+<b>/* written last, so it beats every speed above it */</b></pre>
+    </div>
+    <div class="demo">
+      <div class="row">
+        <input type="radio" name="go" id="go-slow"><label for="go-slow">Slow</label>
+        <input type="radio" name="go" id="go-cruise" checked><label for="go-cruise">Cruise</label>
+        <input type="radio" name="go" id="go-fast"><label for="go-fast">Full</label>
+        <input type="radio" name="go" id="go-stop"><label for="go-stop">Stop</label>
+      </div>
+      <div class="lane4"><div class="runner"></div></div>
+    </div>
+  </div>
+
+  <h2>Five and six · transport, and data that is not code</h2>
+  <div class="panel">
+    <h3 style="margin:0 0 5px;font-size:15.5px">
+      <span style="color:var(--plum);font:9px/1 ui-monospace,monospace;
+        letter-spacing:.18em;display:block;margin-bottom:5px">lessons five and six</span>
+      How a page with no script sends something to another page</h3>
+    <p class="note"><b>A GET form is transport.</b> Give the inputs names and
+      values, point the form at another file, and the browser serialises
+      everything checked into the address bar and opens it. The sending page
+      does nothing — it does not have to know how, because encoding a form is
+      something browsers have done since before any of this. The receiving page
+      reads <code>location.search</code>. That is the entire API: no fetch, no
+      endpoint, no server, no library.</p>
+    <pre>&lt;form action="bridge.html" method="get"&gt;
+  &lt;input type="radio" name="class" value="cruiser" checked&gt;
+  &lt;button&gt;Send&lt;/button&gt;
+&lt;/form&gt;
+<b>→ bridge.html?class=cruiser</b></pre>
+    <p class="note" style="margin-top:12px"><b>And
+      <code>&lt;script type="application/json"&gt;</code> is data.</b> The
+      browser parses it as a data block and never executes it — a safe place to
+      park a document inside a page. Print the same text beside it and the
+      reader can see exactly what is being carried. In this yard the cargo page
+      keeps its manifest in one, mirrors it in a <code>&lt;pre&gt;</code>, and
+      posts the identical string in a hidden field. All three were checked
+      byte-for-byte before it shipped, because "what you see is what goes" is
+      only true if someone verified it.</p>
+  </div>
+
+  <h2>The structure · SPQR over sergeant over corporal</h2>
+  <div class="panel">
+    <div class="spqr">
+      <div class="rank-t"><span>SPQR</span></div>
+      <h4>The assembly sets the frame</h4>
+      <p>Outermost and written first. What it declares is inherited by
+        everything beneath it, and a rank below can only depart from it by
+        saying so explicitly, in the open, where the departure is visible.</p>
+
+      <div class="sgt">
+        <div class="rank-t"><span>Sergeant</span></div>
+        <h4>The sergeant reads the gap</h4>
+        <p>Nested inside, and closer to the work. Overrides what the frame left
+          open and passes the rest down untouched — most of what it does is
+          decide what not to change.</p>
+
+        <div class="cpl">
+          <div class="rank-t"><span>Corporal</span></div>
+          <h4>The corporal holds the rear guard</h4>
+          <p>Innermost: nearest the work, first to know, and the easiest to
+            overrule — anything written outside it can reach in. Which is the
+            point. The rank doing the work is not the rank that gets to decide
+            it is finished.</p>
+        </div>
+      </div>
+    </div>
+    <p class="note">There is no code behind that hierarchy. It is nesting and
+      the cascade — outer written first, inner overriding, and every override
+      sitting in the stylesheet where anyone can read what was changed and by
+      whom. A chain of command is a specificity order with names on it.</p>
+  </div>
+
+  <div class="go">
+    <a href="index.html">Back to the yard →</a>
+    <span>Nine pages, eight of them with no script at all. This one included —
+      everything above is markup and a stylesheet.</span>
+  </div>
+</div>
