@@ -1,0 +1,546 @@
+<title>The Fleet Train</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Twelve auxiliaries — one for every need a line of warships has and cannot
+  meet for itself. No script.
+
+  Same rules as the rest of the yard: the filter is :has(), the totals are CSS
+  counters, and the totals panel sits after the cards in the document because a
+  counter can only be printed after the things that increment it.
+
+  On the drawings: no protected emblems appear anywhere on this page. The
+  hospital ship is marked with a lamp, not a red cross — that emblem is
+  protected under the Geneva Conventions and is not decoration.
+-->
+<style>
+  :root{
+    --void:#080b0f; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --green:#78b843; --plum:#8a6ab8; --cream:#f2e9d6; --rose:#e58593;
+    --live:#65d6a8; --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--ink);background:var(--void);padding:16px;
+    font:13px/1.55 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 14% 8%,rgba(120,184,67,.07),transparent 44%),
+      radial-gradient(circle at 88% 92%,rgba(138,106,184,.07),transparent 42%)}
+
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:14px}
+  h1{margin:0;font-size:20px;letter-spacing:-.015em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:64ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--dim);margin:20px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px}
+  p.note{color:var(--dim);font-size:10.5px;line-height:1.62;margin:10px 0 0;
+    max-width:96ch}
+
+  /* ---------------------------------------------------------------- filter */
+  .filter{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
+  .filter input{position:absolute;opacity:0;width:0;height:0}
+  .filter label{font-size:11px;padding:5px 11px;border-radius:6px;cursor:pointer;
+    border:1px solid var(--edge);background:var(--card);color:var(--dim)}
+  .filter label:hover{color:var(--ink)}
+  .filter input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.10)}
+  .filter input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  .fleet{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+  .card{position:relative;transition:opacity .22s}
+  .card input{position:absolute;opacity:0;width:0;height:0}
+  .card label{display:block;cursor:pointer;height:100%;
+    background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:11px;padding:11px 12px 12px}
+  .card label:hover{border-color:#33465a}
+  .card input:checked+label{border-color:var(--gold);
+    box-shadow:0 0 0 1px rgba(224,177,85,.35)}
+  .card input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  .card .top{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+  .card .code{font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    color:var(--plum);border:1px solid var(--edge);border-radius:4px;padding:3px 6px}
+  .card h3{margin:0;font-size:14.5px;letter-spacing:-.01em}
+  .card .role{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .card input:checked+label .role{color:var(--gold)}
+  .card svg{display:block;width:100%;height:auto;margin:2px 0 8px}
+  .card p{margin:0 0 8px;font-size:11.5px;color:var(--dim);line-height:1.55}
+  .card dl{display:grid;grid-template-columns:1fr auto;gap:2px 10px;margin:0;
+    font-size:11px;font-variant-numeric:tabular-nums}
+  .card dt{color:var(--dim)}
+  .card dd{margin:0;text-align:right}
+  .card .cap{color:var(--gold)}
+
+  /* filtering: dim everything the chosen function does not cover */
+  .fleet:has(#f-sus:checked) .card:not(.g-sus),
+  .fleet:has(#f-eng:checked) .card:not(.g-eng),
+  .fleet:has(#f-ppl:checked) .card:not(.g-ppl),
+  .fleet:has(#f-nav:checked) .card:not(.g-nav){opacity:.2}
+
+  /* ---------------------------------------------------------------- totals */
+  body{counter-reset:n 0 tons 0 crew 0 lift 0 berth 0 days 0}
+  #a-oil:checked+label{counter-increment:n 1 tons 24600 crew 210 lift 16000 days 12}
+  #a-sto:checked+label{counter-increment:n 1 tons 12400 crew 148 lift 6800  days 21}
+  #a-amm:checked+label{counter-increment:n 1 tons 14800 crew 172 lift 7200  days 9}
+  #a-wat:checked+label{counter-increment:n 1 tons 9200  crew 96  lift 5400  days 14}
+  #a-rep:checked+label{counter-increment:n 1 tons 16200 crew 620 lift 1900  days 0}
+  #a-hos:checked+label{counter-increment:n 1 tons 11900 crew 340 lift 900   berth 480}
+  #a-tug:checked+label{counter-increment:n 1 tons 3100  crew 62  lift 400   days 0}
+  #a-frt:checked+label{counter-increment:n 1 tons 9400  crew 22  lift 6200  days 0}
+  #a-trp:checked+label{counter-increment:n 1 tons 18600 crew 260 lift 3400  berth 2400}
+  #a-sur:checked+label{counter-increment:n 1 tons 4800  crew 88  lift 600   days 0}
+  #a-cbl:checked+label{counter-increment:n 1 tons 7600  crew 104 lift 1800  days 0}
+  #a-dep:checked+label{counter-increment:n 1 tons 21400 crew 410 lift 4600  berth 900}
+
+  .totals{margin-top:16px;background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:11px;padding:13px 14px}
+  .heads{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+  .head{background:#0d151c;border:1px solid var(--edge);border-radius:9px;padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+    margin-top:5px}
+  .n-n::after{content:counter(n)}        .n-tons::after{content:counter(tons)}
+  .n-crew::after{content:counter(crew)}  .n-lift::after{content:counter(lift)}
+  .n-berth::after{content:counter(berth)}.n-days::after{content:counter(days)}
+
+  .march{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:8px;margin-top:14px}
+  .st{background:#0d151c;border:1px solid var(--edge);border-radius:9px;padding:9px 10px}
+  .st b{display:block;font-size:11.5px}
+  .st span{font:9px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .st.rear{border-color:var(--live)} .st.rear b{color:var(--live)}
+  .st.perp{border-color:var(--rose)} .st.perp b{color:var(--rose)}
+
+  @media (max-width:900px){.heads{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<!-- shared parts for the twelve profiles -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="hG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#9ed45c"/><stop offset=".18" stop-color="#78b843"/>
+    <stop offset=".58" stop-color="#42802c"/><stop offset="1" stop-color="#1c3d18"/>
+  </linearGradient>
+  <linearGradient id="tG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#a184cc"/><stop offset="1" stop-color="#2f2054"/>
+  </linearGradient>
+  <linearGradient id="dG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f2e9d6"/><stop offset="1" stop-color="#b0a48a"/>
+  </linearGradient>
+  <linearGradient id="bG" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#e58593"/><stop offset="1" stop-color="#6d2a34"/>
+  </linearGradient>
+  <pattern id="pl" width="14" height="8" patternUnits="userSpaceOnUse">
+    <path d="M0 .5H14M7 0V8" stroke="#000" stroke-opacity=".15" stroke-width=".6"/>
+  </pattern>
+  <symbol id="house" viewBox="0 0 40 26">
+    <rect x="1" y="6" width="38" height="19" rx="2" fill="url(#tG)" stroke="#0b1116"/>
+    <rect x="10" y="0" width="20" height="8" rx="1" fill="url(#tG)" stroke="#0b1116"/>
+    <g fill="#ffcf87" fill-opacity=".85">
+      <rect x="5" y="11" width="4" height="3"/><rect x="12" y="11" width="4" height="3"/>
+      <rect x="19" y="11" width="4" height="3"/><rect x="26" y="11" width="4" height="3"/>
+      <rect x="33" y="11" width="4" height="3"/></g>
+  </symbol>
+  <symbol id="stk" viewBox="0 0 12 20">
+    <path d="M2 20 3 3h6l1 17z" fill="url(#tG)" stroke="#0b1116"/>
+    <rect x="1" y="0" width="10" height="4" rx="1" fill="#1e2a34" stroke="#0b1116"/>
+  </symbol>
+  <symbol id="post" viewBox="0 0 30 40">
+    <path d="M15 40V2" stroke="#7f94a2" stroke-width="3.4"/>
+    <path d="M15 6 1 18M15 6l14 12" stroke="#93a7b6" stroke-width="1.6"/>
+  </symbol>
+</defs></svg>
+
+<header>
+  <h1>The Fleet Train</h1>
+  <span class="sub">Twelve auxiliaries — one for every need a line of warships
+    has and cannot meet for itself. Check the ones you are taking; the train
+    totals itself below.</span>
+  <span class="tag">no script on this page</span>
+</header>
+
+<div class="fleet">
+  <div class="filter">
+    <input type="radio" name="fil" id="f-all" checked><label for="f-all">All twelve</label>
+    <input type="radio" name="fil" id="f-sus"><label for="f-sus">Sustainment</label>
+    <input type="radio" name="fil" id="f-eng"><label for="f-eng">Engineering</label>
+    <input type="radio" name="fil" id="f-ppl"><label for="f-ppl">People</label>
+    <input type="radio" name="fil" id="f-nav"><label for="f-nav">Navigation &amp; signals</label>
+  </div>
+
+  <!-- 1 · oiler -->
+  <div class="card g-sus"><input type="checkbox" id="a-oil" checked>
+    <label for="a-oil">
+      <div class="top"><span class="code">AO</span><h3>Cistern</h3>
+        <span class="role">fuel</span></div>
+      <svg viewBox="0 0 300 92" aria-label="Fleet oiler: long low hull, kingposts and fuelling hoses amidships, accommodation aft.">
+        <path d="M14 74h250l22-12-16-18H30L14 62z" fill="url(#hG)" stroke="#0b1116"/>
+        <path d="M14 74h250l22-12-16-18H30L14 62z" fill="url(#pl)"/>
+        <rect x="14" y="60" width="272" height="4" fill="url(#bG)" opacity=".85"/>
+        <use href="#post" x="86"  y="16" width="26" height="30"/>
+        <use href="#post" x="150" y="16" width="26" height="30"/>
+        <path d="M99 26h64" stroke="#93a7b6" stroke-width="2"/>
+        <path d="M99 32q32 16 64 0" stroke="#e0b155" stroke-width="2" fill="none"/>
+        <path d="M99 38q32 18 64 0" stroke="#e0b155" stroke-width="2" fill="none"/>
+        <use href="#house" x="212" y="30" width="46" height="26"/>
+        <use href="#stk" x="266" y="34" width="13" height="22"/>
+      </svg>
+      <p>Passes fuel to a hull under way, on the beam, at speed. The two rigs
+        run at once; the ship holds station and the receiving hull steers.</p>
+      <dl><dt>Displacement</dt><dd>24,600 t</dd>
+        <dt>Complement</dt><dd>210</dd>
+        <dt class="cap">Fuel carried</dt><dd class="cap">16,000 t</dd>
+        <dt>Sustains the line</dt><dd>12 days</dd></dl>
+    </label></div>
+
+  <!-- 2 · stores -->
+  <div class="card g-sus"><input type="checkbox" id="a-sto" checked>
+    <label for="a-sto">
+      <div class="top"><span class="code">AF</span><h3>Granary</h3>
+        <span class="role">victual</span></div>
+      <svg viewBox="0 0 300 92" aria-label="Stores ship: three cargo holds with hatch covers and two derricks.">
+        <path d="M18 74h246l20-12-14-16H32L18 62z" fill="url(#hG)" stroke="#0b1116"/>
+        <path d="M18 74h246l20-12-14-16H32L18 62z" fill="url(#pl)"/>
+        <g fill="url(#dG)" stroke="#0b1116">
+          <rect x="42"  y="38" width="56" height="10" rx="2"/>
+          <rect x="108" y="38" width="56" height="10" rx="2"/>
+          <rect x="174" y="38" width="42" height="10" rx="2"/></g>
+        <use href="#post" x="92"  y="12" width="26" height="34"/>
+        <use href="#post" x="158" y="12" width="26" height="34"/>
+        <use href="#house" x="224" y="28" width="44" height="26"/>
+        <rect x="18" y="60" width="266" height="4" fill="url(#bG)" opacity=".85"/>
+      </svg>
+      <p>Dry provisions, frozen and chilled. Twenty-one days of three meals a
+        head for a squadron, struck down into three holds and worked by derrick.</p>
+      <dl><dt>Displacement</dt><dd>12,400 t</dd>
+        <dt>Complement</dt><dd>148</dd>
+        <dt class="cap">Provisions</dt><dd class="cap">6,800 t</dd>
+        <dt>Sustains the line</dt><dd>21 days</dd></dl>
+    </label></div>
+
+  <!-- 3 · ammunition -->
+  <div class="card g-sus"><input type="checkbox" id="a-amm">
+    <label for="a-amm">
+      <div class="top"><span class="code">AE</span><h3>Magazine</h3>
+        <span class="role">ordnance</span></div>
+      <svg viewBox="0 0 300 92" aria-label="Ammunition ship: armoured hatches, two heavy derricks, wide-spaced holds.">
+        <path d="M16 74h250l20-12-14-18H30L16 62z" fill="url(#hG)" stroke="#0b1116"/>
+        <path d="M16 74h250l20-12-14-18H30L16 62z" fill="url(#pl)"/>
+        <rect x="16" y="56" width="270" height="8" fill="url(#bG)"/>
+        <g fill="#2c3b47" stroke="#0b1116">
+          <rect x="46"  y="36" width="48" height="12" rx="2"/>
+          <rect x="112" y="36" width="48" height="12" rx="2"/>
+          <rect x="178" y="36" width="34" height="12" rx="2"/></g>
+        <path d="M52 42h36M118 42h36" stroke="#e58593" stroke-width="1.6"/>
+        <use href="#post" x="96"  y="8" width="28" height="38"/>
+        <use href="#post" x="162" y="8" width="28" height="38"/>
+        <use href="#house" x="220" y="28" width="44" height="26"/>
+      </svg>
+      <p>Conventional ordnance only, struck down under armour with the
+        magazines flooded on the passage. Nine days of a squadron firing at
+        full rate, which is longer than any squadron ever fires.</p>
+      <dl><dt>Displacement</dt><dd>14,800 t</dd>
+        <dt>Complement</dt><dd>172</dd>
+        <dt class="cap">Ordnance</dt><dd class="cap">7,200 t</dd>
+        <dt>Sustains the line</dt><dd>9 days</dd></dl>
+    </label></div>
+
+  <!-- 4 · water -->
+  <div class="card g-sus"><input type="checkbox" id="a-wat">
+    <label for="a-wat">
+      <div class="top"><span class="code">AW</span><h3>Wellhead</h3>
+        <span class="role">water</span></div>
+      <svg viewBox="0 0 300 92" aria-label="Water carrier: distilling plant stacks amidships, hose rig to port.">
+        <path d="M22 74h236l18-12-12-16H36L22 62z" fill="url(#hG)" stroke="#0b1116"/>
+        <path d="M22 74h236l18-12-12-16H36L22 62z" fill="url(#pl)"/>
+        <rect x="22" y="60" width="254" height="4" fill="#5b8fd6" opacity=".85"/>
+        <rect x="78" y="34" width="86" height="14" rx="3" fill="#2c3b47" stroke="#0b1116"/>
+        <use href="#stk" x="92"  y="18" width="11" height="18"/>
+        <use href="#stk" x="112" y="18" width="11" height="18"/>
+        <use href="#stk" x="132" y="18" width="11" height="18"/>
+        <use href="#post" x="176" y="16" width="24" height="32"/>
+        <path d="M188 26q-40 22-84 8" stroke="#5b8fd6" stroke-width="2" fill="none"/>
+        <use href="#house" x="212" y="30" width="44" height="26"/>
+      </svg>
+      <p>Distils and carries. Twelve litres a head a day for all purposes is the
+        planning figure, and it is the first thing a squadron runs out of that
+        cannot be rationed further.</p>
+      <dl><dt>Displacement</dt><dd>9,200 t</dd>
+        <dt>Complement</dt><dd>96</dd>
+        <dt class="cap">Water</dt><dd class="cap">5,400 m³</dd>
+        <dt>Sustains the line</dt><dd>14 days</dd></dl>
+    </label></div>
+
+  <!-- 5 · repair -->
+  <div class="card g-eng"><input type="checkbox" id="a-rep" checked>
+    <label for="a-rep">
+      <div class="top"><span class="code">AR</span><h3>Anvil</h3>
+        <span class="role">engineering</span></div>
+      <svg viewBox="0 0 300 92" aria-label="Repair ship: workshop gantry over the deck, heavy crane aft.">
+        <path d="M18 74h248l20-12-14-18H32L18 62z" fill="url(#hG)" stroke="#0b1116"/>
+        <path d="M18 74h248l20-12-14-18H32L18 62z" fill="url(#pl)"/>
+        <rect x="18" y="60" width="268" height="4" fill="url(#bG)" opacity=".85"/>
+        <rect x="44" y="30" width="120" height="18" rx="2" fill="url(#dG)" stroke="#0b1116"/>
+        <path d="M50 20h108M50 20v10M158 20v10M104 20v10" stroke="#7f94a2" stroke-width="2.6"/>
+        <path d="M104 24v14" stroke="#93a7b6" stroke-width="1.4"/>
+        <path d="M196 48V16l38 18" stroke="#7f94a2" stroke-width="3.4" fill="none"/>
+        <path d="M234 34v14" stroke="#93a7b6" stroke-width="1.4"/>
+        <use href="#house" x="234" y="30" width="34" height="24"/>
+      </svg>
+      <p>Machine shop, foundry, plate rolls and six hundred tradesmen. She does
+        not carry stores so much as make them — the largest complement in the
+        train, and the only hull that can put a ship back together at sea.</p>
+      <dl><dt>Displacement</dt><dd>16,200 t</dd>
+        <dt>Complement</dt><dd>620</dd>
+        <dt class="cap">Machine tools</dt><dd class="cap">40</dd>
+        <dt>Spares carried</dt><dd>1,900 t</dd></dl>
+    </label></div>
+
+  <!-- 6 · hospital -->
+  <div class="card g-ppl"><input type="checkbox" id="a-hos">
+    <label for="a-hos">
+      <div class="top"><span class="code">AH</span><h3>Lantern</h3>
+        <span class="role">medical</span></div>
+      <svg viewBox="0 0 300 92" aria-label="Hospital ship: white upperworks, ward blocks, lamp mark on the side. No emblem.">
+        <path d="M20 74h242l18-12-12-18H34L20 62z" fill="url(#hG)" stroke="#0b1116"/>
+        <path d="M20 74h242l18-12-12-18H34L20 62z" fill="url(#pl)"/>
+        <rect x="20" y="58" width="260" height="6" fill="url(#dG)"/>
+        <g fill="url(#dG)" stroke="#0b1116">
+          <rect x="52" y="34" width="150" height="20" rx="2"/>
+          <rect x="76" y="20" width="100" height="15" rx="2"/></g>
+        <g fill="#8a9aa8" fill-opacity=".7">
+          <rect x="60" y="40" width="6" height="5"/><rect x="72" y="40" width="6" height="5"/>
+          <rect x="84" y="40" width="6" height="5"/><rect x="96" y="40" width="6" height="5"/>
+          <rect x="108" y="40" width="6" height="5"/><rect x="120" y="40" width="6" height="5"/>
+          <rect x="132" y="40" width="6" height="5"/><rect x="144" y="40" width="6" height="5"/></g>
+        <circle cx="228" cy="52" r="9" fill="none" stroke="#f2e9d6" stroke-width="2"/>
+        <path d="M228 47v10M224 57h8" stroke="#ffcf87" stroke-width="2"/>
+        <use href="#stk" x="206" y="26" width="12" height="20"/>
+      </svg>
+      <p>Four hundred and eighty cots, four theatres, and the only hull in the
+        train that is lit at night on purpose. Marked with a lamp — the
+        protected emblem belongs to a body that is not this one.</p>
+      <dl><dt>Displacement</dt><dd>11,900 t</dd>
+        <dt>Complement</dt><dd>340</dd>
+        <dt class="cap">Cots</dt><dd class="cap">480</dd>
+        <dt>Stores carried</dt><dd>900 t</dd></dl>
+    </label></div>
+
+  <!-- 7 · salvage tug -->
+  <div class="card g-eng"><input type="checkbox" id="a-tug" checked>
+    <label for="a-tug">
+      <div class="top"><span class="code">ATS</span><h3>Bight</h3>
+        <span class="role">towage</span></div>
+      <svg viewBox="0 0 300 92" aria-label="Salvage tug: short deep hull, towing winch aft, heavy fendering.">
+        <path d="M62 74h150l20-14-12-20H76L62 60z" fill="url(#hG)" stroke="#0b1116"/>
+        <path d="M62 74h150l20-14-12-20H76L62 60z" fill="url(#pl)"/>
+        <rect x="62" y="58" width="170" height="5" fill="url(#bG)"/>
+        <use href="#house" x="104" y="20" width="48" height="28"/>
+        <use href="#stk" x="158" y="24" width="13" height="22"/>
+        <rect x="186" y="42" width="26" height="12" rx="3" fill="#2c3b47" stroke="#0b1116"/>
+        <path d="M212 48q34 8 62 2" stroke="#e0b155" stroke-width="2.4" fill="none"/>
+        <g fill="#1e2a34"><circle cx="70" cy="62" r="4"/><circle cx="80" cy="66" r="4"/></g>
+      </svg>
+      <p>Pulls hulls off ground, off each other, and out of the line when they
+        stop. A hundred and eighty tonnes of bollard pull on a ship of three
+        thousand — almost all of her is engine and winch.</p>
+      <dl><dt>Displacement</dt><dd>3,100 t</dd>
+        <dt>Complement</dt><dd>62</dd>
+        <dt class="cap">Bollard pull</dt><dd class="cap">180 t</dd>
+        <dt>Salvage gear</dt><dd>400 t</dd></dl>
+    </label></div>
+
+  <!-- 8 · freighter -->
+  <div class="card g-sus"><input type="checkbox" id="a-frt" checked>
+    <label for="a-frt">
+      <div class="top"><span class="code">AK</span><h3>Threadneedle</h3>
+        <span class="role">freight</span></div>
+      <svg viewBox="0 0 300 92" aria-label="Cargo ship: four holds, single crane, accommodation and funnel aft.">
+        <path d="M16 74h250l20-12-14-16H30L16 62z" fill="url(#hG)" stroke="#0b1116"/>
+        <path d="M16 74h250l20-12-14-16H30L16 62z" fill="url(#pl)"/>
+        <rect x="16" y="60" width="270" height="4" fill="#5b8fd6" opacity=".85"/>
+        <g fill="url(#dG)" stroke="#0b1116">
+          <rect x="36"  y="40" width="46" height="9" rx="2"/>
+          <rect x="88"  y="40" width="46" height="9" rx="2"/>
+          <rect x="140" y="40" width="46" height="9" rx="2"/></g>
+        <path d="M112 40V14M112 18l34 14" stroke="#7f94a2" stroke-width="3"/>
+        <use href="#house" x="200" y="28" width="52" height="28"/>
+        <use href="#stk" x="256" y="32" width="13" height="22"/>
+      </svg>
+      <p>The peer interface. Cargo toward the rear guard and never out from it,
+        never closer than three days nor further than six, and always carrying
+        the commandant.</p>
+      <dl><dt>Displacement</dt><dd>9,400 t</dd>
+        <dt>Complement</dt><dd>22</dd>
+        <dt class="cap">General cargo</dt><dd class="cap">6,200 t</dd>
+        <dt>Station</dt><dd>perpendicular</dd></dl>
+    </label></div>
+
+  <!-- 9 · troop transport -->
+  <div class="card g-ppl"><input type="checkbox" id="a-trp">
+    <label for="a-trp">
+      <div class="top"><span class="code">AP</span><h3>Cohort</h3>
+        <span class="role">troops</span></div>
+      <svg viewBox="0 0 300 92" aria-label="Troop transport: tiers of accommodation, landing craft in davits along the side.">
+        <path d="M16 74h250l20-12-14-18H30L16 62z" fill="url(#hG)" stroke="#0b1116"/>
+        <path d="M16 74h250l20-12-14-18H30L16 62z" fill="url(#pl)"/>
+        <rect x="16" y="58" width="270" height="6" fill="url(#bG)" opacity=".9"/>
+        <g fill="url(#tG)" stroke="#0b1116">
+          <rect x="44" y="34" width="180" height="16" rx="2"/>
+          <rect x="66" y="20" width="140" height="15" rx="2"/>
+          <rect x="96" y="8"  width="80"  height="13" rx="2"/></g>
+        <g fill="#ffcf87" fill-opacity=".8">
+          <rect x="52" y="39" width="5" height="4"/><rect x="64" y="39" width="5" height="4"/>
+          <rect x="76" y="39" width="5" height="4"/><rect x="88" y="39" width="5" height="4"/>
+          <rect x="100" y="39" width="5" height="4"/><rect x="112" y="39" width="5" height="4"/>
+          <rect x="124" y="39" width="5" height="4"/><rect x="136" y="39" width="5" height="4"/>
+          <rect x="148" y="39" width="5" height="4"/><rect x="160" y="39" width="5" height="4"/>
+          <rect x="76" y="25" width="5" height="4"/><rect x="90" y="25" width="5" height="4"/>
+          <rect x="104" y="25" width="5" height="4"/><rect x="118" y="25" width="5" height="4"/></g>
+        <g fill="#5d7280" stroke="#0b1116" stroke-width=".8">
+          <rect x="48"  y="52" width="26" height="7" rx="3"/>
+          <rect x="82"  y="52" width="26" height="7" rx="3"/>
+          <rect x="116" y="52" width="26" height="7" rx="3"/>
+          <rect x="150" y="52" width="26" height="7" rx="3"/></g>
+      </svg>
+      <p>Twenty-four hundred berths, and boats enough to put them somewhere.
+        She is a barracks that moves, and everything that makes her one — the
+        tiers, the messing, the heads — is weight the line does not carry.</p>
+      <dl><dt>Displacement</dt><dd>18,600 t</dd>
+        <dt>Complement</dt><dd>260 <span style="color:var(--dim)">ship’s company</span></dd>
+        <dt class="cap">Berths</dt><dd class="cap">2,400</dd>
+        <dt>Stores carried</dt><dd>3,400 t</dd></dl>
+    </label></div>
+
+  <!-- 10 · survey -->
+  <div class="card g-nav"><input type="checkbox" id="a-sur">
+    <label for="a-sur">
+      <div class="top"><span class="code">AGS</span><h3>Lodestone</h3>
+        <span class="role">survey</span></div>
+      <svg viewBox="0 0 300 92" aria-label="Survey ship: boat davits along both sides, tall mast, sounding gantry aft.">
+        <path d="M40 74h194l18-12-12-16H54L40 62z" fill="url(#hG)" stroke="#0b1116"/>
+        <path d="M40 74h194l18-12-12-16H54L40 62z" fill="url(#pl)"/>
+        <rect x="40" y="60" width="212" height="4" fill="#5b8fd6" opacity=".9"/>
+        <use href="#house" x="112" y="26" width="52" height="28"/>
+        <path d="M138 26V6" stroke="#7f94a2" stroke-width="2.6"/>
+        <path d="M128 12h20" stroke="#93a7b6" stroke-width="2"/>
+        <g fill="#5d7280" stroke="#0b1116" stroke-width=".8">
+          <rect x="62"  y="48" width="24" height="7" rx="3"/>
+          <rect x="92"  y="48" width="24" height="7" rx="3"/>
+          <rect x="178" y="48" width="24" height="7" rx="3"/></g>
+        <path d="M216 50V32h20v18" stroke="#7f94a2" stroke-width="2.6" fill="none"/>
+        <path d="M226 50v14" stroke="#e0b155" stroke-width="1.6"/>
+      </svg>
+      <p>Finds the water before the fleet is in it. Twelve boats, a sounding
+        gantry and the patience to run the same line four times — the cheapest
+        hull here and the one that stops the expensive ones grounding.</p>
+      <dl><dt>Displacement</dt><dd>4,800 t</dd>
+        <dt>Complement</dt><dd>88</dd>
+        <dt class="cap">Survey boats</dt><dd class="cap">12</dd>
+        <dt>Stores carried</dt><dd>600 t</dd></dl>
+    </label></div>
+
+  <!-- 11 · cable layer -->
+  <div class="card g-nav"><input type="checkbox" id="a-cbl">
+    <label for="a-cbl">
+      <div class="top"><span class="code">ARC</span><h3>Longwire</h3>
+        <span class="role">signals</span></div>
+      <svg viewBox="0 0 300 92" aria-label="Cable ship: bow sheaves, cable tanks amidships, stern gantry paying out.">
+        <path d="M30 74h214l18-12-12-16H44L30 62z" fill="url(#hG)" stroke="#0b1116"/>
+        <path d="M30 74h214l18-12-12-16H44L30 62z" fill="url(#pl)"/>
+        <rect x="30" y="60" width="232" height="4" fill="url(#bG)" opacity=".85"/>
+        <circle cx="40" cy="50" r="9" fill="none" stroke="#7f94a2" stroke-width="3"/>
+        <circle cx="56" cy="46" r="7" fill="none" stroke="#7f94a2" stroke-width="2.4"/>
+        <g fill="none" stroke="#2c3b47" stroke-width="2.6">
+          <circle cx="112" cy="42" r="16"/><circle cx="152" cy="42" r="16"/></g>
+        <g fill="none" stroke="#8a6ab8" stroke-width="1.4">
+          <circle cx="112" cy="42" r="9"/><circle cx="152" cy="42" r="9"/></g>
+        <use href="#house" x="184" y="28" width="42" height="26"/>
+        <path d="M246 44v14" stroke="#7f94a2" stroke-width="2.6"/>
+        <path d="M246 58q22 6 44 2" stroke="#8a6ab8" stroke-width="1.8" fill="none"/>
+      </svg>
+      <p>Lays and lifts the line the automated channels actually run on. Three
+        hundred and twenty kilometres in two tanks, paid out over the stern at
+        four knots and picked up over the bow when it parts.</p>
+      <dl><dt>Displacement</dt><dd>7,600 t</dd>
+        <dt>Complement</dt><dd>104</dd>
+        <dt class="cap">Cable</dt><dd class="cap">320 km</dd>
+        <dt>Stores carried</dt><dd>1,800 t</dd></dl>
+    </label></div>
+
+  <!-- 12 · depot -->
+  <div class="card g-eng"><input type="checkbox" id="a-dep">
+    <label for="a-dep">
+      <div class="top"><span class="code">AD</span><h3>Cold Harbour</h3>
+        <span class="role">depot</span></div>
+      <svg viewBox="0 0 300 92" aria-label="Depot ship: broad slab-sided hull, alongside berths, gantry cranes, small craft moored.">
+        <path d="M14 76h258l20-14-10-24H26L14 62z" fill="url(#hG)" stroke="#0b1116"/>
+        <path d="M14 76h258l20-14-10-24H26L14 62z" fill="url(#pl)"/>
+        <rect x="14" y="58" width="278" height="7" fill="url(#bG)"/>
+        <g fill="url(#tG)" stroke="#0b1116">
+          <rect x="46" y="20" width="86" height="18" rx="2"/>
+          <rect x="150" y="20" width="86" height="18" rx="2"/></g>
+        <g fill="#ffcf87" fill-opacity=".8">
+          <rect x="54" y="26" width="5" height="4"/><rect x="66" y="26" width="5" height="4"/>
+          <rect x="78" y="26" width="5" height="4"/><rect x="90" y="26" width="5" height="4"/>
+          <rect x="158" y="26" width="5" height="4"/><rect x="170" y="26" width="5" height="4"/>
+          <rect x="182" y="26" width="5" height="4"/><rect x="194" y="26" width="5" height="4"/></g>
+        <path d="M140 38V12h12v26" stroke="#7f94a2" stroke-width="2.6" fill="none"/>
+        <path d="M146 12v-4" stroke="#93a7b6" stroke-width="2"/>
+        <g fill="#3c4f5e" stroke="#0b1116" stroke-width=".8">
+          <rect x="54"  y="66" width="40" height="8" rx="3"/>
+          <rect x="106" y="66" width="40" height="8" rx="3"/>
+          <rect x="158" y="66" width="40" height="8" rx="3"/></g>
+      </svg>
+      <p>A base that arrived by sea. Nine hundred berths for crews whose ships
+        are alongside her being worked on, eight slips down each side, and the
+        magazines and workshops to keep a flotilla running from nowhere.</p>
+      <dl><dt>Displacement</dt><dd>21,400 t</dd>
+        <dt>Complement</dt><dd>410</dd>
+        <dt class="cap">Berths alongside</dt><dd class="cap">900</dd>
+        <dt>Stores carried</dt><dd>4,600 t</dd></dl>
+    </label></div>
+</div>
+
+<!-- after the cards, so the counters have something to count -->
+<div class="totals">
+  <h2 style="margin-top:0">Train as ordered <b>totals itself</b></h2>
+  <div class="heads">
+    <div class="head"><span>Hulls</span><b class="n-n"></b></div>
+    <div class="head"><span>Displacement, t</span><b class="n-tons"></b></div>
+    <div class="head"><span>Complement</span><b class="n-crew"></b></div>
+    <div class="head"><span>Lift, t</span><b class="n-lift"></b></div>
+    <div class="head"><span>Berths</span><b class="n-berth"></b></div>
+    <div class="head"><span>Sustainment, days</span><b class="n-days"></b></div>
+  </div>
+  <p class="note"><strong>Sustainment is a sum, not an average</strong> — it is
+    the total of the days each sustainment hull carries, which is only the
+    endurance of the train if the fleet needs one store at a time. It does not.
+    Fuel, water, provisions and ordnance run down together, and the train is
+    finished when the first of them is: the shortest line in that column, not
+    the sum of them. The board reports the sum because CSS can add and cannot
+    take a minimum, and the commandant is expected to know the difference.</p>
+
+  <h2>Station in the line of march</h2>
+  <div class="march">
+    <div class="st"><span>van</span><b>General</b></div>
+    <div class="st"><span>centre and flanks</span><b>Sergeants ×3</b></div>
+    <div class="st"><span>with the line</span><b>Oiler · water · ammunition</b></div>
+    <div class="st"><span>two miles astern</span><b>Stores · repair · depot</b></div>
+    <div class="st rear"><span>rear guard</span><b>Corporal · tug · hospital</b></div>
+    <div class="st perp"><span>3–6 days, perpendicular</span><b>Merchant · commandant</b></div>
+  </div>
+  <p class="note">The hulls that have to come alongside under way keep station
+    with the line. The ones that need the fleet stopped sit astern of it. The
+    tug and the hospital ship stay with the rear guard because that is where
+    ships fall out, and the corporal answers for both. The merchant is off the
+    line entirely and always has been.</p>
+</div>
