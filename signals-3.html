@@ -1,0 +1,260 @@
+<title>Signal Code · three lamps</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Take a lamp off the panel and you do not lose a quarter of the code. You lose
+  half of it, and which half depends entirely on which lamp you took.
+
+  Three lamps hold eight states — 2^3, and the row is 1 3 3 1. That is half the
+  sixteen the four-lamp panel held, and the loss falls hardest on the two-lit
+  transitions: six of them become three.
+
+  This page shows the yellow-blue-green panel, because that is what the cruiser
+  lane runs on since red was removed. Its defining property is not a feature.
+  It is that none of the eight states is a stop, and no combination of them can
+  be made into one.
+
+  The last section shows all four three-lamp panels you can build by dropping a
+  lamp, and what each one can no longer say.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --red:#e0705a; --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8;
+    --plum:#8a6ab8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.6 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 50% 0%,rgba(91,158,214,.07),transparent 46%)}
+  .wrap{max-width:1060px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:14px}
+  h1{margin:0;font-size:21px;letter-spacing:-.018em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.65;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+  .filter{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+  .filter input{position:absolute;opacity:0;width:0;height:0}
+  .filter label{cursor:pointer;font:11px/1 ui-monospace,monospace;padding:8px 13px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim)}
+  .filter label:hover{color:var(--ink)}
+  .filter input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .filter input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+  .board:has(#f-0:checked) .s:not(.w0),
+  .board:has(#f-1:checked) .s:not(.w1),
+  .board:has(#f-2:checked) .s:not(.w2),
+  .board:has(#f-3:checked) .s:not(.w3){display:none}
+
+  .grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(238px,1fr))}
+  .s{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:11px;padding:12px 13px}
+  .s.crit{border-color:var(--red)}
+  .s.key{border-color:var(--gold)}
+  .lamps{display:flex;gap:6px;margin-bottom:9px}
+  .lamps i{width:19px;height:19px;border-radius:50%;border:1px solid #0b1116;
+    background:#141c24;display:block}
+  .lamps i.on.r{background:var(--red);box-shadow:0 0 10px var(--red)}
+  .lamps i.on.y{background:var(--yellow);box-shadow:0 0 10px var(--yellow)}
+  .lamps i.on.b{background:var(--blue);box-shadow:0 0 10px var(--blue)}
+  .lamps i.on.g{background:var(--green);box-shadow:0 0 10px var(--green)}
+  .lamps i.gone{background:#0d1319;border-style:dashed;border-color:#2a3540;
+    position:relative}
+  .lamps i.gone::after{content:"";position:absolute;inset:4px 3px;
+    border-top:1px solid #3a4652;transform:rotate(-45deg)}
+  .s .bits{margin-left:auto;font:10px/1.9 ui-monospace,monospace;color:var(--dim);
+    letter-spacing:.14em}
+  .s h3{margin:0 0 3px;font-size:14.5px;letter-spacing:-.01em}
+  .s .cat{font:8.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--plum);display:block;margin-bottom:6px}
+  .s.crit .cat{color:var(--red)}
+  .s p{margin:0;font-size:11.5px;color:var(--dim);line-height:1.55}
+
+  .panels{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  .pn{background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:12px 13px}
+  .pn.now{border-color:var(--gold)}
+  .pn .lamps{margin-bottom:8px}
+  .pn h4{margin:0 0 3px;font-size:13.5px}
+  .pn .loses{font:8.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--red);display:block;margin-bottom:6px}
+  .pn p{margin:0;font-size:11.5px;color:var(--dim);line-height:1.55}
+  .pn .badge{display:inline-block;margin-top:8px;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--gold);
+    border:1px solid var(--gold);border-radius:4px;padding:3px 7px}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  tr.sum td{border-top:1.5px solid var(--gold);font-weight:700}
+  tr.sum td:last-child{color:var(--gold)}
+  td.d{color:var(--red)}
+</style>
+
+<div class="board wrap">
+  <header>
+    <h1>Signal Code · three lamps</h1>
+    <span class="sub">Yellow, blue, green — the panel the cruiser lane runs on
+      since red came off it. Eight states, and not one of them is a stop.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="filter">
+    <input type="radio" name="f" id="f-all" checked><label for="f-all">All eight</label>
+    <input type="radio" name="f" id="f-0"><label for="f-0">None lit · 1</label>
+    <input type="radio" name="f" id="f-1"><label for="f-1">Aspects · 3</label>
+    <input type="radio" name="f" id="f-2"><label for="f-2">Transitions · 3</label>
+    <input type="radio" name="f" id="f-3"><label for="f-3">All lit · 1</label>
+  </div>
+
+  <div class="grid">
+    <div class="s w0 crit">
+      <div class="lamps"><i class="y"></i><i class="b"></i><i class="g"></i>
+        <span class="bits">000</span></div>
+      <span class="cat">no signal</span><h3>Dark</h3>
+      <p>Worse here than on the four-lamp panel. With no red anywhere in the
+        code, dark is the only state that <em>resembles</em> a stop — and it is
+        not one. A hull showing nothing is not held; it is unreadable.</p>
+    </div>
+
+    <div class="s w1 key">
+      <div class="lamps"><i class="y on"></i><i class="b"></i><i class="g"></i>
+        <span class="bits">100</span></div>
+      <span class="cat">aspect</span><h3>Slow</h3>
+      <p>Under way and short of cruise. Something is in the way — the
+        constrained setting, not the economical one.</p>
+    </div>
+    <div class="s w1 key">
+      <div class="lamps"><i class="y"></i><i class="b on"></i><i class="g"></i>
+        <span class="bits">010</span></div>
+      <span class="cat">aspect</span><h3>Cruise</h3>
+      <p>The setting a hull sits on for a long lane, and the only one meant to
+        be held indefinitely. On this panel it is also the default: with no
+        stop, something always has to be showing.</p>
+    </div>
+    <div class="s w1 key">
+      <div class="lamps"><i class="y"></i><i class="b"></i><i class="g on"></i>
+        <span class="bits">001</span></div>
+      <span class="cat">aspect</span><h3>Full</h3>
+      <p>Everything she has, for as long as it takes. A request rather than a
+        state — nothing crosses ten light years green.</p>
+    </div>
+
+    <div class="s w2">
+      <div class="lamps"><i class="y on"></i><i class="b on"></i><i class="g"></i>
+        <span class="bits">110</span></div>
+      <span class="cat">transition</span><h3>Rejoining cruise</h3>
+      <p>Coming up off slow onto the economical setting. The obstruction is
+        cleared and she is settling back onto the lane.</p>
+    </div>
+    <div class="s w2">
+      <div class="lamps"><i class="y on"></i><i class="b"></i><i class="g on"></i>
+        <span class="bits">101</span></div>
+      <span class="cat">transition</span><h3>Working up</h3>
+      <p>Slow, going to full, skipping cruise. Power is arriving and is not
+        there yet — the interval where she is committed but not capable.</p>
+    </div>
+    <div class="s w2">
+      <div class="lamps"><i class="y"></i><i class="b on"></i><i class="g on"></i>
+        <span class="bits">011</span></div>
+      <span class="cat">transition</span><h3>Released</h3>
+      <p>At cruise with standing authority to go full without asking. A
+        permission rather than a movement, and the only one left on this panel.</p>
+    </div>
+
+    <div class="s w3">
+      <div class="lamps"><i class="y on"></i><i class="b on"></i><i class="g on"></i>
+        <span class="bits">111</span></div>
+      <span class="cat">all lit</span><h3>Test, or everything at once</h3>
+      <p>Every lamp answering. Struck to prove the panel before departure;
+        otherwise it means everything is happening simultaneously, which at a
+        signal panel is the same message as nothing being legible.</p>
+    </div>
+  </div>
+
+  <h2>The count <b>eight, and what became of the other eight</b></h2>
+  <table>
+    <tr><th>Lit</th><th>Category</th><th>Four lamps</th><th>Three lamps</th></tr>
+    <tr><td>0</td><td>No signal</td><td>1</td><td>1</td></tr>
+    <tr><td>1</td><td>Aspect</td><td>4</td><td class="d">3</td></tr>
+    <tr><td>2</td><td>Transition</td><td>6</td><td class="d">3</td></tr>
+    <tr><td>3</td><td>Degraded</td><td>4</td><td class="d">0</td></tr>
+    <tr><td>4</td><td>All lit</td><td>1</td><td>1</td></tr>
+    <tr class="sum"><td>&nbsp;</td><td>Total</td><td>16</td><td>8</td></tr>
+  </table>
+  <p class="note"><b>Removing one lamp halves the code</b> — 2⁴ to 2³ — and the
+    row goes from 1 4 6 4 1 to 1 3 3 1. But the loss is not spread evenly. One
+    aspect goes and three transitions go with it, because every pair that
+    included the missing lamp disappears too. And the whole degraded category
+    vanishes: on a three-lamp panel, three lit is "all lit", so there is no
+    longer any state that means <em>something is unavailable</em>. A panel that
+    cannot report its own faults is not a smaller code. It is a different one.</p>
+
+  <h2>Which lamp you drop <b>four possible panels</b></h2>
+  <div class="panels">
+    <div class="pn now">
+      <div class="lamps"><i class="gone"></i><i class="y on"></i><i class="b on"></i><i class="g on"></i></div>
+      <span class="loses">loses red</span>
+      <h4>No stop</h4>
+      <p>Three speeds and no brake. Nothing in the code can hold a hull, and
+        nothing can say that it should be held — the order simply does not
+        exist any more.</p>
+      <span class="badge">what the lane runs on</span>
+    </div>
+    <div class="pn">
+      <div class="lamps"><i class="r on"></i><i class="gone"></i><i class="b on"></i><i class="g on"></i></div>
+      <span class="loses">loses yellow</span>
+      <h4>No slow</h4>
+      <p>She can stop and she can cross, but she has no steerage speed below
+        cruise — so she cannot creep, and cannot come alongside anything. A
+        hull that can sail and can stop and can do nothing careful.</p>
+    </div>
+    <div class="pn">
+      <div class="lamps"><i class="r on"></i><i class="y on"></i><i class="gone"></i><i class="g on"></i></div>
+      <span class="loses">loses blue</span>
+      <h4>No cruise</h4>
+      <p>Stop, slow and full, with nothing in between that can be held for a
+        long lane. She arrives — expensively, and needing more fuel than she
+        was budgeted for.</p>
+    </div>
+    <div class="pn">
+      <div class="lamps"><i class="r on"></i><i class="y on"></i><i class="b on"></i><i class="gone"></i></div>
+      <span class="loses">loses green</span>
+      <h4>No full</h4>
+      <p>Stop, slow, cruise. She can do everything except sprint, which is the
+        cheapest of the four losses — a plant down a bank rather than a
+        capability gone.</p>
+    </div>
+  </div>
+  <p class="note"><b>The four are not interchangeable.</b> Dropping green costs
+    a sprint. Dropping red costs the ability to stop — and worse, the ability to
+    <em>order</em> a stop, which is not the same thing and is the more serious
+    of the two. A hull can always coast to rest eventually; a code with no red
+    in it has no way for anyone else to say when.</p>
+
+  <h2>Scale <b>for the record</b></h2>
+  <p class="note">Three lamps hold 8 states. The number of possible functions
+    from those states to a three-valued output is <code>3⁸ = 6,561</code> — the
+    same figure the cruiser lane shows for eight hulls each set to one of three
+    aspects, which is a coincidence of arithmetic and not a relationship: one
+    is 3 to the power of 8 states, the other is 3 to the power of 8 hulls. Worth
+    noting precisely because it would be easy to mistake for a connection.</p>
+</div>

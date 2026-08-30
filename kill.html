@@ -1,0 +1,268 @@
+<title>Kill Switch · and the fourth lamp</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Red comes back — but not as an aspect this time.
+
+  When red was one of four speeds it was overloaded: a signal AND an order AND
+  a brake, and taking it off the panel took all three away at once. So it
+  returns as its own thing, wired apart from the aspects entirely:
+
+    THE CUT      a two-action switch. Arm, then throw. It does not appear in
+                 the aspect code and cannot be reached by choosing a speed —
+                 which is the point, because a stop you can select by accident
+                 is a stop nobody trusts.
+
+    THE FOURTH   red's old socket becomes the auxiliary channel. One lamp, four
+    LAMP         jobs, and only one at a time: tow, power, medical, or the cut
+                 itself. An omnitool is not a lamp that means four things — it
+                 is a lamp that means exactly one thing at a time and says
+                 which.
+
+  Two actions, because a single control that ends everything is a control
+  somebody eventually leans on. Arming is reversible and says so; throwing is
+  not, and says that too.
+
+  No script. The interlock is the cascade: the throw rule is written after the
+  arm rule and matches only when both are set.
+-->
+<style>
+  :root{
+    --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --red:#e0705a; --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8;
+    --plum:#8a6ab8; --cyan:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.6 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 50% 0%,rgba(224,112,90,.07),transparent 46%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.018em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:72ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:22px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.65;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ------------------------------------------------------------- the lane */
+  .lane{position:relative;height:120px;border-radius:12px;overflow:hidden;
+    border:1px solid var(--edge);
+    background:linear-gradient(90deg,#0d1a16,#0b1119 30%,#0b1119 70%,#141020)}
+  .lane::before{content:"";position:absolute;left:3%;right:3%;top:50%;height:1px;
+    background:repeating-linear-gradient(90deg,#22303d 0 10px,transparent 10px 22px)}
+  .ship{position:absolute;top:50%;margin-top:-12px;left:0;width:64px;
+    animation:run 15s linear infinite}
+  .ship svg{display:block;width:64px;height:24px}
+  .ship.s2{animation-delay:-5s} .ship.s3{animation-delay:-10s}
+  @keyframes run{from{left:-70px}to{left:100%}}
+  .board:has(#k-arm:checked):has(#k-throw:checked) .ship
+    {animation-play-state:paused;filter:grayscale(1)}
+  @media (prefers-reduced-motion:reduce){.ship{animation:none}}
+
+  /* --------------------------------------------------------------- lamps */
+  .rack{display:flex;gap:9px;align-items:center;margin:12px 0 4px}
+  .rack i{width:26px;height:26px;border-radius:50%;border:1px solid #0b1116;
+    background:#141c24;display:block;transition:background .2s,box-shadow .2s}
+  .rack .lbl{font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-left:6px}
+  /* aspects light the first three */
+  .board:has(#a-slow:checked)   .l-y{background:var(--yellow);box-shadow:0 0 12px var(--yellow)}
+  .board:has(#a-cruise:checked) .l-b{background:var(--blue);box-shadow:0 0 12px var(--blue)}
+  .board:has(#a-full:checked)   .l-g{background:var(--green);box-shadow:0 0 12px var(--green)}
+  /* the fourth lamp takes the colour of whatever it is being used for */
+  .board:has(#x-tow:checked)  .l-x{background:var(--gold);box-shadow:0 0 12px var(--gold)}
+  .board:has(#x-pow:checked)  .l-x{background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+  .board:has(#x-med:checked)  .l-x{background:#f2f2f2;box-shadow:0 0 12px #fff}
+  .board:has(#x-cut:checked)  .l-x{background:var(--red);box-shadow:0 0 12px var(--red)}
+  /* thrown, it overrides whatever the fourth lamp was doing — written last */
+  .board:has(#k-arm:checked):has(#k-throw:checked) .l-x{background:var(--red);
+    box-shadow:0 0 18px var(--red);animation:flash 1s steps(1) infinite}
+  @keyframes flash{50%{background:#3a1a16;box-shadow:none}}
+
+  /* ------------------------------------------------------------ controls */
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;min-width:104px;text-align:center;cursor:pointer;
+    padding:11px 10px;border-radius:9px;border:1px solid var(--edge);
+    color:var(--dim);font:11.5px/1 ui-monospace,monospace}
+  .seg input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .seg input:focus-visible+label{outline:2px solid var(--cyan);outline-offset:2px}
+
+  /* the cut: two actions, and the second is only reachable after the first */
+  .cut{border:1px solid var(--red);border-radius:12px;padding:14px 15px;
+    background:rgba(224,112,90,.05);margin-top:14px}
+  .cut input{position:absolute;opacity:0;width:0;height:0}
+  .cut .arm,.cut .throw{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .cut .throw{margin-top:11px}
+  .cut label{cursor:pointer;font:12px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;padding:13px 24px;border-radius:9px;
+    border:1px solid var(--edge);color:var(--dim)}
+  .cut label.big{font-size:14px;font-weight:700;padding:16px 34px}
+  #k-arm:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.14)}
+  #k-throw:checked+label{border-color:var(--red);background:var(--red);color:#12181d}
+  .cut input:focus-visible+label{outline:2px solid var(--cyan);outline-offset:3px}
+  /* the interlock. Unarmed, the throw is not clickable — and it is written
+     after the styles above so it wins whatever else is set. */
+  /* Unarmed, the throw is out of reach by BOTH routes: pointer-events stops a
+     mouse, and visibility:hidden on the input takes it out of the tab order —
+     because an interlock a keyboard can walk around is decoration. Every
+     consequence of the cut also names the arm, so even a restored form state
+     cannot produce a cut that was never armed. */
+  .board:not(:has(#k-arm:checked)) .throw label{opacity:.32;pointer-events:none}
+  .board:not(:has(#k-arm:checked)) #k-throw{visibility:hidden}
+  .cut .said{font-size:11.5px;color:var(--dim);max-width:52ch}
+
+  .state{display:none;border-radius:10px;padding:11px 13px;margin-top:12px;
+    border:1px solid;font-size:12px;line-height:1.6}
+  .board:not(:has(#k-arm:checked)) .st-safe{display:block}
+  .board:has(#k-arm:checked):not(:has(#k-throw:checked)) .st-armed{display:block}
+  .board:has(#k-arm:checked):has(#k-throw:checked) .st-cut{display:block}
+  .st-safe{border-color:var(--green);background:rgba(101,214,168,.07);color:var(--green)}
+  .st-armed{border-color:var(--gold);background:rgba(224,177,85,.08);color:var(--gold)}
+  .st-cut{border-color:var(--red);background:rgba(224,112,90,.10);color:var(--red)}
+  .state b{color:inherit}
+
+  /* the fourth lamp's four jobs, one at a time */
+  .job{display:none;margin-top:11px;font-size:12px;color:var(--dim);line-height:1.6}
+  .board:has(#x-tow:checked) .j-tow,
+  .board:has(#x-pow:checked) .j-pow,
+  .board:has(#x-med:checked) .j-med,
+  .board:has(#x-cut:checked) .j-cut{display:block}
+  .job b{color:var(--ink)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px;
+    font-variant-numeric:tabular-nums}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:860px){.two{grid-template-columns:1fr}}
+</style>
+
+<div class="board wrap">
+  <header>
+    <h1>Kill Switch</h1>
+    <span class="sub">Red comes back — wired apart from the aspects, behind two
+      actions. And the fourth lamp becomes the auxiliary channel: one lamp, four
+      jobs, one at a time.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="lane">
+    <div class="ship"><svg viewBox="0 0 64 24"><path d="M2 17h44l14-5-9-6H8L2 13z"
+      fill="#78b843" stroke="#0b1116"/><rect x="22" y="2" width="16" height="6"
+      rx="1.5" fill="#8a6ab8" stroke="#0b1116"/></svg></div>
+    <div class="ship s2"><svg viewBox="0 0 64 24"><path d="M2 17h44l14-5-9-6H8L2 13z"
+      fill="#78b843" stroke="#0b1116"/><rect x="22" y="2" width="16" height="6"
+      rx="1.5" fill="#8a6ab8" stroke="#0b1116"/></svg></div>
+    <div class="ship s3"><svg viewBox="0 0 64 24"><path d="M6 17h40l12-5-8-6H12L6 13z"
+      fill="#8a9aa8" stroke="#0b1116"/><rect x="26" y="3" width="12" height="5"
+      rx="1.5" fill="#e0b155" stroke="#0b1116"/></svg></div>
+  </div>
+
+  <div class="rack">
+    <i class="l-y"></i><i class="l-b"></i><i class="l-g"></i>
+    <i class="l-x"></i>
+    <span class="lbl">three aspects · one auxiliary</span>
+  </div>
+
+  <div class="two" style="margin-top:12px">
+    <div class="panel">
+      <h2 style="margin-top:0">Aspect <b>the lane setting</b></h2>
+      <div class="seg">
+        <input type="radio" name="a" id="a-slow"><label for="a-slow">Slow</label>
+        <input type="radio" name="a" id="a-cruise" checked><label for="a-cruise">Cruise</label>
+        <input type="radio" name="a" id="a-full"><label for="a-full">Full</label>
+      </div>
+      <p class="note">Three speeds, exactly as before. None of them is a stop
+        and none of them ever was — that job does not live here any more.</p>
+    </div>
+
+    <div class="panel">
+      <h2 style="margin-top:0">Fourth lamp <b>auxiliary channel</b></h2>
+      <div class="seg">
+        <input type="radio" name="x" id="x-tow" checked><label for="x-tow">Tow</label>
+        <input type="radio" name="x" id="x-pow"><label for="x-pow">Power</label>
+        <input type="radio" name="x" id="x-med"><label for="x-med">Medical</label>
+        <input type="radio" name="x" id="x-cut"><label for="x-cut">Cut standing by</label>
+      </div>
+      <div class="job j-tow"><b>Tow — gold.</b> She is on a line, or wants to be.
+        The tender reads this and closes; everything else gives way.</div>
+      <div class="job j-pow"><b>Power — cyan.</b> Plant fault or a bank down.
+        She is under way but not at the aspect she is showing.</div>
+      <div class="job j-med"><b>Medical — white.</b> Someone aboard needs the
+        hospital hull. Outranks cargo, outranks schedule, outranks the tariff.</div>
+      <div class="job j-cut"><b>Cut standing by — red.</b> The switch is manned
+        and someone has a hand near it. Not thrown; watched.</div>
+    </div>
+  </div>
+
+  <div class="cut">
+    <h2 style="margin-top:0">The cut <b>two actions</b></h2>
+    <div class="arm">
+      <input type="checkbox" id="k-arm"><label for="k-arm">1 · Arm</label>
+      <span class="said">Reversible. Arming says out loud that someone is about
+        to do this, which is most of what it is for.</span>
+    </div>
+    <div class="throw">
+      <input type="checkbox" id="k-throw"><label for="k-throw" class="big">2 · Throw the cut</label>
+      <span class="said">Not reachable until armed. Not reversible in any sense
+        the lane cares about — everything stops where it is.</span>
+    </div>
+
+    <div class="state st-safe"><b>Safe.</b> The cut is unarmed and the throw
+      cannot be reached. Traffic runs on the aspect showing.</div>
+    <div class="state st-armed"><b>Armed.</b> Nothing has happened yet and the
+      lane has not changed. The difference between this state and the last one
+      is entirely social: somebody has declared an intention.</div>
+    <div class="state st-cut"><b>Cut.</b> Every hull stopped where it stood, the
+      fourth lamp flashing red over whatever it was doing, and the aspect
+      irrelevant — a speed is not an answer to a stop. Nothing on this page
+      restarts the lane; that is deliberate and it is the whole point of a kill
+      switch.</div>
+  </div>
+
+  <h2>Why it is not the fourth aspect <b>the argument</b></h2>
+  <table>
+    <tr><th>&nbsp;</th><th>Red as an aspect</th><th>Red as a cut</th></tr>
+    <tr><td>Reached by</td><td>choosing a speed</td><td>two deliberate actions</td></tr>
+    <tr><td>Reached by accident</td><td>yes — it is one click among four</td><td>no</td></tr>
+    <tr><td>Removable</td><td>yes, and it was</td><td>not without removing the switch</td></tr>
+    <tr><td>Competes with</td><td>slow, cruise, full</td><td>nothing</td></tr>
+    <tr><td>Says who stopped you</td><td>no</td><td>yes — the cut is manned</td></tr>
+  </table>
+  <p class="note"><b>The failure it fixes.</b> When red was one of four aspects
+    it was overloaded — a signal, an order and a brake in the same control — so
+    when it came off the panel all three went at once and nothing noticed. A
+    stop that lives in the speed selector can be deselected by anyone choosing a
+    speed. This one cannot be reached by choosing anything.</p>
+  <p class="note"><b>And why two actions rather than one.</b> A single control
+    that ends everything is a control somebody eventually leans on. Arming is
+    reversible and announces itself; throwing is neither. Splitting them costs a
+    second and buys the difference between an accident and a decision.</p>
+
+  <h2>The omnitool, honestly <b>what one lamp can carry</b></h2>
+  <p class="note">The fourth lamp does four jobs and shows exactly one at a
+    time, in its own colour, and the state is legible at a glance from
+    distance. That is the most an omnitool can honestly be. A lamp that meant
+    four things simultaneously would mean nothing — you would have to ask, and
+    a signal you have to ask about is not a signal. When the cut is thrown it
+    takes the lamp over entirely, flashing, because at that moment nothing else
+    the auxiliary channel had to say still matters.</p>
+</div>
