@@ -1,0 +1,83 @@
+{
+  "$comment": "Venus yard manifest — the one document that moves between the three boards. Customizer (station.html) writes `order`; the battle station writes `personnel` and `arsenal`; cruise control writes `run`. Every board reads the whole thing and writes only its own section. Nothing in this file is transmitted anywhere; it is a hand-carried document.",
+
+  "manifest": "venus.yard/1",
+  "id": "SLIP4-0007",
+  "issued": "2026-08-30",
+  "syndicate": "Heze",
+
+  "price": {
+    "unit": "BTC",
+    "amount": 1,
+    "covers": "lane franchise — the right to work the ten-light-year run between land one and land two for one cycle, tariffs included",
+    "denomination_note": "An in-project denomination. No transfer exists in these files, no chain is involved, and no exchange rate to any currency is asserted or implied."
+  },
+
+  "order": {
+    "$from": "station.html",
+    "class": "cruiser",
+    "displacement_t": 14600,
+    "slip": "graving-dock",
+    "drive": "ion",
+    "flight": "none",
+    "fit_out": ["wheel", "cranes"],
+    "arsenal": ["broadside", "close-in", "cells", "railgun"],
+    "arsenal_policy": "conventional-only",
+    "escort_hulls": 2,
+    "heze": 28000,
+    "weeks": 16
+  },
+
+  "personnel": {
+    "$from": "personnel.html",
+    "draft": "reduced",
+    "establishment": 624,
+    "onboard": 512,
+    "shortfall": 112,
+    "officers": 37,
+    "ratings": 587,
+    "detachments": ["engineering", "supply", "ordnance"],
+    "readiness": "R2",
+    "supply_per_day": {
+      "rations": 1872,
+      "water_l": 7488,
+      "fuel_t": 2400,
+      "ammunition_t": 640,
+      "spares_crates": 240
+    }
+  },
+
+  "run": {
+    "$from": "cruise-control.html",
+    "lane": { "from": "land-one", "to": "land-two", "length_ly": 10 },
+    "cargo_ratio": { "outbound": 2, "inbound": 1 },
+    "hulls": [
+      { "name": "Kestrel",    "station": 1, "aspect": "blue",   "leg": "outbound" },
+      { "name": "Tern",       "station": 1, "aspect": "blue",   "leg": "inbound"  },
+      { "name": "Sable",      "station": 2, "aspect": "yellow", "leg": "outbound" },
+      { "name": "Bellwether", "station": 2, "aspect": "blue",   "leg": "inbound"  },
+      { "name": "Cormorant",  "station": 3, "aspect": "blue",   "leg": "outbound" },
+      { "name": "Deep Bell",  "station": 3, "aspect": "red",    "leg": "held"     },
+      { "name": "Lodestone",  "station": 4, "aspect": "blue",   "leg": "inbound"  },
+      { "name": "Anvil",      "station": 4, "aspect": "yellow", "leg": "outbound", "role": "tender" }
+    ],
+    "stops": { "master": false, "stations": [false, false, false, false] },
+    "stages": [
+      { "at_ly": 2, "auxiliary": "Cistern",  "service": "fuel",   "band": 320 },
+      { "at_ly": 4, "auxiliary": "Wellhead", "service": "water",  "band": 90  },
+      { "at_ly": 7, "auxiliary": "Anvil",    "service": "repair", "band": 180 },
+      { "at_ly": 9, "auxiliary": "Granary",  "service": "stores", "band": 140 }
+    ],
+    "demurrage_band": 240
+  },
+
+  "ledger": {
+    "$derived": true,
+    "$comment": "Computed from `run`, not authored. Each hull under way pays every stage band; each held hull pays demurrage once.",
+    "under_way": 7,
+    "held": 1,
+    "transit_take": 5110,
+    "demurrage_take": 240,
+    "total_take_heze": 5350
+  }
+}

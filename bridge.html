@@ -1,0 +1,394 @@
+<title>Yard Bridge · manifest in, manifest out</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  The bridge between the three boards.
+
+  station.html, personnel.html and cruise-control.html have no script in them
+  and never will — that is the point of those files. This one does, and it is
+  the only one that does. It is the interface: a manifest comes in, it is
+  checked, the derived figures are recomputed rather than believed, and a
+  clean manifest goes out to the next board.
+
+  It makes no network call. There is no fetch, no XHR, no WebSocket, no image
+  beacon and no form action anywhere in this file. "Inbound" and "outbound"
+  mean into and out of this page — you carry the document.
+
+  Nothing here is trusted on arrival. Every derived block is recomputed from
+  the authored blocks and compared; where the inbound document disagrees with
+  its own inputs, the discrepancy is reported and the recomputed value is what
+  goes out. A manifest is evidence, not instruction.
+-->
+<style>
+  :root{
+    --void:#080b0f; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --live:#65d6a8; --warn:#e0705a; --cool:#6ec6ff; --plum:#8a6ab8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:16px;color:var(--ink);background:var(--void);
+    font:13px/1.55 ui-rounded,system-ui,-apple-system,sans-serif}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:14px}
+  h1{margin:0;font-size:20px;letter-spacing:-.015em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--live);border:1px solid var(--live);
+    border-radius:4px;padding:4px 9px}
+
+  .wrap{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:11px;padding:13px 14px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--dim);margin:0 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px}
+  p.note{color:var(--dim);font-size:10.5px;line-height:1.62;margin:10px 0 0}
+
+  textarea{width:100%;height:300px;resize:vertical;background:#0a1017;color:var(--ink);
+    border:1px solid var(--edge);border-radius:8px;padding:10px 11px;
+    font:11.5px/1.5 ui-monospace,Menlo,monospace;tab-size:2}
+  textarea:focus{outline:none;border-color:var(--gold)}
+  textarea[readonly]{color:#cfe0ea}
+
+  .bar{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;align-items:center}
+  button,.filebtn{font:inherit;font-size:11.5px;background:var(--card);color:var(--ink);
+    border:1px solid var(--edge);border-radius:7px;padding:7px 13px;cursor:pointer}
+  button:hover,.filebtn:hover{border-color:#3a4d60}
+  button.p{background:var(--gold);color:#12181d;border-color:var(--gold);font-weight:650}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  input[type=file]{display:none}
+  .said{font-size:11px;color:var(--live);margin-left:auto}
+
+  .msg{border-radius:8px;padding:9px 11px;font-size:11.5px;line-height:1.6;
+    margin-top:9px;border:1px solid}
+  .msg.ok{border-color:var(--live);background:rgba(101,214,168,.08);color:var(--live)}
+  .msg.bad{border-color:var(--warn);background:rgba(224,112,90,.09);color:var(--warn)}
+  .msg.warn{border-color:var(--gold);background:rgba(224,177,85,.08);color:var(--gold)}
+  .msg ul{margin:6px 0 0;padding-left:18px}
+  .msg code{font:10.5px ui-monospace,monospace;background:rgba(0,0,0,.3);
+    border-radius:3px;padding:1px 4px}
+
+  .price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    border:1px solid var(--gold);border-radius:10px;padding:11px 13px;
+    background:rgba(224,177,85,.06);margin-bottom:14px}
+  .price b{font:26px/1 ui-monospace,Menlo,monospace;color:var(--gold)}
+  .price span{font-size:11.5px;color:var(--dim);max-width:76ch}
+
+  table{width:100%;border-collapse:collapse;font-size:11.5px;
+    font-variant-numeric:tabular-nums;margin-top:4px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 6px;font-weight:600}
+  td{padding:4px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td.d{color:var(--warn)}
+  .flow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:11px;
+    color:var(--dim);margin-bottom:10px}
+  .flow i{font-style:normal;border:1px solid var(--edge);border-radius:6px;
+    padding:4px 9px;color:var(--ink)}
+  .flow i.me{border-color:var(--gold);color:var(--gold)}
+
+  @media (max-width:980px){.wrap{grid-template-columns:1fr}}
+</style>
+
+<header>
+  <h1>Yard Bridge</h1>
+  <span class="sub">The one scripted page. A manifest comes in, is checked
+    against itself, and a clean one goes out to the next board.</span>
+  <span class="tag">no network calls</span>
+</header>
+
+<div class="price">
+  <b>₿1</b>
+  <span><strong>Lane franchise, one cycle.</strong> The right to work the
+    ten-light-year run between land one and land two, tariffs included. An
+    in-project denomination: no transfer exists in these files, no chain is
+    involved, and no exchange rate to any currency is asserted or implied.</span>
+</div>
+
+<div class="flow">
+  <i>station.html</i> →
+  <i>personnel.html</i> →
+  <i class="me">bridge.html</i> →
+  <i>cruise-control.html</i>
+  <span style="margin-left:6px">— each board authors its own section; the
+    bridge is the only thing that recomputes anything.</span>
+</div>
+
+<div class="wrap">
+  <section class="panel">
+    <h2>Inbound <b>paste or open a manifest</b></h2>
+    <textarea id="in" spellcheck="false" placeholder='{ "manifest": "venus.yard/1", … }'></textarea>
+    <div class="bar">
+      <button class="p" id="check">Check and normalise</button>
+      <label class="filebtn" for="file">Open .json</label>
+      <input type="file" id="file" accept="application/json,.json">
+      <button id="sample">Load the example</button>
+      <button id="clear">Clear</button>
+    </div>
+    <div id="report"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Outbound <b>recomputed, ready to carry</b></h2>
+    <textarea id="out" spellcheck="false" readonly placeholder="Nothing yet."></textarea>
+    <div class="bar">
+      <button id="copy">Copy</button>
+      <button id="save">Download</button>
+      <span class="said" id="said"></span>
+    </div>
+    <h2 style="margin-top:16px">Ledger <b>recomputed from the run</b></h2>
+    <table id="led"><tr><td style="color:var(--dim)">Load a manifest.</td></tr></table>
+    <p class="note">The ledger is never read from the inbound document. It is
+      recomputed from the hull aspects and the stage bands, and if the inbound
+      figure disagrees, the difference is reported above and the recomputed
+      value is what goes out.</p>
+  </section>
+</div>
+
+<script>
+/* ------------------------------------------------------------------ contract
+ * One schema, checked field by field. Nothing is coerced silently: if a value
+ * is the wrong shape it is reported and the manifest is refused. */
+const ASPECTS=['red','yellow','blue','green'];
+const CLASSES=['bucketeer','merchant','auxiliary','corsair','destroyer','cruiser',
+  'monitor','carrier','battleship','yamato'];
+const READY=['R1','R2','R3'];
+/* The yard fits conventional systems only. A manifest asking for anything on
+   this list is refused outright rather than normalised into something else. */
+const REFUSED=/nuclear|thermonuclear|fission|fusion.?warhead|atomic.?(bomb|warhead)/i;
+
+const $=(id)=>document.getElementById(id);
+const isNum=(v)=>typeof v==='number'&&isFinite(v);
+const isStr=(v)=>typeof v==='string'&&v.length>0;
+
+function check(m){
+  const errs=[],warns=[];
+  const at=(p,msg)=>errs.push('<code>'+p+'</code> — '+msg);
+  const soft=(p,msg)=>warns.push('<code>'+p+'</code> — '+msg);
+
+  if(m===null||typeof m!=='object'||Array.isArray(m))
+    return{errs:['The document is not a JSON object.'],warns:[]};
+  if(m.manifest!=='venus.yard/1')
+    at('manifest','expected "venus.yard/1", found '+JSON.stringify(m.manifest??null));
+  if(!isStr(m.id))at('id','a non-empty string is required.');
+  if(!isStr(m.syndicate))soft('syndicate','missing; the ledger will be unattributed.');
+
+  /* price */
+  const p=m.price;
+  if(p===undefined)soft('price','absent; the franchise is unpriced.');
+  else if(typeof p!=='object')at('price','must be an object.');
+  else{
+    if(!isStr(p.unit))at('price.unit','a currency or denomination code is required.');
+    if(!isNum(p.amount)||p.amount<0)at('price.amount','must be a number, zero or above.');
+  }
+
+  /* order */
+  const o=m.order;
+  if(typeof o!=='object'||o===null)at('order','required, and must be an object.');
+  else{
+    if(!CLASSES.includes(String(o.class||'').toLowerCase()))
+      at('order.class','unknown class '+JSON.stringify(o.class??null)+'.');
+    if(!isNum(o.displacement_t)||o.displacement_t<=0)
+      at('order.displacement_t','a positive tonnage is required.');
+    const ars=Array.isArray(o.arsenal)?o.arsenal:[];
+    if(!Array.isArray(o.arsenal))soft('order.arsenal','absent; read as unarmed.');
+    for(const a of ars) if(REFUSED.test(String(a)))
+      at('order.arsenal','"'+a+'" is not a system this yard fits. Conventional only.');
+    if(o.escort_hulls!==undefined&&(!isNum(o.escort_hulls)||o.escort_hulls<0))
+      at('order.escort_hulls','must be a count, zero or above.');
+  }
+
+  /* personnel — the shortfall is checked against its own inputs */
+  const pe=m.personnel;
+  if(typeof pe!=='object'||pe===null)soft('personnel','absent; no return was made.');
+  else{
+    if(!isNum(pe.establishment)||!isNum(pe.onboard))
+      at('personnel','establishment and onboard must both be numbers.');
+    else{
+      if(pe.onboard>pe.establishment)
+        at('personnel.onboard','exceeds establishment — a hull cannot be overmanned '+
+          'against its own books.');
+      const want=pe.establishment-pe.onboard;
+      if(isNum(pe.shortfall)&&pe.shortfall!==want)
+        soft('personnel.shortfall','states '+pe.shortfall+'; establishment less '+
+          'onboard is '+want+'. Recomputed.');
+      if(isNum(pe.officers)&&isNum(pe.ratings)&&
+         pe.officers+pe.ratings!==pe.establishment)
+        soft('personnel','officers plus ratings is '+(pe.officers+pe.ratings)+
+          ', establishment is '+pe.establishment+'. Left as authored.');
+    }
+    if(pe.readiness!==undefined&&!READY.includes(pe.readiness))
+      at('personnel.readiness','must be one of '+READY.join(', ')+'.');
+  }
+
+  /* run */
+  const r=m.run;
+  if(typeof r!=='object'||r===null)at('run','required, and must be an object.');
+  else{
+    if(!Array.isArray(r.hulls)||!r.hulls.length)at('run.hulls','at least one hull.');
+    else r.hulls.forEach((h,i)=>{
+      if(!isStr(h&&h.name))at('run.hulls['+i+'].name','a name is required.');
+      if(!ASPECTS.includes(String(h&&h.aspect)))
+        at('run.hulls['+i+'].aspect','must be one of '+ASPECTS.join(', ')+'.');
+      if(h&&h.station!==undefined&&![1,2,3,4].includes(h.station))
+        at('run.hulls['+i+'].station','stations are 1 to 4.');
+    });
+    if(!Array.isArray(r.stages)||!r.stages.length)at('run.stages','at least one stage.');
+    else r.stages.forEach((s,i)=>{
+      if(!isNum(s&&s.band)||s.band<0)at('run.stages['+i+'].band','a tariff is required.');
+      if(!isStr(s&&s.auxiliary))soft('run.stages['+i+'].auxiliary','unnamed stage.');
+    });
+    if(r.demurrage_band!==undefined&&(!isNum(r.demurrage_band)||r.demurrage_band<0))
+      at('run.demurrage_band','must be a rate, zero or above.');
+    const st=r.stops;
+    if(st&&st.master===true)
+      soft('run.stops.master','the board is stopped; the ledger below assumes '+
+        'the aspects as authored, which is what the hulls would do on release.');
+  }
+  return{errs,warns};
+}
+
+/* -------------------------------------------------------------- the ledger
+ * Recomputed, never read. A hull under way pays every stage band once; a hull
+ * held at red pays demurrage once and no transit. */
+function ledger(m){
+  const r=m.run||{},hulls=Array.isArray(r.hulls)?r.hulls:[];
+  const stages=Array.isArray(r.stages)?r.stages:[];
+  const dem=isNum(r.demurrage_band)?r.demurrage_band:0;
+  const moving=hulls.filter((h)=>h&&h.aspect&&h.aspect!=='red').length;
+  const held=hulls.filter((h)=>h&&h.aspect==='red').length;
+  const perStage=stages.map((s)=>({
+    at_ly:s.at_ly,auxiliary:s.auxiliary,service:s.service,
+    band:isNum(s.band)?s.band:0,take:(isNum(s.band)?s.band:0)*moving}));
+  const transit=perStage.reduce((a,s)=>a+s.take,0);
+  const demurrage=dem*held;
+  const ratio=(r.cargo_ratio&&isNum(r.cargo_ratio.outbound)&&isNum(r.cargo_ratio.inbound))
+    ?r.cargo_ratio:{outbound:2,inbound:1};
+  return{under_way:moving,held,per_stage:perStage,
+    transit_take:transit,demurrage_take:demurrage,total_take_heze:transit+demurrage,
+    units_outbound:moving*ratio.outbound,units_inbound:moving*ratio.inbound};
+}
+
+/* ------------------------------------------------------------------- render */
+function render(m,res){
+  const L=ledger(m);
+  const drift=[];
+  const inl=m.ledger||{};
+  for(const k of ['under_way','held','transit_take','demurrage_take','total_take_heze'])
+    if(isNum(inl[k])&&inl[k]!==L[k])
+      drift.push(k+': document says '+inl[k]+', recomputed '+L[k]);
+
+  const out=Object.assign({},m);
+  out.ledger=Object.assign({$derived:true,$recomputed_by:'bridge.html'},L);
+  if(out.personnel&&isNum(out.personnel.establishment)&&isNum(out.personnel.onboard))
+    out.personnel=Object.assign({},out.personnel,
+      {shortfall:out.personnel.establishment-out.personnel.onboard});
+  $('out').value=JSON.stringify(out,null,2);
+
+  $('led').innerHTML=
+    '<tr><th>Stage</th><th>Band</th><th>Take</th></tr>'+
+    L.per_stage.map((s)=>'<tr><td>'+(s.at_ly!=null?s.at_ly+' ly · ':'')+
+      (s.auxiliary||'—')+'</td><td>'+s.band+'</td><td>'+s.take+'</td></tr>').join('')+
+    '<tr><td>Demurrage · '+L.held+' held</td><td>'+
+      (isNum((m.run||{}).demurrage_band)?m.run.demurrage_band:0)+
+      '</td><td>'+L.demurrage_take+'</td></tr>'+
+    '<tr><td><b>Total, HEZE</b></td><td></td><td><b>'+L.total_take_heze+'</b></td></tr>'+
+    '<tr><td>Units outbound / inbound</td><td></td><td>'+
+      L.units_outbound+' / '+L.units_inbound+'</td></tr>';
+
+  let html='';
+  if(res.errs.length)
+    html+='<div class="msg bad"><b>Refused — '+res.errs.length+
+      (res.errs.length===1?' problem':' problems')+'.</b><ul><li>'+
+      res.errs.join('</li><li>')+'</li></ul></div>';
+  else
+    html+='<div class="msg ok"><b>Accepted.</b> The document matches '+
+      'venus.yard/1 and every derived block has been recomputed.</div>';
+  if(res.warns.length)
+    html+='<div class="msg warn"><b>Noted.</b><ul><li>'+res.warns.join('</li><li>')+
+      '</li></ul></div>';
+  if(drift.length)
+    html+='<div class="msg warn"><b>The document disagreed with itself.</b> The '+
+      'recomputed values are what go out.<ul><li>'+drift.join('</li><li>')+
+      '</li></ul></div>';
+  $('report').innerHTML=html;
+  return res.errs.length===0;
+}
+
+function run(){
+  let m;
+  try{ m=JSON.parse($('in').value); }
+  catch(e){
+    $('report').innerHTML='<div class="msg bad"><b>Not JSON.</b> '+
+      String(e.message).replace(/[<>&]/g,'')+'</div>';
+    $('out').value='';return;
+  }
+  const res=check(m);
+  if(res.errs.length){ render(m,res); $('out').value=''; return; }
+  render(m,res);
+}
+
+$('check').onclick=run;
+$('clear').onclick=()=>{$('in').value='';$('out').value='';$('report').innerHTML='';
+  $('led').innerHTML='<tr><td style="color:var(--dim)">Load a manifest.</td></tr>';};
+$('file').onchange=(e)=>{
+  const f=e.target.files&&e.target.files[0]; if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{$('in').value=String(r.result);run();};
+  r.readAsText(f);                      // local read; the file never leaves the page
+};
+$('copy').onclick=async()=>{
+  if(!$('out').value)return;
+  try{ await navigator.clipboard.writeText($('out').value); say('Copied.'); }
+  catch(e){ $('out').select(); say('Select-and-copy — the clipboard was refused.'); }
+};
+$('save').onclick=()=>{
+  if(!$('out').value)return;
+  const b=new Blob([$('out').value],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);
+  a.download='manifest.json';a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  say('Saved.');
+};
+function say(t){$('said').textContent=t;clearTimeout(say._t);
+  say._t=setTimeout(()=>$('said').textContent='',2200);}
+
+/* The example is inline rather than fetched, because this page makes no
+   requests — not even for a file sitting next to it. */
+$('sample').onclick=()=>{
+  $('in').value=JSON.stringify({
+    manifest:'venus.yard/1',id:'SLIP4-0007',issued:'2026-08-30',syndicate:'Heze',
+    price:{unit:'BTC',amount:1,covers:'lane franchise — one cycle',
+      denomination_note:'In-project denomination. No transfer exists in these '+
+        'files and no exchange rate is implied.'},
+    order:{class:'cruiser',displacement_t:14600,slip:'graving-dock',drive:'ion',
+      flight:'none',fit_out:['wheel','cranes'],
+      arsenal:['broadside','close-in','cells','railgun'],
+      arsenal_policy:'conventional-only',escort_hulls:2,heze:28000,weeks:16},
+    personnel:{draft:'reduced',establishment:624,onboard:512,shortfall:99,
+      officers:37,ratings:587,detachments:['engineering','supply','ordnance'],
+      readiness:'R2'},
+    run:{lane:{from:'land-one',to:'land-two',length_ly:10},
+      cargo_ratio:{outbound:2,inbound:1},
+      hulls:[{name:'Kestrel',station:1,aspect:'blue'},
+             {name:'Tern',station:1,aspect:'blue'},
+             {name:'Sable',station:2,aspect:'yellow'},
+             {name:'Bellwether',station:2,aspect:'blue'},
+             {name:'Cormorant',station:3,aspect:'blue'},
+             {name:'Deep Bell',station:3,aspect:'red'},
+             {name:'Lodestone',station:4,aspect:'blue'},
+             {name:'Anvil',station:4,aspect:'yellow',role:'tender'}],
+      stops:{master:false,stations:[false,false,false,false]},
+      stages:[{at_ly:2,auxiliary:'Cistern',service:'fuel',band:320},
+              {at_ly:4,auxiliary:'Wellhead',service:'water',band:90},
+              {at_ly:7,auxiliary:'Anvil',service:'repair',band:180},
+              {at_ly:9,auxiliary:'Granary',service:'stores',band:140}],
+      demurrage_band:240},
+    ledger:{under_way:7,held:1,transit_take:9999,demurrage_take:240,
+      total_take_heze:10239}
+  },null,2);
+  run();                       // the example ships with a wrong ledger on purpose
+};
+</script>
