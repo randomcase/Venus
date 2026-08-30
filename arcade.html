@@ -5,7 +5,7 @@
 
   Each cabinet is a real <iframe> of the real file — not a screenshot. They are
   live: the animations run, the counters count, and the controls inside a
-  cabinet work if you reach into it. What you are looking at is nineteen
+  cabinet work if you reach into it. What you are looking at is twenty
   pages actually executing, scaled down.
 
   THE HUB AND WHAT IT CAN HONESTLY DRIVE
@@ -103,6 +103,7 @@
   .cab:nth-child(15){animation-delay:-18.2s} .cab:nth-child(16){animation-delay:-19.5s}
   .cab:nth-child(17){animation-delay:-20.8s} .cab:nth-child(18){animation-delay:-22.1s}
   .cab:nth-child(19){animation-delay:-23.4s}
+  .cab:nth-child(20){animation-delay:-24.7s}
   @keyframes attract{
     0%,90%,100%{border-color:var(--edge);transform:none}
     94%{border-color:var(--gold);transform:translateY(-5px) scale(1.012)}}
@@ -379,7 +380,15 @@
     </div>
 
     <div class="cab">
-      <div class="marquee"><span class="n">19</span><h3>Template</h3>
+      <div class="marquee"><span class="n">19</span><h3>Bare</h3>
+        <a href="bare.html">open</a></div>
+      <div class="screen"><iframe src="bare.html" title="Bare"
+        loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>
+      <div class="foot"><span>one screen</span><em>no script</em></div>
+    </div>
+
+    <div class="cab">
+      <div class="marquee"><span class="n">20</span><h3>Template</h3>
         <a href="template.html">open</a></div>
       <div class="screen"><iframe src="template.html" title="Template"
         loading="lazy" tabindex="-1"></iframe><div class="glass"></div></div>

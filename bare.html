@@ -1,0 +1,107 @@
+<!-- bare.html — the whole idea, in one screen.
+     Nothing here is decoration. Delete a line and something stops working.
+     No script, no build, no dependencies. Open it in a browser. -->
+<title>Bare</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+  /* Three colours and a font. That is the entire design system. */
+  :root{ --bg:#0d1117; --ink:#e6edf3; --dim:#8b949e; --hit:#e0b155 }
+  body{ margin:0; padding:24px; background:var(--bg); color:var(--ink);
+        font:15px/1.6 system-ui, sans-serif; max-width:44rem }
+  h1{ font-size:20px; margin:0 0 4px }
+  p{ color:var(--dim); max-width:60ch }
+  hr{ border:0; border-top:1px solid #30363d; margin:24px 0 }
+
+  /* Hide the real inputs, style their labels. The input still works —
+     it is just invisible. This is the whole trick behind every control. */
+  input{ position:absolute; opacity:0 }
+  label{ display:inline-block; cursor:pointer; padding:8px 14px; margin:2px;
+         border:1px solid #30363d; border-radius:6px; color:var(--dim) }
+  input:checked + label{ border-color:var(--hit); color:var(--hit) }
+  /* Keyboard users need to see where they are. Never delete this. */
+  input:focus-visible + label{ outline:2px solid #6ec6ff; outline-offset:2px }
+
+  /* 1 — COUNTING.
+     Declare the counter once. Each checked option adds to it. Print it with
+     ::after. The catch: a counter can only be printed AFTER the things that
+     increment it, so inputs go first in the HTML and totals go last. */
+  body{ counter-reset:total 0 }
+  #a:checked + label{ counter-increment:total 1 }
+  #b:checked + label{ counter-increment:total 2 }
+  #c:checked + label{ counter-increment:total 4 }
+  #extra:checked + label{ counter-increment:total 10 }
+  .total::after{ content:counter(total); color:var(--hit); font-size:28px }
+
+  /* 2 — STATE.
+     :has() lets an ancestor react to what is inside it. So a hidden radio can
+     change anything else on the page. Scope from an element that contains BOTH
+     the input and the thing you are changing — here, body. */
+  .off{ display:none }
+  body:has(#no:checked) .on{ display:none }
+  body:has(#no:checked) .off{ display:block }
+
+  /* 3 — ORDER IS AUTHORITY.
+     Equally specific rules resolve by which came last. So the rule that must
+     win goes at the bottom. Swap these two lines and the stop stops working. */
+  .dot{ width:20px; height:20px; border-radius:4px; background:#6ec6ff;
+        animation:slide 2s linear infinite alternate }
+  @keyframes slide{ to{ transform:translateX(180px) } }
+  body:has(#fast:checked) .dot{ animation-duration:.6s }
+  body:has(#stop:checked) .dot{ animation-play-state:paused; background:#e0705a }
+</style>
+
+<h1>Bare</h1>
+<p>Three techniques. Everything else is built out of these.</p>
+
+<hr>
+
+<!-- 1 — COUNTING. Inputs first, because the total below can only count
+     what came before it in the document. -->
+<h3>1 · CSS can add</h3>
+<input type="radio" name="n" id="a"><label for="a">1</label>
+<input type="radio" name="n" id="b" checked><label for="b">2</label>
+<input type="radio" name="n" id="c"><label for="c">4</label>
+<input type="checkbox" id="extra"><label for="extra">+10</label>
+<p class="total">Total: </p>
+<p>Real arithmetic, done by the browser's layout engine. It adds and does
+  nothing else — no subtraction, no multiplication. If you need a product,
+  write the products out. If you need a difference, show both numbers and say
+  why the difference is missing. Never print a figure the page did not
+  compute.</p>
+
+<hr>
+
+<!-- 2 — STATE -->
+<h3>2 · An ancestor can see its children</h3>
+<input type="radio" name="s" id="yes" checked><label for="yes">On</label>
+<input type="radio" name="s" id="no"><label for="no">Off</label>
+<p class="on">The switch is <b>on</b>.</p>
+<p class="off">The switch is <b>off</b>.</p>
+<p><code>body:has(#no:checked) .on { display:none }</code> — that is the entire
+  state machine. Nothing to keep in sync, because there is only one copy of the
+  truth: the DOM.</p>
+
+<hr>
+
+<!-- 3 — CASCADE ORDER -->
+<h3>3 · What is written last, wins</h3>
+<input type="radio" name="g" id="go" checked><label for="go">Go</label>
+<input type="radio" name="g" id="fast"><label for="fast">Fast</label>
+<input type="radio" name="g" id="stop"><label for="stop">Stop</label>
+<p><span class="dot"></span></p>
+<p>The stop rule sits below the speed rule in the stylesheet, so it wins. Put
+  it above and it silently does nothing — which is how a brake becomes a
+  suggestion.</p>
+
+<hr>
+
+<p><b>That is the bare version.</b> Two more things you will want, both one
+  line each: <code>form="x"</code> on an input associates it with a
+  <code>&lt;form action="next.html" method="get"&gt;</code> anywhere on the
+  page, so a button can carry your state to another file with no script; and
+  <code>&lt;script type="application/json"&gt;</code> parks data in a page
+  without executing it.</p>
+<p>Next: <a href="template.html" style="color:var(--hit)">template.html</a> to
+  build on, <a href="learn.html" style="color:var(--hit)">learn.html</a> for the
+  nine mistakes worth avoiding.</p>
