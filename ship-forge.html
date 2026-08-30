@@ -90,6 +90,13 @@
   .fleet button i{display:block;font-style:normal;font-size:8.5px;color:var(--gold);
     letter-spacing:.08em;text-transform:uppercase}
 
+  .rates{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+  .rates label{font-size:9.5px;color:var(--dim);display:block}
+  input.n{margin-top:2px;font-variant-numeric:tabular-nums}
+  #fleetval{font-size:10.5px;color:var(--dim);margin-top:7px;line-height:1.6}
+  #fleetval b{color:var(--ink);font-variant-numeric:tabular-nums}
+  #fleetval em{font-style:normal;color:var(--gold)}
+
   .name{font-size:15px;font-weight:650;text-align:center}
   .name span{color:var(--dim);font-weight:400;font-size:11px}
   .say{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-size:11.5px;
@@ -113,6 +120,15 @@
     <h3>Hull <span id="hulln"></span></h3>
     <div class="opts" id="hull" style="margin-bottom:6px"></div>
     <p class="tiny" id="hulldesc" style="margin-top:0"></p>
+
+    <h3>Element <span id="moden"></span></h3>
+    <div class="opts" id="mode" style="margin-bottom:6px"></div>
+    <div class="slot"><div class="lbl"><span>Method</span><b id="lb_method"></b></div>
+      <div class="opts" id="method"></div></div>
+    <div class="rowlbl">Height <b id="altv"></b></div>
+    <input type="range" id="alt" min="0" max="1" step="0.01" value="0.62">
+    <p class="tiny" id="methoddesc" style="margin-top:2px"></p>
+
     <div id="slots"></div>
   </div>
 
@@ -163,6 +179,21 @@
 
     <h3>Bill of materials <span id="partn"></span></h3>
     <table class="bom" id="bom"></table>
+
+    <h3>Yard rates <span id="raten"></span></h3>
+    <div class="rates">
+      <label>Oak, $/m³<input class="t n" id="r_tim" type="number" min="0" step="50" value="3000"></label>
+      <label>Shipwright, $/hr<input class="t n" id="r_lab" type="number" min="0" step="5" value="85"></label>
+      <label>Canvas, $/m²<input class="t n" id="r_can" type="number" min="0" step="5" value="45"></label>
+      <label>Yard overhead, %<input class="t n" id="r_ovh" type="number" min="0" step="1" value="22"></label>
+    </div>
+    <p class="tiny">Order-of-magnitude rates for a traditional or replica build in
+      2020s money. They are defaults to argue with, not a quote — every one of
+      them is editable, and the total moves when you change them.</p>
+
+    <h3>Valuation <span id="valn"></span></h3>
+    <table class="bom" id="val"></table>
+    <div id="fleetval"></div>
 
     <h3>Wallet</h3>
     <span class="exc">Heze exchange exclusive</span>
@@ -362,6 +393,56 @@ const NAMES=['Meridian','Kestrel','Ash Lantern','Sable','Long Water','Cormorant'
   'Cold Harbour','Pilgrim','Wren','Threadneedle','Cinder','Bight','Lodestone'];
 const CAPS=['Warden','Bulwark','Vigil','Aegis','Ferrum','Praetor','Lictor','Signum'];
 
+/* ------------------------------------------------------------------ element
+ * Three elements, and the number of ways out of each one is not the same.
+ * In the water there are two, and they are the same axis twice — she floats
+ * high or she floats low, up and down. Skimming has three, because there are
+ * exactly three honest ways to get a hull off its own bow wave without leaving
+ * the surface. Flying has five, and one of them is chosen: the ship carries
+ * one lift plant, not a rack of them.
+ *
+ * lift = fraction of her own weight the plant will carry
+ * v    = speed multiplier, t = tonnes of plant, b = fastenings in it
+ * h    = how far up it will hold her, as a fraction of the height slider */
+const MODES=[['water','In the water'],['skim','Skimming'],['fly','Flying']];
+const METHODS={
+  water:[
+    ['surf','Riding high',{lift:0.00,v:1.00,t:0, b:0,  h:0,
+      note:'Ballast out, waterline down the boot-top. She sits where she was drawn.'}],
+    ['sub','Trimmed down',{lift:0.00,v:0.94,t:12,b:180,h:0,
+      note:'Ballast in and the sea over the wale. Slower, steadier, harder to see.'}],
+  ],
+  skim:[
+    ['foil','Hydrofoil',   {lift:0.55,v:1.90,t:9, b:260,h:0.28,
+      note:'Struts and a foil under the keel. She lifts her own hull clear and '+
+           'drags a fraction of what she used to.'}],
+    ['cush','Air cushion', {lift:0.70,v:2.10,t:16,b:340,h:0.20,
+      note:'A skirt and a plenum. Loud, thirsty, and indifferent to what is '+
+           'under her — water, shingle, or ice.'}],
+    ['plane','Planing step',{lift:0.35,v:1.50,t:4, b:120,h:0.12,
+      note:'A step in the bottom and enough power to climb her own bow wave. '+
+           'The oldest way to skim and still the cheapest.'}],
+  ],
+  fly:[
+    ['gas','Lift gas',   {lift:1.15,v:1.20,t:22,b:420,h:1.00,
+      note:'An envelope over the deck carrying more than her weight. Slow, and '+
+           'it goes up whether or not anything is driving it.'}],
+    ['rotor','Rotor',    {lift:1.05,v:1.60,t:28,b:680,h:0.86,
+      note:'Lift bought continuously with power. Stops the moment the plant does.'}],
+    ['wing','Wing',      {lift:1.00,v:2.40,t:18,b:520,h:0.74,
+      note:'Lift bought with speed. She must be going somewhere to stay up.'}],
+    ['thrust','Thrusters',{lift:1.10,v:2.80,t:24,b:600,h:0.92,
+      note:'Straight down against gravity. Fast, and it burns the whole time.'}],
+    ['kite','Kite lift', {lift:0.90,v:1.70,t:6, b:180,h:0.66,
+      note:'Canvas high on a long line, hauling up as much as forward. Nearly '+
+           'free, and entirely at the mercy of the wind.'}],
+  ],
+};
+const methOf=()=>{
+  const L=METHODS[D.mode]||METHODS.water;
+  return L.find((m)=>m[0]===D.method)||L[0];
+};
+
 const PROPS=[
   ['len','Length',    0.80,1.25],
   ['beam','Beam',     0.70,1.50],
@@ -381,6 +462,7 @@ const D={
   hull:'dhow',parts:{},cols:PAL[0].slice(),pal:0,
   finish:'matte',bolt:'hex',strakes:11,frames:14,wear:1,
   name:'Meridian',capt:'Warden',sea:'calm',t:0,
+  mode:'water',method:'surf',alt:0.62,
   prop:Object.assign({},PRESETS.drawn),
 };
 for(const s of SLOTS)D.parts[s.k]=s.opts[0][0];
@@ -986,6 +1068,152 @@ function drawCaptain(g){
   X.restore();
 }
 
+/* ---------------------------------------------------------- the lift plant
+ * How far off the water she is, in pixels, and the hardware that is holding
+ * her there. The plant is drawn where it would actually have to be — under the
+ * hull for the two surface elements, over it for four of the five flying ones,
+ * and the ship is translated by exactly the height it is holding. */
+function liftPx(){
+  const m=methOf()[2];
+  if(D.mode==='water')return D.method==='sub'?-12:0;
+  return D.alt*m.h*(D.mode==='fly'?250:80)+(D.mode==='skim'?10:0);
+}
+function drawLiftUnder(g){
+  if(D.mode==='water')return;
+  const C1=D.cols[0],C2=D.cols[1],C3=D.cols[2],h=liftPx();
+  const k=D.method;
+  if(k==='foil'){
+    for(const t of [0.28,0.74]){
+      const d=g.deck(t),x=d.x,y=g.yBot(t);
+      plate(x-3,y,6,h+16,C3,2);
+      X.strokeStyle=C3;X.lineWidth=5;X.lineCap='round';
+      X.beginPath();X.moveTo(x-26,y+h+16);X.lineTo(x+26,y+h+12);X.stroke();
+      X.strokeStyle='rgba(0,0,0,0.5)';X.lineWidth=1.2;
+      X.beginPath();X.moveTo(x-26,y+h+16);X.lineTo(x+26,y+h+12);X.stroke();
+      bolt(x,y+h+14,1.6);bolt(x,y+4,1.5);
+    }
+  }else if(k==='cush'){
+    const y0=g.yBot(0.5);
+    X.save();
+    X.fillStyle='rgba(30,36,40,0.85)';
+    X.beginPath();
+    for(let i=0;i<=40;i++){const t=i/40;X.lineTo(g.xBot(t),g.yBot(t));}
+    for(let i=40;i>=0;i--){const t=i/40;
+      const w=6+Math.sin(t*20+D.t*4)*1.6;
+      X.lineTo(g.xBot(t),g.yBot(t)+h+18+w);}
+    X.closePath();X.fill();
+    X.strokeStyle='rgba(0,0,0,0.6)';X.lineWidth=1;X.stroke();
+    X.restore();BOM.plates++;
+    for(let i=0;i<12;i++)bolt(g.xBot(i/11),g.yBot(i/11)+4,1.3);
+    X.globalAlpha=0.16;X.fillStyle='#cfe3ee';
+    X.beginPath();X.ellipse(CX,y0+h+30,g.L*0.52,10,0,0,7);X.fill();
+    X.globalAlpha=1;
+  }else if(k==='plane'){
+    X.save();
+    X.fillStyle=D.cols[1];
+    X.beginPath();
+    X.moveTo(g.xBot(0.52),g.yBot(0.52));
+    X.lineTo(g.xBot(1.0),g.yBot(1.0));
+    X.lineTo(g.xBot(1.0),g.yBot(1.0)+h+10);
+    X.lineTo(g.xBot(0.52),g.yBot(0.52)+h+10);
+    X.closePath();X.fill();
+    X.strokeStyle='rgba(0,0,0,0.6)';X.lineWidth=1.2;X.stroke();
+    X.restore();BOM.plates++;
+    for(let i=0;i<6;i++)bolt(g.xBot(0.56+i*0.08),g.yBot(0.56+i*0.08)+h+6,1.4);
+  }else if(D.mode==='fly'){
+    // she is off the water entirely: the keel gets its own shadow, not a wake
+    X.save();X.globalAlpha=0.18;X.fillStyle='#000';
+    X.beginPath();X.ellipse(CX,WATER+8+h*0.10,g.L*0.42,7,0,0,7);X.fill();
+    X.restore();
+  }
+}
+function drawLiftOver(g){
+  if(D.mode!=='fly')return;
+  const C1=D.cols[0],C2=D.cols[1],C3=D.cols[2],C4=D.cols[3];
+  const k=D.method,d=g.deck(0.46),topY=d.y-70;
+  if(k==='gas'){
+    const w=g.L*0.86,h2=112;
+    X.save();
+    X.beginPath();X.ellipse(CX,topY-h2*0.5,w/2,h2/2,0,0,7);
+    X.fillStyle=sailFill();X.fill();
+    X.fillStyle=shade(CX-w/2,topY-h2,w,h2);X.fill();
+    X.strokeStyle='rgba(0,0,0,0.5)';X.lineWidth=1.4;X.stroke();
+    X.restore();BOM.plates++;
+    for(let i=0;i<7;i++){
+      const x=CX-w/2+w*(i+0.5)/7;
+      X.strokeStyle='rgba(0,0,0,0.22)';X.lineWidth=1.1;
+      X.beginPath();X.ellipse(x,topY-h2*0.5,3,h2/2*Math.sqrt(Math.max(0,1-
+        Math.pow((x-CX)/(w/2),2))),0,0,7);X.stroke();
+      BOM.panels++;
+    }
+    for(const t of [0.20,0.46,0.74]){
+      const p=g.deck(t);rope(p.x,p.y-6,p.x,topY-6,0);bolt(p.x,p.y-6,1.5);}
+  }else if(k==='rotor'){
+    for(const t of [0.26,0.68]){
+      const p=g.deck(t);
+      plate(p.x-4,p.y-72,8,72,C3,2);
+      const sp=Math.sin(D.t*22+t*9)*0.5+0.5;
+      X.save();X.translate(p.x,p.y-74);
+      X.globalAlpha=0.30+sp*0.2;
+      X.strokeStyle=C3;X.lineWidth=3.4;
+      for(let b=0;b<4;b++){
+        const a=D.t*9+b*1.5708;
+        X.beginPath();X.moveTo(0,0);
+        X.lineTo(Math.cos(a)*54,Math.sin(a)*10);X.stroke();
+      }
+      X.globalAlpha=1;X.restore();
+      BOM.spokes+=4;bolt(p.x,p.y-72,1.6);bolt(p.x,p.y-6,1.6);
+    }
+  }else if(k==='wing'){
+    const p=g.deck(0.44),w=g.L*0.96;
+    X.save();
+    X.beginPath();
+    X.moveTo(p.x-w/2,p.y-58);
+    X.quadraticCurveTo(p.x,p.y-74,p.x+w/2,p.y-56);
+    X.lineTo(p.x+w/2-10,p.y-46);
+    X.quadraticCurveTo(p.x,p.y-60,p.x-w/2+8,p.y-48);
+    X.closePath();
+    X.fillStyle=C1;X.fill();X.fillStyle=shade(p.x-w/2,p.y-74,w,28);X.fill();
+    X.strokeStyle='rgba(0,0,0,0.55)';X.lineWidth=1.3;X.stroke();
+    X.restore();BOM.plates++;
+    for(let i=0;i<10;i++)bolt(p.x-w/2+8+i*(w-16)/9,p.y-53,1.5);
+    plate(p.x-5,p.y-52,10,48,C3,2);
+    for(const t of [0.22,0.68]){const q=g.deck(t);
+      X.strokeStyle=C3;X.lineWidth=3;
+      X.beginPath();X.moveTo(q.x,q.y-6);X.lineTo(q.x,p.y-50);X.stroke();
+      bolt(q.x,q.y-6,1.4);}
+  }else if(k==='thrust'){
+    for(const t of [0.22,0.46,0.72]){
+      const p=g.deck(t),y=g.yBot(t);
+      plate(p.x-11,y-4,22,20,C2,3);
+      const f=26+Math.sin(D.t*11+t*7)*7;
+      const gr=X.createLinearGradient(p.x,y+16,p.x,y+16+f);
+      gr.addColorStop(0,'rgba(255,214,140,0.9)');
+      gr.addColorStop(0.45,'rgba(255,140,70,0.55)');
+      gr.addColorStop(1,'rgba(255,90,60,0)');
+      X.fillStyle=gr;
+      X.beginPath();X.moveTo(p.x-8,y+16);X.lineTo(p.x+8,y+16);
+      X.lineTo(p.x+2,y+16+f);X.lineTo(p.x-2,y+16+f);X.closePath();X.fill();
+      lamp(p.x,y+17,2.4,'#ffca7a',1.1);
+    }
+  }else if(k==='kite'){
+    const p=g.deck(0.30),kx=p.x-190,ky=p.y-210+Math.sin(D.t*0.9)*10;
+    rope(p.x,p.y-8,kx,ky,26);
+    X.save();
+    X.beginPath();
+    X.moveTo(kx,ky-34);X.lineTo(kx+40,ky);X.lineTo(kx,ky+30);X.lineTo(kx-34,ky);
+    X.closePath();
+    X.fillStyle=sailFill();X.fill();
+    X.fillStyle='rgba(0,0,0,0.10)';X.fill();
+    X.strokeStyle='rgba(0,0,0,0.45)';X.lineWidth=1.2;X.stroke();
+    X.restore();BOM.panels+=2;
+    X.strokeStyle='rgba(0,0,0,0.35)';X.lineWidth=1;
+    X.beginPath();X.moveTo(kx-34,ky);X.lineTo(kx+40,ky);
+    X.moveTo(kx,ky-34);X.lineTo(kx,ky+30);X.stroke();
+    bolt(p.x,p.y-8,1.5);
+  }
+}
+
 /* -------------------------------------------------------------------- water */
 function drawSky(){
   const g=X.createLinearGradient(0,0,0,WATER);
@@ -1021,22 +1249,26 @@ function render(){
   drawSky();
   const roll=Math.sin(D.t*(D.sea==='sea'?1.9:0.8))*(D.sea==='sea'?0.030:0.010);
   const heave=Math.sin(D.t*(D.sea==='sea'?1.4:0.6))*(D.sea==='sea'?7:2.4);
-  const g=geom();
+  const g=geom(),h=liftPx();
   X.save();
-  X.translate(CX,WATER);X.rotate(roll);X.translate(-CX,-WATER+heave);
+  X.translate(CX,WATER);X.rotate(roll);X.translate(-CX,-WATER+heave-h);
+  drawLiftUnder(g);
   drawHull(g);
   drawDeck(g);
   drawWorks(g);
   drawArms(g);
   drawFigurehead(g);
   drawRig(g);
+  drawLiftOver(g);
   drawCaptain(g);
   drawLights(g);
   X.restore();
   drawSea();
-  X.save();X.globalAlpha=0.20;X.fillStyle='#fff';
-  X.beginPath();X.ellipse(CX+g.L*0.5,WATER+6,54,7,0,0,7);X.fill();
-  X.restore();
+  if(h<40){
+    X.save();X.globalAlpha=0.20*(1-h/40);X.fillStyle='#fff';
+    X.beginPath();X.ellipse(CX+g.L*0.5,WATER+6,54,7,0,0,7);X.fill();
+    X.restore();
+  }
 }
 
 /* ------------------------------------------------------------------- trials */
@@ -1056,21 +1288,123 @@ function stats(){
   // hardware has mass. This is the whole reason it is counted.
   const hw=BOM?(BOM.bolts*0.0009+BOM.planks*0.22+BOM.frames*0.34+BOM.plates*0.06):0;
   disp+=t+hw;
-  const rigH=(150+H.loa*2.4)*P.rig*mPerPx;
+  /* Sail area comes off the rig, not off the canvas: a mast is a fraction of
+     the ship's length and a sail is a fraction of the square of the mast, and
+     both fractions are a property of the rig. Reading it off the drawing put a
+     dhow at 17 m², which is a dinghy — these put her at about 145. */
+  const RIGK={lateen:0.95,square:0.75,junk:0.85,gaff:0.90,crab:0.70};
+  const RIGA={lateen:0.50,square:0.55,junk:0.55,gaff:0.45,crab:0.40};
+  /* More masts is not more of the same mast: three sticks are each shorter than
+     one, and the total is under three times a single rig. */
+  const masts=Math.max(1,H.masts||1);
+  const rigH=H.loa*(RIGK[D.parts.rig]||0.8)/(1+0.22*(masts-1))*P.rig;
   const sailArea=(D.parts.rig==='oar'||D.parts.rig==='steam')?0
-    :rigH*rigH*0.62*Math.max(1,H.masts||1)*sa*0.42;
+    :rigH*rigH*(RIGA[D.parts.rig]||0.5)*(1+0.5*(masts-1))*sa;
   const oarPower=D.parts.rig==='oar'?H.crew*0.045:0;
-  const sc=sailArea/Math.max(1,Math.pow(disp,0.66));
+  const sc=sailArea/Math.max(1,Math.pow(disp,0.75));
   const speed=clamp((D.parts.rig==='steam'?9.2:0)+Math.sqrt(Math.max(0,sc))*3.1*v+oarPower,0.8,17);
   const stiff=disp*0.62+a*1.4;      // what she can carry standing up
-  const press=sailArea*0.55;        // what the rig puts on her
+  const press=sailArea*0.35;        // what the rig puts on her
   const crew=Math.round(H.crew*(D.parts.rig==='oar'?1.0:0.7)+
     (D.parts.arms==='broad'?26:D.parts.arms==='swiv'?6:0));
-  return{loa,beam,depth,disp,sailArea,speed,crew,armour:a,hw,stiff,press,
-    cargo:Math.max(0,H.loa*H.cb*1.6+cargo*4),over:press>stiff,mPerPx};
+  /* the lift plant is mass she has to carry before it carries her */
+  const M=methOf()[2];
+  disp+=M.t;
+  const lift=M.lift*disp;                 // tonnes the plant will hold up
+  const need=D.mode==='fly'?disp:D.mode==='skim'?disp*0.55:0;
+  const flies=lift>=need;
+  const held=liftPx()*(D.mode==='fly'?0.11:0.06); // metres off the water, roughly
+  return{loa,beam,depth,disp,sailArea,speed:speed*(M.v||1),crew,armour:a,hw,
+    stiff,press,cargo:Math.max(0,H.loa*H.cb*1.6+cargo*4),over:press>stiff,mPerPx,
+    lift,need,flies,held,plantT:M.t};
 }
 
 const row=(k,v,cls='')=>'<div class="stat '+cls+'"><span>'+k+'</span><b>'+v+'</b></div>';
+
+/* ---------------------------------------------------------------- valuation
+ * Real money, out of the same geometry the bill of materials came from.
+ *
+ * The counts on the canvas are turned into physical quantities first — cubic
+ * metres of oak, metres of seam to caulk, square metres of cloth, kilos of
+ * ironwork — and it is the quantities that get priced, not the pixels. That is
+ * the only way the number means anything: change the strake count and the
+ * timber volume changes, so the cost changes, because there is more boat.
+ *
+ * Two honesties are owed here. The drawing shows one side of the ship; she is
+ * planked and fastened on both, so the quantities are doubled where the real
+ * ship doubles them. And the rates are defaults to argue with — order of
+ * magnitude for a traditional or replica build in 2020s money, editable in the
+ * panel. This is a costing, not a market quote, and not advice about anything.
+ */
+const FAST={hex:1.35,torx:1.15,rivet:0.55,flush:0.30};   /* $ per fastening */
+const PRICE={caulk:6,cord:5.5,block:120,iron:14,steel:9.5,oar:450,lant:260,
+  batten:85,paint:38};
+/* $ per tonne of lift plant, by method */
+const PLANT={surf:0,sub:9000,foil:38000,cush:44000,plane:16000,
+  gas:52000,rotor:96000,wing:64000,thrust:120000,kite:22000};
+const rate=(k,d)=>{const v=parseFloat(($('r_'+k)||{}).value);
+  return isFinite(v)&&v>=0?v:d;};
+const usd=(v)=>'$'+Math.round(v).toLocaleString();
+
+function value(){
+  const S=stats();
+  const loa=S.loa,beam=S.beam,depth=S.depth;
+  const R={tim:rate('tim',3000),lab:rate('lab',85),can:rate('can',45),ovh:rate('ovh',22)};
+  const steel=D.parts.plank==='steel';
+  /* both sides, because a ship has two */
+  const fast=BOM.bolts*2,planks=BOM.planks*2,frames=BOM.frames;
+  const th=0.020+loa*0.0012,wd=0.18;              /* plank thickness, width, m */
+  const volPlank=planks*(loa*1.05)*wd*th;         /* m³ */
+  const volFrame=frames*(depth*2.2)*0.10*0.10;
+  const volBeam=BOM.beams*beam*0.08*0.10;
+  const volSpar=S.sailArea>0?0.09*loa:0;
+  const volTim=volFrame+volBeam+volSpar+(steel?0:volPlank);
+  const kgPlate=steel?volPlank*7850:0;
+
+  const cTim=volTim*R.tim+kgPlate*PRICE.steel;
+  const cFast=fast*(FAST[D.bolt]||0.9);
+  const mSeam=steel?0:planks*loa*1.05;
+  const cCaulk=mSeam*PRICE.caulk;
+  const cCan=S.sailArea*R.can;
+  const mCord=BOM.ropes*loa*0.8*2;
+  const cCord=mCord*PRICE.cord+BOM.blocks*2*PRICE.block;
+  const kgIron=BOM.plates*18+(D.parts.arms==='broad'?2600:0)+
+    (D.parts.deck==='iron'?loa*beam*90:0);
+  const cIron=kgIron*PRICE.iron;
+  const cFit=BOM.oars*2*PRICE.oar+BOM.lamps*PRICE.lant+BOM.battens*2*PRICE.batten;
+  const mPaint=loa*(depth+1.2)*2*2;
+  const cPaint=mPaint*PRICE.paint;
+
+  const hrs=fast*0.12+planks*loa*0.9+frames*3.5+BOM.plates*1.2+mSeam*0.6+
+    BOM.panels*1.5+BOM.ropes*0.8+BOM.oars*6+BOM.spokes*0.5+BOM.beams*2.2;
+  const cLab=hrs*R.lab;
+
+  /* the lift plant is bought by the tonne, and the tonne is not the same price
+     in every element — a step in the bottom is joinery, a rotor is machinery */
+  const M=methOf()[2];
+  const cPlant=M.t*(PLANT[D.method]||0);
+
+  const mats=cTim+cFast+cCaulk+cCan+cCord+cIron+cFit+cPaint+cPlant;
+  const sub=mats+cLab;
+  const ovh=sub*R.ovh/100;
+  const total=sub+ovh;
+  return{R,volTim,kgPlate,fast,mSeam,mCord,kgIron,hrs,steel,
+    lines:[['Timber & plating',cTim,(steel?Math.round(kgPlate)+' kg plate + ':'')+
+             volTim.toFixed(2)+' m³'],
+           ['Fastenings',cFast,fast.toLocaleString()+' @ '+
+             (FAST[D.bolt]||0.9).toFixed(2)],
+           ['Caulking',cCaulk,Math.round(mSeam)+' m of seam'],
+           ['Canvas',cCan,Math.round(S.sailArea)+' m²'],
+           ['Cordage & blocks',cCord,Math.round(mCord)+' m, '+BOM.blocks*2+' blocks'],
+           ['Ironwork & fittings',cIron,Math.round(kgIron).toLocaleString()+' kg'],
+           ['Fitting out',cFit,BOM.oars*2+' oars, '+BOM.lamps+' lanterns'],
+           ['Paint & preservation',cPaint,Math.round(mPaint)+' m²'],
+           ['Lift plant',cPlant,M.t?M.t+' t of '+methOf()[1].toLowerCase():'none fitted'],
+           ['Shipwright labour',cLab,Math.round(hrs).toLocaleString()+' hr @ '+
+             usd(R.lab)]],
+    mats,labour:cLab,ovh,total,
+    perTonne:total/Math.max(1,S.disp),perFast:total/Math.max(1,fast)};
+}
 
 function paint(){
   render();
@@ -1095,10 +1429,20 @@ function paint(){
     row('Speed',S.speed.toFixed(1)+' kn')+
     row('Complement',S.crew)+
     row('Cargo',Math.round(S.cargo)+' t')+
+    row('Element',MODES.find((m)=>m[0]===D.mode)[1]+' · '+methOf()[1])+
+    (D.mode==='water'?'':
+      row('Lift plant',Math.round(S.plantT)+' t')+
+      row('Lift',Math.round(S.lift)+' t of '+Math.round(S.need)+' t needed',
+        S.flies?'good':'bad')+
+      row('Height held',S.held.toFixed(1)+' m'))+
     row('Sail pressure',Math.round(S.press),S.over?'bad':'good')+
     row('Righting moment',Math.round(S.stiff))+
     '<div class="meter '+(S.over?'over':'')+'"><i style="width:'+
     clamp(S.press/Math.max(1,S.stiff)*100,0,100)+'%"></i></div>'+
+    (!S.flies?'<div class="tiny" style="color:var(--warn)">'+
+      'The plant is '+Math.round(S.need-S.lift)+' t short of holding her at this '+
+      'weight. She comes back down — take armour, guns or ballast out of her, or '+
+      'fit a method that lifts more.</div>':'')+
     (S.over?'<div class="tiny" style="color:var(--warn)">Over-canvassed by '+
       Math.round(S.press-S.stiff)+'. Reef her, shorten the rig, or get ballast '+
       'into the bottom — as drawn she goes over before she goes fast.</div>':'');
@@ -1114,7 +1458,45 @@ function paint(){
     '<tr class="tot"><td>Discrete parts</td><td>'+total+'</td></tr>';
   $('partn').textContent=total+' pcs';
   $('boltn').textContent=BOM.bolts+' fastenings';
+
+  const V=value();
+  $('val').innerHTML=
+    V.lines.map((l)=>'<tr><td>'+l[0]+'<br><span style="color:var(--dim);font-size:9.5px">'+
+      l[2]+'</span></td><td>'+usd(l[1])+'</td></tr>').join('')+
+    '<tr><td>Yard overhead '+V.R.ovh+'%</td><td>'+usd(V.ovh)+'</td></tr>'+
+    '<tr class="tot"><td>Build cost</td><td>'+usd(V.total)+'</td></tr>';
+  $('valn').textContent=usd(V.total);
+  $('raten').textContent=Math.round(V.hrs).toLocaleString()+' hr';
+
+  const berthed=FLEET.filter((f)=>f&&f.cost>0);
+  const fleetTotal=berthed.reduce((a,f)=>a+f.cost,0);
+  $('fleetval').innerHTML=
+    '<b>'+usd(V.perTonne)+'</b> per tonne displaced · '+
+    '<b>'+usd(V.perFast)+'</b> per fastening<br>'+
+    (berthed.length
+      ? 'Fleet of <b>'+berthed.length+'</b> berthed: <b>'+usd(fleetTotal)+'</b><br>'+
+        'Against 21,000,000 coins that is <em>'+
+        (fleetTotal/21e6).toFixed(4)+'</em> per coin — arithmetic on a costing, '+
+        'not a price, and not advice.'
+      : 'Build the ten to cost a whole fleet.');
+
   if($('waddr').value)wallet();
+}
+
+/* Recost every berthed ship at the current rates. Each one has to be drawn to
+   be costed, because the bill of materials only exists as a consequence of the
+   drawing — so the live ship is set aside and put back afterwards. */
+function recostFleet(){
+  if(!FLEET.length)return;
+  const keep=JSON.parse(JSON.stringify(D));
+  for(const f of FLEET){
+    if(!f)continue;
+    Object.assign(D,JSON.parse(JSON.stringify(f)));
+    render();
+    f.cost=value().total;
+  }
+  Object.assign(D,keep);
+  try{localStorage.setItem('shipforge_fleet',JSON.stringify(FLEET));}catch(e){}
 }
 
 /* ------------------------------------------------------------------- chrome */
@@ -1128,6 +1510,17 @@ function buildUI(){
     D.hull=b.dataset.h;fitHull();syncUI();paint();
     say(hullOf()[1]+' — '+hullOf()[2]+'.');
   });
+  $('mode').innerHTML=MODES.map((m)=>
+    '<button data-m="'+m[0]+'">'+m[1]+'</button>').join('');
+  $('mode').querySelectorAll('button').forEach((b)=>b.onclick=()=>{
+    setMode(b.dataset.m);syncUI();paint();
+    say(D.mode==='fly'?'Off the water. One plant of five, and it has to hold her.'
+      :D.mode==='skim'?'On the surface but off her own bow wave.'
+      :'In the water, where she was drawn.');
+  });
+  $('alt').addEventListener('input',()=>{
+    D.alt=+$('alt').value;$('altv').textContent=D.alt.toFixed(2);paint();});
+
   $('slots').innerHTML=SLOTS.map((s)=>
     '<div class="slot"><div class="lbl"><span>'+s.label+'</span><b id="lb_'+s.k+'"></b></div>'+
     '<div class="opts" id="op_'+s.k+'">'+
@@ -1174,7 +1567,34 @@ function buildUI(){
     say(D.name+' warped out of berth '+(i+1)+'.');
   });
 }
+/* Aim upward: entering an element picks the method that holds her highest, and
+   the height slider goes with it. Every other method is one click away. */
+function setMode(m){
+  D.mode=m;
+  const L=METHODS[m];
+  if(!L.find((x)=>x[0]===D.method))
+    D.method=L.slice().sort((a,b)=>(b[2].lift*b[2].h)-(a[2].lift*a[2].h))[0][0];
+  D.alt=m==='fly'?0.86:m==='skim'?0.70:0.62;
+}
+function buildMethods(){
+  const L=METHODS[D.mode];
+  $('method').innerHTML=L.map((m)=>
+    '<button data-v="'+m[0]+'">'+m[1]+'</button>').join('');
+  $('method').querySelectorAll('button').forEach((b)=>b.onclick=()=>{
+    D.method=b.dataset.v;syncUI();paint();});
+}
 function syncUI(){
+  $('mode').querySelectorAll('button').forEach((b)=>
+    b.classList.toggle('on',b.dataset.m===D.mode));
+  buildMethods();
+  $('method').querySelectorAll('button').forEach((b)=>
+    b.classList.toggle('on',b.dataset.v===D.method));
+  $('lb_method').textContent=methOf()[1];
+  $('moden').textContent=METHODS[D.mode].length+' method'+
+    (METHODS[D.mode].length>1?'s':'');
+  $('methoddesc').textContent=methOf()[2].note;
+  $('alt').value=D.alt;$('altv').textContent=(+D.alt).toFixed(2);
+  $('alt').disabled=D.mode==='water';
   $('hull').querySelectorAll('button').forEach((b)=>
     b.classList.toggle('on',b.dataset.h===D.hull));
   for(const s of SLOTS){
@@ -1211,6 +1631,9 @@ $('fr').addEventListener('input',()=>{D.frames=+$('fr').value;$('frv').textConte
 $('wr').addEventListener('input',()=>{D.wear=+$('wr').value;$('wrv').textContent=D.wear;paint();});
 $('dn').addEventListener('input',()=>{D.name=$('dn').value;paint();});
 $('cap').addEventListener('input',()=>{D.capt=$('cap').value;paint();});
+['tim','lab','can','ovh'].forEach((k)=>
+  $('r_'+k).addEventListener('input',()=>{
+    recostFleet();paint();}));
 $('pCalm').onclick=()=>{D.sea='calm';syncUI();};
 $('pSea').onclick=()=>{D.sea='sea';syncUI();};
 $('png').onclick=()=>{const a=document.createElement('a');
@@ -1256,6 +1679,12 @@ function buildFrom(seed,forceHull){
   D.frames=clamp(D.frames+Math.floor(R()*7)-3,6,24);
   D.wear=Math.floor(R()*4);
   PROPS.forEach((p)=>{D.prop[p[0]]=+(p[2]+R()*(p[3]-p[2])).toFixed(2);});
+  /* the element is seeded too, and it leans upward: a third of the fleet flies */
+  const r=R();
+  setMode(r<0.34?'fly':r<0.62?'skim':'water');
+  const L=METHODS[D.mode];
+  D.method=L[Math.floor(R()*L.length)][0];
+  D.alt=+(0.55+R()*0.45).toFixed(2);
   D.name=NAMES[Math.floor(R()*NAMES.length)];
   D.capt=CAPS[Math.floor(R()*CAPS.length)];
 }
@@ -1271,7 +1700,10 @@ $('ten').onclick=()=>{
   const seed=known?a.toLowerCase():'unmoored:'+Math.random();
   FLEET=HULLS.map((h,i)=>{
     buildFrom(seed+':'+i+':'+h[0],h[0]);
-    return JSON.parse(JSON.stringify(D));
+    render();                       // so the BOM is this ship's, then cost it
+    const snap=JSON.parse(JSON.stringify(D));
+    snap.cost=value().total;
+    return snap;
   });
   try{localStorage.setItem('shipforge_fleet',JSON.stringify(FLEET));}catch(e){}
   Object.assign(D,JSON.parse(JSON.stringify(FLEET[0])));
@@ -1284,8 +1716,9 @@ $('ten').onclick=()=>{
 const HEZE='0x48455a45';   /* "HEZE" in ascii — a local tag, not a live selector */
 const word=(v)=>BigInt(Math.max(0,Math.round(v))).toString(16).padStart(64,'0');
 function combos(){
+  const meth=MODES.reduce((a,m)=>a+METHODS[m[0]].length,0);   /* 2 + 3 + 5 */
   return SLOTS.reduce((a,s)=>a*s.opts.length,1)*HULLS.length*
-    PAL.length*FINISH.length*BOLTS.length;
+    PAL.length*FINISH.length*BOLTS.length*meth;
 }
 function wallet(){
   const a=$('waddr').value.trim(),o=$('wout');
@@ -1296,12 +1729,15 @@ function wallet(){
     SLOTS.map((s)=>D.parts[s.k]).join('.'),
     PROPS.map((p)=>D.prop[p[0]]).join('.')].join('|');
   const fp=fnv(a.toLowerCase()+'|'+build);
-  const d=HEZE+word(S.disp)+word(BOM.bolts)+word(BOM.planks)+word(S.crew);
+  const V=value();
+  const d=HEZE+word(S.disp)+word(BOM.bolts)+word(BOM.planks)+word(V.total);
   const C=combos();
   o.innerHTML=
     '<b>from</b> '+a.slice(0,10)+'…'+a.slice(-6)+'<br>'+
     '<b>hull</b> '+hullOf()[1]+' · '+Math.round(S.disp)+' t · '+
     BOM.bolts+' fastenings · '+BOM.planks+' strakes<br>'+
+    '<b>costed at</b> '+usd(V.total)+' to build, '+
+    MODES.find((m)=>m[0]===D.mode)[1].toLowerCase()+'<br>'+
     '<b>fingerprint</b> '+fp+' <span style="color:var(--dim)">(FNV-1a, local)</span><br>'+
     '<b>space</b> '+C.toLocaleString()+' builds '+
     '<span style="color:var(--live)">('+Math.floor(C/21e6).toLocaleString()+
@@ -1332,8 +1768,13 @@ requestAnimationFrame(loop);
 setInterval(paint,900);
 
 function REPORT(){
-  const S=stats();
-  return{hull:D.hull,loa_m:+S.loa.toFixed(1),beam_m:+S.beam.toFixed(1),
+  const S=stats(),V=value();
+  return{hull:D.hull,element:D.mode,method:D.method,height_m:+S.held.toFixed(1),
+    lift_t:Math.round(S.lift),lift_needed_t:Math.round(S.need),flies:S.flies?1:0,
+    build_cost_usd:Math.round(V.total),materials_usd:Math.round(V.mats),
+    labour_usd:Math.round(V.labour),labour_hr:Math.round(V.hrs),
+    cost_per_tonne_usd:Math.round(V.perTonne),
+    fleet_cost_usd:Math.round(FLEET.reduce((a,f)=>a+((f&&f.cost)||0),0)),loa_m:+S.loa.toFixed(1),beam_m:+S.beam.toFixed(1),
     draft_m:+S.depth.toFixed(2),displacement_t:Math.round(S.disp),
     hardware_t:+S.hw.toFixed(1),sail_area_m2:Math.round(S.sailArea),
     speed_kn:+S.speed.toFixed(2),crew:S.crew,cargo_t:Math.round(S.cargo),
