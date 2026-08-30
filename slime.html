@@ -1,0 +1,278 @@
+<title>SLIME · the wallet that funds the yard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  SLIME funds the yard. HEZE prices it. Two units, two jobs, and the difference
+  matters: a hull is QUOTED in HEZE at the order desk, and the money that pays
+  for the yard to exist at all comes out of this wallet.
+
+  Neither is a token in any sense that reaches a chain. There is no contract,
+  nothing is issued, nothing transfers, and no exchange rate to any currency is
+  asserted or implied — here or anywhere else in these files.
+
+  TWO WAYS TO READ A BUDGET, AND WHY THERE ARE TWO
+  Line mode totals what you have allocated. It does NOT print what is left,
+  because CSS adds and cannot subtract and this page will not show a figure it
+  did not compute.
+
+  Bundle mode does print what is left — because there the answer comes from a
+  nine-cell lookup keyed on capacity × bundle, and every one of those nine
+  numbers was worked out and written down. That is the honest way to get a
+  difference out of a language with no subtraction: not a trick, just a table
+  somebody can check.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#070b08; --card:#111a14; --card2:#16211a; --edge:#26332b;
+    --ink:#e9f5ec; --dim:#8aa894; --slime:#9ed45c; --deep:#42802c;
+    --gold:#e0b155; --bad:#e0705a; --good:#65d6a8; --cool:#6ec6ff; --plum:#8a6ab8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 16% 4%,rgba(158,212,92,.12),transparent 44%),
+      radial-gradient(circle at 86% 92%,rgba(66,128,44,.14),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:22px;letter-spacing:-.02em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--slime);border:1px solid var(--slime);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--slime);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.66;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b120d;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ------------------------------------------------------------ the wallet */
+  .wallet{background:linear-gradient(150deg,#1b2c18,#0e1710 60%,#111a14);
+    border:1px solid var(--edge);border-radius:16px;padding:17px 18px 16px;
+    position:relative;overflow:hidden}
+  .wallet::after{content:"";position:absolute;right:-50px;top:-60px;width:200px;
+    height:200px;border-radius:50%;
+    background:radial-gradient(circle,rgba(158,212,92,.2),transparent 68%)}
+  .wallet .who{font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim)}
+  .wallet .big{font:40px/1.06 ui-monospace,Menlo,monospace;color:var(--slime);
+    margin:9px 0 3px;letter-spacing:-.025em}
+  .wallet .big::after{content:" SLIME";font-size:14px;color:var(--dim);
+    letter-spacing:.12em}
+  .wallet .cap{font-size:12px;color:var(--dim)}
+  .wallet .cap b{color:var(--ink)}
+
+  .seg{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;min-width:132px;cursor:pointer;padding:11px 13px;
+    border-radius:10px;border:1px solid var(--edge);color:var(--dim);
+    font:11.5px/1.4 ui-monospace,monospace}
+  .seg label b{display:block;color:var(--ink);font-size:14px;margin-bottom:2px}
+  .seg input:checked+label{border-color:var(--slime);background:rgba(158,212,92,.10)}
+  .seg input:checked+label b{color:var(--slime)}
+  .seg input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .stack input{position:absolute;opacity:0;width:0;height:0}
+  .stack label{display:flex;align-items:baseline;gap:11px;cursor:pointer;
+    padding:11px 13px;border-radius:10px;border:1px solid var(--edge);font-size:13px}
+  .stack label .tick{width:15px;height:15px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);position:relative;top:2px}
+  .stack label .src{font:8.5px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim);display:block;margin-top:4px}
+  .stack label .amt{margin-left:auto;font:12.5px/1 ui-monospace,monospace;
+    color:var(--dim);align-self:center}
+  .stack input:checked+label{border-color:var(--slime);background:rgba(158,212,92,.08)}
+  .stack input:checked+label .tick{background:var(--slime);border-color:var(--slime);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--slime)}
+  .stack input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* ------------------------------------------------------------ the counters */
+  body{counter-reset:draw 0 lines 0}
+  #f-forge:checked +label{counter-increment:draw 4600  lines 1}
+  #f-yard:checked  +label{counter-increment:draw 2800  lines 1}
+  #f-train:checked +label{counter-increment:draw 9400  lines 1}
+  #f-crew:checked  +label{counter-increment:draw 6200  lines 1}
+  #f-run:checked   +label{counter-increment:draw 3100  lines 1}
+  #f-bridge:checked+label{counter-increment:draw 900   lines 1}
+  #f-paris:checked +label{counter-increment:draw 12500 lines 1}
+  #f-supply:checked+label{counter-increment:draw 8700  lines 1}
+  #f-keep:checked  +label{counter-increment:draw 400   lines 1}
+  .n-draw::after{content:counter(draw)}
+  .n-lines::after{content:counter(lines)}
+
+  /* capacity × bundle — nine cells, each worked out and written down.
+     This is the only honest way to print a difference here. */
+  .board:has(#c-seed:checked):has(#b-skel:checked) .left::after{content:"12,500"}
+  .board:has(#c-seed:checked):has(#b-work:checked) .left::after{content:"2,000"}
+  .board:has(#c-seed:checked):has(#b-full:checked) .left::after{content:"−28,600"}
+  .board:has(#c-work:checked):has(#b-skel:checked) .left::after{content:"42,500"}
+  .board:has(#c-work:checked):has(#b-work:checked) .left::after{content:"32,000"}
+  .board:has(#c-work:checked):has(#b-full:checked) .left::after{content:"1,400"}
+  .board:has(#c-fund:checked):has(#b-skel:checked) .left::after{content:"82,500"}
+  .board:has(#c-fund:checked):has(#b-work:checked) .left::after{content:"72,000"}
+  .board:has(#c-fund:checked):has(#b-full:checked) .left::after{content:"41,400"}
+  /* the one cell that does not balance */
+  .board:has(#c-seed:checked):has(#b-full:checked) .left{color:var(--bad)}
+  .over{display:none}
+  .board:has(#c-seed:checked):has(#b-full:checked) .over{display:block}
+
+  .heads{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .head{background:#0d140f;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--slime);margin-top:5px}
+
+  .warn{border:1px solid var(--bad);background:rgba(224,112,90,.09);
+    color:var(--bad);border-radius:10px;padding:11px 13px;margin-top:11px;
+    font-size:12px;line-height:1.6}
+  .warn b{color:var(--bad)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td .q{color:var(--dim);font-size:10.5px}
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:880px){.two{grid-template-columns:1fr}
+    .heads{grid-template-columns:1fr}}
+</style>
+
+<div class="board wrap">
+  <header>
+    <h1>SLIME</h1>
+    <span class="sub">The wallet that funds the yard. HEZE is what the yard
+      quotes in; SLIME is what pays for there being a yard at all.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="wallet">
+    <span class="who">Allocated this cycle</span>
+    <div class="big n-draw"></div>
+    <div class="cap">across <b class="n-lines"></b> of nine lines · the yard
+      runs to <b>48,600</b> fully funded</div>
+    <div class="cap" style="margin-top:8px;font-size:10.5px">What is left is not
+      printed here. CSS adds and cannot subtract, and this page will not show a
+      figure it did not compute — the bundle table below does that properly.</div>
+  </div>
+
+  <h2>Lines <b>what the wallet is carrying</b></h2>
+  <div class="two">
+    <div class="panel">
+      <div class="stack">
+        <input type="checkbox" id="f-crew" checked><label for="f-crew">
+          <i class="tick"></i><span>Complement and wages
+          <span class="src">personnel.html</span></span><span class="amt">6,200</span></label>
+        <input type="checkbox" id="f-bridge" checked><label for="f-bridge">
+          <i class="tick"></i><span>Contract and audit
+          <span class="src">bridge.html</span></span><span class="amt">900</span></label>
+        <input type="checkbox" id="f-keep" checked><label for="f-keep">
+          <i class="tick"></i><span>Board upkeep
+          <span class="src">the arcade</span></span><span class="amt">400</span></label>
+        <input type="checkbox" id="f-forge"><label for="f-forge">
+          <i class="tick"></i><span>Hull programme
+          <span class="src">ship-forge.html</span></span><span class="amt">4,600</span></label>
+        <input type="checkbox" id="f-yard"><label for="f-yard">
+          <i class="tick"></i><span>Slip 4 order desk
+          <span class="src">station.html</span></span><span class="amt">2,800</span></label>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="stack">
+        <input type="checkbox" id="f-run"><label for="f-run">
+          <i class="tick"></i><span>Lane franchise and tariffs
+          <span class="src">cruise-control.html</span></span><span class="amt">3,100</span></label>
+        <input type="checkbox" id="f-train"><label for="f-train">
+          <i class="tick"></i><span>The fleet train
+          <span class="src">auxiliaries.html</span></span><span class="amt">9,400</span></label>
+        <input type="checkbox" id="f-supply"><label for="f-supply">
+          <i class="tick"></i><span>Two supply paths, one cycle
+          <span class="src">supply.html</span></span><span class="amt">8,700</span></label>
+        <input type="checkbox" id="f-paris"><label for="f-paris">
+          <i class="tick"></i><span>New Paris — lift and stores
+          <span class="src">new-paris.html</span></span><span class="amt">12,500</span></label>
+      </div>
+      <p class="note">Every line names the board that spends it. A wallet that
+        cannot say where the money went is not a wallet, it is a number.</p>
+    </div>
+  </div>
+
+  <h2>Bundles <b>and here the remainder is real</b></h2>
+  <div class="two">
+    <div class="panel">
+      <h2 style="margin-top:0">Capacity</h2>
+      <div class="seg">
+        <input type="radio" name="c" id="c-seed"><label for="c-seed">
+          <b>20,000</b>seed</label>
+        <input type="radio" name="c" id="c-work" checked><label for="c-work">
+          <b>50,000</b>working</label>
+        <input type="radio" name="c" id="c-fund"><label for="c-fund">
+          <b>90,000</b>funded</label>
+      </div>
+      <h2>Bundle</h2>
+      <div class="seg">
+        <input type="radio" name="b" id="b-skel"><label for="b-skel">
+          <b>7,500</b>skeleton — crew, bridge, upkeep</label>
+        <input type="radio" name="b" id="b-work" checked><label for="b-work">
+          <b>18,000</b>working — plus forge, yard, lane</label>
+        <input type="radio" name="b" id="b-full"><label for="b-full">
+          <b>48,600</b>everything</label>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="head" style="background:none;border:0;padding:0">
+        <span>Left in the wallet</span>
+        <b class="left" style="font-size:34px"></b>
+      </div>
+      <div class="warn over"><b>Overdrawn.</b> Seed capacity does not fund the
+        whole yard and no arrangement of it will — the shortfall is 28,600 and
+        the only honest answers are fund more or build less. This is the one
+        cell of nine that does not balance, and it is shown rather than
+        hidden.</div>
+      <p class="note"><b>Why this figure is allowed to exist</b> when the one at
+        the top of the page is not: it comes from a nine-cell table — three
+        capacities by three bundles — and every entry was worked out and
+        written down. CSS still cannot subtract. Somebody did, once, and left
+        the arithmetic where you can check it.</p>
+    </div>
+  </div>
+
+  <h2>The two units <b>and the line between them</b></h2>
+  <table>
+    <tr><th>&nbsp;</th><th>SLIME</th><th>HEZE</th></tr>
+    <tr><td>Job</td><td>funds the yard</td><td>prices the work</td></tr>
+    <tr><td>Answers</td><td>can we afford to exist</td><td>what does this hull cost</td></tr>
+    <tr><td>Held by</td><td>the wallet</td><td>the docket</td></tr>
+    <tr><td>Appears on</td><td>this page</td><td>station, lane, bank, bridge</td></tr>
+    <tr><td>Exchange rate between them</td><td colspan="2" style="text-align:right;
+        color:var(--dim)">none stated — they are not convertible here</td></tr>
+  </table>
+  <p class="note"><b>Deliberately not pegged.</b> It would be one line to write
+    "1 SLIME = 4 HEZE" and it would be inventing a fact. The two units do
+    different jobs in these files and never have to meet; a rate between them
+    would be a number with nothing behind it, which is the exact thing every
+    other board here refuses to print.</p>
+
+  <h2>What this is not</h2>
+  <p class="note"><b>Not a token, not a wallet in the crypto sense, and not
+    anything you can hold.</b> There is no chain, no contract, no key, no
+    balance stored anywhere — the figures above are CSS counters summed from
+    the boxes you ticked, and they are gone when the tab closes. SLIME and HEZE
+    are denominations inside this project, ₿1 is a stated franchise price in
+    the manifest, and none of the three implies an exchange rate to any
+    currency. Nothing here is an offer, a solicitation, or financial advice.</p>
+</div>
