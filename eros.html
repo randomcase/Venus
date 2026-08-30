@@ -1,0 +1,337 @@
+<title>The Parable of Eros and Psyche</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Six panels, :target for navigation, and one control.
+
+  The control is the argument. There is a switch marked LOOK, and everything on
+  the page changes according to whether it is thrown — his name, her name, what
+  the lamp is doing. You are not reading about the gaze; you are holding it.
+
+  Two registers are kept apart on purpose:
+
+    · what the myth says — Apuleius, second century, the tale told to a captive
+      girl in a bandits' cave in the Golden Ass. Stated plainly, no embroidery.
+    · what it can be read to mean — the reading this page was built around,
+      which came from a conversation and is marked as a reading every time it
+      appears. It is a good one. It is not the text.
+
+  No script.
+-->
+<style>
+  :root{
+    --night:#0a0a10; --deep:#12121c; --edge:#2a2636; --ink:#f0ece6;
+    --dim:#9a92a8; --lamp:#f0b95c; --flame:#ffd98a; --ash:#5c5468;
+    --rose:#d98a94; --gold:#e0b155;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;color:var(--ink);background:var(--night);
+    font:15px/1.72 ui-serif,Georgia,'Times New Roman',serif;
+    display:grid;place-items:center;padding:22px 18px 40px;
+    background-image:
+      radial-gradient(circle at 50% 8%,rgba(240,185,92,.10),transparent 46%),
+      radial-gradient(circle at 82% 88%,rgba(217,138,148,.07),transparent 44%)}
+  .deck{width:min(760px,100%)}
+
+  /* --------------------------------------------------------------- panels */
+  .p{display:none;background:linear-gradient(180deg,var(--deep),#0d0d15);
+    border:1px solid var(--edge);border-radius:14px;padding:30px 32px 22px;
+    min-height:min(600px,84vh);position:relative;
+    box-shadow:0 24px 64px rgba(0,0,0,.6)}
+  .p:target{display:block}
+  body:not(:has(.p:target)) #p1{display:block}
+
+  .kicker{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--lamp);display:block;margin-bottom:16px}
+  h1{margin:0 0 10px;font-size:38px;line-height:1.1;letter-spacing:-.02em;
+    font-weight:500}
+  h2{margin:0 0 10px;font-size:25px;line-height:1.2;letter-spacing:-.015em;
+    font-weight:500}
+  p{max-width:62ch;color:#ded8e4}
+  p.dim{color:var(--dim);font-size:13.5px}
+  .lede{font-size:17px;color:var(--dim);max-width:58ch}
+  em{font-style:italic;color:var(--lamp)}
+  b{font-weight:600;color:#fff}
+
+  /* the myth, and the reading, are visibly different objects */
+  .myth{border-left:2px solid var(--ash);padding:2px 0 2px 16px;margin:18px 0;
+    color:#cfc8d8;font-size:14px;max-width:62ch}
+  .myth .t{font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--ash);display:block;margin-bottom:7px}
+  .read{border-left:2px solid var(--lamp);padding:2px 0 2px 16px;margin:18px 0;
+    color:#f2e6d2;font-size:14px;max-width:62ch}
+  .read .t{font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--lamp);display:block;margin-bottom:7px}
+
+  /* ------------------------------------------------------------ the switch
+     One control, and it is the whole argument. Thrown, he is Himeros and she
+     is unloved; released, he is Eros and she holds the goddess's place. */
+  .look{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;
+    flex-wrap:wrap;background:rgba(10,10,16,.86);backdrop-filter:blur(6px);
+    border:1px solid var(--edge);border-radius:12px;padding:11px 14px;
+    margin-bottom:14px}
+  .look input{position:absolute;opacity:0;width:0;height:0}
+  .look label{cursor:pointer;font:11px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;padding:11px 20px;border-radius:9px;
+    border:1px solid var(--edge);color:var(--dim)}
+  #look-off:checked+label{border-color:var(--lamp);color:var(--lamp);
+    background:rgba(240,185,92,.12)}
+  #look-on:checked+label{border-color:var(--rose);color:var(--rose);
+    background:rgba(217,138,148,.12)}
+  .look input:focus-visible+label{outline:2px solid var(--gold);outline-offset:3px}
+  .look .say{font-size:12px;color:var(--dim);max-width:40ch}
+
+  /* the two names, swapped by the switch */
+  .him,.her{font-style:normal;font-weight:600}
+  .deck:has(#look-off:checked) .him::after{content:"Eros";color:var(--lamp)}
+  .deck:has(#look-on:checked)  .him::after{content:"Himeros";color:var(--rose)}
+  .deck:has(#look-off:checked) .her::after{content:"Aphrodite";color:var(--lamp)}
+  .deck:has(#look-on:checked)  .her::after{content:"Psyche, unloved";color:var(--rose)}
+  .when-off{display:none} .when-on{display:none}
+  .deck:has(#look-off:checked) .when-off{display:block}
+  .deck:has(#look-on:checked)  .when-on{display:block}
+
+  /* the lamp goes out when you look — which is what happens in the story */
+  .flame{transform-origin:50% 100%;animation:flick 2.6s ease-in-out infinite}
+  @keyframes flick{
+    0%,100%{transform:scale(1) translateX(0);opacity:.95}
+    35%{transform:scale(1.08,.94) translateX(.6px);opacity:1}
+    70%{transform:scale(.94,1.06) translateX(-.6px);opacity:.85}}
+  .deck:has(#look-on:checked) .flame{animation:none;opacity:0}
+  .deck:has(#look-on:checked) .halo{opacity:0}
+  .deck:has(#look-on:checked) .smoke{opacity:.7}
+  .smoke{opacity:0;transition:opacity .6s}
+  .halo{transition:opacity .5s}
+  @media (prefers-reduced-motion:reduce){.flame{animation:none}}
+
+  figure{margin:20px 0 0;text-align:center}
+  figure svg{width:100%;max-width:400px;height:auto}
+  figcaption{font:10px/1.6 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ash);margin-top:9px}
+
+  /* ---------------------------------------------------------- navigation */
+  .nav{position:absolute;left:32px;right:32px;bottom:20px;display:flex;
+    align-items:center;gap:10px}
+  .nav a{font:10.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;text-decoration:none;color:var(--dim);
+    border:1px solid var(--edge);border-radius:7px;padding:8px 14px}
+  .nav a:hover{color:var(--lamp);border-color:var(--lamp)}
+  .nav a.p1{background:var(--lamp);color:#14121a;border-color:var(--lamp);
+    font-weight:700}
+  .nav .no{margin-left:auto;font:10.5px ui-monospace,monospace;color:var(--ash)}
+  .dots{display:flex;gap:7px;justify-content:center;margin-top:14px}
+  .dots a{width:9px;height:9px;border-radius:50%;background:#241f30;
+    border:1px solid var(--edge);display:block}
+  .dots a:hover{background:var(--lamp)}
+
+  @media (max-width:640px){
+    h1{font-size:29px} .p{padding:22px 18px 78px;min-height:0}
+    .nav{left:18px;right:18px;flex-wrap:wrap}
+  }
+</style>
+
+<div class="deck">
+
+  <div class="look">
+    <input type="radio" name="l" id="look-off" checked><label for="look-off">Look away</label>
+    <input type="radio" name="l" id="look-on"><label for="look-on">Look at her</label>
+    <span class="say">One switch. It changes his name, her name, and whether the
+      lamp is lit — on every panel.</span>
+  </div>
+
+  <!-- ------------------------------------------------------------ panel 1 -->
+  <section class="p" id="p1">
+    <span class="kicker">the parable · one</span>
+    <h1>All things, and never loved</h1>
+    <p class="lede">A story about the difference between being looked at and
+      being loved — and about what a look does to the one doing it.</p>
+
+    <figure>
+      <svg viewBox="0 0 400 190" role="img"
+           aria-label="An oil lamp, lit, with a soft halo; smoke rises from it when the lamp is out.">
+        <defs>
+          <radialGradient id="hal"><stop offset="0" stop-color="#f0b95c" stop-opacity=".55"/>
+            <stop offset="1" stop-color="#f0b95c" stop-opacity="0"/></radialGradient>
+          <linearGradient id="clay" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#6d5a48"/><stop offset="1" stop-color="#2e2620"/>
+          </linearGradient>
+        </defs>
+        <ellipse class="halo" cx="200" cy="96" rx="150" ry="76" fill="url(#hal)"/>
+        <path class="smoke" d="M200 92q-9 -18 2 -32t-3 -30" stroke="#8b8296"
+              stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path class="flame" d="M200 96q-8-14 0-26 8 12 0 26z" fill="#ffd98a"/>
+        <path class="flame" d="M200 96q-4-8 0-15 4 7 0 15z" fill="#fff6e0"/>
+        <path d="M150 118h100l-8 22h-84z" fill="url(#clay)" stroke="#1a1520"/>
+        <path d="M150 118q50-16 100 0" fill="url(#clay)" stroke="#1a1520"/>
+        <path d="M250 126q22-4 26 8-14 6-26 2z" fill="url(#clay)" stroke="#1a1520"/>
+        <path d="M196 118h8v-6h-8z" fill="#3a3128"/>
+      </svg>
+      <figcaption class="when-off">the lamp, lit — and nobody looking</figcaption>
+      <figcaption class="when-on">the lamp, out — and the room empty</figcaption>
+    </figure>
+
+    <div class="myth"><span class="t">the myth</span>
+      Psyche was a mortal princess, the youngest of three, and so beautiful that
+      travellers began leaving at her feet the offerings that belonged to
+      Aphrodite. Crowds came. Her sisters, plainer, were married. She was
+      <b>admired by everyone and asked for by no one</b> — the text is explicit
+      that men worshipped her <em>as</em> a goddess and therefore did not court
+      her as a woman.</div>
+
+    <div class="read"><span class="t">the reading</span>
+      That is the whole problem stated in the first paragraph, before any god
+      does anything. Being looked at is not a lesser form of being loved. It is
+      a different thing that occupies the same space and keeps love out.</div>
+
+    <nav class="nav"><a class="p1" href="#p2">Next ▸</a><span class="no">01 / 06</span></nav>
+  </section>
+
+  <!-- ------------------------------------------------------------ panel 2 -->
+  <section class="p" id="p2">
+    <span class="kicker">the parable · two</span>
+    <h2>When he is not looking, she is <span class="her"></span></h2>
+
+    <p class="when-off">The switch is set to <em>look away</em>. In that
+      condition she holds the goddess's place — and this is not a metaphor the
+      page is adding. In the story the worship physically moves: altars go cold
+      at Cythera and Paphos, and the offerings are carried to a mortal girl's
+      doorstep instead.</p>
+    <p class="when-on">You have looked. The name has changed and so has
+      everything under it — she is not the goddess any more, she is the girl
+      nobody married.</p>
+
+    <div class="myth"><span class="t">the myth</span>
+      Aphrodite, finding her temples deserted, sends her son to make Psyche fall
+      in love with the most wretched thing alive. He goes with the arrow ready.
+      He sees her. He does not fire.</div>
+
+    <div class="read"><span class="t">the reading</span>
+      Note what he is at that moment: he has come to <em>look at</em> her, in
+      order to do something to her. And the look does not land the way it was
+      sent. The story's hinge is a gaze that fails to stay a gaze.</div>
+
+    <nav class="nav"><a href="#p1">◂ Back</a><a class="p1" href="#p3">Next ▸</a>
+      <span class="no">02 / 06</span></nav>
+  </section>
+
+  <!-- ------------------------------------------------------------ panel 3 -->
+  <section class="p" id="p3">
+    <span class="kicker">the parable · three</span>
+    <h2>And when he looks because she is beautiful, he is
+      <span class="him"></span></h2>
+
+    <p class="when-off">Set the switch to <em>look at her</em> and watch both
+      names change at once. That simultaneity is the claim this page is making.</p>
+    <p class="when-on">There it is. He is <b>Himeros</b> now — desire, the
+      impetuous one, Eros's brother among the Erotes and not the same god. And
+      she is <b>Psyche, unloved</b>: back at the start, worshipped and
+      unmarried. One switch moved both.</p>
+
+    <div class="myth"><span class="t">the myth</span>
+      The Erotes are several. Eros is love; <b>Himeros</b> is desire that cannot
+      wait; <b>Pothos</b> is longing for what is absent. Ancient art puts them
+      together and tells them apart — they are not synonyms, and a poet choosing
+      between them is saying something specific.</div>
+
+    <div class="read"><span class="t">the reading</span>
+      So the transformation is available in the vocabulary itself. If what moves
+      him is that she is beautiful, the tradition already has a name for that
+      and it is not Eros. And under a desiring look she cannot be beloved, only
+      wanted — which returns her exactly to panel one. <em>All things, and never
+      loved.</em></div>
+
+    <nav class="nav"><a href="#p2">◂ Back</a><a class="p1" href="#p4">Next ▸</a>
+      <span class="no">03 / 06</span></nav>
+  </section>
+
+  <!-- ------------------------------------------------------------ panel 4 -->
+  <section class="p" id="p4">
+    <span class="kicker">the parable · four</span>
+    <h2>The condition was the dark</h2>
+
+    <div class="myth"><span class="t">the myth</span>
+      He takes her to a house she cannot see the owner of. He comes only at
+      night. The single rule is that she must never try to see his face — not
+      that she must not touch him, or ask, or leave. Only that she must not
+      <b>look</b>.</div>
+
+    <p>Her sisters visit and do the work sisters do in this kind of story: they
+      tell her she is sleeping with a serpent, and that a woman who cannot see
+      her husband has no husband. So she is given a lamp and a knife and told to
+      look while he sleeps.</p>
+
+    <div class="read"><span class="t">the reading</span>
+      Read the prohibition as cruelty and it is arbitrary. Read it as a
+      <em>condition</em> and it is precise: darkness is the only arrangement in
+      which the look cannot happen, and therefore the only one in which he
+      stays Eros and she stays beloved rather than admired. He is not hiding a
+      monstrous face. He is holding off a transformation.</div>
+
+    <nav class="nav"><a href="#p3">◂ Back</a><a class="p1" href="#p5">Next ▸</a>
+      <span class="no">04 / 06</span></nav>
+  </section>
+
+  <!-- ------------------------------------------------------------ panel 5 -->
+  <section class="p" id="p5">
+    <span class="kicker">the parable · five</span>
+    <h2>She lights the lamp</h2>
+
+    <div class="myth"><span class="t">the myth</span>
+      She raises the lamp and sees not a serpent but the god himself, asleep and
+      beautiful. She is so taken by the sight that her hand shakes — and a drop
+      of hot oil falls on his shoulder. He wakes, and he goes. The knife is
+      never used. <b>What ends it is the looking.</b></div>
+
+    <p class="when-off">The switch is still on <em>look away</em>, so the lamp
+      above is burning and the room is not empty yet.</p>
+    <p class="when-on">You have thrown it, so the flame is out and there is only
+      smoke. That is not decoration — in the story the light is what puts the
+      light out.</p>
+
+    <div class="read"><span class="t">the reading</span>
+      The drop of oil is the detail that gives the game away. She is burned into
+      losing him by the very thing she used to see him with, and the wound is
+      on him. A look given because someone is beautiful does damage in both
+      directions: it costs her the beloved and it costs him being loved.</div>
+
+    <nav class="nav"><a href="#p4">◂ Back</a><a class="p1" href="#p6">Next ▸</a>
+      <span class="no">05 / 06</span></nav>
+  </section>
+
+  <!-- ------------------------------------------------------------ panel 6 -->
+  <section class="p" id="p6">
+    <span class="kicker">the parable · six</span>
+    <h2>It does not end in the dark</h2>
+
+    <div class="myth"><span class="t">the myth</span>
+      She searches. Aphrodite sets her four tasks: sort a mountain of mixed
+      grain; take wool from the murderous golden rams; fill a jar from the falls
+      of the Styx; and go down to Persephone for a box she is forbidden to open.
+      She opens it, of course, and falls into a sleep like death. He finds her,
+      wakes her, and takes the case to Zeus — who <b>makes her immortal</b>.
+      They marry as equals. Their daughter is named Pleasure.</div>
+
+    <div class="read"><span class="t">the reading</span>
+      So the parable is not that love requires blindness. The dark was a
+      holding action, and it failed, as holding actions do. What actually
+      resolves it is that she stops being the looked-at: she is made a god, and
+      a god can be looked at without being diminished by it. <b>The problem was
+      never the eyes. It was the asymmetry.</b> Two mortals cannot fix that with
+      a rule about lamps; it took an apotheosis.</div>
+
+    <p class="dim" style="margin-top:20px">The myth is Apuleius,
+      <em>Metamorphoses</em>, book four to six — a tale told to a kidnapped girl
+      by an old woman in a cave, which is its own comment on who these stories
+      get told to. Everything in the amber panels is the text. Everything in the
+      gold ones is a reading, and it came out of a conversation rather than a
+      commentary.</p>
+
+    <nav class="nav"><a href="#p5">◂ Back</a><a class="p1" href="#p1">Start over</a>
+      <span class="no">06 / 06</span></nav>
+  </section>
+
+  <div class="dots">
+    <a href="#p1"></a><a href="#p2"></a><a href="#p3"></a>
+    <a href="#p4"></a><a href="#p5"></a><a href="#p6"></a>
+  </div>
+</div>
