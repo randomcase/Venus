@@ -1,36 +1,35 @@
-<title>Cruiser Run · Switchboard</title>
+<title>Cruiser Run · One Lane</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
-  The cruiser run between two lands, and the board that stops it. No script.
+  One lane, one file of hulls, one control. No script.
 
-  Eight cruisers shuttle a ten-light-year lane. Each one is set to one of four
-  aspects, and the aspect is the whole control system:
+  This replaces the four-station switchboard. What came out, on instruction:
 
-      RED     stop      · held, nothing moves
-      YELLOW  slow      · under way, short of cruise
-      BLUE    go slow   · cruise — the setting she is meant to sit on
-      GREEN   go        · full, and only for as long as it takes
+      · the red aspect          — there is no stop on a hull any more
+      · the four station stops  — the operators no longer hold their lanes
+      · the master stop         — the board cannot be halted from the board
+      · demurrage               — nothing is held, so nothing accrues for being held
 
-  Blue is the cruise setting, not the slowest: yellow is slow because something
-  is in the way, blue is slow because that is the economical speed for a lane
-  this long. A cruiser on blue is doing what she was built to do. One on yellow
-  is being held up.
+  What that means, plainly: the run has no blocker in it anywhere. Once the
+  aspect is set the hulls run to land two and back, and the only way to stop
+  them is to close the page. The earlier board was built the other way round —
+  three levels of stop, each above the last — and if that is wanted back it is
+  the previous commit, not a rebuild.
 
-  The board is four stations, two cruisers each, and every level of it stops:
-  each cruiser has a red aspect, each station has a stop, and the board has a
-  master stop that overrides all of it. Nothing on this page can be put into a
-  state that cannot be stopped from somewhere above it. That is the point of a
-  switchboard.
+  What is left is the thing that was asked for: one path, one focus, to the
+  point. Eight hulls nose to tail on a single lane, one aspect governing all of
+  them, four stages taking their tariff as the file passes. Three aspects, and
+  none of them is a hold:
 
-  Movement is a CSS animation; the aspect sets its duration, and every stop is
-  animation-play-state:paused applied from a :has() further up the tree. The
-  cargo figures are counters. There is no script anywhere in this file.
+      YELLOW  slow    · short of cruise
+      BLUE    cruise  · the setting the lane is run on
+      GREEN   full    · and only for as long as it takes
 -->
 <style>
   :root{
     --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
     --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
-    --red:#e0705a; --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8;
+    --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8;
     --plum:#8a6ab8; --cream:#f2e9d6; --hull:#78b843;
   }
   *{box-sizing:border-box}
@@ -47,7 +46,7 @@
   header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
     border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:14px}
   h1{margin:0;font-size:20px;letter-spacing:-.015em}
-  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch}
   header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
     text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
     border-radius:4px;padding:4px 9px}
@@ -62,38 +61,33 @@
   .panel{background:linear-gradient(180deg,var(--card),var(--card2));
     border:1px solid var(--edge);border-radius:11px;padding:13px 14px}
 
-  /* ----------------------------------------------------------- the lane */
+  /* ------------------------------------------------------------- the lane */
   .lane{position:relative;overflow:hidden;border-radius:11px;
-    border:1px solid var(--edge);padding:14px 0 10px;
+    border:1px solid var(--edge);padding:16px 0 10px;
     background:linear-gradient(90deg,#0e1a16,#0b1119 22%,#0b1119 78%,#141020)}
-  .land{position:absolute;top:0;bottom:0;width:104px;padding:12px 10px;
+  .land{position:absolute;top:0;bottom:0;width:112px;padding:14px 11px;
     display:flex;flex-direction:column;gap:5px;justify-content:center;
-    background:rgba(9,14,19,.86);z-index:2}
+    background:rgba(9,14,19,.88);z-index:3}
   .land.a{left:0;border-right:1px solid var(--edge)}
   .land.b{right:0;border-left:1px solid var(--edge);text-align:right}
-  .land h3{margin:0;font-size:13px}
+  .land h3{margin:0;font-size:13.5px}
   .land span{font:9px/1.5 ui-monospace,monospace;letter-spacing:.13em;
     text-transform:uppercase;color:var(--dim)}
   .land em{font-style:normal;color:var(--gold);font-size:11px}
 
-  .track{position:relative;height:34px;margin:0 104px}
-  .track::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;
-    background:repeating-linear-gradient(90deg,#2a3a48 0 12px,transparent 12px 26px)}
-  .ly{margin:0 104px;display:flex;justify-content:space-between;
+  /* one track. every hull is on it. */
+  .track{position:relative;height:120px;margin:0 112px}
+  .track::before{content:"";position:absolute;left:0;right:0;top:50%;height:2px;
+    background:linear-gradient(90deg,transparent,#2a3a48 8%,#2a3a48 92%,transparent)}
+  .ly{margin:0 112px;display:flex;justify-content:space-between;
     font:9px/1 ui-monospace,monospace;letter-spacing:.14em;color:var(--dim);
-    padding:6px 2px 0;border-top:1px solid var(--edge)}
+    padding:7px 2px 0;border-top:1px solid var(--edge)}
 
-  /* The ship, and the run. `left` is animated rather than a transform because
-     a percentage of `left` resolves against the track — so the run is exactly
-     the width of the lane less the width of the hull, at any screen size. */
-  .ship{position:absolute;top:6px;left:0;width:64px;
+  /* The file. One animation, one duration, eight delays — they run nose to
+     tail because they are the same run started at different points in it. */
+  .ship{position:absolute;top:50%;margin-top:-11px;left:0;width:64px;
     animation:run 38s linear infinite}
   .ship svg{display:block;width:64px;height:22px}
-  /* One keyframe covers the round trip. `alternate` was replaying the same
-     frames backwards, which sent every hull home stern-first — so the cycle is
-     written out instead, and she comes about at each land before the return
-     leg. The flip is instantaneous and happens alongside, which is where a
-     ship turns. */
   @keyframes run{
     0%  {left:0;                 transform:scaleX(1)}
     49% {left:calc(100% - 64px); transform:scaleX(1)}
@@ -101,186 +95,70 @@
     99% {left:0;                 transform:scaleX(-1)}
     100%{left:0;                 transform:scaleX(1)}
   }
+  .sh1{animation-delay:0s}     .sh2{animation-delay:-4.75s}
+  .sh3{animation-delay:-9.5s}  .sh4{animation-delay:-14.25s}
+  .sh5{animation-delay:-19s}   .sh6{animation-delay:-23.75s}
+  .sh7{animation-delay:-28.5s} .sh8{animation-delay:-33.25s}
 
-  /* Aspects. The switches sit in the switchboard and the hulls sit in the lane,
-     which are different subtrees — so every rule is scoped from .board, the
-     nearest ancestor that contains both. There is no shortcut here: eight
-     cruisers by four aspects is thirty-two rules, written out. */
-  .r input{position:absolute;opacity:0;width:0;height:0}
-  .board:has(#c1r:checked) .sh1,.board:has(#c2r:checked) .sh2,
-  .board:has(#c3r:checked) .sh3,.board:has(#c4r:checked) .sh4,
-  .board:has(#c5r:checked) .sh5,.board:has(#c6r:checked) .sh6,
-  .board:has(#c7r:checked) .sh7,.board:has(#c8r:checked) .sh8
-    {animation-play-state:paused}
-  .board:has(#c1y:checked) .sh1,.board:has(#c2y:checked) .sh2,
-  .board:has(#c3y:checked) .sh3,.board:has(#c4y:checked) .sh4,
-  .board:has(#c5y:checked) .sh5,.board:has(#c6y:checked) .sh6,
-  .board:has(#c7y:checked) .sh7,.board:has(#c8y:checked) .sh8
-    {animation-duration:68s}
-  .board:has(#c1b:checked) .sh1,.board:has(#c2b:checked) .sh2,
-  .board:has(#c3b:checked) .sh3,.board:has(#c4b:checked) .sh4,
-  .board:has(#c5b:checked) .sh5,.board:has(#c6b:checked) .sh6,
-  .board:has(#c7b:checked) .sh7,.board:has(#c8b:checked) .sh8
-    {animation-duration:38s}
-  .board:has(#c1g:checked) .sh1,.board:has(#c2g:checked) .sh2,
-  .board:has(#c3g:checked) .sh3,.board:has(#c4g:checked) .sh4,
-  .board:has(#c5g:checked) .sh5,.board:has(#c6g:checked) .sh6,
-  .board:has(#c7g:checked) .sh7,.board:has(#c8g:checked) .sh8
-    {animation-duration:18s}
-
-  /* hull colour follows the aspect, so the lane reads at a glance */
-  .board:has(#c1r:checked) .sh1 .hull,.board:has(#c2r:checked) .sh2 .hull,
-  .board:has(#c3r:checked) .sh3 .hull,.board:has(#c4r:checked) .sh4 .hull,
-  .board:has(#c5r:checked) .sh5 .hull,.board:has(#c6r:checked) .sh6 .hull,
-  .board:has(#c7r:checked) .sh7 .hull,.board:has(#c8r:checked) .sh8 .hull
-    {fill:var(--red)}
-  .board:has(#c1y:checked) .sh1 .hull,.board:has(#c2y:checked) .sh2 .hull,
-  .board:has(#c3y:checked) .sh3 .hull,.board:has(#c4y:checked) .sh4 .hull,
-  .board:has(#c5y:checked) .sh5 .hull,.board:has(#c6y:checked) .sh6 .hull,
-  .board:has(#c7y:checked) .sh7 .hull,.board:has(#c8y:checked) .sh8 .hull
-    {fill:var(--yellow)}
-  .board:has(#c1b:checked) .sh1 .hull,.board:has(#c2b:checked) .sh2 .hull,
-  .board:has(#c3b:checked) .sh3 .hull,.board:has(#c4b:checked) .sh4 .hull,
-  .board:has(#c5b:checked) .sh5 .hull,.board:has(#c6b:checked) .sh6 .hull,
-  .board:has(#c7b:checked) .sh7 .hull,.board:has(#c8b:checked) .sh8 .hull
-    {fill:var(--blue)}
-  .board:has(#c1g:checked) .sh1 .hull,.board:has(#c2g:checked) .sh2 .hull,
-  .board:has(#c3g:checked) .sh3 .hull,.board:has(#c4g:checked) .sh4 .hull,
-  .board:has(#c5g:checked) .sh5 .hull,.board:has(#c6g:checked) .sh6 .hull,
-  .board:has(#c7g:checked) .sh7 .hull,.board:has(#c8g:checked) .sh8 .hull
-    {fill:var(--green)}
-
-  /* every stop above a cruiser stops her, and these come last so they win */
-  .board:has(#stop-1:checked) .st1 .ship,
-  .board:has(#stop-2:checked) .st2 .ship,
-  .board:has(#stop-3:checked) .st3 .ship,
-  .board:has(#stop-4:checked) .st4 .ship,
-  .board:has(#stop-all:checked) .ship{animation-play-state:paused}
+  /* One control governs the file. There is no per-hull aspect and no hold. */
+  .board:has(#a-slow:checked)   .ship{animation-duration:68s}
+  .board:has(#a-cruise:checked) .ship{animation-duration:38s}
+  .board:has(#a-full:checked)   .ship{animation-duration:18s}
+  .board:has(#a-slow:checked)   .hull{fill:var(--yellow)}
+  .board:has(#a-cruise:checked) .hull{fill:var(--blue)}
+  .board:has(#a-full:checked)   .hull{fill:var(--green)}
   @media (prefers-reduced-motion:reduce){.ship{animation:none}}
 
-  /* ------------------------------------------------------ the switchboard */
-  .stations{display:grid;gap:12px;grid-template-columns:repeat(4,1fr);margin-top:12px}
-  .station{background:#0d151c;border:1px solid var(--edge);border-radius:10px;
-    padding:11px 12px}
-  .station.stopped{border-color:var(--red)}
-  .board:has(#stop-1:checked) .s1,.board:has(#stop-2:checked) .s2,
-  .board:has(#stop-3:checked) .s3,.board:has(#stop-4:checked) .s4{border-color:var(--red)}
-  .station h4{margin:0 0 2px;font-size:12.5px}
-  .station .who{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--plum);margin-bottom:9px;display:block}
+  /* stages */
+  .stages{position:absolute;left:112px;right:112px;top:0;bottom:0;
+    pointer-events:none;z-index:1}
+  .stage{position:absolute;top:0;bottom:26px;width:1px;
+    background:repeating-linear-gradient(180deg,#33485a 0 5px,transparent 5px 11px)}
+  .stage b{position:absolute;top:3px;left:6px;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+  .stage b i{font-style:normal;color:var(--gold)}
+  .stage.g1{left:20%} .stage.g2{left:44%} .stage.g3{left:68%} .stage.g4{left:90%}
 
-  .row{display:flex;align-items:center;gap:7px;padding:5px 0;
-    border-top:1px solid var(--edge)}
-  .row:first-of-type{border-top:0}
-  .row .nm{font-size:11.5px;min-width:66px}
-  .r{display:flex;gap:3px;margin-left:auto}
-  .r label{width:19px;height:19px;border-radius:5px;cursor:pointer;
-    border:1px solid var(--edge);background:#141c24;display:block;position:relative}
-  .r label:hover{border-color:#3a4d60}
-  .r .lr{--c:var(--red)} .r .ly2{--c:var(--yellow)}
-  .r .lb{--c:var(--blue)} .r .lg{--c:var(--green)}
-  .r label::after{content:"";position:absolute;inset:4px;border-radius:50%;
-    background:var(--c);opacity:.22}
-  .r input:checked+label{border-color:var(--c)}
-  .r input:checked+label::after{opacity:1;box-shadow:0 0 8px var(--c)}
-  .r input:focus-visible+label{outline:2px solid var(--c);outline-offset:2px}
+  /* ---------------------------------------------------------- the control */
+  .focus{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px;
+    border:1px solid var(--edge);border-radius:11px;padding:12px 14px;background:#0d151c}
+  .focus input{position:absolute;opacity:0;width:0;height:0}
+  .focus label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;padding:11px 22px;border-radius:8px;
+    border:1px solid var(--edge);color:var(--dim);position:relative}
+  .focus label::before{content:"";display:inline-block;width:9px;height:9px;
+    border-radius:50%;background:var(--c);opacity:.3;margin-right:8px;
+    vertical-align:-1px}
+  .focus .l-slow{--c:var(--yellow)} .focus .l-cruise{--c:var(--blue)}
+  .focus .l-full{--c:var(--green)}
+  .focus label:hover{color:var(--ink)}
+  .focus input:checked+label{border-color:var(--c);color:var(--c);font-weight:700;
+    background:color-mix(in srgb,var(--c) 12%,transparent)}
+  .focus input:checked+label::before{opacity:1;box-shadow:0 0 9px var(--c)}
+  .focus input:focus-visible+label{outline:2px solid var(--c);outline-offset:3px}
+  .focus p{margin:0;font-size:10.5px;color:var(--dim);max-width:52ch}
 
-  .stopbtn{margin-top:9px}
-  .stopbtn input{position:absolute;opacity:0;width:0;height:0}
-  .stopbtn label{display:block;text-align:center;cursor:pointer;font-size:10.5px;
-    letter-spacing:.14em;text-transform:uppercase;padding:6px;border-radius:7px;
-    border:1px solid var(--edge);color:var(--dim)}
-  .stopbtn label:hover{color:var(--ink)}
-  .stopbtn input:checked+label{background:rgba(224,112,90,.14);
-    border-color:var(--red);color:var(--red);font-weight:700}
-
-  .master{display:flex;align-items:center;gap:12px;margin-top:12px;
-    border:1px solid var(--edge);border-radius:10px;padding:10px 12px;
-    background:#0d151c}
-  .master input{position:absolute;opacity:0;width:0;height:0}
-  .master label{cursor:pointer;font-size:12px;letter-spacing:.16em;
-    text-transform:uppercase;font-weight:700;padding:9px 20px;border-radius:8px;
-    border:2px solid var(--red);color:var(--red)}
-  .master input:checked+label{background:var(--red);color:#12181d}
-  .master input:focus-visible+label{outline:2px solid var(--gold);outline-offset:3px}
-  .master p{margin:0;font-size:10.5px;color:var(--dim);max-width:70ch}
-
-  /* -------------------------------------------------------- cargo and take
-     A hull under way pays a transit fee at all four stages. A hull held at red
-     pays demurrage instead — she is occupying a berth she is not moving
-     through. Either way the stages earn, which is the whole problem with them
-     and is discussed under the ledger. */
-  body{counter-reset:out 0 back 0 moving 0 held 0
-       oil 0 wat 0 rep 0 sto 0 take 0 dem 0}
-  .r .k-red:checked+label{counter-increment:held 1}
-  .r .k-yellow:checked+label,.r .k-blue:checked+label,.r .k-green:checked+label
-    {counter-increment:moving 1 out 2 back 1}
-
-  /* Tariffs are set per stage, so what a hull pays depends on two things at
-     once: whether she is moving, and what band that stage is on. Each row
-     carries four hairline markers — one per stage — and the rule that
-     increments a marker names both conditions. Four stages by three bands is
-     twelve rules, and they cover all eight hulls without repeating a hull. */
+  /* ---------------------------------------------------------- the counters */
+  body{counter-reset:oil 0 wat 0 rep 0 sto 0 take 0}
   .s{display:inline;font-size:0}
-  .board:has(#g1-a:checked) .row:has(.k-yellow:checked) .s-oil,
-  .board:has(#g1-a:checked) .row:has(.k-blue:checked)   .s-oil,
-  .board:has(#g1-a:checked) .row:has(.k-green:checked)  .s-oil
-    {counter-increment:oil 220 take 220}
-  .board:has(#g1-b:checked) .row:has(.k-yellow:checked) .s-oil,
-  .board:has(#g1-b:checked) .row:has(.k-blue:checked)   .s-oil,
-  .board:has(#g1-b:checked) .row:has(.k-green:checked)  .s-oil
-    {counter-increment:oil 320 take 320}
-  .board:has(#g1-c:checked) .row:has(.k-yellow:checked) .s-oil,
-  .board:has(#g1-c:checked) .row:has(.k-blue:checked)   .s-oil,
-  .board:has(#g1-c:checked) .row:has(.k-green:checked)  .s-oil
-    {counter-increment:oil 480 take 480}
-
-  .board:has(#g2-a:checked) .row:has(.k-yellow:checked) .s-wat,
-  .board:has(#g2-a:checked) .row:has(.k-blue:checked)   .s-wat,
-  .board:has(#g2-a:checked) .row:has(.k-green:checked)  .s-wat
-    {counter-increment:wat 60 take 60}
-  .board:has(#g2-b:checked) .row:has(.k-yellow:checked) .s-wat,
-  .board:has(#g2-b:checked) .row:has(.k-blue:checked)   .s-wat,
-  .board:has(#g2-b:checked) .row:has(.k-green:checked)  .s-wat
-    {counter-increment:wat 90 take 90}
-  .board:has(#g2-c:checked) .row:has(.k-yellow:checked) .s-wat,
-  .board:has(#g2-c:checked) .row:has(.k-blue:checked)   .s-wat,
-  .board:has(#g2-c:checked) .row:has(.k-green:checked)  .s-wat
-    {counter-increment:wat 140 take 140}
-
-  .board:has(#g3-a:checked) .row:has(.k-yellow:checked) .s-rep,
-  .board:has(#g3-a:checked) .row:has(.k-blue:checked)   .s-rep,
-  .board:has(#g3-a:checked) .row:has(.k-green:checked)  .s-rep
-    {counter-increment:rep 120 take 120}
-  .board:has(#g3-b:checked) .row:has(.k-yellow:checked) .s-rep,
-  .board:has(#g3-b:checked) .row:has(.k-blue:checked)   .s-rep,
-  .board:has(#g3-b:checked) .row:has(.k-green:checked)  .s-rep
-    {counter-increment:rep 180 take 180}
-  .board:has(#g3-c:checked) .row:has(.k-yellow:checked) .s-rep,
-  .board:has(#g3-c:checked) .row:has(.k-blue:checked)   .s-rep,
-  .board:has(#g3-c:checked) .row:has(.k-green:checked)  .s-rep
-    {counter-increment:rep 280 take 280}
-
-  .board:has(#g4-a:checked) .row:has(.k-yellow:checked) .s-sto,
-  .board:has(#g4-a:checked) .row:has(.k-blue:checked)   .s-sto,
-  .board:has(#g4-a:checked) .row:has(.k-green:checked)  .s-sto
-    {counter-increment:sto 95 take 95}
-  .board:has(#g4-b:checked) .row:has(.k-yellow:checked) .s-sto,
-  .board:has(#g4-b:checked) .row:has(.k-blue:checked)   .s-sto,
-  .board:has(#g4-b:checked) .row:has(.k-green:checked)  .s-sto
-    {counter-increment:sto 140 take 140}
-  .board:has(#g4-c:checked) .row:has(.k-yellow:checked) .s-sto,
-  .board:has(#g4-c:checked) .row:has(.k-blue:checked)   .s-sto,
-  .board:has(#g4-c:checked) .row:has(.k-green:checked)  .s-sto
-    {counter-increment:sto 210 take 210}
-
-  /* demurrage: charged on the held, banded at the board */
-  .board:has(#dm-a:checked) .row:has(.k-red:checked) .s-dem{counter-increment:dem 160 take 160}
-  .board:has(#dm-b:checked) .row:has(.k-red:checked) .s-dem{counter-increment:dem 240 take 240}
-  .board:has(#dm-c:checked) .row:has(.k-red:checked) .s-dem{counter-increment:dem 360 take 360}
+  .board:has(#g1-a:checked) .s-oil{counter-increment:oil 220 take 220}
+  .board:has(#g1-b:checked) .s-oil{counter-increment:oil 320 take 320}
+  .board:has(#g1-c:checked) .s-oil{counter-increment:oil 480 take 480}
+  .board:has(#g2-a:checked) .s-wat{counter-increment:wat 60  take 60}
+  .board:has(#g2-b:checked) .s-wat{counter-increment:wat 90  take 90}
+  .board:has(#g2-c:checked) .s-wat{counter-increment:wat 140 take 140}
+  .board:has(#g3-a:checked) .s-rep{counter-increment:rep 120 take 120}
+  .board:has(#g3-b:checked) .s-rep{counter-increment:rep 180 take 180}
+  .board:has(#g3-c:checked) .s-rep{counter-increment:rep 280 take 280}
+  .board:has(#g4-a:checked) .s-sto{counter-increment:sto 95  take 95}
+  .board:has(#g4-b:checked) .s-sto{counter-increment:sto 140 take 140}
+  .board:has(#g4-c:checked) .s-sto{counter-increment:sto 210 take 210}
+  .n-oil::after{content:counter(oil)}   .n-wat::after{content:counter(wat)}
+  .n-rep::after{content:counter(rep)}   .n-sto::after{content:counter(sto)}
+  .n-take::after{content:counter(take)}
 
   /* the tariff desk */
-  .tariffs{display:grid;gap:10px;grid-template-columns:repeat(5,1fr);margin-top:10px}
+  .tariffs{display:grid;gap:10px;grid-template-columns:repeat(4,1fr);margin-top:10px}
   .tar{background:#0d151c;border:1px solid var(--edge);border-radius:9px;padding:9px 10px}
   .tar h4{margin:0 0 1px;font-size:12px}
   .tar h4[contenteditable]{outline:none;border-bottom:1px dashed transparent}
@@ -296,22 +174,6 @@
   .tar input:checked+label{border-color:var(--gold);color:var(--gold);
     background:rgba(224,177,85,.12);font-weight:700}
   .tar input:focus-visible+label{outline:2px solid var(--gold);outline-offset:2px}
-  @media (max-width:1000px){.tariffs{grid-template-columns:repeat(2,1fr)}}
-  .n-out::after{content:counter(out)}   .n-back::after{content:counter(back)}
-  .n-mov::after{content:counter(moving)}.n-held::after{content:counter(held)}
-  .n-oil::after{content:counter(oil)}   .n-wat::after{content:counter(wat)}
-  .n-rep::after{content:counter(rep)}   .n-sto::after{content:counter(sto)}
-  .n-take::after{content:counter(take)} .n-dem::after{content:counter(dem)}
-
-  /* ------------------------------------------------------ stages on the lane */
-  .stages{position:absolute;left:104px;right:104px;top:0;bottom:0;
-    pointer-events:none;z-index:1}
-  .stage{position:absolute;top:0;bottom:26px;width:1px;
-    background:repeating-linear-gradient(180deg,#33485a 0 5px,transparent 5px 11px)}
-  .stage b{position:absolute;top:2px;left:5px;font:8.5px/1 ui-monospace,monospace;
-    letter-spacing:.12em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
-  .stage b i{font-style:normal;color:var(--gold)}
-  .stage.g1{left:20%} .stage.g2{left:44%} .stage.g3{left:68%} .stage.g4{left:90%}
 
   .ledger{width:100%;border-collapse:collapse;font-size:12px;
     font-variant-numeric:tabular-nums;margin-top:4px}
@@ -322,7 +184,6 @@
   .ledger td .q{color:var(--dim);font-size:10.5px}
   .ledger tr.sum td{border-top:1.5px solid var(--gold);font-weight:700}
   .ledger tr.sum td:last-child{color:var(--gold)}
-  .ledger tr.dem td:last-child{color:var(--red)}
 
   .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
   .head{background:#0d151c;border:1px solid var(--edge);border-radius:9px;padding:10px 11px}
@@ -330,230 +191,85 @@
     text-transform:uppercase;color:var(--dim)}
   .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
     margin-top:5px}
-  .head.hold b{color:var(--red)}
 
-  .key{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:11px}
-  .key div{display:flex;align-items:center;gap:6px;color:var(--dim)}
-  .key i{width:10px;height:10px;border-radius:50%;display:block}
-  .key b{color:var(--ink);font-weight:600}
-
-  @media (max-width:1000px){.stations{grid-template-columns:repeat(2,1fr)}
-    .heads{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:640px){.stations{grid-template-columns:1fr}
-    .land{width:78px} .track,.ly{margin:0 78px}}
+  @media (max-width:900px){.tariffs,.heads{grid-template-columns:repeat(2,1fr)}
+    .land{width:84px} .track,.ly,.stages{margin:0 84px}
+    .stages{left:84px;right:84px}}
 </style>
 
 <div class="board">
 
 <header>
-  <h1>Cruiser Run · Switchboard</h1>
-  <span class="sub">Eight cruisers, two lands, ten light years of lane. Two out
-    for one back on every cargo. Four stations hold the board and every one of
-    them stops.</span>
+  <h1>Cruiser Run · One Lane</h1>
+  <span class="sub">Eight hulls, one file, one control. Land one to land two and
+    back, ten light years each way, two units out for one back. Nothing on this
+    board holds anything.</span>
   <span class="tag">no script on this page</span>
 </header>
 
-<!-- ------------------------------------------------------------- the lane -->
 <div class="lane">
   <div class="land a">
-    <span>land one</span><h3>Slip 4</h3>
-    <em>loading</em><span>2 units out</span>
+    <span>land one</span><h3>Slip 4</h3><em>loading</em><span>2 units out</span>
   </div>
   <div class="land b">
-    <span>land two</span><h3>Cold Harbour</h3>
-    <em>holding</em><span>1 unit back</span>
+    <span>land two</span><h3>Cold Harbour</h3><em>holding</em><span>1 unit back</span>
   </div>
 
-  <div class="st1">
-    <div class="track"><div class="ship sh1" style="animation-delay:-0s">
-      <svg viewBox="0 0 64 22" aria-label="Cruiser on the lane.">
-        <path d="M2 16h44l14-5-9-6H8L2 12z" class="hull" fill="var(--hull)" stroke="#0b1116"/>
-        <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
-        <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/>
-      </svg></div></div>
-    <div class="track"><div class="ship sh2" style="animation-delay:-4s">
-      <svg viewBox="0 0 64 22"><path d="M2 16h44l14-5-9-6H8L2 12z" class="hull"
-        fill="var(--hull)" stroke="#0b1116"/>
-        <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
-        <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div></div>
-  </div>
-  <div class="st2">
-    <div class="track"><div class="ship sh3" style="animation-delay:-8s">
-      <svg viewBox="0 0 64 22"><path d="M2 16h44l14-5-9-6H8L2 12z" class="hull"
-        fill="var(--hull)" stroke="#0b1116"/>
-        <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
-        <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div></div>
-    <div class="track"><div class="ship sh4" style="animation-delay:-12s">
-      <svg viewBox="0 0 64 22"><path d="M2 16h44l14-5-9-6H8L2 12z" class="hull"
-        fill="var(--hull)" stroke="#0b1116"/>
-        <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
-        <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div></div>
-  </div>
-  <div class="st3">
-    <div class="track"><div class="ship sh5" style="animation-delay:-2s">
-      <svg viewBox="0 0 64 22"><path d="M2 16h44l14-5-9-6H8L2 12z" class="hull"
-        fill="var(--hull)" stroke="#0b1116"/>
-        <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
-        <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div></div>
-    <div class="track"><div class="ship sh6" style="animation-delay:-10s">
-      <svg viewBox="0 0 64 22"><path d="M2 16h44l14-5-9-6H8L2 12z" class="hull"
-        fill="var(--hull)" stroke="#0b1116"/>
-        <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
-        <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div></div>
-  </div>
-  <div class="st4">
-    <div class="track"><div class="ship sh7" style="animation-delay:-6s">
-      <svg viewBox="0 0 64 22"><path d="M2 16h44l14-5-9-6H8L2 12z" class="hull"
-        fill="var(--hull)" stroke="#0b1116"/>
-        <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
-        <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div></div>
-    <!-- the repair tender. Nobody ordered her onto this run; she is here
-         because the run is where things break, and she ends up escorting. -->
-    <div class="track"><div class="ship sh8" style="animation-delay:-14s">
-      <svg viewBox="0 0 64 22" aria-label="Repair tender shadowing the run.">
-        <path d="M6 16h40l12-5-8-6H12L6 12z" class="hull" fill="#8a9aa8" stroke="#0b1116"/>
-        <rect x="26" y="2" width="12" height="5" rx="1.5" fill="var(--gold)" stroke="#0b1116"/>
-        <path d="M20 9V3l10 4" stroke="#cbd7e0" stroke-width="1.4" fill="none"/>
-      </svg></div></div>
-  </div>
-
-  <!-- an auxiliary stationed at every stage of the lane, each one on a tariff -->
   <div class="stages">
-    <div class="stage g1"><b>2 ly · <i>Cistern</i> · fuel 320</b></div>
-    <div class="stage g2"><b>4 ly · <i>Wellhead</i> · water 90</b></div>
-    <div class="stage g3"><b>7 ly · <i>Anvil</i> · repair 180</b></div>
-    <div class="stage g4"><b>9 ly · <i>Granary</i> · stores 140</b></div>
+    <div class="stage g1"><b>2 ly · <i>Cistern</i> · fuel</b></div>
+    <div class="stage g2"><b>4 ly · <i>Wellhead</i> · water</b></div>
+    <div class="stage g3"><b>7 ly · <i>Anvil</i> · repair</b></div>
+    <div class="stage g4"><b>9 ly · <i>Granary</i> · stores</b></div>
+  </div>
+
+  <div class="track">
+    <div class="ship sh1"><svg viewBox="0 0 64 22" aria-label="Cruiser Kestrel.">
+      <path d="M2 16h44l14-5-9-6H8L2 12z" class="hull" fill="var(--hull)" stroke="#0b1116"/>
+      <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
+      <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div>
+    <div class="ship sh2"><svg viewBox="0 0 64 22" aria-label="Cruiser Tern.">
+      <path d="M2 16h44l14-5-9-6H8L2 12z" class="hull" fill="var(--hull)" stroke="#0b1116"/>
+      <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
+      <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div>
+    <div class="ship sh3"><svg viewBox="0 0 64 22" aria-label="Cruiser Sable.">
+      <path d="M2 16h44l14-5-9-6H8L2 12z" class="hull" fill="var(--hull)" stroke="#0b1116"/>
+      <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
+      <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div>
+    <div class="ship sh4"><svg viewBox="0 0 64 22" aria-label="Cruiser Bellwether.">
+      <path d="M2 16h44l14-5-9-6H8L2 12z" class="hull" fill="var(--hull)" stroke="#0b1116"/>
+      <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
+      <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div>
+    <div class="ship sh5"><svg viewBox="0 0 64 22" aria-label="Cruiser Cormorant.">
+      <path d="M2 16h44l14-5-9-6H8L2 12z" class="hull" fill="var(--hull)" stroke="#0b1116"/>
+      <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
+      <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div>
+    <div class="ship sh6"><svg viewBox="0 0 64 22" aria-label="Cruiser Deep Bell.">
+      <path d="M2 16h44l14-5-9-6H8L2 12z" class="hull" fill="var(--hull)" stroke="#0b1116"/>
+      <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
+      <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div>
+    <div class="ship sh7"><svg viewBox="0 0 64 22" aria-label="Cruiser Lodestone.">
+      <path d="M2 16h44l14-5-9-6H8L2 12z" class="hull" fill="var(--hull)" stroke="#0b1116"/>
+      <rect x="22" y="1" width="16" height="6" rx="1.5" fill="var(--plum)" stroke="#0b1116"/>
+      <path d="M2 13 -8 11l10-2" fill="var(--gold)" opacity=".55"/></svg></div>
+    <div class="ship sh8"><svg viewBox="0 0 64 22" aria-label="Repair tender Anvil, shadowing the file.">
+      <path d="M6 16h40l12-5-8-6H12L6 12z" class="hull" fill="#8a9aa8" stroke="#0b1116"/>
+      <rect x="26" y="2" width="12" height="5" rx="1.5" fill="var(--gold)" stroke="#0b1116"/>
+      <path d="M20 9V3l10 4" stroke="#cbd7e0" stroke-width="1.4" fill="none"/></svg></div>
   </div>
 
   <div class="ly"><span>0 ly · land one</span><span>5 ly</span>
     <span>10 ly · land two</span></div>
 </div>
 
-<div class="key">
-  <div><i style="background:var(--red)"></i><b>Red</b> stop</div>
-  <div><i style="background:var(--yellow)"></i><b>Yellow</b> slow — something is in the way</div>
-  <div><i style="background:var(--blue)"></i><b>Blue</b> go slow — cruise, the setting she should sit on</div>
-  <div><i style="background:var(--green)"></i><b>Green</b> go — full, and only as long as it takes</div>
+<div class="focus">
+  <input type="radio" name="asp" id="a-slow"><label class="l-slow" for="a-slow">Slow</label>
+  <input type="radio" name="asp" id="a-cruise" checked><label class="l-cruise" for="a-cruise">Cruise</label>
+  <input type="radio" name="asp" id="a-full"><label class="l-full" for="a-full">Full</label>
+  <p>One control, the whole file. Blue is the setting the lane is run on; full
+    is a request, not a state. There is no fourth aspect.</p>
 </div>
 
-<!-- -------------------------------------------------------- the switchboard -->
-<h2>Switchboard <b>four stations, two lanes each</b></h2>
-<div class="stations">
-
-  <div class="station s1">
-    <h4>Station one</h4><span class="who">syndicate · outbound</span>
-    <div class="row">
-      <span class="nm">Kestrel</span>
-      <span class="r">
-        <input class="k-red"    type="radio" name="c1" id="c1r"><label class="lr"  for="c1r"></label>
-        <input class="k-yellow" type="radio" name="c1" id="c1y"><label class="ly2" for="c1y"></label>
-        <input class="k-blue"   type="radio" name="c1" id="c1b" checked><label class="lb" for="c1b"></label>
-        <input class="k-green"  type="radio" name="c1" id="c1g"><label class="lg"  for="c1g"></label>
-      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
-    </div>
-    <div class="row">
-      <span class="nm">Tern</span>
-      <span class="r">
-        <input class="k-red"    type="radio" name="c2" id="c2r"><label class="lr"  for="c2r"></label>
-        <input class="k-yellow" type="radio" name="c2" id="c2y"><label class="ly2" for="c2y"></label>
-        <input class="k-blue"   type="radio" name="c2" id="c2b" checked><label class="lb" for="c2b"></label>
-        <input class="k-green"  type="radio" name="c2" id="c2g"><label class="lg"  for="c2g"></label>
-      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
-    </div>
-    <div class="stopbtn"><input type="checkbox" id="stop-1">
-      <label for="stop-1">Stop station</label></div>
-  </div>
-
-  <div class="station s2">
-    <h4>Station two</h4><span class="who">syndicate · outbound</span>
-    <div class="row">
-      <span class="nm">Sable</span>
-      <span class="r">
-        <input class="k-red"    type="radio" name="c3" id="c3r"><label class="lr"  for="c3r"></label>
-        <input class="k-yellow" type="radio" name="c3" id="c3y" checked><label class="ly2" for="c3y"></label>
-        <input class="k-blue"   type="radio" name="c3" id="c3b"><label class="lb" for="c3b"></label>
-        <input class="k-green"  type="radio" name="c3" id="c3g"><label class="lg"  for="c3g"></label>
-      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
-    </div>
-    <div class="row">
-      <span class="nm">Bellwether</span>
-      <span class="r">
-        <input class="k-red"    type="radio" name="c4" id="c4r"><label class="lr"  for="c4r"></label>
-        <input class="k-yellow" type="radio" name="c4" id="c4y"><label class="ly2" for="c4y"></label>
-        <input class="k-blue"   type="radio" name="c4" id="c4b" checked><label class="lb" for="c4b"></label>
-        <input class="k-green"  type="radio" name="c4" id="c4g"><label class="lg"  for="c4g"></label>
-      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
-    </div>
-    <div class="stopbtn"><input type="checkbox" id="stop-2">
-      <label for="stop-2">Stop station</label></div>
-  </div>
-
-  <div class="station s3">
-    <h4>Station three</h4><span class="who">syndicate · inbound</span>
-    <div class="row">
-      <span class="nm">Cormorant</span>
-      <span class="r">
-        <input class="k-red"    type="radio" name="c5" id="c5r"><label class="lr"  for="c5r"></label>
-        <input class="k-yellow" type="radio" name="c5" id="c5y"><label class="ly2" for="c5y"></label>
-        <input class="k-blue"   type="radio" name="c5" id="c5b" checked><label class="lb" for="c5b"></label>
-        <input class="k-green"  type="radio" name="c5" id="c5g"><label class="lg"  for="c5g"></label>
-      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
-    </div>
-    <div class="row">
-      <span class="nm">Deep Bell</span>
-      <span class="r">
-        <input class="k-red"    type="radio" name="c6" id="c6r" checked><label class="lr"  for="c6r"></label>
-        <input class="k-yellow" type="radio" name="c6" id="c6y"><label class="ly2" for="c6y"></label>
-        <input class="k-blue"   type="radio" name="c6" id="c6b"><label class="lb" for="c6b"></label>
-        <input class="k-green"  type="radio" name="c6" id="c6g"><label class="lg"  for="c6g"></label>
-      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
-    </div>
-    <div class="stopbtn"><input type="checkbox" id="stop-3">
-      <label for="stop-3">Stop station</label></div>
-  </div>
-
-  <div class="station s4">
-    <h4>Station four</h4><span class="who">syndicate · rear guard</span>
-    <div class="row">
-      <span class="nm">Lodestone</span>
-      <span class="r">
-        <input class="k-red"    type="radio" name="c7" id="c7r"><label class="lr"  for="c7r"></label>
-        <input class="k-yellow" type="radio" name="c7" id="c7y"><label class="ly2" for="c7y"></label>
-        <input class="k-blue"   type="radio" name="c7" id="c7b" checked><label class="lb" for="c7b"></label>
-        <input class="k-green"  type="radio" name="c7" id="c7g"><label class="lg"  for="c7g"></label>
-      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
-    </div>
-    <div class="row">
-      <span class="nm">Anvil <span style="color:var(--dim);font-size:10px">· tender</span></span>
-      <span class="r">
-        <input class="k-red"    type="radio" name="c8" id="c8r"><label class="lr"  for="c8r"></label>
-        <input class="k-yellow" type="radio" name="c8" id="c8y" checked><label class="ly2" for="c8y"></label>
-        <input class="k-blue"   type="radio" name="c8" id="c8b"><label class="lb" for="c8b"></label>
-        <input class="k-green"  type="radio" name="c8" id="c8g"><label class="lg"  for="c8g"></label>
-      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
-    </div>
-    <div class="stopbtn"><input type="checkbox" id="stop-4">
-      <label for="stop-4">Stop station</label></div>
-  </div>
-</div>
-
-<div class="master">
-  <input type="checkbox" id="stop-all"><label for="stop-all">Master stop</label>
-  <p>Three levels, and all of them hold: red on a cruiser stops that cruiser, a
-    station stop holds both of its lanes whatever their aspects say, and this
-    stops the board. Nothing on this run can be put into a state that cannot be
-    stopped from somewhere above it.</p>
-</div>
-
-<!-- counters print after the inputs that increment them -->
-<div class="heads">
-  <div class="head"><span>Under way</span><b class="n-mov"></b></div>
-  <div class="head hold"><span>Held at red</span><b class="n-held"></b></div>
-  <div class="head"><span>Units outbound</span><b class="n-out"></b></div>
-  <div class="head"><span>Units back</span><b class="n-back"></b></div>
-</div>
-
-<div class="panel" style="margin-top:12px">
+<div class="panel" style="margin-top:14px">
   <h2 style="margin-top:0">Tariff desk <b>set the bands</b></h2>
   <div class="tariffs">
     <div class="tar">
@@ -588,88 +304,53 @@
         <input type="radio" name="g4" id="g4-b" checked><label for="g4-b">140</label>
         <input type="radio" name="g4" id="g4-c"><label for="g4-c">210</label>
       </div></div>
-    <div class="tar">
-      <h4>Demurrage</h4>
-      <span class="at">board · per held hull</span>
-      <div class="bands">
-        <input type="radio" name="dm" id="dm-a"><label for="dm-a">160</label>
-        <input type="radio" name="dm" id="dm-b" checked><label for="dm-b">240</label>
-        <input type="radio" name="dm" id="dm-c"><label for="dm-c">360</label>
-      </div></div>
   </div>
-  <p class="note"><strong>What is editable, and what only looks it.</strong> The
-    three bands under each stage are real: pick one and every figure in the
-    ledger below moves, because the rule that charges a hull names both her
-    aspect and that stage's band. The stage <em>names</em> are typed directly
-    into the page and are yours to change — they are labels, and changing one
-    moves nothing. A free-typed tariff would need JavaScript to reach the
-    arithmetic, and there is none in this file; bands are how you get a
-    customisable price with a total that stays honest.</p>
 
-  <h2>Stage ledger <b>the syndicate's take, this board</b></h2>
+  <!-- one marker per hull per stage: eight hulls, always under way -->
+  <span class="s s-oil"></span><span class="s s-wat"></span><span class="s s-rep"></span><span class="s s-sto"></span>
+  <span class="s s-oil"></span><span class="s s-wat"></span><span class="s s-rep"></span><span class="s s-sto"></span>
+  <span class="s s-oil"></span><span class="s s-wat"></span><span class="s s-rep"></span><span class="s s-sto"></span>
+  <span class="s s-oil"></span><span class="s s-wat"></span><span class="s s-rep"></span><span class="s s-sto"></span>
+  <span class="s s-oil"></span><span class="s s-wat"></span><span class="s s-rep"></span><span class="s s-sto"></span>
+  <span class="s s-oil"></span><span class="s s-wat"></span><span class="s s-rep"></span><span class="s s-sto"></span>
+  <span class="s s-oil"></span><span class="s s-wat"></span><span class="s s-rep"></span><span class="s s-sto"></span>
+  <span class="s s-oil"></span><span class="s s-wat"></span><span class="s s-rep"></span><span class="s s-sto"></span>
+
+  <h2>Stage ledger <b>eight hulls, every stage, every pass</b></h2>
   <table class="ledger">
-    <tr><th>Stage</th><th>Tariff, per hull</th><th>Take, HEZE</th></tr>
-    <tr><td>2 ly · <b>Cistern</b> <span class="q">· fuel</span></td>
-        <td class="q">as banded</td><td class="n-oil"></td></tr>
-    <tr><td>4 ly · <b>Wellhead</b> <span class="q">· water</span></td>
-        <td class="q">as banded</td><td class="n-wat"></td></tr>
-    <tr><td>7 ly · <b>Anvil</b> <span class="q">· repair and tow</span></td>
-        <td class="q">as banded</td><td class="n-rep"></td></tr>
-    <tr><td>9 ly · <b>Granary</b> <span class="q">· stores</span></td>
-        <td class="q">as banded</td><td class="n-sto"></td></tr>
-    <tr class="dem"><td>Demurrage <span class="q">· hulls held at red</span></td>
-        <td class="q">as banded</td><td class="n-dem"></td></tr>
-    <tr class="sum"><td>Total take, this state of the board</td><td></td>
+    <tr><th>Stage</th><th>Service</th><th>Take, HEZE</th></tr>
+    <tr><td>2 ly · <b>Cistern</b></td><td class="q">fuel</td><td class="n-oil"></td></tr>
+    <tr><td>4 ly · <b>Wellhead</b></td><td class="q">water</td><td class="n-wat"></td></tr>
+    <tr><td>7 ly · <b>Anvil</b></td><td class="q">repair and tow</td><td class="n-rep"></td></tr>
+    <tr><td>9 ly · <b>Granary</b></td><td class="q">stores</td><td class="n-sto"></td></tr>
+    <tr class="sum"><td>Total take, one pass of the file</td><td></td>
         <td class="n-take"></td></tr>
   </table>
-  <p class="note"><strong>An auxiliary at every stage, and every one of them on
-    a tariff.</strong> A cruiser under way pays 730 across the four stages —
-    fuel at two light years, water at four, repair at seven, stores at nine.
-    None of the four is doing the fleet a favour: they are stationed there
-    because the traffic passes them, and traffic that passes you is revenue.
-    That is why the stages exist at all, and it is the only reason a hull can
-    fuel ten light years from anywhere.</p>
-  <p class="note"><strong>Held hulls still pay.</strong> A cruiser at red pays
-    240 in demurrage to whichever stage she is sitting at. She is occupying a
-    berth she is not moving through, and the stage is entitled to charge for
-    it. So the board earns whether the lane runs or not — 730 a hull moving,
-    240 a hull stopped.</p>
-  <div class="master" style="border-color:var(--gold)">
-    <p style="max-width:none"><strong style="color:var(--gold)">Which is the
-    problem, and it is deliberate.</strong> If a stage earns from a hull it is
-    holding, a stage has a reason to hold hulls. That is why no stage on this
-    lane can set an aspect: the four aspects belong to the switchboard, the
-    station stops belong to the four operators, and the master stop belongs to
-    the board. An auxiliary can charge you, refuel you, tow you and invoice you
-    — it cannot stop you. The syndicate takes its cut at every stage and has no
-    hand on any switch, and that separation is the only thing standing between
-    a profit motive and a lane full of held ships.</p>
+
+  <div class="heads">
+    <div class="head"><span>Hulls in the file</span><b>8</b></div>
+    <div class="head"><span>Held</span><b>0</b></div>
+    <div class="head"><span>Units outbound</span><b>16</b></div>
+    <div class="head"><span>Units back</span><b>8</b></div>
   </div>
 
-  <h2>The run <b>two out, one back</b></h2>
-  <p class="note"><strong>Two to one, each cargo, in and out.</strong> Every
-    cruiser under way carries two units out to land two and brings one back.
-    The other one stays there — that is not loss and it is not waste, it is the
-    point of the run. Land two is ten light years from anywhere and the cargo
-    sits on it; the second unit is what is being left behind on purpose, and it
-    holds there for as long as the lane is open.</p>
-  <p class="note"><strong>Aspects, and why blue is not the slow one.</strong>
-    Yellow means she is being held up by something ahead. Blue means she is on
-    cruise: the economical setting, the one a hull sits on for a lane this long,
-    and the one the board expects to see. Green is full power and it is a
-    request, not a state — nothing on a ten-light-year run stays green. Red is
-    not a speed at all.</p>
-  <p class="note"><strong>The eighth hull.</strong> Station four's second lane
-    is a repair tender, and nobody ordered her onto this run. She is here
-    because a lane this long is where things break, and a tender that keeps
-    station with cruisers is escorting them whether or not anyone wrote it
-    down. She is an auxiliary doing escort work by accident, which is most of
-    what auxiliaries end up doing.</p>
-  <p class="note">The lane is a CSS animation and the aspect is its duration.
-    Every stop is <code>animation-play-state: paused</code> applied from a
-    <code>:has()</code> further up the tree, and the four figures above are CSS
-    counters. Nothing here is scripted, nothing is transmitted, and the ten
-    light years are a label on a div.</p>
+  <h2>What was taken out</h2>
+  <p class="note"><strong>Every blocker, on instruction.</strong> The red aspect
+    is gone, the four station stops are gone, the master stop is gone, and
+    demurrage went with them — nothing is held, so nothing accrues for being
+    held. The file runs from the moment the page opens and the only thing that
+    stops it is closing the page.</p>
+  <p class="note">That is a real change and it is worth being clear about it,
+    because the board was built the other way round: three levels of stop, each
+    one above the last, specifically so that no state could be entered that
+    something above it could not end. That property is now gone. It is one
+    commit back if it is wanted, and it does not need rebuilding.</p>
+  <p class="note"><strong>What is left is the point.</strong> One lane. One file
+    of eight, nose to tail, the same run started at eight different moments. One
+    control over all of them, and three settings, none of which is a hold. Four
+    stages taking their tariff as the file passes, and one number at the bottom
+    that is the whole of what the lane earns on a pass. Every figure here is a
+    CSS counter and there is no script in this file.</p>
 </div>
 
 </div>
