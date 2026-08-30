@@ -194,14 +194,124 @@
   .master input:focus-visible+label{outline:2px solid var(--gold);outline-offset:3px}
   .master p{margin:0;font-size:10.5px;color:var(--dim);max-width:70ch}
 
-  /* -------------------------------------------------------------- cargo */
-  body{counter-reset:out 0 back 0 moving 0 held 0}
-  .k-green:checked ~ x,.k-blue:checked ~ x,.k-yellow:checked ~ x{}
+  /* -------------------------------------------------------- cargo and take
+     A hull under way pays a transit fee at all four stages. A hull held at red
+     pays demurrage instead — she is occupying a berth she is not moving
+     through. Either way the stages earn, which is the whole problem with them
+     and is discussed under the ledger. */
+  body{counter-reset:out 0 back 0 moving 0 held 0
+       oil 0 wat 0 rep 0 sto 0 take 0 dem 0}
   .r .k-red:checked+label{counter-increment:held 1}
   .r .k-yellow:checked+label,.r .k-blue:checked+label,.r .k-green:checked+label
     {counter-increment:moving 1 out 2 back 1}
+
+  /* Tariffs are set per stage, so what a hull pays depends on two things at
+     once: whether she is moving, and what band that stage is on. Each row
+     carries four hairline markers — one per stage — and the rule that
+     increments a marker names both conditions. Four stages by three bands is
+     twelve rules, and they cover all eight hulls without repeating a hull. */
+  .s{display:inline;font-size:0}
+  .board:has(#g1-a:checked) .row:has(.k-yellow:checked) .s-oil,
+  .board:has(#g1-a:checked) .row:has(.k-blue:checked)   .s-oil,
+  .board:has(#g1-a:checked) .row:has(.k-green:checked)  .s-oil
+    {counter-increment:oil 220 take 220}
+  .board:has(#g1-b:checked) .row:has(.k-yellow:checked) .s-oil,
+  .board:has(#g1-b:checked) .row:has(.k-blue:checked)   .s-oil,
+  .board:has(#g1-b:checked) .row:has(.k-green:checked)  .s-oil
+    {counter-increment:oil 320 take 320}
+  .board:has(#g1-c:checked) .row:has(.k-yellow:checked) .s-oil,
+  .board:has(#g1-c:checked) .row:has(.k-blue:checked)   .s-oil,
+  .board:has(#g1-c:checked) .row:has(.k-green:checked)  .s-oil
+    {counter-increment:oil 480 take 480}
+
+  .board:has(#g2-a:checked) .row:has(.k-yellow:checked) .s-wat,
+  .board:has(#g2-a:checked) .row:has(.k-blue:checked)   .s-wat,
+  .board:has(#g2-a:checked) .row:has(.k-green:checked)  .s-wat
+    {counter-increment:wat 60 take 60}
+  .board:has(#g2-b:checked) .row:has(.k-yellow:checked) .s-wat,
+  .board:has(#g2-b:checked) .row:has(.k-blue:checked)   .s-wat,
+  .board:has(#g2-b:checked) .row:has(.k-green:checked)  .s-wat
+    {counter-increment:wat 90 take 90}
+  .board:has(#g2-c:checked) .row:has(.k-yellow:checked) .s-wat,
+  .board:has(#g2-c:checked) .row:has(.k-blue:checked)   .s-wat,
+  .board:has(#g2-c:checked) .row:has(.k-green:checked)  .s-wat
+    {counter-increment:wat 140 take 140}
+
+  .board:has(#g3-a:checked) .row:has(.k-yellow:checked) .s-rep,
+  .board:has(#g3-a:checked) .row:has(.k-blue:checked)   .s-rep,
+  .board:has(#g3-a:checked) .row:has(.k-green:checked)  .s-rep
+    {counter-increment:rep 120 take 120}
+  .board:has(#g3-b:checked) .row:has(.k-yellow:checked) .s-rep,
+  .board:has(#g3-b:checked) .row:has(.k-blue:checked)   .s-rep,
+  .board:has(#g3-b:checked) .row:has(.k-green:checked)  .s-rep
+    {counter-increment:rep 180 take 180}
+  .board:has(#g3-c:checked) .row:has(.k-yellow:checked) .s-rep,
+  .board:has(#g3-c:checked) .row:has(.k-blue:checked)   .s-rep,
+  .board:has(#g3-c:checked) .row:has(.k-green:checked)  .s-rep
+    {counter-increment:rep 280 take 280}
+
+  .board:has(#g4-a:checked) .row:has(.k-yellow:checked) .s-sto,
+  .board:has(#g4-a:checked) .row:has(.k-blue:checked)   .s-sto,
+  .board:has(#g4-a:checked) .row:has(.k-green:checked)  .s-sto
+    {counter-increment:sto 95 take 95}
+  .board:has(#g4-b:checked) .row:has(.k-yellow:checked) .s-sto,
+  .board:has(#g4-b:checked) .row:has(.k-blue:checked)   .s-sto,
+  .board:has(#g4-b:checked) .row:has(.k-green:checked)  .s-sto
+    {counter-increment:sto 140 take 140}
+  .board:has(#g4-c:checked) .row:has(.k-yellow:checked) .s-sto,
+  .board:has(#g4-c:checked) .row:has(.k-blue:checked)   .s-sto,
+  .board:has(#g4-c:checked) .row:has(.k-green:checked)  .s-sto
+    {counter-increment:sto 210 take 210}
+
+  /* demurrage: charged on the held, banded at the board */
+  .board:has(#dm-a:checked) .row:has(.k-red:checked) .s-dem{counter-increment:dem 160 take 160}
+  .board:has(#dm-b:checked) .row:has(.k-red:checked) .s-dem{counter-increment:dem 240 take 240}
+  .board:has(#dm-c:checked) .row:has(.k-red:checked) .s-dem{counter-increment:dem 360 take 360}
+
+  /* the tariff desk */
+  .tariffs{display:grid;gap:10px;grid-template-columns:repeat(5,1fr);margin-top:10px}
+  .tar{background:#0d151c;border:1px solid var(--edge);border-radius:9px;padding:9px 10px}
+  .tar h4{margin:0 0 1px;font-size:12px}
+  .tar h4[contenteditable]{outline:none;border-bottom:1px dashed transparent}
+  .tar h4[contenteditable]:hover,.tar h4[contenteditable]:focus
+    {border-bottom-color:var(--gold)}
+  .tar .at{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);display:block;margin-bottom:7px}
+  .tar .bands{display:flex;gap:3px}
+  .tar input{position:absolute;opacity:0;width:0;height:0}
+  .tar label{flex:1;text-align:center;cursor:pointer;font:10.5px/1 ui-monospace,monospace;
+    padding:6px 2px;border-radius:5px;border:1px solid var(--edge);color:var(--dim)}
+  .tar label:hover{color:var(--ink)}
+  .tar input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .tar input:focus-visible+label{outline:2px solid var(--gold);outline-offset:2px}
+  @media (max-width:1000px){.tariffs{grid-template-columns:repeat(2,1fr)}}
   .n-out::after{content:counter(out)}   .n-back::after{content:counter(back)}
   .n-mov::after{content:counter(moving)}.n-held::after{content:counter(held)}
+  .n-oil::after{content:counter(oil)}   .n-wat::after{content:counter(wat)}
+  .n-rep::after{content:counter(rep)}   .n-sto::after{content:counter(sto)}
+  .n-take::after{content:counter(take)} .n-dem::after{content:counter(dem)}
+
+  /* ------------------------------------------------------ stages on the lane */
+  .stages{position:absolute;left:104px;right:104px;top:0;bottom:0;
+    pointer-events:none;z-index:1}
+  .stage{position:absolute;top:0;bottom:26px;width:1px;
+    background:repeating-linear-gradient(180deg,#33485a 0 5px,transparent 5px 11px)}
+  .stage b{position:absolute;top:2px;left:5px;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+  .stage b i{font-style:normal;color:var(--gold)}
+  .stage.g1{left:20%} .stage.g2{left:44%} .stage.g3{left:68%} .stage.g4{left:90%}
+
+  .ledger{width:100%;border-collapse:collapse;font-size:12px;
+    font-variant-numeric:tabular-nums;margin-top:4px}
+  .ledger th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 6px;font-weight:600}
+  .ledger td{padding:5px 0;border-top:1px solid var(--edge)}
+  .ledger td:last-child,.ledger th:last-child{text-align:right}
+  .ledger td .q{color:var(--dim);font-size:10.5px}
+  .ledger tr.sum td{border-top:1.5px solid var(--gold);font-weight:700}
+  .ledger tr.sum td:last-child{color:var(--gold)}
+  .ledger tr.dem td:last-child{color:var(--red)}
 
   .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
   .head{background:#0d151c;border:1px solid var(--edge);border-radius:9px;padding:10px 11px}
@@ -296,6 +406,14 @@
       </svg></div></div>
   </div>
 
+  <!-- an auxiliary stationed at every stage of the lane, each one on a tariff -->
+  <div class="stages">
+    <div class="stage g1"><b>2 ly · <i>Cistern</i> · fuel 320</b></div>
+    <div class="stage g2"><b>4 ly · <i>Wellhead</i> · water 90</b></div>
+    <div class="stage g3"><b>7 ly · <i>Anvil</i> · repair 180</b></div>
+    <div class="stage g4"><b>9 ly · <i>Granary</i> · stores 140</b></div>
+  </div>
+
   <div class="ly"><span>0 ly · land one</span><span>5 ly</span>
     <span>10 ly · land two</span></div>
 </div>
@@ -320,7 +438,7 @@
         <input class="k-yellow" type="radio" name="c1" id="c1y"><label class="ly2" for="c1y"></label>
         <input class="k-blue"   type="radio" name="c1" id="c1b" checked><label class="lb" for="c1b"></label>
         <input class="k-green"  type="radio" name="c1" id="c1g"><label class="lg"  for="c1g"></label>
-      </span>
+      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
     </div>
     <div class="row">
       <span class="nm">Tern</span>
@@ -329,7 +447,7 @@
         <input class="k-yellow" type="radio" name="c2" id="c2y"><label class="ly2" for="c2y"></label>
         <input class="k-blue"   type="radio" name="c2" id="c2b" checked><label class="lb" for="c2b"></label>
         <input class="k-green"  type="radio" name="c2" id="c2g"><label class="lg"  for="c2g"></label>
-      </span>
+      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
     </div>
     <div class="stopbtn"><input type="checkbox" id="stop-1">
       <label for="stop-1">Stop station</label></div>
@@ -344,7 +462,7 @@
         <input class="k-yellow" type="radio" name="c3" id="c3y" checked><label class="ly2" for="c3y"></label>
         <input class="k-blue"   type="radio" name="c3" id="c3b"><label class="lb" for="c3b"></label>
         <input class="k-green"  type="radio" name="c3" id="c3g"><label class="lg"  for="c3g"></label>
-      </span>
+      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
     </div>
     <div class="row">
       <span class="nm">Bellwether</span>
@@ -353,7 +471,7 @@
         <input class="k-yellow" type="radio" name="c4" id="c4y"><label class="ly2" for="c4y"></label>
         <input class="k-blue"   type="radio" name="c4" id="c4b" checked><label class="lb" for="c4b"></label>
         <input class="k-green"  type="radio" name="c4" id="c4g"><label class="lg"  for="c4g"></label>
-      </span>
+      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
     </div>
     <div class="stopbtn"><input type="checkbox" id="stop-2">
       <label for="stop-2">Stop station</label></div>
@@ -368,7 +486,7 @@
         <input class="k-yellow" type="radio" name="c5" id="c5y"><label class="ly2" for="c5y"></label>
         <input class="k-blue"   type="radio" name="c5" id="c5b" checked><label class="lb" for="c5b"></label>
         <input class="k-green"  type="radio" name="c5" id="c5g"><label class="lg"  for="c5g"></label>
-      </span>
+      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
     </div>
     <div class="row">
       <span class="nm">Deep Bell</span>
@@ -377,7 +495,7 @@
         <input class="k-yellow" type="radio" name="c6" id="c6y"><label class="ly2" for="c6y"></label>
         <input class="k-blue"   type="radio" name="c6" id="c6b"><label class="lb" for="c6b"></label>
         <input class="k-green"  type="radio" name="c6" id="c6g"><label class="lg"  for="c6g"></label>
-      </span>
+      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
     </div>
     <div class="stopbtn"><input type="checkbox" id="stop-3">
       <label for="stop-3">Stop station</label></div>
@@ -392,7 +510,7 @@
         <input class="k-yellow" type="radio" name="c7" id="c7y"><label class="ly2" for="c7y"></label>
         <input class="k-blue"   type="radio" name="c7" id="c7b" checked><label class="lb" for="c7b"></label>
         <input class="k-green"  type="radio" name="c7" id="c7g"><label class="lg"  for="c7g"></label>
-      </span>
+      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
     </div>
     <div class="row">
       <span class="nm">Anvil <span style="color:var(--dim);font-size:10px">· tender</span></span>
@@ -401,7 +519,7 @@
         <input class="k-yellow" type="radio" name="c8" id="c8y" checked><label class="ly2" for="c8y"></label>
         <input class="k-blue"   type="radio" name="c8" id="c8b"><label class="lb" for="c8b"></label>
         <input class="k-green"  type="radio" name="c8" id="c8g"><label class="lg"  for="c8g"></label>
-      </span>
+      </span><i class="s s-oil"></i><i class="s s-wat"></i><i class="s s-rep"></i><i class="s s-sto"></i><i class="s s-dem"></i>
     </div>
     <div class="stopbtn"><input type="checkbox" id="stop-4">
       <label for="stop-4">Stop station</label></div>
@@ -425,7 +543,99 @@
 </div>
 
 <div class="panel" style="margin-top:12px">
-  <h2 style="margin-top:0">The run <b>two out, one back</b></h2>
+  <h2 style="margin-top:0">Tariff desk <b>set the bands</b></h2>
+  <div class="tariffs">
+    <div class="tar">
+      <h4 contenteditable="true" spellcheck="false">Cistern</h4>
+      <span class="at">2 ly · fuel</span>
+      <div class="bands">
+        <input type="radio" name="g1" id="g1-a"><label for="g1-a">220</label>
+        <input type="radio" name="g1" id="g1-b" checked><label for="g1-b">320</label>
+        <input type="radio" name="g1" id="g1-c"><label for="g1-c">480</label>
+      </div></div>
+    <div class="tar">
+      <h4 contenteditable="true" spellcheck="false">Wellhead</h4>
+      <span class="at">4 ly · water</span>
+      <div class="bands">
+        <input type="radio" name="g2" id="g2-a"><label for="g2-a">60</label>
+        <input type="radio" name="g2" id="g2-b" checked><label for="g2-b">90</label>
+        <input type="radio" name="g2" id="g2-c"><label for="g2-c">140</label>
+      </div></div>
+    <div class="tar">
+      <h4 contenteditable="true" spellcheck="false">Anvil</h4>
+      <span class="at">7 ly · repair and tow</span>
+      <div class="bands">
+        <input type="radio" name="g3" id="g3-a"><label for="g3-a">120</label>
+        <input type="radio" name="g3" id="g3-b" checked><label for="g3-b">180</label>
+        <input type="radio" name="g3" id="g3-c"><label for="g3-c">280</label>
+      </div></div>
+    <div class="tar">
+      <h4 contenteditable="true" spellcheck="false">Granary</h4>
+      <span class="at">9 ly · stores</span>
+      <div class="bands">
+        <input type="radio" name="g4" id="g4-a"><label for="g4-a">95</label>
+        <input type="radio" name="g4" id="g4-b" checked><label for="g4-b">140</label>
+        <input type="radio" name="g4" id="g4-c"><label for="g4-c">210</label>
+      </div></div>
+    <div class="tar">
+      <h4>Demurrage</h4>
+      <span class="at">board · per held hull</span>
+      <div class="bands">
+        <input type="radio" name="dm" id="dm-a"><label for="dm-a">160</label>
+        <input type="radio" name="dm" id="dm-b" checked><label for="dm-b">240</label>
+        <input type="radio" name="dm" id="dm-c"><label for="dm-c">360</label>
+      </div></div>
+  </div>
+  <p class="note"><strong>What is editable, and what only looks it.</strong> The
+    three bands under each stage are real: pick one and every figure in the
+    ledger below moves, because the rule that charges a hull names both her
+    aspect and that stage's band. The stage <em>names</em> are typed directly
+    into the page and are yours to change — they are labels, and changing one
+    moves nothing. A free-typed tariff would need JavaScript to reach the
+    arithmetic, and there is none in this file; bands are how you get a
+    customisable price with a total that stays honest.</p>
+
+  <h2>Stage ledger <b>the syndicate's take, this board</b></h2>
+  <table class="ledger">
+    <tr><th>Stage</th><th>Tariff, per hull</th><th>Take, HEZE</th></tr>
+    <tr><td>2 ly · <b>Cistern</b> <span class="q">· fuel</span></td>
+        <td class="q">as banded</td><td class="n-oil"></td></tr>
+    <tr><td>4 ly · <b>Wellhead</b> <span class="q">· water</span></td>
+        <td class="q">as banded</td><td class="n-wat"></td></tr>
+    <tr><td>7 ly · <b>Anvil</b> <span class="q">· repair and tow</span></td>
+        <td class="q">as banded</td><td class="n-rep"></td></tr>
+    <tr><td>9 ly · <b>Granary</b> <span class="q">· stores</span></td>
+        <td class="q">as banded</td><td class="n-sto"></td></tr>
+    <tr class="dem"><td>Demurrage <span class="q">· hulls held at red</span></td>
+        <td class="q">as banded</td><td class="n-dem"></td></tr>
+    <tr class="sum"><td>Total take, this state of the board</td><td></td>
+        <td class="n-take"></td></tr>
+  </table>
+  <p class="note"><strong>An auxiliary at every stage, and every one of them on
+    a tariff.</strong> A cruiser under way pays 730 across the four stages —
+    fuel at two light years, water at four, repair at seven, stores at nine.
+    None of the four is doing the fleet a favour: they are stationed there
+    because the traffic passes them, and traffic that passes you is revenue.
+    That is why the stages exist at all, and it is the only reason a hull can
+    fuel ten light years from anywhere.</p>
+  <p class="note"><strong>Held hulls still pay.</strong> A cruiser at red pays
+    240 in demurrage to whichever stage she is sitting at. She is occupying a
+    berth she is not moving through, and the stage is entitled to charge for
+    it. So the board earns whether the lane runs or not — 730 a hull moving,
+    240 a hull stopped.</p>
+  <div class="master" style="border-color:var(--gold)">
+    <p style="max-width:none"><strong style="color:var(--gold)">Which is the
+    problem, and it is deliberate.</strong> If a stage earns from a hull it is
+    holding, a stage has a reason to hold hulls. That is why no stage on this
+    lane can set an aspect: the four aspects belong to the switchboard, the
+    station stops belong to the four operators, and the master stop belongs to
+    the board. An auxiliary can charge you, refuel you, tow you and invoice you
+    — it cannot stop you. The syndicate takes its cut at every stage and has no
+    hand on any switch, and that separation is the only thing standing between
+    a profit motive and a lane full of held ships.</p>
+  </div>
+
+  <h2>The run <b>two out, one back</b></h2>
   <p class="note"><strong>Two to one, each cargo, in and out.</strong> Every
     cruiser under way carries two units out to land two and brings one back.
     The other one stays there — that is not loss and it is not waste, it is the
