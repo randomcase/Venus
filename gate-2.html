@@ -1,0 +1,367 @@
+<title>Gate · Case Two</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Case two. The pass is perfect.
+
+  Case one taught you to compare a document against itself and against the
+  berth: name, hull, date, declaration. Every one of those checks passes here.
+  A clerk who learned case one and nothing else waves this man through in four
+  seconds.
+
+  The faults are in the PROVENANCE, not the content — a document that is
+  flawless except that it could not exist:
+
+    · a signature dated today by a man the bulletin says is ashore until the 48th
+    · an endorsement number inside a block reported void
+
+  Neither is visible in the fields. Both are in the bulletin, further down than
+  anybody reads.
+
+  NEW THIS CASE — a third verdict. Admit, deny, or HOLD him for the
+  harbourmaster's return. Six endings: three verdicts by whether you found both
+  faults. The middle option is the one most gate games do not give you, and it
+  is the one that costs a real person two days either way.
+
+  No script. Each case stands alone: there is no storage here, so nothing
+  carries over from case one but what you learned.
+-->
+<style>
+  :root{
+    --paper:#e6e0cf; --paper2:#d9d0bb; --line:#b5aa90; --ink:#1a1713;
+    --dim:#665e4e; --red:#a33b2e; --stamp:#8c2f24; --green:#3f6b45;
+    --amber:#8a6a1e; --blue:#2f5570;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;background:#12110f;color:var(--ink);
+    font:14px/1.6 ui-serif,Georgia,'Times New Roman',serif;
+    background-image:
+      radial-gradient(circle at 78% 0%,rgba(180,150,90,.09),transparent 44%),
+      repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  .desk{max-width:1000px;margin:0 auto;display:grid;gap:14px;
+    grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:840px){.desk{grid-template-columns:1fr}}
+
+  .sheet{background:linear-gradient(180deg,var(--paper),var(--paper2));
+    border:1px solid var(--line);border-radius:3px;padding:16px 18px;
+    box-shadow:0 12px 30px rgba(0,0,0,.5)}
+  .sheet.full{grid-column:1/-1}
+  h1{margin:0 0 2px;font-size:20px;letter-spacing:.02em}
+  .sub{color:var(--dim);font-size:11.5px;margin:0 0 12px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:0 0 10px;font-weight:700;
+    border-bottom:1px solid var(--line);padding-bottom:7px}
+  h2.mt{margin-top:18px}
+  .field{display:flex;gap:10px;padding:5px 0;border-bottom:1px dotted var(--line);
+    font:12px/1.6 ui-monospace,Menlo,monospace}
+  .field:last-child{border-bottom:0}
+  .field .k{color:var(--dim);min-width:104px}
+  .field .v{font-weight:700}
+  .field .v.ok{color:var(--green)}
+  .note{font-size:11.5px;color:var(--dim);line-height:1.6;margin:10px 0 0}
+  .note b{color:var(--ink)}
+  .fine{font-size:10.5px;color:var(--dim);font-style:italic;line-height:1.6}
+  .buried{border-top:1px dashed var(--line);margin-top:12px;padding-top:10px}
+
+  .who{display:flex;gap:12px;align-items:flex-start}
+  .who svg{width:76px;height:92px;flex:none;border:1px solid var(--line);
+    background:#cbc2ab}
+  .who .nm{font-size:16px;font-weight:700;margin:0 0 2px}
+  .who .rk{font:10px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+  .who p{margin:0;font-size:12.5px;color:#2b2721}
+
+  .chk{padding:9px 0;border-bottom:1px dotted var(--line)}
+  .chk:last-of-type{border-bottom:0}
+  .chk .q{font-size:12.5px;margin-bottom:6px}
+  .chk .q b{font-family:ui-monospace,monospace;font-size:11.5px}
+  .opts{display:flex;gap:6px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10px/1 ui-monospace,monospace;letter-spacing:.12em;
+    padding:8px 13px;border:1px solid var(--line);border-radius:2px;
+    color:var(--dim);background:#e0d9c6}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{background:var(--ink);color:var(--paper);
+    border-color:var(--ink);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* Truth: one and two are sound, three and four are not. */
+  body{counter-reset:right 0 err 0}
+  #f1-m:checked+label{counter-increment:right 1}  #f1-x:checked+label{counter-increment:err 1}
+  #f2-m:checked+label{counter-increment:right 1}  #f2-x:checked+label{counter-increment:err 1}
+  #f3-x:checked+label{counter-increment:right 1}  #f3-m:checked+label{counter-increment:err 1}
+  #f4-x:checked+label{counter-increment:right 1}  #f4-m:checked+label{counter-increment:err 1}
+  .n-right::after{content:counter(right)}
+  .n-err::after{content:counter(err)}
+
+  .verdict .opts label{padding:12px 20px;font-size:11.5px;letter-spacing:.16em}
+  #v-admit:checked+label{background:var(--green);border-color:var(--green);color:#f0ece0}
+  #v-hold:checked+label{background:var(--amber);border-color:var(--amber);color:#f7f1e2}
+  #v-deny:checked+label{background:var(--stamp);border-color:var(--stamp);color:#f0ece0}
+
+  .stampbox{margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .stampbox input{position:absolute;opacity:0;width:0;height:0}
+  .stampbox label{cursor:pointer;font:13px/1 ui-monospace,monospace;
+    letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+    padding:16px 34px;border:2px solid var(--ink);border-radius:3px;
+    background:#e0d9c6;color:var(--ink)}
+  #stamp:checked+label{background:var(--stamp);border-color:var(--stamp);
+    color:#f4ece2;transform:rotate(-1.5deg)}
+  .stampbox input:focus-visible+label{outline:2px solid var(--blue);outline-offset:3px}
+  .desk:not(:has(input[name="v"]:checked)) .stampbox label{opacity:.34;pointer-events:none}
+  .desk:not(:has(input[name="v"]:checked)) #stamp{visibility:hidden}
+  .stampbox .hint{font-size:11.5px;color:var(--dim);max-width:34ch}
+
+  .after{display:none}
+  .desk:has(#stamp:checked) .after{display:block}
+  .desk:has(#stamp:checked) .before{display:none}
+
+  .mark{display:flex;gap:8px;padding:5px 0;font:11.5px/1.6 ui-monospace,monospace;
+    border-bottom:1px dotted var(--line)}
+  .mark .t{min-width:96px;color:var(--dim)}
+  .mark .a{font-weight:700}
+  .score{font:26px/1.2 ui-monospace,monospace;margin-top:10px}
+  .score small{display:block;font:9.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+
+  /* six endings: three verdicts × found or missed */
+  .out{display:none;border-left:3px solid var(--line);padding:2px 0 2px 14px;
+    margin-top:14px}
+  .out h3{margin:0 0 5px;font-size:15px}
+  .out p{margin:0 0 8px;font-size:12.5px;color:#2b2721}
+  .out p:last-child{margin-bottom:0}
+  .desk:has(#stamp:checked):has(#v-admit:checked) .o-admit-s{display:block}
+  .desk:has(#stamp:checked):has(#v-hold:checked)  .o-hold-s{display:block}
+  .desk:has(#stamp:checked):has(#v-deny:checked)  .o-deny-s{display:block}
+  .desk:has(#stamp:checked):has(#v-admit:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-admit-c{display:block}
+  .desk:has(#stamp:checked):has(#v-hold:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-hold-c{display:block}
+  .desk:has(#stamp:checked):has(#v-deny:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-deny-c{display:block}
+  /* the careful endings supersede the careless ones — written after, so they win */
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-admit-s,
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-hold-s,
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-deny-s{display:none}
+  .o-admit-c{border-color:var(--green)} .o-hold-c{border-color:var(--amber)}
+  .o-deny-c{border-color:var(--stamp)}
+  .o-admit-s,.o-hold-s,.o-deny-s{border-color:var(--dim)}
+</style>
+
+<div class="desk">
+
+  <section class="sheet">
+    <h1>Slip 4 · Gate</h1>
+    <p class="sub">Bulletin of the day · 46th · posted by the deputy</p>
+
+    <h2>Standing orders</h2>
+    <div>
+      <div class="field"><span class="k">ROSTER</span>
+        <span class="v">BRANNOCK, ELIAS T. — rating, engine room</span></div>
+      <div class="field"><span class="k">BERTHED</span>
+        <span class="v">CISTERN (AO) — slip 4, outbound</span></div>
+      <div class="field"><span class="k">PASSES</span>
+        <span class="v">valid 30 days from issue</span></div>
+      <div class="field"><span class="k">ORDNANCE</span>
+        <span class="v">transits on a numbered lading endorsement</span></div>
+      <div class="field"><span class="k">TODAY</span>
+        <span class="v">the 46th</span></div>
+    </div>
+
+    <div class="buried">
+      <p class="fine"><b>Notices, continued.</b> The harbourmaster is ashore at
+        the far station from the 43rd and is not expected before the <b>48th</b>.
+        The deputy signs in his absence and the deputy's mark is a
+        <b>counter-signature</b>, never a signature.</p>
+      <p class="fine">Endorsement block <b>E-4400 through E-4499</b> was
+        reported taken from the Proprietor's office on the 39th and is
+        <b>void</b>. Numbers in that block are not to be honoured whatever
+        else is in order.</p>
+      <p class="fine">Two clerks have already asked whether a void number can be
+        honoured if the bearer is plainly acting in good faith. It cannot.</p>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <h2>Papers presented</h2>
+    <div class="who">
+      <svg viewBox="0 0 76 92" aria-label="Identification photograph.">
+        <rect width="76" height="92" fill="#c2b9a2"/>
+        <circle cx="38" cy="33" r="16" fill="#8f8371"/>
+        <path d="M16 92q5-29 22-29t22 29z" fill="#7d715f"/>
+        <path d="M27 26q11-6 22 0" stroke="#5f5748" stroke-width="2.5" fill="none"/>
+        <rect x="0" y="70" width="76" height="1" fill="#726858" opacity=".5"/>
+      </svg>
+      <div>
+        <p class="nm">BRANNOCK, ELIAS T.</p>
+        <p class="rk">rating · engine room · age 41</p>
+        <p>Carrying nothing but a folder, which he offers open. He has clearly
+          had these papers checked before and expects it to go quickly.</p>
+      </div>
+    </div>
+
+    <h2 class="mt">The pass</h2>
+    <div>
+      <div class="field"><span class="k">NAME</span>
+        <span class="v ok">BRANNOCK, ELIAS T.</span></div>
+      <div class="field"><span class="k">HULL</span>
+        <span class="v ok">CISTERN (AO)</span></div>
+      <div class="field"><span class="k">ISSUED</span>
+        <span class="v ok">the 41st · valid 30 days</span></div>
+      <div class="field"><span class="k">DECLARES</span>
+        <span class="v ok">ordnance, conventional — 3 crates</span></div>
+      <div class="field"><span class="k">ENDORSEMENT</span>
+        <span class="v">no. E-4462 · lading, ordnance</span></div>
+      <div class="field"><span class="k">SIGNED</span>
+        <span class="v">the harbourmaster · dated the 46th</span></div>
+    </div>
+    <p class="note"><b>Every field on this pass is in order.</b> Name, hull,
+      date, declaration — all four are exactly what the standing orders ask
+      for, and unlike the last one it is endorsed.</p>
+  </section>
+
+  <section class="sheet full">
+    <h2>Compare · mark each field</h2>
+
+    <div class="chk">
+      <div class="q">1 · <b>NAME &amp; HULL</b> against the roster and the berth.</div>
+      <span class="opts">
+        <input type="radio" name="f1" id="f1-m"><label for="f1-m">in order</label>
+        <input type="radio" name="f1" id="f1-x"><label for="f1-x">fault</label>
+      </span>
+    </div>
+    <div class="chk">
+      <div class="q">2 · <b>VALIDITY</b> — issued the 41st, thirty days, today the 46th.</div>
+      <span class="opts">
+        <input type="radio" name="f2" id="f2-m"><label for="f2-m">in order</label>
+        <input type="radio" name="f2" id="f2-x"><label for="f2-x">fault</label>
+      </span>
+    </div>
+    <div class="chk">
+      <div class="q">3 · <b>SIGNATURE</b> — who signed it, and could they have.</div>
+      <span class="opts">
+        <input type="radio" name="f3" id="f3-m"><label for="f3-m">in order</label>
+        <input type="radio" name="f3" id="f3-x"><label for="f3-x">fault</label>
+      </span>
+    </div>
+    <div class="chk">
+      <div class="q">4 · <b>ENDORSEMENT NUMBER</b> against the notices.</div>
+      <span class="opts">
+        <input type="radio" name="f4" id="f4-m"><label for="f4-m">in order</label>
+        <input type="radio" name="f4" id="f4-x"><label for="f4-x">fault</label>
+      </span>
+    </div>
+
+    <h2 class="mt">Verdict <span style="float:right;font-weight:400;
+      text-transform:none;letter-spacing:0">three of them today</span></h2>
+    <div class="verdict">
+      <span class="opts">
+        <input type="radio" name="v" id="v-admit"><label for="v-admit">admit</label>
+        <input type="radio" name="v" id="v-hold"><label for="v-hold">hold to the 48th</label>
+        <input type="radio" name="v" id="v-deny"><label for="v-deny">deny</label>
+      </span>
+    </div>
+    <p class="note before"><b>Hold</b> keeps him at the gate until the
+      harbourmaster is back and can say whether he signed. It is neither
+      generous nor safe: the Cistern sails without him either way, and he waits
+      two days in a room to find out which.</p>
+
+    <div class="stampbox">
+      <input type="checkbox" id="stamp"><label for="stamp">Stamp it</label>
+      <span class="hint before">No stamp without a verdict. Nothing is scored
+        until it is down.</span>
+      <span class="hint after">Stamped. It does not come off.</span>
+    </div>
+  </section>
+
+  <section class="sheet full after">
+    <h2>Marking</h2>
+    <div class="mark"><span class="t">1 · NAME/HULL</span>
+      <span class="a">IN ORDER</span><span>— he is on the roster, the Cistern is
+      at the berth. Marking this a fault is suspicion, not reading.</span></div>
+    <div class="mark"><span class="t">2 · VALIDITY</span>
+      <span class="a">IN ORDER</span><span>— issued the 41st, thirty days, five
+      days old. Nothing wrong with it.</span></div>
+    <div class="mark"><span class="t">3 · SIGNATURE</span>
+      <span class="a">FAULT</span><span>— signed by the harbourmaster and dated
+      the 46th. He has been ashore since the 43rd and is not back until the
+      48th. Whoever wrote that, it was not him.</span></div>
+    <div class="mark"><span class="t">4 · ENDORSEMENT</span>
+      <span class="a">FAULT</span><span>— E-4462 falls inside E-4400–E-4499,
+      the block taken from the Proprietor's office on the 39th and voided.</span></div>
+
+    <div class="score"><small>marks correct</small>
+      <span class="n-right"></span> / 4 &nbsp;
+      <span style="color:var(--red)">errors <span class="n-err"></span></span></div>
+
+    <div class="out o-deny-c">
+      <h3>Denied, and you read the notices.</h3>
+      <p>Two faults, both of them below the fold, and neither one visible in the
+        fields. He does not argue. He asks who signed it, and when you tell him
+        the harbourmaster has been ashore three days he stops asking — because
+        he knows where the folder came from and now so do you.</p>
+      <p>He is off the Cistern's sailing list by evening. He was carrying, not
+        forging, and the difference does not appear anywhere on the form you
+        just stamped.</p>
+    </div>
+
+    <div class="out o-hold-c">
+      <h3>Held to the 48th, with cause.</h3>
+      <p>The only verdict that puts the question to the man who can answer it.
+        It costs him the sailing and two days in a room, and it costs you a
+        written justification — but on the 48th the harbourmaster looks at that
+        signature and the yard finds out who has been using his name.</p>
+      <p>The crates go into the bonded store under seal. Nobody from the
+        Proprietor's office comes to ask about them, which is itself the
+        answer to a question you had not thought to ask.</p>
+    </div>
+
+    <div class="out o-admit-c">
+      <h3>Admitted, knowing both.</h3>
+      <p>You saw a forged signature and a void endorsement and passed them
+        anyway. Whatever the reason — he is plainly a courier, the crates are
+        plainly not his, the alternative is a man losing a berth over someone
+        else's paperwork — it is on your stamp now.</p>
+      <p>Three crates of ordnance on a voided number are aboard the fleet's
+        oiler, which is the one hull the whole train depends on. If that is a
+        risk you meant to take, it is a decision. It is not an error, and the
+        page will not pretend it is.</p>
+    </div>
+
+    <div class="out o-deny-s">
+      <h3>Denied — but not for the reasons that were there.</h3>
+      <p>The outcome matches the standing orders. Your reading does not. You
+        turned away a man whose fields were all in order, which means you
+        refused him on instinct — and instinct passes the next forged folder
+        just as readily, because instinct is not repeatable.</p>
+      <p>Read the notices. Both faults were printed on the bulletin in front of
+        you, below the line where clerks stop reading.</p>
+    </div>
+
+    <div class="out o-hold-s">
+      <h3>Held — on a hunch.</h3>
+      <p>Two days of a man's life on the strength of something you could not
+        name. The harbourmaster will ask you what you saw, and "it felt wrong"
+        is an answer that costs you the authority to hold the next one.</p>
+      <p>Both faults were on the bulletin. A hold you can justify is a tool; a
+        hold you cannot is just a room with someone in it.</p>
+    </div>
+
+    <div class="out o-admit-s">
+      <h3>Admitted — and you never looked below the fold.</h3>
+      <p>Every field was in order and you marked them so, which is exactly what
+        case one taught you to do. That is the trap: this pass was built to
+        survive the checks you learned last time.</p>
+      <p>A signature the harbourmaster could not have written and a number
+        already reported stolen went through your gate onto the oiler, over
+        your initials, in four seconds.</p>
+    </div>
+
+    <p class="note" style="margin-top:16px"><b>Case two ends here.</b> No
+      storage on this page, so nothing carries forward from case one but what
+      you learned — which is the only thing that was ever carrying forward
+      anyway. Six endings: three verdicts by whether you found both faults, all
+      of it CSS.</p>
+    <p class="note"><a href="gate.html" style="color:var(--stamp)">← Case
+      one</a></p>
+  </section>
+</div>
