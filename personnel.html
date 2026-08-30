@@ -244,6 +244,9 @@
   }
 </style>
 
+<form id="vy" action="bridge.html" method="get"><input type="hidden" name="board" value="personnel" form="vy"></form>
+
+
 <div class="board">
 
   <header>
@@ -257,63 +260,63 @@
   <section class="panel est">
     <h2>Hull <b>ten on the books</b></h2>
     <fieldset>
-      <div class="opt"><input type="radio" name="hull" id="c-buck">
+      <div class="opt"><input type="radio" name="hull" id="c-buck" form="vy" value="buck">
         <label for="c-buck"><i class="tick"></i>Bucketeer<span class="q">12</span></label></div>
-      <div class="opt"><input type="radio" name="hull" id="c-mer">
+      <div class="opt"><input type="radio" name="hull" id="c-mer" form="vy" value="mer">
         <label for="c-mer"><i class="tick"></i>Merchant<span class="q">22</span></label></div>
-      <div class="opt"><input type="radio" name="hull" id="c-cors">
+      <div class="opt"><input type="radio" name="hull" id="c-cors" form="vy" value="cors">
         <label for="c-cors"><i class="tick"></i>Corsair<span class="q">46</span></label></div>
-      <div class="opt"><input type="radio" name="hull" id="c-aux" checked>
+      <div class="opt"><input type="radio" name="hull" id="c-aux" checked form="vy" value="aux">
         <label for="c-aux"><i class="tick"></i>Auxiliary<span class="q">180</span></label></div>
-      <div class="opt"><input type="radio" name="hull" id="c-dd">
+      <div class="opt"><input type="radio" name="hull" id="c-dd" form="vy" value="dd">
         <label for="c-dd"><i class="tick"></i>Destroyer<span class="q">210</span></label></div>
-      <div class="opt"><input type="radio" name="hull" id="c-mon">
+      <div class="opt"><input type="radio" name="hull" id="c-mon" form="vy" value="mon">
         <label for="c-mon"><i class="tick"></i>Monitor<span class="q">340</span></label></div>
-      <div class="opt"><input type="radio" name="hull" id="c-cl">
+      <div class="opt"><input type="radio" name="hull" id="c-cl" form="vy" value="cl">
         <label for="c-cl"><i class="tick"></i>Cruiser<span class="q">560</span></label></div>
-      <div class="opt"><input type="radio" name="hull" id="c-bb">
+      <div class="opt"><input type="radio" name="hull" id="c-bb" form="vy" value="bb">
         <label for="c-bb"><i class="tick"></i>Battleship<span class="q">1,850</span></label></div>
-      <div class="opt"><input type="radio" name="hull" id="c-cv">
+      <div class="opt"><input type="radio" name="hull" id="c-cv" form="vy" value="cv">
         <label for="c-cv"><i class="tick"></i>Carrier<span class="q">1,900</span></label></div>
-      <div class="opt"><input type="radio" name="hull" id="c-yam">
+      <div class="opt"><input type="radio" name="hull" id="c-yam" form="vy" value="yam">
         <label for="c-yam"><i class="tick"></i>Yamato<span class="q">2,750</span></label></div>
     </fieldset>
 
     <h2>Draft state</h2>
     <fieldset>
-      <div class="opt"><input type="radio" name="draft" id="dr-full" checked>
+      <div class="opt"><input type="radio" name="draft" id="dr-full" checked form="vy" value="full">
         <label for="dr-full"><i class="tick"></i>Full establishment<span class="q">100%</span></label></div>
-      <div class="opt"><input type="radio" name="draft" id="dr-red">
+      <div class="opt"><input type="radio" name="draft" id="dr-red" form="vy" value="red">
         <label for="dr-red"><i class="tick"></i>Reduced complement<span class="q">80%</span></label></div>
-      <div class="opt"><input type="radio" name="draft" id="dr-skel">
+      <div class="opt"><input type="radio" name="draft" id="dr-skel" form="vy" value="skel">
         <label for="dr-skel"><i class="tick"></i>Skeleton crew<span class="q">55%</span></label></div>
     </fieldset>
 
     <h2>Detachments</h2>
     <fieldset>
-      <div class="opt"><input type="checkbox" id="p-ord">
+      <div class="opt"><input type="checkbox" id="p-ord" form="vy" name="det" value="ord">
         <label for="p-ord"><i class="tick"></i>Ordnance party<span class="q">34</span></label></div>
-      <div class="opt"><input type="checkbox" id="p-eng" checked>
+      <div class="opt"><input type="checkbox" id="p-eng" checked form="vy" name="det" value="eng">
         <label for="p-eng"><i class="tick"></i>Engineering watch<span class="q">46</span></label></div>
-      <div class="opt"><input type="checkbox" id="p-sup" checked>
+      <div class="opt"><input type="checkbox" id="p-sup" checked form="vy" name="det" value="sup">
         <label for="p-sup"><i class="tick"></i>Supply &amp; victualling<span class="q">18</span></label></div>
-      <div class="opt"><input type="checkbox" id="p-med">
+      <div class="opt"><input type="checkbox" id="p-med" form="vy" name="det" value="med">
         <label for="p-med"><i class="tick"></i>Medical<span class="q">9</span></label></div>
-      <div class="opt"><input type="checkbox" id="p-sig">
+      <div class="opt"><input type="checkbox" id="p-sig" form="vy" name="det" value="sig">
         <label for="p-sig"><i class="tick"></i>Signals<span class="q">14</span></label></div>
-      <div class="opt"><input type="checkbox" id="p-air">
+      <div class="opt"><input type="checkbox" id="p-air" form="vy" name="det" value="air">
         <label for="p-air"><i class="tick"></i>Air detachment<span class="q">62</span></label></div>
-      <div class="opt"><input type="checkbox" id="p-brd">
+      <div class="opt"><input type="checkbox" id="p-brd" form="vy" name="det" value="brd">
         <label for="p-brd"><i class="tick"></i>Boarding party<span class="q">28</span></label></div>
-      <div class="opt"><input type="checkbox" id="p-dc">
+      <div class="opt"><input type="checkbox" id="p-dc" form="vy" name="det" value="dc">
         <label for="p-dc"><i class="tick"></i>Damage control<span class="q">24</span></label></div>
     </fieldset>
 
     <h2>Resupply cycle</h2>
     <fieldset>
-      <div class="opt"><input type="radio" name="cyc" id="rc-3" checked>
+      <div class="opt"><input type="radio" name="cyc" id="rc-3" checked form="vy" value="3">
         <label for="rc-3"><i class="tick"></i>Three days astern<span class="q">min</span></label></div>
-      <div class="opt"><input type="radio" name="cyc" id="rc-6">
+      <div class="opt"><input type="radio" name="cyc" id="rc-6" form="vy" value="6">
         <label for="rc-6"><i class="tick"></i>Six days astern<span class="q">max</span></label></div>
     </fieldset>
     <p class="note">The merchant runs perpendicular to the line of march and
@@ -415,5 +418,7 @@
     </table>
     <p class="note">Five lines, and no more. A return that has to be summarised
       before it can be read is not a return.</p>
+    <button type="submit" form="vy" style="width:100%;margin-top:12px;background:none;color:var(--gold);border:1px solid var(--gold);cursor:pointer;font:inherit;font-size:12px;padding:9px;border-radius:7px">Send return to the bridge</button>
+    <p class="note">The board has no script in it. The button is a plain GET form: the browser serialises what you have checked into the address, and the bridge reads it there. That is the whole transport.</p>
   </aside>
 </div>

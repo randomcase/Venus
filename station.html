@@ -326,6 +326,9 @@
   }
 </style>
 
+<form id="vy" action="bridge.html" method="get"><input type="hidden" name="board" value="station" form="vy"></form>
+
+
 <!-- One defs block for the whole page: gradients, the plating pattern, and the
      parts that repeat. A battleship is four <use> of one turret. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -456,28 +459,28 @@
   <form class="panel desk">
     <h2>Class <b>seven hulls</b></h2>
     <fieldset>
-      <div class="opt"><input type="radio" name="class" id="c-buck">
+      <div class="opt"><input type="radio" name="class" id="c-buck" form="vy" value="buck">
         <label for="c-buck"><i class="tick"></i>Bucketeer<span class="cost">1,000</span></label></div>
-      <div class="opt"><input type="radio" name="class" id="c-cors" checked>
+      <div class="opt"><input type="radio" name="class" id="c-cors" checked form="vy" value="cors">
         <label for="c-cors"><i class="tick"></i>Corsair<span class="cost">4,600</span></label></div>
-      <div class="opt"><input type="radio" name="class" id="c-dd">
+      <div class="opt"><input type="radio" name="class" id="c-dd" form="vy" value="dd">
         <label for="c-dd"><i class="tick"></i>Destroyer<span class="cost">12,400</span></label></div>
-      <div class="opt"><input type="radio" name="class" id="c-cl">
+      <div class="opt"><input type="radio" name="class" id="c-cl" form="vy" value="cl">
         <label for="c-cl"><i class="tick"></i>Cruiser<span class="cost">28,000</span></label></div>
-      <div class="opt"><input type="radio" name="class" id="c-cv">
+      <div class="opt"><input type="radio" name="class" id="c-cv" form="vy" value="cv">
         <label for="c-cv"><i class="tick"></i>Carrier<span class="cost">61,000</span></label></div>
-      <div class="opt"><input type="radio" name="class" id="c-bb">
+      <div class="opt"><input type="radio" name="class" id="c-bb" form="vy" value="bb">
         <label for="c-bb"><i class="tick"></i>Battleship<span class="cost">84,000</span></label></div>
-      <div class="opt"><input type="radio" name="class" id="c-yam">
+      <div class="opt"><input type="radio" name="class" id="c-yam" form="vy" value="yam">
         <label for="c-yam"><i class="tick"></i>Yamato<span class="cost">150,000</span></label></div>
     </fieldset>
     <h2>Non-combatant <b>three hulls</b></h2>
     <fieldset>
-      <div class="opt"><input type="radio" name="class" id="c-mer">
+      <div class="opt"><input type="radio" name="class" id="c-mer" form="vy" value="mer">
         <label for="c-mer"><i class="tick"></i>Merchant<span class="cost">2,100</span></label></div>
-      <div class="opt"><input type="radio" name="class" id="c-aux">
+      <div class="opt"><input type="radio" name="class" id="c-aux" form="vy" value="aux">
         <label for="c-aux"><i class="tick"></i>Auxiliary<span class="cost">3,200</span></label></div>
-      <div class="opt"><input type="radio" name="class" id="c-mon">
+      <div class="opt"><input type="radio" name="class" id="c-mon" form="vy" value="mon">
         <label for="c-mon"><i class="tick"></i>Monitor<span class="cost">47,000</span></label></div>
     </fieldset>
     <p class="note">A merchant carries cargo and nothing else. An auxiliary
@@ -488,35 +491,35 @@
 
     <h2>Slip</h2>
     <fieldset>
-      <div class="opt"><input type="radio" name="slip" id="y-cradle" checked>
+      <div class="opt"><input type="radio" name="slip" id="y-cradle" checked form="vy" value="cradle">
         <label for="y-cradle"><i class="tick"></i>Open cradle<span class="cost">0</span></label></div>
-      <div class="opt"><input type="radio" name="slip" id="y-bay">
+      <div class="opt"><input type="radio" name="slip" id="y-bay" form="vy" value="bay">
         <label for="y-bay"><i class="tick"></i>Pressurised bay<span class="cost">2,400</span></label></div>
-      <div class="opt"><input type="radio" name="slip" id="y-dock">
+      <div class="opt"><input type="radio" name="slip" id="y-dock" form="vy" value="dock">
         <label for="y-dock"><i class="tick"></i>Graving dock<span class="cost">6,100</span></label></div>
     </fieldset>
 
     <h2>Drive</h2>
     <fieldset>
-      <div class="opt"><input type="radio" name="drive" id="d-tug" checked>
+      <div class="opt"><input type="radio" name="drive" id="d-tug" checked form="vy" value="tug">
         <label for="d-tug"><i class="tick"></i>Tug-only<span class="cost">0</span></label></div>
-      <div class="opt"><input type="radio" name="drive" id="d-plate">
+      <div class="opt"><input type="radio" name="drive" id="d-plate" form="vy" value="plate">
         <label for="d-plate"><i class="tick"></i>Sail plate<span class="cost">800</span></label></div>
-      <div class="opt"><input type="radio" name="drive" id="d-ion">
+      <div class="opt"><input type="radio" name="drive" id="d-ion" form="vy" value="ion">
         <label for="d-ion"><i class="tick"></i>Ion bank<span class="cost">5,200</span></label></div>
-      <div class="opt"><input type="radio" name="drive" id="d-torch">
+      <div class="opt"><input type="radio" name="drive" id="d-torch" form="vy" value="torch">
         <label for="d-torch"><i class="tick"></i>Torch<span class="cost">14,000</span></label></div>
     </fieldset>
 
     <h2 class="flight">Flight package</h2>
     <fieldset class="flight">
-      <div class="opt"><input type="radio" name="flight" id="f-none" checked>
+      <div class="opt"><input type="radio" name="flight" id="f-none" checked form="vy" value="none">
         <label for="f-none"><i class="tick"></i>None — stays wet<span class="cost">0</span></label></div>
-      <div class="opt"><input type="radio" name="flight" id="f-foil">
+      <div class="opt"><input type="radio" name="flight" id="f-foil" form="vy" value="foil">
         <label for="f-foil"><i class="tick"></i>Hydrofoil<span class="cost">1,900</span></label></div>
-      <div class="opt"><input type="radio" name="flight" id="f-cush">
+      <div class="opt"><input type="radio" name="flight" id="f-cush" form="vy" value="cush">
         <label for="f-cush"><i class="tick"></i>Air cushion<span class="cost">3,300</span></label></div>
-      <div class="opt"><input type="radio" name="flight" id="f-gas">
+      <div class="opt"><input type="radio" name="flight" id="f-gas" form="vy" value="gas">
         <label for="f-gas"><i class="tick"></i>Lift gas<span class="cost">7,500</span></label></div>
     </fieldset>
     <div class="grounded">
@@ -528,39 +531,39 @@
 
     <h2>Fit-out</h2>
     <fieldset>
-      <div class="opt"><input type="checkbox" id="k-wheel" checked>
+      <div class="opt"><input type="checkbox" id="k-wheel" checked form="vy" name="fit" value="wheel">
         <label for="k-wheel"><i class="tick"></i>Captain’s wheel<span class="cost">300</span></label></div>
-      <div class="opt"><input type="checkbox" id="k-lant">
+      <div class="opt"><input type="checkbox" id="k-lant" form="vy" name="fit" value="lant">
         <label for="k-lant"><i class="tick"></i>Lanterns<span class="cost">180</span></label></div>
-      <div class="opt"><input type="checkbox" id="k-crane">
+      <div class="opt"><input type="checkbox" id="k-crane" form="vy" name="fit" value="crane">
         <label for="k-crane"><i class="tick"></i>Cargo cranes<span class="cost">1,400</span></label></div>
-      <div class="opt"><input type="checkbox" id="k-ice">
+      <div class="opt"><input type="checkbox" id="k-ice" form="vy" name="fit" value="ice">
         <label for="k-ice"><i class="tick"></i>Ice sheathing<span class="cost">900</span></label></div>
     </fieldset>
 
     <h2>Arsenal <b>conventional only</b></h2>
     <fieldset>
-      <div class="opt"><input type="checkbox" id="a-ram">
+      <div class="opt"><input type="checkbox" id="a-ram" form="vy" name="arm" value="ram">
         <label for="a-ram"><i class="tick"></i>Ram<span class="cost">2,200</span></label></div>
-      <div class="opt"><input type="checkbox" id="a-broad">
+      <div class="opt"><input type="checkbox" id="a-broad" form="vy" name="arm" value="broad">
         <label for="a-broad"><i class="tick"></i>Broadside battery<span class="cost">8,600</span></label></div>
-      <div class="opt"><input type="checkbox" id="a-ciws">
+      <div class="opt"><input type="checkbox" id="a-ciws" form="vy" name="arm" value="ciws">
         <label for="a-ciws"><i class="tick"></i>Close-in gun<span class="cost">1,800</span></label></div>
-      <div class="opt"><input type="checkbox" id="a-vls">
+      <div class="opt"><input type="checkbox" id="a-vls" form="vy" name="arm" value="vls">
         <label for="a-vls"><i class="tick"></i>Launch cells<span class="cost">9,400</span></label></div>
-      <div class="opt"><input type="checkbox" id="a-asm">
+      <div class="opt"><input type="checkbox" id="a-asm" form="vy" name="arm" value="asm">
         <label for="a-asm"><i class="tick"></i>Anti-ship canisters<span class="cost">6,200</span></label></div>
-      <div class="opt"><input type="checkbox" id="a-tor">
+      <div class="opt"><input type="checkbox" id="a-tor" form="vy" name="arm" value="tor">
         <label for="a-tor"><i class="tick"></i>Torpedo tubes<span class="cost">3,100</span></label></div>
-      <div class="opt"><input type="checkbox" id="a-rail">
+      <div class="opt"><input type="checkbox" id="a-rail" form="vy" name="arm" value="rail">
         <label for="a-rail"><i class="tick"></i>Railgun<span class="cost">16,800</span></label></div>
-      <div class="opt"><input type="checkbox" id="a-mine">
+      <div class="opt"><input type="checkbox" id="a-mine" form="vy" name="arm" value="mine">
         <label for="a-mine"><i class="tick"></i>Mine rails<span class="cost">1,200</span></label></div>
-      <div class="opt"><input type="checkbox" id="a-dc">
+      <div class="opt"><input type="checkbox" id="a-dc" form="vy" name="arm" value="dc">
         <label for="a-dc"><i class="tick"></i>Depth charges<span class="cost">700</span></label></div>
-      <div class="opt"><input type="checkbox" id="a-uav">
+      <div class="opt"><input type="checkbox" id="a-uav" form="vy" name="arm" value="uav">
         <label for="a-uav"><i class="tick"></i>UAV flight<span class="cost">4,300</span></label></div>
-      <div class="opt"><input type="checkbox" id="a-laser">
+      <div class="opt"><input type="checkbox" id="a-laser" form="vy" name="arm" value="laser">
         <label for="a-laser"><i class="tick"></i>Point-defence laser<span class="cost">11,500</span></label></div>
     </fieldset>
     <p class="note">Everything on this list is conventional. The yard does not
@@ -570,13 +573,13 @@
 
     <h2>Escort <b>syndicate hulls</b></h2>
     <fieldset>
-      <div class="opt"><input type="radio" name="esc" id="e-0" checked>
+      <div class="opt"><input type="radio" name="esc" id="e-0" checked form="vy" value="0">
         <label for="e-0"><i class="tick"></i>None<span class="cost">0</span></label></div>
-      <div class="opt"><input type="radio" name="esc" id="e-1">
+      <div class="opt"><input type="radio" name="esc" id="e-1" form="vy" value="1">
         <label for="e-1"><i class="tick"></i>One<span class="cost">2,500</span></label></div>
-      <div class="opt"><input type="radio" name="esc" id="e-2">
+      <div class="opt"><input type="radio" name="esc" id="e-2" form="vy" value="2">
         <label for="e-2"><i class="tick"></i>Two<span class="cost">5,000</span></label></div>
-      <div class="opt"><input type="radio" name="esc" id="e-3">
+      <div class="opt"><input type="radio" name="esc" id="e-3" form="vy" value="3">
         <label for="e-3"><i class="tick"></i>Three<span class="cost">7,500</span></label></div>
     </fieldset>
     <p class="note">Syndicates, not factions. An escort is hulls hired off the
@@ -1076,6 +1079,7 @@
     <input class="addr" placeholder="0x… public address only" spellcheck="false"
       autocomplete="off">
     <a class="send" href="#lodged">Lodge the order</a>
+    <button type="submit" form="vy" class="send" style="background:none;color:var(--gold);border:1px solid var(--gold);width:100%;cursor:pointer;font:inherit;font-size:12px;padding:9px;border-radius:7px;margin-top:6px">Send order to the bridge</button>
     <p class="note">The figure above is a CSS counter, summed from the options
       you checked. Nothing on this page signs, transmits, or settles anything —
       it has no way to. Take the docket to the yard yourself.</p>

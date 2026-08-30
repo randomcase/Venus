@@ -197,6 +197,9 @@
     .stages{left:84px;right:84px}}
 </style>
 
+<form id="vy" action="bridge.html" method="get"><input type="hidden" name="board" value="run" form="vy"></form>
+
+
 <div class="board">
 
 <header>
@@ -262,9 +265,10 @@
 </div>
 
 <div class="focus">
-  <input type="radio" name="asp" id="a-slow"><label class="l-slow" for="a-slow">Slow</label>
-  <input type="radio" name="asp" id="a-cruise" checked><label class="l-cruise" for="a-cruise">Cruise</label>
-  <input type="radio" name="asp" id="a-full"><label class="l-full" for="a-full">Full</label>
+  <input type="radio" name="asp" id="a-slow" form="vy" value="slow"><label class="l-slow" for="a-slow">Slow</label>
+  <input type="radio" name="asp" id="a-cruise" checked form="vy" value="cruise"><label class="l-cruise" for="a-cruise">Cruise</label>
+  <input type="radio" name="asp" id="a-full" form="vy" value="full"><label class="l-full" for="a-full">Full</label>
+  <button type="submit" form="vy" style="margin-left:auto;background:none;color:var(--gold);border:1px solid var(--gold);cursor:pointer;font:inherit;font-size:11.5px;padding:9px 16px;border-radius:8px">Send run to the bridge</button>
   <p>One control, the whole file. Blue is the setting the lane is run on; full
     is a request, not a state. There is no fourth aspect.</p>
 </div>
@@ -276,33 +280,33 @@
       <h4 contenteditable="true" spellcheck="false">Cistern</h4>
       <span class="at">2 ly · fuel</span>
       <div class="bands">
-        <input type="radio" name="g1" id="g1-a"><label for="g1-a">220</label>
-        <input type="radio" name="g1" id="g1-b" checked><label for="g1-b">320</label>
-        <input type="radio" name="g1" id="g1-c"><label for="g1-c">480</label>
+        <input type="radio" name="g1" id="g1-a" form="vy" value="a"><label for="g1-a">220</label>
+        <input type="radio" name="g1" id="g1-b" checked form="vy" value="b"><label for="g1-b">320</label>
+        <input type="radio" name="g1" id="g1-c" form="vy" value="c"><label for="g1-c">480</label>
       </div></div>
     <div class="tar">
       <h4 contenteditable="true" spellcheck="false">Wellhead</h4>
       <span class="at">4 ly · water</span>
       <div class="bands">
-        <input type="radio" name="g2" id="g2-a"><label for="g2-a">60</label>
-        <input type="radio" name="g2" id="g2-b" checked><label for="g2-b">90</label>
-        <input type="radio" name="g2" id="g2-c"><label for="g2-c">140</label>
+        <input type="radio" name="g2" id="g2-a" form="vy" value="a"><label for="g2-a">60</label>
+        <input type="radio" name="g2" id="g2-b" checked form="vy" value="b"><label for="g2-b">90</label>
+        <input type="radio" name="g2" id="g2-c" form="vy" value="c"><label for="g2-c">140</label>
       </div></div>
     <div class="tar">
       <h4 contenteditable="true" spellcheck="false">Anvil</h4>
       <span class="at">7 ly · repair and tow</span>
       <div class="bands">
-        <input type="radio" name="g3" id="g3-a"><label for="g3-a">120</label>
-        <input type="radio" name="g3" id="g3-b" checked><label for="g3-b">180</label>
-        <input type="radio" name="g3" id="g3-c"><label for="g3-c">280</label>
+        <input type="radio" name="g3" id="g3-a" form="vy" value="a"><label for="g3-a">120</label>
+        <input type="radio" name="g3" id="g3-b" checked form="vy" value="b"><label for="g3-b">180</label>
+        <input type="radio" name="g3" id="g3-c" form="vy" value="c"><label for="g3-c">280</label>
       </div></div>
     <div class="tar">
       <h4 contenteditable="true" spellcheck="false">Granary</h4>
       <span class="at">9 ly · stores</span>
       <div class="bands">
-        <input type="radio" name="g4" id="g4-a"><label for="g4-a">95</label>
-        <input type="radio" name="g4" id="g4-b" checked><label for="g4-b">140</label>
-        <input type="radio" name="g4" id="g4-c"><label for="g4-c">210</label>
+        <input type="radio" name="g4" id="g4-a" form="vy" value="a"><label for="g4-a">95</label>
+        <input type="radio" name="g4" id="g4-b" checked form="vy" value="b"><label for="g4-b">140</label>
+        <input type="radio" name="g4" id="g4-c" form="vy" value="c"><label for="g4-c">210</label>
       </div></div>
   </div>
 

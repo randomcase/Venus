@@ -135,6 +135,7 @@
     <div class="bar">
       <button id="copy">Copy</button>
       <button id="save">Download</button>
+      <span class="said" id="seal" style="color:var(--cool);font:10.5px ui-monospace,monospace"></span>
       <span class="said" id="said"></span>
     </div>
     <h2 style="margin-top:16px">Ledger <b>recomputed from the run</b></h2>
@@ -226,7 +227,13 @@ function check(m){
   const r=m.run;
   if(typeof r!=='object'||r===null)at('run','required, and must be an object.');
   else{
-    if(!Array.isArray(r.hulls)||!r.hulls.length)at('run.hulls','at least one hull.');
+    /* A board that authors an order does not author a run, and refusing its
+       manifest for having no hulls would make the order desk unable to post at
+       all. An empty file is a fact about the document, not a fault in it — the
+       ledger simply reads zero. A malformed `hulls` is still a refusal. */
+    if(!Array.isArray(r.hulls))at('run.hulls','must be an array of hulls.');
+    else if(!r.hulls.length)soft('run.hulls','empty; no hulls are on the lane, '+
+      'so the ledger reads zero.');
     else r.hulls.forEach((h,i)=>{
       if(!isStr(h&&h.name))at('run.hulls['+i+'].name','a name is required.');
       if(!ASPECTS.includes(String(h&&h.aspect)))
@@ -284,7 +291,41 @@ function render(m,res){
   if(out.personnel&&isNum(out.personnel.establishment)&&isNum(out.personnel.onboard))
     out.personnel=Object.assign({},out.personnel,
       {shortfall:out.personnel.establishment-out.personnel.onboard});
+
+  /* The clause. It is a settlement rule written into the document, not a
+     power the bridge holds: it fires only on a cap the manifest itself names,
+     it says what it did, and it keeps the pre-seizure figures intact so the
+     arithmetic can be checked afterwards. A seizure nobody can audit is not a
+     clause, it is just a taking. Nothing moves — there is nothing here to
+     move — this is a line in a JSON file. */
+  const cl=m.clause;
+  if(cl&&typeof cl==='object'&&isNum(cl.cap_heze)){
+    const over=L.total_take_heze>cl.cap_heze;
+    out.clause=Object.assign({},cl,{
+      $evaluated_by:'bridge.html',
+      breached:over,
+      assessed_heze:L.total_take_heze,
+      cap_heze:cl.cap_heze
+    });
+    if(over){
+      out.clause.action='terminated';
+      out.clause.overage_heze=L.total_take_heze-cl.cap_heze;
+      out.clause.forfeit_heze=L.total_take_heze;
+      out.clause.forfeit_to=cl.beneficiary||m.syndicate||'unnamed';
+      out.clause.ledger_before_seizure=Object.assign({},L);
+      out.clause.appeal='The figures above are the ones this ran on. Recompute '+
+        'them and the finding is either reproduced or it is wrong.';
+      out.run=Object.assign({},out.run||{},{status:'shut down under clause'});
+      out.ledger=Object.assign({},out.ledger,{total_take_heze:0,
+        $note:'zeroed by clause; the assessed figure is held in clause.'});
+    }else{
+      out.clause.action='none';
+      out.clause.headroom_heze=cl.cap_heze-L.total_take_heze;
+    }
+  }
   $('out').value=JSON.stringify(out,null,2);
+  stamp(out);
+
 
   $('led').innerHTML=
     '<tr><th>Stage</th><th>Band</th><th>Take</th></tr>'+
@@ -312,8 +353,129 @@ function render(m,res){
     html+='<div class="msg warn"><b>The document disagreed with itself.</b> The '+
       'recomputed values are what go out.<ul><li>'+drift.join('</li><li>')+
       '</li></ul></div>';
+  if(out.clause&&out.clause.breached)
+    html+='<div class="msg bad"><b>Clause fired.</b> Assessed '+
+      out.clause.assessed_heze+' against a stated cap of '+out.clause.cap_heze+
+      ' — over by '+out.clause.overage_heze+'. The run is marked shut down and '+
+      the_forfeit(out)+' The pre-seizure ledger is preserved in <code>clause.'+
+      'ledger_before_seizure</code> so the finding can be checked.</div>';
   $('report').innerHTML=html;
   return res.errs.length===0;
+}
+
+const the_forfeit=(o)=>o.clause.forfeit_heze+' HEZE is recorded as forfeit to '+
+  o.clause.forfeit_to+'.';
+
+/* ---------------------------------------------------------------- the hash
+ * Keys are sorted before serialising, so two manifests that say the same thing
+ * hash the same however they were typed. SHA-256 where the browser will give
+ * it to us — crypto.subtle is not available in every context a local file can
+ * be opened in — and a labelled FNV-1a otherwise. The label matters more than
+ * the algorithm: a digest you cannot name is not evidence of anything. */
+function canon(v){
+  if(v===null||typeof v!=='object')return JSON.stringify(v);
+  if(Array.isArray(v))return '['+v.map(canon).join(',')+']';
+  return '{'+Object.keys(v).sort().map((k)=>
+    JSON.stringify(k)+':'+canon(v[k])).join(',')+'}';
+}
+function fnv(s){
+  let a=0xcbf29ce4>>>0,b=0x84222325>>>0;
+  for(let i=0;i<s.length;i++){
+    a^=s.charCodeAt(i);a=Math.imul(a,16777619)>>>0;
+    b^=(s.charCodeAt(i)*7+i)&255;b=Math.imul(b,16777619)>>>0;
+  }
+  return a.toString(16).padStart(8,'0')+b.toString(16).padStart(8,'0');
+}
+async function stamp(out){
+  const body=canon(Object.assign({},out,{seal:undefined}));
+  let alg='fnv1a-64',hex=fnv(body);
+  try{
+    if(self.crypto&&crypto.subtle&&crypto.subtle.digest){
+      const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(body));
+      hex=[...new Uint8Array(buf)].map((x)=>x.toString(16).padStart(2,'0')).join('');
+      alg='sha-256';
+    }
+  }catch(e){/* left on the fallback, and it says so */}
+  const sealed=Object.assign({},out,{seal:{algorithm:alg,over:'canonical JSON, '+
+    'keys sorted, seal excluded',digest:hex}});
+  $('out').value=JSON.stringify(sealed,null,2);
+  $('seal').textContent=alg+' · '+hex.slice(0,24)+'…';
+}
+
+/* ------------------------------------------------------- inbound from a board
+ * The three boards have no script. They post themselves here as a plain GET
+ * form — the browser serialises what is checked into the address bar, and this
+ * reads it off location.search. That is the entire transport: no fetch, no
+ * storage, no channel. The URL is the document. */
+const NAME={buck:'bucketeer',cors:'corsair',dd:'destroyer',cl:'cruiser',
+  cv:'carrier',bb:'battleship',yam:'yamato',mer:'merchant',aux:'auxiliary',
+  mon:'monitor'};
+const TONS={buck:900,cors:2600,dd:8300,cl:14600,cv:47000,bb:64000,yam:72800,
+  mer:9400,aux:6800,mon:26500};
+const HEZE={buck:1000,cors:4600,dd:12400,cl:28000,cv:61000,bb:84000,yam:150000,
+  mer:2100,aux:3200,mon:47000};
+/* establishment and onboard by hull and draft, as the personnel board states them */
+const CREW={buck:[12,12,10,7],cors:[46,46,37,25],dd:[210,210,168,116],
+  cl:[560,560,448,308],cv:[1900,1900,1520,1045],bb:[1850,1850,1480,1018],
+  yam:[2750,2750,2200,1513],mer:[22,22,18,12],aux:[180,180,144,99],
+  mon:[340,340,272,187]};
+const BAND={g1:{a:220,b:320,c:480},g2:{a:60,b:90,c:140},
+  g3:{a:120,b:180,c:280},g4:{a:95,b:140,c:210}};
+const ASPECT={slow:'yellow',cruise:'blue',full:'green'};
+const HULLS=['Kestrel','Tern','Sable','Bellwether','Cormorant','Deep Bell',
+  'Lodestone','Anvil'];
+
+function fromQuery(q){
+  const board=q.get('board');
+  const m={manifest:'venus.yard/1',id:'QUERY-'+(q.get('class')||q.get('hull')||
+    q.get('asp')||'0').toUpperCase(),syndicate:'Heze',
+    $from:board+'.html (GET form)',
+    price:{unit:'BTC',amount:1,covers:'lane franchise — one cycle',
+      denomination_note:'In-project denomination. No transfer exists in these '+
+        'files and no exchange rate is implied.'}};
+
+  if(board==='station'){
+    const c=q.get('class')||'cors';
+    m.order={class:NAME[c]||c,displacement_t:TONS[c]||0,
+      slip:q.get('slip')||'cradle',drive:q.get('drive')||'tug',
+      flight:q.get('flight')||'none',
+      fit_out:q.getAll('fit'),arsenal:q.getAll('arm'),
+      arsenal_policy:'conventional-only',
+      escort_hulls:parseInt(q.get('esc')||'0',10),heze:HEZE[c]||0};
+  }
+  if(board==='personnel'){
+    const h=q.get('hull')||'aux',d=q.get('draft')||'full';
+    const row=CREW[h]||[0,0,0,0];
+    const onb=d==='full'?row[1]:d==='red'?row[2]:row[3];
+    m.personnel={hull:NAME[h]||h,draft:d==='red'?'reduced':d==='skel'?'skeleton':d,
+      establishment:row[0],onboard:onb,shortfall:row[0]-onb,
+      detachments:q.getAll('det'),
+      readiness:d==='full'?'R1':d==='red'?'R2':'R3',
+      resupply_cycle_days:q.get('cyc')==='6'?6:3};
+  }
+  if(board==='run'){
+    const asp=ASPECT[q.get('asp')||'cruise']||'blue';
+    m.run={lane:{from:'land-one',to:'land-two',length_ly:10},
+      cargo_ratio:{outbound:2,inbound:1},
+      hulls:HULLS.map((n,i)=>({name:n,aspect:asp,
+        role:n==='Anvil'?'tender':undefined})),
+      stages:[
+        {at_ly:2,auxiliary:'Cistern', service:'fuel',  band:BAND.g1[q.get('g1')||'b']},
+        {at_ly:4,auxiliary:'Wellhead',service:'water', band:BAND.g2[q.get('g2')||'b']},
+        {at_ly:7,auxiliary:'Anvil',   service:'repair',band:BAND.g3[q.get('g3')||'b']},
+        {at_ly:9,auxiliary:'Granary', service:'stores',band:BAND.g4[q.get('g4')||'b']}],
+      demurrage_band:0};
+  }
+  /* a run has to exist for the ledger to mean anything; a board that did not
+     author one gets an empty file rather than a fabricated one */
+  if(!m.run)m.run={lane:{from:'land-one',to:'land-two',length_ly:10},
+    cargo_ratio:{outbound:2,inbound:1},hulls:[],
+    stages:[{at_ly:2,auxiliary:'Cistern',service:'fuel',band:320}],
+    demurrage_band:0,$note:'no run authored by this board'};
+  if(!m.order)m.order={class:'cruiser',displacement_t:14600,
+    arsenal:[],arsenal_policy:'conventional-only',
+    $note:'no order authored by this board'};
+  return m;
 }
 
 function run(){
@@ -330,6 +492,29 @@ function run(){
 }
 
 $('check').onclick=run;
+/* If a board posted itself here, load what it sent and check it immediately. */
+(function boot(){
+  const q=new URLSearchParams(location.search);
+  /* `doc` carries a whole manifest through the address bar — a page that
+     already holds one posts it entire rather than as loose fields. It is
+     parsed here exactly like anything pasted in, and trusted exactly as
+     little. */
+  if(q.get('doc')){
+    $('in').value=q.get('doc');
+    run();
+    $('report').insertAdjacentHTML('afterbegin',
+      '<div class="msg ok"><b>Inbound document.</b> Carried whole in the '+
+      'address bar and checked like any other. Nothing was fetched.</div>');
+    return;
+  }
+  if(!q.get('board'))return;
+  $('in').value=JSON.stringify(fromQuery(q),null,2);
+  run();
+  $('report').insertAdjacentHTML('afterbegin',
+    '<div class="msg ok"><b>Inbound from '+q.get('board')+
+    '.html.</b> Serialised by the browser as a GET form and read off the '+
+    'address bar. No request was made to load it.</div>');
+})();
 $('clear').onclick=()=>{$('in').value='';$('out').value='';$('report').innerHTML='';
   $('led').innerHTML='<tr><td style="color:var(--dim)">Load a manifest.</td></tr>';};
 $('file').onchange=(e)=>{
