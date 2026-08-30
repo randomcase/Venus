@@ -1,0 +1,240 @@
+<title>Mobile Bank · the syndicate's ledger</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  A bank that travels with the fleet. No script.
+
+  It is a ledger view, not a wallet: there is nothing here to move, no key, no
+  balance held anywhere but in the arithmetic on this page. Every figure is a
+  CSS counter summed from what you select, which is also why it can be honest
+  about the one thing wallets are usually vague about — where the number came
+  from. Every line says which board authored it.
+
+  Built thumb-first. One column, big targets, and the total pinned where a
+  thumb reaches without moving the hand.
+-->
+<style>
+  :root{
+    --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --green:#65d6a8; --red:#e0705a; --blue:#5b9ed6; --yellow:#e8c25c;
+    --plum:#8a6ab8; --cream:#f2e9d6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:0 0 96px;color:var(--ink);background:var(--void);
+    font:15px/1.55 ui-rounded,system-ui,-apple-system,sans-serif;
+    -webkit-text-size-adjust:100%;
+    background-image:
+      radial-gradient(circle at 18% 4%,rgba(224,177,85,.10),transparent 42%),
+      radial-gradient(circle at 88% 96%,rgba(138,106,184,.10),transparent 40%)}
+  .app{max-width:460px;margin:0 auto;padding:16px 14px 0}
+
+  header{display:flex;align-items:center;gap:10px;padding-bottom:12px;
+    border-bottom:1px solid var(--edge);margin-bottom:14px}
+  .mark{width:34px;height:34px;border-radius:10px;flex:none;
+    background:linear-gradient(150deg,var(--green),#1c3d18);
+    border:1px solid #0b1116;display:grid;place-items:center;
+    font:13px/1 ui-monospace,monospace;color:#0b1116;font-weight:700}
+  h1{margin:0;font-size:17px;letter-spacing:-.015em}
+  header .sub{font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-top:3px;display:block}
+  header .tag{margin-left:auto;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--green);
+    border:1px solid var(--green);border-radius:4px;padding:4px 7px}
+
+  h2{font:9px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:20px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10px}
+  .note{color:var(--dim);font-size:11px;line-height:1.62;margin:10px 0 0}
+  code{font:10.5px ui-monospace,monospace;color:var(--cream);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+  /* ------------------------------------------------------------ the balance */
+  .bal{background:linear-gradient(160deg,#16283a,#0e1a24 62%,#111a22);
+    border:1px solid var(--edge);border-radius:16px;padding:16px 17px 15px;
+    position:relative;overflow:hidden}
+  .bal::after{content:"";position:absolute;right:-40px;top:-40px;width:150px;
+    height:150px;border-radius:50%;background:radial-gradient(circle,
+      rgba(224,177,85,.16),transparent 70%)}
+  .bal .who{font:9px/1 ui-monospace,monospace;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--dim)}
+  .bal .big{font:38px/1.1 ui-monospace,Menlo,monospace;color:var(--gold);
+    margin:8px 0 2px;letter-spacing:-.02em}
+  .bal .big::after{content:" HEZE";font-size:14px;color:var(--dim);
+    letter-spacing:.12em}
+  .bal .sub2{font-size:11.5px;color:var(--dim)}
+  .bal .sub2 b{color:var(--ink)}
+
+  .rows{margin-top:12px}
+  .r{display:flex;align-items:baseline;gap:10px;padding:11px 0;
+    border-bottom:1px solid var(--edge);font-size:14px}
+  .r:last-child{border-bottom:0}
+  .r i{width:9px;height:9px;border-radius:3px;flex:none;position:relative;top:1px}
+  .r .src{display:block;font:8.5px/1 ui-monospace,monospace;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--dim);margin-top:4px}
+  .r b{margin-left:auto;font:15px/1 ui-monospace,Menlo,monospace;
+    font-variant-numeric:tabular-nums}
+  .r.cr b{color:var(--green)} .r.dr b{color:var(--red)}
+
+  /* --------------------------------------------------------------- controls */
+  .seg{display:flex;gap:6px;margin-bottom:4px}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;text-align:center;cursor:pointer;padding:13px 6px;
+    border-radius:11px;border:1px solid var(--edge);color:var(--dim);
+    font:12px/1 ui-monospace,monospace;letter-spacing:.06em;
+    -webkit-tap-highlight-color:transparent}
+  .seg input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .seg input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+  .seg.four label{font-size:11px;padding:12px 4px}
+
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .stack input{position:absolute;opacity:0;width:0;height:0}
+  .stack label{display:flex;align-items:center;gap:11px;cursor:pointer;
+    padding:13px 14px;border-radius:12px;border:1px solid var(--edge);
+    font-size:14px;-webkit-tap-highlight-color:transparent}
+  .stack label .tick{width:18px;height:18px;border-radius:6px;flex:none;
+    border:1px solid var(--edge)}
+  .stack label .amt{margin-left:auto;font:13px/1 ui-monospace,monospace;
+    color:var(--dim)}
+  .stack input:checked+label{border-color:var(--gold);
+    background:rgba(224,177,85,.09)}
+  .stack input:checked+label .tick{background:var(--gold);border-color:var(--gold);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--gold)}
+  .stack input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* ------------------------------------------------------------- the ledger */
+  body{counter-reset:cr 0 dr 0 lane 0 wage 0 fuel 0 berth 0 fee 0}
+  /* lane revenue: hulls on the run × what each pass earns */
+  #v-1:checked+label{counter-increment:cr 920   lane 920}
+  #v-2:checked+label{counter-increment:cr 1840 lane 1840}
+  #v-4:checked+label{counter-increment:cr 3680 lane 3680}
+  #v-8:checked+label{counter-increment:cr 7360 lane 7360}
+  /* outgoings — each one is a debit, and each says who it is owed to */
+  #o-wage:checked +label{counter-increment:dr 2400 wage 2400}
+  #o-fuel:checked +label{counter-increment:dr 1600 fuel 1600}
+  #o-berth:checked+label{counter-increment:dr 900  berth 900}
+  #o-fee:checked  +label{counter-increment:dr 340  fee 340}
+  .n-cr::after{content:counter(cr)}     .n-dr::after{content:counter(dr)}
+  .n-lane::after{content:counter(lane)}
+  .n-wage::after{content:counter(wage)} .n-fuel::after{content:counter(fuel)}
+  .n-berth::after{content:counter(berth)} .n-fee::after{content:counter(fee)}
+
+  /* the clause reads the same numbers the ledger does */
+  .app:has(#v-8:checked) .over{display:block}
+  .app:has(#v-8:checked) .under{display:none}
+  .over{display:none}
+  .clause{border-radius:12px;padding:12px 13px;font-size:12px;line-height:1.6;
+    border:1px solid}
+  .under{border-color:var(--green);background:rgba(101,214,168,.07);color:var(--green)}
+  .over{border-color:var(--red);background:rgba(224,112,90,.08);color:var(--red)}
+  .clause b{color:inherit}
+
+  /* --------------------------------------------------------- the thumb bar */
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:5;
+    background:linear-gradient(180deg,rgba(7,10,14,.4),var(--void) 34%);
+    padding:12px 14px 16px;border-top:1px solid var(--edge)}
+  .bar .in{max-width:460px;margin:0 auto;display:flex;align-items:center;gap:12px}
+  .bar .fig{font:20px/1 ui-monospace,Menlo,monospace;color:var(--gold)}
+  .bar .fig small{display:block;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+    margin-bottom:5px;font-family:ui-monospace,monospace}
+  .bar a{margin-left:auto;text-decoration:none;font-size:14px;font-weight:650;
+    background:var(--gold);color:#12181d;border-radius:12px;padding:14px 22px}
+  .bar a:hover{filter:brightness(1.07)}
+
+  @media (min-width:520px){ .app{padding-top:22px} }
+</style>
+
+<div class="app">
+  <header>
+    <div class="mark">₴</div>
+    <div><h1>Mobile Bank</h1>
+      <span class="sub">syndicate ledger · slip 4</span></div>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="bal">
+    <span class="who">Taken in, this cycle</span>
+    <div class="big n-cr"></div>
+    <div class="sub2">against <b class="n-dr"></b> paid out · franchise ₿1</div>
+    <div class="sub2" style="margin-top:7px;font-size:10.5px">The difference is
+      not printed. CSS adds and cannot subtract, and this page will not show a
+      figure it did not compute — take the two numbers to the bridge, which
+      can.</div>
+  </div>
+
+  <h2>Hulls on the run <b>credits</b></h2>
+  <div class="seg four">
+    <input type="radio" name="v" id="v-1"><label for="v-1">1</label>
+    <input type="radio" name="v" id="v-2" checked><label for="v-2">2</label>
+    <input type="radio" name="v" id="v-4"><label for="v-4">4</label>
+    <input type="radio" name="v" id="v-8"><label for="v-8">8</label>
+  </div>
+  <p class="note">920 HEZE a hull, a pass — two stages on tariff at 320 and 140,
+    charged twice because the lane is run out and back. Authored by
+    <code>cruise-control.html</code>; the bank does not invent it.</p>
+
+  <h2>Outgoings <b>debits</b></h2>
+  <div class="stack">
+    <input type="checkbox" id="o-wage" checked>
+    <label for="o-wage"><i class="tick"></i>Wages, ship's company
+      <span class="amt">2,400</span></label>
+    <input type="checkbox" id="o-fuel" checked>
+    <label for="o-fuel"><i class="tick"></i>Fuel, passed at two light years
+      <span class="amt">1,600</span></label>
+    <input type="checkbox" id="o-berth">
+    <label for="o-berth"><i class="tick"></i>Berth, land two
+      <span class="amt">900</span></label>
+    <input type="checkbox" id="o-fee">
+    <label for="o-fee"><i class="tick"></i>Yard fee, slip 4
+      <span class="amt">340</span></label>
+  </div>
+
+  <h2>Statement <b>every line names its board</b></h2>
+  <div class="rows">
+    <div class="r cr"><i style="background:var(--green)"></i>
+      <span>Lane take<span class="src">cruise-control.html</span></span>
+      <b class="n-lane"></b></div>
+    <div class="r dr"><i style="background:var(--red)"></i>
+      <span>Wages<span class="src">personnel.html</span></span>
+      <b class="n-wage"></b></div>
+    <div class="r dr"><i style="background:var(--red)"></i>
+      <span>Fuel<span class="src">auxiliaries.html · AO Cistern</span></span>
+      <b class="n-fuel"></b></div>
+    <div class="r dr"><i style="background:var(--red)"></i>
+      <span>Berth<span class="src">auxiliaries.html · AD Cold Harbour</span></span>
+      <b class="n-berth"></b></div>
+    <div class="r dr"><i style="background:var(--red)"></i>
+      <span>Yard fee<span class="src">station.html</span></span>
+      <b class="n-fee"></b></div>
+  </div>
+
+  <h2>Clause <b>cap 2,000</b></h2>
+  <div class="clause under"><b>Quiet.</b> The assessed take is inside the cap
+    the document names, so the arm has nothing to do. It has no opinion about
+    that — it is comparing two numbers, and one of them is smaller.</div>
+  <div class="clause over"><b>Fires at eight hulls.</b> 7,360 assessed against
+    a stated cap of 2,000. The run would be marked shut down, the sum recorded
+    as forfeit, and the pre-seizure ledger preserved so the finding can be
+    recomputed and contradicted. Raise the cap in the manifest and it stays
+    quiet; that is the only thing that changes it.</div>
+
+  <p class="note" style="margin-top:16px"><strong>What this is not.</strong> Not
+    a wallet. There is no key here, no balance held anywhere, and no way to move
+    anything — the figures are CSS counters summed from the four controls above,
+    and they vanish when you close the tab. HEZE is a denomination inside this
+    project and ₿1 is the stated franchise price; neither implies an exchange
+    rate to anything, and nothing on this page is an offer or advice.</p>
+</div>
+
+<div class="bar">
+  <div class="in">
+    <div class="fig"><small>in / out</small><span class="n-cr"></span><span
+      style="color:var(--dim);font-size:13px"> / </span><span class="n-dr"
+      style="color:var(--red)"></span></div>
+    <a href="bridge.html">Carry to the bridge →</a>
+  </div>
+</div>
