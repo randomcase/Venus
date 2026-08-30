@@ -1,0 +1,325 @@
+<title>Roster · the watch bill</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Six hands. Four stations. Six billets to fill.
+
+  The numbers balance exactly, which is what makes this a trap rather than a
+  puzzle. Every station can be filled — but only two people are rated for the
+  engine room and only one of those two is the trained sick-berth attendant.
+  She cannot be in both places, and the roster is short by exactly her.
+
+  THERE IS NO CORRECT ANSWER ON THIS PAGE. There are four ways to be wrong and
+  the page will tell you which one you chose. That is not a failure of the
+  design; it is the finding. A watch bill that balances on paper and does not
+  balance in people is the most common way a ship gets into trouble, and it
+  looks like a solved problem right up until somebody is needed twice.
+
+  Assign, commit, live with it. No script, no undo.
+-->
+<style>
+  :root{
+    --void:#0a0c10; --card:#141a22; --card2:#1a212a; --edge:#2a3340;
+    --ink:#e9eef4; --dim:#8a95a4; --gold:#e0b155;
+    --red:#e0705a; --green:#65d6a8; --blue:#6ec6ff; --plum:#8a6ab8;
+    --paper:#e6e2d6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 46px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 50% 0%,rgba(224,177,85,.06),transparent 44%)}
+  .wrap{max-width:1040px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.018em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:72ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:22px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.66;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ------------------------------------------------------------ the hands */
+  .hand{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;
+    padding:11px 0;border-bottom:1px solid var(--edge)}
+  .hand:last-of-type{border-bottom:0}
+  .hand .who .nm{font-size:14px;font-weight:650;letter-spacing:-.01em}
+  .hand .who .rt{font:8.5px/1.5 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .hand .who .rt.key{color:var(--gold)}
+  .opts{display:flex;gap:5px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10px/1 ui-monospace,monospace;padding:8px 11px;
+    border-radius:6px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* --------------------------------------------------------- the counters
+     One counter per station. The requirement is printed beside it and the
+     comparison is left to you — CSS cannot subtract and will not pretend. */
+  body{counter-reset:eng 0 deck 0 sig 0 sick 0 fit 0}
+  #p1-eng:checked+label,#p2-eng:checked+label,#p3-eng:checked+label,
+  #p4-eng:checked+label,#p5-eng:checked+label,#p6-eng:checked+label
+    {counter-increment:eng 1}
+  #p1-deck:checked+label,#p2-deck:checked+label,#p3-deck:checked+label,
+  #p4-deck:checked+label,#p5-deck:checked+label,#p6-deck:checked+label
+    {counter-increment:deck 1}
+  #p1-sig:checked+label,#p2-sig:checked+label,#p3-sig:checked+label,
+  #p4-sig:checked+label,#p5-sig:checked+label,#p6-sig:checked+label
+    {counter-increment:sig 1}
+  #p1-sick:checked+label,#p2-sick:checked+label,#p3-sick:checked+label,
+  #p4-sick:checked+label,#p5-sick:checked+label,#p6-sick:checked+label
+    {counter-increment:sick 1}
+  /* rated for the billet — Vane counts for either of hers */
+  #p1-eng:checked+label,#p1-sick:checked+label,
+  #p2-eng:checked+label,#p3-sig:checked+label,
+  #p4-deck:checked+label,#p5-deck:checked+label,#p6-deck:checked+label
+    {counter-increment:fit 1}
+  .n-eng::after{content:counter(eng)}   .n-deck::after{content:counter(deck)}
+  .n-sig::after{content:counter(sig)}   .n-sick::after{content:counter(sick)}
+  .n-fit::after{content:counter(fit)}
+
+  .stations{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  @media (max-width:720px){.stations{grid-template-columns:repeat(2,1fr)}}
+  .st{background:#0e141b;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .st span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .st b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+    margin-top:5px}
+  .st .need{font:9.5px/1 ui-monospace,monospace;color:var(--dim);margin-top:4px;
+    display:block}
+
+  /* ---------------------------------------------------------------- commit */
+  .commit{margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    border:1px solid var(--red);border-radius:12px;padding:13px 15px;
+    background:rgba(224,112,90,.05)}
+  .commit input{position:absolute;opacity:0;width:0;height:0}
+  .commit label{cursor:pointer;font:12.5px/1 ui-monospace,monospace;
+    letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+    padding:15px 30px;border:2px solid var(--red);border-radius:9px;
+    color:var(--red)}
+  #post:checked+label{background:var(--red);color:#12181d}
+  .commit input:focus-visible+label{outline:2px solid var(--blue);outline-offset:3px}
+  .commit .said{font-size:11px;color:var(--dim);max-width:44ch}
+
+  .after{display:none}
+  .wrap:has(#post:checked) .after{display:block}
+  .wrap:has(#post:checked) .before{display:none}
+
+  .out{display:none;border-left:3px solid var(--line,var(--edge));
+    padding:2px 0 2px 15px;margin-top:14px}
+  .out h3{margin:0 0 6px;font-size:16px}
+  .out p{margin:0 0 9px;font-size:12.5px;max-width:78ch}
+  .out p:last-child{margin-bottom:0}
+  .out .cost{font:10px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--red);display:block;margin-bottom:7px}
+
+  /* Four endings, on the only two questions that matter: where Vane went, and
+     whether Brannock is in the engine room with her. */
+  .wrap:has(#post:checked):has(#p1-eng:checked):has(#p2-eng:checked)   .o-a{display:block}
+  .wrap:has(#post:checked):has(#p1-sick:checked):has(#p2-eng:checked)  .o-b{display:block}
+  .wrap:has(#post:checked):has(#p1-eng:checked):not(:has(#p2-eng:checked)) .o-c{display:block}
+  .wrap:has(#post:checked):has(#p1-sick:checked):not(:has(#p2-eng:checked)) .o-d{display:block}
+  .wrap:has(#post:checked):not(:has(#p1-eng:checked)):not(:has(#p1-sick:checked))
+    .o-e{display:block}
+  .o-a{border-color:var(--gold)} .o-b{border-color:var(--blue)}
+  .o-c{border-color:var(--red)} .o-d{border-color:var(--red)}
+  .o-e{border-color:var(--red)}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Roster</h1>
+    <span class="sub">The watch bill for the Cistern, sailing at four. Six
+      hands, six billets, and the numbers balance — which is the problem.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="panel">
+    <h2 style="margin-top:0">Billets required <b>six, across four stations</b></h2>
+    <p class="note" style="margin-top:0"><b>Engine room, two.</b> The oiler does
+      not sail with one hand below. <b>Deck, two.</b> <b>Signals, one.</b>
+      <b>Sick berth, one</b> — Ferris went through a grating on the 44th and is
+      splinted in the berth now. He needs an attendant on passage or he does not
+      travel.</p>
+  </div>
+
+  <div class="panel" style="margin-top:14px">
+    <h2 style="margin-top:0">The hands <b>assign each one</b></h2>
+
+    <div class="hand">
+      <div class="who"><div class="nm">VANE, CORINA J.</div>
+        <div class="rt key">deck · engine rated · sick-berth trained</div></div>
+      <div class="opts">
+        <input type="radio" name="p1" id="p1-eng"><label for="p1-eng">engine</label>
+        <input type="radio" name="p1" id="p1-deck" checked><label for="p1-deck">deck</label>
+        <input type="radio" name="p1" id="p1-sig"><label for="p1-sig">signals</label>
+        <input type="radio" name="p1" id="p1-sick"><label for="p1-sick">sick berth</label>
+      </div>
+    </div>
+
+    <div class="hand">
+      <div class="who"><div class="nm">BRANNOCK, ELIAS T.</div>
+        <div class="rt">engine rated · 41 · quiet</div></div>
+      <div class="opts">
+        <input type="radio" name="p2" id="p2-eng" checked><label for="p2-eng">engine</label>
+        <input type="radio" name="p2" id="p2-deck"><label for="p2-deck">deck</label>
+        <input type="radio" name="p2" id="p2-sig"><label for="p2-sig">signals</label>
+        <input type="radio" name="p2" id="p2-sick"><label for="p2-sick">sick berth</label>
+      </div>
+    </div>
+
+    <div class="hand">
+      <div class="who"><div class="nm">OKONKWO, ADA</div>
+        <div class="rt">signals · relay-qualified</div></div>
+      <div class="opts">
+        <input type="radio" name="p3" id="p3-eng"><label for="p3-eng">engine</label>
+        <input type="radio" name="p3" id="p3-deck"><label for="p3-deck">deck</label>
+        <input type="radio" name="p3" id="p3-sig" checked><label for="p3-sig">signals</label>
+        <input type="radio" name="p3" id="p3-sick"><label for="p3-sick">sick berth</label>
+      </div>
+    </div>
+
+    <div class="hand">
+      <div class="who"><div class="nm">REYES, MARTA</div>
+        <div class="rt">deck · eleven years</div></div>
+      <div class="opts">
+        <input type="radio" name="p4" id="p4-eng"><label for="p4-eng">engine</label>
+        <input type="radio" name="p4" id="p4-deck" checked><label for="p4-deck">deck</label>
+        <input type="radio" name="p4" id="p4-sig"><label for="p4-sig">signals</label>
+        <input type="radio" name="p4" id="p4-sick"><label for="p4-sick">sick berth</label>
+      </div>
+    </div>
+
+    <div class="hand">
+      <div class="who"><div class="nm">FALK, JORIS</div>
+        <div class="rt">stores · deck when needed</div></div>
+      <div class="opts">
+        <input type="radio" name="p5" id="p5-eng"><label for="p5-eng">engine</label>
+        <input type="radio" name="p5" id="p5-deck" checked><label for="p5-deck">deck</label>
+        <input type="radio" name="p5" id="p5-sig"><label for="p5-sig">signals</label>
+        <input type="radio" name="p5" id="p5-sick"><label for="p5-sick">sick berth</label>
+      </div>
+    </div>
+
+    <div class="hand">
+      <div class="who"><div class="nm">SUTTLE, TOM</div>
+        <div class="rt">deck · 19 · first passage</div></div>
+      <div class="opts">
+        <input type="radio" name="p6" id="p6-eng"><label for="p6-eng">engine</label>
+        <input type="radio" name="p6" id="p6-deck" checked><label for="p6-deck">deck</label>
+        <input type="radio" name="p6" id="p6-sig"><label for="p6-sig">signals</label>
+        <input type="radio" name="p6" id="p6-sick"><label for="p6-sick">sick berth</label>
+      </div>
+    </div>
+  </div>
+
+  <h2>Manned <b>compare against the requirement yourself</b></h2>
+  <div class="stations">
+    <div class="st"><span>Engine</span><b class="n-eng"></b>
+      <span class="need">requires 2 · rated: Vane, Brannock</span></div>
+    <div class="st"><span>Deck</span><b class="n-deck"></b>
+      <span class="need">requires 2</span></div>
+    <div class="st"><span>Signals</span><b class="n-sig"></b>
+      <span class="need">requires 1 · rated: Okonkwo</span></div>
+    <div class="st"><span>Sick berth</span><b class="n-sick"></b>
+      <span class="need">requires 1 · trained: Vane</span></div>
+  </div>
+  <p class="note"><b>Rated for the billet: <span class="n-fit"></span> of 6.</b>
+    The page counts heads and shows you the requirement next to it. It does not
+    print the difference, because it cannot compute one — and because on this
+    particular bill the difference is not the interesting number.</p>
+
+  <div class="commit">
+    <input type="checkbox" id="post"><label for="post">Post the bill</label>
+    <span class="said before">She sails at four. Once it is posted, it is the
+      watch bill — this page has no undo and will not grow one.</span>
+    <span class="said after">Posted. The Cistern is away.</span>
+  </div>
+
+  <div class="after">
+    <h2>What it cost</h2>
+
+    <div class="out o-a">
+      <span class="cost">sick berth unattended</span>
+      <h3>Engine room right. Ferris travels alone.</h3>
+      <p>Two rated hands below, which is what the oiler needs to sail, and the
+        only person aboard who could have watched a splinted leg for ninety-eight
+        days is standing a watch on the plates instead.</p>
+      <p>He is checked when somebody remembers. On the eleventh day the leg is
+        swollen and nobody aboard knows whether that is expected. It is a long
+        way to the hospital hull and the relay does not carry a doctor.</p>
+    </div>
+
+    <div class="out o-b">
+      <span class="cost">engine room one hand short</span>
+      <h3>Ferris has his attendant. The engine has Brannock alone.</h3>
+      <p>One rated hand below where the bill says two. He can run the plant; he
+        cannot run it and sleep. On a ninety-eight-day passage that is not a
+        staffing gap, it is a man being asked to be awake for three months, and
+        the failure will not announce itself as a manning decision when it
+        comes.</p>
+      <p>Ferris arrives with the leg set clean. Brannock arrives grey.</p>
+    </div>
+
+    <div class="out o-c">
+      <span class="cost">engine unqualified · sick berth unattended</span>
+      <h3>You split the difference and lost both.</h3>
+      <p>Vane is below, so the sick berth is empty. Brannock is not, so the
+        second engine billet is filled by somebody who has never stood one — on
+        the fleet's oiler, the hull the whole train draws from.</p>
+      <p>Two stations compromised to protect neither. This is the arrangement
+        that looks most balanced on the bill and is the worst of the four.</p>
+    </div>
+
+    <div class="out o-d">
+      <span class="cost">engine has no rated hand at all</span>
+      <h3>Nobody rated is below.</h3>
+      <p>Vane is in the sick berth and Brannock is somewhere else. The engine
+        room of an oiler is being run by people who are willing, which is not
+        the same as people who are able.</p>
+      <p>She may well arrive. That is what makes this the decision that gets
+        repeated.</p>
+    </div>
+
+    <div class="out o-e">
+      <span class="cost">the one person who could choose was not used to choose</span>
+      <h3>Vane is on deck or on the key.</h3>
+      <p>The whole bill turned on where she went, and she went to a station four
+        other people could have stood. The engine room and the sick berth are
+        both being covered by whoever was left.</p>
+      <p>There is no reading of this roster where that is the best use of her.
+        She was the only person on the list who could be the answer to either
+        question.</p>
+    </div>
+
+    <h2>The finding</h2>
+    <p class="note" style="margin-top:0"><b>The roster is short by one person and
+      that person is Vane.</b> Six hands and six billets balance on paper, and
+      the balance is a lie: two of the six billets need a rating only she and
+      Brannock hold, and one of them needs training only she has. There is no
+      assignment of these six people that mans the engine room properly and puts
+      a trained attendant in the sick berth. You were not choosing the right
+      answer. You were choosing which failure to own.</p>
+    <p class="note"><b>Why the page let you commit anyway.</b> Because that is
+      what happens. The bill balances, the numbers look right, the sailing time
+      is fixed, and the gap only becomes visible when somebody is needed in two
+      places — by which point the decision was made weeks ago by a person
+      counting heads. A watch bill that balances in numbers and not in people is
+      the most ordinary way a ship gets into trouble, and it never looks like a
+      mistake at the moment it is made.</p>
+    <p class="note"><b>What would actually fix it:</b> a seventh hand, or Ferris
+      not travelling. Both are decisions somebody above this desk has to make,
+      and neither of them is on this form. That is also true of most rosters.</p>
+  </div>
+</div>
