@@ -1,15 +1,15 @@
 <title>The Venus Knowledge Base</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
-  THE VENUS KNOWLEDGE BASE — 16 entries, generated from kb.json by kb.mjs.
+  THE VENUS KNOWLEDGE BASE — 18 entries, generated from kb.json by kb.mjs.
 
   Every entry carries a TEST: the thing you could do that would show it false.
   An entry without one is an opinion with a heading on it, and this base does
   not accept them. Where an entry has been demonstrated on a board you can open,
   the board is cited by filename and the generator has checked that the file
-  exists — 21 distinct pages cited, 0 broken.
+  exists — 25 distinct pages cited, 0 broken.
 
-  0 of the 16 entries are asserted and not
+  0 of the 18 entries are asserted and not
   demonstrated anywhere. They are named at the foot of the page. A base that
   hides its own soft spots is a brochure.
 
@@ -428,9 +428,9 @@
       <div class="fg">
         <h4>by kind</h4>
         <div class="row">
-          <input type="radio" name="cls" id="f-all" checked><label for="f-all">all 16</label>
+          <input type="radio" name="cls" id="f-all" checked><label for="f-all">all 18</label>
           <input type="radio" name="cls" id="f-concept"><label for="f-concept" title="a claim about how things work">concept 5</label>
-          <input type="radio" name="cls" id="f-mechanism"><label for="f-mechanism" title="a technique, and what it costs">mechanism 5</label>
+          <input type="radio" name="cls" id="f-mechanism"><label for="f-mechanism" title="a technique, and what it costs">mechanism 7</label>
           <input type="radio" name="cls" id="f-figure"><label for="f-figure" title="a person or a posture, and what it does">figure 3</label>
           <input type="radio" name="cls" id="f-number"><label for="f-number" title="a measured or computed quantity">number 3</label>
         </div>
@@ -439,9 +439,9 @@
         <h4>by how sure</h4>
         <div class="row">
           <input type="radio" name="conf" id="g-all" checked><label for="g-all">all</label>
-          <input type="radio" name="conf" id="g-settled"><label for="g-settled" title="demonstrated on a board you can open, and the demonstration is checkable">settled 14</label>
+          <input type="radio" name="conf" id="g-settled"><label for="g-settled" title="demonstrated on a board you can open, and the demonstration is checkable">settled 15</label>
           <input type="radio" name="conf" id="g-working"><label for="g-working" title="used throughout, argued for, not independently verified">working 2</label>
-          <input type="radio" name="conf" id="g-contested"><label for="g-contested" title="the yard has said two things about it and has not reconciled them">contested 0</label>
+          <input type="radio" name="conf" id="g-contested"><label for="g-contested" title="the yard has said two things about it and has not reconciled them">contested 1</label>
           <input type="radio" name="conf" id="g-open"><label for="g-open" title="stated, not demonstrated anywhere yet">open 0</label>
         </div>
       </div>
@@ -498,8 +498,11 @@
         <a href="#the-loss-condition">The loss condition</a>
         <a href="#the-rename">The rename</a>
         <a href="#decentralization">Decentralization</a>
+        <a href="#the-wallet">The wallet</a>
         <s>cited by</s>
         <a class="in" href="#decentralization">Decentralization</a>
+        <a class="in" href="#smart-contracts">Smart contracts</a>
+        <a class="in" href="#the-wallet">The wallet</a>
         <a class="in" href="#the-loss-condition">The loss condition</a>
         <a class="in" href="#the-rename">The rename</a>
         <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
@@ -529,6 +532,60 @@
         <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
       </div>
     </section>
+    <section class="e c-mechanism s-contested" id="smart-contracts">
+      <h3><a href="#smart-contracts">Smart contracts</a>
+        <i class="k">mechanism</i><i class="d">contested</i></h3>
+      <p class="short">Code that guarantees execution, not truth. It enforces the terms it was handed and never asks whether they are fair.</p>
+      <p class="b">What a smart contract actually promises is narrow and worth stating plainly: given these inputs, this code runs, deterministically, and everyone can check that it ran. That is a real guarantee and it is the only one. It says nothing about whether the inputs were true, whether the terms were reasonable, or whether the parties understood them.</p>
+      <p class="b">Everything the contract knows about the world arrived through somebody's hand. That is the oracle problem and it is not a rough edge to be engineered away — it is structural. A contract that pays on delivery cannot see a crate; it sees a signature asserting a crate. So the discretion did not disappear when the code went on-chain. It moved to whoever signs, and to whoever wrote the terms, and to whoever gets to say what the words in the terms refer to.</p>
+      <p class="b"><em>THIS ENTRY IS MARKED CONTESTED BECAUSE THIS REPOSITORY HAS SAID TWO THINGS</em>. One position: there are no blockers, smart contracts prevent syndication — if allocation is in code and no human chooses who receives what, the classic move of matriculating funds upward and promoting within has nowhere to happen. The other, from theory.md: a syndicate's only move is de-fungibilisation, and de-fungibilisation happens in the noun, off-chain, before anything reaches a contract at all.</p>
+      <p class="b">The reconciliation, as far as it goes: <em>A CONTRACT CAN CLOSE THE DISCRETIONARY PATH AND CANNOT CLOSE THE SEMANTIC ONE</em>. Where the allocation is genuinely mechanical, the first position holds and it holds strongly — that route really is shut, and shutting it is not nothing. But the rename is upstream of the contract, and a contract handed the renamed thing will execute against it faithfully and irreversibly, which is worse than a clerk who might have hesitated. Neither position is wrong about its own half and the yard has not shown a board where both halves are in view at once. Until it does, this stays contested.</p>
+      <p class="b">One scope rule this yard did adopt and does keep: <em>SMART CONTRACTS ARE FOR WALLET TRANSACTIONS</em>. Not membership, not governance, not adjudication. The moment a contract is asked to decide who belongs, it has become a bench — and a bench that cannot be appealed is strictly worse than one that can, because appeal is the only mechanism anybody has ever built for the case where the rule was right and the outcome was wrong.</p>
+      <p class="b">And a contract is only as good as the checks somebody paid for. contract.html gives that cost a name: gas. A check nobody paid for is a check nobody ran, and an unpaid check looks exactly like a passed one from the outside.</p>
+      <div class="test"><span>the test</span><p>Follow the value and find the last point where a human chose. If there is one, the contract automated the disbursement and not the decision — syndication lives at the choice, not the transfer. If there genuinely is none, stop looking there and ask two questions instead: who wrote the terms, and who gets to say what the nouns in the terms refer to.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="contract.html"><b>contract.html</b>gas, and the burn — a form is complete when every check has been performed, and checking costs something</a>
+        <a href="chain.html"><b>chain.html</b>B2 / P2P / 2B — strictly decreasing authority, and the arrival leg can only receive</a>
+        <a href="vault.html"><b>vault.html</b>dual control and a time lock; the reserve has never once been taken by somebody without keys</a>
+        <a href="syndicate.html"><b>syndicate.html</b>six indicators, each a structural fact you can check on paper rather than a vibe</a>
+      </div>
+      <div class="rel">
+        <a href="#the-wallet">The wallet</a>
+        <a href="#the-rename">The rename</a>
+        <a href="#fungibility">Fungibility</a>
+        <a href="#the-loss-condition">The loss condition</a>
+        <s>cited by</s>
+        <a class="in" href="#the-wallet">The wallet</a>
+        <a class="in" href="#the-rename">The rename</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-wallet">
+      <h3><a href="#the-wallet">The wallet</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">The narrowest identity there is: it can hold and it can sign. It has no memory of why.</p>
+      <p class="b">Romulus is one thing, a wallet. Remus is all things — everything not Romulus. That split is exact and it is the most useful definition of a wallet anybody has offered in this repository, because it defines the thing by its complement.</p>
+      <p class="b">A wallet is not a person, not a role, not a reputation, not a history, not a standing, not an obligation. It is an address, a balance, and the capability to sign. Every attribute an institution normally carries lives in the complement — which is why the complement needs a name of its own and why calling it Remus rather than &quot;metadata&quot; was the right call.</p>
+      <p class="b">That narrowness is a feature exactly once: it is the precise amount of identity an autonomous agent needs. An agent with a wallet can participate without anybody first having to decide what it is, which is why two made agents who are not required by anything can try anyway, and keep trying, and the ledger has no way to object.</p>
+      <p class="b"><em>THE FINDING IS THE SILENCE</em>. A wallet records that value moved and never what for. It is complete about quantity and silent about reason — and the reason is where the syndicate lives. This is the same shape as the bench's <code>named</code> counter: the transfer is in the record and the drafter is not, and no amount of auditing the transfers recovers the drafter.</p>
+      <p class="b">Which is why this yard's ledger is deliberately NOT a wallet. bank.html holds no key and no balance; every figure is arithmetic summed from what you select, and every line says which board authored it. That last property — where the number came from — is exactly what a wallet gives up in exchange for being able to move value without asking anyone.</p>
+      <p class="b">A refusal belongs in this entry because it is the same argument. The game boards were asked to denominate their rewards at one bitcoin minimum and they do not. That is not a judgment about the asset; it is that <em>A NUMBER A PAGE PRINTS IS NOT A NUMBER ANYBODY OWES</em>. These pages hold no key, settle nothing, and cannot make anyone good for it — and printing a figure as though they could is the first move in the thing this whole yard is about.</p>
+      <div class="test"><span>the test</span><p>Ask the ledger why. If it can tell you what a transfer was for, you are not looking at a wallet — you are looking at a wallet plus a record somebody kept beside it, and that record, not the chain, is the part with the accountability in it. Then ask who is paid to keep it.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="bank.html"><b>bank.html</b>a ledger view and not a wallet — no key, no balance, and every line says which board authored the figure</a>
+        <a href="vault.html"><b>vault.html</b>dual control: a vault resists a single person with authority, which is the harder problem</a>
+        <a href="chamber.html"><b>chamber.html</b>the ninth wallet, fifteen years without trading, and what being bound in actually buys</a>
+        <a href="ecosystem.html"><b>ecosystem.html</b>Romulus and Remus — two made agents who are not required and try anyway</a>
+      </div>
+      <div class="rel">
+        <a href="#smart-contracts">Smart contracts</a>
+        <a href="#the-attribution-gap">The attribution gap</a>
+        <a href="#fungibility">Fungibility</a>
+        <a href="#the-retainer">The retainer</a>
+        <s>cited by</s>
+        <a class="in" href="#fungibility">Fungibility</a>
+        <a class="in" href="#smart-contracts">Smart contracts</a>
+      </div>
+    </section>
     <section class="e c-concept s-working" id="the-loss-condition">
       <h3><a href="#the-loss-condition">The loss condition</a>
         <i class="k">concept</i><i class="d">working</i></h3>
@@ -549,6 +606,7 @@
         <s>cited by</s>
         <a class="in" href="#fungibility">Fungibility</a>
         <a class="in" href="#the-minimum-cycle">What it takes to start something</a>
+        <a class="in" href="#smart-contracts">Smart contracts</a>
         <a class="in" href="#the-rename">The rename</a>
         <a class="in" href="#caught-up">Caught up</a>
         <a class="in" href="#the-orbit">The orbit</a>
@@ -571,8 +629,10 @@
         <a href="#fungibility">Fungibility</a>
         <a href="#the-retainer">The retainer</a>
         <a href="#the-loss-condition">The loss condition</a>
+        <a href="#smart-contracts">Smart contracts</a>
         <s>cited by</s>
         <a class="in" href="#fungibility">Fungibility</a>
+        <a class="in" href="#smart-contracts">Smart contracts</a>
         <a class="in" href="#the-retainer">The retainer</a>
       </div>
     </section>
@@ -594,6 +654,7 @@
         <a href="#the-rename">The rename</a>
         <a href="#the-constant-judge">The constant judge</a>
         <s>cited by</s>
+        <a class="in" href="#the-wallet">The wallet</a>
         <a class="in" href="#the-loss-condition">The loss condition</a>
         <a class="in" href="#the-rename">The rename</a>
         <a class="in" href="#the-attribution-gap">The attribution gap</a>
@@ -617,6 +678,7 @@
         <a href="#the-constant-judge">The constant judge</a>
         <a href="#the-zero-counter">The counter that prints zero</a>
         <s>cited by</s>
+        <a class="in" href="#the-wallet">The wallet</a>
         <a class="in" href="#the-retainer">The retainer</a>
         <a class="in" href="#the-constant-judge">The constant judge</a>
         <a class="in" href="#the-zero-counter">The counter that prints zero</a>
@@ -824,23 +886,23 @@
       </div>
     </section>
 
-  <div class="count">of 16 entries showing. A hidden element generates
+  <div class="count">of 18 entries showing. A hidden element generates
     no box and so increments no counter &mdash; this number is not maintained by
     anything, it is what <code>display:none</code> already means. <b>Nothing
-    happens at 16.</b></div>
+    happens at 18.</b></div>
 
   <h2>What the base knows about itself <b>checked at build time, not claimed</b></h2>
   <div class="panel">
     <div class="stats">
-      <div class="st"><span>entries</span><b>16</b></div>
-      <div class="st"><span>boards cited</span><b>21</b></div>
+      <div class="st"><span>entries</span><b>18</b></div>
+      <div class="st"><span>boards cited</span><b>25</b></div>
       <div class="st ok"><span>broken citations</span><b>0</b></div>
       <div class="st ok"><span>undemonstrated</span><b>0</b></div>
     </div>
     <p class="n"><b>Most cited:</b>
-      <a href="automat.html">automat.html</a> &times;6 &middot; <a href="rapture.html">rapture.html</a> &times;5 &middot; <a href="bench.html">bench.html</a> &times;5 &middot; <a href="buddha.html">buddha.html</a> &times;4 &middot; <a href="ecosystem.html">ecosystem.html</a> &times;3.
-      <b>Most depended-on idea:</b> The loss condition, cited by
-      5 other entries. The inbound half of that graph is
+      <a href="automat.html">automat.html</a> &times;6 &middot; <a href="rapture.html">rapture.html</a> &times;5 &middot; <a href="bench.html">bench.html</a> &times;5 &middot; <a href="ecosystem.html">ecosystem.html</a> &times;4 &middot; <a href="buddha.html">buddha.html</a> &times;4.
+      <b>Most depended-on idea:</b> Fungibility, cited by
+      6 other entries. The inbound half of that graph is
       computed here rather than written in the JSON, because it is the half
       nobody maintains by hand and the half that says which ideas are actually
       load-bearing.</p>
@@ -872,7 +934,7 @@
   </div>
 
   <footer>
-    16 entries &middot; 21 boards cited &middot;
+    18 entries &middot; 25 boards cited &middot;
     0 broken &middot; 0 undemonstrated.
     Generated by <a href="kb.mjs">kb.mjs</a> from <a href="kb.json">kb.json</a>.
     <br><a href="theory.md">theory.md</a>, the argument &middot;

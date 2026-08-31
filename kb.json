@@ -27,11 +27,24 @@
       ],
       "test": "Delete one component. If any other component's behaviour changes — timing, output, ordering, anything — it was not decentralised, and the coupling you just found is the real architecture.",
       "evidence": [
-        { "page": "automat.html", "what": "140-odd tribes across 45 boards; no tribe reads another, and the orbit is the lcm rather than a schedule" },
-        { "page": "ecosystem.html", "what": "twelve orders; take one out and the board shows exactly which capabilities stop and which genuinely do not" },
-        { "page": "mycelium.html", "what": "the network that routes around a cut rather than reporting it" }
+        {
+          "page": "automat.html",
+          "what": "140-odd tribes across 45 boards; no tribe reads another, and the orbit is the lcm rather than a schedule"
+        },
+        {
+          "page": "ecosystem.html",
+          "what": "twelve orders; take one out and the board shows exactly which capabilities stop and which genuinely do not"
+        },
+        {
+          "page": "mycelium.html",
+          "what": "the network that routes around a cut rather than reporting it"
+        }
       ],
-      "see": ["fungibility", "the-orbit", "the-minimum-cycle"]
+      "see": [
+        "fungibility",
+        "the-orbit",
+        "the-minimum-cycle"
+      ]
     },
     {
       "id": "fungibility",
@@ -46,11 +59,25 @@
       ],
       "test": "Write the preference function over two units. If it compiles, they are not fungible. If it does not, ask what the syndicate would have to add before it could — that addition is the attack.",
       "evidence": [
-        { "page": "theory.md", "what": "the argument in full: fungibility removes the individual loss condition and the scarcity rent" },
-        { "page": "buddha.html", "what": "one substance, two nouns; the matter counter reads 1 on both sides and the capability counter does not" },
-        { "page": "automat.html", "what": "no scoring function, no goal state, no termination test anywhere in the file" }
+        {
+          "page": "theory.md",
+          "what": "the argument in full: fungibility removes the individual loss condition and the scarcity rent"
+        },
+        {
+          "page": "buddha.html",
+          "what": "one substance, two nouns; the matter counter reads 1 on both sides and the capability counter does not"
+        },
+        {
+          "page": "automat.html",
+          "what": "no scoring function, no goal state, no termination test anywhere in the file"
+        }
       ],
-      "see": ["the-loss-condition", "the-rename", "decentralization"]
+      "see": [
+        "the-loss-condition",
+        "the-rename",
+        "decentralization",
+        "the-wallet"
+      ]
     },
     {
       "id": "the-minimum-cycle",
@@ -66,11 +93,104 @@
       ],
       "test": "Invert the dependency graph and look for cycles, not for maxima. If your proposed start has no path back to itself, it is a root and not a start, and it will sit idle producing nothing until you build the return arrow.",
       "evidence": [
-        { "page": "economy.html", "what": "Zeus alone: 0 working, 1 broken. All four roots: 2 capabilities, nobody eating" },
-        { "page": "sumer.html", "what": "the same twelve, 1,500 years earlier — Nisaba holds grain AND writing, which collapses two nodes into one and shortens the loop" },
-        { "page": "profiles/index.html", "what": "14 requirements, 6 settled; the envelope has 10 downstream and is only derived" }
+        {
+          "page": "economy.html",
+          "what": "Zeus alone: 0 working, 1 broken. All four roots: 2 capabilities, nobody eating"
+        },
+        {
+          "page": "sumer.html",
+          "what": "the same twelve, 1,500 years earlier — Nisaba holds grain AND writing, which collapses two nodes into one and shortens the loop"
+        },
+        {
+          "page": "profiles/index.html",
+          "what": "14 requirements, 6 settled; the envelope has 10 downstream and is only derived"
+        }
       ],
-      "see": ["decentralization", "the-loss-condition", "hydrogen"]
+      "see": [
+        "decentralization",
+        "the-loss-condition",
+        "hydrogen"
+      ]
+    },
+    {
+      "id": "smart-contracts",
+      "term": "Smart contracts",
+      "class": "mechanism",
+      "settled": "contested",
+      "short": "Code that guarantees execution, not truth. It enforces the terms it was handed and never asks whether they are fair.",
+      "body": [
+        "What a smart contract actually promises is narrow and worth stating plainly: given these inputs, this code runs, deterministically, and everyone can check that it ran. That is a real guarantee and it is the only one. It says nothing about whether the inputs were true, whether the terms were reasonable, or whether the parties understood them.",
+        "Everything the contract knows about the world arrived through somebody's hand. That is the oracle problem and it is not a rough edge to be engineered away — it is structural. A contract that pays on delivery cannot see a crate; it sees a signature asserting a crate. So the discretion did not disappear when the code went on-chain. It moved to whoever signs, and to whoever wrote the terms, and to whoever gets to say what the words in the terms refer to.",
+        "THIS ENTRY IS MARKED CONTESTED BECAUSE THIS REPOSITORY HAS SAID TWO THINGS. One position: there are no blockers, smart contracts prevent syndication — if allocation is in code and no human chooses who receives what, the classic move of matriculating funds upward and promoting within has nowhere to happen. The other, from theory.md: a syndicate's only move is de-fungibilisation, and de-fungibilisation happens in the noun, off-chain, before anything reaches a contract at all.",
+        "The reconciliation, as far as it goes: A CONTRACT CAN CLOSE THE DISCRETIONARY PATH AND CANNOT CLOSE THE SEMANTIC ONE. Where the allocation is genuinely mechanical, the first position holds and it holds strongly — that route really is shut, and shutting it is not nothing. But the rename is upstream of the contract, and a contract handed the renamed thing will execute against it faithfully and irreversibly, which is worse than a clerk who might have hesitated. Neither position is wrong about its own half and the yard has not shown a board where both halves are in view at once. Until it does, this stays contested.",
+        "One scope rule this yard did adopt and does keep: SMART CONTRACTS ARE FOR WALLET TRANSACTIONS. Not membership, not governance, not adjudication. The moment a contract is asked to decide who belongs, it has become a bench — and a bench that cannot be appealed is strictly worse than one that can, because appeal is the only mechanism anybody has ever built for the case where the rule was right and the outcome was wrong.",
+        "And a contract is only as good as the checks somebody paid for. contract.html gives that cost a name: gas. A check nobody paid for is a check nobody ran, and an unpaid check looks exactly like a passed one from the outside."
+      ],
+      "test": "Follow the value and find the last point where a human chose. If there is one, the contract automated the disbursement and not the decision — syndication lives at the choice, not the transfer. If there genuinely is none, stop looking there and ask two questions instead: who wrote the terms, and who gets to say what the nouns in the terms refer to.",
+      "evidence": [
+        {
+          "page": "contract.html",
+          "what": "gas, and the burn — a form is complete when every check has been performed, and checking costs something"
+        },
+        {
+          "page": "chain.html",
+          "what": "B2 / P2P / 2B — strictly decreasing authority, and the arrival leg can only receive"
+        },
+        {
+          "page": "vault.html",
+          "what": "dual control and a time lock; the reserve has never once been taken by somebody without keys"
+        },
+        {
+          "page": "syndicate.html",
+          "what": "six indicators, each a structural fact you can check on paper rather than a vibe"
+        }
+      ],
+      "see": [
+        "the-wallet",
+        "the-rename",
+        "fungibility",
+        "the-loss-condition"
+      ]
+    },
+    {
+      "id": "the-wallet",
+      "term": "The wallet",
+      "class": "mechanism",
+      "settled": "settled",
+      "short": "The narrowest identity there is: it can hold and it can sign. It has no memory of why.",
+      "body": [
+        "Romulus is one thing, a wallet. Remus is all things — everything not Romulus. That split is exact and it is the most useful definition of a wallet anybody has offered in this repository, because it defines the thing by its complement.",
+        "A wallet is not a person, not a role, not a reputation, not a history, not a standing, not an obligation. It is an address, a balance, and the capability to sign. Every attribute an institution normally carries lives in the complement — which is why the complement needs a name of its own and why calling it Remus rather than \"metadata\" was the right call.",
+        "That narrowness is a feature exactly once: it is the precise amount of identity an autonomous agent needs. An agent with a wallet can participate without anybody first having to decide what it is, which is why two made agents who are not required by anything can try anyway, and keep trying, and the ledger has no way to object.",
+        "THE FINDING IS THE SILENCE. A wallet records that value moved and never what for. It is complete about quantity and silent about reason — and the reason is where the syndicate lives. This is the same shape as the bench's `named` counter: the transfer is in the record and the drafter is not, and no amount of auditing the transfers recovers the drafter.",
+        "Which is why this yard's ledger is deliberately NOT a wallet. bank.html holds no key and no balance; every figure is arithmetic summed from what you select, and every line says which board authored it. That last property — where the number came from — is exactly what a wallet gives up in exchange for being able to move value without asking anyone.",
+        "A refusal belongs in this entry because it is the same argument. The game boards were asked to denominate their rewards at one bitcoin minimum and they do not. That is not a judgment about the asset; it is that A NUMBER A PAGE PRINTS IS NOT A NUMBER ANYBODY OWES. These pages hold no key, settle nothing, and cannot make anyone good for it — and printing a figure as though they could is the first move in the thing this whole yard is about."
+      ],
+      "test": "Ask the ledger why. If it can tell you what a transfer was for, you are not looking at a wallet — you are looking at a wallet plus a record somebody kept beside it, and that record, not the chain, is the part with the accountability in it. Then ask who is paid to keep it.",
+      "evidence": [
+        {
+          "page": "bank.html",
+          "what": "a ledger view and not a wallet — no key, no balance, and every line says which board authored the figure"
+        },
+        {
+          "page": "vault.html",
+          "what": "dual control: a vault resists a single person with authority, which is the harder problem"
+        },
+        {
+          "page": "chamber.html",
+          "what": "the ninth wallet, fifteen years without trading, and what being bound in actually buys"
+        },
+        {
+          "page": "ecosystem.html",
+          "what": "Romulus and Remus — two made agents who are not required and try anyway"
+        }
+      ],
+      "see": [
+        "smart-contracts",
+        "the-attribution-gap",
+        "fungibility",
+        "the-retainer"
+      ]
     },
     {
       "id": "the-loss-condition",
@@ -85,11 +205,24 @@
       ],
       "test": "Find the last unit. If you can name it — last life, last turn, last block, last lap — ask who would sell it and at what price. If you cannot name one, there is nothing there to rent.",
       "evidence": [
-        { "page": "theory.md", "what": "the three notes compiled: a loss condition is a scare factor, compared to something that is and is not at the same time" },
-        { "page": "rapture.html", "what": "a format with no arc and a superrotation with no last lap; neither can be sold by the unit" },
-        { "page": "automat.html", "what": "no termination test and no counter that only goes one way" }
+        {
+          "page": "theory.md",
+          "what": "the three notes compiled: a loss condition is a scare factor, compared to something that is and is not at the same time"
+        },
+        {
+          "page": "rapture.html",
+          "what": "a format with no arc and a superrotation with no last lap; neither can be sold by the unit"
+        },
+        {
+          "page": "automat.html",
+          "what": "no termination test and no counter that only goes one way"
+        }
       ],
-      "see": ["fungibility", "the-retainer", "caught-up"]
+      "see": [
+        "fungibility",
+        "the-retainer",
+        "caught-up"
+      ]
     },
     {
       "id": "the-rename",
@@ -104,11 +237,25 @@
       ],
       "test": "Hold the substance fixed and change only the noun. If the list of things it can do changes, the change was never about the substance, and somebody is being paid for the difference.",
       "evidence": [
-        { "page": "buddha.html", "what": "one radio, two nouns, identical matter; matter reads 1 both ways and capability does not" },
-        { "page": "ecosystem.html", "what": "the floor as the tank of seed dispersal — the beetle, the web, the pupation" },
-        { "page": "syndicate.html", "what": "the structure that profits from the difference" }
+        {
+          "page": "buddha.html",
+          "what": "one radio, two nouns, identical matter; matter reads 1 both ways and capability does not"
+        },
+        {
+          "page": "ecosystem.html",
+          "what": "the floor as the tank of seed dispersal — the beetle, the web, the pupation"
+        },
+        {
+          "page": "syndicate.html",
+          "what": "the structure that profits from the difference"
+        }
       ],
-      "see": ["fungibility", "the-retainer", "the-loss-condition"]
+      "see": [
+        "fungibility",
+        "the-retainer",
+        "the-loss-condition",
+        "smart-contracts"
+      ]
     },
     {
       "id": "the-retainer",
@@ -123,11 +270,24 @@
       ],
       "test": "Look for the false statement. If there is not one, stop looking for corruption and start looking at what the payment is FOR — the answer is usually a capacity rather than an act.",
       "evidence": [
-        { "page": "buddha.html", "what": "five apertures, 32 arrangements, seven readings; the full mouth is one of them and it is the one you were shown first" },
-        { "page": "bench.html", "what": "the clergy — paid to assist, and the reasons that bind carry nobody's name" },
-        { "page": "chamber.html", "what": "the ninth wallet, and what being bound in actually buys" }
+        {
+          "page": "buddha.html",
+          "what": "five apertures, 32 arrangements, seven readings; the full mouth is one of them and it is the one you were shown first"
+        },
+        {
+          "page": "bench.html",
+          "what": "the clergy — paid to assist, and the reasons that bind carry nobody's name"
+        },
+        {
+          "page": "chamber.html",
+          "what": "the ninth wallet, and what being bound in actually buys"
+        }
       ],
-      "see": ["the-attribution-gap", "the-rename", "the-constant-judge"]
+      "see": [
+        "the-attribution-gap",
+        "the-rename",
+        "the-constant-judge"
+      ]
     },
     {
       "id": "the-attribution-gap",
@@ -142,10 +302,20 @@
       ],
       "test": "Remove the assistants and re-run. Whatever still happens on time was never the thing they were doing; whatever stops is what they were actually producing, and you can now check whether their names are on it.",
       "evidence": [
-        { "page": "bench.html", "what": "40 disposals, 12 opinions, 0 bearing a drafter — and `named` is a counter you can watch fail to move" },
-        { "page": "exhibit.html", "what": "the record, verbatim, which is the only reason any of this can be checked at all" }
+        {
+          "page": "bench.html",
+          "what": "40 disposals, 12 opinions, 0 bearing a drafter — and `named` is a counter you can watch fail to move"
+        },
+        {
+          "page": "exhibit.html",
+          "what": "the record, verbatim, which is the only reason any of this can be checked at all"
+        }
       ],
-      "see": ["the-retainer", "the-constant-judge", "the-zero-counter"]
+      "see": [
+        "the-retainer",
+        "the-constant-judge",
+        "the-zero-counter"
+      ]
     },
     {
       "id": "the-constant-judge",
@@ -161,9 +331,16 @@
       ],
       "test": "Change the input and watch the output. If a decision-maker's output is invariant across every input you can supply, the input is not what is producing the decision, and you should go looking for what is.",
       "evidence": [
-        { "page": "bench.html", "what": "seniority 17 — toggle the twelve circuits and sixteen cards change while his does not" }
+        {
+          "page": "bench.html",
+          "what": "seniority 17 — toggle the twelve circuits and sixteen cards change while his does not"
+        }
       ],
-      "see": ["the-attribution-gap", "the-retainer", "cascade-order"]
+      "see": [
+        "the-attribution-gap",
+        "the-retainer",
+        "cascade-order"
+      ]
     },
     {
       "id": "caught-up",
@@ -178,10 +355,20 @@
       ],
       "test": "Look for the seam. If you can point at a moment where the medium handed off, it is a sequence of events; if you cannot, it is a medium. The listener who can hear the crossfade is no longer inside the format.",
       "evidence": [
-        { "page": "rapture.html", "what": "seven segments on a 48-column grid, all in row one, overlapping by 14 measured pixels per join" },
-        { "page": "supply.html", "what": "the relay — Venus is not a haul, it is a relay, and a relay has no last leg" }
+        {
+          "page": "rapture.html",
+          "what": "seven segments on a 48-column grid, all in row one, overlapping by 14 measured pixels per join"
+        },
+        {
+          "page": "supply.html",
+          "what": "the relay — Venus is not a haul, it is a relay, and a relay has no last leg"
+        }
       ],
-      "see": ["superrotation", "the-loss-condition", "the-orbit"]
+      "see": [
+        "superrotation",
+        "the-loss-condition",
+        "the-orbit"
+      ]
     },
     {
       "id": "superrotation",
@@ -196,11 +383,24 @@
       ],
       "test": "Do the division yourself with a different wind speed from the published range and see how far the answer moves. If a page gives you one confident figure and no division, it is claiming a precision the measurement does not have.",
       "evidence": [
-        { "page": "rapture.html", "what": "the arithmetic printed in full, and the gap between the quoted 60 and the computed 55 left visible on purpose" },
-        { "page": "terraform.html", "what": "9,000 sq mi as 0.00506% of the surface" },
-        { "page": "profiles/clock.html", "what": "116.75 d solar day against a ~4 d super-rotation" }
+        {
+          "page": "rapture.html",
+          "what": "the arithmetic printed in full, and the gap between the quoted 60 and the computed 55 left visible on purpose"
+        },
+        {
+          "page": "terraform.html",
+          "what": "9,000 sq mi as 0.00506% of the surface"
+        },
+        {
+          "page": "profiles/clock.html",
+          "what": "116.75 d solar day against a ~4 d super-rotation"
+        }
       ],
-      "see": ["caught-up", "hydrogen", "the-minimum-cycle"]
+      "see": [
+        "caught-up",
+        "hydrogen",
+        "the-minimum-cycle"
+      ]
     },
     {
       "id": "hydrogen",
@@ -215,11 +415,24 @@
       ],
       "test": "Trace any requirement in the profiles back along its inputs. If it terminates at water and the water terminates at hydrogen, it is in the constrained set. If a proposal claims to avoid this, ask where its hydrogen comes from and in what mass.",
       "evidence": [
-        { "page": "profiles/hydrogen.html", "what": "2.06% H in H₂SO₄; ~136,000 m³ of cloud per kg of water" },
-        { "page": "water.html", "what": "the siphon, the cleaning, the healthy waterway" },
-        { "page": "terraform.html", "what": "the 9,000 sq mi envelope and what it needs delivered" }
+        {
+          "page": "profiles/hydrogen.html",
+          "what": "2.06% H in H₂SO₄; ~136,000 m³ of cloud per kg of water"
+        },
+        {
+          "page": "water.html",
+          "what": "the siphon, the cleaning, the healthy waterway"
+        },
+        {
+          "page": "terraform.html",
+          "what": "the 9,000 sq mi envelope and what it needs delivered"
+        }
       ],
-      "see": ["superrotation", "the-minimum-cycle", "fungibility"]
+      "see": [
+        "superrotation",
+        "the-minimum-cycle",
+        "fungibility"
+      ]
     },
     {
       "id": "cascade-order",
@@ -234,11 +447,24 @@
       ],
       "test": "Compute both specificities. If yours is lower, you lost on specificity and moving the rule will not help. If yours is higher and it still does nothing, your selector never matched — the tree is not what you think it is.",
       "evidence": [
-        { "page": "ecosystem.html", "what": "(1,3,0) against (2,4,0), recorded at the foot of the stylesheet rather than quietly fixed" },
-        { "page": "workbook.html", "what": "chapters three and four, with the drill that computes both triples" },
-        { "page": "automat.html", "what": "devmode's PROBE, which computes the triple live including :has/:is/:where" }
+        {
+          "page": "ecosystem.html",
+          "what": "(1,3,0) against (2,4,0), recorded at the foot of the stylesheet rather than quietly fixed"
+        },
+        {
+          "page": "workbook.html",
+          "what": "chapters three and four, with the drill that computes both triples"
+        },
+        {
+          "page": "automat.html",
+          "what": "devmode's PROBE, which computes the triple live including :has/:is/:where"
+        }
       ],
-      "see": ["the-lookup-table", "the-zero-counter", "the-query-string"]
+      "see": [
+        "the-lookup-table",
+        "the-zero-counter",
+        "the-query-string"
+      ]
     },
     {
       "id": "the-lookup-table",
@@ -254,11 +480,24 @@
       ],
       "test": "Ask whether the outcome depends on WHICH or on HOW MANY. If how many, it is one counter and no table. If which, count the product before you start typing.",
       "evidence": [
-        { "page": "pulse.html", "what": "24 enumerated circuits — reading × circuit × hour × text" },
-        { "page": "bench.html", "what": "17 judges × 12 circuits, and the one card with no condition on it" },
-        { "page": "workbook.html", "what": "chapter seven, with the ceiling stated in rows" }
+        {
+          "page": "pulse.html",
+          "what": "24 enumerated circuits — reading × circuit × hour × text"
+        },
+        {
+          "page": "bench.html",
+          "what": "17 judges × 12 circuits, and the one card with no condition on it"
+        },
+        {
+          "page": "workbook.html",
+          "what": "chapter seven, with the ceiling stated in rows"
+        }
       ],
-      "see": ["cascade-order", "the-zero-counter", "the-query-string"]
+      "see": [
+        "cascade-order",
+        "the-zero-counter",
+        "the-query-string"
+      ]
     },
     {
       "id": "the-zero-counter",
@@ -271,14 +510,26 @@
         "It is used three times in this yard and it is the same instrument each time: `named` on the bench, `gaps` on the quiet storm set, `burn` on the aerostat riding the air. In each case the interesting number is the one that stays at zero under every setting, and the only way to make a zero legible is to give it somewhere to have gone up.",
         "The cost is that a reader must trust the file — a counter incremented nowhere is indistinguishable from a counter someone forgot to wire. Which is why the pages that use it say so in the stylesheet, in the comment next to the declaration, where the person checking is already looking."
       ],
-      "test": "Search the stylesheet for the counter's name. If `counter-increment` mentions it anywhere, the zero is a result; if it does not, the zero is an assertion — and the page should say which."
-      ,
+      "test": "Search the stylesheet for the counter's name. If `counter-increment` mentions it anywhere, the zero is a result; if it does not, the zero is an assertion — and the page should say which.",
       "evidence": [
-        { "page": "bench.html", "what": "`named` — 40 disposed, 12 drafted, 0 bearing a drafter, under every setting" },
-        { "page": "rapture.html", "what": "`gaps` in a set built out of overlaps" },
-        { "page": "buddha.html", "what": "the matter counter reading 1 under both nouns while the capability counter moves" }
+        {
+          "page": "bench.html",
+          "what": "`named` — 40 disposed, 12 drafted, 0 bearing a drafter, under every setting"
+        },
+        {
+          "page": "rapture.html",
+          "what": "`gaps` in a set built out of overlaps"
+        },
+        {
+          "page": "buddha.html",
+          "what": "the matter counter reading 1 under both nouns while the capability counter moves"
+        }
       ],
-      "see": ["the-attribution-gap", "the-lookup-table", "cascade-order"]
+      "see": [
+        "the-attribution-gap",
+        "the-lookup-table",
+        "cascade-order"
+      ]
     },
     {
       "id": "the-query-string",
@@ -293,11 +544,24 @@
       ],
       "test": "Open any board without a query string and count the script tags that do anything. Then open it with ?dev and use CENSUS, which counts them for you and says which are inert.",
       "evidence": [
-        { "page": "persist.html", "what": "six states, no inputs at all, every control a link — and the query stated as write-only" },
-        { "page": "automat.html", "what": "the channel, and 45 boards driven through it" },
-        { "page": "workbook.html", "what": "chapter eight, and the honest answer to wanting two independent durable axes" }
+        {
+          "page": "persist.html",
+          "what": "six states, no inputs at all, every control a link — and the query stated as write-only"
+        },
+        {
+          "page": "automat.html",
+          "what": "the channel, and 45 boards driven through it"
+        },
+        {
+          "page": "workbook.html",
+          "what": "chapter eight, and the honest answer to wanting two independent durable axes"
+        }
       ],
-      "see": ["the-orbit", "cascade-order", "decentralization"]
+      "see": [
+        "the-orbit",
+        "cascade-order",
+        "decentralization"
+      ]
     },
     {
       "id": "the-orbit",
@@ -312,10 +576,20 @@
       ],
       "test": "Set every period to 1 and compute the orbit again. If a system's endlessness survives that, it was structural; if the orbit collapses to the number of steps in one component, the endlessness was the cadences and not the design.",
       "evidence": [
-        { "page": "automat.html", "what": "an orbit on every tile, computed from the board's own controls" },
-        { "page": "rapture.html", "what": "a set with no last record and a superrotation with no last lap" }
+        {
+          "page": "automat.html",
+          "what": "an orbit on every tile, computed from the board's own controls"
+        },
+        {
+          "page": "rapture.html",
+          "what": "a set with no last record and a superrotation with no last lap"
+        }
       ],
-      "see": ["decentralization", "the-loss-condition", "caught-up"]
+      "see": [
+        "decentralization",
+        "the-loss-condition",
+        "caught-up"
+      ]
     }
   ]
 }
