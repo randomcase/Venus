@@ -1,9 +1,9 @@
 # Venus Yard
 
-Thirty-four pages about a shipyard that does not exist, built to find out how
+Thirty-five pages about a shipyard that does not exist, built to find out how
 much a browser will do for you before you reach for JavaScript.
 
-**Thirty-two of the thirty-four have no script in them at all.** They still
+**Thirty-three of the thirty-five have no script in them at all.** They still
 add up, hold state, gate one control behind another, and hand documents to each
 other. The arithmetic is CSS counters, the state is `:has()`, and the transport
 is a plain `<form method="get">`.
@@ -86,7 +86,8 @@ and the six controls that answer them
 **Elsewhere** — [`new-paris.html`](new-paris.html) an aerostat in the Venus
 cloud layer · [`supply.html`](supply.html) two transfer paths ·
 [`heze.html`](heze.html) a unit of account · [`eros.html`](eros.html) a parable
-with one switch · [`jakarta.html`](jakarta.html) the page facing the Scala side
+with one switch · [`hydra.html`](hydra.html) three serpents, and why cutting a
+head makes two · [`jakarta.html`](jakarta.html) the page facing the Scala side
 of this repo
 
 ---
@@ -145,7 +146,7 @@ never be able to pass for evidence.
 
 ## Caveats, in order of how likely they are to bite you
 
-1. **`:has()` is required.** Thirty of the pages depend on it. On a
+1. **`:has()` is required.** Thirty-one of the pages depend on it. On a
    browser without support they render as static, wrong pages — there is no
    fallback and no graceful degradation. Chrome/Edge 105+, Safari 15.4+,
    Firefox 121+.

@@ -1,0 +1,378 @@
+<title>Ophidia · three serpents and what each one teaches</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Three snakes, and the middle one is the best model of a capture-shape that
+  anybody has written down.
+
+    THE CRADLE PAIR   Hera sends two serpents at the infant Herakles. He
+                      strangles them. The story is told as a wonder, and it is
+                      also the plainest statement of the rule this yard keeps
+                      arriving at: the one strong enough to defend himself did,
+                      and the ones who could not were killed later — by him,
+                      when the madness came. Megara's children had no interlock
+                      and neither did he.
+
+    THE HYDRA         Cut a head and two grow. Herakles does not win by cutting
+                      harder. He wins by DENYING THE REGROWTH — Iolaus sears
+                      each stump the moment it is opened — and he cannot do it
+                      alone, because one person cannot cut and cauterise at the
+                      same moment. Dual control, in the second labour.
+
+    THE OUROBOROS     The serpent that eats its own tail. Complete, closed,
+                      self-sustaining, and it is the picture of a body that
+                      audits itself. It is not a symbol of corruption. It is a
+                      symbol of a loop with nothing outside it, which is the
+                      same thing eventually.
+
+  The interactive part is the Hydra, and it is honest: cutting alone regrows the
+  heads, and searing needs two people present. Both facts are in the myth.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#070b09; --card:#111a15; --card2:#16211b; --edge:#26382e;
+    --ink:#e9f2ec; --dim:#8ba396; --gold:#d9b25c;
+    --scale:#3f7a5c; --scale2:#2a5741; --ember:#e0703c; --sear:#f0a24e; --blood:#a8474a; --bone:#e8e2d2; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:14px/1.7 ui-serif,Georgia,'Times New Roman',serif;
+    background-image:
+      radial-gradient(circle at 50% -4%,rgba(63,122,92,.16),transparent 46%),
+      radial-gradient(circle at 88% 90%,rgba(224,112,60,.10),transparent 44%)}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:14px;margin-bottom:8px}
+  h1{margin:0 0 5px;font-size:27px;letter-spacing:-.02em;font-weight:500}
+  .lede{color:var(--dim);font-size:13px;max-width:76ch;margin:0}
+  .lede b{color:var(--ink)}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin:30px 0 12px;font-weight:600;
+    display:flex;align-items:center;gap:12px;padding-top:14px;
+    border-top:1px solid var(--edge)}
+  h2::after{content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(217,178,92,.4),transparent)}
+  h3{margin:0 0 6px;font-size:17px;font-weight:500}
+  p{max-width:76ch}
+  .note{color:var(--dim);font-size:11.5px;line-height:1.72;margin:9px 0 0;max-width:90ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--gold);background:#0c120e;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:16px 18px;margin-top:12px}
+  .myth{border-left:2px solid var(--scale);padding:2px 0 2px 15px;margin:14px 0;
+    color:#cfe0d6;font-size:13px;max-width:74ch}
+  .myth .t{font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--scale);display:block;margin-bottom:6px}
+  .lesson{border-left:2px solid var(--gold);padding:2px 0 2px 15px;margin:14px 0;
+    color:#f2e8d4;font-size:13px;max-width:74ch}
+  .lesson .t{font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);display:block;margin-bottom:6px}
+
+  /* ------------------------------------------------------------- the hydra */
+  .pit{position:relative;border:1px solid var(--edge);border-radius:12px;
+    overflow:hidden;background:radial-gradient(circle at 50% 90%,#12241b,#070c09 72%)}
+  .pit svg{display:block;width:100%;height:auto}
+  .neck{transform-box:fill-box;transform-origin:50% 100%;
+    transition:transform .55s cubic-bezier(.5,0,.2,1),opacity .45s}
+  .sway{animation:sway 6s ease-in-out infinite}
+  .sway.b{animation-delay:-2s} .sway.c{animation-delay:-4s}
+  @keyframes sway{50%{transform:rotate(4deg)}}
+  .grown{opacity:0;transform:scaleY(.15)}
+  .stump{opacity:0;transition:opacity .4s}
+  .flame{opacity:0;transition:opacity .4s}
+  @media (prefers-reduced-motion:reduce){.sway{animation:none}}
+
+  /* CUT alone: the struck head goes, and two grow in its place. */
+  .h:has(#cut:checked) .head-b{opacity:0;transform:scaleY(.1)}
+  .h:has(#cut:checked) .stump{opacity:1}
+  .h:has(#cut:checked) .grown{opacity:1;transform:none}
+  /* CUT with both hands present: the stump is seared and nothing returns. */
+  .h:has(#cut:checked):has(#hand-h:checked):has(#hand-i:checked) .grown
+    {opacity:0;transform:scaleY(.15)}
+  .h:has(#cut:checked):has(#hand-h:checked):has(#hand-i:checked) .flame{opacity:1}
+  .h:has(#cut:checked):has(#hand-h:checked):has(#hand-i:checked) .stump{opacity:.5}
+
+  .ctl{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:14px}
+  .ctl input{position:absolute;opacity:0;width:0;height:0}
+  .ctl label{cursor:pointer;font:11px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;padding:12px 20px;border-radius:8px;
+    border:1px solid var(--edge);color:var(--dim)}
+  .ctl label:hover{color:var(--ink)}
+  #cut:checked+label{border-color:var(--blood);color:var(--blood);
+    background:rgba(168,71,74,.14);font-weight:700}
+  #hand-h:checked+label,#hand-i:checked+label{border-color:var(--sear);
+    color:var(--sear);background:rgba(240,162,78,.14);font-weight:700}
+  .ctl input:focus-visible+label{outline:2px solid var(--cool);outline-offset:3px}
+  .ctl .grp{display:flex;gap:6px;align-items:center}
+  .ctl .grp span{font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-right:4px}
+
+  .state{display:none;border-radius:10px;padding:12px 14px;margin-top:13px;
+    border:1px solid;font-size:12.5px;line-height:1.66}
+  .state b{color:inherit}
+  .s-idle{border-color:var(--edge);background:#0d130f;color:var(--dim)}
+  .h:not(:has(#cut:checked)) .s-idle{display:block}
+  .s-regrown{border-color:var(--blood);background:rgba(168,71,74,.10);color:var(--blood)}
+  .h:has(#cut:checked) .s-regrown{display:block}
+  .s-seared{border-color:var(--sear);background:rgba(240,162,78,.10);color:var(--sear)}
+  .h:has(#cut:checked):has(#hand-h:checked):has(#hand-i:checked) .s-seared{display:block}
+  .h:has(#cut:checked):has(#hand-h:checked):has(#hand-i:checked) .s-regrown{display:none}
+  .s-one{border-color:var(--gold);background:rgba(217,178,92,.09);color:var(--gold)}
+  .h:has(#cut:checked):has(#hand-h:checked):not(:has(#hand-i:checked)) .s-one,
+  .h:has(#cut:checked):has(#hand-i:checked):not(:has(#hand-h:checked)) .s-one{display:block}
+  .h:has(#cut:checked):has(#hand-h:checked):not(:has(#hand-i:checked)) .s-regrown,
+  .h:has(#cut:checked):has(#hand-i:checked):not(:has(#hand-h:checked)) .s-regrown{display:none}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 8px;font-weight:600}
+  td{padding:8px 0;border-top:1px solid var(--edge);vertical-align:top}
+  td:first-child{width:32%;color:var(--ink)}
+  td .q{color:var(--dim);font-size:11px;display:block;margin-top:3px}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Ophidia</h1>
+    <p class="lede">Three serpents. The first explains who gets hurt, the second
+      explains why cutting does not work, and the third explains why a body
+      cannot check itself. <b>The middle one is the best model of a
+      capture-shape anybody has written down</b>, and it is three thousand years
+      old.</p>
+  </header>
+
+  <h2>One · the cradle pair</h2>
+  <div class="panel">
+    <div class="myth"><span class="t">the myth</span>
+      Hera sends two serpents into the nursery to kill the infant Herakles. He
+      takes one in each hand and strangles them. His twin Iphicles screams and
+      cannot. The story is told ever after as the first proof of what he was.</div>
+    <div class="lesson"><span class="t">what it actually says</span>
+      Two children in the same cradle, the same threat, and one of them could
+      answer it. That is not a story about strength — it is a story about
+      <b>who happened to have a defence and who did not</b>, decided before
+      either of them chose anything.<br><br>
+      And the children who could not defend themselves were killed anyway, later,
+      by him — when Hera sent the madness and there was nothing in the world
+      arranged to stop the strongest man alive. Megara and their three sons had
+      no interlock. Neither, at that moment, did he.</div>
+    <p class="note"><b>The line this yard keeps arriving at.</b> A control that
+      only works while the powerful party is sane is not a control. It is a hope
+      with paperwork attached — and the cradle is where you can see that the
+      difference between the protected and the unprotected was never about
+      merit. <a href="chain.html">2B has two lamps and both of them mean
+      yes</a>.</p>
+  </div>
+
+  <h2>Two · the Hydra</h2>
+  <div class="pit h">
+    <svg viewBox="0 0 1000 320" role="img"
+         aria-label="The Lernaean hydra: three necks rising from a coiled body. Strike one and two grow from the stump unless it is seared.">
+      <defs>
+        <linearGradient id="sc" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#4f9070"/><stop offset=".55" stop-color="#2f6349"/>
+          <stop offset="1" stop-color="#173026"/></linearGradient>
+        <radialGradient id="fire"><stop offset="0" stop-color="#ffe0a0"/>
+          <stop offset=".4" stop-color="#f0a24e" stop-opacity=".8"/>
+          <stop offset="1" stop-color="#e0703c" stop-opacity="0"/></radialGradient>
+        <pattern id="scales" width="14" height="12" patternUnits="userSpaceOnUse">
+          <path d="M0 12q7-11 14 0" fill="none" stroke="#0e1c15" stroke-opacity=".5"/>
+        </pattern>
+      </defs>
+
+      <!-- the marsh -->
+      <path d="M0 250h1000v70H0z" fill="#0a1710"/>
+      <g stroke="#2a5741" stroke-opacity=".5" fill="none">
+        <path d="M0 264q80-8 160 0t160 0 160 0 160 0 160 0 160 0"/>
+        <path d="M0 286q80 8 160 0t160 0 160 0 160 0 160 0 160 0"/>
+      </g>
+
+      <!-- coiled body -->
+      <path d="M300 258q80-52 200-52t200 52z" fill="url(#sc)" stroke="#0e1c15"/>
+      <path d="M300 258q80-52 200-52t200 52z" fill="url(#scales)"/>
+      <ellipse cx="500" cy="256" rx="212" ry="16" fill="#0a1710" opacity=".6"/>
+
+      <!-- neck A (left, untouched) -->
+      <g class="neck sway">
+        <path d="M392 226q-22-70 6-116" stroke="url(#sc)" stroke-width="19"
+              fill="none" stroke-linecap="round"/>
+        <path d="M392 226q-22-70 6-116" stroke="#0e1c15" stroke-width="19"
+              fill="none" stroke-linecap="round" opacity=".22"/>
+        <g transform="translate(398,104)">
+          <path d="M0 12q-16-16 0-26 22-6 30 8 6 12-8 18z" fill="url(#sc)" stroke="#0e1c15"/>
+          <circle cx="14" cy="-2" r="2.6" fill="#f0d68a"/>
+          <path d="M28 8q10 4 18 0" stroke="#a8474a" stroke-width="2" fill="none"/>
+        </g>
+      </g>
+
+      <!-- neck B (centre) — this is the one that gets struck -->
+      <g class="neck head-b">
+        <path d="M500 210q-4-84 4-134" stroke="url(#sc)" stroke-width="21"
+              fill="none" stroke-linecap="round"/>
+        <g transform="translate(504,66)">
+          <path d="M0 12q-18-18 0-28 24-7 33 9 7 13-9 20z" fill="url(#sc)" stroke="#0e1c15"/>
+          <circle cx="16" cy="-2" r="2.8" fill="#f0d68a"/>
+          <path d="M31 9q11 5 20 0" stroke="#a8474a" stroke-width="2" fill="none"/>
+        </g>
+      </g>
+
+      <!-- the stump left behind -->
+      <g class="stump">
+        <path d="M500 210q-2-30 2-44" stroke="url(#sc)" stroke-width="21"
+              fill="none" stroke-linecap="round"/>
+        <ellipse cx="502" cy="164" rx="11" ry="5" fill="#a8474a"/>
+      </g>
+      <!-- and the cautery, when two hands are on it -->
+      <g class="flame">
+        <circle cx="502" cy="162" r="30" fill="url(#fire)"/>
+        <path d="M502 150q-9-14 0-24 9 10 0 24z" fill="#ffe0a0"/>
+        <ellipse cx="502" cy="164" rx="11" ry="5" fill="#3a2018"/>
+      </g>
+
+      <!-- the two that grow from it -->
+      <g class="neck grown sway b">
+        <path d="M498 164q-30-56-14-96" stroke="url(#sc)" stroke-width="15"
+              fill="none" stroke-linecap="round"/>
+        <g transform="translate(482,60)">
+          <path d="M0 10q-13-13 0-21 18-5 25 7 5 10-7 15z" fill="url(#sc)" stroke="#0e1c15"/>
+          <circle cx="12" cy="-2" r="2.2" fill="#f0d68a"/>
+        </g>
+      </g>
+      <g class="neck grown sway c">
+        <path d="M506 164q32-54 20-94" stroke="url(#sc)" stroke-width="15"
+              fill="none" stroke-linecap="round"/>
+        <g transform="translate(520,62)">
+          <path d="M0 10q13-13 0-21-18-5-25 7-5 10 7 15z" fill="url(#sc)" stroke="#0e1c15"/>
+          <circle cx="-12" cy="-2" r="2.2" fill="#f0d68a"/>
+        </g>
+      </g>
+
+      <!-- neck C (right, untouched) -->
+      <g class="neck sway c">
+        <path d="M608 226q24-68-4-114" stroke="url(#sc)" stroke-width="19"
+              fill="none" stroke-linecap="round"/>
+        <g transform="translate(596,106)">
+          <path d="M0 12q16-16 0-26-22-6-30 8-6 12 8 18z" fill="url(#sc)" stroke="#0e1c15"/>
+          <circle cx="-14" cy="-2" r="2.6" fill="#f0d68a"/>
+        </g>
+      </g>
+    </svg>
+
+    <div style="padding:14px 16px 16px">
+      <div class="ctl">
+        <div class="grp">
+          <input type="checkbox" id="cut"><label for="cut">Strike the head</label>
+        </div>
+        <div class="grp"><span>hands present</span>
+          <input type="checkbox" id="hand-h"><label for="hand-h">Herakles</label>
+          <input type="checkbox" id="hand-i"><label for="hand-i">Iolaus</label>
+        </div>
+      </div>
+
+      <div class="state s-idle"><b>Three heads, none struck.</b> Cutting is the
+        obvious move and it is available to one person acting alone. That is
+        exactly what makes it the wrong one.</div>
+      <div class="state s-regrown"><b>Two grew back.</b> The head is off and the
+        stump opened two more — you are now worse off than before you struck,
+        and you can do this all day. <b>Cutting harder is the same move.</b></div>
+      <div class="state s-one"><b>One pair of hands is not enough.</b> Somebody
+        is holding the torch and nobody is holding the blade, or the reverse.
+        The stump is open and the moment passes — the searing has to happen
+        <em>while</em> the cut is fresh, which is precisely why the myth needs
+        two people and why one hero could not finish the second labour alone.</div>
+      <div class="state s-seared"><b>Seared. Nothing came back.</b> The head did
+        not stop it — denying the regrowth stopped it, and that took two people
+        acting in the same instant. Herakles cut; Iolaus put the brand to the
+        stump. It is the second labour, and Eurystheus refused to count it for
+        exactly that reason: <em>he had help</em>.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="myth"><span class="t">the myth</span>
+      The Lernaean hydra grows two heads for every one struck off. Herakles
+      cannot win by cutting. His nephew Iolaus follows him with a burning brand
+      and sears each stump as it opens, and only then does the thing die.
+      Eurystheus discounts the labour afterwards <b>because Herakles did not do
+      it alone</b>.</div>
+    <div class="lesson"><span class="t">what it actually says</span>
+      Three findings, and every one of them is in this yard already.<br><br>
+      <b>One — the visible part is not the mechanism.</b> Heads are what you can
+      see and reach, and removing them accelerates the problem. Prosecuting the
+      courier does not touch the office that issued the folder.<br><br>
+      <b>Two — the win condition is denying regrowth, not landing hits.</b>
+      Cauterising is unglamorous, it produces no trophy, and it is the entire
+      solution. Every remedy on the <a href="syndicate.html">indicators
+      page</a> is a cautery: recompute so a figure cannot be taken on trust
+      again, name the exception so the next waiver has a precedent, publish a
+      claims window so silence stops being free.<br><br>
+      <b>Three — it takes two, and the tradition punished him for it.</b> One
+      person cannot cut and sear in the same instant. That is dual control
+      described as a labour, and the oldest recorded objection to it is
+      Eurystheus': <em>that does not count, you had help</em>. It counts. It is
+      the only thing that ever worked.</div>
+  </div>
+
+  <h2>Three · the ouroboros</h2>
+  <div class="panel">
+    <div class="myth"><span class="t">the myth</span>
+      The serpent that takes its own tail in its mouth. Complete, closed, and
+      sustaining itself out of itself — drawn on Tutankhamun's shrine, copied
+      into Greek alchemy, and read ever since as eternity, renewal, and the
+      unity of a thing with its own end.</div>
+    <div class="lesson"><span class="t">what it actually says, here</span>
+      It is also the exact picture of a body that audits itself. Closed, and
+      nothing outside it. Nobody is claiming the ouroboros is corrupt — that is
+      the point. <b>It is perfectly self-consistent, which is a different
+      property from being right, and the difference is invisible from
+      inside.</b><br><br>
+      A ledger that recomputes itself agrees with itself every time. That is
+      why <a href="bridge.html">the bridge</a> recomputes from the inputs
+      instead of believing the total, why the <a href="vault.html">vault</a>
+      needs two keys rather than one careful holder, and why the powers block
+      names <em>who may audit</em> as a required field. Not because anybody is
+      assumed dishonest. Because a closed loop cannot tell.</div>
+  </div>
+
+  <h2>The three, against the yard</h2>
+  <div class="panel">
+    <table>
+      <tr><th>Serpent</th><th>The finding</th><th>The control that answers it</th></tr>
+      <tr><td>The cradle pair
+        <span class="q">who could defend himself, and who could not</span></td>
+        <td>protection is distributed before anybody chooses, and the strong
+          party is not stopped by being good
+          <span class="q">Megara's children had no interlock, and neither did
+            he</span></td>
+        <td>an interlock that does not depend on anyone's state of mind
+          <span class="q"><a href="kill.html">two actions</a> ·
+            <a href="chain.html">who may refuse</a></span></td></tr>
+      <tr><td>The Hydra
+        <span class="q">cut one, get two</span></td>
+        <td>the visible part is not the mechanism, and hitting it harder makes
+          more of it
+          <span class="q">the win is denying regrowth, and it takes two</span></td>
+        <td>cautery, not decapitation — and dual control
+          <span class="q"><a href="syndicate.html">six remedies</a> ·
+            <a href="vault.html">two keys of three</a></span></td></tr>
+      <tr><td>The ouroboros
+        <span class="q">closed, complete, self-sustaining</span></td>
+        <td>self-consistency is not correctness, and from inside the loop the
+          two are indistinguishable</td>
+        <td>recomputation by a party with no stake, and a named auditor
+          <span class="q"><a href="bridge.html">the bridge</a> ·
+            <a href="gate-3.html">the manifest desk</a></span></td></tr>
+    </table>
+    <p class="note"><b>One thing worth saying plainly.</b> None of these is a
+      story about a monster. The cradle pair were sent, the hydra was guarding
+      a spring, and the ouroboros is not doing anything to anybody. What each
+      one describes is a <em>shape</em> — an arrangement that produces an
+      outcome regardless of anyone's intentions. That is why the answers are
+      all structural and none of them is courage.</p>
+    <p class="note"><a href="index.html">← the yard</a> ·
+      <a href="eros.html">the other parable</a> ·
+      <a href="syndicate.html">the six indicators</a></p>
+  </div>
+</div>
