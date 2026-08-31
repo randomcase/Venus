@@ -1,10 +1,10 @@
 # Venus Yard
 
-Forty pages about a shipyard that does not exist, built to find out how
+Forty-one pages about a shipyard that does not exist, built to find out how
 much a browser will do for you before you reach for JavaScript — plus one more
 that a Scala program writes for itself.
 
-**Thirty-eight of the forty have no script in them at all.** They still
+**Thirty-nine of the forty-one have no script in them at all.** They still
 add up, hold state, gate one control behind another, and hand documents to each
 other. The arithmetic is CSS counters, the state is `:has()`, and the transport
 is a plain `<form method="get">`.
@@ -159,7 +159,7 @@ never be able to pass for evidence.
 
 ## Caveats, in order of how likely they are to bite you
 
-1. **`:has()` is required.** Thirty-five of the pages depend on it. On a
+1. **`:has()` is required.** Thirty-six of the pages depend on it. On a
    browser without support they render as static, wrong pages — there is no
    fallback and no graceful degradation. Chrome/Edge 105+, Safari 15.4+,
    Firefox 121+.

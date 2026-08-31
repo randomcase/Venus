@@ -1,0 +1,235 @@
+<title>TEMPLATE &middot; The Yard School · a curriculum</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from school.html by templatise.mjs.
+
+     source            school.html
+     radio groups      0
+     checkboxes        8
+     counters          done, tech
+     stored states     8 — #u0, #u1, #u2, #u3, #u4, #u5, #u6, #u7
+     :has() rules      35, 4 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#0a0c10; --card:#141821; --card2:#1a1f2a; --edge:#2b3340;
+    --ink:#eceff4; --dim:#8d97a6; --chalk:#e8e2cf;
+    --lead:#7fb3d5; --done:#6fcf97; --gate:#d9a441; --warn:#e0705a;
+    --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 18% -6%,rgba(127,179,213,.12),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.015em;color:var(--chalk)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--lead);border:1px solid var(--lead);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--chalk);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.68;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--chalk);background:#0d1119;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--lead)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ======================================== 6 · THE STORE — where you are
+     One anchor per unit, first in the document, offset off-screen so following
+     a link does not throw the page down the screen. The fragment is your place
+     in the course: bookmark it and you resume, send it and you have told
+     somebody exactly where you got to. */
+  .store{position:relative;height:0;overflow:visible}
+  .store i{position:absolute;top:-70px;width:1px;height:1px;display:block}
+
+  /* the syllabus rail */
+  .rail{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:12px}
+  @media (max-width:820px){.rail{grid-template-columns:repeat(4,1fr)}}
+  @media (max-width:460px){.rail{grid-template-columns:repeat(2,1fr)}}
+  .rail a{display:block;text-decoration:none;background:#0e131b;
+    border:1px solid var(--edge);border-radius:9px;padding:9px 10px;
+    font:10px/1.4 ui-monospace,monospace;color:var(--dim)}
+  .rail a:hover{color:var(--ink);border-color:rgba(127,179,213,.55)}
+  .rail a:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
+  .rail a b{display:block;font-size:15px;color:var(--chalk);margin-bottom:3px}
+  .school:has(#u0:target) .r0, .school:has(#u1:target) .r1,
+  .school:has(#u2:target) .r2, .school:has(#u3:target) .r3,
+  .school:has(#u4:target) .r4, .school:has(#u5:target) .r5,
+  .school:has(#u6:target) .r6, .school:has(#u7:target) .r7{
+    border-color:var(--lead);background:rgba(127,179,213,.14);color:var(--lead)}
+  .school:has(#u0:target) .r0 b, .school:has(#u1:target) .r1 b,
+  .school:has(#u2:target) .r2 b, .school:has(#u3:target) .r3 b,
+  .school:has(#u4:target) .r4 b, .school:has(#u5:target) .r5 b,
+  .school:has(#u6:target) .r6 b, .school:has(#u7:target) .r7 b{color:var(--lead)}
+
+  /* ============================================= 2 · :has() IS STATE — units
+     One unit shown at a time, chosen by the fragment. Plus the cold start,
+     which is the case with no fragment at all and is a real state that has to
+     be designed rather than fallen into. */
+  .unit{display:none}
+  .school:has(#u0:target) .n0, .school:has(#u1:target) .n1,
+  .school:has(#u2:target) .n2, .school:has(#u3:target) .n3,
+  .school:has(#u4:target) .n4, .school:has(#u5:target) .n5,
+  .school:has(#u6:target) .n6, .school:has(#u7:target) .n7{display:block}
+  .school:not(:has(:target)) .n-cold{display:block}
+
+  .unit .uh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:9px;margin-bottom:11px}
+  .unit .uh i{font:9.5px/1 ui-monospace,monospace;font-style:normal;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--lead);
+    border:1px solid var(--lead);border-radius:4px;padding:4px 7px}
+  .unit .uh b{font-size:16px;color:var(--chalk)}
+  .unit .uh s{margin-left:auto;text-decoration:none;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .unit p{margin:0 0 10px;font-size:12.5px;max-width:84ch}
+  .unit .cols{display:grid;gap:12px;grid-template-columns:1fr 1fr;margin-top:12px}
+  @media (max-width:820px){.unit .cols{grid-template-columns:1fr}}
+  .box{background:#0e131b;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .box h3{margin:0 0 7px;font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);font-weight:600}
+  .box.ex{border-color:rgba(217,164,65,.45)}
+  .box.ex h3{color:var(--gate)}
+  .box.test{border-color:rgba(111,207,151,.45)}
+  .box.test h3{color:var(--done)}
+  .box p{margin:0;font-size:12px}
+  .box ul{margin:0;padding-left:17px;font-size:12px}
+  .box li{margin-bottom:4px}
+  .box li:last-child{margin-bottom:0}
+
+  /* ============================================ 1 · COUNTERS ARE ARITHMETIC
+     Progress is counted off the ticks themselves. Nothing declares it. */
+  body{counter-reset:done 0 tech 0}
+  #d0:checked+label{counter-increment:done 1}
+  #d1:checked+label{counter-increment:done 1 tech 1}
+  #d2:checked+label{counter-increment:done 1 tech 1}
+  #d3:checked+label{counter-increment:done 1 tech 1}
+  #d4:checked+label{counter-increment:done 1 tech 1}
+  #d5:checked+label{counter-increment:done 1 tech 1}
+  #d6:checked+label{counter-increment:done 1 tech 1}
+  #d7:checked+label{counter-increment:done 1}
+  .n-done::after{content:counter(done)} .n-tech::after{content:counter(tech)}
+
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .stack input{position:absolute;opacity:0;width:0;height:0}
+  .stack label{display:flex;align-items:baseline;gap:11px;cursor:pointer;
+    padding:10px 12px;border-radius:9px;border:1px solid var(--edge);
+    font-size:12.5px;color:var(--dim)}
+  .stack label .tick{width:15px;height:15px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);position:relative;top:2px}
+  .stack label .amt{margin-left:auto;font:9.5px/1 ui-monospace,monospace;
+    letter-spacing:.1em;text-transform:uppercase;padding-left:10px}
+  .stack input:checked+label{border-color:var(--done);color:var(--ink);
+    background:rgba(111,207,151,.09)}
+  .stack input:checked+label .tick{background:var(--done);border-color:var(--done);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--done)}
+  .stack input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  .heads{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .head{background:#0e131b;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--chalk);margin-top:5px}
+  .head.g b{color:var(--done)}
+
+  /* ============================================ 4 · CASCADE ORDER IS AUTHORITY
+     NOTHING BELOW THIS LINE. The certificate is one selector with eight :has()
+     in it, and it is the last rule in the file. Written anywhere above the
+     .cert{display:none} that hides it, it would never appear; written here, it
+     appears when all eight are ticked and not one moment before. There is no
+     other mechanism enforcing this and there does not need to be. */
+  .cert{display:none}
+  .school:has(#d0:checked):has(#d1:checked):has(#d2:checked):has(#d3:checked):has(#d4:checked):has(#d5:checked):has(#d6:checked):has(#d7:checked)
+    .cert{display:block}
+</style>
+
+  <div class="store">
+    <i id="u0"></i>
+    <i id="u1"></i>
+    <i id="u2"></i>
+    <i id="u3"></i>
+    <i id="u4"></i>
+    <i id="u5"></i>
+    <i id="u6"></i>
+    <i id="u7"></i>
+  </div>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO checkbox set <b>8</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="d0"><label for="d0">Unit 0 · cold start the constraint</label>
+      <input type="checkbox" id="d1"><label for="d1">Unit 1 · counters are arithmetic technique</label>
+      <input type="checkbox" id="d2"><label for="d2">Unit 2 · :has() is state technique 2</label>
+      <input type="checkbox" id="d3"><label for="d3">Unit 3 · compound :has() is a lookup techn</label>
+      <input type="checkbox" id="d4"><label for="d4">Unit 4 · cascade order is authority techni</label>
+      <input type="checkbox" id="d5"><label for="d5">Unit 5 · transport and data technique 5</label>
+      <input type="checkbox" id="d6"><label for="d6">Unit 6 · the persistence layer technique 6</label>
+      <input type="checkbox" id="d7"><label for="d7">Unit 7 · the ethic no api</label>
+    </div>
+    <h2>Stored states <b>8 &middot; the URL is the state</b></h2>
+    <div class="grid opts">
+      <a href="#u0"><b>0 Cold start</b><s>#u0</s></a>
+      <a href="#u1"><b>1 Counters</b><s>#u1</s></a>
+      <a href="#u2"><b>2 :has()</b><s>#u2</s></a>
+      <a href="#u3"><b>3 Lookups</b><s>#u3</s></a>
+      <a href="#u4"><b>4 Cascade</b><s>#u4</s></a>
+      <a href="#u5"><b>5 Transport</b><s>#u5</s></a>
+      <a href="#u6"><b>6 Persistence</b><s>#u6</s></a>
+      <a href="#u7"><b>7 The ethic</b><s>#u7</s></a>
+    </div>
+    <p class="note">TODO name these. Each link writes one whole state into the
+      address bar; <code>:target</code> reads it back and the rules above act on
+      it. A document has one target at a time, so every link names a complete
+      combination and there is no partial update &mdash; add an axis and you
+      write the products out, exactly as with compound <code>:has()</code>.</p>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>done</span><b class="n-done"></b></div>
+      <div class="head m"><span>tech</span><b class="n-tech"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

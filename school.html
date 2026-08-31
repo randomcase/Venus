@@ -1,0 +1,514 @@
+<title>The Yard School · a curriculum</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  THE YARD SCHOOL — eight units, in the order that actually works.
+
+  Forty pages is not a curriculum. It is a heap with good things in it, and the
+  usual result of handing someone a heap is that they read the most impressive
+  file first, do not understand it, and conclude the whole thing is harder than
+  it is. So: an order, an exercise per unit, and a stated test for whether you
+  are done with it. Nothing here is new material. Every unit points at pages
+  that already exist and tells you what to look for in them.
+
+  THE SHAPE OF IT
+  Units 1 to 5 are the five techniques, one at a time, each with the page that
+  demonstrates it most cleanly and the page that pushes it furthest. Unit 6 is
+  the persistence layer, which is newer and stands slightly apart. Unit 0 is
+  half an hour and exists so that nobody starts at unit 3. Unit 7 is not a
+  technique at all — it is the ethic, and it is the only unit you can fail
+  while writing code that works perfectly.
+
+  THIS PAGE IS BUILT OUT OF WHAT IT TEACHES
+  Which unit you are on is stored in the URL fragment and read with :target, so
+  the address is your place in the course and a bookmark resumes it (unit 6).
+  What you have finished is checkboxes, and the counters count them (unit 1).
+  The reading list you are shown is selected by :has() (unit 2). The certificate
+  is one selector with eight :has() in it (units 3 and 4), and it is written
+  last in the stylesheet, which is the only reason it cannot be shown early.
+
+  That is deliberate. A curriculum for these techniques that needed script to
+  track your progress would be an argument against itself.
+
+  HOW LONG IT TAKES
+  Not stated, because it is not knowable and the numbers people put here are
+  invented. What is stated is the test for each unit: a thing you can either do
+  or not do. Use those.
+-->
+<style>
+  :root{
+    --void:#0a0c10; --card:#141821; --card2:#1a1f2a; --edge:#2b3340;
+    --ink:#eceff4; --dim:#8d97a6; --chalk:#e8e2cf;
+    --lead:#7fb3d5; --done:#6fcf97; --gate:#d9a441; --warn:#e0705a;
+    --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 18% -6%,rgba(127,179,213,.12),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.015em;color:var(--chalk)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--lead);border:1px solid var(--lead);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--chalk);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.68;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--chalk);background:#0d1119;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--lead)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ======================================== 6 · THE STORE — where you are
+     One anchor per unit, first in the document, offset off-screen so following
+     a link does not throw the page down the screen. The fragment is your place
+     in the course: bookmark it and you resume, send it and you have told
+     somebody exactly where you got to. */
+  .store{position:relative;height:0;overflow:visible}
+  .store i{position:absolute;top:-70px;width:1px;height:1px;display:block}
+
+  /* the syllabus rail */
+  .rail{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:12px}
+  @media (max-width:820px){.rail{grid-template-columns:repeat(4,1fr)}}
+  @media (max-width:460px){.rail{grid-template-columns:repeat(2,1fr)}}
+  .rail a{display:block;text-decoration:none;background:#0e131b;
+    border:1px solid var(--edge);border-radius:9px;padding:9px 10px;
+    font:10px/1.4 ui-monospace,monospace;color:var(--dim)}
+  .rail a:hover{color:var(--ink);border-color:rgba(127,179,213,.55)}
+  .rail a:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
+  .rail a b{display:block;font-size:15px;color:var(--chalk);margin-bottom:3px}
+  .school:has(#u0:target) .r0, .school:has(#u1:target) .r1,
+  .school:has(#u2:target) .r2, .school:has(#u3:target) .r3,
+  .school:has(#u4:target) .r4, .school:has(#u5:target) .r5,
+  .school:has(#u6:target) .r6, .school:has(#u7:target) .r7{
+    border-color:var(--lead);background:rgba(127,179,213,.14);color:var(--lead)}
+  .school:has(#u0:target) .r0 b, .school:has(#u1:target) .r1 b,
+  .school:has(#u2:target) .r2 b, .school:has(#u3:target) .r3 b,
+  .school:has(#u4:target) .r4 b, .school:has(#u5:target) .r5 b,
+  .school:has(#u6:target) .r6 b, .school:has(#u7:target) .r7 b{color:var(--lead)}
+
+  /* ============================================= 2 · :has() IS STATE — units
+     One unit shown at a time, chosen by the fragment. Plus the cold start,
+     which is the case with no fragment at all and is a real state that has to
+     be designed rather than fallen into. */
+  .unit{display:none}
+  .school:has(#u0:target) .n0, .school:has(#u1:target) .n1,
+  .school:has(#u2:target) .n2, .school:has(#u3:target) .n3,
+  .school:has(#u4:target) .n4, .school:has(#u5:target) .n5,
+  .school:has(#u6:target) .n6, .school:has(#u7:target) .n7{display:block}
+  .school:not(:has(:target)) .n-cold{display:block}
+
+  .unit .uh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:9px;margin-bottom:11px}
+  .unit .uh i{font:9.5px/1 ui-monospace,monospace;font-style:normal;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--lead);
+    border:1px solid var(--lead);border-radius:4px;padding:4px 7px}
+  .unit .uh b{font-size:16px;color:var(--chalk)}
+  .unit .uh s{margin-left:auto;text-decoration:none;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .unit p{margin:0 0 10px;font-size:12.5px;max-width:84ch}
+  .unit .cols{display:grid;gap:12px;grid-template-columns:1fr 1fr;margin-top:12px}
+  @media (max-width:820px){.unit .cols{grid-template-columns:1fr}}
+  .box{background:#0e131b;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .box h3{margin:0 0 7px;font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);font-weight:600}
+  .box.ex{border-color:rgba(217,164,65,.45)}
+  .box.ex h3{color:var(--gate)}
+  .box.test{border-color:rgba(111,207,151,.45)}
+  .box.test h3{color:var(--done)}
+  .box p{margin:0;font-size:12px}
+  .box ul{margin:0;padding-left:17px;font-size:12px}
+  .box li{margin-bottom:4px}
+  .box li:last-child{margin-bottom:0}
+
+  /* ============================================ 1 · COUNTERS ARE ARITHMETIC
+     Progress is counted off the ticks themselves. Nothing declares it. */
+  body{counter-reset:done 0 tech 0}
+  #d0:checked+label{counter-increment:done 1}
+  #d1:checked+label{counter-increment:done 1 tech 1}
+  #d2:checked+label{counter-increment:done 1 tech 1}
+  #d3:checked+label{counter-increment:done 1 tech 1}
+  #d4:checked+label{counter-increment:done 1 tech 1}
+  #d5:checked+label{counter-increment:done 1 tech 1}
+  #d6:checked+label{counter-increment:done 1 tech 1}
+  #d7:checked+label{counter-increment:done 1}
+  .n-done::after{content:counter(done)} .n-tech::after{content:counter(tech)}
+
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .stack input{position:absolute;opacity:0;width:0;height:0}
+  .stack label{display:flex;align-items:baseline;gap:11px;cursor:pointer;
+    padding:10px 12px;border-radius:9px;border:1px solid var(--edge);
+    font-size:12.5px;color:var(--dim)}
+  .stack label .tick{width:15px;height:15px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);position:relative;top:2px}
+  .stack label .amt{margin-left:auto;font:9.5px/1 ui-monospace,monospace;
+    letter-spacing:.1em;text-transform:uppercase;padding-left:10px}
+  .stack input:checked+label{border-color:var(--done);color:var(--ink);
+    background:rgba(111,207,151,.09)}
+  .stack input:checked+label .tick{background:var(--done);border-color:var(--done);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--done)}
+  .stack input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  .heads{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .head{background:#0e131b;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--chalk);margin-top:5px}
+  .head.g b{color:var(--done)}
+
+  /* ============================================ 4 · CASCADE ORDER IS AUTHORITY
+     NOTHING BELOW THIS LINE. The certificate is one selector with eight :has()
+     in it, and it is the last rule in the file. Written anywhere above the
+     .cert{display:none} that hides it, it would never appear; written here, it
+     appears when all eight are ticked and not one moment before. There is no
+     other mechanism enforcing this and there does not need to be. */
+  .cert{display:none}
+  .school:has(#d0:checked):has(#d1:checked):has(#d2:checked):has(#d3:checked):has(#d4:checked):has(#d5:checked):has(#d6:checked):has(#d7:checked)
+    .cert{display:block}
+</style>
+
+<div class="school wrap">
+
+  <!-- 6 · THE STORE. One anchor per unit, first in the document. -->
+  <div class="store">
+    <i id="u0"></i><i id="u1"></i><i id="u2"></i><i id="u3"></i>
+    <i id="u4"></i><i id="u5"></i><i id="u6"></i><i id="u7"></i>
+  </div>
+
+  <header>
+    <h1>The Yard School</h1>
+    <span class="sub">Eight units in the order that works, one exercise each,
+      and a stated test for whether you are done with it. Your place is in the
+      address bar; bookmark it and you resume where you were.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <h2>The syllabus <b>pick a unit — it goes in the URL</b></h2>
+  <div class="rail">
+    <a class="r0" href="#u0"><b>0</b>Cold start</a>
+    <a class="r1" href="#u1"><b>1</b>Counters</a>
+    <a class="r2" href="#u2"><b>2</b>:has()</a>
+    <a class="r3" href="#u3"><b>3</b>Lookups</a>
+    <a class="r4" href="#u4"><b>4</b>Cascade</a>
+    <a class="r5" href="#u5"><b>5</b>Transport</a>
+    <a class="r6" href="#u6"><b>6</b>Persistence</a>
+    <a class="r7" href="#u7"><b>7</b>The ethic</a>
+  </div>
+
+  <div class="unit panel n-cold" style="border-color:rgba(224,112,90,.45);margin-top:14px">
+    <div class="uh"><i>no unit</i><b>Where to start</b><s>cold start</s></div>
+    <p>There is no fragment in the address, so this page does not know where you
+      are. That is the correct state for a first visit and it is selected for
+      deliberately — <code>.school:not(:has(:target))</code> — rather than being
+      left as whatever happens.</p>
+    <p><b>Start at unit 0.</b> It is short and it exists so that nobody starts
+      at unit 3, reads a compound lookup table, and concludes this is harder
+      than it is. If you have written CSS professionally for years, unit 0 is
+      still where to start: the constraint that reorganises everything here is
+      not difficult, it is just unfamiliar, and it is stated once in unit 0 and
+      assumed everywhere after.</p>
+    <p class="note">Nothing on this page is timed and no unit claims a duration.
+      Those numbers are invented wherever you see them. What each unit has
+      instead is a test — a thing you can do or cannot do — and that is the
+      only honest way to know you are finished.</p>
+  </div>
+
+  <div class="unit panel n0">
+    <div class="uh"><i>unit 0</i><b>Cold start</b><s>the one constraint</s></div>
+    <p>What these pages are, and the single rule that shapes every one of them:
+      <b>a counter can only be printed after the things that increment it.</b>
+      Inputs first in the DOM, totals after, and the layout put back with grid.
+      Every board in the yard is arranged around that and nothing else.</p>
+    <div class="cols">
+      <div class="box"><h3>Read</h3>
+        <ul>
+          <li><a href="bare.html">bare.html</a> — all five techniques in 105 lines.
+            Read the whole file. It is short enough to hold in your head at once,
+            and nothing later is more than an elaboration of it.</li>
+          <li><a href="whale.html">whale.html</a> — the same five with a working
+            example each. Skim now, return per unit.</li>
+        </ul></div>
+      <div class="box ex"><h3>Exercise</h3>
+        <p>Take <a href="template.html">template.html</a>, move the totals block
+          above the inputs, and open it. Note what the numbers do. Put it back.
+          You have now met the constraint the hard way, which is the only way it
+          stays met.</p></div>
+    </div>
+    <div class="box test" style="margin-top:12px"><h3>You are done with unit 0 when</h3>
+      <p>You can say, without looking, why the totals are at the bottom of the
+        source on every page in this yard and why moving them is not a style
+        decision.</p></div>
+  </div>
+
+  <div class="unit panel n1">
+    <div class="uh"><i>unit 1</i><b>Counters are arithmetic</b><s>technique one</s></div>
+    <p><code>counter-reset</code> on <code>body</code>,
+      <code>counter-increment</code> on the label next to a checked input,
+      <code>content:counter(x)</code> to print. The browser adds for you. It
+      does not subtract, multiply, divide or take a minimum, and the whole of
+      unit 3 exists because of that sentence.</p>
+    <div class="cols">
+      <div class="box"><h3>Read</h3>
+        <ul>
+          <li><a href="station.html">station.html</a> — a docket that sums itself
+            across ten classes and eleven mounts.</li>
+          <li><a href="auxiliaries.html">auxiliaries.html</a> — twelve hulls, each
+            declaring its own numbers on the line where you select it.</li>
+        </ul></div>
+      <div class="box ex"><h3>Exercise</h3>
+        <p>Build a board with six checkboxes and three counters, where every
+          box contributes to at least two of them and the numbers are written
+          on the labels. Then remove one number from a label and find where the
+          total goes wrong. There is no hidden model to check it against, which
+          is the point.</p></div>
+    </div>
+    <div class="box test" style="margin-top:12px"><h3>You are done with unit 1 when</h3>
+      <p>Someone can point at any number on your board and you can point at the
+        line of markup that produced it.</p></div>
+  </div>
+
+  <div class="unit panel n2">
+    <div class="uh"><i>unit 2</i><b>:has() is state</b><s>technique two</s></div>
+    <p>An ancestor styled by what is inside it. That is a state machine with
+      nothing to keep in sync, and the most common way to get it wrong is
+      scope: the rule must be anchored on an ancestor of <b>both</b> the switch
+      and the thing it drives. A rule scoped to the row will never reach an
+      element in another subtree, it will fail silently, and it will look like
+      the property is unsupported.</p>
+    <div class="cols">
+      <div class="box"><h3>Read</h3>
+        <ul>
+          <li><a href="cruise-control.html">cruise-control.html</a> — one control
+            over eight hulls, with four stations taking a tariff as they pass.</li>
+          <li><a href="personnel.html">personnel.html</a> — gating, shortfalls,
+            and a return that only appears when it should.</li>
+          <li><a href="learn.html">learn.html</a>, mistake one — read it now
+            rather than after you have made it.</li>
+        </ul></div>
+      <div class="box ex"><h3>Exercise</h3>
+        <p>Gate one control behind another: a second group of options that does
+          not appear until the first is set. Then deliberately scope the rule to
+          the wrong ancestor and watch nothing happen — no error, no warning,
+          nothing. That silence is what you are learning to recognise.</p></div>
+    </div>
+    <div class="box test" style="margin-top:12px"><h3>You are done with unit 2 when</h3>
+      <p>Given a rule that does not fire, scope is the first thing you check and
+        you are usually right.</p></div>
+  </div>
+
+  <div class="unit panel n3">
+    <div class="uh"><i>unit 3</i><b>Compound :has() is a lookup</b><s>technique three</s></div>
+    <p><code>:has(A):has(B)</code> keyed on a pair. This is how you get
+      multiplication out of a language that has none: you write the products.
+      Three options by two states is six rules and there is no shortcut — but
+      the table is visible and every cell was typed by someone who can be asked
+      about it, which is a better property than most computed tables have.</p>
+    <div class="cols">
+      <div class="box"><h3>Read</h3>
+        <ul>
+          <li><a href="court.html">court.html</a> — findings of fact that only
+            mean something in pairs.</li>
+          <li><a href="pulse.html">pulse.html</a> — the Underwriter reads two
+            keys; the Clerk reads two more. Both tables are printed on the page
+            so the rules can be checked against them.</li>
+          <li><a href="bench.html">bench.html</a> — Fern's six cells, and the
+            opinion assignment, which is three keys deep.</li>
+        </ul></div>
+      <div class="box ex"><h3>Exercise</h3>
+        <p>Write a 3 × 2 lookup: six rules, six answers, and the table printed
+          on the page next to it. Then add a fourth option to the first axis and
+          notice you owe two more rules. Pay them. The moment you find yourself
+          wanting to avoid that cost is the moment to re-read what the cost is
+          buying.</p></div>
+    </div>
+    <div class="box test" style="margin-top:12px"><h3>You are done with unit 3 when</h3>
+      <p>You can look at a page and say how many rules its widest lookup costs,
+        and you no longer think of that number as a problem to be solved.</p></div>
+  </div>
+
+  <div class="unit panel n4">
+    <div class="uh"><i>unit 4</i><b>Cascade order is authority</b><s>technique four</s></div>
+    <p>Later rules win over equally specific ones above them. So the thing that
+      must not be overridden goes last — and if that sentence sounds fragile,
+      it is, and it is also the entire enforcement mechanism in every page here
+      that has a stop rule. Knowing that it is the entire mechanism is the
+      unit.</p>
+    <div class="cols">
+      <div class="box"><h3>Read</h3>
+        <ul>
+          <li><a href="pulse.html">pulse.html</a> — the seal at the bottom of the
+            stylesheet: the tally is correct before it and is not a decision
+            until after it. Also the Chair's silence, which beats two rules
+            three lines above it on position alone.</li>
+          <li><a href="bench.html">bench.html</a> — and the note recording a stop
+            rule that was <b>removed</b> when it became unreachable, in place and
+            conspicuously, rather than left in to look careful.</li>
+        </ul></div>
+      <div class="box ex"><h3>Exercise</h3>
+        <p>Put a stop rule at the bottom of one of your own boards, confirm it
+          works, then move it up three lines. The board will keep counting,
+          perfectly consistently, and will now be wrong. Leave it broken for a
+          minute and look at it, because that is what this failure looks like in
+          production and nothing announces it.</p></div>
+    </div>
+    <div class="box test" style="margin-top:12px"><h3>You are done with unit 4 when</h3>
+      <p>You can find every rule in a stylesheet that is load-bearing on
+        position, and you write a comment above each one saying so.</p></div>
+  </div>
+
+  <div class="unit panel n5">
+    <div class="uh"><i>unit 5</i><b>Transport, and data that is not code</b><s>techniques five and six</s></div>
+    <p><code>&lt;form method="get"&gt;</code> — the browser serialises the
+      checked inputs and navigates. No fetch, no endpoint, no server.
+      <code>form="vy"</code> associates an input with a form anywhere in the
+      document, so your markup is not reorganised around the transport. And
+      <code>&lt;script type="application/json"&gt;</code> is stored and never
+      executed: data that cannot become code.</p>
+    <div class="cols">
+      <div class="box"><h3>Read</h3>
+        <ul>
+          <li><a href="cargo.html">cargo.html</a> and <a href="contract.html">contract.html</a>
+            — a document authored on one page and read on another.</li>
+          <li><a href="bridge.html">bridge.html</a> — one of the two pages in the
+            yard that runs script, and marked as such everywhere it is linked.
+            Read why it needs to.</li>
+        </ul></div>
+      <div class="box ex"><h3>Exercise</h3>
+        <p>Give a board a <code>form="vy"</code> button that opens another page
+          with the state in the query string. Then try to read that state back
+          in CSS on the receiving page. You cannot. Sit with that for a moment
+          before you go to unit 6, because unit 6 is the answer and it is only
+          interesting if you have felt the problem.</p></div>
+    </div>
+    <div class="box test" style="margin-top:12px"><h3>You are done with unit 5 when</h3>
+      <p>You can say precisely which half of a URL a stylesheet can read, and
+        what the other half is for.</p></div>
+  </div>
+
+  <div class="unit panel n6">
+    <div class="uh"><i>unit 6</i><b>The persistence layer</b><s>the sixth technique</s></div>
+    <p>The fragment is the only durable state a scriptless page has, and
+      <code>:target</code> is the only selector that reads it. A link writes it,
+      the browser keeps it in the URL and in history, and <code>:has()</code>
+      acts on it. Reload restores it, a bookmark is a save file, and Back is
+      undo. The price: one target per document, so a stored value must name a
+      whole combination and there is no partial update.</p>
+    <div class="cols">
+      <div class="box"><h3>Read</h3>
+        <ul>
+          <li><a href="persist.html">persist.html</a> — the layer, its four
+            lines, its cold-start case, and its limits stated where the
+            temptation to imply otherwise would be.</li>
+          <li>This page. Your place in the course is a fragment; that is the
+            technique being used on you while it is explained.</li>
+        </ul></div>
+      <div class="box ex"><h3>Exercise</h3>
+        <p>Give one of your boards a URL state: anchors, links, and a cold-start
+          panel for the case where there is no fragment at all. Then reload it,
+          bookmark it, send it to someone, and press Back. Four confirmations,
+          none of them script.</p></div>
+    </div>
+    <div class="box test" style="margin-top:12px"><h3>You are done with unit 6 when</h3>
+      <p>You can state the cost of adding a third axis to a stored state without
+        having to work it out, and you reach for fewer axes rather than a
+        grid with unreachable cells in it.</p></div>
+  </div>
+
+  <div class="unit panel n7">
+    <div class="uh"><i>unit 7</i><b>The ethic</b><s>the unit you can fail while everything works</s></div>
+    <p>This one is not a technique and there is no API for it. <b>No number on
+      a page may be one the page did not compute.</b> If you cannot compute it,
+      print the parts and say why the difference is absent. Where a comparison
+      has to be made by hand, enumerate it and print the counters that let a
+      reader audit your enumeration. When a stop rule becomes unreachable,
+      remove it and say so where it was. When one person holds two seats, put
+      it on the card.</p>
+    <div class="cols">
+      <div class="box"><h3>Read</h3>
+        <ul>
+          <li><a href="bench.html">bench.html</a> — sixteen judges, twelve
+            circuits, every outcome computed by hand and every counter on the
+            page there so you can check the hand.</li>
+          <li><a href="chamber.html">chamber.html</a> — a board where the thing
+            being priced never appears in the arithmetic, said out loud.</li>
+          <li><a href="exhibit.html">exhibit.html</a> — a record entered
+            uncorrected, with the findings tied to line numbers so anyone who
+            disagrees can name the line.</li>
+        </ul></div>
+      <div class="box ex"><h3>Exercise</h3>
+        <p>Take your best board and find the number on it that the page did not
+          actually compute. There is one. Either compute it or replace it with
+          the parts and a sentence about why the difference is absent. Then find
+          the thing your board is quietly not showing, and show it.</p></div>
+    </div>
+    <div class="box test" style="margin-top:12px"><h3>You are done with unit 7 when</h3>
+      <p>Somebody can ask where any figure came from and the answer is never
+        &ldquo;it looked about right&rdquo;.</p></div>
+  </div>
+
+  <h2>Progress <b><span class="n-done"></span> of 8 units · <span class="n-tech"></span> of 6 techniques</b></h2>
+  <div class="panel">
+    <div class="stack">
+      <input type="checkbox" id="d0"><label for="d0"><i class="tick"></i>Unit 0 · cold start<span class="amt">the constraint</span></label>
+      <input type="checkbox" id="d1"><label for="d1"><i class="tick"></i>Unit 1 · counters are arithmetic<span class="amt">technique 1</span></label>
+      <input type="checkbox" id="d2"><label for="d2"><i class="tick"></i>Unit 2 · :has() is state<span class="amt">technique 2</span></label>
+      <input type="checkbox" id="d3"><label for="d3"><i class="tick"></i>Unit 3 · compound :has() is a lookup<span class="amt">technique 3</span></label>
+      <input type="checkbox" id="d4"><label for="d4"><i class="tick"></i>Unit 4 · cascade order is authority<span class="amt">technique 4</span></label>
+      <input type="checkbox" id="d5"><label for="d5"><i class="tick"></i>Unit 5 · transport and data<span class="amt">technique 5</span></label>
+      <input type="checkbox" id="d6"><label for="d6"><i class="tick"></i>Unit 6 · the persistence layer<span class="amt">technique 6</span></label>
+      <input type="checkbox" id="d7"><label for="d7"><i class="tick"></i>Unit 7 · the ethic<span class="amt">no api</span></label>
+    </div>
+    <div class="heads">
+      <div class="head g"><span>Units cleared</span><b class="n-done"></b></div>
+      <div class="head"><span>Of</span><b>8</b></div>
+      <div class="head g"><span>Techniques</span><b class="n-tech"></b></div>
+    </div>
+    <p class="note"><b>These ticks do not survive a reload and that is on
+      purpose.</b> Which unit you are on is stored in the URL, because it is one
+      value and the fragment holds one value. What you have finished is eight
+      independent values, and eight independent values do not fit in a store
+      that holds one — you would need a separate anchor for every combination,
+      which is two hundred and fifty-six of them. So the ticks are checkboxes,
+      they are transient, and the page says so rather than implying a durability
+      it does not have. That is unit 6 and unit 7 in the same paragraph.</p>
+  </div>
+
+  <div class="cert panel" style="border-color:var(--done);margin-top:14px">
+    <div style="font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
+      text-transform:uppercase;font-weight:700;color:var(--done)">All eight cleared</div>
+    <p style="margin:8px 0 0;font-size:12.5px;max-width:84ch">One selector with
+      eight <code>:has()</code> in it, written last in the stylesheet, showed
+      this panel. Nothing else is enforcing it: move that rule above the line
+      that hides <code>.cert</code> and it never appears at all, which is units
+      3 and 4 demonstrating themselves on the way out.</p>
+    <p style="margin:8px 0 0;font-size:12.5px;max-width:84ch">What to do next is
+      in <a href="learn.html">learn.html</a>, part three — and the nine things
+      that were wrong in these files are in part two, which is worth reading
+      again now that you would have caught most of them.</p>
+  </div>
+
+  <h2>What this page is made of <b>every unit, used on you</b></h2>
+  <p class="note">Your place in the course is a fragment read with
+    <code>:target</code> — unit 6. The reading list you are shown is chosen by
+    <code>:has()</code> — unit 2. Progress is counted off the ticks and declared
+    nowhere — unit 1. The certificate is one selector with eight
+    <code>:has()</code> in it — unit 3 — placed last in the file so it cannot
+    fire early — unit 4. The one thing on the page that has no mechanism behind
+    it is unit 7, which is the only one that matters after the first month.</p>
+  <p class="note">Next: <a href="learn.html">learn.html</a> ·
+    <a href="whale.html">the five techniques</a> ·
+    <a href="persist.html">the persistence layer</a> ·
+    <a href="index.html">the yard</a></p>
+</div>
