@@ -1,15 +1,15 @@
 <title>The Venus Knowledge Base</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
-  THE VENUS KNOWLEDGE BASE — 19 entries, generated from kb.json by kb.mjs.
+  THE VENUS KNOWLEDGE BASE — 23 entries, generated from kb.json by kb.mjs.
 
   Every entry carries a TEST: the thing you could do that would show it false.
   An entry without one is an opinion with a heading on it, and this base does
   not accept them. Where an entry has been demonstrated on a board you can open,
   the board is cited by filename and the generator has checked that the file
-  exists — 25 distinct pages cited, 0 broken.
+  exists — 30 distinct pages cited, 0 broken.
 
-  0 of the 19 entries are asserted and not
+  0 of the 23 entries are asserted and not
   demonstrated anywhere. They are named at the foot of the page. A base that
   hides its own soft spots is a brochure.
 
@@ -428,18 +428,18 @@
       <div class="fg">
         <h4>by kind</h4>
         <div class="row">
-          <input type="radio" name="cls" id="f-all" checked><label for="f-all">all 19</label>
+          <input type="radio" name="cls" id="f-all" checked><label for="f-all">all 23</label>
           <input type="radio" name="cls" id="f-concept"><label for="f-concept" title="a claim about how things work">concept 4</label>
-          <input type="radio" name="cls" id="f-mechanism"><label for="f-mechanism" title="a technique, and what it costs">mechanism 9</label>
+          <input type="radio" name="cls" id="f-mechanism"><label for="f-mechanism" title="a technique, and what it costs">mechanism 10</label>
           <input type="radio" name="cls" id="f-figure"><label for="f-figure" title="a person or a posture, and what it does">figure 3</label>
-          <input type="radio" name="cls" id="f-number"><label for="f-number" title="a measured or computed quantity">number 3</label>
+          <input type="radio" name="cls" id="f-number"><label for="f-number" title="a measured or computed quantity">number 6</label>
         </div>
       </div>
       <div class="fg">
         <h4>by how sure</h4>
         <div class="row">
           <input type="radio" name="conf" id="g-all" checked><label for="g-all">all</label>
-          <input type="radio" name="conf" id="g-settled"><label for="g-settled" title="demonstrated on a board you can open, and the demonstration is checkable">settled 17</label>
+          <input type="radio" name="conf" id="g-settled"><label for="g-settled" title="demonstrated on a board you can open, and the demonstration is checkable">settled 21</label>
           <input type="radio" name="conf" id="g-working"><label for="g-working" title="used throughout, argued for, not independently verified">working 1</label>
           <input type="radio" name="conf" id="g-contested"><label for="g-contested" title="the yard has said two things about it and has not reconciled them">contested 1</label>
           <input type="radio" name="conf" id="g-open"><label for="g-open" title="stated, not demonstrated anywhere yet">open 0</label>
@@ -526,6 +526,112 @@
         <s>cited by</s>
         <a class="in" href="#decentralization">Decentralization</a>
         <a class="in" href="#superrotation">Superrotation</a>
+        <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
+      </div>
+    </section>
+    <section class="e c-number s-settled" id="the-window">
+      <h3><a href="#the-window">The window</a>
+        <i class="k">number</i><i class="d">settled</i></h3>
+      <p class="short">583.92 days between one departure and the next. Nothing you can spend shortens the wait.</p>
+      <p class="b">The window is the synodic period — how long it takes Earth and Venus to return to the same relative position — and it comes straight out of the two orbital periods with nothing else in it:</p>
+      <p class="b">1 ÷ (1÷224.701 − 1÷365.256) = 583.9 days. Venus goes round in 224.701 days, Earth in 365.256, and the difference in angular rate is the whole calculation. Call it 584 days, nineteen and a bit months, one year seven months.</p>
+      <p class="b">The windows themselves nearly repeat on a longer cycle, and this is the useful part for anybody planning more than one: five synodic periods is 2,919.6 days, eight Earth years is 2,922.0, and thirteen Venus years is 2,921.1. All three land within two and a half days of each other. So the pattern of departures you get in one eight-year block is very close to the pattern you get in the next, which means a schedule can be written once and reused, and the drift is small enough to absorb.</p>
+      <p class="b">The operational fact is that this is a deadline nobody negotiated. Most schedules can be bought forward with more money, more people, or a different contractor. This one is set by two orbital periods, and a launch that is not ready waits 584 days — not for a review, not for a decision, for geometry.</p>
+      <div class="test"><span>the test</span><p>Ask what would shorten it. If the answer offered is budget, headcount, or a better vendor, that is a different constraint being described. The only thing that moves a departure inside the window is propellant, and what it buys is a worse transfer, not an earlier arrival.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="supply.html"><b>supply.html</b>both paths, and a departure window only when the alignment allows it</a>
+        <a href="ships/index.html"><b>ships/index.html</b>seven logs against a 584-day window</a>
+        <a href="profiles/clock.html"><b>profiles/clock.html</b>the clocks requirement — 116.75 d solar day against the transit cadence</a>
+        <a href="cruise-control.html"><b>cruise-control.html</b>one lane, one file of hulls, one control</a>
+      </div>
+      <div class="rel">
+        <a href="#the-passage">The passage</a>
+        <a href="#the-relay">The relay</a>
+        <a href="#superrotation">Superrotation</a>
+        <s>cited by</s>
+        <a class="in" href="#the-passage">The passage</a>
+        <a class="in" href="#the-relay">The relay</a>
+        <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
+      </div>
+    </section>
+    <section class="e c-number s-settled" id="the-passage">
+      <h3><a href="#the-passage">The passage</a>
+        <i class="k">number</i><i class="d">settled</i></h3>
+      <p class="short">146 days out, on the minimum-energy path. The fast way there is not the straight one.</p>
+      <p class="b">The minimum-energy transfer is half an ellipse with Earth's orbit at one end and Venus's at the other, and its duration falls out of one line of Kepler:</p>
+      <p class="b">semi-major axis = (1.0000 + 0.7233) ÷ 2 = 0.86165 AU. Orbital period = 0.86165^1.5 = 0.7998 years = 292.1 days. You fly half of it: 146 days. About 3.5 km/s from low Earth orbit to get on it.</p>
+      <p class="b"><em>IT IS A STRAIGHT SHOT AND IT IS NOT A STRAIGHT LINE</em>, and the difference is why it is quick. You are not driving to Venus; you are letting go and falling toward the Sun, and Venus arrives at the far end of the fall. A straight line at constant speed would need thrust the whole way and propellant to match. The ellipse costs one burn and then nothing.</p>
+      <p class="b">For scale, since the Moon is the only trip anybody has a feel for: the Moon is 384,400 km, and Venus at its closest is about 99 Earth–Moon distances. Apollo took roughly three days to the Moon; at that average speed Venus would take the better part of a year. It takes 146 days instead, because falling beats driving.</p>
+      <p class="b">The three-to-five months quoted in the ships' logs is the same number with the variants included — 146 days is 4.8 months on the minimum-energy path, and the shorter figures are bought with propellant.</p>
+      <div class="test"><span>the test</span><p>Compute the transfer period from the two semi-major axes and halve it. If a quoted passage time is much shorter than that, it is not a minimum-energy transfer, and the difference is propellant somebody has to launch. Ask for the delta-v alongside the duration; a duration on its own is not a plan.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="supply.html"><b>supply.html</b>the long arc — about 146 days, roughly 3.5 km/s from low Earth orbit</a>
+        <a href="ships/index.html"><b>ships/index.html</b>seven ships, 23 log entries, 146-day passage</a>
+        <a href="convoy.html"><b>convoy.html</b>eight hulls in four pairs; a pair is the unit and sails together</a>
+        <a href="chain.html"><b>chain.html</b>the three legs of a run, and what each can still say</a>
+      </div>
+      <div class="rel">
+        <a href="#the-window">The window</a>
+        <a href="#the-relay">The relay</a>
+        <a href="#the-light-delay">The light delay</a>
+        <s>cited by</s>
+        <a class="in" href="#the-window">The window</a>
+        <a class="in" href="#the-light-delay">The light delay</a>
+        <a class="in" href="#the-relay">The relay</a>
+        <a class="in" href="#superrotation">Superrotation</a>
+      </div>
+    </section>
+    <section class="e c-number s-settled" id="the-light-delay">
+      <h3><a href="#the-light-delay">The light delay</a>
+        <i class="k">number</i><i class="d">settled</i></h3>
+      <p class="short">2.2 minutes at closest, 14.3 at furthest, one way. There is no live conversation with Venus.</p>
+      <p class="b">Venus and Earth run between about 39.5 and 258 million km apart on actual approaches — the geometric extremes are 38.2 and 261.0, from Earth's perihelion minus Venus's aphelion and both aphelia added, but the orbits are not aligned to deliver those often.</p>
+      <p class="b">Divide by 299,792.458 km/s: 39.5 million gives 131.8 seconds, 2.20 minutes. 258 million gives 860.6 seconds, 14.34 minutes. Those are one way. A question and its answer is 4.4 minutes at best and 28.7 at worst.</p>
+      <p class="b"><em>THAT NUMBER IS AN OPERATIONS CONSTRAINT BEFORE IT IS A COMMUNICATIONS ONE</em>. Any procedure whose correct response has to arrive in under about four and a half minutes cannot be run from Earth, at any point in the cycle, ever. Not with better equipment and not with more staff. It has to be decided at the far end, which means the authority to decide it has to be there before the situation is.</p>
+      <p class="b">The Moon is 1.28 light-seconds. Apollo could be talked through a problem in real time and repeatedly was. Venus cannot be, and every procedure written on the assumption that somebody can be asked needs rewriting for a place where they cannot.</p>
+      <p class="b">The practical shape of this is already in the yard. Signals are built to be read by weight before colour resolves, because a code for a channel with no back-channel has to survive being read badly. The bridge recomputes the derived figures from an incoming manifest rather than believing them, because there is nobody to query about a discrepancy inside a quarter of an hour.</p>
+      <div class="test"><span>the test</span><p>Time your loops. List every procedure whose correct response must arrive in under 4.4 minutes. That list is not a communications problem — it is the exact scope of the authority you have to delegate to the far end before departure, and it is the same list whether Venus is near or far.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="signals.html"><b>signals.html</b>sixteen states sorted by how many lamps are lit — weight first, because that is what a person reads at distance in bad light</a>
+        <a href="chain.html"><b>chain.html</b>three legs, each further from the authority that can say no, and each able to say less</a>
+        <a href="bridge.html"><b>bridge.html</b>a manifest comes in and the derived figures are recomputed rather than believed</a>
+        <a href="supply.html"><b>supply.html</b>the two paths, and what each commits before anyone can be asked</a>
+      </div>
+      <div class="rel">
+        <a href="#the-relay">The relay</a>
+        <a href="#the-passage">The passage</a>
+        <a href="#superrotation">Superrotation</a>
+        <s>cited by</s>
+        <a class="in" href="#the-passage">The passage</a>
+        <a class="in" href="#the-relay">The relay</a>
+        <a class="in" href="#superrotation">Superrotation</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-relay">
+      <h3><a href="#the-relay">The relay</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">A relay race, not a haul. The baton crosses the whole distance; no runner does. Nothing is lost at the exchange and the runner goes home and starts again.</p>
+      <p class="b">A haul is one carrier from origin to destination, and its cost is the whole distance every time. A relay is stations and handoffs, each leg sized to what that leg can actually do, and the baton is the only thing that goes the whole way.</p>
+      <p class="b"><em>THE EXCHANGE IS THE INSTRUMENT AND NOTHING MAY BE DROPPED IN IT</em>. In a relay race the exchange zone is the only place the baton can be lost, which is why it is the part that gets practised — the running is fitness, the handoff is skill. Same here: a leg that arrives is not the achievement, a leg that transfers cleanly is. Convoy releases in pairs and the markup does not offer half a pair, which is a stronger guarantee than a rule saying not to.</p>
+      <p class="b"><em>AND THE RUNNER GOES HOME AND STARTS OFF RIGHT</em>. The hull is not the baton. It hands over and cycles back on its own clock, which is a different clock from the cargo's — outbound is 146 days, the return is set by the same synodic geometry rather than by the ship, so a hull either waits at the far end for its alignment or spends propellant to shorten the wait. Either way the cargo does not wait with it. That is the whole reason to relay rather than shuttle: the baton keeps moving while the runners reset.</p>
+      <p class="b">The legs are not equal and are not meant to be. Earth departure carries sixteen states and can refuse. The middle leg carries eight and can only pace. Arrival carries four and can only receive. Each is further from the authority that can say no, and that is the light delay drawn as a chain rather than described — by the time a decision could be sent, the leg it applied to has already run.</p>
+      <p class="b">The practical payoff is scheduling. A haul has to catch the 584-day window whole. A relay only needs each leg to catch its own, so the cadence becomes a pipeline with more than one thing in flight at a time rather than a gate that opens twice in three years.</p>
+      <div class="test"><span>the test</span><p>Ask who is responsible for the cargo at the midpoint. If it is the same party as at departure, it is a haul with extra stops and you are paying the whole distance. In a relay the answer is a station, with different authority from the one before it, and there is a defined moment when responsibility changed hands.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="chain.html"><b>chain.html</b>B2 / P2P / 2B — three legs, 16 / 8 / 4 states, strictly decreasing in what each can say</a>
+        <a href="convoy.html"><b>convoy.html</b>eight hulls in four pairs; nothing on the board can release half a pair</a>
+        <a href="supply.html"><b>supply.html</b>two paths that diverge at departure and reconverge in the cloud layer</a>
+        <a href="cruise-control.html"><b>cruise-control.html</b>one lane, one file of hulls, and no stop on a hull any more</a>
+      </div>
+      <div class="rel">
+        <a href="#the-window">The window</a>
+        <a href="#the-passage">The passage</a>
+        <a href="#the-light-delay">The light delay</a>
+        <s>cited by</s>
+        <a class="in" href="#the-window">The window</a>
+        <a class="in" href="#the-passage">The passage</a>
+        <a class="in" href="#the-light-delay">The light delay</a>
+        <a class="in" href="#caught-up">Caught up</a>
         <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
       </div>
     </section>
@@ -743,6 +849,7 @@
       <div class="rel">
         <a href="#superrotation">Superrotation</a>
         <a href="#the-orbit">The orbit</a>
+        <a href="#the-relay">The relay</a>
         <s>cited by</s>
         <a class="in" href="#superrotation">Superrotation</a>
         <a class="in" href="#the-orbit">The orbit</a>
@@ -765,7 +872,11 @@
         <a href="#caught-up">Caught up</a>
         <a href="#hydrogen">Hydrogen is the only scarcity</a>
         <a href="#the-minimum-cycle">What it takes to start something</a>
+        <a href="#the-passage">The passage</a>
+        <a href="#the-light-delay">The light delay</a>
         <s>cited by</s>
+        <a class="in" href="#the-window">The window</a>
+        <a class="in" href="#the-light-delay">The light delay</a>
         <a class="in" href="#caught-up">Caught up</a>
         <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
       </div>
@@ -787,6 +898,8 @@
         <a href="#superrotation">Superrotation</a>
         <a href="#the-minimum-cycle">What it takes to start something</a>
         <a href="#fungibility">Fungibility</a>
+        <a href="#the-window">The window</a>
+        <a href="#the-relay">The relay</a>
         <s>cited by</s>
         <a class="in" href="#the-minimum-cycle">What it takes to start something</a>
         <a class="in" href="#superrotation">Superrotation</a>
@@ -907,21 +1020,21 @@
       </div>
     </section>
 
-  <div class="count">of 19 entries showing. A hidden element generates
+  <div class="count">of 23 entries showing. A hidden element generates
     no box and so increments no counter &mdash; this number is not maintained by
     anything, it is what <code>display:none</code> already means. <b>Nothing
-    happens at 19.</b></div>
+    happens at 23.</b></div>
 
   <h2>What the base knows about itself <b>checked at build time, not claimed</b></h2>
   <div class="panel">
     <div class="stats">
-      <div class="st"><span>entries</span><b>19</b></div>
-      <div class="st"><span>boards cited</span><b>25</b></div>
+      <div class="st"><span>entries</span><b>23</b></div>
+      <div class="st"><span>boards cited</span><b>30</b></div>
       <div class="st ok"><span>broken citations</span><b>0</b></div>
       <div class="st ok"><span>undemonstrated</span><b>0</b></div>
     </div>
     <p class="n"><b>Most cited:</b>
-      <a href="bench.html">bench.html</a> &times;6 &middot; <a href="automat.html">automat.html</a> &times;5 &middot; <a href="ecosystem.html">ecosystem.html</a> &times;4 &middot; <a href="buddha.html">buddha.html</a> &times;4 &middot; <a href="rapture.html">rapture.html</a> &times;4.
+      <a href="bench.html">bench.html</a> &times;6 &middot; <a href="automat.html">automat.html</a> &times;5 &middot; <a href="supply.html">supply.html</a> &times;5 &middot; <a href="chain.html">chain.html</a> &times;5 &middot; <a href="ecosystem.html">ecosystem.html</a> &times;4.
       <b>Most depended-on idea:</b> Fungibility, cited by
       5 other entries. The inbound half of that graph is
       computed here rather than written in the JSON, because it is the half
@@ -955,7 +1068,7 @@
   </div>
 
   <footer>
-    19 entries &middot; 25 boards cited &middot;
+    23 entries &middot; 30 boards cited &middot;
     0 broken &middot; 0 undemonstrated.
     Generated by <a href="kb.mjs">kb.mjs</a> from <a href="kb.json">kb.json</a>.
     <br><a href="theory.md">theory.md</a>, the argument &middot;
