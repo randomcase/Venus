@@ -52,7 +52,7 @@
      being pages you switch to and become a sidebar that is always open. */
   .phone{position:relative;z-index:1;width:min(404px,100vw);height:min(876px,100vh);
     border-radius:34px;border:1px solid #2a2333;overflow:hidden;
-    background:linear-gradient(180deg,rgba(12,10,17,.86),rgba(8,7,12,.94));
+    background:linear-gradient(180deg,rgba(12,10,17,.30),rgba(8,7,12,.48));
     box-shadow:0 40px 120px rgba(0,0,0,.75),0 0 0 9px #0b0910,0 0 0 10px #1d1826;
     display:flex;flex-direction:column;backdrop-filter:blur(2px)}
 
@@ -105,7 +105,8 @@
   /* --------------------------------------------------------- the 3D stage */
   .stage{position:relative;flex:1;overflow:hidden;perspective:900px;
     perspective-origin:50% 42%;touch-action:none;cursor:grab;
-    user-select:none;-webkit-user-select:none}
+    user-select:none;-webkit-user-select:none;
+    background:radial-gradient(ellipse at 50% 46%,rgba(6,4,10,.30),rgba(4,3,7,.78) 78%)}
   .sheet{user-select:text;-webkit-user-select:text}
   .stage:active{cursor:grabbing}
   .world{position:absolute;left:50%;top:50%;width:0;height:0;
@@ -196,8 +197,17 @@
   .row .badge{font:8.5px/1 ui-monospace,monospace;letter-spacing:.1em;
     text-transform:uppercase;padding:4px 6px;border-radius:5px;flex:none;
     border:1px solid var(--edge);color:var(--dim)}
-  .pane{display:none;flex:1;overflow:auto}
+  /* TWO REGISTERS. The kingdom — base and run — is dark, dimensional and lit
+     from a planet. The administrative layers — orders, fleet, codex — get the
+     office view: flat, pale-ruled, papery, no perspective and no glow, because
+     a ledger that looks like a throne room is a ledger nobody checks. */
+  .pane{display:none;flex:1;overflow:auto;
+    background:linear-gradient(180deg,#15131c,#101019);
+    background-image:repeating-linear-gradient(180deg,
+      rgba(255,255,255,.022) 0 1px,transparent 1px 34px)}
   .pane.on{display:block}
+  .pane .row .dot{background:#1e1b28;border-radius:5px;box-shadow:none}
+  .pane .row .badge{border-radius:3px;background:#1a1824}
   .stage.off{display:none}
 
   /* ------------------------------------------------------------- the run
