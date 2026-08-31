@@ -6,7 +6,10 @@
     "$transit": "146 days is the Hohmann transfer Earth to Venus — the minimum-energy path and the slow end of a real 3-to-5-month range. Faster trajectories exist and cost propellant at a steeply climbing rate, and they buy nothing: anything urgent went by light in under fifteen minutes. For cargo, the slow end is the correct end.",
     "window_days": 584,
     "$window": "Launch windows repeat on the synodic period, 583.92 days. Miss one and the next is nineteen months out, which is why the chart is made months in advance and why it is not revised.",
-    "light_minutes": [2.2, 14.3]
+    "light_minutes": [
+      2.2,
+      14.3
+    ]
   },
   "stanza_note": "Six lines. The captain sets the form before departure and every commandant keeps it unchanged for the whole crossing, so that any two days are comparable and a drift shows up as a difference rather than as a feeling.",
   "ships": [
@@ -27,30 +30,39 @@
         "Whether I would make the same call again."
       ],
       "entries": [
-        { "day": 1, "lines": [
-          "Day one of one hundred and forty-six. Nothing behind us yet.",
-          "Fire lit at 0400 and holding. Margin as charted.",
-          "One window of the launch. There is not another for nineteen months.",
-          "All well. Two have not eaten, which is the first day and expected.",
-          "The chart was made in November and it is now correct. That is the whole of the trade: eleven months of thinking, spent in one morning.",
-          "Yes."
-        ]},
-        { "day": 73, "lines": [
-          "Seventy-three out, seventy-three to run. The exact middle, and nobody mentioned it.",
-          "Fire steady. Margin four per cent under chart, which is inside tolerance and is still four per cent.",
-          "Consumed: a filter that was rated for the whole passage. It was not.",
-          "All well. The middle day is harder than the first and I did not chart for that.",
-          "Earth is nine light-minutes off. I asked a question this morning and the answer will arrive at supper, by which time I will have decided.",
-          "Yes, and I would have carried two filters."
-        ]},
-        { "day": 146, "lines": [
-          "One hundred and forty-six. We do not arrive; we pass. That is what a cycler is.",
-          "Fire handed over at the match. Eleven minutes of contact and then they were behind us.",
-          "Consumed: nothing that was not planned, except the filter.",
-          "All well. All aboard for the next leg, which begins tomorrow and is the same length.",
-          "Nobody came aboard and nobody left. The whole point of this ship is that she does not stop, and today was the day that felt like a cost.",
-          "Yes."
-        ]}
+        {
+          "day": 1,
+          "lines": [
+            "Day one of one hundred and forty-six. Nothing behind us yet.",
+            "Fire lit at 0400 and holding. Margin as charted.",
+            "One window of the launch. There is not another for nineteen months.",
+            "All well. Two have not eaten, which is the first day and expected.",
+            "The chart was made in November and it is now correct. That is the whole of the trade: eleven months of thinking, spent in one morning.",
+            "Yes."
+          ]
+        },
+        {
+          "day": 73,
+          "lines": [
+            "Seventy-three out, seventy-three to run. The exact middle, and nobody mentioned it.",
+            "Fire steady. Margin four per cent under chart, which is inside tolerance and is still four per cent.",
+            "Consumed: a filter that was rated for the whole passage. It was not.",
+            "All well. The middle day is harder than the first and I did not chart for that.",
+            "Earth is nine light-minutes off. I asked a question this morning and the answer will arrive at supper, by which time I will have decided.",
+            "Yes, and I would have carried two filters."
+          ]
+        },
+        {
+          "day": 146,
+          "lines": [
+            "One hundred and forty-six. We do not arrive; we pass. That is what a cycler is.",
+            "Fire handed over at the match. Eleven minutes of contact and then they were behind us.",
+            "Consumed: nothing that was not planned, except the filter.",
+            "All well. All aboard for the next leg, which begins tomorrow and is the same length.",
+            "Nobody came aboard and nobody left. The whole point of this ship is that she does not stop, and today was the day that felt like a cost.",
+            "Yes."
+          ]
+        }
       ]
     },
     {
@@ -70,22 +82,28 @@
         "Whether I would make the same call again."
       ],
       "entries": [
-        { "day": 1, "lines": [
-          "Eleven thousand four hundred kilograms of hydrogen. Every gram of it lifted out of a gravity well by somebody who will never see it used.",
-          "Nothing lost. The first day is always nothing lost.",
-          "No joints opened.",
-          "All well.",
-          "I have been told what this is worth in money. It is not the useful number. The useful number is that Venus would need to sweep a hundred and thirty-six thousand cubic metres of cloud to make one kilogram of the water this becomes.",
-          "Yes."
-        ]},
-        { "day": 96, "lines": [
-          "Eleven thousand three hundred and eighty-one.",
-          "Nineteen kilograms in ninety-six days. Boil-off, as charted, and it is still nineteen kilograms.",
-          "Two joints opened, both logged, both witnessed.",
-          "All well.",
-          "A hydrogen molecule is small enough to leave through metal that is not leaking. There is no tank that holds it perfectly and there never will be, and the chart accounts for that and I still count it every morning.",
-          "Yes."
-        ]}
+        {
+          "day": 1,
+          "lines": [
+            "Eleven thousand four hundred kilograms of hydrogen. Every gram of it lifted out of a gravity well by somebody who will never see it used.",
+            "Nothing lost. The first day is always nothing lost.",
+            "No joints opened.",
+            "All well.",
+            "I have been told what this is worth in money. It is not the useful number. The useful number is that Venus would need to sweep a hundred and thirty-six thousand cubic metres of cloud to make one kilogram of the water this becomes.",
+            "Yes."
+          ]
+        },
+        {
+          "day": 96,
+          "lines": [
+            "Eleven thousand three hundred and eighty-one.",
+            "Nineteen kilograms in ninety-six days. Boil-off, as charted, and it is still nineteen kilograms.",
+            "Two joints opened, both logged, both witnessed.",
+            "All well.",
+            "A hydrogen molecule is small enough to leave through metal that is not leaking. There is no tank that holds it perfectly and there never will be, and the chart accounts for that and I still count it every morning.",
+            "Yes."
+          ]
+        }
       ]
     },
     {
@@ -105,22 +123,28 @@
         "Whether I would make the same call again."
       ],
       "entries": [
-        { "day": 1, "lines": [
-          "Four hundred and ten kilometres of membrane. Eighteen hundred kilometres of seam, which is the number that matters.",
-          "All of it folded. All of it folded since March.",
-          "Hold at nineteen degrees, twenty per cent. Held there for the duration.",
-          "All well.",
-          "The seam count is the leak rate. Everybody asks about the material and nobody asks how many times it was joined, and the material is the part we already know how to make.",
-          "Yes."
-        ]},
-        { "day": 120, "lines": [
-          "Unchanged. It is membrane; it does not do anything in transit.",
-          "Folded two hundred and eighty-one days. Every crease is a place that will be asked a question later.",
-          "Nineteen degrees. Twenty per cent. Four months of the same line.",
-          "All well.",
-          "Nothing changed. Writing that down is the job — a hundred and twenty entries saying nothing changed is a stronger document than one entry at the end saying it was fine.",
-          "Yes."
-        ]}
+        {
+          "day": 1,
+          "lines": [
+            "Four hundred and ten kilometres of membrane. Eighteen hundred kilometres of seam, which is the number that matters.",
+            "All of it folded. All of it folded since March.",
+            "Hold at nineteen degrees, twenty per cent. Held there for the duration.",
+            "All well.",
+            "The seam count is the leak rate. Everybody asks about the material and nobody asks how many times it was joined, and the material is the part we already know how to make.",
+            "Yes."
+          ]
+        },
+        {
+          "day": 120,
+          "lines": [
+            "Unchanged. It is membrane; it does not do anything in transit.",
+            "Folded two hundred and eighty-one days. Every crease is a place that will be asked a question later.",
+            "Nineteen degrees. Twenty per cent. Four months of the same line.",
+            "All well.",
+            "Nothing changed. Writing that down is the job — a hundred and twenty entries saying nothing changed is a stronger document than one entry at the end saying it was fine.",
+            "Yes."
+          ]
+        }
       ]
     },
     {
@@ -140,22 +164,28 @@
         "Whether I would make the same call again."
       ],
       "entries": [
-        { "day": 1, "lines": [
-          "Nine cultures live. Four orders dormant, three thousand seed lots sealed.",
-          "Dormant wake dates all set for arrival plus thirty. None earlier. Nothing is woken in transit.",
-          "Soil respiring at chart. It eats whether or not anybody is watching, which is the sentence Biosphere 2 was written in.",
-          "All well.",
-          "I was asked why the soil is not sterilised for the crossing. Because it is not cargo, it is a population, and a sterile floor arrives dead and stays dead.",
-          "Yes."
-        ]},
-        { "day": 58, "lines": [
-          "Eight cultures live. One lost — the fourth, which was the one I was least worried about.",
-          "Dormant unchanged. Seed unchanged.",
-          "Respiration up two per cent. The hold is a closed room with something breathing in it and that is exactly what we are bringing.",
-          "All well, though the loss was mine.",
-          "The one I lost had the widest tolerance on paper. I checked it least. I have written that down rather than the version where it was unlucky.",
-          "No. I would have checked the robust one at the same interval as the fragile ones."
-        ]}
+        {
+          "day": 1,
+          "lines": [
+            "Nine cultures live. Four orders dormant, three thousand seed lots sealed.",
+            "Dormant wake dates all set for arrival plus thirty. None earlier. Nothing is woken in transit.",
+            "Soil respiring at chart. It eats whether or not anybody is watching, which is the sentence Biosphere 2 was written in.",
+            "All well.",
+            "I was asked why the soil is not sterilised for the crossing. Because it is not cargo, it is a population, and a sterile floor arrives dead and stays dead.",
+            "Yes."
+          ]
+        },
+        {
+          "day": 58,
+          "lines": [
+            "Eight cultures live. One lost — the fourth, which was the one I was least worried about.",
+            "Dormant unchanged. Seed unchanged.",
+            "Respiration up two per cent. The hold is a closed room with something breathing in it and that is exactly what we are bringing.",
+            "All well, though the loss was mine.",
+            "The one I lost had the widest tolerance on paper. I checked it least. I have written that down rather than the version where it was unlucky.",
+            "No. I would have checked the robust one at the same interval as the fragile ones."
+          ]
+        }
       ]
     },
     {
@@ -175,22 +205,28 @@
         "Whether I would make the same call again."
       ],
       "entries": [
-        { "day": 1, "lines": [
-          "Generated as charted, stored at ninety-six, spent at chart.",
-          "No deficit.",
-          "Time to black: nineteen days.",
-          "All well.",
-          "At Venus the sun is 2,601 watts a square metre, nearly twice Earth's, and the day at the band is four days long — which means the night is too. Everything I have sized is sized for a forty-eight hour dark, not a twelve.",
-          "Yes."
-        ]},
-        { "day": 133, "lines": [
-          "Generated above chart. Stored at eighty-eight. Spent above chart.",
-          "Deficit of four per cent, spent on holding the biology hold at temperature. I authorised it and would again.",
-          "Time to black: sixteen days.",
-          "All well.",
-          "Every system aboard is a way of turning power into time. That is all any of them do. I have stopped calling it the power budget.",
-          "Yes."
-        ]}
+        {
+          "day": 1,
+          "lines": [
+            "Generated as charted, stored at ninety-six, spent at chart.",
+            "No deficit.",
+            "Time to black: nineteen days.",
+            "All well.",
+            "At Venus the sun is 2,601 watts a square metre, nearly twice Earth's, and the day at the band is four days long — which means the night is too. Everything I have sized is sized for a forty-eight hour dark, not a twelve.",
+            "Yes."
+          ]
+        },
+        {
+          "day": 133,
+          "lines": [
+            "Generated above chart. Stored at eighty-eight. Spent above chart.",
+            "Deficit of four per cent, spent on holding the biology hold at temperature. I authorised it and would again.",
+            "Time to black: sixteen days.",
+            "All well.",
+            "Every system aboard is a way of turning power into time. That is all any of them do. I have stopped calling it the power budget.",
+            "Yes."
+          ]
+        }
       ]
     },
     {
@@ -210,41 +246,82 @@
         "Whether I would make the same call again."
       ],
       "entries": [
-        { "day": 1, "lines": [
-          "Four minutes fifty each way. Nine forty round.",
-          "Sent the departure. It was an answer to nothing; it is the first thing anybody there will know.",
-          "Nothing in flight but that.",
-          "All well.",
-          "A decision made here is made alone by construction, not by choice. There is no arrangement of authority that gets around ten minutes.",
-          "Yes."
-        ]},
-        { "day": 104, "lines": [
-          "Six minutes twelve each way and lengthening. We are going the long way round the sun and so is the signal.",
-          "Sent the medical. It was an answer to a question they asked eleven days ago and have presumably resolved.",
-          "Two messages in flight. Neither can be recalled, corrected or softened. I write them as if they will be read aloud, because they will be.",
-          "All well.",
-          "I stopped writing 'urgent' on anything. It arrives when it arrives and the word only tells the reader I did not understand the medium.",
-          "Yes."
-        ]}
+        {
+          "day": 1,
+          "lines": [
+            "Four minutes fifty each way. Nine forty round.",
+            "Sent the departure. It was an answer to nothing; it is the first thing anybody there will know.",
+            "Nothing in flight but that.",
+            "All well.",
+            "A decision made here is made alone by construction, not by choice. There is no arrangement of authority that gets around ten minutes.",
+            "Yes."
+          ]
+        },
+        {
+          "day": 104,
+          "lines": [
+            "Six minutes twelve each way and lengthening. We are going the long way round the sun and so is the signal.",
+            "Sent the medical. It was an answer to a question they asked eleven days ago and have presumably resolved.",
+            "Two messages in flight. Neither can be recalled, corrected or softened. I write them as if they will be read aloud, because they will be.",
+            "All well.",
+            "I stopped writing 'urgent' on anything. It arrives when it arrives and the word only tells the reader I did not understand the medium.",
+            "Yes."
+          ]
+        }
       ]
     },
     {
       "id": "charon",
       "name": "Charon",
-      "epithet": "who is paid, and goes one way",
+      "epithet": "who is paid, and goes one way, and comes back anyway",
       "carries": "lift_shaft",
-      "why": "The ferryman who takes you across and does not bring you back, and who is paid regardless. He is the descent: fifty kilometres from the canopy to the floor, one bar to ninety-two, twenty-seven degrees to four hundred and seventy-five. It is the only requirement on the whole list marked unknown, and it is the only ship here whose log has no entries.",
-      "commandant": "unassigned",
-      "chart_set": "not set",
+      "why": "The ferryman takes you across and does not bring you back. This one does, and that is the whole difference between a probe and a lift. He runs the tether: fifty-five kilometres from the canopy to the floor, 0.53 bar to 92, twenty-seven degrees to four hundred and seventy-five. He had no chart in the first version of this fleet because the descent was marked unknown — and working it turned out to move it, so he has one now.",
+      "commandant": "the ferryman",
+      "chart_set": "the morning of each descent, not a year ahead",
       "stanza_form": [
         "Depth reached, and pressure at depth.",
-        "Hull temperature, and margin.",
+        "Hull temperature, and margin to the cooling limit.",
+        "Cable: thermal state by section, top to bottom.",
         "Mass down, mass up.",
-        "Who is well and who is not.",
         "One thing that changed and was not in the chart.",
         "Whether I would make the same call again."
       ],
-      "entries": []
+      "entries": [
+        {
+          "day": 1,
+          "lines": [
+            "Fifty-five kilometres to the floor. Nought point five three bar at the top and ninety-two at the bottom, which is the pressure at nine hundred metres of Earth ocean.",
+            "Hull at twenty-seven going in. The margin is the whole vehicle: everything else about this car is a way of keeping one number below another.",
+            "Cable cold, all three sections. Vectran under PTFE for the top ten kilometres because that is the acid deck; Zylon through the middle; basalt for the last twenty, where it is four hundred degrees and nothing organic will do.",
+            "Two tonnes down. Nothing up yet.",
+            "The basalt section was spun from rock lifted on the previous run. The hot end of this cable is made of the planet it hangs over, which was not in the chart because nobody thought of it until the third descent.",
+            "Yes."
+          ]
+        },
+        {
+          "day": 2,
+          "lines": [
+            "Surface. Ninety-two bar, four hundred and seventy-five degrees.",
+            "Hull at ninety-one and climbing four a minute. The limit is one hundred and twenty. That gives seven minutes and I took six.",
+            "Cable: top cold, middle warm, bottom section at four hundred and holding. Basalt does not care. The splice above it does.",
+            "Nothing down. Four hundred kilograms of rock up.",
+            "Venera Thirteen lasted a hundred and twenty-seven minutes down here in 1982 and that is still the record. I was down for six. Everything anybody knows about staying is extrapolation from one afternoon forty-four years ago.",
+            "Yes, and I would have gone up a minute sooner."
+          ]
+        },
+        {
+          "day": 3,
+          "lines": [
+            "No descent. Cable holding at depth, unloaded.",
+            "Hull ambient. Nothing to report and that is the entry.",
+            "Bottom section still at three hundred and eighty from yesterday. It sheds heat into ninety-two bar of supercritical CO₂, which is an excellent coolant and a poor one to be inside of.",
+            "Nothing down. Nothing up.",
+            "The cable is the part that never comes home. It hangs in the worst of it continuously while the car visits for six minutes at a time, and every figure I have about its life is a calculation rather than an observation.",
+            "Yes."
+          ]
+        }
+      ],
+      "chart_note": "Every other ship in this fleet charts once, a year out, because the window is orbital and there is nothing to trade. Charon charts every morning, because his passage is hours rather than months and the thing that varies is not the trajectory — it is how hot the cable already is from yesterday."
     }
   ]
 }

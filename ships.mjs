@@ -158,13 +158,14 @@ ${STYLE}
 
   <h2>The chart <b>set ${esc(s.chart_set)}, and not revised</b></h2>
   <div class="chart">
-    <div><span>passage</span><b>${T} d</b></div>
-    <div><span>next window</span><b>${doc.passage.window_days} d</b></div>
+    <div><span>passage</span><b>${s.chart_note ? 'hours' : T + ' d'}</b></div>
+    <div><span>next window</span><b>${s.chart_note ? 'daily' : doc.passage.window_days + ' d'}</b></div>
     <div><span>entries kept</span><b>${kept}</b></div>
     <div><span>last entry</span><b>${last ? 'day ' + last : '&mdash;'}</b></div>
   </div>
-  <p class="lede" style="margin-top:11px">${esc(doc.passage.$transit)}</p>
-  <p class="lede" style="margin-top:7px">${esc(doc.passage.$window)}</p>
+  <p class="lede" style="margin-top:11px">${s.chart_note
+    ? esc(s.chart_note)
+    : esc(doc.passage.$transit) + ' ' + esc(doc.passage.$window)}</p>
 
   <h2>The stanza <b>six lines, set by the captain, unchanged all crossing</b></h2>
   <div class="form">
@@ -231,11 +232,12 @@ ${doc.ships.map((s) => `    <a class="card" href="${s.id}.html">
     </a>`).join('\n')}
   </div>
 
-  <footer>Generated from <a href="../ships.json">ships.json</a>. One ship has no
-    log, and that is not an omission: <a href="charon.html">Charon</a> carries
-    the descent, which is the only requirement in the whole system marked
-    unknown, and a ship with no mechanism has no chart to keep readiness
-    against. &middot; <a href="../index.html">the yard</a></footer>
+  <footer>Generated from <a href="../ships.json">ships.json</a>. Six ships chart
+    once, a year out, because the window is orbital and there is nothing to
+    trade. <a href="charon.html">Charon</a> charts every morning, because his
+    passage is hours rather than months and what varies is not the trajectory
+    but how hot the cable already is from yesterday.
+    &middot; <a href="../index.html">the yard</a></footer>
 </div>
 `);
 

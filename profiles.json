@@ -364,28 +364,43 @@
       "id": "lift_shaft",
       "name": "The lift",
       "class": "service",
-      "one_line": "Fifty kilometres of hot column between the canopy and the floor, with freight going both ways.",
-      "status": "unknown",
+      "one_line": "Fifty-five kilometres of tether between the canopy and the floor. Strength was never the problem; heat is, and heat is gradable.",
+      "status": "derived",
       "figures": [
         [
-          "vertical distance",
-          "50 km",
+          "length",
+          "55 km",
           "canopy to surface"
         ],
         [
-          "down",
-          "seed, litter, structure",
-          ""
+          "breaking length, Zylon at Venus g",
+          "419 km",
+          "55 km is a safety factor of 7.6"
         ],
         [
-          "up",
-          "soil, minerals, rock",
-          ""
+          "breaking length, basalt fibre",
+          "146 km",
+          "factor of 2.7, and it takes 700 °C"
         ],
         [
-          "conditions en route",
-          "1 → 92 bar, 27 → 475 °C",
-          "the whole gradient, every trip"
+          "breaking length, steel",
+          "29 km",
+          "the one material that cannot do it"
+        ],
+        [
+          "cable mass for a 2 t car at 4×",
+          "~1,050 kg",
+          "Zylon, untapered first-order"
+        ],
+        [
+          "surface atmospheric density",
+          "~65 kg/m³",
+          "a 2 t car floats on it in 31 m³"
+        ],
+        [
+          "longest surface survival to date",
+          "127 minutes",
+          "Venera 13, 1982"
         ]
       ],
       "depends_on": [
@@ -396,9 +411,10 @@
         "dome",
         "floor"
       ],
-      "open_question": "This is the least-solved item on the list and the one nobody writing about cloud cities mentions. There is no proposed mechanism here worth printing.",
+      "open_question": "Not strength and not buoyancy. Time at depth. The record for anything surviving down there is a little over two hours, set in 1982, and every figure above is the easy half of a problem whose hard half is a cooling system that runs for years against a 475 °C sink. The tether is derived. The car is not.",
       "pages": [
-        "terraform.html"
+        "terraform.html",
+        "ships/charon.html"
       ]
     },
     {
