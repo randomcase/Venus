@@ -1,59 +1,67 @@
 <title>The Pulse · a circulatory vote</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
-  THE PULSE — a full voting system, played.
+  THE PULSE — a full voting system, played, at its full extent.
 
   A circulatory vote. The ballot is not collected, it circulates: it enters the
-  ring at one seat, goes round the six, and comes back changed. One circuit is
-  one pulse. The chamber sits every day and does not adjourn — there are no days
-  off in a circulation, because a circulation that stops is not a slow vote, it
-  is a dead one.
+  ring at one seat, goes round the twelve, and comes back changed. One circuit
+  is one pulse. The chamber sits every day and does not adjourn — there are no
+  days off in a circulation, because a circulation that stops is not a slow
+  vote, it is a dead one.
 
-  THE ELECTORATE IS NOT RIGID.
-  You do not tell the seats how to vote. Each seat has a practice — a standing
-  bias, printed on its card, that it brings to every motion — and it answers to
-  exactly one thing: the reading, the hour, the circuit, or a pair of those.
-  What you hold are the three instruments of the ceremony. You are not whipping
-  votes. You are setting the conditions and finding out who these people are.
-  A practised vote, in the sense a martial art is practised: the same six forms
-  every day, and the whole skill is in which one you are standing in when the
-  moment arrives.
+  TWELVE SEATS. FOUR INSTRUMENTS. TWENTY-FOUR CIRCUITS.
+  You never tell a seat how to vote. Each has a practice — a standing bias,
+  printed on its card — and answers to exactly one thing, or to one pair of
+  things. What you hold is the shape of the sitting: how the motion is read,
+  which way the pulse runs, what hour the house sits, and whether the motion
+  goes up as tabled or as amended. Three readings by two circuits by two hours
+  by two texts is twenty-four, and all twenty-four are written out below,
+  because a page that cannot subtract certainly cannot be trusted to compare,
+  and a comparison nobody can audit is a rumour with a number on it.
 
-  IT IS A CEREMONIAL VOTE.
-  Three acts — the gavel, the reading aloud, the seal — and until all three are
-  done the tally is a rehearsal. The chamber will still count. The count will
-  still be correct. It will not be a decision. That rule is written last in the
-  stylesheet, which is the only reason it wins (see section 4); move it up and
-  the ceremony becomes a suggestion, which is also true of ceremonies.
+  THE AMENDMENT, WHICH IS THE POINT OF THE WHOLE BOARD
+  Motion 12 as tabled asks the yard to ask every hand, every day, how they are
+  — and to stand still for the answer. The amendment strikes six words. It
+  strikes the standing still. Everything else survives.
 
-  THE REGISTER.
-  Six seats are not six people. Seats 2 and 5 are one hand wearing two hats, and
-  on two of the twelve circuits that hand votes against itself and both votes
-  are counted. The page names those two circuits rather than hiding them. This
-  is the difference between a chamber and a syndicate: a syndicate does not vote
-  at all — it matriculates funds upward and promotes within, and the structure
-  it reproduces is not identical to itself but identitarianly aligned, which is
-  cohesive enough to behave as one body and factional enough to keep the hats.
-  Less amoeba than germ. Nothing about it is love, sex or survival; it is only
-  a cycle that has learned to make another of itself. A vote is the thing that
-  is not that. It is the point of building the chamber at all.
+  Play the twelve pairs. The amendment improves the motion's fortunes on six of
+  them and worsens them on none: it is monotone, and you can check that claim
+  against every pair on the board because both members of every pair are one
+  toggle apart. That is what an amendment is for and it is why they work. It
+  buys the votes of everyone the clause was going to cost, at the price of the
+  clause, and the clause was the motion. A house that passes the amended text
+  has voted for asking a question it does not have to wait for the answer to,
+  which is not the same act at all and produces an identical minute.
 
-  THE MOTION IS A NICE ONE.
-  Motion 12 follows the sick berth from the Floating Court, but it does not
-  argue about the roster. It asks whether the yard should ask each hand, each
-  day, how they are — and stand still for the answer. Six people with six
-  practices can fail to pass that. Finding the circuit where they do not is
-  the game.
+  THE HATS
+  Seats 2 and 5 are one hand wearing two. On two of the twenty-four circuits
+  that hand votes both ways at a combined weight of five and the chamber counts
+  both. Seats 4 and 10 are also one hand — she sits at whichever end of the
+  ring the pulse reaches first and abstains from the other, so she votes
+  exactly once every circuit and it looks like two people voting half the time.
+  The register is open. Neither is a cheat. Both are the ordinary way a small
+  body with a large agenda actually composes itself, and the only reason you
+  can see either is that the cards say so.
+
+  THE HUNG CIRCUIT
+  One circuit of twenty-four ends level: ceremonial · widdershins · dusk · as
+  amended, eight all. There is a casting vote in this chamber and it belongs to
+  the Chair — who, on a ceremonial reading, has stood down to preside and
+  cannot use it. The one circuit that needs the tie-break is the only one on
+  which the tie-break does not exist. That is not a bug in the model. Deadlock
+  is generally arranged, and it is generally arranged in advance, by a rule
+  everybody agreed to while it was still abstract.
 
   HOW IT IS BUILT
-    1 COUNTERS ARE ARITHMETIC    the tally is counted, never declared
-    2 :has() IS STATE            the seal, the verdict panels, the register
-    3 COMPOUND :has() IS LOOKUP  the Underwriter reads two keys at once
+    1 COUNTERS ARE ARITHMETIC    seven counters, all of it counted
+    2 :has() IS STATE            the seal, the verdicts, the register
+    3 COMPOUND :has() IS LOOKUP  two seats read two keys, twenty-four verdicts
     4 CASCADE ORDER IS AUTHORITY the Chair's silence, and the seal
     5 A GET FORM IS TRANSPORT    the minute goes to the bridge
     6 application/json IS DATA   the record of the sitting
 
-  No script.
+  Companions: bench.html hears the case, chamber.html prices the opinion,
+  exhibit.html is the record. No script in any of them.
 -->
 <style>
   :root{
@@ -67,7 +75,7 @@
     background-image:
       radial-gradient(circle at 50% -8%,rgba(226,85,95,.16),transparent 46%),
       radial-gradient(circle at 88% 92%,rgba(224,177,85,.10),transparent 44%)}
-  .wrap{max-width:1000px;margin:0 auto}
+  .wrap{max-width:1040px;margin:0 auto}
   header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
     border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
   h1{margin:0;font-size:21px;letter-spacing:-.015em}
@@ -91,9 +99,8 @@
   .panel{background:linear-gradient(180deg,var(--card),var(--card2));
     border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
   .two{display:grid;gap:14px;grid-template-columns:1.05fr .95fr;align-items:start}
-  @media (max-width:860px){.two{grid-template-columns:1fr}}
+  @media (max-width:880px){.two{grid-template-columns:1fr}}
 
-  /* ---------------------------------------------------------- the controls */
   .opts{display:flex;gap:6px;flex-wrap:wrap}
   .opts input,.stack input{position:absolute;opacity:0;width:0;height:0}
   .opts label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;padding:10px 13px;
@@ -116,50 +123,52 @@
     {outline:2px solid var(--cool);outline-offset:2px}
 
   /* ------------------------------------------------------------- the ring */
-  .dia{position:relative;width:100%;max-width:280px;aspect-ratio:1;margin:2px auto 0}
-  .dia .circle{position:absolute;inset:14%;border-radius:50%;
+  .dia{position:relative;width:100%;max-width:290px;aspect-ratio:1;margin:2px auto 0}
+  .dia .circle{position:absolute;inset:15%;border-radius:50%;
     border:1px dashed rgba(226,85,95,.42);animation:beat 2.4s ease-in-out infinite}
-  @keyframes beat{50%{transform:scale(1.035);border-color:rgba(226,85,95,.9)}}
-  .orbit{position:absolute;inset:14%;animation:spin 9s linear infinite}
+  @keyframes beat{50%{transform:scale(1.03);border-color:rgba(226,85,95,.9)}}
+  .orbit{position:absolute;inset:15%;animation:spin 11s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   .beat{position:absolute;top:-8px;left:50%;width:15px;height:15px;margin-left:-7.5px;
     border-radius:50%;background:var(--pulse);box-shadow:0 0 16px var(--pulse)}
-  .node{position:absolute;transform:translate(-50%,-50%);width:34px;height:34px;
+  .node{position:absolute;transform:translate(-50%,-50%);width:29px;height:29px;
     border-radius:50%;display:grid;place-items:center;background:#0c141d;
-    border:1px solid var(--edge);font:11px/1 ui-monospace,monospace;color:var(--dim)}
-  .n1{left:50%;top:5%} .n2{left:89%;top:27.5%} .n3{left:89%;top:72.5%}
-  .n4{left:50%;top:95%} .n5{left:11%;top:72.5%} .n6{left:11%;top:27.5%}
+    border:1px solid var(--edge);font:10px/1 ui-monospace,monospace;color:var(--dim)}
+  .p1{left:50%;top:4%}     .p2{left:71%;top:10%}   .p3{left:87%;top:26%}
+  .p4{left:93%;top:50%}    .p5{left:87%;top:74%}   .p6{left:71%;top:90%}
+  .p7{left:50%;top:96%}    .p8{left:29%;top:90%}   .p9{left:13%;top:74%}
+  .p10{left:7%;top:50%}    .p11{left:13%;top:26%}  .p12{left:29%;top:10%}
   @media (prefers-reduced-motion:reduce){.orbit,.circle{animation:none}}
 
   /* ------------------------------------------------------------- the seats */
-  .seats{display:grid;gap:10px;grid-template-columns:repeat(3,1fr)}
-  @media (max-width:860px){.seats{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:520px){.seats{grid-template-columns:1fr}}
+  .seats{display:grid;gap:9px;grid-template-columns:repeat(4,1fr)}
+  @media (max-width:1000px){.seats{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:760px){.seats{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:480px){.seats{grid-template-columns:1fr}}
   .seat{background:#0d151d;border:1px solid var(--edge);border-radius:11px;
-    padding:11px 12px}
+    padding:10px 11px}
   .seat.hat{border-color:rgba(224,177,85,.45)}
-  .seat .who{display:flex;align-items:baseline;gap:8px}
-  .seat .who i{font:9px/1 ui-monospace,monospace;color:var(--dim);font-style:normal;
+  .seat .who{display:flex;align-items:baseline;gap:7px}
+  .seat .who i{font:8.5px/1 ui-monospace,monospace;color:var(--dim);font-style:normal;
     border:1px solid var(--edge);border-radius:4px;padding:3px 5px}
-  .seat .who b{font-size:13px}
-  .seat .prac{color:var(--dim);font-size:10.5px;line-height:1.6;margin:7px 0 9px;
-    min-height:4.4em}
+  .seat .who b{font-size:12.5px}
+  .seat .prac{color:var(--dim);font-size:10px;line-height:1.58;margin:6px 0 8px;
+    min-height:6.3em}
   .seat .row{display:flex;align-items:baseline;justify-content:space-between;
-    border-top:1px solid var(--edge);padding-top:8px;gap:10px}
-  .seat .w{font:9px/1 ui-monospace,monospace;letter-spacing:.12em;
+    border-top:1px solid var(--edge);padding-top:7px;gap:8px}
+  .seat .w{font:8.5px/1 ui-monospace,monospace;letter-spacing:.1em;
     text-transform:uppercase;color:var(--dim)}
-  .cast{font:15px/1 ui-monospace,Menlo,monospace;font-weight:700;color:var(--dim)}
+  .cast{font:13px/1 ui-monospace,Menlo,monospace;font-weight:700;color:var(--dim)}
 
   /* ===================================== 1 · THE TALLY IS COUNTED, NOT SAID
-     Seven counters, declared once. Every increment below sits on a seat's
-     .cast, and every .cast is in the DOM before the tally that prints it.
-     That is the one rule you cannot break and the whole page is arranged
-     around it. */
+     Seven counters, declared once on body. Every increment below sits on a
+     seat's .cast, and every .cast is in the DOM before the tally that prints
+     it. That is the one rule you cannot break and the page is arranged around
+     it and nothing else. */
   body{counter-reset:aye 0 nay 0 abst 0 ayew 0 nayw 0 castw 0 rite 0}
 
-  /* SEAT 1 · the Yardmaster — answers to the reading and to nothing else.
-     Weight 2. The pulse enters the ring at his chair when the circuit runs
-     sunwise, and the seat the pulse enters speaks at double. */
+  /* SEAT 1 · THE YARDMASTER — the reading, and nothing else. Weight 2, and 4
+     when the pulse enters at his chair, which is what sunwise means. */
   .ring:has(#r-pl:checked) .s1 .cast::after{content:"AYE"}
   .ring:has(#r-te:checked) .s1 .cast::after{content:"AYE"}
   .ring:has(#r-ce:checked) .s1 .cast::after{content:"NAY"}
@@ -170,31 +179,27 @@
   .ring:has(#r-te:checked):has(#c-wi:checked) .s1 .cast{counter-increment:aye 1 ayew 2 castw 2}
   .ring:has(#r-ce:checked):has(#c-wi:checked) .s1 .cast{counter-increment:nay 1 nayw 2 castw 2}
 
-  /* SEAT 2 · the Purser — answers to the hour. Weight 2. */
+  /* SEAT 2 · THE PURSER — the hour. Weight 2. Also sits at 5. */
   .ring:has(#h-da:checked) .s2 .cast::after{content:"NAY"}
   .ring:has(#h-du:checked) .s2 .cast::after{content:"AYE"}
   .ring:has(#h-da:checked) .s2 .cast{counter-increment:nay 1 nayw 2 castw 2}
   .ring:has(#h-du:checked) .s2 .cast{counter-increment:aye 1 ayew 2 castw 2}
 
-  /* SEAT 3 · the Surgeon — answers to no instrument. Weight 1, and it is
-     always the same 1. A vote you cannot move is still a vote you must count. */
+  /* SEAT 3 · THE SURGEON — nothing moves her. Weight 1, always the same 1. */
   .s3 .cast::after{content:"AYE"}
   .s3 .cast{counter-increment:aye 1 ayew 1 castw 1}
 
-  /* SEAT 4 · the Ratings' Delegate — answers to the circuit. Weight 1.
-     Widdershins the pulse reaches her last, and she will not add a seventh
-     opinion to six she has just sat through. That is an abstention, not a nay,
-     and it costs the chamber nothing but a voice. */
+  /* SEAT 4 · THE RATINGS' DELEGATE — the circuit. Weight 1. Also sits at 10,
+     at the far end of the ring, and never speaks from both. */
   .ring:has(#c-su:checked) .s4 .cast::after{content:"AYE"}
   .ring:has(#c-wi:checked) .s4 .cast::after{content:"ABSTAIN"}
   .ring:has(#c-su:checked) .s4 .cast{counter-increment:aye 1 ayew 1 castw 1}
   .ring:has(#c-wi:checked) .s4 .cast{counter-increment:abst 1}
 
   /* ============================= 3 · COMPOUND :has() IS LOOKUP — SEAT 5
-     The Underwriter is the only seat that reads two keys. Neither the reading
-     nor the hour states his vote alone; the PAIR states it. Six rules for three
-     readings by two hours, and there is no shorter way to say it in a language
-     with no multiplication. The table is the model. Weight 3. */
+     THE UNDERWRITER. Neither the reading nor the hour states his vote alone;
+     the PAIR states it. Six rules for three readings by two hours, and no
+     shorter way to say it in a language with no multiplication. Weight 3. */
   .ring:has(#r-pl:checked):has(#h-da:checked) .s5 .cast::after{content:"NAY"}
   .ring:has(#r-pl:checked):has(#h-du:checked) .s5 .cast::after{content:"AYE"}
   .ring:has(#r-te:checked):has(#h-da:checked) .s5 .cast::after{content:"AYE"}
@@ -208,109 +213,186 @@
   .ring:has(#r-ce:checked):has(#h-da:checked) .s5 .cast{counter-increment:nay 1 nayw 3 castw 3}
   .ring:has(#r-ce:checked):has(#h-du:checked) .s5 .cast{counter-increment:nay 1 nayw 3 castw 3}
 
-  /* SEAT 6 · the Chair — answers to the circuit. Weight 1, doubled to 2 when
-     the pulse enters at her chair, which is what widdershins means. */
+  /* SEAT 6 · THE CHAIR — the circuit. Silent sunwise; widdershins the pulse
+     enters at her chair and she speaks at 3. She holds the casting vote. */
   .ring:has(#c-su:checked) .s6 .cast::after{content:"ABSTAIN"}
   .ring:has(#c-wi:checked) .s6 .cast::after{content:"AYE"}
   .ring:has(#c-su:checked) .s6 .cast{counter-increment:abst 1}
-  .ring:has(#c-wi:checked) .s6 .cast{counter-increment:aye 1 ayew 2 castw 2}
+  .ring:has(#c-wi:checked) .s6 .cast{counter-increment:aye 1 ayew 3 castw 3}
+
+  /* SEAT 7 · THE CHAPLAIN — the text. The standing still WAS the motion, and
+     he will not vote for a version of it with the waiting taken out. Weight 1. */
+  .ring:has(#a-tb:checked) .s7 .cast::after{content:"AYE"}
+  .ring:has(#a-am:checked) .s7 .cast::after{content:"NAY"}
+  .ring:has(#a-tb:checked) .s7 .cast{counter-increment:aye 1 ayew 1 castw 1}
+  .ring:has(#a-am:checked) .s7 .cast{counter-increment:nay 1 nayw 1 castw 1}
+
+  /* SEAT 8 · THE FOREMAN — the text, from the other end. He costed the
+     standing still in hours and the number was the whole objection. Weight 3. */
+  .ring:has(#a-tb:checked) .s8 .cast::after{content:"NAY"}
+  .ring:has(#a-am:checked) .s8 .cast::after{content:"AYE"}
+  .ring:has(#a-tb:checked) .s8 .cast{counter-increment:nay 1 nayw 3 castw 3}
+  .ring:has(#a-am:checked) .s8 .cast{counter-increment:aye 1 ayew 3 castw 3}
+
+  /* ============================= 3 · COMPOUND :has() IS LOOKUP — SEAT 9
+     THE CLERK. Reads the text against the hour: he is the one who has to
+     write the minute, and at dawn an unamended motion is a day he cannot
+     staff. Four cells for two texts by two hours. Weight 1. */
+  .ring:has(#a-tb:checked):has(#h-da:checked) .s9 .cast::after{content:"NAY"}
+  .ring:has(#a-tb:checked):has(#h-du:checked) .s9 .cast::after{content:"AYE"}
+  .ring:has(#a-am:checked):has(#h-da:checked) .s9 .cast::after{content:"AYE"}
+  .ring:has(#a-am:checked):has(#h-du:checked) .s9 .cast::after{content:"AYE"}
+  .ring:has(#a-tb:checked):has(#h-da:checked) .s9 .cast{counter-increment:nay 1 nayw 1 castw 1}
+  .ring:has(#a-tb:checked):has(#h-du:checked) .s9 .cast{counter-increment:aye 1 ayew 1 castw 1}
+  .ring:has(#a-am:checked):has(#h-da:checked) .s9 .cast{counter-increment:aye 1 ayew 1 castw 1}
+  .ring:has(#a-am:checked):has(#h-du:checked) .s9 .cast{counter-increment:aye 1 ayew 1 castw 1}
+
+  /* SEAT 10 · THE HARBOUR WATCH — the circuit, and the same hand as seat 4.
+     Whichever end the pulse reaches first is the chair she answers from. */
+  .ring:has(#c-su:checked) .s10 .cast::after{content:"ABSTAIN"}
+  .ring:has(#c-wi:checked) .s10 .cast::after{content:"AYE"}
+  .ring:has(#c-su:checked) .s10 .cast{counter-increment:abst 1}
+  .ring:has(#c-wi:checked) .s10 .cast{counter-increment:aye 1 ayew 1 castw 1}
+
+  /* SEAT 11 · THE DOCK STEWARD — the reading. Will vote for a thing spelled
+     out in full and for nothing else, plain or ceremonial. Weight 2. */
+  .ring:has(#r-pl:checked) .s11 .cast::after{content:"NAY"}
+  .ring:has(#r-te:checked) .s11 .cast::after{content:"AYE"}
+  .ring:has(#r-ce:checked) .s11 .cast::after{content:"NAY"}
+  .ring:has(#r-pl:checked) .s11 .cast{counter-increment:nay 1 nayw 2 castw 2}
+  .ring:has(#r-te:checked) .s11 .cast{counter-increment:aye 1 ayew 2 castw 2}
+  .ring:has(#r-ce:checked) .s11 .cast{counter-increment:nay 1 nayw 2 castw 2}
+
+  /* SEAT 12 · THE ABSENT MEMBER — has not attended. Weight 0 by the fact of
+     it, counted in the roll and in nothing else. The quorum is 8 of 12 and it
+     is 8 rather than 9 because of this chair, which is the ordinary way a
+     standing rule remembers a person nobody has seen. */
+  .s12 .cast::after{content:"— ABSENT —"}
+  .s12 .cast{counter-increment:abst 1;font-size:10px;color:var(--dim)}
 
   /* ==================================== 4 · CASCADE ORDER IS AUTHORITY (i)
-     The Chair does not vote in a ceremonial reading — she is presiding over it.
-     This rule has exactly the same specificity as the two circuit rules above
-     it. It wins on one thing only: it is written after them. Move it up three
-     lines and the Chair starts voting again, silently, and the tally stays
-     internally consistent while being wrong. */
+     The Chair does not vote in a ceremonial reading — she is presiding over
+     it, and with her goes the casting vote. Same specificity as the two
+     circuit rules above; it wins because it is written after them. Move it up
+     and she votes again, silently, and every ceremonial tally is wrong while
+     staying perfectly self-consistent. */
   .ring:has(#r-ce:checked) .s6 .cast::after{content:"ABSTAIN"}
   .ring:has(#r-ce:checked) .s6 .cast{counter-increment:abst 1}
 
-  /* the word is coloured by what it says — written after every rule that sets
-     the word, because the .cast element carries no class naming its vote. */
-  .ring:has(#r-ce:checked) .s1 .cast,
-  .ring:has(#h-da:checked) .s2 .cast,
-  .ring:has(#r-pl:checked):has(#h-da:checked) .s5 .cast,
-  .ring:has(#r-ce:checked) .s5 .cast{color:var(--warn)}
+  /* colour, after every rule that sets a word */
+  .cast{color:var(--dim)}
   .s3 .cast,
-  .ring:has(#r-pl:checked) .s1 .cast,
-  .ring:has(#r-te:checked) .s1 .cast,
+  .ring:has(#r-pl:checked) .s1 .cast, .ring:has(#r-te:checked) .s1 .cast,
   .ring:has(#h-du:checked) .s2 .cast,
   .ring:has(#c-su:checked) .s4 .cast,
   .ring:has(#r-pl:checked):has(#h-du:checked) .s5 .cast,
-  .ring:has(#r-te:checked) .s5 .cast{color:var(--good)}
+  .ring:has(#r-te:checked) .s5 .cast,
+  .ring:has(#a-tb:checked) .s7 .cast,
+  .ring:has(#a-am:checked) .s8 .cast,
+  .ring:has(#a-tb:checked):has(#h-du:checked) .s9 .cast,
+  .ring:has(#a-am:checked) .s9 .cast,
+  .ring:has(#c-wi:checked) .s10 .cast,
+  .ring:has(#r-te:checked) .s11 .cast{color:var(--good)}
+  .ring:has(#r-ce:checked) .s1 .cast,
+  .ring:has(#h-da:checked) .s2 .cast,
+  .ring:has(#r-pl:checked):has(#h-da:checked) .s5 .cast,
+  .ring:has(#r-ce:checked) .s5 .cast,
+  .ring:has(#a-am:checked) .s7 .cast,
+  .ring:has(#a-tb:checked) .s8 .cast,
+  .ring:has(#a-tb:checked):has(#h-da:checked) .s9 .cast,
+  .ring:has(#r-pl:checked) .s11 .cast,
+  .ring:has(#r-ce:checked) .s11 .cast{color:var(--warn)}
   .ring:has(#c-wi:checked) .s6 .cast{color:var(--good)}
   .ring:has(#r-ce:checked) .s6 .cast{color:var(--dim)}
 
   /* ------------------------------------------------------------- the tally */
-  .tally{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
   .tally .head{background:#0d151d;border:1px solid var(--edge);border-radius:10px;
     padding:10px 11px}
   .tally .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
     text-transform:uppercase;color:var(--dim)}
-  .tally .head b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;
+  .tally .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;
     color:var(--gold);margin-top:5px}
   .tally .head.a b{color:var(--good)} .tally .head.n b{color:var(--warn)}
-  @media (max-width:520px){.tally{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:640px){.tally{grid-template-columns:repeat(2,1fr)}}
   .n-aye::after{content:counter(aye)} .n-nay::after{content:counter(nay)}
   .n-abst::after{content:counter(abst)}
   .n-ayew::after{content:counter(ayew)} .n-nayw::after{content:counter(nayw)}
-  .n-castw::after{content:counter(castw)}
-  .n-rite::after{content:counter(rite)}
+  .n-castw::after{content:counter(castw)} .n-rite::after{content:counter(rite)}
   #ce-g:checked+label{counter-increment:rite 1}
   #ce-r:checked+label{counter-increment:rite 1}
   #ce-s:checked+label{counter-increment:rite 1}
 
-  /* ============================================= 2 · :has() IS STATE — SPLIT
-     Seats 2 and 5 are one hand in two hats. On ten of the twelve circuits the
-     two hats agree and nobody would ever know. On two of them the same person
-     votes both ways and the chamber counts both, at a combined weight of five.
-     Those two circuits are named here rather than left for someone to find. */
+  /* ================================================ 2 · THE TEXT ON THE TABLE */
+  .txt{display:none}
+  .ring:has(#a-tb:checked) .t-tb{display:block}
+  .ring:has(#a-am:checked) .t-am{display:block}
+  .struck{text-decoration:line-through;color:var(--warn);opacity:.75}
+
+  /* ===================================================== 2 · THE REGISTER
+     Seats 2 and 5 are one hand. On these two circuits the two hats disagree
+     and the chamber counts both, at a combined weight of five. */
   .split{display:none}
   .ring:has(#r-te:checked):has(#h-da:checked) .split{display:block}
   .ring:has(#r-ce:checked):has(#h-du:checked) .split{display:block}
 
-  /* ========================================================= 2 · THE VERDICT
-     Twelve circuits, twelve rules, one panel each. The threshold is printed on
-     the page: the ayes carry at 7 of the weight cast and must outweigh the
-     nays. CSS cannot compare two counters, so the comparison is not faked —
-     it was done once, by hand, per circuit, and the counters above are what
-     let you check the work rather than take it. */
+  /* ======================================================= 2 · THE DIVISION
+     Twenty-four circuits, twenty-four rules. Carried at 14 of the weight cast,
+     and the ayes must outweigh the nays. CSS compares nothing, so nothing was
+     compared: each circuit was worked out once by hand and the seven counters
+     above are what let you audit it rather than take it. */
   .vst{display:none}
   .vst.panel{margin-top:2px}
   .vst .vh{font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
     text-transform:uppercase;font-weight:700}
   .st-carr .vh{color:var(--good)} .st-short .vh,.st-hung .vh{color:var(--gold)}
   .st-lost .vh{color:var(--warn)} .st-uns .vh{color:var(--pulse)}
-  .vst p{margin:8px 0 0;font-size:12.5px;max-width:82ch}
+  .vst p{margin:8px 0 0;font-size:12.5px;max-width:84ch}
 
-  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-da:checked) .st-short{display:block}
-  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-du:checked) .st-carr {display:block}
-  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-da:checked) .st-hung {display:block}
-  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-du:checked) .st-carr {display:block}
-  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-da:checked) .st-carr {display:block}
-  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-du:checked) .st-carr {display:block}
-  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-da:checked) .st-carr {display:block}
-  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-du:checked) .st-carr {display:block}
-  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-da:checked) .st-lost {display:block}
-  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-du:checked) .st-lost {display:block}
-  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-da:checked) .st-lost {display:block}
-  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-du:checked) .st-lost {display:block}
+  /* --- plain */
+  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-da:checked):has(#a-tb:checked) .st-lost {display:block}
+  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-da:checked):has(#a-am:checked) .st-short{display:block}
+  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-du:checked):has(#a-tb:checked) .st-short{display:block}
+  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-du:checked):has(#a-am:checked) .st-carr {display:block}
+  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-tb:checked) .st-lost {display:block}
+  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-am:checked) .st-short{display:block}
+  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-tb:checked) .st-carr {display:block}
+  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-am:checked) .st-carr {display:block}
+  /* --- technical */
+  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-da:checked):has(#a-tb:checked) .st-short{display:block}
+  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-da:checked):has(#a-am:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-du:checked):has(#a-tb:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-du:checked):has(#a-am:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-tb:checked) .st-short{display:block}
+  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-am:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-tb:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-am:checked) .st-carr {display:block}
+  /* --- ceremonial */
+  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-da:checked):has(#a-tb:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-da:checked):has(#a-am:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-du:checked):has(#a-tb:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-du:checked):has(#a-am:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-tb:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-am:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-tb:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-am:checked) .st-hung{display:block}
 
   /* the circuit reverses the way the pulse travels round the ring */
   .ring:has(#c-wi:checked) .orbit{animation-direction:reverse}
 
   /* ==================================== 4 · CASCADE ORDER IS AUTHORITY (ii)
      THE SEAL. Nothing below this line, ever. Until all three ceremonial acts
-     are done, no verdict panel is a verdict — including the one the twelve
-     rules above just chose. This has the same specificity as those rules. It
-     wins because it is last, and that is the entire enforcement mechanism. It
-     is worth knowing that it is the entire enforcement mechanism. */
+     are done, no verdict panel is a verdict — including the one the
+     twenty-four rules above just chose. The specificity here is higher than
+     any single division rule, which is deliberate: this stop must not depend
+     on being the last thing anybody happened to type. It is last as well.
+     Belt and braces is the correct amount of engineering for a stop rule. */
   .ring:not(:has(#ce-g:checked):has(#ce-r:checked):has(#ce-s:checked)) .vst{display:none}
   .ring:not(:has(#ce-g:checked):has(#ce-r:checked):has(#ce-s:checked)) .st-uns{display:block}
 </style>
 
 <!-- 5 · A GET FORM IS TRANSPORT. Declared once, empty, near the top. Every
-     input that should travel carries form="vy", so the markup did not have to
-     be reorganised around the form. -->
+     input carries form="vy", so the markup was not reorganised around it. -->
 <form id="vy" action="bridge.html" method="get">
   <input type="hidden" name="board" value="pulse" form="vy">
 </form>
@@ -318,26 +400,31 @@
 <div class="ring wrap">
   <header>
     <h1>The Pulse</h1>
-    <span class="sub">A circulatory vote on Motion 12. Six seats, six practices,
-      three instruments, one circuit. You do not get to tell anyone how to vote
-      — you get to decide how the vote is held.</span>
+    <span class="sub">A circulatory vote on Motion 12. Twelve seats, twelve
+      practices, four instruments, twenty-four circuits. You do not get to tell
+      anyone how to vote — you get to decide how the vote is held, and once you
+      have played the amendment you will not think that is the smaller power.</span>
     <span class="tag">no script</span>
   </header>
 
   <div class="panel" style="border-color:rgba(226,85,95,.4)">
     <h2 style="margin-top:0">Motion 12 <b>before the chamber, every day</b></h2>
-    <p style="margin:0;font-size:14.5px;max-width:76ch">That the yard ask every
-      hand, every day, how they are — and stand still for the answer.</p>
-    <p class="note"><b>Carried at 7.</b> The ayes must reach seven of the weight
-      cast and must outweigh the nays. Below seven the motion is short even if
-      nobody opposed it; level with the nays it is hung and comes round again.
-      The chamber does not adjourn and takes no days off, which is most of what
-      the motion is about — a question asked only when someone looks unwell is
-      a different question.</p>
+    <div class="txt t-tb" style="font-size:14.5px;max-width:78ch">That the yard
+      ask every hand, every day, how they are — <b>and stand still for the
+      answer.</b></div>
+    <div class="txt t-am" style="font-size:14.5px;max-width:78ch">That the yard
+      ask every hand, every day, how they are <span class="struck">— and stand
+      still for the answer.</span></div>
+    <p class="note"><b>Carried at 14.</b> The ayes must reach fourteen of the
+      weight cast and must outweigh the nays. Below fourteen the motion is short
+      even where nobody opposed it; level with the nays it is hung. The chamber
+      does not adjourn and takes no days off, which is most of what the motion
+      is about — a question asked only when someone looks unwell is a different
+      question, and everybody in the room knows which one it is.</p>
   </div>
 
   <!-- ==== INPUTS FIRST. Not a preference: the tally cannot count backwards. -->
-  <h2>The instruments <b>three, and they are all you hold</b></h2>
+  <h2>The instruments <b>four, and they are all you hold</b></h2>
   <div class="two">
     <div class="panel">
       <div style="margin-bottom:13px">
@@ -349,110 +436,172 @@
         </div>
       </div>
       <div style="margin-bottom:13px">
-        <div class="lbl">The circuit</div>
+        <div class="lbl">The circuit — where the pulse enters</div>
         <div class="opts">
           <input type="radio" name="c" id="c-su" form="vy" value="sunwise" checked><label for="c-su">Sunwise</label>
           <input type="radio" name="c" id="c-wi" form="vy" value="widdershins"><label for="c-wi">Widdershins</label>
         </div>
       </div>
-      <div>
+      <div style="margin-bottom:13px">
         <div class="lbl">The hour</div>
         <div class="opts">
           <input type="radio" name="h" id="h-da" form="vy" value="dawn" checked><label for="h-da">Dawn</label>
           <input type="radio" name="h" id="h-du" form="vy" value="dusk"><label for="h-du">Dusk</label>
         </div>
       </div>
-      <p class="note">The circuit decides where the pulse <b>enters</b>, and the
-        seat it enters at speaks at double weight. Sunwise it enters at the
-        Yardmaster. Widdershins it enters at the Chair. Nobody's opinion changed
-        when you switched it; the room changed shape around the same opinions.</p>
+      <div>
+        <div class="lbl">The text — as tabled, or as amended</div>
+        <div class="opts">
+          <input type="radio" name="a" id="a-tb" form="vy" value="tabled" checked><label for="a-tb">As tabled</label>
+          <input type="radio" name="a" id="a-am" form="vy" value="amended"><label for="a-am">As amended</label>
+        </div>
+      </div>
+      <p class="note">The amendment strikes six words and nothing else. Play the
+        twelve pairs: it improves the motion's fortunes on six of them and
+        worsens them on none. That is not a flaw in the model, it is what an
+        amendment <i>is</i> — it buys the votes of everyone the clause was going
+        to cost, at the price of the clause, and the clause was the motion.</p>
     </div>
 
     <div class="panel">
       <div class="dia">
         <div class="circle"></div>
         <div class="orbit"><div class="beat"></div></div>
-        <div class="node n1">1</div><div class="node n2">2</div>
-        <div class="node n3">3</div><div class="node n4">4</div>
-        <div class="node n5">5</div><div class="node n6">6</div>
+        <div class="node p1">1</div><div class="node p2">2</div>
+        <div class="node p3">3</div><div class="node p4">4</div>
+        <div class="node p5">5</div><div class="node p6">6</div>
+        <div class="node p7">7</div><div class="node p8">8</div>
+        <div class="node p9">9</div><div class="node p10">10</div>
+        <div class="node p11">11</div><div class="node p12">12</div>
       </div>
       <p class="note" style="text-align:center;margin-top:14px">One circuit is
-        one pulse. Reverse the circuit and the ring turns the other way — the
-        same rule that moves the double weight from seat 1 to seat 6.</p>
+        one pulse. Reverse it and the ring turns the other way — the same rule
+        that moves the double weight from seat 1 to seat 6, and moves seat 4's
+        vote across the room into seat 10.</p>
     </div>
   </div>
 
-  <h2>The chamber <b>six practices, openly declared</b></h2>
+  <h2>The chamber <b>twelve practices, openly declared</b></h2>
   <div class="seats">
     <div class="seat s1">
       <div class="who"><i>1</i><b>The Yardmaster</b></div>
       <div class="prac">Answers to the reading. Will back anything put to him
         plainly or put to him in full, and will not be walked through a
-        ceremony by anybody.</div>
-      <div class="row"><span class="w">weight 2 · 4 on entry</span><span class="cast"></span></div>
+        ceremony by anybody, least of all on this.</div>
+      <div class="row"><span class="w">w2 · 4 on entry</span><span class="cast"></span></div>
     </div>
     <div class="seat s2 hat">
       <div class="who"><i>2</i><b>The Purser</b></div>
       <div class="prac">Answers to the hour. At dawn the day's cost is a number
         she has not yet earned; at dusk it is one she has. Also sits at 5.</div>
-      <div class="row"><span class="w">weight 2 · two hats</span><span class="cast"></span></div>
+      <div class="row"><span class="w">w2 · two hats</span><span class="cast"></span></div>
     </div>
     <div class="seat s3">
       <div class="who"><i>3</i><b>The Surgeon</b></div>
       <div class="prac">Answers to no instrument. She has been asking the
         question unpaid for eleven years and would like it written down.</div>
-      <div class="row"><span class="w">weight 1</span><span class="cast"></span></div>
+      <div class="row"><span class="w">w1</span><span class="cast"></span></div>
     </div>
-    <div class="seat s4">
-      <div class="who"><i>4</i><b>The Ratings' Delegate</b></div>
-      <div class="prac">Answers to the circuit. Speaks first or not at all — she
-        will not add a seventh opinion to six she has just sat through.</div>
-      <div class="row"><span class="w">weight 1</span><span class="cast"></span></div>
+    <div class="seat s4 hat">
+      <div class="who"><i>4</i><b>The Delegate</b></div>
+      <div class="prac">Answers to the circuit. Speaks first or not at all, and
+        when the pulse runs the other way she answers from seat 10 instead —
+        one hand, two chairs, never both.</div>
+      <div class="row"><span class="w">w1 · two chairs</span><span class="cast"></span></div>
     </div>
     <div class="seat s5 hat">
       <div class="who"><i>5</i><b>The Underwriter</b></div>
       <div class="prac">Answers to the reading and the hour together — neither
-        one moves him, the pair does. The same person as seat 2, in the other
-        hat.</div>
-      <div class="row"><span class="w">weight 3 · two hats</span><span class="cast"></span></div>
+        moves him, the pair does. The same person as seat 2, in the other hat,
+        and on two circuits the two hats disagree.</div>
+      <div class="row"><span class="w">w3 · two hats</span><span class="cast"></span></div>
     </div>
     <div class="seat s6">
       <div class="who"><i>6</i><b>The Chair</b></div>
-      <div class="prac">Answers to the circuit — unless the reading is
-        ceremonial, in which case she is presiding over it and does not vote
-        at all.</div>
-      <div class="row"><span class="w">weight 1 · 2 on entry</span><span class="cast"></span></div>
+      <div class="prac">Answers to the circuit and holds the casting vote —
+        unless the reading is ceremonial, in which case she is presiding, does
+        not vote, and the casting vote goes with her.</div>
+      <div class="row"><span class="w">w3 on entry · else silent</span><span class="cast"></span></div>
+    </div>
+    <div class="seat s7">
+      <div class="who"><i>7</i><b>The Chaplain</b></div>
+      <div class="prac">Answers to the text. The standing still was the motion;
+        a question you do not wait for the answer to is a form, and he has
+        buried enough people to know the difference.</div>
+      <div class="row"><span class="w">w1</span><span class="cast"></span></div>
+    </div>
+    <div class="seat s8">
+      <div class="who"><i>8</i><b>The Foreman</b></div>
+      <div class="prac">Answers to the text from the other end. He costed the
+        standing still in hours across a yard of four hundred hands and the
+        number was the whole of his objection. It is a real number.</div>
+      <div class="row"><span class="w">w3</span><span class="cast"></span></div>
+    </div>
+    <div class="seat s9">
+      <div class="who"><i>9</i><b>The Clerk</b></div>
+      <div class="prac">Reads the text against the hour. He writes the minute
+        and staffs the day, and at dawn an unamended motion is a shift he
+        cannot fill. Four cells, printed below.</div>
+      <div class="row"><span class="w">w1</span><span class="cast"></span></div>
+    </div>
+    <div class="seat s10 hat">
+      <div class="who"><i>10</i><b>The Harbour Watch</b></div>
+      <div class="prac">The same hand as seat 4, at the far end of the ring.
+        Whichever chair the pulse reaches first is the one she answers from,
+        and she has never once voted twice.</div>
+      <div class="row"><span class="w">w1 · two chairs</span><span class="cast"></span></div>
+    </div>
+    <div class="seat s11">
+      <div class="who"><i>11</i><b>The Dock Steward</b></div>
+      <div class="prac">Answers to the reading. Votes for a thing spelled out
+        in full and for nothing else — plain is a summary and ceremony is a
+        summary with music, and he has been caught by both.</div>
+      <div class="row"><span class="w">w2</span><span class="cast"></span></div>
+    </div>
+    <div class="seat s12">
+      <div class="who"><i>12</i><b>The Absent Member</b></div>
+      <div class="prac">Has not attended. Counted in the roll and in nothing
+        else. The quorum is eight of twelve rather than nine because of this
+        chair, which is how a standing rule remembers a person.</div>
+      <div class="row"><span class="w">w0 · absent</span><span class="cast"></span></div>
     </div>
   </div>
 
-  <!-- ==== TOTALS AFTER. Every number below was counted from the six above. -->
-  <h2>The tally <b>counted, not declared</b></h2>
+  <!-- ==== TOTALS AFTER. Counted from the twelve cards above and nowhere else. -->
+  <h2>The division <b>counted, not declared</b></h2>
   <div class="tally">
     <div class="head a"><span>Ayes · voices</span><b class="n-aye"></b></div>
     <div class="head n"><span>Nays · voices</span><b class="n-nay"></b></div>
     <div class="head"><span>Abstained</span><b class="n-abst"></b></div>
+    <div class="head"><span>Roll</span><b>12</b></div>
     <div class="head a"><span>Ayes · weight</span><b class="n-ayew"></b></div>
     <div class="head n"><span>Nays · weight</span><b class="n-nayw"></b></div>
     <div class="head"><span>Weight cast</span><b class="n-castw"></b></div>
+    <div class="head"><span>Carried at</span><b>14</b></div>
   </div>
-  <p class="note"><b>Six numbers and no seventh.</b> There is no margin printed
-    here, because a margin is a subtraction and this page cannot subtract. Both
-    weights are shown instead and you may hold them against each other yourself,
-    which is what a chamber does anyway. <code>Weight cast</code> counts only
-    weight actually spent: an abstention costs nothing and appears in voices
-    alone, which is the honest treatment of an abstention.</p>
+  <p class="note"><b>Eight numbers and no margin.</b> A margin is a subtraction
+    and this page cannot subtract, so both weights are given and you may hold
+    them against each other, which is what a chamber does anyway.
+    <code>Weight cast</code> counts only weight actually spent — an abstention
+    costs nothing and appears in voices alone, which is the honest treatment of
+    an abstention and the reason the absent member is on the roll and in no
+    other column. The house is quorate on every one of the twenty-four
+    circuits; check it against <code>Roll</code> minus the abstentions if you
+    want to, because the page will not do that subtraction for you.</p>
 
   <div class="split panel" style="border-color:rgba(224,177,85,.55);margin-top:12px">
     <div style="font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
       text-transform:uppercase;font-weight:700;color:var(--gold)">The register · hats split</div>
-    <p style="margin:8px 0 0;font-size:12.5px;max-width:82ch">On this circuit
+    <p style="margin:8px 0 0;font-size:12.5px;max-width:84ch">On this circuit
       seats 2 and 5 disagree, and they are the same hand. One person has cast
-      one aye and one nay, at a combined weight of five, and the chamber has
-      counted both because the chamber counts seats. It is not a contradiction
-      and nobody has cheated: the Purser and the Underwriter genuinely answer
-      to different things, and this is one of the two circuits out of twelve
-      where the two things point opposite ways. It is only visible because the
-      register is open.</p>
+      one aye and one nay at a combined weight of five, and the chamber counted
+      both, because the chamber counts seats. Nobody cheated: the Purser and the
+      Underwriter genuinely answer to different things, and this is one of the
+      two circuits out of twenty-four where the two things point opposite ways.
+      Seats 4 and 10 are also one hand and never do this — she abstains from
+      whichever chair the pulse reaches second. The difference between those two
+      arrangements is the entire subject of the register, and the only reason
+      you can see either is that the cards say so.</p>
   </div>
 
   <h2>The ceremony <b>three acts · <span class="n-rite"></span> of 3</b></h2>
@@ -468,94 +617,114 @@
       <label for="ce-s"><i class="tick"></i>The seal — the result is entered in
         the day book<span class="amt">act iii</span></label>
     </div>
-    <p class="note">None of these three moves a single vote, and the tally above
-      is correct whether you tick them or not. What they decide is whether the
-      correct tally is a <b>decision</b>. That distinction is the whole
+    <p class="note">None of these three moves a single vote and the division
+      above is correct whether you tick them or not. What they decide is whether
+      a correct division is a <b>decision</b>. That distinction is the whole
       difference between counting people and governing with them, and here it
-      is enforced by one rule sitting at the bottom of the stylesheet.</p>
+      is one rule at the bottom of the stylesheet.</p>
   </div>
 
-  <h2>The verdict <b>twelve circuits, twelve rules</b></h2>
+  <h2>The result <b>twenty-four circuits, twenty-four rules</b></h2>
 
   <div class="vst panel st-carr" style="border-color:var(--good)">
     <div class="vh">Carried</div>
-    <p>The ayes reach the mark and outweigh the nays. From tomorrow the yard
-      asks every hand how they are and stands still for the answer — including
-      on the days when nobody looks like they need asking, which is the reason
-      for putting it on a circuit instead of on a complaint.</p>
+    <p>Fourteen or better, and the ayes outweigh. From tomorrow the yard asks
+      every hand how they are — on the days when nobody looks like they need
+      asking too, which is the reason for putting it on a circuit instead of on
+      a complaint. If you got here on the amended text, read the motion at the
+      top again and decide for yourself what carried.</p>
   </div>
   <div class="vst panel st-short" style="border-color:var(--gold)">
     <div class="vh">Short</div>
-    <p>The ayes lead and do not reach seven. Nobody in this room opposes the
+    <p>The ayes lead and do not reach fourteen. Nobody in this room opposes the
       motion on its merits; it is failing on the shape of the sitting. Move one
-      instrument. The votes you need are already in the chamber and have been
-      the whole time.</p>
+      instrument — and note which one you reach for. The amendment is the
+      cheapest of the four and it is the only one that changes what you are
+      voting on.</p>
   </div>
   <div class="vst panel st-hung" style="border-color:var(--gold)">
-    <div class="vh">Hung</div>
-    <p>Level weight, and no casting vote — the Chair spent hers on the way in.
-      Nothing is decided and nothing is lost. The ring turns and the same motion
-      comes round again tomorrow, which is what a circulation is for and why
-      hanging a circulatory vote is not the same as killing it.</p>
+    <div class="vh">Hung · eight all</div>
+    <p>Level weight. There is a casting vote in this chamber and it belongs to
+      the Chair, who on a ceremonial reading has stood down to preside and
+      cannot use it — so the one circuit of twenty-four that needs the tie-break
+      is the only one on which the tie-break does not exist. Deadlock is
+      generally arranged, and generally in advance, by a rule everyone agreed to
+      while it was still abstract. The ring turns; the motion comes round
+      tomorrow; that is what a circulation is for.</p>
   </div>
   <div class="vst panel st-lost" style="border-color:var(--warn)">
     <div class="vh">Lost</div>
-    <p>Read as ceremony, the motion loses every time. The Yardmaster will not be
-      processed at, the Underwriter reads ritual as a cost with no term attached,
-      and the Chair has stood down to preside over it. A motion about asking
-      people a plain question does not survive being asked ceremonially.</p>
+    <p>The nays outweigh. Every ceremonial circuit ends here bar one, and two of
+      the plain ones do as well: at dawn, as tabled, the Purser, the
+      Underwriter, the Foreman and the Clerk are all looking at the same
+      unearned number, and four people looking at one number is what a bloc is.
+      A motion about asking people a plain question does not survive being asked
+      ceremonially, and does not survive being costed before the day has begun.</p>
   </div>
   <div class="vst panel st-uns" style="border-color:var(--pulse)">
     <div class="vh">Unsealed · rehearsal only</div>
     <p>The chamber has counted and the count is correct. It is not a decision:
-      the three acts are not done. Finish the ceremony above and the verdict
-      this circuit produces will be released.</p>
+      the three acts are not done. Finish the ceremony above and the result this
+      circuit produces will be released.</p>
   </div>
 
-  <h2>The Underwriter's table <b>§3 · two keys, one answer</b></h2>
-  <div class="panel">
-    <p class="note" style="margin-top:0">Written out because there is no
-      multiplication to write it with. Three readings by two hours is six cells,
-      every one of them typed by someone who can be asked why.</p>
-    <div class="tally" style="grid-template-columns:repeat(3,1fr)">
-      <div class="head"><span>Plain · dawn</span><b style="color:var(--warn)">NAY</b></div>
-      <div class="head"><span>Plain · dusk</span><b style="color:var(--good)">AYE</b></div>
-      <div class="head"><span>Technical · dawn</span><b style="color:var(--good)">AYE</b></div>
-      <div class="head"><span>Technical · dusk</span><b style="color:var(--good)">AYE</b></div>
-      <div class="head"><span>Ceremonial · dawn</span><b style="color:var(--warn)">NAY</b></div>
-      <div class="head"><span>Ceremonial · dusk</span><b style="color:var(--warn)">NAY</b></div>
+  <h2>The two lookups <b>§3 · two keys, one answer</b></h2>
+  <div class="two">
+    <div class="panel">
+      <div class="lbl">Seat 5 · the Underwriter · reading × hour</div>
+      <div class="tally" style="grid-template-columns:repeat(3,1fr);margin-top:0">
+        <div class="head"><span>Plain · dawn</span><b style="color:var(--warn)">NAY</b></div>
+        <div class="head"><span>Plain · dusk</span><b style="color:var(--good)">AYE</b></div>
+        <div class="head"><span>Tech · dawn</span><b style="color:var(--good)">AYE</b></div>
+        <div class="head"><span>Tech · dusk</span><b style="color:var(--good)">AYE</b></div>
+        <div class="head"><span>Cer · dawn</span><b style="color:var(--warn)">NAY</b></div>
+        <div class="head"><span>Cer · dusk</span><b style="color:var(--warn)">NAY</b></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="lbl">Seat 9 · the Clerk · text × hour</div>
+      <div class="tally" style="grid-template-columns:repeat(2,1fr);margin-top:0">
+        <div class="head"><span>Tabled · dawn</span><b style="color:var(--warn)">NAY</b></div>
+        <div class="head"><span>Tabled · dusk</span><b style="color:var(--good)">AYE</b></div>
+        <div class="head"><span>Amended · dawn</span><b style="color:var(--good)">AYE</b></div>
+        <div class="head"><span>Amended · dusk</span><b style="color:var(--good)">AYE</b></div>
+      </div>
+      <p class="note" style="margin-top:12px">Ten cells between the two of them,
+        each typed by someone who can be asked why. These are the only two seats
+        in the chamber whose reasoning fits in a box, and they are consequently
+        the only two anybody has ever successfully argued with.</p>
     </div>
   </div>
 
-  <h2>What a syndicate does instead <b>the thing this page is not</b></h2>
+  <h2>What the board is saying <b>the finding, stated plainly</b></h2>
   <div class="panel">
-    <p style="margin:0;font-size:12.5px;max-width:84ch">A syndicate does not
-      hold votes. It matriculates funds upward and promotes from within, and
-      those two motions are the same motion seen from either end. Because it is
-      cyclical it reproduces — not a copy of itself, but a body identitarianly
-      aligned with itself, mimicking the structure closely enough to be run the
-      same way by the same people. Less amoeba than germ: cohesive as one
-      organism, factional in its parts, and the factions are hats rather than
-      people. Nothing in it is love, or sex, or survival. It is a cycle that
-      learned to make another of itself, and the reason it looks transparent
-      once you have seen it is that it was never hiding — it simply has no step
-      at which anyone is asked.</p>
-    <p class="note">That step is this whole page. Twelve circuits, six
-      practices, a tally that can be checked against the seats that produced it,
-      and a ceremony that decides whether a correct count is a decision. The
-      register at seats 2 and 5 is the one place where the other structure
-      shows through, and the page names it rather than netting it off. See also
-      <a href="syndicate.html">the syndicate</a>.</p>
+    <p style="margin:0;font-size:12.5px;max-width:86ch">Twenty-four circuits and
+      the motion carries on nine of them, comes up short on five, is lost on
+      nine and hangs on one. Not one of those outcomes was produced by anybody
+      changing their mind, because nothing on this page can change anybody's
+      mind — there is no control here that reaches a practice, which was the
+      specification and is also the point. What moves is the shape of the
+      sitting. Four levers and a ceremony decide a question that twelve people
+      have already settled privately and identically every day for years.</p>
+    <p style="margin:10px 0 0;font-size:12.5px;max-width:86ch">And the cheapest
+      lever is the text. The amendment strikes six words, costs the motion
+      nothing on any of the twelve pairs, gains it six, and removes the only
+      clause anybody was going to have to do anything about. That is a
+      well-drafted amendment. It is also how a chamber says yes to a thing while
+      arranging not to have done it, and the minute it produces is identical
+      either way — which is why the minute is not the record and the text is.</p>
   </div>
 
   <h2>Carry it on <b>§5 and §6</b></h2>
   <div class="panel">
-    <!-- 6 · application/json IS DATA. The browser stores this and never runs
-         it. If you post it, post this identical string. -->
     <script type="application/json" id="doc">
 { "manifest": "venus.yard/1", "board": "pulse", "motion": 12,
-  "kind": "circulatory", "seats": 6, "hands": 5, "carries_at": 7,
-  "circuits": 12, "sealed_by": ["gavel", "reading", "seal"],
+  "kind": "circulatory", "roll": 12, "quorum": 8, "hands": 10,
+  "instruments": ["reading", "circuit", "hour", "text"],
+  "circuits": 24, "carries_at": 14,
+  "division": { "carried": 9, "short": 5, "lost": 9, "hung": 1 },
+  "amendment": { "strikes": "and stand still for the answer",
+                 "monotone": true, "pairs_improved": 6, "pairs_worsened": 0 },
   "$note": "the minute of one sitting. The chamber does not adjourn." }
     </script>
     <button type="submit" form="vy" style="font:inherit;font-size:13px;
@@ -565,19 +734,21 @@
     <p class="note">The button sits in no form of its own — it carries
       <code>form="vy"</code> like every input on the page. Press it and the
       browser opens
-      <code>bridge.html?board=pulse&amp;r=plain&amp;c=sunwise&amp;h=dawn&amp;rite=gavel</code>.
+      <code>bridge.html?board=pulse&amp;r=plain&amp;c=sunwise&amp;h=dawn&amp;a=tabled&amp;rite=gavel</code>.
       Nothing was fetched and nothing was sent anywhere except to another file.</p>
   </div>
 
   <h2>Where to start</h2>
-  <p class="note">The board opens on <b>plain · sunwise · dawn</b>, which is
-    short by one. Two of the twelve circuits are worth finding before you find a
-    winning one: the circuit where the chamber hangs dead level, and the one
-    where the motion passes eleven to nothing without a single person having
-    been persuaded of anything. Nobody changed their mind in either case. That
-    is the argument the page is making, and it is why the instruments are the
-    only things you were given.</p>
-  <p class="note">Next: <a href="court.html">the Floating Court</a>, where the
-    sick berth came from · <a href="syndicate.html">the syndicate</a>, which
-    does not sit · <a href="index.html">the yard</a></p>
+  <p class="note">The board opens on <b>plain · sunwise · dawn · as tabled</b>,
+    which is lost seven to eleven. Four circuits are worth finding before you
+    find a winning one. The one that hangs eight all, and why the Chair cannot
+    break it. The pair at technical · sunwise · dawn, where one toggle turns
+    short into carried. Either of the two circuits where the register splits and
+    one person votes both ways at a weight of five. And <b>plain · sunwise ·
+    dusk</b>, thirteen to five — short by exactly one, which is the Chaplain's
+    single vote, cast for the clause the amendment would take out.</p>
+  <p class="note">Next: <a href="bench.html">the Bench of Nine</a>, which hears
+    the case · <a href="chamber.html">the Writing Chamber</a>, which prices the
+    opinion · <a href="exhibit.html">Exhibit A</a>, the record ·
+    <a href="court.html">the Floating Court</a> · <a href="index.html">the yard</a></p>
 </div>

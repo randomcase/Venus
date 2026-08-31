@@ -36,15 +36,25 @@
   twelve circuits you can put it through, denies cert on four, and splits five
   to five on two.
 
-  THE TENTH SEAT
-  There are ten judges on this bench and it is still called the Bench of Nine.
-  Yew was seated to stop the court deadlocking, which is why a tenth seat has
-  ever been added to any bench anywhere, and ten is an even number. Before her
-  the two deadlocks were the circuits where the ninth chair was empty. Those
-  two now affirm — the packing worked, and it worked for the court below. What
-  deadlocks now are the two circuits where the abstainer came and voted. The
-  deadlock did not end. It was moved onto her. That is not a coincidence in
-  the model; it is the model, and it is what the model was for.
+  THE TENTH AND ELEVENTH SEATS
+  There are eleven judges on this bench and it is still called the Bench of
+  Nine. Both extra seats were added to stop it deadlocking, which is the reason
+  a seat has ever been added to any bench anywhere.
+
+  Yew went on tenth. Ten is even. Before her the two deadlocks were the two
+  circuits where the ninth chair sat empty; after her those two affirmed and
+  two new deadlocks appeared, on the circuits where the abstainer actually came
+  and voted. The deadlock did not end. It moved onto her.
+
+  Alder went on eleventh. Eleven is odd and nothing ties any more, so the
+  packing worked on the second attempt — and both of the splits it resolved
+  resolved for the court below. Six circuits reverse now and six affirm, where
+  before it was six, four and two.
+
+  Neither of them grants. Two judges have been added to this court to repair it
+  and neither has any say in whether it hears anything, so the rule of four is
+  exactly where it was on the day the case was filed. That is not a coincidence
+  in the model; it is the model, and it is what the model was for.
 
   HOW IT IS BUILT — the same five things as every board here
     1 COUNTERS ARE ARITHMETIC    both polls counted, never declared
@@ -245,6 +255,19 @@
   .ct:has(#n-se:checked) .j10 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
   .ct:has(#n-re:checked) .j10 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
 
+  /* ---- SENIORITY 11 · ALDER, Windthrow. THE ELEVENTH SEAT.
+     Seated because a ten-judge court kept tying, which is what happens when
+     you repair an odd bench by making it even. Eleven is odd again and there
+     is now no circuit on this board that ties at all. She votes with the
+     season — in leaf she affirms, bare she reverses — and she grants nothing
+     either, so the rule of four remains untouched by anybody ever appointed
+     to fix this court. Both five-five splits are gone. Look at which way each
+     of them went when she broke it. */
+  .ct:has(#s-gr:checked) .j11 .vote::after{content:"AFFIRM"}
+  .ct:has(#s-ba:checked) .j11 .vote::after{content:"REVERSE"}
+  .ct:has(#s-gr:checked) .j11 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#s-ba:checked) .j11 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+
   /* ------------------------------------------------------------ the tallies */
   .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
   .tally .head{background:#0b1310;border:1px solid var(--edge);border-radius:10px;
@@ -276,7 +299,7 @@
      comparison was not faked: it was done once by hand per circuit, and the
      four numbers above are what let you audit it. */
   .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
-  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .v-eq {display:block}
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .v-aff{display:block}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
   .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
@@ -284,7 +307,7 @@
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
   .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
-  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .v-eq {display:block}
+  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .v-aff{display:block}
   .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-re:checked) .v-aff{display:block}
   .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
 
@@ -297,18 +320,20 @@
      set it did not build. It was worked out by hand and it is checkable
      against the nine cards above, which is the deal. */
   .wr{display:none}
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .w-rook{display:inline}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .w-rook{display:inline}
   .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
+  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
   .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .w-rook{display:inline}
 
   .vst.panel,.cst.panel{margin-top:2px}
   .vh{font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
     text-transform:uppercase;font-weight:700}
   .v-rev .vh,.c-grant .vh{color:var(--rev)}
-  .v-aff .vh{color:var(--aff)} .v-eq .vh,.c-deny .vh{color:var(--amber)}
+  .v-aff .vh{color:var(--aff)} .c-deny .vh{color:var(--amber)}
   .vst p,.cst p{margin:8px 0 0;font-size:12.5px;max-width:84ch}
 
   /* the canopy closes over the page when the season is green */
@@ -341,7 +366,7 @@
     <h1>The Bench of Nine</h1>
     <span class="sub">Nine thousand square miles of forest — the size of England
       — and one court in it. <i>In re the Pot</i>, first case. Two votes are
-      taken here and the first one is not about the pot. There are ten judges.
+      taken here and the first one is not about the pot. There are eleven judges.
       It is still called the Bench of Nine.</span>
     <span class="tag">no script</span>
   </header>
@@ -499,6 +524,18 @@
         circuits.</div>
       <div class="row"><span class="cert">grants on: never</span><span class="vote"></span></div>
     </div>
+    <div class="j cop j11">
+      <div class="who"><i>11</i><b>Alder</b><em>windthrow · the eleventh seat</em></div>
+      <div class="prac">Seated because a ten-judge court kept tying, which is
+        what happens when you repair an odd bench by making it even. Eleven is
+        odd again and nothing on this board ties any more. She votes with the
+        season: in leaf she affirms, bare she reverses. She grants nothing
+        either — two judges have now been added to this court to fix it, and
+        neither of them has any say in whether it hears anything at all. Both
+        five-five splits are gone. Both went the same way when she broke them,
+        and it was not the appellant's way.</div>
+      <div class="row"><span class="cert">grants on: never</span><span class="vote"></span></div>
+    </div>
   </div>
 
   <!-- ==== TOTALS AFTER. Counted from the nine cards above and nowhere else. -->
@@ -511,12 +548,14 @@
   </div>
   <p class="note"><b>Four numbers and no margin.</b> A margin is a subtraction
     and this page cannot subtract, so both sides are printed and you may hold
-    them against each other, which is what a bench does anyway. With the tenth seat
-    filled, <code>Sitting</code> reads ten when the ninth chair is taken and
-    nine when it is not — so this court can only tie on the circuits where the
-    abstainer actually turned up, which is a sentence worth reading twice.</p>
+    them against each other, which is what a bench does anyway. With eleven seats
+    filled, <code>Sitting</code> reads eleven when the ninth chair is taken and
+    ten when it is not, and an odd bench does not tie. There is no equally
+    divided panel on this page any more. There were two, they were the two
+    circuits where the abstainer came and voted, and the eleventh seat resolved
+    both of them against her.</p>
 
-  <h2>The judgment <b>six of twelve circuits reverse</b></h2>
+  <h2>The judgment <b>six reverse, six affirm, none tie</b></h2>
 
   <div class="vst panel v-rev" style="border-color:var(--rev)">
     <div class="vh">Reversed</div>
@@ -533,7 +572,7 @@
   <div class="vst panel v-aff" style="border-color:var(--aff)">
     <div class="vh">Affirmed</div>
     <p>The court below stands. Put to this bench in leaf, or put to it as the
-      pot itself, five of nine will hold that the money was the meaning — and
+      pot itself, a majority of eleven will hold that the money was the meaning — and
       they are not fools, they are reading a structure that has genuinely never
       had a step where anyone was asked, and concluding that the pot must
       therefore have been it. That is the error. It is an extremely easy one.</p>
@@ -541,18 +580,6 @@
       the Chief is in the majority and assigns to herself.</span><span class="wr
       w-rook"><b>Rook, J.</b> — the most senior justice in a majority the Chief
       is not in.</span></p>
-  </div>
-  <div class="vst panel v-eq" style="border-color:var(--amber)">
-    <div class="vh">Equally divided · five to five</div>
-    <p>Ten sitting, five each way, no opinion, no precedent, and the judgment
-      below stands by default rather than by reasoning. A tenth seat was added
-      to this bench to stop exactly this, and it did stop it — on the two
-      circuits where it used to happen, both of which had the ninth chair
-      empty. Those two now affirm. What deadlocks instead are two circuits
-      where the abstainer came, sat and voted. Read that as court-packing
-      working exactly as designed and delivering exactly nothing, or read it as
-      arithmetic: an even bench ties, and ten is even. They are the same
-      reading.</p>
   </div>
 
   <h2>Fern's table <b>§3 · two keys, one answer</b></h2>
@@ -589,20 +616,26 @@
       the structure keeps running with a court sitting right on top of it,
       unreversed, having decided nothing — and that is not a failure of the
       system, it is the system working exactly as built. The one reliable way
-      to lose <i>In re the Pot</i> is to leave the ninth chair empty, and the
-      ninth chair has been empty for fifteen years.</p>
+      to lose <i>In re the Pot</i> was to leave the ninth chair empty, and the
+      ninth chair was empty for fifteen years. Two seats have since been added
+      to correct the court that produced that result. Neither of them votes on
+      whether there is a case. The door is exactly where it was.</p>
   </div>
 
   <h2>Carry it on <b>§5 and §6</b></h2>
   <div class="panel">
     <script type="application/json" id="doc">
 { "manifest": "venus.yard/1", "board": "bench", "case": "In re the Pot",
-  "court": { "seats": 10, "known_as": "the Bench of Nine", "benches": ["canopy", "understory", "root"],
+  "court": { "seats": 11, "known_as": "the Bench of Nine", "benches": ["canopy", "understory", "root"],
              "jurisdiction_sq_mi": 9000, "hears_per_year": 80 },
   "rules": { "cert": 4, "decides": 5, "tie": "affirmed by an equally divided court",
              "assignment": "chief if in majority, else senior-most in majority" },
-  "circuits": 12, "reversed_on": 6, "affirmed_on": 4, "divided_on": 2,
-  "tenth_seat": { "added_to_end": "deadlock", "ended_it": false, "moved_it": true },
+  "circuits": 12, "reversed_on": 6, "affirmed_on": 6, "divided_on": 0,
+  "added_seats": [
+    { "seniority": 10, "added_to_end": "deadlock", "ended_it": false, "moved_it": true },
+    { "seniority": 11, "added_to_end": "deadlock", "ended_it": true, "for_whom": "the court below" }
+  ],
+  "seats_that_grant": 8,
   "$note": "the docket entry. The ninth chair has been empty for fifteen years." }
     </script>
     <button type="submit" form="vy" style="font:inherit;font-size:13px;
@@ -618,10 +651,12 @@
   <h2>Where to start</h2>
   <p class="note">The board opens <b>on the papers · in leaf · recused</b>,
     which is three votes to hear and therefore no case at all. Seat the ninth
-    chair and the door opens on every grant — the tenth judge cannot help you
-    here, because she grants nothing. Then find the two circuits that end five
-    to five, and notice that they are the ones where the abstainer showed up.
-    The tenth seat was added to end the deadlock. It moved it onto her.</p>
+    chair and the door opens on every grant — neither of the two judges added to
+    this court can help you there, because neither of them grants anything.
+    Then compare the four circuits where the season is in leaf with the four
+    where it is bare, and note that the whole of the eleventh seat is in that
+    difference. She was appointed to end the ties. She ended both of them, and
+    both times for the court below.</p>
   <p class="note">Next: <a href="chamber.html">the Writing Chamber</a>, where
     the opinion is minted and priced · <a href="exhibit.html">Exhibit A</a>,
     the record · <a href="pulse.html">the Pulse</a>, where the same
