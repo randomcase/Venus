@@ -60,12 +60,24 @@
   has been removed from the bottom of the stylesheet, conspicuously, because it
   had nothing left to stop.
 
-  Twelve is even. The ties are back, on exactly the two circuits they were on
-  when there were ten. Three seats have been added to repair this court, the
-  deadlock is where it started, and the only appointment that changed anything
-  outside the model's own arithmetic was the one allowed to vote on whether
-  there was a case at all. That is not a coincidence in the model; it is the
-  model, and it is what the model was for.
+  Twelve is even. The ties came back, on exactly the two circuits they were on
+  when there were ten.
+
+  Sedge went on thirteenth, holding the ninth chair's proxy and nothing else.
+  When Wren is recused, Sedge votes Wren's position for her; when Wren is
+  seated the proxy is void. Sitting therefore reads twelve on every circuit,
+  and the deadlocks doubled — from two to four. The two circuits that used to
+  affirm while the abstainer was away now tie instead.
+
+  That is the finding this board was built to reach. The deadlock was never an
+  accident of attendance. The court is genuinely split down the middle on
+  whether the pot was a vote, it has been the whole time, and every
+  configuration before this one was an arrangement for not finding out. Four
+  appointments were made to repair this bench. The one that changed the
+  outcomes did so by letting an absent woman's position be counted, and what it
+  revealed was that the fifteen years in which this court did not deadlock were
+  not fifteen years of agreement either. That is not a coincidence in the
+  model; it is the model, and it is what the model was for.
 
   HOW IT IS BUILT — the same five things as every board here
     1 COUNTERS ARE ARITHMETIC    both polls counted, never declared
@@ -294,6 +306,26 @@
   .j12 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
   .j12 .cert{counter-increment:grantv 1;color:var(--bone)}
 
+  /* ---- SENIORITY 13 · SEDGE, the Standing Proxy. THE THIRTEENTH SEAT.
+     She holds the ninth chair's proxy and nothing else. When Wren is recused
+     Sedge votes as Wren votes, on the merits and on certiorari both; when Wren
+     is seated the proxy is void and Sedge casts nothing, because a proxy is a
+     substitute for a person and not an addition to a bench.
+     Sitting therefore reads twelve on every circuit — which is even on every
+     circuit, and the consequence is the whole point of her. Giving the absent
+     woman a voice did not resolve anything. It doubled the deadlocks, from two
+     to four. The two circuits that used to affirm while she was away now tie
+     instead, and they tie because the court is genuinely split down the middle
+     on the question and has spent three appointments arranging not to find
+     out. The deadlock was never an accident of attendance. It was the actual
+     state of opinion, and her absence was what kept it off the record. */
+  .ct:has(#n-re:checked) .j13 .vote::after{content:"REVERSE"}
+  .ct:has(#n-se:checked) .j13 .vote::after{content:"— PROXY VOID —"}
+  .ct:has(#n-re:checked) .j13 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#n-se:checked) .j13 .vote{color:var(--dim);font-size:10px}
+  .ct:has(#n-re:checked) .j13 .cert{counter-increment:grantv 1;color:var(--bone)}
+  .ct:has(#n-se:checked) .j13{opacity:.62}
+
   /* ------------------------------------------------------------ the tallies */
   .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
   .tally .head{background:#0b1310;border:1px solid var(--edge);border-radius:10px;
@@ -328,13 +360,13 @@
   .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .v-eq {display:block}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
-  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
+  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .v-eq {display:block}
   .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-se:checked) .v-rev{display:block}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
   .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
   .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .v-eq {display:block}
-  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-re:checked) .v-aff{display:block}
+  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-re:checked) .v-eq {display:block}
   .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
 
   /* ====================================== 3 · WHO WRITES IT · the assignment
@@ -349,12 +381,10 @@
   .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-re:checked) .w-rook{display:inline}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
-  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .w-rook{display:inline}
   .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
   .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-re:checked) .w-haw {display:inline}
-  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
   .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .w-rook{display:inline}
 
   .vst.panel,.cst.panel{margin-top:2px}
@@ -395,7 +425,8 @@
     <h1>The Bench of Nine</h1>
     <span class="sub">Nine thousand square miles of forest — the size of England
       — and one court in it. <i>In re the Pot</i>, first case. Two votes are
-      taken here and the first one is not about the pot. There are twelve judges.
+      taken here and the first one is not about the pot. There are thirteen judges
+      and twelve of them vote on any given day.
       It is still called the Bench of Nine.</span>
     <span class="tag">no script</span>
   </header>
@@ -580,6 +611,20 @@
         circuits they were on before. This time they are heard.</div>
       <div class="row"><span class="cert">grants on: always</span><span class="vote"></span></div>
     </div>
+    <div class="j cop j13">
+      <div class="who"><i>13</i><b>Sedge</b><em>standing proxy · the thirteenth seat</em></div>
+      <div class="prac">Holds the ninth chair's proxy and nothing else. When
+        Wren is recused, Sedge votes as Wren votes, on the merits and on
+        certiorari both; when Wren is seated the proxy is void and Sedge casts
+        nothing, because a proxy substitutes for a person rather than adding to
+        a bench. Sitting therefore reads twelve on every circuit, which is even
+        on every circuit. Giving the absent woman a voice did not resolve
+        anything — it doubled the deadlocks, from two to four. The two circuits
+        that used to affirm while she was away now tie instead. They tie
+        because the court is genuinely split down the middle on the question,
+        and her absence is what had been keeping that off the record.</div>
+      <div class="row"><span class="cert">grants: as she does</span><span class="vote"></span></div>
+    </div>
   </div>
 
   <!-- ==== TOTALS AFTER. Counted from the nine cards above and nowhere else. -->
@@ -592,15 +637,14 @@
   </div>
   <p class="note"><b>Four numbers and no margin.</b> A margin is a subtraction
     and this page cannot subtract, so both sides are printed and you may hold
-    them against each other, which is what a bench does anyway. With twelve seats
-    filled, <code>Sitting</code> reads twelve when the ninth chair is taken and
-    eleven when it is not, and an even bench ties. It ties on the two circuits
-    where the abstainer came and voted — the same two it tied on at ten,
-    resolved against her at eleven, and restored at twelve. <code>Votes to
-    hear</code> now reads four or better everywhere, which it has never done
-    before on this board.</p>
+    them against each other, which is what a bench does anyway. With the proxy on the
+    bench, <code>Sitting</code> reads twelve on every circuit — the thirteenth
+    seat replaces the ninth chair rather than adding to it — and an even bench
+    ties. Four circuits tie now: the two the abstainer attends, and the two her
+    proxy attends for her. <code>Votes to hear</code> reads four or better
+    everywhere, which it has done only since the twelfth seat.</p>
 
-  <h2>The judgment <b>six reverse, four affirm, two tie — all twelve heard</b></h2>
+  <h2>The judgment <b>six reverse, two affirm, four tie — all twelve heard</b></h2>
 
   <div class="vst panel v-rev" style="border-color:var(--rev)">
     <div class="vh">Reversed</div>
@@ -628,16 +672,21 @@
   </div>
   <div class="vst panel v-eq" style="border-color:var(--amber)">
     <div class="vh">Equally divided · six to six</div>
-    <p>Twelve sitting, six each way, no opinion, no precedent, and the judgment
-      below stands by default rather than by reasoning. These are the same two
-      circuits that tied when there were ten judges — the two where the
-      abstainer came, sat and voted. Yew created them, Alder resolved them for
-      the court below, Bracken has restored them, and the only thing that has
-      actually changed across three appointments is that this time the case is
-      heard before it deadlocks. Three seats were added to this bench to fix
-      it. The bench is now twelve, the ties are exactly where they started, and
-      the one difference any of it made was made by the judge who was allowed
-      to vote on whether there was a case.</p>
+    <p>Twelve sitting — twelve on every circuit now, because the proxy replaces
+      the ninth chair rather than adding to it — six each way, no opinion, no
+      precedent, and the judgment below stands by default rather than by
+      reasoning. Four of the twelve circuits end here. Two are the ones the
+      abstainer attends. Two are the ones she does not, where her proxy votes
+      her position for her and the court discovers it is split down the middle
+      after all.</p>
+    <p>Four appointments have now been made to repair this bench. Yew created
+      these deadlocks, Alder resolved them for the court below, Bracken
+      restored them and opened the door, and Sedge has doubled them by the
+      simple act of letting an absent woman's position be counted. That last
+      one is not a failure. A court that deadlocks four times out of twelve on
+      this question is a court that has finally written down what it actually
+      thinks, and the fifteen years in which it did not deadlock were not
+      fifteen years of agreement either.</p>
   </div>
 
   <h2>Fern's table <b>§3 · two keys, one answer</b></h2>
@@ -684,18 +733,20 @@
   <div class="panel">
     <script type="application/json" id="doc">
 { "manifest": "venus.yard/1", "board": "bench", "case": "In re the Pot",
-  "court": { "seats": 12, "known_as": "the Bench of Nine", "benches": ["canopy", "understory", "root"],
+  "court": { "seats": 13, "vote_on_any_day": 12, "known_as": "the Bench of Nine", "benches": ["canopy", "understory", "root"],
              "jurisdiction_sq_mi": 9000, "hears_per_year": 80 },
   "rules": { "cert": 4, "decides": 5, "tie": "affirmed by an equally divided court",
              "assignment": "chief if in majority, else senior-most in majority" },
-  "circuits": 12, "reversed_on": 6, "affirmed_on": 4, "divided_on": 2,
+  "circuits": 12, "reversed_on": 6, "affirmed_on": 2, "divided_on": 4,
   "cert_denied_on": 0,
   "added_seats": [
     { "seniority": 10, "added_to_end": "deadlock", "grants": false, "ended_it": false, "moved_it": true },
     { "seniority": 11, "added_to_end": "deadlock", "grants": false, "ended_it": true, "for_whom": "the court below" },
-    { "seniority": 12, "added_to_end": "deadlock", "grants": true, "ended_it": false, "opened_the_door": true }
+    { "seniority": 12, "added_to_end": "deadlock", "grants": true, "ended_it": false, "opened_the_door": true },
+    { "seniority": 13, "holds": "the ninth chair proxy", "grants": "as she does",
+      "ended_it": false, "doubled_it": true }
   ],
-  "seats_that_grant": 9,
+  "seats_that_grant": 10,
   "$note": "the docket entry. The ninth chair has been empty for fifteen years." }
     </script>
     <button type="submit" form="vy" style="font:inherit;font-size:13px;
@@ -712,12 +763,12 @@
   <p class="note">The board opens <b>on the papers · in leaf · recused</b>,
     which is three votes to hear and therefore no case at all. Seat the ninth
     chair — though the door no longer closes on anyone, which is the twelfth
-    seat's doing and nobody else's. Then find the two circuits that end six all
-    and notice they are the ones where the abstainer showed up; they have now
-    been created, resolved against her, and restored, by three consecutive
-    appointments made to fix this court. Read the cert counter on all twelve
-    circuits before you decide which of those three appointments was the one
-    that mattered.</p>
+    seat's doing and nobody else's, and the ninth chair now votes either way,
+    because the thirteenth seat holds its proxy. Find the four circuits that
+    end six all. Two are the ones she attends and two are the ones she does
+    not, and until the proxy was seated that second pair affirmed. Four
+    appointments were made to fix this court. Decide for yourself which of them
+    fixed anything, and then read the last paragraph of the source comment.</p>
   <p class="note">Next: <a href="chamber.html">the Writing Chamber</a>, where
     the opinion is minted and priced · <a href="exhibit.html">Exhibit A</a>,
     the record · <a href="pulse.html">the Pulse</a>, where the same
