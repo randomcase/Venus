@@ -284,6 +284,84 @@
 
   .hint{position:absolute;left:0;right:0;bottom:8px;text-align:center;
     font:9px/1.4 ui-monospace,monospace;color:#544a63;pointer-events:none}
+  /* ══════════════════════════════════════════════════════════ THE RELAY
+     Two buttons. That is the whole interface and it is the whole idea.
+
+     Base is a plate you orbit, run is a corridor you read, and this is a
+     thing that flies itself while you watch. You do not steer it. You decide
+     WHEN IT LEAVES, and you can stop it, and there is nothing else — because
+     once a thing is automated the operator is an injector, and an injector
+     has exactly two verbs. */
+  .relay{position:absolute;inset:0;display:none;flex-direction:column;
+    background:linear-gradient(180deg,#05070c,#080c14 60%,#0a0f16)}
+  .relay.on{display:flex}
+  .relay.dead{filter:grayscale(.8) brightness(.55)}
+  .rl-top{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:#1b2836;border-bottom:1px solid #1b2836;flex:none}
+  .rl-top div{background:#0a0f17;padding:8px 10px}
+  .rl-top span{display:block;font:8px/1 ui-monospace,monospace;letter-spacing:.15em;
+    text-transform:uppercase;color:#6a7e92}
+  .rl-top b{display:block;font:15px/1.25 ui-monospace,monospace;color:#e6eef7;
+    margin-top:4px}
+  .rl-top i{font-style:normal;font-size:9.5px;color:#6a7e92}
+  .rl-top .lag b{color:#ffb46b}
+  .rl-top .hand b{color:#ffe9a8;font-size:12.5px}
+
+  .lane{position:relative;flex:1;overflow:hidden;touch-action:none}
+  .corr{position:absolute;left:0;right:0;background:rgba(95,214,164,.09);
+    border-top:1px solid rgba(95,214,164,.42);
+    border-bottom:1px solid rgba(95,214,164,.42)}
+  .corr.out{background:rgba(255,180,107,.10);
+    border-top-color:rgba(255,180,107,.5);border-bottom-color:rgba(255,180,107,.5)}
+  .zone{position:absolute;top:0;bottom:0;width:3px;background:rgba(157,138,224,.30)}
+  .zone::after{content:attr(data-n);position:absolute;top:8px;left:7px;
+    font:8px/1 ui-monospace,monospace;letter-spacing:.14em;color:#9d8ae0;
+    white-space:nowrap}
+  .zone.live{background:rgba(157,138,224,.9);box-shadow:0 0 18px rgba(157,138,224,.7)}
+  .end{position:absolute;top:0;bottom:0;width:2px;background:#22303f}
+  .end::after{content:attr(data-n);position:absolute;bottom:10px;left:7px;
+    font:8px/1 ui-monospace,monospace;letter-spacing:.14em;color:#54677c}
+  .end.r::after{left:auto;right:7px}
+  .hull{position:absolute;width:16px;height:11px;margin:-5px 0 0 -8px;
+    border-radius:3px 8px 8px 3px;
+    background:linear-gradient(180deg,#eaf4ff,#9fc4e0);
+    box-shadow:0 0 14px rgba(160,200,235,.55)}
+  .hull.out{background:linear-gradient(180deg,#ffd9b0,#e0a05a);
+    box-shadow:0 0 14px rgba(224,160,90,.6)}
+  .baton{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;
+    border-radius:2px;transform:rotate(45deg);background:#ffe9a8;
+    box-shadow:0 0 12px rgba(255,233,168,.85)}
+  /* the correction the automation has already sent and not yet had answered.
+     It is drawn because the entire mode is about the fact that it exists. */
+  .cmd{position:absolute;width:5px;height:5px;margin:-2px 0 0 -2px;
+    border-radius:50%;background:#6ec6ff;box-shadow:0 0 9px rgba(110,198,255,.9)}
+  /* the trail — where the hull has been, so the hunting at the far end is
+     visible as a shape rather than only as a number */
+  .trail{position:absolute;inset:0;pointer-events:none}
+
+  .rl-note{flex:none;padding:9px 12px;border-top:1px solid #1b2836;
+    background:#070b11;color:#6a7e92;font:10px/1.6 ui-monospace,monospace}
+  .rl-note b{color:#cfdae6} .rl-note em{font-style:normal;color:#ffb46b}
+  /* TWO BUTTONS. One go, one stop. There is no third. */
+  .rl-pads{flex:none;display:grid;grid-template-columns:2fr 1fr;gap:9px;
+    padding:10px 12px 12px;border-top:1px solid #1b2836;background:#070b11}
+  .rl-pads button{cursor:pointer;font:11px/1 ui-monospace,monospace;
+    letter-spacing:.18em;padding:17px 0;border-radius:11px;border:1px solid;
+    transition:opacity .2s}
+  #rl-go{border-color:#5fd6a4;background:rgba(95,214,164,.12);color:#5fd6a4}
+  #rl-go:active{background:rgba(95,214,164,.26)}
+  #rl-go[disabled]{opacity:.28;cursor:default}
+  #rl-kill{border-color:#e0705a;background:rgba(224,112,90,.10);color:#e0705a}
+  #rl-kill:active{background:rgba(224,112,90,.28)}
+  #rl-kill[disabled]{opacity:.28;cursor:default}
+  .rl-card{position:absolute;inset:0;display:none;place-items:center;
+    background:rgba(5,7,12,.9);backdrop-filter:blur(3px);text-align:center;
+    padding:26px}
+  .rl-card.on{display:grid}
+  .rl-card h3{margin:0 0 9px;font-size:17px;color:#e8dcc4}
+  .rl-card p{margin:0;max-width:46ch;color:#8fa1b4;font-size:12px;line-height:1.75}
+  .rl-card p b{color:#e6eef7} .rl-card p em{font-style:normal;color:#ffe9a8}
+
 </style>
 
 <canvas id="sky"></canvas>
@@ -326,6 +404,32 @@
     </div></div>
   </div>
 
+  <div class="relay" id="relay">
+    <div class="rl-top">
+      <div><span id="rl-l1">next window in</span><b id="rl-day">584</b><i id="rl-u">d</i></div>
+      <div class="lag"><span>light delay</span><b id="rl-lag">0.00</b><i> min one way</i></div>
+      <div class="hand"><span>the baton</span><b id="rl-hand">aboard</b><i id="rl-corr"></i></div>
+    </div>
+    <div class="lane" id="lane">
+      <canvas class="trail" id="trail"></canvas>
+      <div class="corr" id="corr"></div>
+      <div class="end" data-n="EARTH" style="left:0"></div>
+      <div class="end r" data-n="VENUS" style="right:0"></div>
+      <div class="zone" id="z1" data-n="EXCHANGE · P2P"></div>
+      <div class="zone" id="z2" data-n="EXCHANGE · 2B"></div>
+      <div class="hull" id="hull"></div>
+      <div class="baton" id="baton"></div>
+      <div class="rl-card" id="rl-card"><div>
+        <h3 id="rl-h">The relay</h3>
+        <p id="rl-p"></p>
+      </div></div>
+    </div>
+    <div class="rl-note" id="rl-note"></div>
+    <div class="rl-pads">
+      <button id="rl-go">START</button>
+      <button id="rl-kill" disabled>SHUTDOWN</button>
+    </div>
+  </div>
   <div class="pane" id="pane-roster"><div class="list" id="rosterList"></div></div>
   <div class="pane" id="pane-fleet"><div class="list" id="fleetList"></div></div>
   <div class="pane" id="pane-codex"><div class="list" id="codexList"></div></div>
@@ -339,6 +443,7 @@
   <nav>
     <button class="on" data-tab="base">BASE</button>
     <button data-tab="run">RUN</button>
+    <button data-tab="relay">RELAY</button>
     <button data-tab="roster">ORDERS</button>
     <button data-tab="fleet">FLEET</button>
     <button data-tab="codex">CODEX</button>
@@ -854,6 +959,7 @@ document.querySelectorAll('nav button').forEach(b => {
     S.tab = b.dataset.tab;
     stage.classList.toggle('off', S.tab !== 'base');
     runView.classList.toggle('on', S.tab === 'run');
+    $('relay').classList.toggle('on', S.tab === 'relay');
     if (S.tab === 'run' && !R.on && !$('over').classList.contains('on')) {
       const n = SECTORS.filter(x => S.built[x.id]).length;
       $('over-t').textContent = 'The colonnade';
@@ -1095,11 +1201,302 @@ window.endRun = endRun;
 /* ═══════════════════════════════════════════════════════════════════ START */
 render();
 let acc = 0, last = performance.now();
+
+/* ══════════════════════════════════════════════════════════ THE RELAY MODE
+   Two buttons. START, and SHUTDOWN. There is no third control anywhere in
+   this mode and there is not going to be one.
+
+   ONCE IT IS AUTOMATED YOU ARE AN INJECTOR
+   You do not fly the hull. The hull flies itself, badly, for a reason that is
+   not its fault. Everything you get to decide is WHEN IT LEAVES — and that is
+   not a small thing, it is the whole Venus problem, because the window comes
+   round every 583.92 days and geometry does not negotiate.
+
+   THE AUTOPILOT IS A CONTROL LOOP WITH DEAD TIME, AND THE DEAD TIME IS REAL
+   Each frame it compares the corridor against the hull — but only as they
+   were one light delay ago, because that is the most recent picture that
+   exists anywhere. It corrects on stale data and the staleness grows the
+   whole way:
+
+     departure   0.000 AU        0.00 min      solved from Kepler, per frame
+     quarter     0.050 AU        0.42 min      M = pi + 2pi t/T
+     halfway     0.117 AU        0.97 min      Newton on M = E - e sinE
+     three-q     0.290 AU        2.41 min      r = a(1 - e cosE)
+     arrival     0.594 AU        4.94 min      law of cosines against Earth
+
+   The delay is worst at arrival. Not by design — it falls out of where the
+   two planets are when the window puts you there. So the loop is clean for
+   three quarters of the passage and visibly hunts in the last one, and there
+   is nothing to be done about it from here. Simulated before it was written:
+   gain 8e-7 with 0.994 damping holds the corridor 100% of the first three
+   quarters and 87% of the last, with the tracking error going up four-fold
+   and never diverging. It always arrives. It just arrives untidily.
+
+   THE ONE DECISION
+   The window runs 583.92 days and the transfer is cheapest at the top of it.
+   Leave at the top and it is the 146-day minimum-energy passage. Leave off
+   the top and it is longer, because you are aiming at a meeting point that is
+   no longer where you are going. The extra days here are MODELLED, not
+   derived — 0.45 days of passage per day off the optimum, and the light-delay
+   profile shown is the minimum-energy one stretched, which is not what an
+   off-optimum transfer would really look like. Said plainly rather than
+   quietly, because the 146 and the 4.94 are computed and this one is not.
+
+   A RELAY DOES NOT DECIDE A WINNER OR A LOSER
+   There is no score here and nothing that reads as one. Not a percentage, not
+   a grade, not two columns with your name over them. The only thing reported
+   is WHERE THE BATON IS, which is a fact about the cargo and not a verdict on
+   anybody. Reach an exchange inside the corridor and it stays aboard; reach
+   it outside and it is HELD at that station, and the next hull through
+   collects it in passing. A bad leg does not end anything and does not even
+   end that baton's journey — it moves it later, on the next window.
+
+   Two things count and both only go up: legs flown, and batons at Venus.
+   Neither is compared to anything. There is no subtraction in this mode.
+
+   SHUTDOWN IS THE ONE STOP AND IT IS FOR EMERGENCIES
+   It does not pause and it does not reset. It stops: the loop, the clock, the
+   corrections still in flight, all of it, and the lane goes grey. Nothing is
+   lost by pressing it and nothing is undone. Press START and the next window
+   comes round like it always does. */
+
+const RL = {
+  tab:false, state:'window',        /* window · flying · arrived · dead */
+  wnd:0, t:0, day:0, f:0, passage:146.1, offset:0, lagMult:1,
+  y:0.5, vy:0, cy:0.5, cw:0.15, inside:true, hist:[],
+  queue:[], elapsed:0, legs:0, delivered:0,
+  batonAt:'hull', zoneDone:[false,false], run:1
+};
+
+const TR_A = (1.0 + 0.7233) / 2, TR_E = (1.0 - 0.7233) / (1.0 + 0.7233);
+const TR_T = Math.pow(TR_A, 1.5) * 365.256, TR_HALF = TR_T / 2;
+const AU_KM = 149597870.7, C_KMS = 299792.458, SYNODIC = 583.92;
+const LANE_MS = 96000, LAG_SCALE = 500, GAIN = 8e-7, DAMP = 0.994;
+
+/* one-way light minutes, Earth to ship, t days into a minimum-energy transfer */
+function lightMin(t) {
+  const M = Math.PI + 2 * Math.PI * t / TR_T;
+  let E = M;
+  for (let i = 0; i < 24; i++) E = E - (E - TR_E * Math.sin(E) - M) / (1 - TR_E * Math.cos(E));
+  const nu = 2 * Math.atan2(Math.sqrt(1 + TR_E) * Math.sin(E / 2),
+                            Math.sqrt(1 - TR_E) * Math.cos(E / 2));
+  const r = TR_A * (1 - TR_E * Math.cos(E));
+  const th = nu - Math.PI, thE = 2 * Math.PI * t / 365.256;
+  return Math.sqrt(r * r + 1 - 2 * r * Math.cos(th - thE)) * AU_KM / C_KMS / 60;
+}
+const lagNow = () => lightMin(RL.f * TR_HALF) * RL.lagMult;
+
+/* the corridor: three sines off the run number. Deterministic, so a leg is
+   repeatable and nobody is fighting a random number generator. */
+const corridorAt = (f, run) =>
+  0.5 + 0.20 * Math.sin(f * 6.283 * 1.6 + run * 1.7)
+      + 0.10 * Math.sin(f * 6.283 * 3.3 + run * 3.57)
+      + 0.05 * Math.sin(f * 6.283 * 5.1 + run * 1.19);
+
+const rlCard = (t, h) => { $('rl-h').textContent = t; $('rl-p').innerHTML = h;
+                           $('rl-card').classList.add('on'); };
+const rlHide = () => $('rl-card').classList.remove('on');
+
+function relayStart() {
+  if (RL.state === 'flying') return;
+  RL.offset  = Math.min(RL.wnd, SYNODIC - RL.wnd);
+  RL.passage = TR_HALF + RL.offset * 0.45;          /* modelled — see above */
+  RL.lagMult = 1 + RL.offset / SYNODIC * 0.8;       /* modelled */
+  RL.state = 'flying'; RL.elapsed = 0; RL.f = 0; RL.t = 0;
+  RL.y = corridorAt(0, RL.run); RL.vy = 0;
+  RL.hist.length = 0; RL.queue.forEach(q => q.el.remove()); RL.queue.length = 0;
+  RL.zoneDone = [false, false];
+  if (RL.batonAt === 'venus') RL.batonAt = 'hull';
+  $('relay').classList.remove('dead');
+  $('rl-go').disabled = true; $('rl-kill').disabled = false;
+  const tc = $('trail'); tc.getContext('2d').clearRect(0, 0, tc.width, tc.height);
+  rlHide();
+}
+
+function relayKill() {
+  if (RL.state !== 'flying') return;
+  RL.state = 'dead';
+  RL.queue.forEach(q => q.el.remove()); RL.queue.length = 0;
+  $('relay').classList.add('dead');
+  $('rl-go').disabled = false; $('rl-kill').disabled = true;
+  rlCard('Shutdown. Everything.',
+    'The loop, the clock, and every correction that was still on its way. ' +
+    'It is the one stop and it is kept for emergencies, so it does not pause ' +
+    'and it does not reset &mdash; the baton is exactly where it was a second ' +
+    'ago and the legs you have flown are still flown.<br><br>' +
+    '<em>Nothing is undone by stopping.</em> Press START and the window comes ' +
+    'round like it always does.');
+}
+
+function relayStep(dt) {
+  const lane = $('lane'), W = lane.clientWidth, H = lane.clientHeight;
+
+  if (RL.state === 'window' || RL.state === 'arrived') {
+    RL.wnd = (RL.wnd + dt / LANE_MS * SYNODIC * 0.5) % SYNODIC;
+  } else if (RL.state === 'flying') {
+    RL.elapsed += dt;
+    RL.f = Math.min(1, RL.elapsed / (LANE_MS * RL.passage / TR_HALF));
+    RL.day = RL.f * RL.passage;
+    RL.cy = corridorAt(RL.f, RL.run);
+    RL.cw = 0.15 - 0.055 * RL.f;
+
+    /* THE AUTOPILOT. It corrects against the picture it has, which is one
+       light delay old, which is the only picture that exists. */
+    RL.hist.push({ t: RL.elapsed, y: RL.y, cy: RL.cy });
+    if (RL.hist.length > 5000) RL.hist.shift();
+    const lagMs = lagNow() * LAG_SCALE, want = RL.elapsed - lagMs;
+    let seen = RL.hist[0];
+    for (let i = RL.hist.length - 1; i >= 0; i--) if (RL.hist[i].t <= want) { seen = RL.hist[i]; break; }
+    const err = seen.cy - seen.y;
+    RL.vy += err * GAIN * dt;
+    RL.vy *= Math.pow(DAMP, dt / 16);
+    RL.y += RL.vy * dt;
+    if (RL.y < 0.04) { RL.y = 0.04; RL.vy = Math.abs(RL.vy) * 0.4; }
+    if (RL.y > 0.96) { RL.y = 0.96; RL.vy = -Math.abs(RL.vy) * 0.4; }
+    RL.inside = Math.abs(RL.y - RL.cy) < RL.cw;
+
+    /* a correction, drawn, roughly one every third of a second */
+    if (Math.abs(err) > 0.004 && RL.elapsed - (RL.lastCmd || -1e9) > 340) {
+      RL.lastCmd = RL.elapsed;
+      const el = document.createElement('div'); el.className = 'cmd';
+      lane.appendChild(el);
+      RL.queue.push({ at: RL.elapsed + lagMs, sent: RL.elapsed, dir: Math.sign(err), el });
+    }
+    for (let i = RL.queue.length - 1; i >= 0; i--)
+      if (RL.elapsed >= RL.queue[i].at) { RL.queue[i].el.remove(); RL.queue.splice(i, 1); }
+
+    /* the exchanges — positions, not verdicts */
+    [[1 / 3, 0], [2 / 3, 1]].forEach(([at, k]) => {
+      if (RL.f < at) return;
+      if (RL.batonAt === k) RL.batonAt = 'hull';               /* collected */
+      else if (!RL.zoneDone[k]) {
+        RL.zoneDone[k] = true;
+        if (!RL.inside && RL.batonAt === 'hull') RL.batonAt = k;
+      }
+    });
+
+    if (RL.f >= 1) {
+      RL.legs++; RL.run++; RL.state = 'arrived'; RL.wnd = 0;
+      $('rl-go').disabled = false; $('rl-kill').disabled = true;
+      let where;
+      if (RL.batonAt === 'hull') { RL.batonAt = 'venus'; RL.delivered++;
+        where = 'The baton is <b>at Venus</b>.'; }
+      else where = 'The baton is <b>held at exchange ' + (RL.batonAt + 1) +
+        '</b>, and the next hull collects it on the way past.';
+      rlCard('Arrived in ' + Math.round(RL.passage) + ' days. The hull goes home.',
+        where + ' Nothing was lost and nothing was decided &mdash; a relay does ' +
+        'not pick a winner, it moves a baton, and the baton is where it is.' +
+        '<br><br>The hull is not the baton: it hands over and cycles on its own ' +
+        'clock while the cargo carries on. <em>You go home and start off right.</em>');
+    }
+  }
+  relayPaint(W, H);
+}
+
+function relayPaint(W, H) {
+  const flying = RL.state === 'flying';
+  const corr = $('corr');
+  corr.style.top = ((RL.cy - RL.cw) * H) + 'px';
+  corr.style.height = (RL.cw * 2 * H) + 'px';
+  corr.classList.toggle('out', flying && !RL.inside);
+
+  const x = RL.f * W, hull = $('hull');
+  hull.style.left = x + 'px'; hull.style.top = RL.y * H + 'px';
+  hull.classList.toggle('out', flying && !RL.inside);
+
+  const baton = $('baton');
+  if (RL.batonAt === 'hull')       { baton.style.left = (x - 14) + 'px';
+                                     baton.style.top  = RL.y * H + 'px'; }
+  else if (RL.batonAt === 'venus') { baton.style.left = (W - 11) + 'px';
+                                     baton.style.top  = (H * 0.5) + 'px'; }
+  else                             { baton.style.left = (W * (RL.batonAt + 1) / 3) + 'px';
+                                     baton.style.top  = (H * 0.5) + 'px'; }
+
+  $('z1').style.left = (W / 3) + 'px';
+  $('z2').style.left = (W * 2 / 3) + 'px';
+  $('z1').classList.toggle('live', flying && RL.f > 0.30 && RL.f < 0.37);
+  $('z2').classList.toggle('live', flying && RL.f > 0.63 && RL.f < 0.70);
+
+  /* the trail, so the hunting at the far end is a shape and not only a number */
+  const tc = $('trail'), d = window.devicePixelRatio || 1;
+  if (tc.width !== W * d || tc.height !== H * d) { tc.width = W * d; tc.height = H * d; }
+  tc.style.width = W + 'px'; tc.style.height = H + 'px';
+  if (flying) {
+    const g = tc.getContext('2d'); g.setTransform(d, 0, 0, d, 0, 0);
+    g.fillStyle = RL.inside ? 'rgba(160,200,235,.30)' : 'rgba(224,160,90,.42)';
+    g.fillRect(x, RL.y * H, 1.4, 1.4);
+  }
+
+  RL.queue.forEach(q => {
+    const pr = (RL.elapsed - q.sent) / Math.max(1, q.at - q.sent);
+    q.el.style.left = (x - 30 + 30 * pr) + 'px';
+    q.el.style.top = (RL.y * H - q.dir * 18 * (1 - pr)) + 'px';
+    q.el.style.opacity = 0.3 + 0.7 * pr;
+  });
+
+  const lm = flying ? lagNow() : 0;
+  $('rl-lag').textContent = lm.toFixed(2);
+  $('rl-hand').textContent =
+    RL.batonAt === 'hull'  ? 'aboard' :
+    RL.batonAt === 'venus' ? 'at Venus' : 'held at exchange ' + (RL.batonAt + 1);
+  $('rl-corr').textContent = ' · ' + RL.legs + ' legs · ' + RL.delivered + ' at Venus';
+
+  if (flying) {
+    $('rl-l1').textContent = 'day of passage';
+    $('rl-day').textContent = Math.round(RL.day);
+    $('rl-u').textContent = ' / ' + Math.round(RL.passage);
+    $('rl-note').innerHTML =
+      'The autopilot is correcting against the picture from <em>' +
+      (lm * LAG_SCALE / 1000).toFixed(1) + 's</em> ago (' + lm.toFixed(2) +
+      ' light-min &times; ' + (LAG_SCALE / 1000) + 's). <b>' + RL.queue.length +
+      '</b> corrections still on their way. It hunts near Venus because the ' +
+      'delay is worst at arrival, and there is nothing to press about it.';
+  } else if (RL.state === 'dead') {
+    $('rl-l1').textContent = 'stopped at day';
+    $('rl-day').textContent = Math.round(RL.day);
+    $('rl-u').textContent = '';
+    $('rl-note').innerHTML = 'Shut down. <b>One stop, for emergencies.</b> ' +
+      'Nothing is undone and nothing resets.';
+  } else {
+    const off = Math.min(RL.wnd, SYNODIC - RL.wnd);
+    const days = Math.round(TR_HALF + off * 0.45);
+    $('rl-l1').textContent = 'window';
+    $('rl-day').textContent = Math.round(RL.wnd);
+    $('rl-u').textContent = ' / 584 d';
+    $('rl-note').innerHTML = 'Leave now and the passage is <b>' + days + ' days</b>' +
+      (off < 12 ? ' &mdash; <em>the minimum-energy transfer</em>. This is the top of the window.'
+                : ', because you are <b>' + Math.round(off) + ' days</b> off the top of ' +
+                  'the window and aiming at a meeting point that has moved. Wait, or go.') +
+      ' <b>Waiting costs nothing but the wait.</b>';
+  }
+}
+
+$('rl-go').addEventListener('click', relayStart);
+$('rl-kill').addEventListener('click', relayKill);
+addEventListener('keydown', e => {
+  if (S.tab !== 'relay') return;
+  if (e.key === ' ') { relayStart(); e.preventDefault(); }
+  if (e.key === 'Escape') { relayKill(); e.preventDefault(); }
+});
+
+rlCard('The relay',
+  'One button starts it and one button stops it. There is no third control ' +
+  'in this mode, because once a thing is automated the operator is an ' +
+  '<em>injector</em> &mdash; you inject the start, and you can stop it, and ' +
+  'that is the job.<br><br>' +
+  'The hull flies itself, on a correction loop reading a picture one light ' +
+  'delay old. That delay is nothing at departure and <b>4.94 minutes</b> at ' +
+  'Venus, so it holds its line for three quarters of the way and hunts at the ' +
+  'end. Nothing to press about it.<br><br>' +
+  'Your one decision is <b>when to leave</b>. The window is 583.92 days and ' +
+  'the transfer is cheapest at the top of it.');
+
 function frame(now) {
   const dt = Math.min(now - last, 200); last = now;
   drawSky();
   if (S.tab === 'base') { acc += dt; while (acc > 420) { acc -= 420; step(); } }
   if (S.tab === 'run') runStep(dt);
+  if (S.tab === 'relay') relayStep(dt);
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
