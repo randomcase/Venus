@@ -1,0 +1,264 @@
+<title>Lesson 3 · The Swarm</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{
+    --void:#06080c; --card:#0f151f; --card2:#141b27; --edge:#232d3c;
+    --ink:#e9eef5; --dim:#8794a6; --lamp:#f0c66a; --lamp2:#ffe6a8;
+    --leaf:#6fc08a; --cool:#6ec6ff; --warn:#e0705a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.65 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 22% -6%,rgba(240,198,106,.10),transparent 45%),
+      radial-gradient(circle at 84% 96%,rgba(111,192,138,.09),transparent 44%)}
+  .wrap{max-width:940px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:22px;letter-spacing:-.015em;color:var(--lamp2)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--cool);border:1px solid var(--cool);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:26px 0 10px;font-weight:600}
+  h2 b{color:var(--lamp);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px;font-weight:600;margin-left:10px}
+  p{max-width:80ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.7;margin:10px 0 0;max-width:96ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--lamp2);background:#0a0f16;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  pre{margin:12px 0 0;padding:13px 14px;background:#080d13;border:1px solid var(--edge);
+    border-radius:10px;overflow-x:auto;font:11.5px/1.65 ui-monospace,monospace;color:#cfd8e4}
+  pre .k{color:#7fa8e0} pre .s{color:var(--leaf)} pre .c{color:#5c6b7d}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+  a{color:var(--lamp)}
+  canvas{display:block;width:100%;border-radius:10px;background:#05080c;
+    border:1px solid var(--edge);touch-action:none}
+  .ctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;align-items:center}
+  .ctl button{font:inherit;font-size:12px;cursor:pointer;background:#131b26;
+    color:var(--ink);border:1px solid var(--edge);border-radius:8px;padding:8px 13px}
+  .ctl button:hover{border-color:var(--lamp)}
+  .ctl label{font:10px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:7px}
+  .ctl output{font:12px/1 ui-monospace,monospace;color:var(--lamp2);min-width:4ch}
+  .nav{display:flex;justify-content:space-between;gap:12px;margin-top:26px;
+    border-top:1px solid var(--edge);padding-top:14px;font-size:12px}
+  .ded{border-left:3px solid var(--lamp);padding:2px 0 2px 13px;color:var(--dim);
+    font-size:11.5px;margin:0 0 16px}
+  .ded b{color:var(--lamp2);font-weight:600}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="tag">javascript</span>
+    <h1>The Swarm</h1>
+    <p class="sub">Update and draw are different jobs. Four lights, one rule between them, and no one in charge &mdash; which turns out to be enough.</p>
+  </header>
+  <p class="ded">Lesson three, carried by <b id="who">&hellip;</b>.</p>
+
+  <h2>Split the loop <b>before you have anything worth splitting</b></h2>
+  <p>Update changes the world. Draw looks at the world and paints it. They must
+    not be the same function, and draw must not change anything &mdash; not a
+    counter, not a flag, not a "just this once".</p>
+  <p>The reason is not tidiness. A browser skips draws: hidden tab, low battery,
+    a frame that ran long. If drawing advances your state then your world runs
+    at a speed that depends on whether anyone is looking at it, and the bug only
+    appears on someone else's machine, intermittently, months later.</p>
+  <pre>function frame(now) {
+  const dt = Math.min(now - last, 100); last = now;
+  update(dt);      // may change everything
+  draw();          // may change NOTHING
+  requestAnimationFrame(frame);
+}</pre>
+
+  <h2>The rule between them <b>three lines, and it is the whole lesson</b></h2>
+  <p>When a firefly flashes, every firefly that can see it moves its own clock
+    forward by a fraction of how far along it already was.</p>
+  <pre>function nudge(f, epsilon) {
+  f.phase = Math.min(1, f.phase * (1 + epsilon));
+  return f.phase &gt;= 1;      // true: this one flashes too, in the same round
+}</pre>
+  <p>The asymmetry is everything. A firefly that has nearly finished its cycle is
+    dragged a long way; one that just flashed is barely moved. Move everybody by
+    the same amount instead and the swarm sloshes around a mean and never
+    settles. This one line is the difference between a crowd and a rhythm.</p>
+
+  <div class="panel">
+    <canvas id="c" height="300"></canvas>
+    <div class="ctl">
+      <label>coupling <input id="eps" type="range" min="0" max="0.5" step="0.01" value="0.25"><output id="ev">0.25</output></label>
+      <label>fireflies <input id="n" type="range" min="2" max="24" step="1" value="4"><output id="nv">4</output></label>
+      <button id="scatter">Scatter</button>
+    </div>
+    <div class="ctl" style="margin-top:6px">
+      <label>coherence <output id="r">0.00</output></label>
+      <label>cascades <output id="cs">0</output></label>
+      <span class="note" style="margin:0">click a light to knock it out of step</span>
+    </div>
+    <p class="note" style="margin-top:12px">Set coupling to zero and they never
+      agree &mdash; that is the control, and without it the rest is a light show
+      rather than a result. Scatter them and watch the coherence climb. Then
+      knock one out and watch the others pull it back in without deciding to.</p>
+  </div>
+
+  <h2>Measuring it <b>a light show is not a result</b></h2>
+  <p>"They look synchronised" is not a measurement. Treat each phase as an angle,
+    put a unit vector at that angle, average the vectors, and take the length of
+    the average. One means every light is at the same phase; zero means they are
+    spread evenly round the cycle.</p>
+  <pre>function coherence(swarm) {
+  let x = 0, y = 0;
+  for (const f of swarm) {
+    x += Math.cos(2 * Math.PI * f.phase);
+    y += Math.sin(2 * Math.PI * f.phase);
+  }
+  return Math.hypot(x / swarm.length, y / swarm.length);   // 0 .. 1
+}</pre>
+  <p class="note"><b>What r does not tell you.</b> Zero does not mean random.
+    Two tight clusters exactly opposite each other also average to zero, and on
+    a sparse graph that is a real state a swarm can fall into and stay in
+    &mdash; still flashing, still cascading, permanently not agreeing. Every
+    liveness signal looks healthy. This is why the demo draws the ring of phases
+    as well as printing r.</p>
+
+  <h2>Exercise</h2>
+  <div class="panel">
+    <p style="margin:0">Give each firefly a target offset &mdash; 0, ¼, ½, ¾
+      &mdash; and couple them towards their offset from the flasher instead of
+      towards the flash. They will lock into a procession: in step, in order,
+      still apart. Then measure it with the same <code>r</code>, subtracting each
+      firefly's offset before you take the angle. Same swarm, same rule, one
+      changed target, and the thing it converges to is completely different.</p>
+  </div>
+  <div class="panel" style="margin-top:11px;border-color:rgba(111,192,138,.45)">
+    <p style="margin:0;font-size:12.5px"><b style="color:var(--leaf)">Done when:</b>
+      you have a control in your demo &mdash; a setting where the thing you are
+      claiming does not happen &mdash; and you check it as often as you check the
+      success case.</p>
+  </div>
+<div class="nav"><span><a href="02-clock.html">&larr; Lesson 2 · The Clock</a></span><span><a href="04-line.html">Lesson 4 · The Line &rarr;</a></span></div>
+</div>
+<script src="lanterns.js"></script>
+<script>
+const { LANTERNS, label } = window.Lanterns;
+document.getElementById('who').textContent = label(LANTERNS[2]);
+
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const $ = id => document.getElementById(id);
+
+let swarm = [], cascades = 0, last = performance.now();
+
+function build(n) {
+  swarm = Array.from({ length: n }, (_, i) => ({
+    id: i, phase: Math.random(), period: 1500, x: 0, y: 0, glow: 0
+  }));
+  cascades = 0;
+}
+
+// ─── update: may change everything ───────────────────────────────────────────
+function update(dt) {
+  const eps = Number($('eps').value);
+  const fired = new Set();
+  let frontier = [];
+
+  for (const f of swarm) {
+    f.phase += dt / f.period;
+    if (f.phase >= 1 && !fired.has(f.id)) { fired.add(f.id); frontier.push(f); }
+    f.glow *= Math.pow(0.002, dt / 1000);          // decay of the last flash
+  }
+  const spontaneous = fired.size;
+
+  let depth = 0;
+  while (frontier.length && depth < 32) {
+    const next = [];
+    for (const flasher of frontier) {
+      flasher.phase = 0;
+      flasher.glow = 1;
+      for (const other of swarm) {
+        if (other === flasher || fired.has(other.id)) continue;
+        other.phase = Math.min(1, other.phase * (1 + eps));
+        if (other.phase >= 1) { fired.add(other.id); next.push(other); }
+      }
+    }
+    frontier = next; depth++;
+  }
+  for (const stranded of frontier) { stranded.phase = 0; stranded.glow = 1; }
+  cascades += Math.max(0, fired.size - spontaneous);
+}
+
+function coherence() {
+  let x = 0, y = 0;
+  for (const f of swarm) { x += Math.cos(2 * Math.PI * f.phase); y += Math.sin(2 * Math.PI * f.phase); }
+  return Math.hypot(x / swarm.length, y / swarm.length);
+}
+
+// ─── draw: changes nothing ───────────────────────────────────────────────────
+function fit() {
+  const dpr = window.devicePixelRatio || 1;
+  const r = canvas.getBoundingClientRect();
+  canvas.width = Math.round(r.width * dpr);
+  canvas.height = Math.round(r.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return r;
+}
+
+function draw(rect) {
+  ctx.clearRect(0, 0, rect.width, rect.height);
+  const cx = rect.width / 2, cy = rect.height / 2;
+  const ringR = Math.min(rect.width, rect.height) * 0.33;
+
+  // the phase ring: where everybody is in the cycle, which r alone will not say
+  ctx.strokeStyle = '#1a2331'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(cx, cy, ringR + 62, 0, Math.PI * 2); ctx.stroke();
+
+  swarm.forEach((f, i) => {
+    const a = (i / swarm.length) * Math.PI * 2 - Math.PI / 2;
+    f.x = cx + Math.cos(a) * ringR;
+    f.y = cy + Math.sin(a) * ringR;
+    const b = Math.max(Math.pow(f.phase, 8), f.glow);
+    const g = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, 46);
+    g.addColorStop(0.00, `rgba(255,236,180,${0.06 + b * 0.94})`);
+    g.addColorStop(0.35, `rgba(240,198,106,${0.03 + b * 0.5})`);
+    g.addColorStop(1.00, 'rgba(240,198,106,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(f.x, f.y, 46, 0, Math.PI * 2); ctx.fill();
+
+    const pa = f.phase * Math.PI * 2 - Math.PI / 2;
+    ctx.fillStyle = '#f0c66a';
+    ctx.beginPath();
+    ctx.arc(cx + Math.cos(pa) * (ringR + 62), cy + Math.sin(pa) * (ringR + 62), 3.2, 0, Math.PI * 2);
+    ctx.fill();
+  });
+}
+
+function frame(now) {
+  const dt = Math.min(now - last, 100); last = now;
+  update(dt);
+  draw(fit());
+  $('r').textContent = coherence().toFixed(2);
+  $('cs').textContent = String(cascades);
+  $('ev').textContent = Number($('eps').value).toFixed(2);
+  $('nv').textContent = $('n').value;
+  requestAnimationFrame(frame);
+}
+
+canvas.addEventListener('pointerdown', e => {
+  const rect = canvas.getBoundingClientRect();
+  const px = e.clientX - rect.left, py = e.clientY - rect.top;
+  let best = null, bestD = 1e9;
+  for (const f of swarm) {
+    const d = Math.hypot(f.x - px, f.y - py);
+    if (d < bestD) { bestD = d; best = f; }
+  }
+  if (best && bestD < 60) best.phase = Math.random();
+});
+
+$('scatter').onclick = () => swarm.forEach(f => { f.phase = Math.random(); });
+$('n').oninput = () => build(Number($('n').value));
+
+build(4);
+requestAnimationFrame(frame);
+</script>

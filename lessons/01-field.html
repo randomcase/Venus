@@ -1,0 +1,187 @@
+<title>Lesson 1 · The Field</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{
+    --void:#06080c; --card:#0f151f; --card2:#141b27; --edge:#232d3c;
+    --ink:#e9eef5; --dim:#8794a6; --lamp:#f0c66a; --lamp2:#ffe6a8;
+    --leaf:#6fc08a; --cool:#6ec6ff; --warn:#e0705a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.65 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 22% -6%,rgba(240,198,106,.10),transparent 45%),
+      radial-gradient(circle at 84% 96%,rgba(111,192,138,.09),transparent 44%)}
+  .wrap{max-width:940px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:22px;letter-spacing:-.015em;color:var(--lamp2)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--cool);border:1px solid var(--cool);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:26px 0 10px;font-weight:600}
+  h2 b{color:var(--lamp);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px;font-weight:600;margin-left:10px}
+  p{max-width:80ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.7;margin:10px 0 0;max-width:96ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--lamp2);background:#0a0f16;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  pre{margin:12px 0 0;padding:13px 14px;background:#080d13;border:1px solid var(--edge);
+    border-radius:10px;overflow-x:auto;font:11.5px/1.65 ui-monospace,monospace;color:#cfd8e4}
+  pre .k{color:#7fa8e0} pre .s{color:var(--leaf)} pre .c{color:#5c6b7d}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+  a{color:var(--lamp)}
+  canvas{display:block;width:100%;border-radius:10px;background:#05080c;
+    border:1px solid var(--edge);touch-action:none}
+  .ctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;align-items:center}
+  .ctl button{font:inherit;font-size:12px;cursor:pointer;background:#131b26;
+    color:var(--ink);border:1px solid var(--edge);border-radius:8px;padding:8px 13px}
+  .ctl button:hover{border-color:var(--lamp)}
+  .ctl label{font:10px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:7px}
+  .ctl output{font:12px/1 ui-monospace,monospace;color:var(--lamp2);min-width:4ch}
+  .nav{display:flex;justify-content:space-between;gap:12px;margin-top:26px;
+    border-top:1px solid var(--edge);padding-top:14px;font-size:12px}
+  .ded{border-left:3px solid var(--lamp);padding:2px 0 2px 13px;color:var(--dim);
+    font-size:11.5px;margin:0 0 16px}
+  .ded b{color:var(--lamp2);font-weight:600}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="tag">html + canvas</span>
+    <h1>The Field</h1>
+    <p class="sub">A surface is not a document. You clear it and redraw it, every frame, forever &mdash; and nothing you drew last time is still there.</p>
+  </header>
+  <p class="ded">Lesson one, carried by <b id="who">&hellip;</b>.</p>
+
+  <h2>The one idea <b>and it is the one people fight hardest</b></h2>
+  <p>An HTML page is a document: you put an element in it and it stays there,
+    the browser remembers it, and it is still there next second because
+    <em>something is keeping it</em>. A canvas is nothing like that. A canvas is
+    a rectangle of pixels. You draw on it and the drawing is not an object, it is
+    paint. There is no list of what you drew, nothing to update, and nothing that
+    will redraw it for you.</p>
+  <p>Everything that follows in game programming falls out of that. You keep the
+    state; the screen keeps nothing.</p>
+
+  <div class="panel">
+    <canvas id="c" height="260"></canvas>
+    <div class="ctl">
+      <button id="draw">Draw the field</button>
+      <button id="clear">Clear it</button>
+      <label>lanterns <output id="n">4</output></label>
+    </div>
+    <p class="note" style="margin-top:12px">Clear it and nothing brings it back.
+      Resize the window and it goes too, because the browser reallocates the
+      pixel buffer and everything painted on it is gone. There is no bug here;
+      this is the contract.</p>
+  </div>
+
+  <h2>The markup <b>this is all of it</b></h2>
+  <pre>&lt;canvas id=&quot;c&quot; height=&quot;260&quot;&gt;&lt;/canvas&gt;
+&lt;script type=&quot;module&quot; src=&quot;field.js&quot;&gt;&lt;/script&gt;</pre>
+
+  <h2>Two pixels, not one <b>the thing every first canvas gets wrong</b></h2>
+  <p>A canvas has two sizes and they are not the same size. <code>style.width</code>
+    is how big it looks. <code>canvas.width</code> is how many pixels it actually
+    has. Set only the first and the browser stretches a small buffer over a large
+    area, which is why so many first canvases look soft.</p>
+  <pre>const canvas = document.getElementById(&#x27;c&#x27;);
+const ctx = canvas.getContext(&#x27;2d&#x27;);
+
+function fit() {
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width  = Math.round(rect.width  * dpr);   // real pixels
+  canvas.height = Math.round(rect.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);          // draw in CSS pixels
+  return rect;                                      // the size you think in
+}</pre>
+  <p class="note"><b>Draw in CSS pixels, store in device pixels.</b> The
+    <code>scale()</code> line means every coordinate you write afterwards is in
+    the units you were thinking in, and the buffer underneath is as sharp as the
+    display can manage. Get this wrong on day one and every measurement you make
+    for the rest of the project is off by the same factor.</p>
+
+  <h2>Drawing a light <b>a dot is not a light</b></h2>
+  <p>A firefly is not a filled circle. It is a small bright core inside a wide
+    soft falloff, and the falloff is what your eye reads as glow. A radial
+    gradient does it in four lines and costs nothing.</p>
+  <pre>function lantern(ctx, x, y, radius, brightness) {
+  const g = ctx.createRadialGradient(x, y, 0, x, y, radius);
+  g.addColorStop(0.00, `rgba(255,236,180,${brightness})`);
+  g.addColorStop(0.35, `rgba(240,198,106,${brightness * 0.45})`);
+  g.addColorStop(1.00, &#x27;rgba(240,198,106,0)&#x27;);
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.fill();
+}</pre>
+
+  <h2>Exercise</h2>
+  <div class="panel">
+    <p style="margin:0">Draw the four lanterns in a ring rather than a row, and
+      make the ring's radius depend on the canvas size so it survives a resize.
+      Then draw them at four different brightnesses and notice that you have
+      just invented the state the next lesson is going to animate &mdash; you had
+      to keep those four numbers somewhere, and the canvas would not keep them
+      for you.</p>
+  </div>
+  <div class="panel" style="margin-top:11px;border-color:rgba(111,192,138,.45)">
+    <p style="margin:0;font-size:12.5px"><b style="color:var(--leaf)">Done when:</b>
+      you can resize the window, watch the drawing vanish, and say without
+      thinking why it vanished and whose job it is to put it back.</p>
+  </div>
+<div class="nav"><span><a href="index.html">&larr; the four lanterns</a></span><span><a href="02-clock.html">Lesson 2 · The Clock &rarr;</a></span></div>
+</div>
+<script src="lanterns.js"></script>
+<script>
+const { LANTERNS, label } = window.Lanterns;
+document.getElementById('who').textContent = label(LANTERNS[0]);
+
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+
+function fit() {
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width  = Math.round(rect.width  * dpr);
+  canvas.height = Math.round(rect.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return rect;
+}
+
+function lantern(x, y, radius, brightness) {
+  const g = ctx.createRadialGradient(x, y, 0, x, y, radius);
+  g.addColorStop(0.00, `rgba(255,236,180,${brightness})`);
+  g.addColorStop(0.35, `rgba(240,198,106,${brightness * 0.45})`);
+  g.addColorStop(1.00, 'rgba(240,198,106,0)');
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function draw() {
+  const rect = fit();
+  ctx.clearRect(0, 0, rect.width, rect.height);
+  const n = LANTERNS.length;
+  for (let i = 0; i < n; i++) {
+    const x = rect.width * (i + 1) / (n + 1);
+    lantern(x, rect.height / 2, 54, 0.95);
+  }
+  document.getElementById('n').textContent = String(n);
+}
+
+document.getElementById('draw').onclick = draw;
+document.getElementById('clear').onclick = () => {
+  const rect = fit();
+  ctx.clearRect(0, 0, rect.width, rect.height);
+};
+addEventListener('resize', draw);
+draw();
+</script>

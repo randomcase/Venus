@@ -1,0 +1,128 @@
+<title>Four Lanterns · lessons in game development</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{
+    --void:#06080c; --card:#0f151f; --card2:#141b27; --edge:#232d3c;
+    --ink:#e9eef5; --dim:#8794a6; --lamp:#f0c66a; --lamp2:#ffe6a8;
+    --leaf:#6fc08a; --cool:#6ec6ff; --warn:#e0705a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.65 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 22% -6%,rgba(240,198,106,.10),transparent 45%),
+      radial-gradient(circle at 84% 96%,rgba(111,192,138,.09),transparent 44%)}
+  .wrap{max-width:940px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:22px;letter-spacing:-.015em;color:var(--lamp2)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--cool);border:1px solid var(--cool);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:26px 0 10px;font-weight:600}
+  h2 b{color:var(--lamp);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px;font-weight:600;margin-left:10px}
+  p{max-width:80ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.7;margin:10px 0 0;max-width:96ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--lamp2);background:#0a0f16;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  pre{margin:12px 0 0;padding:13px 14px;background:#080d13;border:1px solid var(--edge);
+    border-radius:10px;overflow-x:auto;font:11.5px/1.65 ui-monospace,monospace;color:#cfd8e4}
+  pre .k{color:#7fa8e0} pre .s{color:var(--leaf)} pre .c{color:#5c6b7d}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+  a{color:var(--lamp)}
+  canvas{display:block;width:100%;border-radius:10px;background:#05080c;
+    border:1px solid var(--edge);touch-action:none}
+  .ctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;align-items:center}
+  .ctl button{font:inherit;font-size:12px;cursor:pointer;background:#131b26;
+    color:var(--ink);border:1px solid var(--edge);border-radius:8px;padding:8px 13px}
+  .ctl button:hover{border-color:var(--lamp)}
+  .ctl label{font:10px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:7px}
+  .ctl output{font:12px/1 ui-monospace,monospace;color:var(--lamp2);min-width:4ch}
+  .nav{display:flex;justify-content:space-between;gap:12px;margin-top:26px;
+    border-top:1px solid var(--edge);padding-top:14px;font-size:12px}
+  .ded{border-left:3px solid var(--lamp);padding:2px 0 2px 13px;color:var(--dim);
+    font-size:11.5px;margin:0 0 16px}
+  .ded b{color:var(--lamp2);font-weight:600}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="tag">javascript</span>
+    <h1>Four Lanterns</h1>
+    <p class="sub">Lessons in game development, in the order the machine actually needs them: a surface, a clock, a swarm, and a line to somewhere else. Four lanterns carry them. The fifth light is whoever is reading.</p>
+  </header>
+  <p class="ded">For four corporals, Vietnam. Each lesson carries one of them.
+    <b>Their names are not in this file and were not invented</b> &mdash; they
+    are four blank fields in <code>lanterns.js</code>, and filling them in
+    updates every page here.</p>
+
+  <div class="panel">
+    <h2 style="margin-top:0">Why fireflies <b>and why they are in this forest</b></h2>
+    <p style="margin:0">Nine thousand square miles of forest terraform this
+      planet, and the fireflies are part of the forest &mdash; not decoration on
+      it. They are the only part of it that keeps time. A firefly runs its own
+      clock, and when it sees another flash it moves its own clock a little
+      towards that one. Nobody is in charge, nobody is counting, and within a
+      few hundred cycles a wood full of separate lights is beating together.</p>
+    <p class="note"><b>That is a game loop.</b> It is also the cheapest
+      coordination there is: one signal per flash, no memory of anybody else,
+      and no leader to lose. Everything in these four lessons is that one idea
+      taken further &mdash; drawing it, timing it, coupling it, and finally
+      moving it off your machine onto one somebody else can reach.</p>
+  </div>
+
+  <h2>The four <b>each in the language the lesson needs</b></h2>
+  <div id="roster"></div>
+
+  <h2>What is actually being taught</h2>
+  <div class="panel">
+    <p style="margin:0">Not a framework and not an engine. Four things that are
+      true of every game anyone has ever written, in the order they bite:</p>
+    <p class="note" style="margin-top:11px">
+      <b>1. A surface is not a document.</b> You clear it and redraw it, every
+      frame, forever. Nothing you drew last frame is still there and nothing
+      remembers it for you.<br>
+      <b>2. Never trust the frame rate.</b> Simulated time and wall time are
+      different quantities, and a game that confuses them runs at a different
+      speed on every machine it will ever be played on.<br>
+      <b>3. Update and draw are different jobs.</b> If drawing changes state you
+      have a bug that only appears when the window is out of focus, and you will
+      not find it.<br>
+      <b>4. Whoever owns the state owns the game.</b> A client that computes its
+      own truth will disagree with every other client, politely, forever.</p>
+  </div>
+
+  <h2>The fifth light</h2>
+  <p class="note" style="max-width:84ch">Four lanterns and then whoever is
+    holding the file. That is not sentiment, it is how the coupling rule works:
+    a firefly only ever moves the clock of something close enough to see it.
+    Lesson four is the one where the light leaves your machine, which is why it
+    is last and why it is the one written in Java.</p>
+<div class="nav"><span><a href="index.html">&larr; the four lanterns</a></span><span><a href="../index.html">the yard &rarr;</a></span></div>
+</div>
+<script src="lanterns.js"></script>
+<script>
+const { LANTERNS, label } = window.Lanterns;
+
+const el = document.getElementById('roster');
+el.innerHTML = LANTERNS.map(l => `
+  <a class="panel" href="${l.file}" style="display:block;text-decoration:none;
+     color:inherit;margin-bottom:10px">
+    <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+      <span style="font:10px/1 ui-monospace,monospace;letter-spacing:.16em;
+        text-transform:uppercase;color:var(--lamp);border:1px solid var(--lamp);
+        border-radius:4px;padding:4px 7px">lesson ${l.id}</span>
+      <b style="font-size:15px;color:var(--lamp2)">${l.lesson}</b>
+      <span style="font:10px/1 ui-monospace,monospace;letter-spacing:.14em;
+        text-transform:uppercase;color:var(--dim);margin-left:auto">${l.language}</span>
+    </div>
+    <div style="color:var(--dim);font-size:11.5px;margin-top:8px">
+      carried by ${label(l)} &middot; ${l.service}
+    </div>
+  </a>`).join('');
+</script>

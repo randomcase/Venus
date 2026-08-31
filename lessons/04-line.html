@@ -1,0 +1,311 @@
+<title>Lesson 4 · The Line</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{
+    --void:#06080c; --card:#0f151f; --card2:#141b27; --edge:#232d3c;
+    --ink:#e9eef5; --dim:#8794a6; --lamp:#f0c66a; --lamp2:#ffe6a8;
+    --leaf:#6fc08a; --cool:#6ec6ff; --warn:#e0705a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.65 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 22% -6%,rgba(240,198,106,.10),transparent 45%),
+      radial-gradient(circle at 84% 96%,rgba(111,192,138,.09),transparent 44%)}
+  .wrap{max-width:940px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:22px;letter-spacing:-.015em;color:var(--lamp2)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--cool);border:1px solid var(--cool);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:26px 0 10px;font-weight:600}
+  h2 b{color:var(--lamp);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px;font-weight:600;margin-left:10px}
+  p{max-width:80ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.7;margin:10px 0 0;max-width:96ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--lamp2);background:#0a0f16;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  pre{margin:12px 0 0;padding:13px 14px;background:#080d13;border:1px solid var(--edge);
+    border-radius:10px;overflow-x:auto;font:11.5px/1.65 ui-monospace,monospace;color:#cfd8e4}
+  pre .k{color:#7fa8e0} pre .s{color:var(--leaf)} pre .c{color:#5c6b7d}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+  a{color:var(--lamp)}
+  canvas{display:block;width:100%;border-radius:10px;background:#05080c;
+    border:1px solid var(--edge);touch-action:none}
+  .ctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;align-items:center}
+  .ctl button{font:inherit;font-size:12px;cursor:pointer;background:#131b26;
+    color:var(--ink);border:1px solid var(--edge);border-radius:8px;padding:8px 13px}
+  .ctl button:hover{border-color:var(--lamp)}
+  .ctl label{font:10px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:7px}
+  .ctl output{font:12px/1 ui-monospace,monospace;color:var(--lamp2);min-width:4ch}
+  .nav{display:flex;justify-content:space-between;gap:12px;margin-top:26px;
+    border-top:1px solid var(--edge);padding-top:14px;font-size:12px}
+  .ded{border-left:3px solid var(--lamp);padding:2px 0 2px 13px;color:var(--dim);
+    font-size:11.5px;margin:0 0 16px}
+  .ded b{color:var(--lamp2);font-weight:600}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="tag">java + fetch</span>
+    <h1>The Line</h1>
+    <p class="sub">Whoever owns the state owns the game. This is the lesson where the light leaves your machine, and it is the only one that needs a server.</p>
+  </header>
+  <p class="ded">Lesson four, carried by <b id="who">&hellip;</b>.</p>
+
+  <h2>The problem you cannot see alone <b>until there are two of you</b></h2>
+  <p>Lesson three runs entirely in your tab. It is correct, it is reproducible,
+    and it is single-player &mdash; and the moment a second person opens it, they
+    get a different swarm. Two browsers, two sets of random phases, two versions
+    of the truth, and nothing to reconcile them.</p>
+  <p>The fix is not to send more messages. It is to decide, once, <b>who is
+    holding the state</b>. Everyone else renders what they are told.</p>
+
+  <h2>The server owns it <b>Java, and about forty lines that matter</b></h2>
+  <pre>public final class Swarm {
+
+    private final ReentrantLock lock = new ReentrantLock();
+    private final Map&lt;Long, Firefly&gt; fireflies = new LinkedHashMap&lt;&gt;();
+    private final Map&lt;Long, Set&lt;Long&gt;&gt; neighbours = new HashMap&lt;&gt;();
+
+    public RoundResult round(long stepMillis, double coupling, int maxCascadeDepth) {
+        Set&lt;Long&gt; fired = new LinkedHashSet&lt;&gt;();
+        List&lt;Firefly&gt; frontier = new ArrayList&lt;&gt;();
+
+        for (Firefly f : fireflies.values()) {
+            if (f.advance(stepMillis) &amp;&amp; fired.add(f.id())) frontier.add(f);
+        }
+        int spontaneous = fired.size();
+
+        int depth = 0;
+        while (!frontier.isEmpty() &amp;&amp; depth &lt; maxCascadeDepth) {
+            List&lt;Firefly&gt; next = new ArrayList&lt;&gt;();
+            for (Firefly flasher : frontier) {
+                flasher.flash();
+                for (Long id : neighbours.get(flasher.id())) {
+                    if (fired.contains(id)) continue;          // refractory
+                    Firefly n = fireflies.get(id);
+                    if (n.nudge(coupling) &amp;&amp; fired.add(id)) next.add(n);
+                }
+            }
+            frontier = next; depth++;
+        }
+        for (Firefly stranded : frontier) stranded.flash();
+
+        return new RoundResult(List.copyOf(fired), spontaneous, depth);
+    }
+}</pre>
+  <p class="note">This is real and it runs &mdash; it is the
+    <code>swarm</code> module of the <code>lightning-bug</code> service, with the
+    comments stripped. Note what is <em>not</em> in it: no rendering, no colours,
+    no canvas, no notion of a screen. The server holds phases and topology. What
+    a firefly looks like is not its business, and the day you put a colour in
+    here is the day the server starts having opinions it cannot defend.</p>
+
+  <h2>The browser stops deciding <b>and starts asking</b></h2>
+  <pre>let world = { fireflies: [], coherence: { r: 0 } };
+let lastGoodReply = 0;
+
+async function poll() {
+  const res = await fetch(&#x27;http://localhost:8080/api/swarm&#x27;);
+  world = await res.json();          // the server&#x27;s answer replaces mine
+  lastGoodReply = performance.now();
+}
+setInterval(poll, 100);              // truth at 10 Hz
+
+function frame() {                   // drawing at 60 Hz, from whatever I last heard
+  draw(world);
+  requestAnimationFrame(frame);
+}</pre>
+  <p>Draw still runs at 60 frames a second; only the <em>truth</em> arrives at
+    whatever rate the network manages. Between updates you interpolate, which is
+    a polite word for guessing &mdash; and the guess is always overwritten by the
+    next real answer, which is the rule that keeps clients from drifting apart.</p>
+
+  <div class="panel">
+    <canvas id="c" height="280"></canvas>
+    <div class="ctl">
+      <button id="connect">Connect to localhost:8080</button>
+      <button id="local">Run locally instead</button>
+      <label>source <output id="src">local</output></label>
+      <label>coherence <output id="r">0.00</output></label>
+    </div>
+    <p class="note" style="margin-top:12px">The connect button expects
+      <code>lightning-bug</code> running on port 8080. If it is not there the
+      demo says so and keeps running its own local swarm &mdash; it does not
+      pretend, and it does not silently fall back without telling you. A demo
+      that hides a failed connection has taught you the opposite of this
+      lesson.</p>
+  </div>
+
+  <h2>What this costs you <b>and it is worth saying before you choose it</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px"><b>Latency becomes visible.</b> The
+      swarm is now as far away as the network is slow, and every input has a
+      round trip in it.<br><br>
+      <b>You have a new failure mode: disagreement.</b> Not a crash &mdash; a
+      client showing something the server does not believe. It looks fine. Nobody
+      reports it.<br><br>
+      <b>Reproducibility moves.</b> The seed is on the server now, which is
+      exactly why the service echoes it back on every reply. A simulation whose
+      initial conditions cannot be repeated cannot be debugged, and moving it to
+      a server does not change that &mdash; it just changes who has to hand you
+      the number.</p>
+  </div>
+
+  <h2>Exercise</h2>
+  <div class="panel">
+    <p style="margin:0">Open the demo in two windows with the server running.
+      Confirm they show the same swarm. Then stop the server and watch both
+      windows carry on drawing the last thing they were told, indefinitely,
+      perfectly smoothly, and completely wrong. Add whatever it takes for a
+      window to notice and say so &mdash; a timestamp on the last good reply is
+      enough. That is the whole of network programming that anybody actually
+      needs on the first day.</p>
+  </div>
+  <div class="panel" style="margin-top:11px;border-color:rgba(111,192,138,.45)">
+    <p style="margin:0;font-size:12.5px"><b style="color:var(--leaf)">Done when:</b>
+      your client can tell the difference between "the world is still" and "I
+      have stopped hearing about the world", and it says which one out loud.</p>
+  </div>
+
+  <h2>Where the line goes next</h2>
+  <p class="note" style="max-width:84ch">Four lanterns, and then whoever is
+    holding the file. The coupling rule only ever moves the clock of something
+    close enough to see the flash &mdash; that is why this lesson is last, and
+    why it is the one where the light leaves the machine it was lit on.</p>
+<div class="nav"><span><a href="03-swarm.html">&larr; Lesson 3 · The Swarm</a></span><span><a href="../index.html">the yard &rarr;</a></span></div>
+</div>
+<script src="lanterns.js"></script>
+<script>
+const { LANTERNS, label } = window.Lanterns;
+document.getElementById('who').textContent = label(LANTERNS[3]);
+
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const $ = id => document.getElementById(id);
+
+let mode = 'local';
+let world = { fireflies: [] };
+let lastGood = 0;
+let poller = null;
+let last = performance.now();
+
+function seedLocal(n = 4) {
+  world = { fireflies: Array.from({ length: n }, (_, i) => ({ id: i, phase: Math.random(), period: 1500 })) };
+}
+
+function updateLocal(dt) {
+  const eps = 0.25;
+  const fired = new Set();
+  let frontier = [];
+  for (const f of world.fireflies) {
+    f.phase += dt / (f.period || 1500);
+    if (f.phase >= 1 && !fired.has(f.id)) { fired.add(f.id); frontier.push(f); }
+  }
+  let depth = 0;
+  while (frontier.length && depth < 32) {
+    const next = [];
+    for (const flasher of frontier) {
+      flasher.phase = 0;
+      for (const o of world.fireflies) {
+        if (o === flasher || fired.has(o.id)) continue;
+        o.phase = Math.min(1, o.phase * (1 + eps));
+        if (o.phase >= 1) { fired.add(o.id); next.push(o); }
+      }
+    }
+    frontier = next; depth++;
+  }
+  for (const s of frontier) s.phase = 0;
+}
+
+function coherence() {
+  const fs = world.fireflies;
+  if (!fs.length) return 0;
+  let x = 0, y = 0;
+  for (const f of fs) { x += Math.cos(2 * Math.PI * f.phase); y += Math.sin(2 * Math.PI * f.phase); }
+  return Math.hypot(x / fs.length, y / fs.length);
+}
+
+async function poll() {
+  try {
+    const res = await fetch('http://localhost:8080/api/swarm');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const body = await res.json();
+    world = { fireflies: body.fireflies || [] };
+    lastGood = performance.now();
+    $('src').textContent = 'server';
+  }
+  catch (e) {
+    // say so. A demo that hides a failed connection teaches the opposite lesson.
+    $('src').textContent = 'server unreachable — still local';
+    mode = 'local';
+    clearInterval(poller); poller = null;
+  }
+}
+
+function fit() {
+  const dpr = window.devicePixelRatio || 1;
+  const r = canvas.getBoundingClientRect();
+  canvas.width = Math.round(r.width * dpr);
+  canvas.height = Math.round(r.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return r;
+}
+
+function draw(rect) {
+  ctx.clearRect(0, 0, rect.width, rect.height);
+  const fs = world.fireflies;
+  const cx = rect.width / 2, cy = rect.height / 2;
+  const ringR = Math.min(rect.width, rect.height) * 0.30;
+  fs.forEach((f, i) => {
+    const a = (i / fs.length) * Math.PI * 2 - Math.PI / 2;
+    const x = cx + Math.cos(a) * ringR, y = cy + Math.sin(a) * ringR;
+    const b = Math.pow(f.phase, 8);
+    const g = ctx.createRadialGradient(x, y, 0, x, y, 44);
+    g.addColorStop(0.00, `rgba(255,236,180,${0.06 + b * 0.94})`);
+    g.addColorStop(0.35, `rgba(240,198,106,${0.03 + b * 0.5})`);
+    g.addColorStop(1.00, 'rgba(240,198,106,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(x, y, 44, 0, Math.PI * 2); ctx.fill();
+  });
+
+  // how long since the truth last arrived. Silence is not stillness.
+  if (mode === 'server') {
+    const age = (performance.now() - lastGood) / 1000;
+    ctx.fillStyle = age > 1 ? '#e0705a' : '#8794a6';
+    ctx.font = '11px ui-monospace, monospace';
+    ctx.fillText(`last reply ${age.toFixed(1)}s ago`, 12, 20);
+  }
+}
+
+function frame(now) {
+  const dt = Math.min(now - last, 100); last = now;
+  if (mode === 'local') updateLocal(dt);
+  draw(fit());
+  $('r').textContent = coherence().toFixed(2);
+  requestAnimationFrame(frame);
+}
+
+$('connect').onclick = () => {
+  mode = 'server';
+  $('src').textContent = 'connecting';
+  if (poller) clearInterval(poller);
+  poll();
+  poller = setInterval(poll, 100);
+};
+$('local').onclick = () => {
+  mode = 'local';
+  if (poller) { clearInterval(poller); poller = null; }
+  $('src').textContent = 'local';
+  seedLocal();
+};
+
+seedLocal();
+requestAnimationFrame(frame);
+</script>
