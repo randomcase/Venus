@@ -19,7 +19,18 @@
  *   · radio groups, by name, with their ids (rebuilt as controls)
  *   · checkboxes, with their ids            (rebuilt as controls)
  *   · counters declared in counter-reset    (rebuilt as printed totals)
+ *   · #id:target ids in the stylesheet      (rebuilt as a store and its links)
  *   · how many rules use :has()             (reported, not rebuilt)
+ *
+ * THE PERSISTENCE LAYER
+ * A page that keeps state across a reload keeps it in the URL fragment and
+ * reads it with :target, which means its state ids live in the STYLESHEET and
+ * not in the markup — there is no input to find. So they are read out of the
+ * CSS, and the template gets back both halves: the store strip of anchors,
+ * placed first in the document because that is where a counter's source has to
+ * be, and a link for each stored state. See persist.html for what that is and
+ * what it costs. A page with no targets forgets everything on reload, which is
+ * most of them and is usually the right call.
  *
  * Ids are preserved deliberately. Rename one and you break the rule that was
  * pointing at it, which is the single most common way these pages fail — see
@@ -68,11 +79,28 @@ function dissect(html, file) {
   for (const [, cls, ctr] of style.matchAll(/\.([\w-]+)::after\s*\{content:counter\((\w+)\)\}/g))
     printers.set(ctr, cls);
 
+  /* the persistence layer, if the page has one. State that survives a reload
+     lives in the URL fragment and is read with :target — so the ids are in the
+     stylesheet, not in the markup, and that is where we go looking. */
+  const targets = [...new Set(
+    [...style.matchAll(/#([\w-]+):target/g)].map((m) => m[1])
+  )].map((id) => ({ id, label: linkFor(html, id) }));
+  const storeCls = (style.match(/\.([\w-]+)\s+i\s*\{[^}]*position:absolute/) || [, 'store'])[1];
+  const tickCls = (style.match(/:target\)\s*\.([\w-]+)\s*\{counter-increment/) || [])[1];
+
   const hasRules = (style.match(/:has\(/g) || []).length;
   const compound = (style.match(/:has\([^)]*\)\s*:has\(/g) || []).length;
   const scripted = /<script(?![^>]*application\/json)/.test(html);
 
-  return { title, style, groups, boxes, counters, printers, hasRules, compound, scripted };
+  return { title, style, groups, boxes, counters, printers, hasRules, compound,
+           scripted, targets, storeCls, tickCls };
+}
+
+/** The visible text of the <a href="#id"> that writes this state, flattened. */
+function linkFor(html, id) {
+  const m = html.match(new RegExp(`<a[^>]*href="#${id}"[^>]*>([\\s\\S]*?)</a>`));
+  if (!m) return id;
+  return m[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 46) || id;
 }
 
 /** The visible text of the <label for="id">, flattened. */
@@ -105,11 +133,33 @@ ${d.counters.map((c) => {
   }).join('\n')}
     </div>` : '';
 
+  /* the store strip. It goes FIRST in the document, ahead of the header and
+     ahead of everything that counts, for the same reason inputs do: a counter
+     prints after what increments it, and here what increments it is the URL. */
+  const storeBlock = d.targets.length ? `
+  <div class="${d.storeCls}">
+${d.targets.map((t) => `    <i id="${t.id}"></i>`).join('\n')}${d.tickCls ? `
+    <i class="${d.tickCls}"></i>` : ''}
+  </div>
+` : '';
+
+  const linkBlock = d.targets.length ? `
+    <h2>Stored states <b>${d.targets.length} &middot; the URL is the state</b></h2>
+    <div class="grid opts">
+${d.targets.map((t) => `      <a href="#${t.id}"><b>${esc(t.label)}</b><s>#${t.id}</s></a>`).join('\n')}
+    </div>
+    <p class="note">TODO name these. Each link writes one whole state into the
+      address bar; <code>:target</code> reads it back and the rules above act on
+      it. A document has one target at a time, so every link names a complete
+      combination and there is no partial update &mdash; add an axis and you
+      write the products out, exactly as with compound <code>:has()</code>.</p>` : '';
+
   const notes = [
     `source            ${file}`,
     `radio groups      ${d.groups.size}${d.groups.size ? ` (${[...d.groups.keys()].join(', ')})` : ''}`,
     `checkboxes        ${d.boxes.length}`,
     `counters          ${d.counters.length ? d.counters.join(', ') : 'none'}`,
+    `stored states     ${d.targets.length ? `${d.targets.length} — ${d.targets.map((t) => '#' + t.id).join(', ')}` : 'none — this page forgets everything on reload'}`,
     `:has() rules      ${d.hasRules}${d.compound ? `, ${d.compound} of them compound` : ''}`,
     `script            ${d.scripted ? 'YES — the source page runs script; this template does not carry it' : 'none'}`,
   ].join('\n     ');
@@ -141,7 +191,7 @@ ${d.counters.map((c) => {
   first in the DOM, totals after. Rearrange with grid, never with source order.
 -->
 ${d.style}
-
+${storeBlock}
 <div class="wrap board desk deck app v h">
   <header>
     <h1>TODO title</h1>
@@ -149,7 +199,7 @@ ${d.style}
       say what it computes and where the numbers come from.</span>
     <span class="tag">no script</span>
   </header>
-${groupBlocks}${boxBlock}${totals}
+${groupBlocks}${boxBlock}${linkBlock}${totals}
 
   <div class="panel">
     <p class="note">TODO. The stylesheet above is the source page's, unchanged,
@@ -201,10 +251,14 @@ const index = `<title>Templates &middot; ${rows.length}</title>
   every input id, so it runs as it stands &mdash; the counters count and the
   <code>:has()</code> rules fire before you change a thing. What was removed is
   the prose. Do not rename the ids.</p>
+  <p><b>Stored</b> counts the states a page keeps in the URL fragment and reads
+  back with <code>:target</code>. A page with none forgets everything on reload,
+  which is most of them and is usually the right call; a page with some is
+  carrying a persistence layer, and the template carries it too.</p>
   <table>
-    <tr><th>Template</th><th>Groups</th><th>Boxes</th><th>Counters</th><th>:has()</th></tr>
+    <tr><th>Template</th><th>Groups</th><th>Boxes</th><th>Stored</th><th>Counters</th><th>:has()</th></tr>
 ${rows.map((r) => `    <tr><td><a href="${r.name}">${r.file}</a>${r.scripted ? ' <span class="js">·js</span>' : ''}</td>
-      <td>${r.groups.size}</td><td>${r.boxes.length}</td><td>${r.counters.length}</td><td>${r.hasRules}</td></tr>`).join('\n')}
+      <td>${r.groups.size}</td><td>${r.boxes.length}</td><td>${r.targets.length || ''}</td><td>${r.counters.length}</td><td>${r.hasRules}</td></tr>`).join('\n')}
   </table>
   <p style="margin-top:16px">Pages marked <span class="js">·js</span> run script
   in their source; the template carries the stylesheet only, so those two need
@@ -216,4 +270,5 @@ writeFileSync(join(outDir, 'index.html'), index);
 const tot = (k) => rows.reduce((a, r) => a + (typeof r[k] === 'number' ? r[k] : r[k].size ?? r[k].length ?? 0), 0);
 console.log(`${rows.length} templates → ${outDir}/`);
 console.log(`  radio groups ${tot('groups')} · checkboxes ${tot('boxes')} · counters ${tot('counters')} · :has() rules ${tot('hasRules')}`);
+console.log(`  stored states ${tot('targets')} across ${rows.filter((r) => r.targets.length).length} page(s)`);
 console.log(`  index: ${outDir}/index.html`);

@@ -1,0 +1,117 @@
+<title>TEMPLATE &middot; Exhibit A · the transcript</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from exhibit.html by templatise.mjs.
+
+     source            exhibit.html
+     radio groups      0
+     checkboxes        0
+     counters          ln
+     stored states     none — this page forgets everything on reload
+     :has() rules      0
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#060a08; --card:#101a15; --card2:#15211b; --edge:#25362c;
+    --ink:#e8f2ea; --dim:#8ba396; --bone:#e4d9b8;
+    --moss:#6fc08a; --amber:#e0a94f; --violet:#a58ae0; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 30% -6%,rgba(111,192,138,.12),transparent 44%)}
+  .wrap{max-width:940px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.015em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:66ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--moss);border:1px solid var(--moss);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:26px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.68;margin:10px 0 0;max-width:96ch}
+  .note b{color:var(--ink)}
+  a{color:var(--moss)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0a120e;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ------------------------------------------------------------ the record */
+  .rec{counter-reset:ln 0;margin-top:12px}
+  .ln{display:grid;grid-template-columns:44px 92px 1fr;gap:12px;align-items:baseline;
+    padding:5px 0;border-bottom:1px solid rgba(37,54,44,.55)}
+  .ln:last-child{border-bottom:0}
+  .ln::before{counter-increment:ln 1;content:counter(ln);
+    font:10px/1.6 ui-monospace,monospace;color:#4d6357;text-align:right}
+  .ln .sp{font:8.5px/1.7 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .ln .tx{font-size:13px}
+  .ln.a .sp{color:var(--bone)}
+  .ln.m .tx{color:var(--dim);font:11.5px/1.7 ui-monospace,monospace}
+  .ln.m .sp{color:#4d6357}
+  .ln.key{background:rgba(111,192,138,.07);border-radius:6px;
+    box-shadow:inset 3px 0 0 var(--moss)}
+  .ln.key .tx{color:var(--bone)}
+  .ln.url .tx{color:var(--violet);font:11px/1.7 ui-monospace,monospace;
+    word-break:break-all}
+  @media (max-width:640px){
+    .ln{grid-template-columns:30px 1fr;gap:8px}
+    .ln .sp{grid-column:2;margin-bottom:-4px}
+    .ln .tx{grid-column:2}}
+
+  /* ---------------------------------------------------------- the findings */
+  .find{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:11px 0;
+    border-bottom:1px solid rgba(37,54,44,.55)}
+  .find:last-child{border-bottom:0}
+  .find .at{font:10px/1.7 ui-monospace,monospace;color:var(--moss)}
+  .find b{color:var(--bone);display:block;margin-bottom:3px;font-size:12.5px}
+  .find p{margin:0;font-size:12px;color:var(--dim);max-width:82ch}
+  .seal{font:10px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--amber);border:1px solid var(--amber);
+    border-radius:4px;padding:5px 9px;display:inline-block}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>ln</span><b>&mdash; not printed by this page</b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

@@ -1,0 +1,324 @@
+<title>The Persistence Layer · state that survives the page</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  THE PERSISTENCE LAYER — a sixth technique, and the honest limits of it.
+
+  Every other board in this yard holds its state in checked inputs. That state
+  is real, it drives everything, and it dies the moment the tab does. Reload and
+  you are back at the defaults. Send someone the URL and they get the defaults
+  too. For most of these boards that is fine. For anything you want to keep, it
+  is the whole problem.
+
+  THE STORE IS THE URL FRAGMENT
+  There is exactly one place a browser will keep your state, hand it back on
+  reload, put it in a bookmark, send it in a message and step through it with
+  the Back button, without a line of script and without a server: the bit after
+  the #. And there is exactly one selector that can read it: :target.
+
+    a link writes it        <a href="#st-b2">
+    the browser keeps it    in the URL, in history, in the bookmark
+    :target reads it        #st-b2:target
+    :has() acts on it       .board:has(#st-b2:target) { ... }
+
+  That is the entire layer. It is four lines and it is genuinely persistent.
+
+  THE PRICE, STATED UP FRONT
+  A document has one :target at a time. One. So a board with two axes does not
+  get two independent stored values — it gets one stored value that must name
+  the whole combination, and you must enumerate the product. Three berths by
+  two watches is six ids and six links, and if you add a fourth berth you write
+  two more of each. Same bargain as compound :has(): no multiplication, so you
+  write the products, and the table is visible and someone typed every cell.
+
+  There are no inputs on this page at all. Not one radio, not one checkbox.
+  Every control is a link, the URL is the entire state, and the consequences
+  are worth listing because they are all good ones:
+
+    · reload restores it            · a bookmark is a save file
+    · the URL is the whole document · Back is undo, Forward is redo
+    · sharing it works              · every state has a name you can type
+
+  WHAT IT WILL NOT DO, AND DO NOT PRETEND OTHERWISE
+  It will not read the query string. <form method="get"> is still how a board
+  hands its state to the NEXT page — that is technique five and it works — but
+  the page it arrives at cannot read ?berth=b in CSS. Nothing can. The query
+  string is write-only from here: for a human, for a server, for a log. The
+  fragment is the only half of a URL this yard can read back, and a layer that
+  claimed otherwise would be lying about where the state lives.
+
+  It also cannot update one axis at a time. Every link names the whole state,
+  because the state is one id. That is why the six links below are drawn as a
+  grid and not as two rows of controls: the grid is the truth about the store.
+
+  No script. Nothing here is fetched, saved to a server, or written to disk.
+-->
+<style>
+  :root{
+    --void:#080b0f; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --good:#65d6a8; --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 24% -6%,rgba(110,198,255,.10),transparent 44%)}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.015em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--good);border:1px solid var(--good);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.68;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+  pre{margin:10px 0 0;padding:11px 12px;background:#0a1017;border:1px solid var(--edge);
+    border-radius:9px;overflow-x:auto;font:10.5px/1.7 ui-monospace,monospace;
+    color:var(--dim)}
+  pre b{color:var(--gold);font-weight:600}
+
+  /* =============================================== 0 · THE STORE ITSELF
+     Six anchors, one per state, sitting in a strip at the top of the document.
+     They hold nothing and display nothing. Their only job is to be the thing
+     the URL points at, which is the only durable state a scriptless page has.
+     They are FIRST in the DOM because every counter below has to be able to
+     count them, and a counter can only print after what increments it. */
+  .store{position:relative;height:0;overflow:visible}
+  .store i{position:absolute;top:-72px;width:1px;height:1px;display:block}
+
+  /* --------------------------------------------------------- the controls */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+  @media (max-width:700px){.grid{grid-template-columns:1fr}}
+  .grid a{display:block;text-decoration:none;color:var(--dim);
+    background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px;font:11.5px/1.5 ui-monospace,monospace}
+  .grid a:hover{color:var(--ink);border-color:rgba(224,177,85,.5)}
+  .grid a:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
+  .grid a b{display:block;font-size:12.5px;color:var(--ink);margin-bottom:3px}
+  .grid a s{display:block;font-size:9.5px;letter-spacing:.12em;
+    text-transform:uppercase;text-decoration:none;color:#5d6c7a;margin-top:5px}
+
+  /* the live one is lit — :has() reaching down from the board to the strip,
+     then across to the control that names it. Six rules, one per state. */
+  .board:has(#st-a1:target) .k-a1,
+  .board:has(#st-a2:target) .k-a2,
+  .board:has(#st-a3:target) .k-a3,
+  .board:has(#st-b1:target) .k-b1,
+  .board:has(#st-b2:target) .k-b2,
+  .board:has(#st-b3:target) .k-b3{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12)}
+  .board:has(#st-a1:target) .k-a1 b,
+  .board:has(#st-a2:target) .k-a2 b,
+  .board:has(#st-a3:target) .k-a3 b,
+  .board:has(#st-b1:target) .k-b1 b,
+  .board:has(#st-b2:target) .k-b2 b,
+  .board:has(#st-b3:target) .k-b3 b{color:var(--gold)}
+
+  /* ============================================ 1 · COUNTERS ARE ARITHMETIC
+     The counters are driven by the URL, not by a click. Increment on an
+     element that sits inside the store strip — first in the DOM — and every
+     total below can print it. This is the whole trick: the arithmetic has a
+     durable input for once. */
+  body{counter-reset:berth 0 watch 0 hands 0}
+  .board:has(#st-a1:target) .tick{counter-increment:berth 1 watch 1 hands 6}
+  .board:has(#st-a2:target) .tick{counter-increment:berth 2 watch 1 hands 11}
+  .board:has(#st-a3:target) .tick{counter-increment:berth 3 watch 1 hands 17}
+  .board:has(#st-b1:target) .tick{counter-increment:berth 1 watch 2 hands 12}
+  .board:has(#st-b2:target) .tick{counter-increment:berth 2 watch 2 hands 22}
+  .board:has(#st-b3:target) .tick{counter-increment:berth 3 watch 2 hands 34}
+  .n-berth::after{content:counter(berth)} .n-watch::after{content:counter(watch)}
+  .n-hands::after{content:counter(hands)}
+
+  /* ==================================================== 2 · :has() IS STATE
+     Including the state of having no state. A page opened with no fragment has
+     no :target anywhere in it, and that is a condition you can select for and
+     must handle — it is the cold-start case and it is the one people forget. */
+  .st{display:none}
+  .board:has(#st-a1:target) .s-a1, .board:has(#st-a2:target) .s-a2,
+  .board:has(#st-a3:target) .s-a3, .board:has(#st-b1:target) .s-b1,
+  .board:has(#st-b2:target) .s-b2, .board:has(#st-b3:target) .s-b3{display:block}
+  .board:not(:has(:target)) .s-cold{display:block}
+
+  .heads{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .head{background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  .st.panel{margin-top:2px}
+  .st .h{font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700;color:var(--good)}
+  .s-cold .h{color:var(--warn)}
+  .st p{margin:8px 0 0;font-size:12.5px;max-width:82ch}
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:820px){.two{grid-template-columns:1fr}}
+</style>
+
+<!-- 5 · A GET FORM IS TRANSPORT — still the way state leaves this page for
+     another one. It is write-only: the receiving page cannot read the query
+     string in CSS, and neither can this one. -->
+<form id="vy" action="bridge.html" method="get">
+  <input type="hidden" name="board" value="persist" form="vy">
+</form>
+
+<div class="board wrap">
+
+  <!-- 0 · THE STORE. First in the DOM, always. Six anchors and one counter
+       carrier; nothing here is visible and nothing here is optional. -->
+  <div class="store">
+    <i id="st-a1"></i><i id="st-a2"></i><i id="st-a3"></i>
+    <i id="st-b1"></i><i id="st-b2"></i><i id="st-b3"></i>
+    <i class="tick"></i>
+  </div>
+
+  <header>
+    <h1>The Persistence Layer</h1>
+    <span class="sub">State that survives the tab closing, with no script and
+      no server. There is not a single input on this page: every control is a
+      link, the URL is the whole document, and the Back button is undo.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="panel" style="border-color:rgba(101,214,168,.4)">
+    <h2 style="margin-top:0">The layer <b>four lines, and they are all of it</b></h2>
+<pre>a link writes it       <b>&lt;a href="#st-b2"&gt;</b>
+the browser keeps it   in the URL, in history, in the bookmark
+<b>:target</b> reads it        <b>#st-b2:target</b>
+<b>:has()</b> acts on it       <b>.board:has(#st-b2:target) { ... }</b></pre>
+    <p class="note">Reload this page after picking a state below. It comes back.
+      Bookmark it and the bookmark is a save file. Send the URL to somebody and
+      they open your state, not the defaults. Press Back and you undo. None of
+      that is a trick and none of it is script; it is what a browser has always
+      done with the part of the address after the hash, and <code>:target</code>
+      is the selector that has always been able to see it.</p>
+  </div>
+
+  <h2>The controls <b>six links, because the store holds one thing</b></h2>
+  <div class="grid">
+    <a class="k-a1" href="#st-a1"><b>North berth · day</b>Six hands<s>#st-a1</s></a>
+    <a class="k-a2" href="#st-a2"><b>Middle berth · day</b>Eleven hands<s>#st-a2</s></a>
+    <a class="k-a3" href="#st-a3"><b>South berth · day</b>Seventeen hands<s>#st-a3</s></a>
+    <a class="k-b1" href="#st-b1"><b>North berth · night</b>Twelve hands<s>#st-b1</s></a>
+    <a class="k-b2" href="#st-b2"><b>Middle berth · night</b>Twenty-two hands<s>#st-b2</s></a>
+    <a class="k-b3" href="#st-b3"><b>South berth · night</b>Thirty-four hands<s>#st-b3</s></a>
+  </div>
+  <p class="note"><b>Three berths by two watches is six links, not five
+    controls.</b> A document has one <code>:target</code> at a time, so the
+    stored value has to name the whole combination — there is no way to change
+    the watch and leave the berth alone, because there is only one thing in the
+    store. Add a fourth berth and you write two more anchors and two more
+    links. That is the same bargain as compound <code>:has()</code>: no
+    multiplication in the language, so you write the products out, and every
+    cell was typed by someone who can be asked about it.</p>
+
+  <h2>The tally <b>counted from the URL</b></h2>
+  <div class="heads">
+    <div class="head"><span>Berth</span><b class="n-berth"></b></div>
+    <div class="head"><span>Watch</span><b class="n-watch"></b></div>
+    <div class="head"><span>Hands</span><b class="n-hands"></b></div>
+  </div>
+  <p class="note">These are CSS counters, incremented on an element inside the
+    store strip at the top of the document — which is why the strip is first in
+    the DOM and why it will stay there. The one rule you cannot break has not
+    changed: a counter prints after the things that increment it. What has
+    changed is that the thing incrementing it is now durable. Reload and the
+    numbers are still here.</p>
+
+  <h2>The state <b>including the state of having none</b></h2>
+  <div class="st panel s-cold" style="border-color:var(--warn)">
+    <div class="h">Cold · no state stored</div>
+    <p>There is no fragment in the address, so there is no <code>:target</code>
+      anywhere in this document, and the board is showing you its defaults.
+      This is the case everybody forgets to design. It is selected for
+      explicitly — <code>.board:not(:has(:target))</code> — because a
+      persistence layer that has nothing sensible to say on a cold start is
+      not finished. Pick a state above and the address bar will change.</p>
+  </div>
+  <div class="st panel s-a1"><div class="h">North berth · day watch</div>
+    <p>Stored as <code>#st-a1</code>. Six hands. Reload and this panel is still
+      the one you are looking at.</p></div>
+  <div class="st panel s-a2"><div class="h">Middle berth · day watch</div>
+    <p>Stored as <code>#st-a2</code>. Eleven hands.</p></div>
+  <div class="st panel s-a3"><div class="h">South berth · day watch</div>
+    <p>Stored as <code>#st-a3</code>. Seventeen hands.</p></div>
+  <div class="st panel s-b1"><div class="h">North berth · night watch</div>
+    <p>Stored as <code>#st-b1</code>. Twelve hands.</p></div>
+  <div class="st panel s-b2"><div class="h">Middle berth · night watch</div>
+    <p>Stored as <code>#st-b2</code>. Twenty-two hands.</p></div>
+  <div class="st panel s-b3"><div class="h">South berth · night watch</div>
+    <p>Stored as <code>#st-b3</code>. Thirty-four hands.</p></div>
+
+  <h2>What it will not do <b>and where the lying usually starts</b></h2>
+  <div class="two">
+    <div class="panel">
+      <div style="font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+        text-transform:uppercase;color:var(--dim);margin-bottom:8px">The query string is write-only</div>
+      <p style="margin:0;font-size:12.5px"><code>&lt;form method="get"&gt;</code>
+        is still how a board hands its state to the next page, and it still
+        works. But nothing in CSS can read <code>?berth=b</code> back — not on
+        the receiving page, not on this one, not anywhere. The query half of a
+        URL is for humans, servers and logs. The fragment is the only half this
+        yard can read, and a layer that claimed otherwise would be lying about
+        where the state actually lives.</p>
+    </div>
+    <div class="panel">
+      <div style="font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+        text-transform:uppercase;color:var(--dim);margin-bottom:8px">One target, whole states only</div>
+      <p style="margin:0;font-size:12.5px">There is no partial update. Every
+        link names the entire state because the state is one id, so the control
+        surface is a grid of combinations rather than a row of switches. If
+        that grid gets too big to type, the honest response is fewer axes — not
+        a smaller grid with the missing cells quietly unreachable.</p>
+    </div>
+  </div>
+  <p class="note"><b>Two more things worth knowing.</b> Following a link scrolls
+    to the target, so the anchors here are offset off-screen above the content
+    and are one pixel wide; that is cosmetic and it is the only cosmetic hack on
+    the page. And the fragment is never sent to a server — it lives entirely in
+    the browser, which is a privacy property worth having and worth saying out
+    loud: this page has no idea what state you are in and could not tell anyone
+    if it wanted to.</p>
+
+  <h2>Carry it on <b>§5 and §6</b></h2>
+  <div class="panel">
+    <script type="application/json" id="doc">
+{ "manifest": "venus.yard/1", "board": "persist",
+  "store": "url fragment", "read_with": ":target", "written_by": "a link",
+  "states": 6, "axes": { "berth": 3, "watch": 2 },
+  "survives": ["reload", "bookmark", "share", "back", "forward"],
+  "cannot_read": "the query string",
+  "$note": "one target at a time, so every stored value names a whole state" }
+    </script>
+    <button type="submit" form="vy" style="font:inherit;font-size:13px;
+      font-weight:650;cursor:pointer;background:var(--good);color:#08140f;
+      border:1px solid var(--good);border-radius:9px;padding:11px 22px">
+      Send the berth to the bridge →</button>
+    <p class="note">This is the one thing on the page that does not persist, and
+      it is here so the difference is visible: the button posts to another file
+      and the state goes with it in the query string, where the receiving page
+      cannot read it. The fragment stays behind. Two halves of one address, one
+      of which this yard can see.</p>
+  </div>
+
+  <h2>Where to start</h2>
+  <p class="note">Pick a state, reload, and then press Back twice. Then copy the
+    address and open it in another window. Then remove everything from the
+    <code>#</code> onward and watch the cold-start panel come back. Four
+    experiments, no script, and at the end of them you know exactly where the
+    state was the whole time.</p>
+  <p class="note">Next: <a href="template.html">the board template</a> ·
+    <a href="whale.html">the five techniques</a> ·
+    <a href="pulse.html">the Pulse</a> · <a href="index.html">the yard</a></p>
+</div>

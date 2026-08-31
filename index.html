@@ -85,9 +85,10 @@
       its record. Draw a hull and count its fastenings, order it against a price
       list, man it, provision it, run it down a lane, put a motion to a chamber
       and a case to a bench — and carry one JSON document between them.
-      <b>Thirty-seven of the thirty-nine have no script in them at all</b>; the
+      <b>Thirty-eight of the forty have no script in them at all</b>; the
       arithmetic is CSS counters and the state is <code>:has()</code>, which
-      thirty-four of them depend on. Two run script. Both are marked.</p>
+      thirty-five of them depend on. One keeps its state in the URL and survives
+      a reload. Two run script. All three are marked.</p>
   </header>
 
   <h2>Build</h2>
@@ -580,6 +581,19 @@
       <dl><dt>Minds</dt><dd>9</dd>
         <dt>Circuits</dt><dd>12</dd>
         <dt>Settles 4/4/4</dt><dd class="g">mint · short · unbound</dd></dl>
+    </a>
+
+    <a class="card" href="persist.html">
+      <span class="chip no">no script</span>
+      <span class="no">42</span>
+      <h3>The Persistence Layer</h3>
+      <p>State that survives the tab closing, with no script and no server. Not
+        one input on the page: every control is a link, the store is the URL
+        fragment, <code>:target</code> reads it back, and the Back button is
+        undo. The price is that one target means whole states only.</p>
+      <dl><dt>Stored states</dt><dd>6</dd>
+        <dt>Inputs</dt><dd>0</dd>
+        <dt>Survives</dt><dd class="g">reload · bookmark · share</dd></dl>
     </a>
 
     <a class="card" href="exhibit.html">

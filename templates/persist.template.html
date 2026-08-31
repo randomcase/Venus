@@ -1,0 +1,191 @@
+<title>TEMPLATE &middot; The Persistence Layer · state that survives the page</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from persist.html by templatise.mjs.
+
+     source            persist.html
+     radio groups      0
+     checkboxes        0
+     counters          berth, watch, hands
+     stored states     6 — #st-a1, #st-a2, #st-a3, #st-b1, #st-b2, #st-b3
+     :has() rules      27
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#080b0f; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --good:#65d6a8; --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 24% -6%,rgba(110,198,255,.10),transparent 44%)}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.015em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--good);border:1px solid var(--good);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.68;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+  pre{margin:10px 0 0;padding:11px 12px;background:#0a1017;border:1px solid var(--edge);
+    border-radius:9px;overflow-x:auto;font:10.5px/1.7 ui-monospace,monospace;
+    color:var(--dim)}
+  pre b{color:var(--gold);font-weight:600}
+
+  /* =============================================== 0 · THE STORE ITSELF
+     Six anchors, one per state, sitting in a strip at the top of the document.
+     They hold nothing and display nothing. Their only job is to be the thing
+     the URL points at, which is the only durable state a scriptless page has.
+     They are FIRST in the DOM because every counter below has to be able to
+     count them, and a counter can only print after what increments it. */
+  .store{position:relative;height:0;overflow:visible}
+  .store i{position:absolute;top:-72px;width:1px;height:1px;display:block}
+
+  /* --------------------------------------------------------- the controls */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+  @media (max-width:700px){.grid{grid-template-columns:1fr}}
+  .grid a{display:block;text-decoration:none;color:var(--dim);
+    background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px;font:11.5px/1.5 ui-monospace,monospace}
+  .grid a:hover{color:var(--ink);border-color:rgba(224,177,85,.5)}
+  .grid a:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
+  .grid a b{display:block;font-size:12.5px;color:var(--ink);margin-bottom:3px}
+  .grid a s{display:block;font-size:9.5px;letter-spacing:.12em;
+    text-transform:uppercase;text-decoration:none;color:#5d6c7a;margin-top:5px}
+
+  /* the live one is lit — :has() reaching down from the board to the strip,
+     then across to the control that names it. Six rules, one per state. */
+  .board:has(#st-a1:target) .k-a1,
+  .board:has(#st-a2:target) .k-a2,
+  .board:has(#st-a3:target) .k-a3,
+  .board:has(#st-b1:target) .k-b1,
+  .board:has(#st-b2:target) .k-b2,
+  .board:has(#st-b3:target) .k-b3{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12)}
+  .board:has(#st-a1:target) .k-a1 b,
+  .board:has(#st-a2:target) .k-a2 b,
+  .board:has(#st-a3:target) .k-a3 b,
+  .board:has(#st-b1:target) .k-b1 b,
+  .board:has(#st-b2:target) .k-b2 b,
+  .board:has(#st-b3:target) .k-b3 b{color:var(--gold)}
+
+  /* ============================================ 1 · COUNTERS ARE ARITHMETIC
+     The counters are driven by the URL, not by a click. Increment on an
+     element that sits inside the store strip — first in the DOM — and every
+     total below can print it. This is the whole trick: the arithmetic has a
+     durable input for once. */
+  body{counter-reset:berth 0 watch 0 hands 0}
+  .board:has(#st-a1:target) .tick{counter-increment:berth 1 watch 1 hands 6}
+  .board:has(#st-a2:target) .tick{counter-increment:berth 2 watch 1 hands 11}
+  .board:has(#st-a3:target) .tick{counter-increment:berth 3 watch 1 hands 17}
+  .board:has(#st-b1:target) .tick{counter-increment:berth 1 watch 2 hands 12}
+  .board:has(#st-b2:target) .tick{counter-increment:berth 2 watch 2 hands 22}
+  .board:has(#st-b3:target) .tick{counter-increment:berth 3 watch 2 hands 34}
+  .n-berth::after{content:counter(berth)} .n-watch::after{content:counter(watch)}
+  .n-hands::after{content:counter(hands)}
+
+  /* ==================================================== 2 · :has() IS STATE
+     Including the state of having no state. A page opened with no fragment has
+     no :target anywhere in it, and that is a condition you can select for and
+     must handle — it is the cold-start case and it is the one people forget. */
+  .st{display:none}
+  .board:has(#st-a1:target) .s-a1, .board:has(#st-a2:target) .s-a2,
+  .board:has(#st-a3:target) .s-a3, .board:has(#st-b1:target) .s-b1,
+  .board:has(#st-b2:target) .s-b2, .board:has(#st-b3:target) .s-b3{display:block}
+  .board:not(:has(:target)) .s-cold{display:block}
+
+  .heads{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .head{background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  .st.panel{margin-top:2px}
+  .st .h{font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700;color:var(--good)}
+  .s-cold .h{color:var(--warn)}
+  .st p{margin:8px 0 0;font-size:12.5px;max-width:82ch}
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:820px){.two{grid-template-columns:1fr}}
+</style>
+
+  <div class="store">
+    <i id="st-a1"></i>
+    <i id="st-a2"></i>
+    <i id="st-a3"></i>
+    <i id="st-b1"></i>
+    <i id="st-b2"></i>
+    <i id="st-b3"></i>
+    <i class="tick"></i>
+  </div>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>Stored states <b>6 &middot; the URL is the state</b></h2>
+    <div class="grid opts">
+      <a href="#st-a1"><b>North berth · day Six hands #st-a1</b><s>#st-a1</s></a>
+      <a href="#st-a2"><b>Middle berth · day Eleven hands #st-a2</b><s>#st-a2</s></a>
+      <a href="#st-a3"><b>South berth · day Seventeen hands #st-a3</b><s>#st-a3</s></a>
+      <a href="#st-b1"><b>North berth · night Twelve hands #st-b1</b><s>#st-b1</s></a>
+      <a href="#st-b2"><b>the browser keeps it in the URL, in history, i</b><s>#st-b2</s></a>
+      <a href="#st-b3"><b>South berth · night Thirty-four hands #st-b3</b><s>#st-b3</s></a>
+    </div>
+    <p class="note">TODO name these. Each link writes one whole state into the
+      address bar; <code>:target</code> reads it back and the rules above act on
+      it. A document has one target at a time, so every link names a complete
+      combination and there is no partial update &mdash; add an axis and you
+      write the products out, exactly as with compound <code>:has()</code>.</p>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>berth</span><b class="n-berth"></b></div>
+      <div class="head m"><span>watch</span><b class="n-watch"></b></div>
+      <div class="head m"><span>hands</span><b class="n-hands"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

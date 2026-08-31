@@ -1,0 +1,415 @@
+<title>TEMPLATE &middot; The Pulse · a circulatory vote</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from pulse.html by templatise.mjs.
+
+     source            pulse.html
+     radio groups      4 (r, c, h, a)
+     checkboxes        3
+     counters          aye, nay, abst, ayew, nayw, castw, rite
+     stored states     none — this page forgets everything on reload
+     :has() rules      225, 82 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#07090e; --card:#121a24; --card2:#18222e; --edge:#2a3646;
+    --ink:#e9f0f5; --dim:#8b9aa9; --gold:#e0b155;
+    --pulse:#e2555f; --good:#65d6a8; --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 50% -8%,rgba(226,85,95,.16),transparent 46%),
+      radial-gradient(circle at 88% 92%,rgba(224,177,85,.10),transparent 44%)}
+  .wrap{max-width:1040px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.015em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.68;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  .lbl{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+  .two{display:grid;gap:14px;grid-template-columns:1.05fr .95fr;align-items:start}
+  @media (max-width:880px){.two{grid-template-columns:1fr}}
+
+  .opts{display:flex;gap:6px;flex-wrap:wrap}
+  .opts input,.stack input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;padding:10px 13px;
+    border-radius:8px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .stack label{display:flex;align-items:baseline;gap:11px;cursor:pointer;
+    padding:11px 13px;border-radius:10px;border:1px solid var(--edge);font-size:12.5px}
+  .stack label .tick{width:15px;height:15px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);position:relative;top:2px}
+  .stack label .amt{margin-left:auto;font:10px/1 ui-monospace,monospace;color:var(--dim);
+    letter-spacing:.1em;text-transform:uppercase;padding-left:10px}
+  .stack input:checked+label{border-color:var(--pulse);background:rgba(226,85,95,.10)}
+  .stack input:checked+label .tick{background:var(--pulse);border-color:var(--pulse);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--pulse)}
+  .opts input:focus-visible+label,.stack input:focus-visible+label
+    {outline:2px solid var(--cool);outline-offset:2px}
+
+  /* ------------------------------------------------------------- the ring */
+  .dia{position:relative;width:100%;max-width:290px;aspect-ratio:1;margin:2px auto 0}
+  .dia .circle{position:absolute;inset:15%;border-radius:50%;
+    border:1px dashed rgba(226,85,95,.42);animation:beat 2.4s ease-in-out infinite}
+  @keyframes beat{50%{transform:scale(1.03);border-color:rgba(226,85,95,.9)}}
+  .orbit{position:absolute;inset:15%;animation:spin 11s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .beat{position:absolute;top:-8px;left:50%;width:15px;height:15px;margin-left:-7.5px;
+    border-radius:50%;background:var(--pulse);box-shadow:0 0 16px var(--pulse)}
+  .node{position:absolute;transform:translate(-50%,-50%);width:29px;height:29px;
+    border-radius:50%;display:grid;place-items:center;background:#0c141d;
+    border:1px solid var(--edge);font:10px/1 ui-monospace,monospace;color:var(--dim)}
+  .p1{left:50%;top:4%}     .p2{left:71%;top:10%}   .p3{left:87%;top:26%}
+  .p4{left:93%;top:50%}    .p5{left:87%;top:74%}   .p6{left:71%;top:90%}
+  .p7{left:50%;top:96%}    .p8{left:29%;top:90%}   .p9{left:13%;top:74%}
+  .p10{left:7%;top:50%}    .p11{left:13%;top:26%}  .p12{left:29%;top:10%}
+  @media (prefers-reduced-motion:reduce){.orbit,.circle{animation:none}}
+
+  /* ------------------------------------------------------------- the seats */
+  .seats{display:grid;gap:9px;grid-template-columns:repeat(4,1fr)}
+  @media (max-width:1000px){.seats{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:760px){.seats{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:480px){.seats{grid-template-columns:1fr}}
+  .seat{background:#0d151d;border:1px solid var(--edge);border-radius:11px;
+    padding:10px 11px}
+  .seat.hat{border-color:rgba(224,177,85,.45)}
+  .seat .who{display:flex;align-items:baseline;gap:7px}
+  .seat .who i{font:8.5px/1 ui-monospace,monospace;color:var(--dim);font-style:normal;
+    border:1px solid var(--edge);border-radius:4px;padding:3px 5px}
+  .seat .who b{font-size:12.5px}
+  .seat .prac{color:var(--dim);font-size:10px;line-height:1.58;margin:6px 0 8px;
+    min-height:6.3em}
+  .seat .row{display:flex;align-items:baseline;justify-content:space-between;
+    border-top:1px solid var(--edge);padding-top:7px;gap:8px}
+  .seat .w{font:8.5px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim)}
+  .cast{font:13px/1 ui-monospace,Menlo,monospace;font-weight:700;color:var(--dim)}
+
+  /* ===================================== 1 · THE TALLY IS COUNTED, NOT SAID
+     Seven counters, declared once on body. Every increment below sits on a
+     seat's .cast, and every .cast is in the DOM before the tally that prints
+     it. That is the one rule you cannot break and the page is arranged around
+     it and nothing else. */
+  body{counter-reset:aye 0 nay 0 abst 0 ayew 0 nayw 0 castw 0 rite 0}
+
+  /* SEAT 1 · THE YARDMASTER — the reading, and nothing else. Weight 2, and 4
+     when the pulse enters at his chair, which is what sunwise means. */
+  .ring:has(#r-pl:checked) .s1 .cast::after{content:"AYE"}
+  .ring:has(#r-te:checked) .s1 .cast::after{content:"AYE"}
+  .ring:has(#r-ce:checked) .s1 .cast::after{content:"NAY"}
+  .ring:has(#r-pl:checked):has(#c-su:checked) .s1 .cast{counter-increment:aye 1 ayew 4 castw 4}
+  .ring:has(#r-te:checked):has(#c-su:checked) .s1 .cast{counter-increment:aye 1 ayew 4 castw 4}
+  .ring:has(#r-ce:checked):has(#c-su:checked) .s1 .cast{counter-increment:nay 1 nayw 4 castw 4}
+  .ring:has(#r-pl:checked):has(#c-wi:checked) .s1 .cast{counter-increment:aye 1 ayew 2 castw 2}
+  .ring:has(#r-te:checked):has(#c-wi:checked) .s1 .cast{counter-increment:aye 1 ayew 2 castw 2}
+  .ring:has(#r-ce:checked):has(#c-wi:checked) .s1 .cast{counter-increment:nay 1 nayw 2 castw 2}
+
+  /* SEAT 2 · THE PURSER — the hour. Weight 2. Also sits at 5. */
+  .ring:has(#h-da:checked) .s2 .cast::after{content:"NAY"}
+  .ring:has(#h-du:checked) .s2 .cast::after{content:"AYE"}
+  .ring:has(#h-da:checked) .s2 .cast{counter-increment:nay 1 nayw 2 castw 2}
+  .ring:has(#h-du:checked) .s2 .cast{counter-increment:aye 1 ayew 2 castw 2}
+
+  /* SEAT 3 · THE SURGEON — nothing moves her. Weight 1, always the same 1. */
+  .s3 .cast::after{content:"AYE"}
+  .s3 .cast{counter-increment:aye 1 ayew 1 castw 1}
+
+  /* SEAT 4 · THE RATINGS' DELEGATE — the circuit. Weight 1. Also sits at 10,
+     at the far end of the ring, and never speaks from both. */
+  .ring:has(#c-su:checked) .s4 .cast::after{content:"AYE"}
+  .ring:has(#c-wi:checked) .s4 .cast::after{content:"ABSTAIN"}
+  .ring:has(#c-su:checked) .s4 .cast{counter-increment:aye 1 ayew 1 castw 1}
+  .ring:has(#c-wi:checked) .s4 .cast{counter-increment:abst 1}
+
+  /* ============================= 3 · COMPOUND :has() IS LOOKUP — SEAT 5
+     THE UNDERWRITER. Neither the reading nor the hour states his vote alone;
+     the PAIR states it. Six rules for three readings by two hours, and no
+     shorter way to say it in a language with no multiplication. Weight 3. */
+  .ring:has(#r-pl:checked):has(#h-da:checked) .s5 .cast::after{content:"NAY"}
+  .ring:has(#r-pl:checked):has(#h-du:checked) .s5 .cast::after{content:"AYE"}
+  .ring:has(#r-te:checked):has(#h-da:checked) .s5 .cast::after{content:"AYE"}
+  .ring:has(#r-te:checked):has(#h-du:checked) .s5 .cast::after{content:"AYE"}
+  .ring:has(#r-ce:checked):has(#h-da:checked) .s5 .cast::after{content:"NAY"}
+  .ring:has(#r-ce:checked):has(#h-du:checked) .s5 .cast::after{content:"NAY"}
+  .ring:has(#r-pl:checked):has(#h-da:checked) .s5 .cast{counter-increment:nay 1 nayw 3 castw 3}
+  .ring:has(#r-pl:checked):has(#h-du:checked) .s5 .cast{counter-increment:aye 1 ayew 3 castw 3}
+  .ring:has(#r-te:checked):has(#h-da:checked) .s5 .cast{counter-increment:aye 1 ayew 3 castw 3}
+  .ring:has(#r-te:checked):has(#h-du:checked) .s5 .cast{counter-increment:aye 1 ayew 3 castw 3}
+  .ring:has(#r-ce:checked):has(#h-da:checked) .s5 .cast{counter-increment:nay 1 nayw 3 castw 3}
+  .ring:has(#r-ce:checked):has(#h-du:checked) .s5 .cast{counter-increment:nay 1 nayw 3 castw 3}
+
+  /* SEAT 6 · THE CHAIR — the circuit. Silent sunwise; widdershins the pulse
+     enters at her chair and she speaks at 3. She holds the casting vote. */
+  .ring:has(#c-su:checked) .s6 .cast::after{content:"ABSTAIN"}
+  .ring:has(#c-wi:checked) .s6 .cast::after{content:"AYE"}
+  .ring:has(#c-su:checked) .s6 .cast{counter-increment:abst 1}
+  .ring:has(#c-wi:checked) .s6 .cast{counter-increment:aye 1 ayew 3 castw 3}
+
+  /* SEAT 7 · THE CHAPLAIN — the text. The standing still WAS the motion, and
+     he will not vote for a version of it with the waiting taken out. Weight 1. */
+  .ring:has(#a-tb:checked) .s7 .cast::after{content:"AYE"}
+  .ring:has(#a-am:checked) .s7 .cast::after{content:"NAY"}
+  .ring:has(#a-tb:checked) .s7 .cast{counter-increment:aye 1 ayew 1 castw 1}
+  .ring:has(#a-am:checked) .s7 .cast{counter-increment:nay 1 nayw 1 castw 1}
+
+  /* SEAT 8 · THE FOREMAN — the text, from the other end. He costed the
+     standing still in hours and the number was the whole objection. Weight 3. */
+  .ring:has(#a-tb:checked) .s8 .cast::after{content:"NAY"}
+  .ring:has(#a-am:checked) .s8 .cast::after{content:"AYE"}
+  .ring:has(#a-tb:checked) .s8 .cast{counter-increment:nay 1 nayw 3 castw 3}
+  .ring:has(#a-am:checked) .s8 .cast{counter-increment:aye 1 ayew 3 castw 3}
+
+  /* ============================= 3 · COMPOUND :has() IS LOOKUP — SEAT 9
+     THE CLERK. Reads the text against the hour: he is the one who has to
+     write the minute, and at dawn an unamended motion is a day he cannot
+     staff. Four cells for two texts by two hours. Weight 1. */
+  .ring:has(#a-tb:checked):has(#h-da:checked) .s9 .cast::after{content:"NAY"}
+  .ring:has(#a-tb:checked):has(#h-du:checked) .s9 .cast::after{content:"AYE"}
+  .ring:has(#a-am:checked):has(#h-da:checked) .s9 .cast::after{content:"AYE"}
+  .ring:has(#a-am:checked):has(#h-du:checked) .s9 .cast::after{content:"AYE"}
+  .ring:has(#a-tb:checked):has(#h-da:checked) .s9 .cast{counter-increment:nay 1 nayw 1 castw 1}
+  .ring:has(#a-tb:checked):has(#h-du:checked) .s9 .cast{counter-increment:aye 1 ayew 1 castw 1}
+  .ring:has(#a-am:checked):has(#h-da:checked) .s9 .cast{counter-increment:aye 1 ayew 1 castw 1}
+  .ring:has(#a-am:checked):has(#h-du:checked) .s9 .cast{counter-increment:aye 1 ayew 1 castw 1}
+
+  /* SEAT 10 · THE HARBOUR WATCH — the circuit, and the same hand as seat 4.
+     Whichever end the pulse reaches first is the chair she answers from. */
+  .ring:has(#c-su:checked) .s10 .cast::after{content:"ABSTAIN"}
+  .ring:has(#c-wi:checked) .s10 .cast::after{content:"AYE"}
+  .ring:has(#c-su:checked) .s10 .cast{counter-increment:abst 1}
+  .ring:has(#c-wi:checked) .s10 .cast{counter-increment:aye 1 ayew 1 castw 1}
+
+  /* SEAT 11 · THE DOCK STEWARD — the reading. Will vote for a thing spelled
+     out in full and for nothing else, plain or ceremonial. Weight 2. */
+  .ring:has(#r-pl:checked) .s11 .cast::after{content:"NAY"}
+  .ring:has(#r-te:checked) .s11 .cast::after{content:"AYE"}
+  .ring:has(#r-ce:checked) .s11 .cast::after{content:"NAY"}
+  .ring:has(#r-pl:checked) .s11 .cast{counter-increment:nay 1 nayw 2 castw 2}
+  .ring:has(#r-te:checked) .s11 .cast{counter-increment:aye 1 ayew 2 castw 2}
+  .ring:has(#r-ce:checked) .s11 .cast{counter-increment:nay 1 nayw 2 castw 2}
+
+  /* SEAT 12 · THE ABSENT MEMBER — has not attended. Weight 0 by the fact of
+     it, counted in the roll and in nothing else. The quorum is 8 of 12 and it
+     is 8 rather than 9 because of this chair, which is the ordinary way a
+     standing rule remembers a person nobody has seen. */
+  .s12 .cast::after{content:"— ABSENT —"}
+  .s12 .cast{counter-increment:abst 1;font-size:10px;color:var(--dim)}
+
+  /* ==================================== 4 · CASCADE ORDER IS AUTHORITY (i)
+     The Chair does not vote in a ceremonial reading — she is presiding over
+     it, and with her goes the casting vote. Same specificity as the two
+     circuit rules above; it wins because it is written after them. Move it up
+     and she votes again, silently, and every ceremonial tally is wrong while
+     staying perfectly self-consistent. */
+  .ring:has(#r-ce:checked) .s6 .cast::after{content:"ABSTAIN"}
+  .ring:has(#r-ce:checked) .s6 .cast{counter-increment:abst 1}
+
+  /* colour, after every rule that sets a word */
+  .cast{color:var(--dim)}
+  .s3 .cast,
+  .ring:has(#r-pl:checked) .s1 .cast, .ring:has(#r-te:checked) .s1 .cast,
+  .ring:has(#h-du:checked) .s2 .cast,
+  .ring:has(#c-su:checked) .s4 .cast,
+  .ring:has(#r-pl:checked):has(#h-du:checked) .s5 .cast,
+  .ring:has(#r-te:checked) .s5 .cast,
+  .ring:has(#a-tb:checked) .s7 .cast,
+  .ring:has(#a-am:checked) .s8 .cast,
+  .ring:has(#a-tb:checked):has(#h-du:checked) .s9 .cast,
+  .ring:has(#a-am:checked) .s9 .cast,
+  .ring:has(#c-wi:checked) .s10 .cast,
+  .ring:has(#r-te:checked) .s11 .cast{color:var(--good)}
+  .ring:has(#r-ce:checked) .s1 .cast,
+  .ring:has(#h-da:checked) .s2 .cast,
+  .ring:has(#r-pl:checked):has(#h-da:checked) .s5 .cast,
+  .ring:has(#r-ce:checked) .s5 .cast,
+  .ring:has(#a-am:checked) .s7 .cast,
+  .ring:has(#a-tb:checked) .s8 .cast,
+  .ring:has(#a-tb:checked):has(#h-da:checked) .s9 .cast,
+  .ring:has(#r-pl:checked) .s11 .cast,
+  .ring:has(#r-ce:checked) .s11 .cast{color:var(--warn)}
+  .ring:has(#c-wi:checked) .s6 .cast{color:var(--good)}
+  .ring:has(#r-ce:checked) .s6 .cast{color:var(--dim)}
+
+  /* ------------------------------------------------------------- the tally */
+  .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .tally .head{background:#0d151d;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .tally .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .tally .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  .tally .head.a b{color:var(--good)} .tally .head.n b{color:var(--warn)}
+  @media (max-width:640px){.tally{grid-template-columns:repeat(2,1fr)}}
+  .n-aye::after{content:counter(aye)} .n-nay::after{content:counter(nay)}
+  .n-abst::after{content:counter(abst)}
+  .n-ayew::after{content:counter(ayew)} .n-nayw::after{content:counter(nayw)}
+  .n-castw::after{content:counter(castw)} .n-rite::after{content:counter(rite)}
+  #ce-g:checked+label{counter-increment:rite 1}
+  #ce-r:checked+label{counter-increment:rite 1}
+  #ce-s:checked+label{counter-increment:rite 1}
+
+  /* ================================================ 2 · THE TEXT ON THE TABLE */
+  .txt{display:none}
+  .ring:has(#a-tb:checked) .t-tb{display:block}
+  .ring:has(#a-am:checked) .t-am{display:block}
+  .struck{text-decoration:line-through;color:var(--warn);opacity:.75}
+
+  /* ===================================================== 2 · THE REGISTER
+     Seats 2 and 5 are one hand. On these two circuits the two hats disagree
+     and the chamber counts both, at a combined weight of five. */
+  .split{display:none}
+  .ring:has(#r-te:checked):has(#h-da:checked) .split{display:block}
+  .ring:has(#r-ce:checked):has(#h-du:checked) .split{display:block}
+
+  /* ======================================================= 2 · THE DIVISION
+     Twenty-four circuits, twenty-four rules. Carried at 14 of the weight cast,
+     and the ayes must outweigh the nays. CSS compares nothing, so nothing was
+     compared: each circuit was worked out once by hand and the seven counters
+     above are what let you audit it rather than take it. */
+  .vst{display:none}
+  .vst.panel{margin-top:2px}
+  .vst .vh{font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700}
+  .st-carr .vh{color:var(--good)} .st-short .vh,.st-hung .vh{color:var(--gold)}
+  .st-lost .vh{color:var(--warn)} .st-uns .vh{color:var(--pulse)}
+  .vst p{margin:8px 0 0;font-size:12.5px;max-width:84ch}
+
+  /* --- plain */
+  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-da:checked):has(#a-tb:checked) .st-lost {display:block}
+  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-da:checked):has(#a-am:checked) .st-short{display:block}
+  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-du:checked):has(#a-tb:checked) .st-short{display:block}
+  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-du:checked):has(#a-am:checked) .st-carr {display:block}
+  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-tb:checked) .st-lost {display:block}
+  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-am:checked) .st-short{display:block}
+  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-tb:checked) .st-carr {display:block}
+  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-am:checked) .st-carr {display:block}
+  /* --- technical */
+  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-da:checked):has(#a-tb:checked) .st-short{display:block}
+  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-da:checked):has(#a-am:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-du:checked):has(#a-tb:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-du:checked):has(#a-am:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-tb:checked) .st-short{display:block}
+  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-am:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-tb:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-am:checked) .st-carr {display:block}
+  /* --- ceremonial */
+  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-da:checked):has(#a-tb:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-da:checked):has(#a-am:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-du:checked):has(#a-tb:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-du:checked):has(#a-am:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-tb:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-am:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-tb:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-am:checked) .st-hung{display:block}
+
+  /* the circuit reverses the way the pulse travels round the ring */
+  .ring:has(#c-wi:checked) .orbit{animation-direction:reverse}
+
+  /* ==================================== 4 · CASCADE ORDER IS AUTHORITY (ii)
+     THE SEAL. Nothing below this line, ever. Until all three ceremonial acts
+     are done, no verdict panel is a verdict — including the one the
+     twenty-four rules above just chose. The specificity here is higher than
+     any single division rule, which is deliberate: this stop must not depend
+     on being the last thing anybody happened to type. It is last as well.
+     Belt and braces is the correct amount of engineering for a stop rule. */
+  .ring:not(:has(#ce-g:checked):has(#ce-r:checked):has(#ce-s:checked)) .vst{display:none}
+  .ring:not(:has(#ce-g:checked):has(#ce-r:checked):has(#ce-s:checked)) .st-uns{display:block}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="r" id="r-pl" checked><label for="r-pl">Plain</label>
+      <input type="radio" name="r" id="r-te"><label for="r-te">Technical</label>
+      <input type="radio" name="r" id="r-ce"><label for="r-ce">Ceremonial</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="c" id="c-su" checked><label for="c-su">Sunwise</label>
+      <input type="radio" name="c" id="c-wi"><label for="c-wi">Widdershins</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="h" id="h-da" checked><label for="h-da">Dawn</label>
+      <input type="radio" name="h" id="h-du"><label for="h-du">Dusk</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="a" id="a-tb" checked><label for="a-tb">As tabled</label>
+      <input type="radio" name="a" id="a-am"><label for="a-am">As amended</label>
+    </div>
+    <h2>TODO checkbox set <b>3</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="ce-g"><label for="ce-g">The gavel — the sitting is opened act i</label>
+      <input type="checkbox" id="ce-r"><label for="ce-r">The reading aloud — the motion is said in </label>
+      <input type="checkbox" id="ce-s"><label for="ce-s">The seal — the result is entered in the da</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>aye</span><b class="n-aye"></b></div>
+      <div class="head m"><span>nay</span><b class="n-nay"></b></div>
+      <div class="head m"><span>abst</span><b class="n-abst"></b></div>
+      <div class="head m"><span>ayew</span><b class="n-ayew"></b></div>
+      <div class="head m"><span>nayw</span><b class="n-nayw"></b></div>
+      <div class="head m"><span>castw</span><b class="n-castw"></b></div>
+      <div class="head m"><span>rite</span><b class="n-rite"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>
