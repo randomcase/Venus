@@ -111,6 +111,7 @@ const SHOP = [
   ['challenges.mjs', 'challenges.js — refuses a rubric band carrying a number'],
   ['hub.mjs',        'hub.js — the knowledge hub, from kb.json'],
   ['journal.mjs',    'journal.html — the desk, and the prompts it reads'],
+  ['corps.mjs',      'corps.html — the order of battle, costed'],
   ['writing.mjs',    'writing.html — the notebook, and the forms it holds you to'],
   ['profiles.mjs',   'profiles/ — fourteen requirement pages'],
   ['ships.mjs',      'ships/ — seven logs and their charts'],
