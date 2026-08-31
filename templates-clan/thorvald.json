@@ -1,0 +1,42 @@
+{
+ "id": "thorvald",
+ "order": 5,
+ "name": "Thorvaldsson",
+ "house": "Relay mast",
+ "resource": "signal",
+ "period": 11,
+ "base": 6,
+ "saga": "Four point nine four minutes each way at arrival, so a question and its answer is under ten. The Thorvaldssons hold the masts and are the reason a core of nine can carry its own signaller rather than borrow one — a borrowed signaller is a choke point inside the core before it leaves the ground.",
+ "tiers": [
+  {
+   "n": 1,
+   "houses": 1,
+   "note": "One mast. Everything routes through it, which is the problem.",
+   "yield": 6
+  },
+  {
+   "n": 2,
+   "houses": 2,
+   "note": "Two masts, and now nothing routes through either one alone.",
+   "yield": 13
+  },
+  {
+   "n": 3,
+   "houses": 3,
+   "note": "Three. The graph stops having a cut vertex in it.",
+   "yield": 21
+  },
+  {
+   "n": 4,
+   "houses": 4,
+   "note": "Four, and a mast can be down without anybody noticing in time to worry.",
+   "yield": 30
+  },
+  {
+   "n": 5,
+   "houses": 5,
+   "note": "Redundancy is not a spare. It is the absence of a single answer to who carries the message.",
+   "yield": 40
+  }
+ ]
+}

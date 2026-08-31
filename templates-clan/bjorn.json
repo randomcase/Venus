@@ -1,0 +1,42 @@
+{
+ "id": "bjorn",
+ "order": 2,
+ "name": "Bjornsdottir",
+ "house": "Fixing bed",
+ "resource": "nitrogen",
+ "period": 3,
+ "base": 5,
+ "saga": "Venus holds about four and a third times Earth’s nitrogen and it is the one bulk element a sealed deck cannot manufacture. The Bjornsdottirs are the only clan whose input is genuinely free, and they are the ones who never boast about output.",
+ "tiers": [
+  {
+   "n": 1,
+   "houses": 1,
+   "note": "A bed, an inoculum, and a long wait.",
+   "yield": 5
+  },
+  {
+   "n": 2,
+   "houses": 2,
+   "note": "The second bed is seeded from the first, so it starts where the first finished.",
+   "yield": 11
+  },
+  {
+   "n": 3,
+   "houses": 3,
+   "note": "Three beds on rotation. None of them is ever idle and none is ever finished.",
+   "yield": 19
+  },
+  {
+   "n": 4,
+   "houses": 4,
+   "note": "The rotation is what produces, not the beds. Adding a bed adds a phase.",
+   "yield": 29
+  },
+  {
+   "n": 5,
+   "houses": 5,
+   "note": "Five phases, and the output stops looking like a batch.",
+   "yield": 41
+  }
+ ]
+}

@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>War of clans &middot; the longhouses</title>
+<!-- No off-origin requests. It runs with nothing pressed. -->
+<style>
+  :root{
+    --night:#0b0d10; --hall:#12161b; --edge:#1f262e; --edge2:#2c3742;
+    --ink:#e2ddd0; --dim:#8c8677; --faint:#5e5a51;
+    --fire:#c8762b; --gold:#c9a227; --ice:#6f9bb5; --moss:#7d9d6a; --blood:#9d4a3a;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--night);color:var(--ink);overflow:hidden;
+    font:15px/1.65 var(--serif);
+    display:grid;grid-template-rows:auto 1fr auto;
+    grid-template-columns:minmax(0,1fr);height:100vh}
+
+  /* ── the ridge: the stockpile, always moving ──────────────────────── */
+  header{border-bottom:1px solid var(--edge);background:var(--hall);
+    padding:11px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  h1{margin:0;font:500 19px/1.2 var(--serif);letter-spacing:.05em;flex:none}
+  h1 s{text-decoration:none;display:block;font:400 7.5px/1.3 var(--mono);
+    letter-spacing:.28em;text-transform:uppercase;color:var(--fire);margin-top:3px}
+  .stock{display:flex;gap:16px;flex-wrap:wrap;margin-left:auto}
+  .stock div{text-align:right;min-width:78px}
+  .stock u{display:block;text-decoration:none;font:400 17px/1.1 var(--mono);
+    font-variant-numeric:tabular-nums}
+  .stock b{display:block;font-weight:400;margin-top:3px;
+    font:400 7.5px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;
+    color:var(--faint)}
+  .stock .hydrogen u{color:var(--ice)} .stock .nitrogen u{color:var(--moss)}
+  .stock .silicate u{color:var(--dim)} .stock .biomass u{color:var(--gold)}
+  .stock .signal u{color:var(--fire)}  .stock .record u{color:var(--faint)}
+
+  main{display:grid;grid-template-columns:minmax(0,1fr) 330px;
+    min-height:0;overflow:hidden}
+  @media (max-width:980px){
+    body{overflow:auto;height:auto;display:block}
+    main{grid-template-columns:1fr}
+    #halls{max-height:none}
+  }
+
+  /* ── the halls ────────────────────────────────────────────────────── */
+  #halls{overflow-y:auto;padding:16px 18px 30px;min-height:0}
+  .clan{background:var(--hall);border:1px solid var(--edge);margin-bottom:10px;
+    display:grid;grid-template-columns:184px minmax(0,1fr) 128px;
+    align-items:stretch}
+  @media (max-width:700px){ .clan{grid-template-columns:1fr} }
+  .who{padding:13px 14px;border-right:1px solid var(--edge)}
+  .who h3{margin:0 0 1px;font:600 17px/1.2 var(--serif)}
+  .who p{margin:0;font:400 8px/1.4 var(--mono);letter-spacing:.14em;
+    text-transform:uppercase;color:var(--faint)}
+  .who em{display:block;margin-top:9px;font-style:normal;
+    font:400 10px/1 var(--mono);color:var(--dim)}
+  .who em i{font-style:normal;color:var(--fire)}
+
+  .yard{padding:13px 14px;display:flex;flex-direction:column;gap:9px;min-width:0}
+  .roof{display:flex;gap:4px;flex-wrap:wrap;min-height:26px;align-items:flex-end}
+  /* a longhouse, drawn: a ridge and a door, no images */
+  .house{width:30px;height:24px;position:relative;flex:none;
+    background:linear-gradient(180deg,#2a3038 0 46%,#1b2027 46%);
+    border:1px solid #39424e;border-radius:2px 2px 0 0}
+  .house::before{content:"";position:absolute;left:50%;top:-5px;
+    transform:translateX(-50%);border-left:16px solid transparent;
+    border-right:16px solid transparent;border-bottom:6px solid #454f5c}
+  .house::after{content:"";position:absolute;left:50%;bottom:0;width:6px;height:9px;
+    transform:translateX(-50%);background:var(--night)}
+  .house.lit{border-color:var(--fire);
+    background:linear-gradient(180deg,#3a2f24 0 46%,#241c15 46%)}
+  .house.lit::before{border-bottom-color:var(--fire)}
+  .house.lit::after{background:var(--fire);box-shadow:0 0 7px var(--fire)}
+
+  .rate{display:flex;align-items:baseline;gap:9px;
+    font:400 10.5px/1 var(--mono);color:var(--faint)}
+  .rate b{color:var(--ink);font-weight:400;font-size:14px;
+    font-variant-numeric:tabular-nums}
+  .track{height:4px;background:#171d24;border-radius:2px;overflow:hidden;flex:1}
+  .track i{display:block;height:100%;background:var(--fire);width:0}
+  .note{margin:0;font:400 12px/1.55 var(--serif);color:var(--dim)}
+
+  .act{padding:13px 12px;border-left:1px solid var(--edge);
+    display:flex;flex-direction:column;justify-content:center;gap:7px}
+  .act button{background:#1a2028;border:1px solid var(--edge2);color:var(--ink);
+    padding:9px 6px;cursor:pointer;font:400 9.5px/1.3 var(--mono);
+    letter-spacing:.08em;width:100%}
+  .act button:hover:not(:disabled){border-color:var(--fire);color:var(--fire)}
+  .act button:disabled{color:var(--faint);cursor:default;border-color:#232a33}
+  .act s{text-decoration:none;text-align:center;
+    font:400 8.5px/1.4 var(--mono);color:var(--faint)}
+  .act s b{color:var(--gold);font-weight:400}
+
+  /* ── the right column ─────────────────────────────────────────────── */
+  aside{border-left:1px solid var(--edge);background:#0e1216;overflow-y:auto;
+    padding:16px 16px 30px;min-height:0}
+  aside h4{margin:0 0 8px;font:400 8px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--fire)}
+  aside h4:not(:first-child){margin-top:26px}
+  aside p{margin:0 0 11px;font:400 12.5px/1.68 var(--serif);color:var(--dim)}
+
+  .mix{margin-bottom:6px}
+  .mix .row{display:flex;align-items:center;gap:8px;margin-bottom:5px;
+    font:400 10px/1 var(--mono)}
+  .mix .row span{width:62px;color:var(--faint)}
+  .mix .bars{flex:1;height:11px;background:#151a20;position:relative;overflow:hidden}
+  .mix .bars .have{position:absolute;left:0;top:0;bottom:0;background:#37424e}
+  .mix .bars .want{position:absolute;top:0;bottom:0;width:2px;background:var(--gold)}
+  .mix .row u{width:34px;text-align:right;text-decoration:none;color:var(--dim);
+    font-variant-numeric:tabular-nums}
+
+  .best{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--edge);
+    border:1px solid var(--edge);margin:14px 0 6px}
+  .best div{background:var(--hall);padding:11px 8px;text-align:center}
+  .best u{display:block;text-decoration:none;font:400 21px/1 var(--mono);
+    color:var(--gold);font-variant-numeric:tabular-nums}
+  .best b{display:block;font-weight:400;margin-top:5px;
+    font:400 7.5px/1.25 var(--mono);letter-spacing:.11em;text-transform:uppercase;
+    color:var(--faint)}
+
+  #saga{margin-top:8px;font:400 11px/1.62 var(--mono);color:var(--faint);
+    max-height:210px;overflow-y:auto}
+  #saga div{padding:4px 0;border-bottom:1px solid #161c22}
+  #saga b{color:var(--ink);font-weight:400}
+  #saga i{font-style:normal;color:var(--fire)}
+
+  footer{border-top:1px solid var(--edge);background:var(--hall);
+    padding:9px 18px;font:400 9.5px/1.6 var(--mono);color:var(--faint);
+    display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+  footer b{color:var(--dim);font-weight:400}
+  footer a{color:var(--fire);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  footer .r{margin-left:auto}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>War of clans<s>nobody is fighting anybody</s></h1>
+  <div class="stock" id="stock"></div>
+</header>
+
+<main>
+  <div id="halls"></div>
+  <aside>
+    <h4>what the deck needs</h4>
+    <p>The gold mark is the share the deck actually wants, from the white paper: hydrogen is the constraint, nitrogen is nearly free, biomass is small and is the point of all of it. The bar is what you have.</p>
+    <div class="mix" id="mix"></div>
+    <div class="best">
+      <div><u id="b-fit">0%</u><b>closest ever reached</b></div>
+      <div><u id="b-now">0%</u><b>right now</b></div>
+    </div>
+    <p>The first only rises. The second is a fact about this moment and is allowed to fall, because it is not a score and there are no scores here.</p>
+    <h4>the saga</h4>
+    <div id="saga"></div>
+  </aside>
+</main>
+
+<footer>
+  <span>ticks <b id="t-tick">0</b></span>
+  <span>houses <b id="t-house">0</b></span>
+  <span>per tick <b id="t-rate">0</b></span>
+  <span>the six cadences realign every <b>30,030</b> ticks</span>
+  <span class="r"><a href="dev.html">the hub</a> &middot; <a href="arcade.html">the arcade</a> &middot; <a href="clans.mjs">clans.mjs</a></span>
+</footer>
+
+<script>
+const CLANS = [{"id":"hrafn","order":1,"name":"Hrafnsson","house":"Cracking house","resource":"hydrogen","period":2,"base":3,"saga":"They crack hydrogen out of whatever will give it up, and there is very little on Venus that will. Four hundred million years to ship what a forest needs, so nobody ships it — the Hrafnssons exist because the constraint is real and somebody has to sit on it.","tiers":[{"n":1,"houses":1,"note":"One house, one still, and a queue.","yield":3},{"n":2,"houses":2,"note":"A second still, and the first one stops being the bottleneck.","yield":7},{"n":3,"houses":3,"note":"Waste heat from the second feeds the first. Nothing is added; something is stopped from being wasted.","yield":12},{"n":4,"houses":4,"note":"Four houses. The queue is now the storage and not the cracking.","yield":18},{"n":5,"houses":5,"note":"The bottleneck has moved off this clan entirely, which is the only real completion there is.","yield":25}]},{"id":"bjorn","order":2,"name":"Bjornsdottir","house":"Fixing bed","resource":"nitrogen","period":3,"base":5,"saga":"Venus holds about four and a third times Earth’s nitrogen and it is the one bulk element a sealed deck cannot manufacture. The Bjornsdottirs are the only clan whose input is genuinely free, and they are the ones who never boast about output.","tiers":[{"n":1,"houses":1,"note":"A bed, an inoculum, and a long wait.","yield":5},{"n":2,"houses":2,"note":"The second bed is seeded from the first, so it starts where the first finished.","yield":11},{"n":3,"houses":3,"note":"Three beds on rotation. None of them is ever idle and none is ever finished.","yield":19},{"n":4,"houses":4,"note":"The rotation is what produces, not the beds. Adding a bed adds a phase.","yield":29},{"n":5,"houses":5,"note":"Five phases, and the output stops looking like a batch.","yield":41}]},{"id":"ulf","order":3,"name":"Ulfsson","house":"Kiln","resource":"silicate","period":5,"base":4,"saga":"Lifting half a metre of basalt over a site costs three days of the site’s own sunlight. That is the whole substrate argument and it is why the Ulfssons are never the bottleneck and never the story: the material is under everybody’s feet and the energy is overhead.","tiers":[{"n":1,"houses":1,"note":"One kiln, fired on daylight.","yield":4},{"n":2,"houses":2,"note":"A second kiln banked against the night, which is fifty-eight days long.","yield":9},{"n":3,"houses":3,"note":"Banking is the technology. The kilns are just kilns.","yield":15},{"n":4,"houses":4,"note":"Four, and the bank outlasts the night with margin.","yield":22},{"n":5,"houses":5,"note":"The margin is now the product. Nothing here is ever short.","yield":30}]},{"id":"sigrid","order":4,"name":"Sigrdrifa","house":"Bed","resource":"biomass","period":7,"base":2,"saga":"Only the living fraction has to arrive, and the living fraction is measured in kilograms. The Sigrdrifas are the smallest clan by output and the one the other five are for. Nothing they do will be legible for twenty years.","tiers":[{"n":1,"houses":1,"note":"A bed. Most of what is in it will not take.","yield":2},{"n":2,"houses":2,"note":"Something took. Nobody knows yet which thing.","yield":4},{"n":3,"houses":3,"note":"The network under the bed is doing more than the bed is.","yield":7},{"n":4,"houses":4,"note":"Four beds, and the third one was seeded from the second’s failure.","yield":11},{"n":5,"houses":5,"note":"It is a soil now. That word was not earned until this tier.","yield":16}]},{"id":"thorvald","order":5,"name":"Thorvaldsson","house":"Relay mast","resource":"signal","period":11,"base":6,"saga":"Four point nine four minutes each way at arrival, so a question and its answer is under ten. The Thorvaldssons hold the masts and are the reason a core of nine can carry its own signaller rather than borrow one — a borrowed signaller is a choke point inside the core before it leaves the ground.","tiers":[{"n":1,"houses":1,"note":"One mast. Everything routes through it, which is the problem.","yield":6},{"n":2,"houses":2,"note":"Two masts, and now nothing routes through either one alone.","yield":13},{"n":3,"houses":3,"note":"Three. The graph stops having a cut vertex in it.","yield":21},{"n":4,"houses":4,"note":"Four, and a mast can be down without anybody noticing in time to worry.","yield":30},{"n":5,"houses":5,"note":"Redundancy is not a spare. It is the absence of a single answer to who carries the message.","yield":40}]},{"id":"ingrid","order":6,"name":"Ingridsdottir","house":"Scriptorium","resource":"record","period":13,"base":1,"saga":"They keep the register of what was looked for and not found. It is the smallest output on the board and the least negotiable line on the manifest, because a base that only counts hits quietly stops reporting misses, and the misses are most of the work.","tiers":[{"n":1,"houses":1,"note":"One scribe. One book. Mostly blank, on purpose.","yield":1},{"n":2,"houses":2,"note":"A second book, for the things the first one refused.","yield":2},{"n":3,"houses":3,"note":"Somebody reads back three years and does not repeat a search.","yield":4},{"n":4,"houses":4,"note":"The register is now cheaper than the searching it prevents.","yield":6},{"n":5,"houses":5,"note":"Nine books. Nobody has ever thanked them and the ledger is still the reason.","yield":9}]}];
+const NEED = {"hydrogen":38,"nitrogen":6,"silicate":24,"biomass":18,"signal":9,"record":5};
+const LATTICE = 30030;
+
+/* ══ the board ═════════════════════════════════════════════════════════
+   It runs with nothing pressed. Every clan ticks on its own prime cadence,
+   the stock accrues, and closing the page does not stop it — the elapsed
+   time is credited in full when you come back. Pressing never raises output.
+   It only chooses which clan gets the next house, and every choice is +1. */
+
+const KEY = 'venus.clans.v1';
+const $ = (s) => document.querySelector(s);
+const TICK_MS = 900;
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+function fresh() {
+  const s = { t: 0, stock: {}, tier: {}, bestFit: 0, saga: [], seen: Date.now() };
+  CLANS.forEach((c) => { s.stock[c.resource] = 0; s.tier[c.id] = 1; });
+  return s;
+}
+function load() {
+  try {
+    const g = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (g && g.stock && g.tier) return g;
+  } catch (e) { /* private window, cleared data */ }
+  return null;
+}
+let G = load() || fresh();
+CLANS.forEach((c) => {
+  if (G.stock[c.resource] === undefined) G.stock[c.resource] = 0;
+  if (!G.tier[c.id]) G.tier[c.id] = 1;
+});
+function save() { try { localStorage.setItem(KEY, JSON.stringify(G)); } catch (e) {} }
+
+const tierOf = (c) => c.tiers[Math.min(G.tier[c.id], c.tiers.length) - 1];
+const nextTier = (c) => c.tiers[G.tier[c.id]];       /* undefined at the top */
+
+/* the cost of the next house. It rises, so the board slows down — but the
+   stock never falls, so there is no state you can be sent back to. */
+const costOf = (c) => {
+  const n = nextTier(c);
+  if (!n) return null;
+  return Math.round(n.yield * n.houses * 14);
+};
+
+/* how much a clan puts out per tick, averaged over its own cadence */
+const rateOf = (c) => tierOf(c).yield / c.period;
+const totalRate = () => CLANS.reduce((a, c) => a + rateOf(c), 0);
+const houses = () => CLANS.reduce((a, c) => a + tierOf(c).houses, 0);
+
+/* ── one tick. A clan produces only on ticks its own period divides, which
+   is why the six of them never fall into step. ─────────────────────────── */
+function tick(n) {
+  for (let i = 0; i < n; i++) {
+    G.t++;
+    for (const c of CLANS)
+      if (G.t % c.period === 0) G.stock[c.resource] += tierOf(c).yield;
+  }
+}
+
+/* ── the composition. Reported, never scored. ──────────────────────────── */
+function fit() {
+  const tot = Object.values(G.stock).reduce((a, b) => a + b, 0);
+  if (!tot) return 0;
+  const wantTot = Object.values(NEED).reduce((a, b) => a + b, 0);
+  /* one minus half the total absolute difference between the two
+     distributions: 100 per cent when they match exactly, 0 when disjoint */
+  let diff = 0;
+  for (const k of Object.keys(NEED))
+    diff += Math.abs((G.stock[k] || 0) / tot - NEED[k] / wantTot);
+  return Math.max(0, Math.round((1 - diff / 2) * 100));
+}
+
+function log(text, kind) {
+  G.saga.unshift({ t: G.t, text, kind });
+  G.saga = G.saga.slice(0, 60);
+}
+
+/* ── drawing ───────────────────────────────────────────────────────────── */
+const num = (n) => n >= 1e6 ? (n / 1e6).toFixed(2) + 'M'
+  : n >= 1e4 ? Math.round(n / 1e3) + 'k' : Math.round(n).toLocaleString();
+
+function drawStock() {
+  $('#stock').innerHTML = CLANS.map((c) =>
+    '<div class="' + c.resource + '"><u>' + num(G.stock[c.resource]) + '</u><b>' +
+    c.resource + '</b></div>').join('');
+}
+
+function drawHalls() {
+  $('#halls').innerHTML = CLANS.map((c) => {
+    const t = tierOf(c), nx = nextTier(c), cost = costOf(c);
+    const can = nx && G.stock[c.resource] >= cost;
+    const roof = Array.from({ length: t.houses }, (_, i) =>
+      '<div class="house' + (G.t % c.period === 0 ? ' lit' : '') + '"></div>').join('');
+    return '<article class="clan" data-c="' + c.id + '">' +
+      '<div class="who"><h3>' + esc(c.name) + '</h3><p>' + esc(c.house) + '</p>' +
+        '<em>every <i>' + c.period + '</i> ticks &middot; tier ' + G.tier[c.id] +
+        ' of ' + c.tiers.length + '</em></div>' +
+      '<div class="yard">' +
+        '<div class="roof">' + roof + '</div>' +
+        '<div class="rate"><b>' + t.yield + '</b> ' + esc(c.resource) +
+          ' each firing <div class="track"><i style="width:' +
+          Math.round((G.t % c.period) / c.period * 100) + '%"></i></div>' +
+          num(rateOf(c) * 100 / 100) + '/tick</div>' +
+        '<p class="note">' + esc(t.note) + '</p>' +
+      '</div>' +
+      '<div class="act">' +
+        (nx
+          ? '<button ' + (can ? '' : 'disabled ') + 'data-raise="' + c.id + '">' +
+            'raise the roof</button><s>' + num(cost) + ' ' + esc(c.resource) +
+            '<br>&rarr; <b>' + nx.yield + '</b> a firing</s>'
+          : '<s>every house built.<br>the bottleneck has<br>moved off this clan</s>') +
+      '</div></article>';
+  }).join('');
+
+  document.querySelectorAll('[data-raise]').forEach((b) => {
+    b.onclick = () => raise(b.dataset.raise);
+  });
+}
+
+function drawMix() {
+  const tot = Object.values(G.stock).reduce((a, b) => a + b, 0) || 1;
+  const wantTot = Object.values(NEED).reduce((a, b) => a + b, 0);
+  $('#mix').innerHTML = CLANS.map((c) => {
+    const have = (G.stock[c.resource] || 0) / tot * 100;
+    const want = NEED[c.resource] / wantTot * 100;
+    return '<div class="row"><span>' + esc(c.resource) + '</span>' +
+      '<div class="bars"><div class="have" style="width:' + have.toFixed(1) + '%"></div>' +
+      '<div class="want" style="left:' + want.toFixed(1) + '%"></div></div>' +
+      '<u>' + have.toFixed(0) + '%</u></div>';
+  }).join('');
+  const now = fit();
+  if (now > G.bestFit) G.bestFit = now;
+  $('#b-fit').textContent = G.bestFit + '%';
+  $('#b-now').textContent = now + '%';
+}
+
+function drawSaga() {
+  $('#saga').innerHTML = G.saga.map((s) =>
+    '<div><i>' + s.t + '</i>  ' + esc(s.text) + '</div>').join('') ||
+    '<div>Nothing has happened yet. It will anyway.</div>';
+}
+
+function drawFoot() {
+  $('#t-tick').textContent = G.t.toLocaleString();
+  $('#t-house').textContent = houses();
+  $('#t-rate').textContent = totalRate().toFixed(2);
+}
+
+function drawAll() { drawStock(); drawHalls(); drawMix(); drawSaga(); drawFoot(); }
+
+/* ── raising a roof. The only thing a press does, and it is always +1. ─── */
+function raise(id) {
+  const c = CLANS.find((x) => x.id === id);
+  const nx = nextTier(c), cost = costOf(c);
+  if (!nx || G.stock[c.resource] < cost) return;
+  G.stock[c.resource] -= cost;
+  G.tier[c.id]++;
+  const t = tierOf(c);
+  log(c.name + ' raise a ' + c.house.toLowerCase() + '. ' + t.note);
+  save(); drawAll();
+}
+
+/* ── idle. This is the part that matters. ──────────────────────────────
+   The board does not need you. On load it works out how long the page was
+   shut and credits every tick of it — no cap, no penalty, no bonus for
+   having been here. Being present is not rewarded, because rewarding
+   presence is how an idle game turns into a job. */
+(function creditTheAbsence() {
+  const gap = Date.now() - (G.seen || Date.now());
+  const missed = Math.floor(gap / TICK_MS);
+  if (missed > 1) {
+    const before = Object.values(G.stock).reduce((a, b) => a + b, 0);
+    tick(missed);
+    const after = Object.values(G.stock).reduce((a, b) => a + b, 0);
+    const mins = Math.round(gap / 60000);
+    log('The halls worked ' + missed.toLocaleString() + ' firings while nobody ' +
+        'watched' + (mins > 1 ? ' — about ' + mins.toLocaleString() + ' minutes' : '') +
+        ', and brought in ' + Math.round(after - before).toLocaleString() + '.');
+  }
+  G.seen = Date.now();
+})();
+
+if (!G.saga.length)
+  log('Six halls, six cadences, none of them the same. They have started.');
+
+drawAll();
+
+/* the clock. Nothing here waits to be pressed. */
+setInterval(() => {
+  tick(1);
+  G.seen = Date.now();
+  if (G.t % 20 === 0) save();
+  drawStock(); drawMix(); drawFoot();
+  /* only redraw the halls on a firing, so the lit doors mean something */
+  if (CLANS.some((c) => G.t % c.period === 0)) drawHalls();
+  if (G.t % LATTICE === 0)
+    log('All six cadences have come back into line. That is ' +
+        LATTICE.toLocaleString() + ' firings and it will not happen again soon.');
+}, TICK_MS);
+
+addEventListener('beforeunload', () => { G.seen = Date.now(); save(); });
+</script>
+</body>
+</html>

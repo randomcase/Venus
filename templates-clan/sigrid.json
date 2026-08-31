@@ -1,0 +1,42 @@
+{
+ "id": "sigrid",
+ "order": 4,
+ "name": "Sigrdrifa",
+ "house": "Bed",
+ "resource": "biomass",
+ "period": 7,
+ "base": 2,
+ "saga": "Only the living fraction has to arrive, and the living fraction is measured in kilograms. The Sigrdrifas are the smallest clan by output and the one the other five are for. Nothing they do will be legible for twenty years.",
+ "tiers": [
+  {
+   "n": 1,
+   "houses": 1,
+   "note": "A bed. Most of what is in it will not take.",
+   "yield": 2
+  },
+  {
+   "n": 2,
+   "houses": 2,
+   "note": "Something took. Nobody knows yet which thing.",
+   "yield": 4
+  },
+  {
+   "n": 3,
+   "houses": 3,
+   "note": "The network under the bed is doing more than the bed is.",
+   "yield": 7
+  },
+  {
+   "n": 4,
+   "houses": 4,
+   "note": "Four beds, and the third one was seeded from the second’s failure.",
+   "yield": 11
+  },
+  {
+   "n": 5,
+   "houses": 5,
+   "note": "It is a soil now. That word was not earned until this tier.",
+   "yield": 16
+  }
+ ]
+}
