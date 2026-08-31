@@ -1,0 +1,13 @@
+{
+ "id": "sort-the-fractions",
+ "layer": "number",
+ "entry": "the-substrate",
+ "giver": "Anybody costing a closed system who has quoted one number for the whole of it.",
+ "object": "Take a system you are costing and sort its inputs into what must arrive, what can be made in place, and what is already there.",
+ "done": "Every input is in exactly one pile, and the pile marked \"must arrive\" has a mass on it.",
+ "produces": "a manifest",
+ "requires": [
+  "name-the-outside"
+ ],
+ "note": "The one quest with a prerequisite, and it is a real one: you cannot sort inputs by origin until you have drawn the boundary they cross."
+}

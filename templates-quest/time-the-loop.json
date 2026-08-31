@@ -1,0 +1,11 @@
+{
+ "id": "time-the-loop",
+ "layer": "number",
+ "entry": "the-light-delay",
+ "giver": "Everybody at the far end, who will be asked to follow a procedure written by somebody who has not timed it.",
+ "object": "List every procedure in a system whose correct response must arrive faster than the round-trip delay, whatever that delay is for your system.",
+ "done": "You have the list and the delay, and the two are stated in the same units.",
+ "produces": "a list, and the size of the authority that has to be delegated",
+ "requires": [],
+ "note": "Scales down: the delay is 4.4 minutes for Venus, 300 ms for a call centre, and a fortnight for a committee. The quest is the same one."
+}
