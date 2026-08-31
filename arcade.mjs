@@ -116,6 +116,7 @@ const SHOP = [
   ['corps.mjs',      'corps.html — the order of battle, costed'],
   ['clans.mjs',      'clans.html — the idle board, which runs unpressed'],
   ['castle.mjs',     'castle.html — seven plans, drawn with lesson one'],
+  ['estate.mjs',     'estate.html — what the upkeep actually costs'],
   ['writing.mjs',    'writing.html — the notebook, and the forms it holds you to'],
   ['profiles.mjs',   'profiles/ — fourteen requirement pages'],
   ['ships.mjs',      'ships/ — seven logs and their charts'],
