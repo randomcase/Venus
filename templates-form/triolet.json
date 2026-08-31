@@ -2,6 +2,7 @@
  "id": "triolet",
  "name": "Triolet",
  "kind": "verse",
+ "order": 4,
  "lines": 8,
  "stanzas": [
   8

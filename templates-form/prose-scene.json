@@ -2,6 +2,7 @@
  "id": "prose-scene",
  "name": "Prose scene",
  "kind": "prose",
+ "order": 2,
  "beats": [
   {
    "name": "Want",

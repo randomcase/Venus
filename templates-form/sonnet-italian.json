@@ -2,6 +2,7 @@
  "id": "sonnet-italian",
  "name": "Sonnet, Italian",
  "kind": "verse",
+ "order": 10,
  "lines": 14,
  "stanzas": [
   8,

@@ -2,6 +2,7 @@
  "id": "sonnet-english",
  "name": "Sonnet, English",
  "kind": "verse",
+ "order": 9,
  "lines": 14,
  "stanzas": [
   4,

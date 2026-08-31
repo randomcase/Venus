@@ -2,6 +2,7 @@
  "id": "haiku",
  "name": "Haiku",
  "kind": "verse",
+ "order": 3,
  "lines": 3,
  "stanzas": [
   3

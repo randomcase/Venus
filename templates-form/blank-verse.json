@@ -2,6 +2,7 @@
  "id": "blank-verse",
  "name": "Blank verse",
  "kind": "verse",
+ "order": 5,
  "meter": {
   "name": "iambic pentameter",
   "syllables": 10

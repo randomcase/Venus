@@ -2,6 +2,7 @@
  "id": "sestina",
  "name": "Sestina",
  "kind": "verse",
+ "order": 11,
  "lines": 39,
  "stanzas": [
   6,

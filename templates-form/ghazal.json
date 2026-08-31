@@ -2,6 +2,7 @@
  "id": "ghazal",
  "name": "Ghazal",
  "kind": "verse",
+ "order": 6,
  "lines": 10,
  "stanzas": [
   2,

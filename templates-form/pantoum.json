@@ -2,6 +2,7 @@
  "id": "pantoum",
  "name": "Pantoum",
  "kind": "verse",
+ "order": 8,
  "lines": 16,
  "stanzas": [
   4,

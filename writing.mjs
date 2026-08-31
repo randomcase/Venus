@@ -58,6 +58,7 @@ const esc = (s) => String(s)
 /* ═══ 1 · the forms, and the refusals ══════════════════════════════════ */
 const DIR = 'templates-form';
 const forms = [];
+const taken = new Map();
 let fatal = 0;
 
 /* the sestina spiral: last, first, second-to-last, second, ... */
@@ -72,8 +73,16 @@ for (const file of readdirSync(DIR).filter((f) => f.endsWith('.json')).sort()) {
   const c = JSON.parse(readFileSync(join(DIR, file), 'utf8'));
   const errs = [];
 
-  for (const k of ['id', 'name', 'kind', 'note', 'ground', 'ask'])
+  for (const k of ['id', 'name', 'kind', 'note', 'ground', 'ask', 'order'])
     if (!c[k]) errs.push('missing ' + k);
+  /* the order the writer meets them in is a decision, not the alphabet */
+  if (c.order != null) {
+    if (!Number.isInteger(c.order) || c.order < 1)
+      errs.push('order must be a positive integer');
+    if (taken.has(c.order))
+      errs.push('order ' + c.order + ' is already ' + taken.get(c.order));
+    taken.set(c.order, c.id);
+  }
   if (c.kind && c.kind !== 'verse' && c.kind !== 'prose')
     errs.push('kind must be verse or prose');
 
@@ -125,9 +134,18 @@ for (const file of readdirSync(DIR).filter((f) => f.endsWith('.json')).sort()) {
   forms.push(c);
 }
 
+forms.sort((a, b) => a.order - b.order);
+
 if (fatal) {
   console.log('\n' + fatal + ' refused. writing.html not written — a form whose ' +
     'shape does not close cannot hold anybody to anything.');
+  process.exit(1);
+}
+
+const gaps = forms.filter((f, n) => f.order !== n + 1).map((f) => f.id);
+if (gaps.length) {
+  console.log('\nthe order is not 1..' + forms.length + ' — it breaks at ' +
+    gaps.join(', ') + '. A list a writer scrolls should have no hole in it.');
   process.exit(1);
 }
 
