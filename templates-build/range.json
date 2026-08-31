@@ -1,0 +1,161 @@
+{
+ "id": "range",
+ "grow": [
+  1.0,
+  1.1,
+  1.2,
+  1.3
+ ],
+ "name": "The range",
+ "tiers": [
+  "pen",
+  "range",
+  "rookery",
+  "colony"
+ ],
+ "note": "Seventy thousand square feet of flamingos and peacocks, fertilising round the clock. It is the only kind on the plate that produces by standing around, and the only one with an animal in charge: a dog works the fence and nobody works the dog. Automated in the sense the automat means it \u2014 nothing here is being supervised, and the fence is the whole of the policy. 70,000 sq ft is 6,503 m\u00b2, about 1.6 acres, which is a real range and not a gesture.",
+ "parts": [
+  {
+   "s": "box",
+   "at": [
+    -1.15,
+    -1.15,
+    0
+   ],
+   "size": [
+    2.3,
+    2.3,
+    0.08
+   ],
+   "lid": 0.86
+  },
+  {
+   "s": "fence",
+   "at": [
+    0,
+    0,
+    0.08
+   ],
+   "r": 1.1,
+   "n": 7
+  },
+  {
+   "s": "flock",
+   "at": [
+    0,
+    0,
+    0.08
+   ],
+   "n": 5,
+   "kind": "flamingo"
+  },
+  {
+   "s": "flock",
+   "at": [
+    0,
+    0,
+    0.08
+   ],
+   "n": 4,
+   "kind": "peacock",
+   "from": 2
+  },
+  {
+   "s": "flock",
+   "at": [
+    0,
+    0,
+    0.08
+   ],
+   "n": 7,
+   "kind": "flamingo",
+   "from": 3
+  },
+  {
+   "s": "flock",
+   "at": [
+    0,
+    0,
+    0.08
+   ],
+   "n": 8,
+   "kind": "peacock",
+   "from": 4
+  },
+  {
+   "s": "dog",
+   "at": [
+    0.62,
+    0.55,
+    0.08
+   ]
+  },
+  {
+   "s": "box",
+   "at": [
+    -1.0,
+    0.55,
+    0.08
+   ],
+   "size": [
+    0.55,
+    0.5,
+    0.36
+   ],
+   "from": 2
+  },
+  {
+   "s": "roof",
+   "at": [
+    -1.05,
+    0.5,
+    0.44
+   ],
+   "size": [
+    0.65,
+    0.6,
+    0.28
+   ],
+   "ridge": true,
+   "from": 2
+  },
+  {
+   "s": "box",
+   "at": [
+    0.35,
+    -1.0,
+    0.08
+   ],
+   "size": [
+    0.5,
+    0.45,
+    0.3
+   ],
+   "from": 3
+  },
+  {
+   "s": "roof",
+   "at": [
+    0.3,
+    -1.05,
+    0.38
+   ],
+   "size": [
+    0.6,
+    0.55,
+    0.24
+   ],
+   "from": 3
+  },
+  {
+   "s": "flag",
+   "at": [
+    1.2,
+    -1.0,
+    0.08
+   ],
+   "h": 1.3,
+   "from": 4
+  }
+ ]
+}
