@@ -425,11 +425,7 @@ const sky =
 const html = '<!doctype html>\n<html lang="en">\n<head>\n' +
 '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
 '<title>The notebook &middot; Virgo on her side</title>\n' +
-'<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
-'<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
-'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?' +
-  'family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&' +
-  'family=JetBrains+Mono:wght@300;400;600&display=swap">\n' +
+'<!-- No webfont and no other off-origin request. The notebook makes none at all, which is what 100 per cent privacy has to mean if the mint is worth anything. -->\n' +
 '<style>\n' +
 `  :root{
     --room:#08070a;
@@ -439,8 +435,8 @@ const html = '<!doctype html>\n<html lang="en">\n<head>\n' +
     --gold:#a8791a; --foil:#d9b455;
     --term:#0c0b0a; --term2:#141210;
     --amber:#d8b46b; --moss:#82a98d; --rust:#c4674f;
-    --serif:"EB Garamond",Georgia,"Iowan Old Style",serif;
-    --mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,"Cascadia Mono","Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -1276,6 +1272,146 @@ function sayHTML(html) {
   s.innerHTML = html; out.appendChild(s); out.scrollTop = out.scrollHeight;
 }
 
+
+/* ══ THE MINT ══════════════════════════════════════════════════════════
+   One token each notebook. A real ECDSA P-256 keypair from WebCrypto — that
+   curve because it is the one every browser actually has — minted here, kept
+   here, and never sent anywhere. The private half is never printed and no
+   command on this page will export it.
+
+   The supply rule is the whole design: ONE, and the mint refuses a second.
+   There is nothing to accumulate and nothing to trade, so this is not a
+   currency and would be a bad one. What it buys is that when the commander
+   has the perfect stanza and everybody copies it, the copy still says whose
+   it was. Authorship survives copying.
+
+   It is deliberately the least fungible object here. It carries provenance,
+   so no two are interchangeable — which is exactly what lesson three says
+   destroys fungibility, and exactly what is wanted in a signature. */
+
+const b64 = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf)));
+const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+
+async function sha(text) {
+  const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(d)).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+function mintable() {
+  return !!(window.crypto && crypto.subtle && crypto.subtle.generateKey);
+}
+
+async function mint() {
+  if (!mintable())
+    return say('this browser has no WebCrypto here. A page served over file:// ' +
+      'or plain http on some browsers has no subtle crypto at all, and the mint ' +
+      'will not fake one.', 'err');
+  if (book.token)
+    return say('this notebook already holds token ' + book.token.id.slice(0, 16) +
+      '. One each. The mint refuses a second, which is the only supply rule ' +
+      'there is.', 'err');
+
+  const kp = await crypto.subtle.generateKey(
+    { name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify']);
+  const pub = await crypto.subtle.exportKey('spki', kp.publicKey);
+  const priv = await crypto.subtle.exportKey('jwk', kp.privateKey);
+  const id = await sha(b64(pub));
+
+  book.token = { id, pub: b64(pub), made: new Date().toISOString() };
+  book.key = priv;                    /* stays here. Never printed, never sent. */
+  save();
+  paintLesson();
+  return sayHTML('<span class="hd">minted.</span>\\n' +
+    '  <span class="dim">token   </span><span class="ok">' + esc(id) + '</span>\\n' +
+    '  <span class="dim">curve   </span>ECDSA P-256\\n' +
+    '  <span class="dim">supply  </span><span class="ok">1</span>' +
+    '<span class="dim">, and the mint refuses a second</span>\\n' +
+    '<span class="dim">The private half is in this browser and nowhere else. No ' +
+    'command here prints it, and nothing on this page makes a network request.</span>');
+}
+
+async function loadKey() {
+  if (!book.key) return null;
+  return crypto.subtle.importKey('jwk', book.key,
+    { name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign']);
+}
+
+/* a stanza: the text you are publishing, its hash, whose token signed it, and
+   the signature. Copy the whole block. Anybody can check it; nobody can
+   produce another one that says your token. */
+async function stanza() {
+  if (!book.token) return say('nothing to sign with. mint first.', 'err');
+  const d = D();
+  if (!d.text.trim()) return say('this draft is empty.', 'dim');
+  const key = await loadKey();
+  if (!key) return say('the private half is gone from this browser. The token ' +
+    'is still yours to show and no longer yours to sign with.', 'err');
+
+  const digest = await sha(d.text);
+  const sig = await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, key,
+    new TextEncoder().encode(digest));
+
+  const block = [
+    '--- venus stanza ---',
+    'title  ' + (d.title || 'Untitled'),
+    'form   ' + byId(d.form).id,
+    'sha256 ' + digest,
+    'token  ' + book.token.id,
+    'pub    ' + book.token.pub,
+    'sig    ' + b64(sig),
+    '--- end ---'
+  ].join('\\n');
+
+  d.stanza = block; save();
+  return sayHTML('<span class="hd">signed.</span> <span class="dim">Copy the whole ' +
+    'block. Anyone can check it; nobody can make another that names your ' +
+    'token.</span>\\n<span class="ok">' + esc(block) + '</span>');
+}
+
+/* checking somebody else's. Paste their block after the command. */
+async function checkStanza(block) {
+  /* tolerant of newlines being collapsed: the console input is one line, so a pasted block arrives flat */
+  const get = (k) => (block.match(new RegExp(k + '\\\\s+([A-Za-z0-9+/=]+)')) || [])[1];
+  const digest = get('sha256'), pub = get('pub'), sig = get('sig'), tok = get('token');
+  if (!(digest && pub && sig))
+    return say('that is not a stanza block. Paste all of it, sha256 and pub and ' +
+      'sig included.', 'err');
+
+  let ok = false, why = '';
+  try {
+    const key = await crypto.subtle.importKey('spki', unb64(pub),
+      { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']);
+    ok = await crypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, key,
+      unb64(sig), new TextEncoder().encode(digest));
+    /* and the token id must really be the hash of that public key, or the
+       signature is valid for a key nobody claimed */
+    const claimed = await sha(pub);
+    if (ok && tok && claimed !== tok) { ok = false; why = 'the signature is good ' +
+      'but the token id is not the hash of that public key — somebody relabelled it'; }
+  } catch (e) { why = e.message; }
+
+  const mine = tok && book.token && tok === book.token.id;
+  return sayHTML(ok
+    ? '<span class="ok">\u2713 the signature holds.</span> <span class="dim">This ' +
+      'text was signed by token ' + esc(String(tok).slice(0, 16)) + '\u2026' +
+      (mine ? ', which is yours.' : ', which is not yours.') + ' It says nothing ' +
+      'about whether the text is any good.</span>'
+    : '<span class="err">\u00d7 it does not hold.</span> <span class="dim">' +
+      esc(why || 'the signature does not match that public key and that hash') +
+      '</span>');
+}
+
+/* whether the text in front of you is the one that was signed */
+async function against(block) {
+  const want = (block.match(/sha256\\s+([a-f0-9]{64})/) || [])[1];
+  if (!want) return say('no sha256 line in that block.', 'err');
+  const got = await sha(D().text);
+  return say(got === want
+    ? 'this draft is byte for byte the text that block signed.'
+    : 'this draft is NOT that text. Signed ' + want.slice(0, 16) +
+      ', this is ' + got.slice(0, 16) + '.', got === want ? 'ok' : 'err');
+}
+
 const HELP = [
   ['help', 'this'],
   ['learn', 'the lessons, and how far you are into each'],
@@ -1293,6 +1429,11 @@ const HELP = [
   ['syl <words>', 'the syllable heuristic, word by word'],
   ['spiral [a b c d e f]', 'the sestina table, with your words in it'],
   ['rhyme', 'the scheme against the words your lines end on'],
+  ['mint', 'mint this notebook\u2019s one token \u2014 it refuses a second'],
+  ['token', 'show it, and what it is not'],
+  ['stanza', 'sign this draft; copy the block'],
+  ['verify <block>', 'check somebody else\u2019s stanza block'],
+  ['against <block>', 'is this draft the text that block signed?'],
   ['export', 'write every draft to a markdown file'],
   ['clear', 'empty the console'],
   ['', 'anything else is evaluated as JavaScript']
@@ -1432,6 +1573,26 @@ function cmd(raw) {
           '<span class="' + (last ? 'ok' : 'dim') + '">' + esc(last || '\\u00b7') + '</span>';
       }).join('\\n'));
     }
+
+    case 'mint': mint(); return;
+
+    case 'token': {
+      if (!book.token) return say('no token yet. mint to make one.', 'dim');
+      return sayHTML('<span class="hd">one token, this notebook.</span>\\n' +
+        '  <span class="dim">id     </span><span class="ok">' + esc(book.token.id) + '</span>\\n' +
+        '  <span class="dim">minted </span>' + esc(book.token.made.slice(0, 10)) + '\\n' +
+        '  <span class="dim">supply </span><span class="ok">1</span>' +
+        '<span class="dim">, permanently. There is no second and no transfer.</span>\\n' +
+        '<span class="dim">It is not money. It signs a stanza so that when the ' +
+        'best one gets copied, the copy still says whose it was. It is also the ' +
+        'least fungible thing here, on purpose \u2014 it carries provenance, which ' +
+        'is exactly what lesson three says destroys fungibility and exactly what ' +
+        'a signature is for.</span>');
+    }
+
+    case 'stanza': stanza(); return;
+    case 'verify': checkStanza(arg); return;
+    case 'against': against(arg); return;
 
     case 'export': return say(exportAll(), 'ok');
 
