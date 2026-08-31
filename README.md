@@ -59,7 +59,8 @@ from their own geometry · [`station.html`](station.html) the order desk ·
 [`auxiliaries.html`](auxiliaries.html) twelve fleet auxiliaries
 
 **Play** — [`defense.html`](defense.html) tower defence, placement phase only —
-the part CSS can do honestly
+the part CSS can do honestly · [`DefenceSim.scala`](DefenceSim.scala) runs the
+wave the page cannot and writes [`defense-run.html`](defense-run.html)
 
 **Run it** — [`cruise-control.html`](cruise-control.html) one lane, one control,
 one cut · [`convoy.html`](convoy.html) pairs released down a rank chain ·
@@ -121,6 +122,20 @@ and annotated, plus a checklist to run before shipping.
 node generate.mjs                 # the three authored boards in boards/
 node generate.mjs --count 1000    # 1000 procedural boards, deterministic
 ```
+
+And the one piece that is not HTML at all:
+
+```bash
+scala-cli run --server=false DefenceSim.scala -- --list
+scala-cli run --server=false DefenceSim.scala -- --seed 7 --mounts skin,drogue,shade --html defense-run.html
+```
+
+`defense.html` stops where CSS honestly stops — it can say what is covered,
+never what happens over time. `DefenceSim.scala` is that missing half: a fold
+over ticks, deterministic from its seed, with `sealed trait Hazard` so the
+compiler refuses to build if any hazard goes unhandled. Same guarantee the CSS
+version bought by writing out every rule by hand, except enforced instead of
+remembered.
 
 Generated boards stamp themselves *generated · figures not measured* in the
 header, the HTML comment and the index, because a number nobody chose must
