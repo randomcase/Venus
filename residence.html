@@ -1,0 +1,572 @@
+<title>Residence Time &middot; how long an atom stays stuck, and what to be afraid of</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  RESIDENCE TIME — the number that decides whether a closed forest lives.
+
+  In a bag the failure mode is not shortage, it is immobilisation. Stock is the
+  wrong question. Residence time — stock divided by annual flux — is the right
+  one, and for phosphorus it is the number everything else queues behind.
+
+  FOUR PANELS.
+
+  1 THE POOLS. Available phosphorus turns over in about three years, total
+    phosphorus in two hundred. Available nitrogen in under four months, total
+    nitrogen in fifty years. Live wood carbon in twenty. The whole 9,000 sq mi
+    holds about 58 kt of AVAILABLE phosphorus against 4.7 Mt of total — which
+    means 98.8% of the phosphorus on the site is, at any moment, not available
+    to anything.
+
+  2 THE RANGE, ARGUED. The rescope said animals do turnover rather than
+    fertilisation. This panel checks whether that is worth a building — and
+    the answer is yes, by a factor that is not close: a herbivore-detritivore
+    loop cuts phosphorus residence from the litter pool by roughly an order of
+    magnitude against decomposition alone.
+
+  3 THE RESETTLEMENT. Where people live is set by residence time and not by
+    preference. Waste produced far from where it is needed is waste with a
+    long path, and a long path is a long residence time. So the settlement is
+    distributed rather than concentrated, and the forest is not an amenity
+    beside the town — the forest IS the plant, and the town is inside it.
+
+  4 THE MUTATION, WHICH IS NOT THE RISK. At 55 km the atmosphere above you is
+    574 g/cm² — Earth at sea level is 1,033 and Earth at 5.5 km is about 500.
+    So the deck shields like La Paz, with no magnetic field at all, because
+    574 g/cm² of CO2 does not care whether a particle was deflected first.
+
+    The risk is the BOTTLENECK. Heterozygosity is lost at 1/(2Ne) per
+    generation: at Ne=50 a population keeps 37% of it after a hundred
+    generations, at Ne=1000 it keeps 95%. And the honest last word is that
+    mutation is not the enemy — a closed forest with no mutation is a museum
+    that fails slowly, because nothing in it evolved for this place.
+
+  No script decides anything on this page.
+-->
+<style>
+  :root{
+    --void:#080a08; --card:#121710; --card2:#171d15; --edge:#2a3326;
+    --ink:#e9f0e6; --dim:#8d9a85; --bone:#e4d9b8;
+    --p:#e0a05a; --n:#6fa8dc; --c:#7fc08a; --slow:#c05a5a;
+    --key:#6ec6ff; --gold:#e0b155;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 56px;color:var(--ink);background:var(--void);
+    font:13.5px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 16% -6%,rgba(127,192,138,.10),transparent 46%),
+      radial-gradient(circle at 88% 100%,rgba(224,160,90,.07),transparent 42%)}
+  .w{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:22px;letter-spacing:-.018em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:66ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--c);border:1px solid var(--c);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px;font-weight:600}
+  p.n{color:var(--dim);font-size:11.5px;line-height:1.72;margin:10px 0 0;max-width:94ch}
+  p.n b{color:var(--ink)} p.n em{font-style:normal;color:var(--gold)}
+  a{color:var(--gold)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#0b0e09;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:13px;padding:16px 17px}
+
+  /* ══════════════════════════════ 1 · THE POOLS · a bar per residence time */
+  .pool{display:grid;grid-template-columns:172px 74px 1fr;gap:12px;
+    align-items:center;padding:8px 0;border-bottom:1px solid #1a2117}
+  .pool:last-child{border-bottom:0}
+  .pool b{font-size:12.5px;color:var(--ink)}
+  .pool b s{display:block;text-decoration:none;font:9px/1.4 ui-monospace,monospace;
+    color:#67735f;margin-top:2px}
+  .pool em{font-style:normal;font:13px/1 ui-monospace,monospace;color:var(--bone);
+    text-align:right}
+  .bar{height:15px;border-radius:3px;position:relative;background:#131a11;
+    overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:3px;background:var(--col)}
+  .bar u{position:absolute;right:7px;top:1px;text-decoration:none;
+    font:9px/15px ui-monospace,monospace;color:#8d9a85}
+  .fast{--col:linear-gradient(90deg,#4a7d55,#7fc08a)}
+  .mid{--col:linear-gradient(90deg,#8a6a33,#e0a05a)}
+  .slow{--col:linear-gradient(90deg,#6e3232,#c05a5a)}
+
+  .split{display:grid;gap:12px;grid-template-columns:1fr 1fr;margin-top:14px}
+  @media (max-width:800px){.split{grid-template-columns:1fr}}
+  .kpi{background:#0b0e09;border:1px solid var(--edge);border-radius:11px;
+    padding:13px 14px}
+  .kpi span{display:block;font:8.5px/1 ui-monospace,monospace;letter-spacing:.15em;
+    text-transform:uppercase;color:#67735f;margin-bottom:7px}
+  .kpi b{font:24px/1 ui-monospace,monospace;color:var(--p)}
+  .kpi i{font-style:normal;display:block;font-size:11px;color:var(--dim);
+    line-height:1.6;margin-top:8px}
+
+  .opts{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+  .opts input{position:absolute;opacity:0;width:1px;height:1px}
+  .opts label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;padding:11px 14px;
+    border-radius:9px;border:1px solid var(--edge);color:var(--dim);user-select:none}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked + label{border-color:var(--bone);color:var(--bone);
+    background:rgba(228,217,184,.10);font-weight:700}
+  .opts input:focus-visible + label{outline:2px solid var(--key);outline-offset:2px}
+  .read{margin-top:13px;padding:14px 15px;border-radius:10px;background:#0b0e09;
+    border:1px solid var(--edge);border-left:3px solid var(--dim);min-height:100px}
+  .read .f{display:block;font:21px/1 ui-monospace,monospace;color:var(--bone);
+    margin-bottom:7px}
+  .read .f::after{content:"\2014"}
+  .read h4{margin:0 0 5px;font-size:13.5px;color:var(--bone)}
+  .read h4::before{content:"Pick one."}
+  .read p{margin:0;font-size:12px;color:var(--dim);line-height:1.72;max-width:80ch}
+
+  /* the founder lookup */
+  .b:has(#ne-10:checked) .read{border-left-color:var(--slow)}
+  .b:has(#ne-10:checked) .read .f::after{content:"0.6% left after 100 generations"}
+  .b:has(#ne-10:checked) .read h4::before{content:"Ne = 10 · gone"}
+  .b:has(#ne-10:checked) .read p::before{content:"Five per cent of heterozygosity lost every generation. Inbreeding depression arrives within a handful of them and the population does not so much fail as stop being able to respond to anything. This is what a careless inoculum looks like for a large-bodied species."}
+  .b:has(#ne-50:checked) .read{border-left-color:var(--p)}
+  .b:has(#ne-50:checked) .read .f::after{content:"36.6% left after 100 generations"}
+  .b:has(#ne-50:checked) .read h4::before{content:"Ne = 50 · survives, stops adapting"}
+  .b:has(#ne-50:checked) .read p::before{content:"Franklin's 1980 lower bound: fifty is enough to avoid inbreeding depression in the short term and not enough for anything else. It keeps the species alive on a planet it is already suited to. Venus is not that planet, so fifty is a museum specimen rather than a founder population."}
+  .b:has(#ne-100:checked) .read{border-left-color:var(--p)}
+  .b:has(#ne-100:checked) .read .f::after{content:"60.6% left after 100 generations"}
+  .b:has(#ne-100:checked) .read h4::before{content:"Ne = 100 · the modern lower bound"}
+  .b:has(#ne-100:checked) .read p::before{content:"Frankham and others revised 50/500 to 100/1000 in 2014. A hundred holds the short term properly. It still loses four tenths of its variation over a hundred generations, which for a canopy tree is a few thousand years and for a beetle is a decade."}
+  .b:has(#ne-1000:checked) .read{border-left-color:var(--c)}
+  .b:has(#ne-1000:checked) .read .f::after{content:"95.1% left after 100 generations"}
+  .b:has(#ne-1000:checked) .read h4::before{content:"Ne = 1,000 · it can still adapt"}
+  .b:has(#ne-1000:checked) .read p::before{content:"This is the number to design to, and the good news is that it is cheap for almost everything on the list. A thousand founders each across roughly 6,400 species is 6.4 million individuals — and for seeds, spores and soil fauna that is a seed bank rather than a cargo problem. The expensive rows are the birds and the larger animals, which are also the shortest rows."}
+
+  .tbl{width:100%;border-collapse:collapse;font:10.5px/1.5 ui-monospace,monospace;
+    margin-top:13px}
+  .tbl th{text-align:left;font-weight:600;color:var(--dim);font-size:9px;
+    letter-spacing:.14em;text-transform:uppercase;padding:0 10px 7px 0;
+    border-bottom:1px solid var(--edge)}
+  .tbl td{padding:6px 10px 6px 0;border-bottom:1px solid #1a2117;color:#bccab4}
+  .tbl td b{color:var(--bone);font-weight:600}
+  .tbl td.go{color:var(--c)} .tbl td.no{color:var(--slow)}
+
+  .rings{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:13px}
+  @media (max-width:820px){.rings{grid-template-columns:1fr}}
+  .ring{background:#0b0e09;border:1px solid var(--edge);border-radius:11px;
+    padding:13px 14px;border-top:3px solid var(--rc)}
+  .ring h4{margin:0 0 3px;font-size:13px;color:var(--bone)}
+  .ring s{display:block;text-decoration:none;font:9px/1.5 ui-monospace,monospace;
+    color:var(--rc);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+  .ring p{margin:0;font-size:11px;color:var(--dim);line-height:1.68}
+  .r1{--rc:var(--c)} .r2{--rc:var(--p)} .r3{--rc:var(--n)}
+
+  footer{margin-top:32px;padding-top:14px;border-top:1px solid var(--edge);
+    color:var(--dim);font-size:10.5px;line-height:1.75}
+
+  /* ═══════════════════════════════════════════════════ THE GALACTIC BACKDROP
+     A window, not a wallpaper. Still no script.
+
+     69 bright stars and 139 dim ones, weighted the way the real sky is —
+     mostly dim and warm, a scatter of white, almost no blue — laid along a band
+     twenty-four degrees off horizontal with the dust lane cut back out of it in
+     the background colour, because the dark half of a galaxy is most of what
+     you see. The stars are Earth's, because they would be: Venus is 0.28 AU
+     away and that is nothing at stellar distances.
+
+     WE ARE TRAVELLING, so the sky does. It sits on two fixed pseudo-elements
+     rather than one background, and each one moves by TRANSFORM — which the
+     compositor does on its own thread, without repainting 208 gradients a
+     frame. Animating background-position instead would have cost the frame
+     budget of every board in the yard, and that is the only reason this is
+     built out of two layers instead of one.
+
+     AND WE ARE EXPANDING, so the near layer runs faster and scales harder than
+     the far one. That difference is parallax and parallax is the entire cue:
+     hold still and the bright stars slide past the dim ones, which is what a
+     window does and what a backdrop cannot. 21 minutes and 34 — coprime, so the
+     two never fall back into the arrangement they started in.
+
+     Both sit at z-index:-1 behind everything, each page keeps its own colour
+     wash on <body> over the top, and prefers-reduced-motion stops the travel
+     dead while leaving every star exactly where it is. */
+  html{background-color:#080a08}
+  body{background-color:transparent}
+  html::before,html::after{content:"";position:fixed;z-index:-1;
+    inset:-18%;pointer-events:none;background-repeat:no-repeat;
+    background-size:cover;will-change:transform}
+  html::before{background-image:
+      radial-gradient(0.35px 0.35px at 63.60% 61.37%,rgba(202,215,255,0.16),transparent),
+      radial-gradient(0.54px 0.54px at 31.73% 56.60%,rgba(255,210,161,0.26),transparent),
+      radial-gradient(0.36px 0.36px at 16.19% 41.87%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.12% 16.25%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 61.37% 49.53%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.66px 0.66px at 89.13% 49.03%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.52px 0.52px at 23.10% 65.23%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 81.55% 90.93%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.35px 0.35px at 1.99% 39.17%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.67px 0.67px at 88.33% 64.79%,rgba(255,210,161,0.32),transparent),
+      radial-gradient(0.65px 0.65px at 52.00% 41.82%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.84px 0.84px at 59.58% 82.02%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.44px 0.44px at 55.83% 49.97%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.45px 0.45px at 61.17% 3.50%,rgba(202,215,255,0.21),transparent),
+      radial-gradient(0.48px 0.48px at 92.68% 74.19%,rgba(255,181,107,0.23),transparent),
+      radial-gradient(0.41px 0.41px at 44.55% 40.37%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.80px 0.80px at 33.50% 52.15%,rgba(255,181,107,0.39),transparent),
+      radial-gradient(0.70px 0.70px at 15.53% 74.11%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.69px 0.69px at 83.20% 49.99%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.86px 0.86px at 14.02% 0.25%,rgba(255,181,107,0.42),transparent),
+      radial-gradient(0.35px 0.35px at 8.46% 26.75%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 16.18% 29.77%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.57px 0.57px at 46.77% 49.71%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.58px 0.58px at 80.94% 96.51%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.44px 0.44px at 46.92% 31.31%,rgba(255,181,107,0.20),transparent),
+      radial-gradient(0.37px 0.37px at 34.69% 85.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.42px 0.42px at 56.44% 46.68%,rgba(255,210,161,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 7.58% 26.10%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.48px 0.48px at 16.83% 84.69%,rgba(202,215,255,0.22),transparent),
+      radial-gradient(0.53px 0.53px at 9.16% 5.95%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.57px 0.57px at 41.82% 44.48%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.90px 0.90px at 74.31% 45.97%,rgba(255,210,161,0.44),transparent),
+      radial-gradient(0.40px 0.40px at 64.18% 49.64%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 5.25% 39.37%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.53px 0.53px at 9.07% 72.19%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.78px 0.78px at 64.06% 69.96%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.37px 0.37px at 8.76% 35.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 57.68% 27.55%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 98.05% 7.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.66px 0.66px at 44.51% 72.98%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.46px 0.46px at 37.26% 1.54%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.59px 0.59px at 90.42% 72.27%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.57px 0.57px at 98.13% 10.35%,rgba(248,247,255,0.27),transparent),
+      radial-gradient(0.91px 0.91px at 94.93% 71.89%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.36px 0.36px at 4.64% 11.86%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.56px 0.56px at 46.09% 50.65%,rgba(255,210,161,0.27),transparent),
+      radial-gradient(0.72px 0.72px at 98.16% 60.72%,rgba(255,181,107,0.35),transparent),
+      radial-gradient(0.90px 0.90px at 23.45% 18.12%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.53px 0.53px at 13.29% 38.54%,rgba(248,247,255,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 48.20% 58.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 93.26% 70.43%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.77px 0.77px at 98.31% 71.27%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.51px 0.51px at 91.86% 57.08%,rgba(255,210,161,0.24),transparent),
+      radial-gradient(0.76px 0.76px at 3.22% 18.38%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 67.24% 79.63%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.44px 0.44px at 4.49% 37.24%,rgba(255,210,161,0.20),transparent),
+      radial-gradient(0.35px 0.35px at 19.05% 44.87%,rgba(248,247,255,0.16),transparent),
+      radial-gradient(0.43px 0.43px at 80.57% 75.11%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.38px 0.38px at 84.40% 42.68%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.44px 0.44px at 84.04% 97.87%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.65px 0.65px at 16.48% 27.55%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.75px 0.75px at 84.52% 73.60%,rgba(255,210,161,0.36),transparent),
+      radial-gradient(0.63px 0.63px at 50.13% 6.86%,rgba(248,247,255,0.30),transparent),
+      radial-gradient(0.78px 0.78px at 87.51% 70.49%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.76px 0.76px at 16.34% 26.34%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.35px 0.35px at 58.85% 56.40%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 4.52% 56.48%,rgba(255,181,107,0.33),transparent),
+      radial-gradient(0.46px 0.46px at 86.45% 52.09%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.39px 0.39px at 91.92% 82.50%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.36px 0.36px at 6.83% 33.67%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.10% 7.69%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 63.59% 62.73%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 72.64% 55.47%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.57px 0.57px at 1.57% 22.68%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.35px 0.35px at 20.24% 40.59%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 81.60% 86.38%,rgba(255,244,234,0.33),transparent),
+      radial-gradient(0.75px 0.75px at 1.01% 89.43%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.50px 0.50px at 1.89% 45.85%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.36px 0.36px at 86.06% 69.70%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.46px 0.46px at 54.27% 84.12%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.35px 0.35px at 68.88% 69.99%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 51.92% 44.11%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.37px 0.37px at 83.56% 88.23%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.61px 0.61px at 48.63% 32.82%,rgba(248,247,255,0.29),transparent),
+      radial-gradient(0.46px 0.46px at 3.14% 19.70%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.35px 0.35px at 91.65% 60.72%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 39.35% 42.18%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.60px 0.60px at 96.63% 57.34%,rgba(255,210,161,0.29),transparent),
+      radial-gradient(0.36px 0.36px at 93.19% 66.52%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 91.66% 53.83%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.53px 0.53px at 37.09% 33.98%,rgba(255,210,161,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 7.69% 48.04%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.76px 0.76px at 40.92% 77.22%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.62px 0.62px at 53.18% 55.13%,rgba(255,181,107,0.30),transparent),
+      radial-gradient(0.52px 0.52px at 36.16% 17.06%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.42px 0.42px at 7.30% 10.90%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 98.83% 35.83%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.57px 0.57px at 32.25% 40.39%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.77px 0.77px at 68.97% 58.36%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.35px 0.35px at 98.16% 72.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 49.07% 50.45%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.59px 0.59px at 36.73% 46.36%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.37px 0.37px at 59.16% 52.43%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 5.87% 47.43%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.35px 0.35px at 28.92% 42.34%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.84px 0.84px at 38.15% 61.03%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.35px 0.35px at 17.08% 95.56%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.56px 0.56px at 72.12% 52.35%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.43px 0.43px at 10.79% 34.15%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.36px 0.36px at 90.72% 54.28%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.36px 0.36px at 0.22% 39.29%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.38px 0.38px at 66.88% 43.63%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.76px 0.76px at 85.24% 53.71%,rgba(255,210,161,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 76.84% 68.26%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.82px 0.82px at 20.88% 36.67%,rgba(255,181,107,0.40),transparent),
+      radial-gradient(0.53px 0.53px at 72.59% 59.70%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.82px 0.82px at 99.56% 61.97%,rgba(248,247,255,0.40),transparent),
+      radial-gradient(0.37px 0.37px at 43.04% 22.87%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.38px 0.38px at 62.75% 36.42%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.64px 0.64px at 11.37% 52.16%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.35px 0.35px at 65.28% 54.10%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 23.22% 51.57%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.41px 0.41px at 7.86% 15.80%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 1.16% 17.03%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 24.23% 36.88%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 67.85% 71.10%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.87px 0.87px at 21.22% 9.64%,rgba(255,181,107,0.43),transparent),
+      radial-gradient(16px 16px at 11.38% 48.06%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 66.59% 41.28%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 40.80% 23.68%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 41.01% 67.29%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 31.18% 27.63%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 10.81% 18.20%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 3.23% 54.03%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(30% 30% at 22% 30%,rgba(91,127,199,0.055),transparent 70%),
+      radial-gradient(26% 26% at 74% 58%,rgba(201,87,143,0.040),transparent 70%),
+      radial-gradient(22% 22% at 46% 18%,rgba(79,179,166,0.035),transparent 70%),
+      linear-gradient(66deg,transparent 34%,rgba(148,138,196,.045) 43%,rgba(172,162,214,.085) 50%,rgba(148,138,196,.045) 57%,transparent 66%),
+      linear-gradient(66deg,transparent 46%,rgba(4,3,7,.55) 49.4%,rgba(4,3,7,.62) 50.6%,transparent 54%);
+    animation:au-far 2040s ease-in-out infinite alternate}
+  html::after{background-image:
+      radial-gradient(1.30px 1.30px at 68.42% 62.26%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(0.96px 0.96px at 44.46% 53.88%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.72px 1.72px at 97.52% 67.89%,rgba(255,210,161,0.86),transparent),
+      radial-gradient(1.27px 1.27px at 29.09% 44.54%,rgba(255,181,107,0.63),transparent),
+      radial-gradient(1.25px 1.25px at 0.41% 98.24%,rgba(255,181,107,0.62),transparent),
+      radial-gradient(1.12px 1.12px at 48.27% 61.45%,rgba(255,181,107,0.55),transparent),
+      radial-gradient(1.62px 1.62px at 21.27% 82.41%,rgba(255,181,107,0.81),transparent),
+      radial-gradient(1.13px 1.13px at 32.91% 34.63%,rgba(255,181,107,0.56),transparent),
+      radial-gradient(1.56px 1.56px at 71.19% 43.86%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.40px 1.40px at 6.85% 52.24%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.14px 1.14px at 86.46% 83.26%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.10px 1.10px at 71.95% 42.90%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.42px 1.42px at 36.96% 17.89%,rgba(255,181,107,0.71),transparent),
+      radial-gradient(1.13px 1.13px at 4.31% 1.17%,rgba(170,191,255,0.56),transparent),
+      radial-gradient(1.31px 1.31px at 41.52% 51.61%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(1.46px 1.46px at 76.09% 66.82%,rgba(255,244,234,0.72),transparent),
+      radial-gradient(1.78px 1.78px at 26.72% 43.06%,rgba(255,181,107,0.89),transparent),
+      radial-gradient(1.69px 1.69px at 22.68% 46.22%,rgba(170,191,255,0.84),transparent),
+      radial-gradient(1.76px 1.76px at 30.20% 97.65%,rgba(255,181,107,0.88),transparent),
+      radial-gradient(1.38px 1.38px at 99.58% 76.98%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.08px 1.08px at 15.38% 27.05%,rgba(255,244,234,0.53),transparent),
+      radial-gradient(0.95px 0.95px at 42.39% 32.32%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.57px 1.57px at 58.49% 81.25%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(0.94px 0.94px at 48.37% 39.34%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.41px 1.41px at 91.19% 97.04%,rgba(255,210,161,0.70),transparent),
+      radial-gradient(1.37px 1.37px at 7.79% 44.56%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.07px 1.07px at 89.66% 36.01%,rgba(255,181,107,0.53),transparent),
+      radial-gradient(1.69px 1.69px at 67.50% 93.44%,rgba(255,181,107,0.84),transparent),
+      radial-gradient(1.15px 1.15px at 57.27% 40.78%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.58px 1.58px at 33.10% 45.94%,rgba(255,181,107,0.79),transparent),
+      radial-gradient(1.04px 1.04px at 83.01% 82.39%,rgba(255,181,107,0.51),transparent),
+      radial-gradient(1.56px 1.56px at 88.42% 66.83%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.29px 1.29px at 24.78% 0.51%,rgba(255,181,107,0.64),transparent),
+      radial-gradient(1.09px 1.09px at 6.07% 6.69%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.32px 1.32px at 53.40% 80.43%,rgba(255,210,161,0.65),transparent),
+      radial-gradient(1.19px 1.19px at 76.80% 81.97%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(0.94px 0.94px at 69.80% 57.79%,rgba(255,244,234,0.46),transparent),
+      radial-gradient(1.10px 1.10px at 7.00% 33.07%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.22px 1.22px at 76.56% 52.71%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(0.96px 0.96px at 85.29% 63.59%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.18px 1.18px at 17.44% 43.04%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(1.51px 1.51px at 36.81% 57.97%,rgba(255,210,161,0.75),transparent),
+      radial-gradient(1.37px 1.37px at 98.28% 82.40%,rgba(248,247,255,0.68),transparent),
+      radial-gradient(1.65px 1.65px at 78.05% 82.63%,rgba(248,247,255,0.82),transparent),
+      radial-gradient(1.20px 1.20px at 59.28% 41.45%,rgba(248,247,255,0.60),transparent),
+      radial-gradient(1.55px 1.55px at 40.98% 18.58%,rgba(255,181,107,0.77),transparent),
+      radial-gradient(1.02px 1.02px at 82.66% 66.73%,rgba(255,181,107,0.50),transparent),
+      radial-gradient(1.20px 1.20px at 0.68% 23.74%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(1.15px 1.15px at 57.32% 67.46%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.34px 1.34px at 6.29% 37.15%,rgba(255,244,234,0.66),transparent),
+      radial-gradient(1.39px 1.39px at 63.56% 50.69%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.59px 1.59px at 80.48% 31.89%,rgba(202,215,255,0.79),transparent),
+      radial-gradient(1.52px 1.52px at 40.22% 51.94%,rgba(255,210,161,0.76),transparent),
+      radial-gradient(1.52px 1.52px at 78.35% 77.94%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(1.70px 1.70px at 33.95% 56.66%,rgba(255,181,107,0.85),transparent),
+      radial-gradient(1.16px 1.16px at 77.09% 41.34%,rgba(255,210,161,0.58),transparent),
+      radial-gradient(1.67px 1.67px at 39.69% 60.56%,rgba(255,210,161,0.83),transparent),
+      radial-gradient(1.47px 1.47px at 12.24% 30.52%,rgba(255,181,107,0.73),transparent),
+      radial-gradient(1.11px 1.11px at 80.16% 93.71%,rgba(255,210,161,0.55),transparent),
+      radial-gradient(1.52px 1.52px at 11.04% 44.84%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(0.94px 0.94px at 59.58% 30.37%,rgba(255,210,161,0.46),transparent),
+      radial-gradient(1.53px 1.53px at 0.35% 42.03%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(2.6px 2.6px at 11.38% 48.06%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 66.59% 41.28%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 40.80% 23.68%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 41.01% 67.29%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 31.18% 27.63%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 10.81% 18.20%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 3.23% 54.03%,rgba(255,255,255,.95),transparent);
+    animation:au-near 1260s ease-in-out infinite alternate}
+  @keyframes au-far{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-3.0%,1.6%,0) scale(1.09)}}
+  @keyframes au-near{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-8.5%,4.4%,0) scale(1.26)}}
+  @media (prefers-reduced-motion:reduce){
+    html::before,html::after{animation:none}}
+</style>
+
+<div class="w">
+  <header>
+    <h1>Residence Time</h1>
+    <span class="sub">In a bag the failure mode is not shortage, it is
+      immobilisation &mdash; and the number that decides it is how long an atom
+      stays stuck, not how many of them there are.</span>
+    <span class="tag">no script<a href="automat.html" style="color:inherit;text-decoration:none;opacity:.62" title="Still true: this board decides everything in its stylesheet. It also ships two inert script tags — automat.js and devmode.js — which do nothing unless the URL carries ?run or ?dev, a half of the address CSS cannot read. See automat.html.">&nbsp;&dagger;</a></span>
+  </header>
+
+  <h2>1 &middot; The pools <b>stock &divide; flux &middot; per hectare, temperate forest</b></h2>
+  <div class="panel">
+    <div class="pool"><b>Nitrogen, available<s>the fast pool</s></b>
+      <em>3.6 mo</em><span class="bar fast"><i style="width:2%"></i><u>0.3 yr</u></span></div>
+    <div class="pool"><b>Phosphorus, available<s>25 kg/ha, and everything queues</s></b>
+      <em>3 yr</em><span class="bar fast"><i style="width:6%"></i><u>2.5 yr</u></span></div>
+    <div class="pool"><b>Carbon, live wood<s>200 t/ha standing</s></b>
+      <em>20 yr</em><span class="bar mid"><i style="width:20%"></i><u>20 yr</u></span></div>
+    <div class="pool"><b>Carbon, soil organic<s>the slow pool</s></b>
+      <em>50 yr</em><span class="bar mid"><i style="width:36%"></i><u>50 yr</u></span></div>
+    <div class="pool"><b>Nitrogen, soil total<s>mostly bound in organics</s></b>
+      <em>50 yr</em><span class="bar mid"><i style="width:36%"></i><u>50 yr</u></span></div>
+    <div class="pool"><b>Phosphorus, total<s>2,000 kg/ha</s></b>
+      <em>200 yr</em><span class="bar slow"><i style="width:100%"></i><u>200 yr &mdash; the one to watch</u></span></div>
+
+    <div class="split">
+      <div class="kpi"><span>available P, whole site</span><b>58 kt</b>
+        <i>Across all 9,000 square miles. This is the pool that every root, every
+          fungus and every animal on the platform is queueing for at any
+          moment.</i></div>
+      <div class="kpi"><span>of the site&rsquo;s P, unavailable</span><b>98.8%</b>
+        <i>4.7 Mt total against 58 kt available. The bag is full and almost none
+          of it is on the counter &mdash; which is the whole of what
+          immobilisation means.</i></div>
+    </div>
+    <p class="n"><b>Slow the available pool from three years to twenty-five and
+      the forest becomes a museum</b> &mdash; standing biomass unchanged, growth
+      stopped, and an inventory that looks healthy right up until nothing
+      recruits. That is the failure this page exists to name, and it does not
+      look like a shortage from the outside.</p>
+  </div>
+
+  <h2>2 &middot; The range, argued <b>is turnover worth a building?</b></h2>
+  <div class="panel">
+    <p class="n">The rescope moved the range from fertilising &mdash; which it
+      cannot do in a bag &mdash; to <em>turnover</em>. That is a weaker-sounding
+      claim and it deserves checking rather than asserting.</p>
+    <table class="tbl">
+      <tr><th>path from leaf to available P</th><th>roughly</th><th></th></tr>
+      <tr><td>Litter &rarr; microbial decomposition alone</td><td><b>2&ndash;5 yr</b></td>
+        <td>slow, temperature-limited, and it stalls in cool or dry spells</td></tr>
+      <tr><td>Litter &rarr; detritivore gut &rarr; excreta</td><td class="go"><b>days</b></td>
+        <td class="go">comminution plus gut passage, then microbes finish it fast</td></tr>
+      <tr><td>Live foliage &rarr; herbivore &rarr; excreta</td><td class="go"><b>1&ndash;3 d</b></td>
+        <td class="go">bypasses litterfall entirely &mdash; the shortest path there is</td></tr>
+      <tr><td>Wood &rarr; anything</td><td class="no"><b>decades</b></td>
+        <td class="no">nothing shortens this much, which is why wood is the sink</td></tr>
+    </table>
+    <p class="n"><b>So the answer is yes, and not narrowly.</b> An animal that
+      eats a leaf and passes it in two days has moved that phosphorus through in
+      about a thousandth of the time decomposition would have taken, and put it
+      back in a labile form. Multiply by a standing herbivore and detritivore
+      community and the litter pool&rsquo;s residence time falls by roughly an
+      order of magnitude. That is not a decoration on the ecosystem. In a closed
+      system <em>it is the pump</em>, and it is the only pump available, because
+      the nutrient-importing kind needs an outside and there isn&rsquo;t one.</p>
+    <p class="n">Which also says what the building is <b>for</b>, and it is not
+      what its first draft said. It is not making fertiliser. It is holding the
+      residence time down, continuously, by keeping a population of things that
+      eat and excrete standing on the ground. <a href="kb.html#the-bag">Fish in a
+      bag</a> is the entry; <code>templates-build/range.json</code> is the
+      building, renamed <em>the turnover</em>.</p>
+  </div>
+
+  <h2>3 &middot; The resettlement <b>the forest is not next to the town</b></h2>
+  <div class="panel">
+    <p class="n">Where people live is decided by residence time too, and the
+      logic is short: <b>waste produced far from where it is needed is waste with
+      a long path, and a long path is a long residence time.</b> A single city on
+      one edge of 9,000 square miles concentrates the output and lengthens every
+      return journey. So the settlement is distributed, and it is distributed for
+      an accounting reason rather than an aesthetic one.</p>
+    <div class="rings">
+      <div class="ring r1"><s>the pattern</s><h4>Nodes, not a capital</h4>
+        <p>Many small settlements inside the canopy rather than one on the rim.
+          Each one&rsquo;s output enters the cycle where it falls, so the return
+          path is metres instead of hundreds of kilometres. It is the
+          <a href="kb.html#decentralization">decentralization</a> entry arriving
+          as a town plan.</p></div>
+      <div class="ring r2"><s>the cleaning</s><h4>The forest is the plant</h4>
+        <p>There is no drain. Nothing is taken away because there is no away. Air
+          and water are cleaned by the same system that grows the food, which
+          means the forest is not an amenity beside the settlement &mdash; it is
+          the life support, and the settlement is inside it.</p></div>
+      <div class="ring r3"><s>the constraint</s><h4>Distance is a cost in years</h4>
+        <p>Every kilometre between production and uptake is time an atom spends
+          in transit and not in use. The plan that minimises travel is also the
+          plan that minimises residence time, which is unusual: the convenient
+          layout and the correct one are the same layout.</p></div>
+    </div>
+  </div>
+
+  <h2>4 &middot; The mutation <b>this is not the thing to be afraid of</b></h2>
+  <div class="b panel">
+    <p class="n"><b>Radiation first, because it is the fear and it is misplaced.</b>
+      Venus has no magnetic field at all &mdash; which sounds fatal and is not,
+      because at 55 km the column of atmosphere above you is
+      <em>574 g/cm&sup2;</em>. Earth at sea level is about 1,033. Earth at 5.5 km
+      &mdash; La Paz, Lhasa &mdash; is about 500. <b>The deck shields like a
+      high-altitude city</b>, and it does that without a magnetosphere, because
+      half a tonne of CO&#8322; per square centimetre does not care whether a
+      particle was deflected first. The missing field matters over geological
+      time, for atmospheric loss. It does not matter to a genome standing under
+      574 g/cm&sup2;.</p>
+    <p class="n"><b>The real risk is the bottleneck</b>, and it is arithmetic
+      rather than physics. Heterozygosity is lost at <code>1/(2N&#8337;)</code>
+      per generation, so the founder count decides how much variation still
+      exists a century of generations later.</p>
+    <div class="opts">
+      <input type="radio" name="ne" id="ne-10"><label for="ne-10">N&#8337; = 10</label>
+      <input type="radio" name="ne" id="ne-50"><label for="ne-50">50</label>
+      <input type="radio" name="ne" id="ne-100"><label for="ne-100">100</label>
+      <input type="radio" name="ne" id="ne-1000" checked><label for="ne-1000">1,000</label>
+    </div>
+    <div class="read"><span class="f"></span><h4></h4><p></p></div>
+    <p class="n"><b>And the last word is the one that should settle it.</b> You
+      cannot prevent mutation and you should not want to. Nothing you bring
+      evolved for 0.888 g, a four-day light cycle, 574 g/cm&sup2; and a closed
+      phosphorus loop &mdash; and a forest that cannot change is a forest that
+      fails slowly and correctly. <em>Mutation is not the danger. Mutation
+      without enough variation for selection to sort is the danger</em>, and that
+      is a bottleneck, and a bottleneck is a manifest decision made years earlier
+      by somebody counting founders.</p>
+    <p class="n">Which puts the fear somewhere useful. The thing to be careful
+      about is not what the radiation does to the twenty-fifth generation. It is
+      how many of the first generation you brought &mdash; and for seeds, spores
+      and soil fauna, a thousand founders each across roughly 6,400 species is
+      6.4 million individuals, which is a seed bank rather than a cargo problem.
+      The expensive rows are the birds and the larger animals, and they are also
+      the shortest rows on the list.</p>
+  </div>
+
+  <footer>
+    Pool figures are standard temperate-forest values per hectare; residence
+    times are stock divided by annual flux and are order-of-magnitude rather
+    than precise. Shielding computed as P/g at 8.71 m/s&sup2;. Heterozygosity
+    loss from 1/(2N&#8337;) per generation; 50/500 is Franklin 1980, revised to
+    100/1000 by Frankham and others in 2014.
+    <br><a href="kb.html#the-bag">fish in a bag</a> &middot;
+    <a href="kb.html#the-substrate">the substrate</a> &middot;
+    <a href="flood.html">the flood pulse</a> &middot;
+    <a href="ecosystem.html">the twelve orders</a> &middot;
+    <a href="index.html">the yard</a>
+  </footer>
+</div>
+
+<script src="automat.js"></script>
+<script src="devmode.js"></script>
