@@ -1,0 +1,512 @@
+<title>Terraform · 9,000 square miles, and both layers of it</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TERRAFORM — the forest, sited, with the arithmetic done.
+
+  THE FOOTPRINT
+  9,000 square miles is 23,310 km². Venus is 460.2 million km², which is 177.7
+  million square miles. So the forest is 0.00506% of the planet — one part in
+  19,744. Drawn as a pie chart it is a solid circle with a label pointing at
+  nothing, and that is the correct picture rather than a failure of the chart.
+
+  For scale on the other side: New Hampshire is 9,349 square miles and Belize is
+  8,867. The forest is a small country.
+
+  BOTH LAYERS, BECAUSE VENUS HAS TWO PLACES AND THEY ARE NOT ALIKE
+  This page does not choose between the floating city and the surface dome. It
+  sites the canopy in one and the floor in the other, because that is what the
+  ecosystem already is and Venus happens to separate them by fifty kilometres of
+  altitude.
+
+  THE BAND, 50 to 55 km
+  Pressure and temperature up there are genuinely ordinary: about 1.07 bar and
+  75 °C at 50 km, about 0.53 bar and 27 °C at 55 km. And breathable air is a
+  LIFTING GAS on Venus. An envelope of ordinary nitrogen-oxygen air at 50 km
+  masses about 1.067 kg/m³ against an outside atmosphere of about 1.594, so
+  every cubic metre of habitable volume lifts roughly half a kilogram of
+  structure. The envelope is the atmosphere you were going to need anyway.
+
+  THE SURFACE
+  475 °C, 92 bar, 96.5% CO₂, and a sulfuric acid cloud deck overhead. 92 bar is
+  the pressure at about 910 metres of Earth ocean. Anything down there is
+  actively cooled and heavily built, and it is where the floor has to be,
+  because burial, decomposition and soil are floor jobs and a balloon has no
+  ground.
+
+  THE THING THAT MAKES THIS INTERESTING RATHER THAN MERELY HARD
+  The two layers are on different clocks, by a factor of twenty-nine.
+
+  Venus's solar day is 116.75 Earth days — sunrise to sunrise, on the ground.
+  But the atmosphere at 50 km super-rotates: it laps the whole planet in about
+  four Earth days, carrying anything floating in it around with it. A free
+  aerostat therefore experiences a day of about four days. The surface below it
+  experiences one of a hundred and seventeen.
+
+  So the canopy and the floor of this forest cannot share a calendar, and the
+  reason is not politics or distance or protocol. It is altitude. That is the
+  same problem as the assembly's table and the relay's fourteen light-minutes,
+  arriving from a third direction, inside a single wood.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#0b0805; --card:#1a1410; --card2:#211a14; --edge:#3b2f24;
+    --ink:#f2ece2; --dim:#a3927f; --bone:#eadfc6;
+    --band:#8fc2e0; --deck:#e8c07a; --surf:#e0703c; --acid:#d8d06a;
+    --good:#7fc9a0; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 50% -8%,rgba(232,192,122,.16),transparent 46%),
+      radial-gradient(circle at 12% 96%,rgba(224,112,60,.12),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:22px;letter-spacing:-.015em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--good);border:1px solid var(--good);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  p{max-width:82ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.7;margin:10px 0 0;max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#120d09;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--deck)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+
+  /* --------------------------------------------------------- the altitude */
+  .column{display:grid;grid-template-columns:76px 1fr;gap:0;margin-top:12px;
+    border:1px solid var(--edge);border-radius:12px;overflow:hidden}
+  .column .alt{font:9.5px/1 ui-monospace,monospace;color:var(--dim);
+    padding:14px 10px;text-align:right;border-right:1px solid var(--edge);
+    display:flex;align-items:center;justify-content:flex-end}
+  .column .row{padding:13px 15px}
+  .column > *{border-bottom:1px solid var(--edge)}
+  .column > *:nth-last-child(-n+2){border-bottom:0}
+  .l-space{background:linear-gradient(180deg,#0a0910,#100c14)}
+  .l-band{background:linear-gradient(180deg,#12202a,#162a36)}
+  .l-acid{background:linear-gradient(180deg,#231f14,#2b2617)}
+  .l-deep{background:linear-gradient(180deg,#2a1a10,#33200f)}
+  .l-surf{background:linear-gradient(180deg,#3a1d0e,#48230d)}
+  .column .row b{display:block;font-size:13.5px;color:var(--bone);margin-bottom:5px}
+  .column .row span{font-size:11px;color:var(--dim);line-height:1.6;display:block}
+  .column .row .num{font:10px/1.6 ui-monospace,monospace;color:var(--deck);
+    margin-top:7px;display:block}
+
+  .fig{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+  @media (max-width:760px){.fig{grid-template-columns:repeat(2,1fr)}}
+  .fig div{background:#120d09;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .fig span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);display:block}
+  .fig b{display:block;font:15px/1.3 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:6px}
+  .fig i{display:block;font-style:normal;font-size:10.5px;color:var(--dim);
+    margin-top:6px;line-height:1.55}
+  .fig div.hot b{color:var(--surf)} .fig div.cold b{color:var(--band)}
+
+  /* ------------------------------------------------------------ the choice */
+  .siting{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-top:12px}
+  @media (max-width:760px){.siting{grid-template-columns:1fr}}
+  .siting input{position:absolute;opacity:0;width:0;height:0}
+  .siting label{display:block;cursor:pointer;background:#120d09;
+    border:1px solid var(--edge);border-radius:11px;padding:12px 13px}
+  .siting label:hover{border-color:var(--bone)}
+  .siting input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+  .siting label .nm{display:flex;align-items:baseline;gap:8px}
+  .siting label b{font-size:14px;color:var(--dim)}
+  .siting label .at{margin-left:auto;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:#6b5a48}
+  .siting label .d{font-size:10.5px;line-height:1.58;color:var(--dim);margin-top:8px}
+  .siting label .st{margin-top:9px;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:#6b5a48}
+  .siting label .st::after{content:"not built"}
+  .siting input:checked+label .st::after{content:"built"}
+  #aero:checked+label{border-color:var(--band);background:rgba(143,194,224,.10)}
+  #aero:checked+label b,#aero:checked+label .st{color:var(--band)}
+  #dome:checked+label{border-color:var(--surf);background:rgba(224,112,60,.10)}
+  #dome:checked+label b,#dome:checked+label .st{color:var(--surf)}
+
+  /* ============================================ 1 · COUNTERS ARE ARITHMETIC */
+  body{counter-reset:built 0 holds 0}
+  #aero:checked+label{counter-increment:built 1}
+  #dome:checked+label{counter-increment:built 1}
+  .hold .mk{counter-increment:holds 1}
+  .n-built::after{content:counter(built)}
+  .n-holds::after{content:counter(holds)}
+
+  /* ================================================ 2 · WHAT EACH SITE HOLDS */
+  .hold{display:none}
+  .hold.panel{margin-top:10px}
+  .hh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:8px;margin-bottom:10px}
+  .hh b{font-size:14px;color:var(--bone)}
+  .hh .req{margin-left:auto;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+  .hold p{margin:0;font-size:12.5px} .hold p+p{margin-top:9px}
+
+  .site:has(#aero:checked) .h-canopy{display:block}
+  .site:has(#dome:checked) .h-floor{display:block}
+  .site:has(#aero:checked):has(#dome:checked) .h-lift{display:block}
+  .site:has(#aero:checked):has(#dome:checked) .h-clock{display:block}
+  .h-canopy{border-color:rgba(143,194,224,.45)}
+  .h-floor{border-color:rgba(224,112,60,.45)}
+  .h-lift{border-color:rgba(232,192,122,.45)}
+  .h-clock{border-color:rgba(127,201,160,.45)}
+
+  .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .head{background:#120d09;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:5px}
+  .head.g b{color:var(--good)}
+  @media (max-width:560px){.tally{grid-template-columns:repeat(2,1fr)}}
+
+  .empty{display:none}
+  .site:not(:has(input:checked)) .empty{display:block}
+</style>
+
+<div class="site wrap">
+  <header>
+    <span class="tag">no script</span>
+    <h1>Terraform</h1>
+    <p class="sub">Nine thousand square miles, sited on a planet that has two
+      places and no shared clock between them. Every number on this page is
+      computed rather than described, and the first one is the one that matters
+      least flatteringly.</p>
+  </header>
+
+  <div class="panel" style="border-color:rgba(224,112,60,.45)">
+    <h2 style="margin-top:0">The footprint <b>said before anything else</b></h2>
+    <div class="fig">
+      <div><span>the forest</span><b>23,310 km²</b><i>9,000 square miles. About New Hampshire, or Belize.</i></div>
+      <div><span>Venus</span><b>460.2M km²</b><i>177.7 million square miles. Almost exactly Earth's.</i></div>
+      <div class="hot"><span>the fraction</span><b>0.00506%</b><i>One part in 19,744.</i></div>
+      <div><span>to reach 1%</span><b>197 forests</b><i>To reach a tenth of the planet, 1,974 of them.</i></div>
+    </div>
+    <p class="note"><b>Drawn as a pie chart it is a solid circle</b> with a label
+      pointing at nothing, and that is the chart working rather than failing.
+      Nothing on this page is a plan to terraform Venus. It is a plan to make one
+      small country's worth of it habitable, which is a different claim, is
+      achievable in a way the other is not, and should not borrow the other's
+      name without saying so.</p>
+  </div>
+
+  <h2>The column <b>where the two places are</b></h2>
+  <div class="column">
+    <div class="alt l-space">70 km</div>
+    <div class="row l-space"><b>Cloud top</b>
+      <span>The upper deck of the sulfuric acid cloud, and the outside of the
+        planet as seen from anywhere else.</span></div>
+
+    <div class="alt l-band">55 km</div>
+    <div class="row l-band"><b>The band, upper</b>
+      <span>Ordinary conditions. This is the part of Venus that is not trying to
+        kill you and it is the reason any of this is worth costing.</span>
+      <span class="num">0.53 bar · +27 °C</span></div>
+
+    <div class="alt l-band">50 km</div>
+    <div class="row l-band"><b>The band, lower</b>
+      <span>Still ordinary, and warm. Breathable air floats here: an envelope of
+        nitrogen-oxygen at these conditions is lighter than the CO₂ around
+        it.</span>
+      <span class="num">1.07 bar · +75 °C · outside 1.594 kg/m³</span></div>
+
+    <div class="alt l-acid">45 km</div>
+    <div class="row l-acid"><b>Cloud base</b>
+      <span>Below the acid. Pressure and heat both climbing hard from here
+        down, and nothing above the surface to stand on.</span></div>
+
+    <div class="alt l-deep">10 km</div>
+    <div class="row l-deep"><b>The deep atmosphere</b>
+      <span>Supercritical CO₂, hot enough to glow in the infrared. This part of
+        the column is not a place, it is a distance.</span></div>
+
+    <div class="alt l-surf">0 km</div>
+    <div class="row l-surf"><b>The surface</b>
+      <span>Where the floor has to be, because burial, decomposition and soil
+        are floor jobs and a balloon has no ground.</span>
+      <span class="num">92 bar · 475 °C · 96.5% CO₂</span></div>
+  </div>
+  <p class="note"><b>92 bar is the pressure at about 910 metres of Earth
+    ocean</b>, and 475 °C is above the melting point of lead. The two sites are
+    fifty kilometres apart and they are not variations on one problem. They are
+    two different engineering disciplines that happen to share a planet.</p>
+
+  <h2>Site both <b>because the ecosystem already has two layers</b></h2>
+  <div class="siting">
+    <input type="checkbox" id="aero" checked>
+    <label for="aero">
+      <span class="nm"><b>The aerostat</b><span class="at">50–55 km</span></span>
+      <span class="d">A floating platform in the habitable band. The envelope is
+        breathable air, which is a lifting gas here &mdash; so the habitat volume
+        and the buoyancy are the same cubic metres, bought once. It rides the
+        super-rotating atmosphere and circles the planet with it.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="dome" checked>
+    <label for="dome">
+      <span class="nm"><b>The dome</b><span class="at">surface</span></span>
+      <span class="d">Actively cooled, pressure-rated, acid-proof, and heavy.
+        Everything about it is expensive and it is not optional, because the
+        floor is where soil is made and there is no version of a forest that is
+        only canopy.</span>
+      <span class="st"></span>
+    </label>
+  </div>
+
+  <h2>What each site holds <b>counted from the panels, not declared</b></h2>
+
+  <div class="hold panel h-canopy">
+    <span class="mk"></span>
+    <div class="hh"><b>The canopy</b><span class="req">the aerostat</span></div>
+    <p>Everything that works in the air: the fireflies keeping the fast clock,
+      the moths holding a bearing, the butterflies on a route, the bees running
+      carriage, the spiders strung across the gap. All of it is at home in a
+      volume rather than on a surface, which is fortunate, because a volume is
+      what a floating platform is.</p>
+    <p class="note" style="margin-top:9px">The band is warm rather than
+      temperate &mdash; 75 °C at 50 km, 27 °C at 55. The comfortable altitude is
+      between the two, and choosing it is choosing between lift and heat: lower
+      is more buoyant and hotter, higher is cooler and thinner.</p>
+  </div>
+
+  <div class="hold panel h-floor">
+    <span class="mk"></span>
+    <div class="hh"><b>The floor</b><span class="req">the dome</span></div>
+    <p>The beetles, the ants, the burial, the litter, the soil. This is the half
+      that gets called the boring one and it is the half that decides whether
+      there is a forest in fifty years, because the canopy is what the floor is
+      currently spending.</p>
+    <p>It is also the half that has to be built against 92 bar and 475 °C, so
+      the cheap layer biologically is the ruinous one structurally. That
+      inversion is worth sitting with rather than designing around.</p>
+  </div>
+
+  <div class="hold panel h-lift">
+    <span class="mk"></span>
+    <div class="hh"><b>The lift</b><span class="req">both sites</span></div>
+    <p>Fifty kilometres of vertical distance between the canopy and the floor,
+      and material has to move both ways: seed and litter down, soil and
+      minerals up. There is no ecosystem where those two layers are not in
+      contact, and on Venus the contact is a freight problem measured in
+      kilometres of hot column.</p>
+    <p class="note" style="margin-top:9px"><b>The buoyancy arithmetic, since it
+      is the one number people assume is hopeless.</b> At 50 km, breathable air
+      inside masses about 1.067 kg/m³ against 1.594 outside, so net lift is
+      about 0.53 kg per cubic metre. A platform covering the full 23,310 km² at
+      5 kg/m² of structure needs roughly 2.2 × 10¹¹ m³ of envelope &mdash; which
+      is about nine metres of mean depth spread over the footprint. Not a
+      trivial build. Not an absurd one either, and the volume is the habitat
+      rather than a tank bolted to it.</p>
+  </div>
+
+  <div class="hold panel h-clock">
+    <span class="mk"></span>
+    <div class="hh"><b>Two clocks, and they differ by twenty-nine</b><span class="req">both sites</span></div>
+    <p><b>The surface solar day on Venus is 116.75 Earth days.</b> Sunrise to
+      sunrise, on the ground, four months.</p>
+    <p><b>The atmosphere at 50 km laps the planet in about four days.</b> It
+      super-rotates &mdash; it goes round vastly faster than the body beneath it
+      &mdash; and anything floating freely in it goes round too. A drifting
+      aerostat therefore has a day of roughly four days, and the dome directly
+      below it has one of a hundred and seventeen.</p>
+    <p>So the canopy and the floor of this forest cannot share a calendar, and
+      the reason is not distance, politics or protocol. It is altitude. It is the
+      same problem as <a href="assembly.html">the assembly's table</a> and the
+      relay's fourteen light-minutes, arriving from a third direction, inside one
+      wood &mdash; and the answer is the same one: do not negotiate a clock,
+      agree on something outside that neither layer owns.</p>
+    <p class="note" style="margin-top:9px">There is a candidate already on the
+      page. Venus returns to the same place relative to the sun every 583.92
+      days, and both layers can see the sun. The fast clock stays local, the
+      slow one is shared, and nothing has to be synchronised across fifty
+      kilometres of supercritical CO₂ to make a date stick.</p>
+  </div>
+
+  <div class="empty panel" style="border-color:var(--edge);margin-top:10px">
+    <div class="hh"><b>Nothing sited</b><span class="req">neither built</span></div>
+    <p style="margin:0;font-size:12.5px">Venus as found: 460 million square
+      kilometres of it, 475 °C, 92 bar, and not one square metre arranged for
+      anybody. This is the starting state and the honest one to design from,
+      because every number above is a departure from it and none of them is a
+      departure from a blank page.</p>
+  </div>
+
+  <h2>The tally</h2>
+  <div class="tally">
+    <div class="head"><span>Sites built</span><b class="n-built"></b></div>
+    <div class="head"><span>Of</span><b>2</b></div>
+    <div class="head g"><span>Holds</span><b class="n-holds"></b></div>
+    <div class="head"><span>Of</span><b>4</b></div>
+  </div>
+
+  <h2>Two things the summaries get wrong <b>and one of them matters</b></h2>
+  <div class="panel" style="border-color:rgba(224,112,60,.45)">
+    <p style="margin:0;font-size:12.5px"><b>One. You cannot have one atmosphere
+      and room temperature at the same altitude.</b> Nearly every description of
+      the sweet spot says 50&ndash;60 km gives "exactly 1 bar" and
+      "0&nbsp;to&nbsp;50&nbsp;&deg;C". Both figures are real and they are five
+      kilometres apart.</p>
+    <div class="fig" style="grid-template-columns:repeat(3,1fr)">
+      <div><span>1.00 bar is at</span><b>49.5 km</b><i>and it is about 82 &deg;C there.</i></div>
+      <div><span>0&ndash;50 &deg;C is at</span><b>53–58 km</b><i>and it is 0.36 to 0.75 bar there.</i></div>
+      <div><span>so you choose</span><b>pressure or comfort</b><i>Lower is denser, more buoyant, hotter. Higher is cooler, thinner, less lift.</i></div>
+    </div>
+    <p class="note">It is not a fatal correction &mdash; 0.5 bar is a perfectly
+      workable habitat pressure and cooling 82 &deg;C is easier than cooling 475.
+      It is the sort of thing that gets averaged away in a summary and then
+      designed against as though both numbers were available at once, and this
+      page would rather state the gradient than a headline.</p>
+  </div>
+
+  <h2>Hydrogen <b>the scarcity that is not manufactured</b></h2>
+  <div class="panel" style="border-color:rgba(143,194,224,.45)">
+    <p style="margin:0;font-size:12.5px">Everything else there is effectively
+      unlimited. Carbon and oxygen from a 96.5% CO&#8322; atmosphere, nitrogen at
+      3.5% of an atmosphere ninety times Earth's, and sunlight at 2,601 W/m&sup2;,
+      which is 1.91 times what Earth gets. A floating platform sits near the top
+      of the most reflective cloud deck in the solar system and is lit from below
+      as well as above.</p>
+    <p style="margin:9px 0 0;font-size:12.5px"><b>And Venus is bone dry.</b>
+      Atmospheric water vapour runs around 20 to 30 parts per million. The
+      hydrogen is in the sulfuric acid droplets, and sulfuric acid is only 2.06%
+      hydrogen by mass against water's 11.19%, so the acid is a poor ore for the
+      one element you cannot do without.</p>
+    <div class="fig">
+      <div class="cold"><span>H&#8322;SO&#8324; is</span><b>2.06% H</b><i>by mass. Water is 11.19%.</i></div>
+      <div><span>droplet loading</span><b>~50 mg/m³</b><i>in the cloud deck, order of magnitude.</i></div>
+      <div class="hot"><span>to get 1 kg of water</span><b>~136,000 m³</b><i>of cloud swept, at that loading.</i></div>
+      <div><span>everything else</span><b>unlimited</b><i>C, O, N and energy are not the problem and never were.</i></div>
+    </div>
+    <p class="note"><b>That is what a real scarcity looks like.</b> Nobody
+      arranged it, nobody is holding it back, and no amount of restructuring the
+      market changes the number &mdash; it is 2.06% because of what a sulfate
+      is. <a href="theory.md">theory.md</a> argues that scarcity in a core
+      ecosystem is a physical fact and scarcity in a speculative one is
+      manufactured by making fungible things particular. Venus is the clean case
+      of the first: one element, genuinely short, in a place otherwise drowning
+      in raw material.</p>
+    <p class="note"><b>So the chemistry runs one way.</b> Sabatier and Bosch
+      both take CO&#8322; and hydrogen and give back water &mdash; they are ways
+      of <i>spending</i> hydrogen to move oxygen and carbon around, not ways of
+      getting hydrogen. Every gram of it is either lifted from Earth once or
+      wrung out of acid droplets forever. Design the loop closed or do not
+      design it.</p>
+  </div>
+
+  <h2>The envelope <b>and the property that makes it safe</b></h2>
+  <div class="panel">
+    <div class="fig" style="grid-template-columns:repeat(2,1fr)">
+      <div><span>outer layer</span><b>PTFE / fluoropolymer</b><i>Immune to concentrated sulfuric acid, which is what the cloud is made of.</i></div>
+      <div><span>structural layer</span><b>Vectran / carbon fibre</b><i>Holds the shape. Vectran has already done this on Mars airbags.</i></div>
+    </div>
+    <p class="note" style="margin-top:12px"><b>Inside pressure equals outside
+      pressure, and that is the whole safety case.</b> The envelope is not a
+      pressure vessel &mdash; it is a bag of one gas floating in another at the
+      same pressure, so there is no explosive stress across the skin and a
+      puncture is a slow exchange rather than a decompression. A tear in
+      something this size leaks over hours or days. You can walk the outside
+      decks in an acid suit and an oxygen mask rather than a pressure suit.</p>
+    <p class="note"><b>And gravity is 90.4% of Earth's</b> &mdash; 8.87 against
+      9.81 m/s&sup2; &mdash; which quietly removes the entire category of problem
+      that makes the Moon and Mars hard to live on for decades. It is the least
+      discussed advantage and probably the largest.</p>
+    <p class="note"><b>Station-keeping is formation flying, not anchoring.</b>
+      Nothing at 50 km holds a position over the ground; the whole band is moving
+      at speed. A 23,310 km&sup2; platform is therefore thousands of linked
+      aerostats holding formation with each other while the entire assembly rides
+      the super-rotation &mdash; which is also why its day is four days long and
+      the dome underneath it has one of a hundred and seventeen.</p>
+  </div>
+
+  <h2>Oxygen <b>and who gets to name a thing</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">The oxygen for all of this comes out of
+      CO&#8322;, which the planet has in quantities that make the word abundant
+      look shy. That part is settled engineering. What is worth a paragraph is
+      the history of the word.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">Carl Wilhelm Scheele isolated
+      oxygen around 1771 and did not get it into print for years. Joseph
+      Priestley isolated it independently and published in 1774. Antoine
+      Lavoisier, who was neither first to isolate it nor first to publish,
+      worked out what it actually did &mdash; that combustion is combination
+      with this gas rather than the loss of a substance &mdash; and named it.
+      The name stuck. Scheele also discovered chlorine, in 1774, and it was
+      named by somebody else too, decades later.</p>
+    <p style="margin:9px 0 0;font-size:12.5px"><b>Three different acts.</b>
+      Finding a thing, publishing a thing, and explaining a thing are not the
+      same work and they do not have to be done by the same person &mdash; and
+      only one of the three attaches a name. This is not a story about Scheele
+      being robbed: Lavoisier's explanation was the harder and more important
+      piece, and saying otherwise would be its own distortion. It is a story
+      about which act the record keeps.</p>
+    <p class="note">Which is the argument in <a href="theory.md">theory.md</a>
+      arriving from chemistry rather than from myth: the thing gets named after
+      whoever held the countable half, and the split gets re-explained
+      afterwards as merit. Scheele died at forty-three, probably from handling
+      the substances he was first to isolate. He is the patron of every part of
+      this system that works and is not the part anybody names.</p>
+  </div>
+
+  <h2>What you cannot bring <b>a footnote about bleach</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">Sodium hypochlorite is the ordinary
+      answer to keeping a closed habitat clean, and it is the wrong answer here
+      twice over.</p>
+    <p style="margin:9px 0 0;font-size:12.5px"><b>It is mostly water.</b>
+      Household bleach is roughly a tenth NaOCl and the rest solution &mdash; it
+      does not exist as a dry solid you can ship, and it decomposes on standing
+      even when you keep it wet. On a planet where hydrogen is the one scarce
+      element, a disinfectant that is ninety per cent water is a disinfectant
+      made of the most expensive thing available.</p>
+    <p style="margin:9px 0 0;font-size:12.5px"><b>And the outside air is acid.</b>
+      Hypochlorite and acid together release chlorine, which is first-week
+      chemistry and is the reason the two are never stored near each other. The
+      clouds this platform floats in are concentrated sulfuric acid, and the
+      hull is designed on the assumption that some of it gets in. That is an
+      unforced hazard: pick an oxidiser that has no chlorine in it and the whole
+      interaction stops existing.</p>
+    <p class="note"><b>Sodium itself is not the problem.</b> The element is
+      abundant in basalt and Venus has a great deal of basalt, so it is a surface
+      resource rather than an import. It is the compound, and specifically the
+      water it is dissolved in, that does not survive contact with the actual
+      constraints. Which is the same lesson as everything else on this page: on
+      Venus the question is never whether you can make a thing. It is what the
+      thing costs in hydrogen, and whether it can share a hull with acid.</p>
+  </div>
+
+  <h2>What this is not <b>the last honest line</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">This is not terraforming Venus. It is
+      making 0.005% of it habitable in two layers, and calling that terraforming
+      would be exactly the move the rest of this repository objects to &mdash;
+      taking a real, checkable, modest number and letting it borrow the name of
+      an enormous one. One part in nineteen thousand seven hundred and
+      forty-four.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">The 197 figure is the honest
+      horizon: that is how many of these you would need for one per cent. It is
+      not offered as a discouragement. It is offered because a plan that states
+      its own scale can be believed about everything else, and the forest is
+      real at nine thousand square miles whether or not it is ever nine
+      hundred thousand.</p>
+  </div>
+
+  <p class="note" style="margin-top:22px">Also in this system:
+    <a href="ecosystem.html">the ecosystem</a>, which is what gets sited &middot;
+    <a href="assembly.html">the assembly</a>, which has the same clock problem
+    &middot; <a href="mycelium.html">the fungus</a> &middot;
+    <a href="theory.md">theory.md</a> &middot; <a href="index.html">the yard</a></p>
+</div>

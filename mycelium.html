@@ -1,0 +1,361 @@
+<title>The Fungus · fungible sugar, non-fungible partners</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  THE FUNGUS — the market under the flower bed, and the correction it forces.
+
+  WHY THIS PAGE EXISTS
+  theory.md wrote fungibility as a property of UNITS and stopped there: a bee is
+  a bee, a pound is a pound, therefore the system has no individual loss
+  condition and no scarcity rent. All of that is true and it is not the whole
+  thing, and biology is where it comes apart.
+
+  Under a flower bed there is a market running on the most fungible commodity
+  there is — sugar — and it is not an undifferentiated market. Plants feed
+  carbon to mycorrhizal fungi; the fungi feed back phosphorus and nitrogen
+  drawn from soil the roots cannot reach. And the exchange DISCRIMINATES. Plants
+  send more carbon to fungal partners that deliver more phosphate; fungi send
+  more phosphate to roots that deliver more carbon. Reciprocal reward, measured
+  with isotope tracers, in a currency where every molecule is interchangeable
+  with every other molecule.
+
+  THE CORRECTION, STATED PLAINLY
+  A fungible currency does not produce an undifferentiated system. It moves the
+  discrimination from the commodity to the counterparty. You cannot tell one
+  glucose from another, so nothing is decided about the sugar — everything is
+  decided about who is sending it and what came back.
+
+  AND FUNGIBLE PARTS COMPOSE INTO NON-FUNGIBLE THINGS
+  Peach is not a molecule. Gamma-decalactone carries a great deal of it, and
+  every molecule of gamma-decalactone is identical to every other, and the
+  flavour is still a ratio of dozens of compounds against a sugar-acid balance
+  and a texture. Perfectly fungible parts; a composition that is not
+  substitutable at all. That is the step the first draft missed. Fungibility at
+  the level of the unit says nothing whatsoever about the level above it.
+
+  WHAT IS OVERSOLD, SAID HERE RATHER THAN LEFT OUT
+  The "wood wide web" as popularly told — mother trees deliberately feeding
+  seedlings through the network — runs well ahead of the evidence. Common
+  mycorrhizal networks are real and the exchange is real. The claims about
+  resource-sharing being widespread and beneficial to seedlings were reviewed in
+  2023 (Karst, Jones and Hoeksema) and found to be much weaker in the papers
+  than in the retellings, with citation drift making them stronger each time
+  they were repeated. This page keeps the trade and drops the parable.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#080a07; --card:#121710; --card2:#171d14; --edge:#2b3526;
+    --ink:#eaf0e6; --dim:#8e9b87; --bone:#e4dfc6;
+    --sugar:#e8c98a; --min:#7fa8d0; --hyph:#c9a86a; --root:#8fbf7a;
+    --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 20% -6%,rgba(232,201,138,.10),transparent 44%),
+      radial-gradient(circle at 86% 96%,rgba(127,168,208,.09),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:22px;letter-spacing:-.015em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--root);border:1px solid var(--root);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  p{max-width:82ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.7;margin:10px 0 0;max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#0b100a;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--sugar)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+
+  /* --------------------------------------------------------- the exchange */
+  .bed{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:12px}
+  @media (max-width:860px){.bed{grid-template-columns:1fr}}
+  .bed input{position:absolute;opacity:0;width:0;height:0}
+  .bed label{display:block;cursor:pointer;background:#0d120b;
+    border:1px solid var(--edge);border-radius:11px;padding:12px 13px}
+  .bed label:hover{border-color:var(--bone)}
+  .bed input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+  .bed label .nm{display:flex;align-items:baseline;gap:8px}
+  .bed label b{font-size:14px;color:var(--dim)}
+  .bed label .gives{margin-left:auto;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:#55634f}
+  .bed label .d{font-size:10.5px;line-height:1.58;color:var(--dim);margin-top:8px}
+  .bed label .st{margin-top:9px;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:#55634f}
+  .bed label .st::after{content:"not trading"}
+  .bed input:checked+label .st::after{content:"trading"}
+  #plant:checked+label{border-color:var(--root);background:rgba(143,191,122,.10)}
+  #plant:checked+label b,#plant:checked+label .st{color:var(--root)}
+  #fung:checked+label{border-color:var(--hyph);background:rgba(201,168,106,.11)}
+  #fung:checked+label b,#fung:checked+label .st{color:var(--hyph)}
+  #cheat:checked+label{border-color:var(--warn);background:rgba(224,112,90,.10)}
+  #cheat:checked+label b,#cheat:checked+label .st{color:var(--warn)}
+
+  /* =========================================== 1 · COUNTERS ARE ARITHMETIC */
+  body{counter-reset:parties 0 flows 0}
+  #plant:checked+label{counter-increment:parties 1}
+  #fung:checked+label{counter-increment:parties 1}
+  #cheat:checked+label{counter-increment:parties 1}
+  .flow .mk{counter-increment:flows 1}
+  .n-parties::after{content:counter(parties)}
+  .n-flows::after{content:counter(flows)}
+
+  /* ================================================= 2 · WHAT ACTUALLY MOVES */
+  .flow{display:none}
+  .flow.panel{margin-top:10px}
+  .fh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:8px;margin-bottom:10px}
+  .fh b{font-size:14px;color:var(--bone)}
+  .fh .req{margin-left:auto;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+  .flow p{margin:0;font-size:12.5px} .flow p+p{margin-top:9px}
+
+  .soil:has(#plant:checked):has(#fung:checked) .f-carbon{display:block}
+  .soil:has(#plant:checked):has(#fung:checked) .f-mineral{display:block}
+  .soil:has(#plant:checked):has(#fung:checked) .f-reward{display:block}
+  .soil:has(#cheat:checked):has(#plant:checked) .f-cheat{display:block}
+  .f-carbon{border-color:rgba(232,201,138,.45)}
+  .f-mineral{border-color:rgba(127,168,208,.45)}
+  .f-reward{border-color:rgba(143,191,122,.45)}
+  .f-cheat{border-color:rgba(224,112,90,.45)}
+
+  .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .head{background:#0d120b;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:5px}
+  .head.g b{color:var(--root)}
+  @media (max-width:560px){.tally{grid-template-columns:repeat(2,1fr)}}
+
+  .peach{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+  @media (max-width:760px){.peach{grid-template-columns:repeat(2,1fr)}}
+  .peach div{background:#0d120b;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .peach span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);display:block}
+  .peach b{display:block;font:12.5px/1.35 ui-monospace,Menlo,monospace;
+    color:var(--sugar);margin-top:6px}
+  .peach i{display:block;font-style:normal;font-size:10.5px;color:var(--dim);
+    margin-top:6px;line-height:1.55}
+
+  .empty{display:none}
+  .soil:not(:has(input:checked)) .empty{display:block}
+</style>
+
+<div class="soil wrap">
+  <header>
+    <span class="tag">no script</span>
+    <h1>The Fungus</h1>
+    <p class="sub">Under the flower bed there is a market running on the most
+      fungible commodity there is, and it is not an undifferentiated market.
+      This page exists because the theory got it wrong by stopping at the
+      unit.</p>
+  </header>
+
+  <div class="panel" style="border-color:rgba(224,112,90,.45)">
+    <h2 style="margin-top:0">The correction <b>what the first draft missed</b></h2>
+    <p style="margin:0;font-size:13px"><a href="theory.md">theory.md</a> wrote
+      fungibility as a property of <b>units</b> and stopped there: a bee is a
+      bee, a pound is a pound, so the system has no individual loss condition and
+      no scarcity rent. That is true and it is not the whole thing.</p>
+    <p class="note"><b>A fungible currency does not produce an undifferentiated
+      system.</b> It moves the discrimination from the commodity to the
+      counterparty. You cannot tell one glucose from another, so nothing is
+      decided about the sugar &mdash; and everything is decided about who sent
+      it and what came back. That happens under every flower bed on this planet
+      and it was measurable before anybody thought to look.</p>
+  </div>
+
+  <h2>The three parties <b>and what each puts in</b></h2>
+  <div class="bed">
+    <input type="checkbox" id="plant" checked>
+    <label for="plant">
+      <span class="nm"><b>The plant</b><span class="gives">gives carbon</span></span>
+      <span class="d">Photosynthesises, and sends a serious fraction of what it
+        makes underground &mdash; commonly cited in the range of a tenth to a
+        fifth of its fixed carbon &mdash; to partners it has never seen. It has
+        roots, and roots are thick and short-range and cannot reach the
+        phosphorus.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="fung" checked>
+    <label for="fung">
+      <span class="nm"><b>The fungus</b><span class="gives">gives minerals</span></span>
+      <span class="d">Hyphae are orders of magnitude finer than a root and go
+        where roots cannot, into pore spaces and around grains, and they bring
+        back phosphorus, nitrogen and water. It cannot photosynthesise. It has
+        reach and no income; the plant has income and no reach.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="cheat">
+    <label for="cheat">
+      <span class="nm"><b>The poor partner</b><span class="gives">gives less</span></span>
+      <span class="d">A fungal strain that takes carbon and returns little
+        phosphate. Not a villain and not a parasite exactly &mdash; just a worse
+        trade, present in real soil, and the reason the interesting question is
+        not whether the exchange happens but whether anything can tell the
+        difference.</span>
+      <span class="st"></span>
+    </label>
+  </div>
+  <p class="note"><b>Tick the poor partner and watch what the plant does.</b>
+    This is the whole experiment, and the answer was not obvious before it was
+    measured.</p>
+
+  <h2>What actually moves <b>counted from the panels, not declared</b></h2>
+
+  <div class="flow panel f-carbon">
+    <span class="mk"></span>
+    <div class="fh"><b>Carbon, downward</b><span class="req">plant → fungus</span></div>
+    <p>Sugar. The most fungible substance in the whole system: one glucose is
+      indistinguishable from another by any test, chemical or biological, and
+      nothing about a molecule records where it came from or who paid for it.</p>
+  </div>
+
+  <div class="flow panel f-mineral">
+    <span class="mk"></span>
+    <div class="fh"><b>Phosphorus, upward</b><span class="req">fungus → plant</span></div>
+    <p>Also fungible. Also anonymous. Both directions of this trade are carried
+      in commodities that cannot be branded, traced, or told apart &mdash; which
+      by the argument in <a href="theory.md">theory.md</a> ought to make the
+      market undifferentiated, and does not.</p>
+  </div>
+
+  <div class="flow panel f-reward">
+    <span class="mk"></span>
+    <div class="fh"><b>Reciprocal reward</b><span class="req">the finding</span></div>
+    <p><b>The plant sends more carbon to the fungal partners that deliver more
+      phosphate, and the fungus sends more phosphate to the roots that deliver
+      more carbon.</b> Both sides discriminate, simultaneously, using
+      commodities neither side can identify the origin of.</p>
+    <p>This was shown with isotope tracers &mdash; label the phosphorus, label
+      the carbon, and watch where each one accumulates when a root is offered
+      partners of different quality at once. The allocation follows the return.
+      Neither party can inspect the goods, and both are nevertheless choosing.</p>
+    <p class="note" style="margin-top:9px"><b>Which is the correction.</b> The
+      discrimination did not disappear when the currency became fungible. It
+      relocated. It stopped being about the thing and became entirely about the
+      relationship, which is exactly what you would expect and precisely what
+      the first draft failed to say.</p>
+  </div>
+
+  <div class="flow panel f-cheat">
+    <span class="mk"></span>
+    <div class="fh"><b>The poor partner gets less</b><span class="req">plant · poor partner</span></div>
+    <p>Sanctioned without a sanction. There is no adjudication here, no
+      detection of cheating, no rule and no enforcement &mdash; the plant simply
+      allocates in proportion to what arrives, and a partner returning less
+      receives less. The mechanism is one line long and it does not require
+      anybody to be caught.</p>
+    <p class="note" style="margin-top:9px">Compare the wolves and the owls: a
+      chamber needs quorum, procedure, a decisive denominator and a rule about
+      abstention to get to an outcome this market reaches by arithmetic. The
+      difference is that a plant is not trying to be <i>fair</i>. It is trying to
+      be fed, and proportional allocation is the cheapest thing that works.</p>
+  </div>
+
+  <div class="empty panel" style="border-color:var(--edge);margin-top:10px">
+    <div class="fh"><b>Bare soil</b><span class="req">nobody trading</span></div>
+    <p style="margin:0;font-size:12.5px">No parties, no flows. The phosphorus is
+      still in the ground and still out of reach, which is the state this whole
+      arrangement exists to get out of: not a shortage of the mineral, a
+      shortage of anything with hyphae fine enough to fetch it.</p>
+  </div>
+
+  <h2>The tally</h2>
+  <div class="tally">
+    <div class="head"><span>Parties</span><b class="n-parties"></b></div>
+    <div class="head"><span>Of</span><b>3</b></div>
+    <div class="head g"><span>Flows</span><b class="n-flows"></b></div>
+    <div class="head"><span>Of</span><b>4</b></div>
+  </div>
+
+  <h2>Peach <b>where fungible parts stop being the whole story</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">Peach is not a molecule. A great deal
+      of it is carried by gamma-decalactone, and every molecule of
+      gamma-decalactone is identical to every other molecule of it &mdash;
+      perfectly fungible, no exceptions, nothing to distinguish. And the flavour
+      is still not that compound. It is a ratio: lactones against esters against
+      aldehydes, over a sugar-to-acid balance, in a texture, at a temperature.</p>
+    <div class="peach">
+      <div><span>the unit</span><b>one lactone</b><i>Fungible without qualification. Any molecule substitutes for any other.</i></div>
+      <div><span>the ratio</span><b>not fungible</b><i>Change the proportions and it is a different fruit, from identical parts.</i></div>
+      <div><span>the medium</span><b>not fungible</b><i>Same compounds, wrong sugar-acid balance, and it reads as tinned.</i></div>
+      <div><span>the result</span><b>peach</b><i>A composition. Nothing in it is particular and the arrangement is.</i></div>
+    </div>
+    <p class="note"><b>This is the step the theory missed.</b> Fungibility at the
+      level of the unit says nothing whatever about the level above it. A system
+      can be built entirely out of interchangeable parts and still produce
+      results that are not interchangeable at all &mdash; which is true of a
+      flavour, a forest, a chamber and a piece of work, and it is the reason a
+      fungible medium is not the same thing as a flat world.</p>
+  </div>
+
+  <h2>One fungus <b>the largest organism anybody has found</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">In the Malheur National Forest in
+      Oregon there is a single individual of <i>Armillaria ostoyae</i> covering
+      roughly 2,385 acres &mdash; about 9.6 km&sup2;, or 3.7 square miles. Not a
+      colony and not a population: genetic testing says one organism, spreading
+      underground as a continuous network, and estimates of its age start
+      around two and a half thousand years.</p>
+    <div class="peach" style="grid-template-columns:repeat(3,1fr)">
+      <div><span>one individual</span><b>3.7 sq mi</b><i>9.6 km², one genome, continuous underground.</i></div>
+      <div><span>this forest</span><b>9,000 sq mi</b><i>About 2,400 of it, side by side.</i></div>
+      <div><span>and it is</span><b>a pathogen</b><i>Armillaria kills trees. That is how it got that big.</i></div>
+    </div>
+    <p class="note"><b>Say the last one plainly.</b> The largest organism
+      anybody has measured is a parasite, and the reason it covers three and a
+      half square miles is that it has been killing the trees above it for
+      millennia. The network under a wood is not automatically a commons or a
+      kindness. Sometimes it is one animal eating a forest slowly, and the fact
+      that it is beautiful and old does not make it a partnership.</p>
+    <p class="note"><b>And it inverts the market.</b> Everything above this
+      section describes trade between separate parties who discriminate by
+      return. A single individual spanning the whole bed is not trading with
+      itself &mdash; there is no counterparty, no reciprocity to measure, and no
+      question of a poor partner. The same physical structure runs both
+      arrangements, and you cannot tell which one you are looking at without
+      genotyping it. That is the honest state of the field, and it is why the
+      next section exists.</p>
+  </div>
+
+  <h2>What is oversold <b>and this page is not going to repeat it</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">The popular version of this &mdash;
+      mother trees deliberately feeding seedlings, a forest sharing resources
+      through a wood wide web &mdash; runs well ahead of what the papers
+      support. Common mycorrhizal networks are real. The exchange above is real
+      and measured. The claims about networks routinely redistributing resources
+      for the benefit of seedlings were reviewed in 2023 by Karst, Jones and
+      Hoeksema, who found the evidence considerably weaker than the retellings,
+      and found citation drift: each repetition stated it more strongly than the
+      source it cited.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">Keep the trade. Drop the parable.
+      It is the same failure as the moth at the candle, one level up &mdash; a
+      description that was calibrated to a particular study and then carried
+      into conditions it was never fitted for, behaving exactly as specified and
+      being wrong the whole way.</p>
+  </div>
+
+  <p class="note" style="margin-top:22px">Also in this system:
+    <a href="ecosystem.html">the ecosystem</a> &middot;
+    <a href="assembly.html">the assembly</a> &middot;
+    <a href="theory.md">theory.md</a>, which this page corrects &middot;
+    <a href="index.html">the yard</a></p>
+</div>

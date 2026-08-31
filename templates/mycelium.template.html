@@ -1,0 +1,169 @@
+<title>TEMPLATE &middot; The Fungus · fungible sugar, non-fungible partners</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from mycelium.html by templatise.mjs.
+
+     source            mycelium.html
+     radio groups      0
+     checkboxes        3
+     counters          parties, flows
+     stored states     none — this page forgets everything on reload
+     :has() rules      9, 4 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#080a07; --card:#121710; --card2:#171d14; --edge:#2b3526;
+    --ink:#eaf0e6; --dim:#8e9b87; --bone:#e4dfc6;
+    --sugar:#e8c98a; --min:#7fa8d0; --hyph:#c9a86a; --root:#8fbf7a;
+    --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 20% -6%,rgba(232,201,138,.10),transparent 44%),
+      radial-gradient(circle at 86% 96%,rgba(127,168,208,.09),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:22px;letter-spacing:-.015em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--root);border:1px solid var(--root);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  p{max-width:82ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.7;margin:10px 0 0;max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#0b100a;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--sugar)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+
+  /* --------------------------------------------------------- the exchange */
+  .bed{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:12px}
+  @media (max-width:860px){.bed{grid-template-columns:1fr}}
+  .bed input{position:absolute;opacity:0;width:0;height:0}
+  .bed label{display:block;cursor:pointer;background:#0d120b;
+    border:1px solid var(--edge);border-radius:11px;padding:12px 13px}
+  .bed label:hover{border-color:var(--bone)}
+  .bed input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+  .bed label .nm{display:flex;align-items:baseline;gap:8px}
+  .bed label b{font-size:14px;color:var(--dim)}
+  .bed label .gives{margin-left:auto;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:#55634f}
+  .bed label .d{font-size:10.5px;line-height:1.58;color:var(--dim);margin-top:8px}
+  .bed label .st{margin-top:9px;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:#55634f}
+  .bed label .st::after{content:"not trading"}
+  .bed input:checked+label .st::after{content:"trading"}
+  #plant:checked+label{border-color:var(--root);background:rgba(143,191,122,.10)}
+  #plant:checked+label b,#plant:checked+label .st{color:var(--root)}
+  #fung:checked+label{border-color:var(--hyph);background:rgba(201,168,106,.11)}
+  #fung:checked+label b,#fung:checked+label .st{color:var(--hyph)}
+  #cheat:checked+label{border-color:var(--warn);background:rgba(224,112,90,.10)}
+  #cheat:checked+label b,#cheat:checked+label .st{color:var(--warn)}
+
+  /* =========================================== 1 · COUNTERS ARE ARITHMETIC */
+  body{counter-reset:parties 0 flows 0}
+  #plant:checked+label{counter-increment:parties 1}
+  #fung:checked+label{counter-increment:parties 1}
+  #cheat:checked+label{counter-increment:parties 1}
+  .flow .mk{counter-increment:flows 1}
+  .n-parties::after{content:counter(parties)}
+  .n-flows::after{content:counter(flows)}
+
+  /* ================================================= 2 · WHAT ACTUALLY MOVES */
+  .flow{display:none}
+  .flow.panel{margin-top:10px}
+  .fh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:8px;margin-bottom:10px}
+  .fh b{font-size:14px;color:var(--bone)}
+  .fh .req{margin-left:auto;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+  .flow p{margin:0;font-size:12.5px} .flow p+p{margin-top:9px}
+
+  .soil:has(#plant:checked):has(#fung:checked) .f-carbon{display:block}
+  .soil:has(#plant:checked):has(#fung:checked) .f-mineral{display:block}
+  .soil:has(#plant:checked):has(#fung:checked) .f-reward{display:block}
+  .soil:has(#cheat:checked):has(#plant:checked) .f-cheat{display:block}
+  .f-carbon{border-color:rgba(232,201,138,.45)}
+  .f-mineral{border-color:rgba(127,168,208,.45)}
+  .f-reward{border-color:rgba(143,191,122,.45)}
+  .f-cheat{border-color:rgba(224,112,90,.45)}
+
+  .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .head{background:#0d120b;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:5px}
+  .head.g b{color:var(--root)}
+  @media (max-width:560px){.tally{grid-template-columns:repeat(2,1fr)}}
+
+  .peach{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+  @media (max-width:760px){.peach{grid-template-columns:repeat(2,1fr)}}
+  .peach div{background:#0d120b;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .peach span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);display:block}
+  .peach b{display:block;font:12.5px/1.35 ui-monospace,Menlo,monospace;
+    color:var(--sugar);margin-top:6px}
+  .peach i{display:block;font-style:normal;font-size:10.5px;color:var(--dim);
+    margin-top:6px;line-height:1.55}
+
+  .empty{display:none}
+  .soil:not(:has(input:checked)) .empty{display:block}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO checkbox set <b>3</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="plant" checked><label for="plant">The plant gives carbon Photosynthesises, a</label>
+      <input type="checkbox" id="fung" checked><label for="fung">The fungus gives minerals Hyphae are order</label>
+      <input type="checkbox" id="cheat"><label for="cheat">The poor partner gives less A fungal strai</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>parties</span><b class="n-parties"></b></div>
+      <div class="head m"><span>flows</span><b class="n-flows"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>
