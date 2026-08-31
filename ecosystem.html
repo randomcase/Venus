@@ -1,11 +1,14 @@
-<title>The Ecosystem · five orders, and what the forest can do without them</title>
+<title>The Ecosystem · seven orders, and what the forest can do without them</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
   THE ECOSYSTEM — the forest that terraforms this planet, as a dependency graph.
 
+  Seven orders, nine capabilities, and every capability a conjunction of the
+  orders it actually needs.
+
   Nine thousand square miles of forest, the size of England, and it is not
   scenery. It is the machine that makes the planet habitable, and like every
-  machine it is a set of parts with jobs. Five orders live in it. Each one does
+  machine it is a set of parts with jobs. Seven orders live in it. Each one does
   something the others cannot, none of them is decoration, and the page's whole
   purpose is to let you take one out and see precisely what stops working.
 
@@ -17,6 +20,10 @@
                                because affording it IS the evidence
     FLAMINGOS   show           they are made of what passes through them, so
                                their colour is a reading nobody can forge
+    BEES        spread         carriage between things that cannot move, and a
+                               dance that encodes where in a symbol
+    BUTTERFLIES inherit        a route longer than any life on it, and a body
+                               that can become another body without starting
 
   WHAT HAPPENS WHEN THE CLOCK GOES
   Not everything. That was the first version of this page and it was wrong.
@@ -37,8 +44,25 @@
   the claim was wrong before the rule was, and making it enforceable would only
   have made a false statement harder to notice.
 
+  ON THE LAST TWO
+  Bees are not here for honey. A bee is carriage: it moves material between
+  things that are rooted and cannot go to each other, and it tells the hive
+  where by dancing an angle and a duration — a symbol, standing for a place,
+  understood by something that was not there. A forest without that machine
+  does not shrink. It simply never gets any bigger than the clearing it
+  started in.
+
+  Butterflies are not here for colour either, and the metamorphosis is only
+  half of it. The half everybody quotes is real — a caterpillar dissolves and
+  reassembles as an animal with a different body, a different food and a
+  different medium, which is a system becoming something else without starting
+  again from nothing. The half worth more is the migration: on the long routes
+  no individual completes the journey. The insect that arrives is three or four
+  generations removed from the one that set out, and none of them ever met.
+  The route is carried by animals that will not see the end of it.
+
   HOW IT IS BUILT
-  Five checkboxes. Six capability panels, each gated by a compound :has() on
+  Seven checkboxes. Six capability panels, each gated by a compound :has() on
   the orders it actually requires. The capability count is a CSS counter that
   increments on an element inside each panel — and an element inside a
   display:none panel does not increment anything, which is how the number
@@ -53,7 +77,8 @@
     --void:#060a08; --card:#0f1714; --card2:#141d19; --edge:#26332c;
     --ink:#e8f0ea; --dim:#87998e; --bone:#e6dcc4;
     --fly:#f0c66a; --owl:#a9b7c9; --wolf:#c9857a;
-    --peac:#4fb3a6; --flam:#e58aa0; --leaf:#6fc08a; --cool:#6ec6ff;
+    --peac:#4fb3a6; --flam:#e58aa0; --bee:#e0903c; --btfl:#b98ae0;
+    --leaf:#6fc08a; --cool:#6ec6ff;
   }
   *{box-sizing:border-box}
   body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
@@ -83,9 +108,10 @@
     border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
 
   /* ------------------------------------------------------------ the orders */
-  .orders{display:grid;gap:10px;grid-template-columns:repeat(5,1fr);margin-top:12px}
-  @media (max-width:960px){.orders{grid-template-columns:repeat(3,1fr)}}
-  @media (max-width:620px){.orders{grid-template-columns:1fr}}
+  .orders{display:grid;gap:10px;grid-template-columns:repeat(4,1fr);margin-top:12px}
+  @media (max-width:1000px){.orders{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:760px){.orders{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:520px){.orders{grid-template-columns:1fr}}
   .orders input{position:absolute;opacity:0;width:0;height:0}
   .orders label{display:block;cursor:pointer;background:#0c1410;
     border:1px solid var(--edge);border-radius:11px;padding:12px 13px;
@@ -112,6 +138,10 @@
   #peac:checked+label b,#peac:checked+label .st{color:var(--peac)}
   #flam:checked+label{border-color:var(--flam);background:rgba(229,138,160,.10)}
   #flam:checked+label b,#flam:checked+label .st{color:var(--flam)}
+  #bee:checked+label{border-color:var(--bee);background:rgba(224,144,60,.10)}
+  #bee:checked+label b,#bee:checked+label .st{color:var(--bee)}
+  #btfl:checked+label{border-color:var(--btfl);background:rgba(185,138,224,.10)}
+  #btfl:checked+label b,#btfl:checked+label .st{color:var(--btfl)}
 
   /* ==================================== 1 · COUNTERS ARE ARITHMETIC
      Two counters. `orders` increments on the checked label, the ordinary way.
@@ -127,6 +157,8 @@
   #wolf:checked+label{counter-increment:orders 1}
   #peac:checked+label{counter-increment:orders 1}
   #flam:checked+label{counter-increment:orders 1}
+  #bee:checked+label{counter-increment:orders 1}
+  #btfl:checked+label{counter-increment:orders 1}
   .cap .mk{counter-increment:can 1}
   .n-orders::after{content:counter(orders)}
   .n-can::after{content:counter(can)}
@@ -142,7 +174,10 @@
   .eco:has(#wolf:checked) .c-move{display:block}
   .eco:has(#peac:checked):has(#owl:checked) .c-prove{display:block}
   .eco:has(#flam:checked):has(#fly:checked) .c-see{display:block}
-  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked)
+  .eco:has(#bee:checked) .c-spread{display:block}
+  .eco:has(#btfl:checked) .c-inherit{display:block}
+  .eco:has(#bee:checked):has(#btfl:checked):has(#fly:checked) .c-recover{display:block}
+  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked):has(#bee:checked):has(#btfl:checked)
     .c-terraform{display:block}
 
   .cap.panel{margin-top:10px}
@@ -158,6 +193,9 @@
   .c-move{border-color:rgba(201,133,122,.45)}
   .c-prove{border-color:rgba(79,179,166,.45)}
   .c-see{border-color:rgba(229,138,160,.45)}
+  .c-spread{border-color:rgba(224,144,60,.45)}
+  .c-inherit{border-color:rgba(185,138,224,.45)}
+  .c-recover{border-color:rgba(111,192,138,.35)}
   .c-terraform{border-color:var(--leaf)}
 
   .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
@@ -213,11 +251,12 @@
     <h1>The Ecosystem</h1>
     <p class="sub">Nine thousand square miles of forest, the size of England,
       and it is not scenery — it is the machine that makes this planet
-      habitable. Five orders live in it. Take one out and see exactly what
-      stops working.</p>
+      habitable. Seven orders live in it. Take one out and see what stops
+      working &mdash; and what carries on regardless, which is usually the more
+      interesting half.</p>
   </header>
 
-  <h2>The five orders <b>each one has a job, none of them is decoration</b></h2>
+  <h2>The seven orders <b>each one has a job, none of them is decoration</b></h2>
   <div class="orders">
     <input type="checkbox" id="fly" checked>
     <label for="fly">
@@ -269,11 +308,34 @@
         because it is made of the thing it is measuring.</span>
       <span class="st"></span>
     </label>
+
+    <input type="checkbox" id="bee" checked>
+    <label for="bee">
+      <span class="nm"><b>Bees</b><span class="job">spread</span></span>
+      <span class="d">Carriage between things that are rooted and cannot go to
+        each other &mdash; and a dance that encodes a direction and a distance as
+        a symbol, understood by a bee that was not there. Without it the forest
+        does not shrink. It just never gets bigger than the clearing it started
+        in.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="btfl" checked>
+    <label for="btfl">
+      <span class="nm"><b>Butterflies</b><span class="job">inherit</span></span>
+      <span class="d">On the long routes no individual finishes the journey: the
+        one that arrives is three or four generations from the one that set out,
+        and none of them ever met. The route is carried by animals that will not
+        see the end of it. The metamorphosis is the other half &mdash; a body
+        that becomes another body without starting again.</span>
+      <span class="st"></span>
+    </label>
   </div>
   <p class="note"><b>Untick one and watch.</b> The capabilities below are not a
     list of features, they are conjunctions: each one names the orders it
-    actually requires, and it disappears when any of them leaves. Six rules for
-    six capabilities — adding a sixth animal costs as many rules as it has jobs,
+    actually requires, and it disappears when any of them leaves. Nine rules for
+    nine capabilities — adding an eighth animal costs as many rules as it has
+    jobs,
     not a doubled table.</p>
 
   <h2>What the forest can do <b>counted from the panels, not declared</b></h2>
@@ -327,15 +389,64 @@
       because a reading with no timestamp is a colour rather than a measurement.</p>
   </div>
 
+  <div class="cap panel c-spread">
+    <span class="mk"></span>
+    <div class="ch"><b>Spread</b><span class="req">needs bees</span></div>
+    <p>The forest can reach past where it started. Two trees on opposite sides
+      of a valley are rooted, cannot travel, and will never meet &mdash; and the
+      bees make them neighbours anyway. This is the only capability in the wood
+      that is about <i>coverage</i> rather than about function, and terraforming
+      a planet is very largely a coverage problem.</p>
+    <p class="note" style="margin-top:9px">The waggle dance is worth its own
+      line: a bee that has found something returns and dances an angle against
+      the vertical and a duration, and other bees fly to a place they have never
+      seen on the strength of a symbol. That is not signalling that something is
+      good. That is saying <i>where</i>, in an abstraction, to somebody who was
+      not there.</p>
+  </div>
+
+  <div class="cap panel c-inherit">
+    <span class="mk"></span>
+    <div class="ch"><b>Inherit</b><span class="req">needs butterflies</span></div>
+    <p>Something in this wood can hold a route that is longer than any life on
+      it. Nobody flying it will see both ends. The generation that arrives is
+      three or four removed from the one that left, they never met, and the way
+      is kept anyway &mdash; not written down, not taught, and not dependent on
+      anybody surviving the trip.</p>
+    <p>The metamorphosis belongs here too, and it is the less sentimental half:
+      a body that dissolves and reassembles as a different animal, with a
+      different food and a different medium, is a system becoming something else
+      without starting again from nothing. Every other order in this wood can
+      only ever be a better version of itself.</p>
+  </div>
+
+  <div class="cap panel c-recover">
+    <span class="mk"></span>
+    <div class="ch"><b>Recover</b><span class="req">needs bees · butterflies · fireflies</span></div>
+    <p>The forest can come back from a loss. All three are required and none is
+      sufficient: the bees carry the material to where it is needed, the
+      butterflies hold the route across generations that will not overlap, and
+      the fireflies supply the <i>when</i> that makes it a recovery rather than
+      an accident.</p>
+    <p class="note" style="margin-top:9px">Note which orders are <b>not</b> on
+      this list. Coming back does not require anybody to decide it, prove it,
+      report it or move quickly. It requires carriage, memory and a clock, and
+      it happens on a timescale where none of the four louder orders would even
+      register that it had begun.</p>
+  </div>
+
   <div class="cap panel c-terraform">
     <span class="mk"></span>
-    <div class="ch"><b>Terraform</b><span class="req">needs all five</span></div>
-    <p>The full machine. It keeps time, decides, acts, proves what it did and
-      shows what passed through it — which between them is the whole of what
-      making a planet habitable actually consists of, and none of it is the
-      dramatic part.</p>
-    <p>Nine thousand square miles and five orders, and the one that has to be
-      present for any of the others to count is the smallest animal in the wood.</p>
+    <div class="ch"><b>Terraform</b><span class="req">needs all seven</span></div>
+    <p>The full machine. It keeps time, decides, acts, proves what it did, shows
+      what passed through it, spreads past the clearing it began in, and carries
+      the route across lives that do not overlap &mdash; which between them is
+      the whole of what making a planet habitable actually consists of, and none
+      of it is the dramatic part.</p>
+    <p>Nine thousand square miles and seven orders, and the two that matter most
+      to whether any of it is still here in a century are the two smallest
+      animals in the wood: the one that keeps the time and the one that keeps
+      the way.</p>
   </div>
 
   <!-- no inline display here: an inline style beats a stylesheet rule, and the
@@ -348,8 +459,10 @@
       are both here, <b>claims can still be proved.</b> What has stopped is
       everything that required agreement: nothing can be scheduled, the quorum
       cannot be called, and the flamingos are a colour rather than a reading.</p>
-    <p>So losing the clock does not stop the forest. It stops the deliberate
-      half and leaves the fast half running — a wood that can still act and can
+    <p>The bees also carry on, which is worth noticing: the forest keeps
+      spreading while it is unable to decide anything about where. So losing the
+      clock does not stop the forest. It stops the deliberate half and leaves
+      the fast half running — a wood that can still act and can
       no longer decide, still signal and no longer schedule. That is a worse
       condition than a wood that has stopped, and it looks considerably
       healthier from outside.</p>
@@ -379,9 +492,9 @@
   <h2>The tally <b>counted, not declared</b></h2>
   <div class="heads">
     <div class="head"><span>Orders present</span><b class="n-orders"></b></div>
-    <div class="head"><span>Of</span><b>5</b></div>
+    <div class="head"><span>Of</span><b>7</b></div>
     <div class="head g"><span>Capabilities</span><b class="n-can"></b></div>
-    <div class="head"><span>Of</span><b>6</b></div>
+    <div class="head"><span>Of</span><b>9</b></div>
   </div>
   <p class="note"><b>The capability count counts itself.</b> Each panel carries
     a marker that increments a CSS counter — and a marker inside a hidden panel
@@ -390,7 +503,7 @@
     a figure anybody typed, and it cannot drift away from what is on the screen,
     which is the only reason it is allowed to be printed at all.</p>
 
-  <h2>Why these five <b>and not five nicer ones</b></h2>
+  <h2>Why these seven <b>and not seven nicer ones</b></h2>
   <div class="panel">
     <p style="margin:0;font-size:12.5px">Every animal here does a real job that
       the others cannot, and each job is a real mechanism rather than a mood.
@@ -406,6 +519,15 @@
       no velocity in it is a wood that deliberates its way to a stop, and
       because an audit that has never been tested against anybody quick is not
       an audit, it is a habit.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">The bees and the butterflies were
+      added last and they are the two the wood would miss longest. Everything
+      the other five do, they do <i>now</i>: this decision, this claim, this
+      reading, this hour. Carriage and inheritance are the only two jobs in the
+      forest whose whole value is measured after the animal doing them is gone
+      &mdash; a tree pollinated by a bee that died in the summer, a route flown
+      by four generations of an insect that never met each other. A wood with
+      the five and not the last two works perfectly and ends with the animals
+      currently in it.</p>
   </div>
 
   <p class="note" style="margin-top:22px">Also in this forest:

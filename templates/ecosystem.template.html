@@ -1,14 +1,14 @@
-<title>TEMPLATE &middot; The Ecosystem · five orders, and what the forest can do without them</title>
+<title>TEMPLATE &middot; The Ecosystem · seven orders, and what the forest can do without them</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
   TEMPLATE, extracted from ecosystem.html by templatise.mjs.
 
      source            ecosystem.html
      radio groups      0
-     checkboxes        5
+     checkboxes        7
      counters          orders, can
      stored states     none — this page forgets everything on reload
-     :has() rules      22, 6 of them compound
+     :has() rules      29, 8 of them compound
      script            none
 
   WHAT IS STILL HERE
@@ -35,7 +35,8 @@
     --void:#060a08; --card:#0f1714; --card2:#141d19; --edge:#26332c;
     --ink:#e8f0ea; --dim:#87998e; --bone:#e6dcc4;
     --fly:#f0c66a; --owl:#a9b7c9; --wolf:#c9857a;
-    --peac:#4fb3a6; --flam:#e58aa0; --leaf:#6fc08a; --cool:#6ec6ff;
+    --peac:#4fb3a6; --flam:#e58aa0; --bee:#e0903c; --btfl:#b98ae0;
+    --leaf:#6fc08a; --cool:#6ec6ff;
   }
   *{box-sizing:border-box}
   body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
@@ -65,9 +66,10 @@
     border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
 
   /* ------------------------------------------------------------ the orders */
-  .orders{display:grid;gap:10px;grid-template-columns:repeat(5,1fr);margin-top:12px}
-  @media (max-width:960px){.orders{grid-template-columns:repeat(3,1fr)}}
-  @media (max-width:620px){.orders{grid-template-columns:1fr}}
+  .orders{display:grid;gap:10px;grid-template-columns:repeat(4,1fr);margin-top:12px}
+  @media (max-width:1000px){.orders{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:760px){.orders{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:520px){.orders{grid-template-columns:1fr}}
   .orders input{position:absolute;opacity:0;width:0;height:0}
   .orders label{display:block;cursor:pointer;background:#0c1410;
     border:1px solid var(--edge);border-radius:11px;padding:12px 13px;
@@ -94,6 +96,10 @@
   #peac:checked+label b,#peac:checked+label .st{color:var(--peac)}
   #flam:checked+label{border-color:var(--flam);background:rgba(229,138,160,.10)}
   #flam:checked+label b,#flam:checked+label .st{color:var(--flam)}
+  #bee:checked+label{border-color:var(--bee);background:rgba(224,144,60,.10)}
+  #bee:checked+label b,#bee:checked+label .st{color:var(--bee)}
+  #btfl:checked+label{border-color:var(--btfl);background:rgba(185,138,224,.10)}
+  #btfl:checked+label b,#btfl:checked+label .st{color:var(--btfl)}
 
   /* ==================================== 1 · COUNTERS ARE ARITHMETIC
      Two counters. `orders` increments on the checked label, the ordinary way.
@@ -109,6 +115,8 @@
   #wolf:checked+label{counter-increment:orders 1}
   #peac:checked+label{counter-increment:orders 1}
   #flam:checked+label{counter-increment:orders 1}
+  #bee:checked+label{counter-increment:orders 1}
+  #btfl:checked+label{counter-increment:orders 1}
   .cap .mk{counter-increment:can 1}
   .n-orders::after{content:counter(orders)}
   .n-can::after{content:counter(can)}
@@ -124,7 +132,10 @@
   .eco:has(#wolf:checked) .c-move{display:block}
   .eco:has(#peac:checked):has(#owl:checked) .c-prove{display:block}
   .eco:has(#flam:checked):has(#fly:checked) .c-see{display:block}
-  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked)
+  .eco:has(#bee:checked) .c-spread{display:block}
+  .eco:has(#btfl:checked) .c-inherit{display:block}
+  .eco:has(#bee:checked):has(#btfl:checked):has(#fly:checked) .c-recover{display:block}
+  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked):has(#bee:checked):has(#btfl:checked)
     .c-terraform{display:block}
 
   .cap.panel{margin-top:10px}
@@ -140,6 +151,9 @@
   .c-move{border-color:rgba(201,133,122,.45)}
   .c-prove{border-color:rgba(79,179,166,.45)}
   .c-see{border-color:rgba(229,138,160,.45)}
+  .c-spread{border-color:rgba(224,144,60,.45)}
+  .c-inherit{border-color:rgba(185,138,224,.45)}
+  .c-recover{border-color:rgba(111,192,138,.35)}
   .c-terraform{border-color:var(--leaf)}
 
   .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
@@ -197,13 +211,15 @@
     <span class="tag">no script</span>
   </header>
 
-    <h2>TODO checkbox set <b>5</b></h2>
+    <h2>TODO checkbox set <b>7</b></h2>
     <div class="opts stack row">
       <input type="checkbox" id="fly" checked><label for="fly">Fireflies time A clock with nobody holding</label>
       <input type="checkbox" id="owl" checked><label for="owl">Owls decide Nine of them, and a quorum. Sl</label>
       <input type="checkbox" id="wolf" checked><label for="wolf">Wolves move Two, coordinated, no overhead,</label>
       <input type="checkbox" id="peac" checked><label for="peac">Peacocks prove The train is enormous, usel</label>
       <input type="checkbox" id="flam" checked><label for="flam">Flamingos show They take their colour from</label>
+      <input type="checkbox" id="bee" checked><label for="bee">Bees spread Carriage between things that a</label>
+      <input type="checkbox" id="btfl" checked><label for="btfl">Butterflies inherit On the long routes no </label>
     </div>
     <h2>Totals <b>counted, not declared</b></h2>
     <div class="heads meter">
