@@ -6,14 +6,14 @@
   1.2,
   1.3
  ],
- "name": "The range",
+ "name": "The turnover",
  "tiers": [
-  "pen",
+  "run",
   "range",
-  "rookery",
-  "colony"
+  "warren",
+  "commons"
  ],
- "note": "Seventy thousand square feet of flamingos and peacocks, fertilising round the clock. It is the only kind on the plate that produces by standing around, and the only one with an animal in charge: a dog works the fence and nobody works the dog. Automated in the sense the automat means it \u2014 nothing here is being supervised, and the fence is the whole of the policy. 70,000 sq ft is 6,503 m\u00b2, about 1.6 acres, which is a real range and not a gesture.",
+ "note": "Rescoped, because the first version had it fertilising and it cannot. Surtsey's gulls fed in the North Atlantic and defecated on the island — an outside, a pump, and a reservoir. A sealed deck has none of those, so animals on it eat on-system and excrete on-system and their net nutrient addition is zero at any stocking density. What they actually do is TURNOVER: eat matter that is locking up, pass it back in a form something else can take, and hold the residence time of a phosphorus atom down to years instead of centuries. In a bag the number that kills you is not how much there is, it is how long it stays unavailable — and this is the building that keeps it moving. Also: peafowl are Phasianidae, the same family as turkeys, and flamingos are filter feeders. Neither is semi-aquatic, neither is a predator, and the first draft of this file called them both both.",
  "parts": [
   {
    "s": "box",

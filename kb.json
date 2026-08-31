@@ -936,9 +936,10 @@
         "ORGANIC CARBON — not there, and not shipped either. It is grown. The air is 96.5% CO2 and photosynthesis is the machine that turns that into soil organic matter. You do not import humus; you import the thing that makes humus and then wait.",
         "THE LIVING FRACTION — this, and only this, has to come from Earth. A gram of healthy soil carries on the order of a billion bacteria and a million fungal propagules, so a kilogram is 1e12 organisms and a hundred kilograms is 1e14. The shipping manifest for the biology of an entire forest is a culture collection that fits inside a single window's 11,400 kg with room for everything else.",
         "SURTSEY IS THE EXPERIMENT, AND IT WAS RUN ACCIDENTALLY. A volcanic island surfaced off Iceland in November 1963 — sterile basalt, no soil, nothing alive on it. The first colonists were not plants: they were bacteria, fungi and microorganisms. The first vascular plant, a sea rocket, was found in 1965. Ten species by the end of the first decade. Seventy-four recorded between 1965 and 2015, of which thirty-nine had established viable populations by 2013.",
-        "AND THE THING THAT UNLOCKED IT WAS BIRDS. A gull colony formed after 1985, and from then on bird dispersal was the principal pathway — the guano amended the site enough that wind-dispersed species could finally establish from 1990. Sixty years from bare basalt to a functioning ecosystem, with a whole continent next door supplying propagules BY ACCIDENT. On Venus you would supply them on purpose, which is the only part of that timeline you get to shorten. It is also the argument for the range: seventy thousand square feet of flamingos and peacocks fertilising round the clock is not decoration, it is the mechanism that made Surtsey work, installed deliberately instead of waiting for gulls to find the place."
+        "AND THE THING THAT UNLOCKED IT WAS BIRDS — WHICH IS WHY THE ANALOGY BREAKS. A gull colony formed on Surtsey after 1985, bird dispersal became the principal pathway, and the guano amended the site enough that wind-dispersed species could establish from 1990. But the gulls FED IN THE NORTH ATLANTIC and defecated on the island. That is an allochthonous subsidy: the nutrients were imported, the birds were the pump, and the ocean was the reservoir. A sealed deck has no ocean and no outside. Animals on it eat on-system and excrete on-system, which makes them redistributors and not importers, and their net nutrient addition is exactly zero at any species count. Surtsey's SEQUENCE holds — microbes first, then plants, then animals. Surtsey's MECHANISM does not, and an earlier version of this entry said it did.",
+        "SO WHAT ACTUALLY IMPORTS NUTRIENTS INTO A CLOSED PLATFORM IS NOT AN ANIMAL. Nitrogen fixation, which is where the 4.3x atmospheric nitrogen finally cashes out: rhizobia, Frankia and free-living cyanobacteria pulling N2 out of air that holds more of it than Earth's, needing no ocean and no bird. Basalt weathering, releasing P, K, Ca and Mg as fresh rock breaks down — finite but large, and the reason the mineral fraction being basalt matters more than a parent-material footnote. And carbon fixation straight out of a 96.5% CO2 atmosphere. All three are microbial or geological. None of them is a bird."
       ],
-      "test": "Sort the soil into its four fractions — mineral, nitrogen, organic carbon, living — and ask which of them actually has to arrive. If the answer is 'all of it', somebody has costed the mineral fraction and forgotten that carbon is grown from the air and the living fraction is an inoculum measured in kilograms. Then find the real constraint: on this problem it is neither mass nor energy but time at the working face, and it is 127 minutes.",
+      "test": "Sort the soil into its four fractions — mineral, nitrogen, organic carbon, living — and ask which of them actually has to arrive. If the answer is 'all of it', somebody has costed the mineral fraction and forgotten that carbon is grown from the air and the living fraction is an inoculum measured in kilograms. Then ask the question that catches the subtler error: is the system OPEN? Every terrestrial analogue you are reasoning from has an outside, and if yours does not, any mechanism in the analogue that imports nutrients is doing nothing in yours.",
       "evidence": [
         {
           "page": "flood.html",
@@ -961,7 +962,46 @@
         "the-gravity-ledger",
         "the-exchange-rate",
         "hydrogen",
-        "the-minimum-cycle"
+        "the-minimum-cycle",
+        "the-bag"
+      ]
+    },
+    {
+      "id": "the-bag",
+      "class": "concept",
+      "settled": "working",
+      "term": "Fish in a bag",
+      "short": "A sealed platform has no outside. Nothing enters, nothing leaves, and every ecological analogue drawn from an open system quietly assumes one.",
+      "body": [
+        "A goldfish in a bag has a fixed amount of everything. It does not get new water. Its waste does not go anywhere. Whatever was in the bag at the start is what there is, rearranged.",
+        "A 9,000 square mile deck at 55 km is a bag. There is no sea to feed in, no watershed draining in from upstream, no dust blowing off a continent, no migratory anything arriving with a gut full of somewhere else. Every terrestrial ecosystem anybody would reason from has all four of those and does not mention them, because on Earth an outside is not a feature, it is the condition.",
+        "SO THE FAILURE MODE IS NOT SHORTAGE, IT IS IMMOBILISATION. In a closed system the nutrients do not run out — they get locked into forms nothing available can use. Phosphorus into recalcitrant organic matter, nitrogen into lignin, carbon into wood that nothing on the platform can decompose at the rate it is being made. The bag stays full and the fish still starves.",
+        "WHICH REASSIGNS THE ANIMALS. On an open system, colonial waterbirds are a nutrient PUMP — they feed in one place and deposit in another, and the whole point is that the two places are different. In a bag there is only one place. Animals there are TURNOVER: they eat matter that is locking up, excrete it in a labile form something else can take, and keep the cycling rate high enough that the standing stock does not become the sequestered stock. That is a real and necessary job and it is not the job anybody assigns them.",
+        "AND IT SETS A DIFFERENT DESIGN QUESTION. The question is not 'what do we bring in' — after the inoculum, almost nothing. It is 'what is the residence time of a phosphorus atom', and the answer had better be years rather than centuries. A bag with slow turnover is a peat bog: enormous nutrient stock, almost none of it available, and a system that looks healthy in inventory and is starving in flux."
+      ],
+      "test": "Name the outside. Point at where a nutrient enters the system and where one leaves. If you cannot point at either, stop reasoning from open-system analogues — and then stop asking about stock and start asking about residence time, because in a bag the number that kills you is how long an atom stays locked up, not how many of them there are.",
+      "evidence": [
+        {
+          "page": "ecosystem.html",
+          "what": "twelve orders and what each one does — read as turnover roles rather than as a food web"
+        },
+        {
+          "page": "mycelium.html",
+          "what": "the network that moves what is locked up, which in a bag is the whole job"
+        },
+        {
+          "page": "flood.html",
+          "what": "the pulse, which is the one mechanism that moves material without needing an outside"
+        },
+        {
+          "page": "terraform.html",
+          "what": "the envelope, and the fact that it closes"
+        }
+      ],
+      "see": [
+        "the-substrate",
+        "the-minimum-cycle",
+        "fungibility"
       ]
     },
     {
