@@ -1,13 +1,13 @@
 {
   "manifest": "venus.yard/patterns/1",
-  "pages": 46,
+  "pages": 47,
   "patterns": [
     {
       "id": "counter",
       "name": "Counters are arithmetic",
       "job": "The browser adds for you",
-      "uses": 461,
-      "pages": 33,
+      "uses": 475,
+      "pages": 34,
       "shortest": ".cap .mk{counter-increment:can 1}",
       "from": "ecosystem.html"
     },
@@ -15,8 +15,8 @@
       "id": "state",
       "name": ":has() is state",
       "job": "An ancestor styled by what is inside it",
-      "uses": 446,
-      "pages": 38,
+      "uses": 449,
+      "pages": 39,
       "shortest": ".g:has(#g0:target) .v0{display:block}",
       "from": "grades.html"
     },
@@ -24,8 +24,8 @@
       "id": "lookup",
       "name": "Compound :has() is a lookup",
       "job": "Two keys, one answer",
-      "uses": 341,
-      "pages": 29,
+      "uses": 349,
+      "pages": 30,
       "shortest": ".board:has(#o-4:checked):has(#r-a:checked) .g1{opacity:1}",
       "from": "convoy.html"
     },
@@ -42,8 +42,8 @@
       "id": "stop",
       "name": "Cascade order is authority",
       "job": "What is written last wins",
-      "uses": 44,
-      "pages": 22,
+      "uses": 48,
+      "pages": 23,
       "shortest": "body:not(:has(.p:target)) #p1{display:block}",
       "from": "eros.html"
     },

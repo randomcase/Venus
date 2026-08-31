@@ -1,0 +1,452 @@
+<title>The Twelve · restarting an economy, in the only order it goes</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  THE TWELVE — the Olympian pantheon as twelve sectors of an economy, and the
+  order they have to be started in.
+
+  WHY THESE TWELVE AND WHY GODS AT ALL
+  Because the domains are already attested and I have not stretched one of
+  them. Demeter is grain. Hephaestus is the forge. Hermes is roads, exchange
+  and messages. Hera is oath and household as an institution, which is contract
+  law. Apollo is measure, medicine and prophecy, which is records and
+  standards. These are not metaphors laid over an economy; they are the list a
+  society made of the things it could not do without, written down before
+  anybody had the word "sector".
+
+  THE FINDING IS THE ORDER
+  You cannot start them in any sequence you like. Most of the twelve are
+  useless until two or three specific others exist, and the board is a
+  dependency graph rather than a list — tick a sector and the capabilities that
+  actually work appear, and they are conjunctions.
+
+  Three things fall out of it that are worth the page on their own:
+
+  APHRODITE IS FIRST, NOT LAST. Desire is normally placed at the luxury end of
+  a restart, after survival, as the thing you get back to. It is a root. Nobody
+  farms without wanting something, and an economy with no demand in it is not
+  an early economy, it is a stopped one.
+
+  ARES IS A RESPONSE TO SURPLUS, NOT A PRECONDITION OF IT. Force needs
+  something worth taking. Security is downstream of having food, which is the
+  reverse of how it is usually budgeted.
+
+  AND WRITING WAS INVENTED FOR ACCOUNTING. This is the Sumerian fact and it is
+  the spine of the page. Cuneiform does not begin with poetry or law or
+  scripture — it begins as commodity tallies: so many measures of barley, so
+  many head of livestock, pressed into clay because somebody had to remember a
+  quantity across time and could not. Apollo comes AFTER Hermes. The ledger is
+  downstream of the trade, records are a consequence of exchange rather than a
+  precondition, and the first thing anybody ever wrote down was a receipt.
+
+  Which is also what the ships' logs are, five thousand years later, and what
+  this whole repository has been doing: counting things in a way that can be
+  checked by somebody who was not there.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#0a0806; --card:#171310; --card2:#1e1915; --edge:#38302a;
+    --ink:#f2ece2; --dim:#a3968a; --bone:#eadfc6; --marble:#e8e2d4;
+    --root:#7fc9a0; --mid:#e0b155; --late:#c98a7f; --warn:#e0705a;
+    --cool:#8fb8ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.66 ui-serif,Georgia,'Times New Roman',serif;
+    background-image:
+      radial-gradient(circle at 24% -6%,rgba(232,226,212,.07),transparent 44%),
+      radial-gradient(circle at 86% 96%,rgba(224,177,85,.09),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:24px;letter-spacing:-.015em;color:var(--marble);font-weight:500}
+  header .sub{color:var(--dim);font-size:12px;max-width:76ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--mid);border:1px solid var(--mid);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  p{max-width:82ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.72;margin:10px 0 0;max-width:98ch;
+    font-family:ui-rounded,system-ui,sans-serif}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#0d0b09;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--mid)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+
+  .twelve{display:grid;gap:9px;grid-template-columns:repeat(4,1fr);margin-top:12px}
+  @media (max-width:1000px){.twelve{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:740px){.twelve{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:500px){.twelve{grid-template-columns:1fr}}
+  .twelve input{position:absolute;opacity:0;width:0;height:0}
+  .twelve label{display:block;cursor:pointer;background:#100d0b;
+    border:1px solid var(--edge);border-radius:11px;padding:11px 12px}
+  .twelve label:hover{border-color:var(--marble)}
+  .twelve input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+  .twelve label .nm{display:flex;align-items:baseline;gap:7px}
+  .twelve label b{font-size:13.5px;color:var(--dim);font-weight:600}
+  .twelve label .sec{margin-left:auto;font:8px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:#6b5c50}
+  .twelve label .d{font-size:10.5px;line-height:1.55;color:var(--dim);margin-top:7px;
+    font-family:ui-rounded,system-ui,sans-serif;min-height:4.6em}
+  .twelve label .st{margin-top:8px;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:#6b5c50}
+  .twelve label .st::after{content:"dark"}
+  .twelve input:checked+label{border-color:var(--mid);background:rgba(224,177,85,.08)}
+  .twelve input:checked+label b,.twelve input:checked+label .st{color:var(--mid)}
+  .twelve input:checked+label .st::after{content:"running"}
+  .twelve label.r{border-left:3px solid var(--root)}
+  .twelve label.m{border-left:3px solid var(--mid)}
+  .twelve label.l{border-left:3px solid var(--late)}
+
+  /* =========================================== 1 · COUNTERS ARE ARITHMETIC */
+  body{counter-reset:sectors 0 works 0 broken 0}
+  #aphro:checked+label{counter-increment:sectors 1}
+  #posei:checked+label{counter-increment:sectors 1}
+  #hesti:checked+label{counter-increment:sectors 1}
+  #artem:checked+label{counter-increment:sectors 1}
+  #demet:checked+label{counter-increment:sectors 1}
+  #hepha:checked+label{counter-increment:sectors 1}
+  #athen:checked+label{counter-increment:sectors 1}
+  #ares:checked+label{counter-increment:sectors 1}
+  #herme:checked+label{counter-increment:sectors 1}
+  #apoll:checked+label{counter-increment:sectors 1}
+  #hera:checked+label{counter-increment:sectors 1}
+  #zeus:checked+label{counter-increment:sectors 1}
+  .cap .mk{counter-increment:works 1}
+  .flt .mk{counter-increment:broken 1}
+  .n-sectors::after{content:counter(sectors)}
+  .n-works::after{content:counter(works)}
+  .n-broken::after{content:counter(broken)}
+
+  /* ================================================ 2 · WHAT ACTUALLY WORKS */
+  .cap,.flt{display:none}
+  .cap.panel,.flt.panel{margin-top:10px}
+  .ch{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:8px;margin-bottom:10px}
+  .ch b{font-size:14px;color:var(--bone)}
+  .ch .req{margin-left:auto;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+  .cap p,.flt p{margin:0;font-size:12.5px} .cap p+p,.flt p+p{margin-top:9px}
+
+  .ec:has(#hesti:checked):has(#demet:checked):has(#posei:checked) .c-survive{display:block}
+  .ec:has(#hepha:checked):has(#demet:checked) .c-make{display:block}
+  .ec:has(#athen:checked):has(#demet:checked) .c-teach{display:block}
+  .ec:has(#herme:checked):has(#hepha:checked):has(#demet:checked) .c-trade{display:block}
+  .ec:has(#apoll:checked):has(#herme:checked) .c-account{display:block}
+  .ec:has(#hera:checked):has(#apoll:checked) .c-bind{display:block}
+  .ec:has(#ares:checked):has(#demet:checked) .c-defend{display:block}
+  .ec:has(#zeus:checked):has(#hera:checked):has(#apoll:checked) .c-judge{display:block}
+  .ec:has(#aphro:checked) .c-want{display:block}
+  .ec:has(#artem:checked) .c-commons{display:block}
+
+  /* the faults, which are where the ordering shows */
+  .ec:has(#zeus:checked):not(:has(#apoll:checked)) .x-memory{display:block}
+  .ec:has(#ares:checked):not(:has(#demet:checked)) .x-force{display:block}
+  .ec:has(#herme:checked):not(:has(#hepha:checked)) .x-market{display:block}
+  .ec:has(#hepha:checked):not(:has(#demet:checked)) .x-hands{display:block}
+
+  .c-survive{border-color:rgba(127,201,160,.5)}
+  .c-want{border-color:rgba(201,138,127,.45)}
+  .c-commons{border-color:rgba(127,201,160,.3)}
+  .c-account{border-color:var(--mid)}
+  .flt.panel{border-color:rgba(224,112,90,.5)}
+  .flt .ch b{color:var(--warn)}
+
+  .tally{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:12px}
+  @media (max-width:760px){.tally{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:480px){.tally{grid-template-columns:repeat(2,1fr)}}
+  .head{background:#100d0b;border:1px solid var(--edge);border-radius:10px;padding:10px 11px}
+  .head span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:19px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:5px}
+  .head.g b{color:var(--root)} .head.w b{color:var(--warn)}
+
+  .empty{display:none}
+  .ec:not(:has(input:checked)) .empty{display:block}
+</style>
+
+<div class="ec wrap">
+  <header>
+    <span class="tag">no script</span>
+    <h1>The Twelve</h1>
+    <p class="sub">The Olympian pantheon as twelve sectors of an economy, and
+      the order they have to be started in &mdash; which is not the order
+      anybody expects, and is the whole content of the page.</p>
+  </header>
+
+  <div class="panel" style="border-color:rgba(224,177,85,.4)">
+    <h2 style="margin-top:0">Why gods <b>the domains are already attested</b></h2>
+    <p style="margin:0;font-size:12.5px">Demeter is grain. Hephaestus is the
+      forge. Hermes is roads, exchange and messages. Hera is oath and the
+      household as an institution, which is contract law. Apollo is measure,
+      medicine and prophecy, which is records and standards. <b>Not one of these
+      is stretched.</b> They are the list a society made of the things it could
+      not do without, written down long before anybody had the word
+      &ldquo;sector&rdquo;.</p>
+    <p class="note"><b>Tick them and watch.</b> Every capability below is a
+      conjunction &mdash; it names the sectors it actually needs and vanishes
+      when any of them goes dark. Most of the twelve are useless until two or
+      three specific others exist, and finding out which is the exercise.</p>
+  </div>
+
+  <h2>The twelve <b>colour-coded by where they can start</b></h2>
+  <div class="twelve">
+    <input type="checkbox" id="aphro" checked>
+    <label for="aphro" class="r"><span class="nm"><b>Aphrodite</b><span class="sec">demand</span></span>
+      <span class="d">Wanting. Usually placed at the luxury end of a restart, as
+        the thing you get back to. It is a root: nobody farms without wanting
+        something, and an economy with no demand is not early, it is
+        stopped.</span><span class="st"></span></label>
+
+    <input type="checkbox" id="posei" checked>
+    <label for="posei" class="r"><span class="nm"><b>Poseidon</b><span class="sec">water</span></span>
+      <span class="d">Water, and the routes over it. He is a root because
+        nothing else is: no agriculture, no settlement and no transport without
+        deciding where the water is and how it moves.</span><span class="st"></span></label>
+
+    <input type="checkbox" id="hesti" checked>
+    <label for="hesti" class="r"><span class="nm"><b>Hestia</b><span class="sec">shelter</span></span>
+      <span class="d">The hearth. Somewhere warm that is the same place
+        tomorrow. She is first in the old rites for the same reason she is a
+        root here: everything else needs an address.</span><span class="st"></span></label>
+
+    <input type="checkbox" id="artem" checked>
+    <label for="artem" class="r"><span class="nm"><b>Artemis</b><span class="sec">the commons</span></span>
+      <span class="d">The un-farmed and the undeveloped. The only sector here
+        that does not grow when the others do &mdash; she is what the rest are
+        spending, and she is a root because she was there first.</span><span class="st"></span></label>
+
+    <input type="checkbox" id="demet" checked>
+    <label for="demet" class="m"><span class="nm"><b>Demeter</b><span class="sec">food</span></span>
+      <span class="d">Grain, and therefore surplus, and therefore every hand
+        that is not growing food. She needs water. Almost everything else needs
+        her.</span><span class="st"></span></label>
+
+    <input type="checkbox" id="hepha" checked>
+    <label for="hepha" class="m"><span class="nm"><b>Hephaestus</b><span class="sec">make</span></span>
+      <span class="d">The forge: tools, and tools that make tools. He cannot
+        start until somebody has enough food that a pair of hands can be spared
+        from growing it.</span><span class="st"></span></label>
+
+    <input type="checkbox" id="athen" checked>
+    <label for="athen" class="m"><span class="nm"><b>Athena</b><span class="sec">skill</span></span>
+      <span class="d">Craft and technique, and the passing of it on. Teaching
+        costs a day that somebody has to be fed through, so she is downstream of
+        the surplus and not of the forge.</span><span class="st"></span></label>
+
+    <input type="checkbox" id="ares" checked>
+    <label for="ares" class="m"><span class="nm"><b>Ares</b><span class="sec">force</span></span>
+      <span class="d">Force, under its own name. Downstream of the surplus,
+        because force needs something worth taking &mdash; which is the reverse
+        of the order it is usually budgeted in.</span><span class="st"></span></label>
+
+    <input type="checkbox" id="herme" checked>
+    <label for="herme" class="l"><span class="nm"><b>Hermes</b><span class="sec">trade</span></span>
+      <span class="d">Roads, exchange, and messages. Needs two producers with
+        different surpluses; with one producer there is no market, only a
+        stall.</span><span class="st"></span></label>
+
+    <input type="checkbox" id="apoll" checked>
+    <label for="apoll" class="l"><span class="nm"><b>Apollo</b><span class="sec">records</span></span>
+      <span class="d">Measure, standards, medicine, the written account. He
+        comes <i>after</i> Hermes, and that is the Sumerian fact rather than an
+        opinion &mdash; see below.</span><span class="st"></span></label>
+
+    <input type="checkbox" id="hera" checked>
+    <label for="hera" class="l"><span class="nm"><b>Hera</b><span class="sec">contract</span></span>
+      <span class="d">Oath, household, the binding of an agreement past the
+        moment of making it. Needs a record, because an oath nobody can produce
+        is a memory.</span><span class="st"></span></label>
+
+    <input type="checkbox" id="zeus" checked>
+    <label for="zeus" class="l"><span class="nm"><b>Zeus</b><span class="sec">authority</span></span>
+      <span class="d">The appeal of last resort. Last on the list and last in
+        the order: you cannot adjudicate without both a rule and a record, and
+        he requires both.</span><span class="st"></span></label>
+  </div>
+
+  <h2>What works <b>counted from the panels, not declared</b></h2>
+
+  <div class="cap panel c-want">
+    <span class="mk"></span>
+    <div class="ch"><b>Wanting</b><span class="req">Aphrodite</span></div>
+    <p>Somebody wants something. It requires nothing else and nothing else works
+      without it, which is why it is drawn as a root and why leaving it out of a
+      restart plan is the most common way of producing a plan that describes a
+      prison rather than an economy.</p>
+  </div>
+
+  <div class="cap panel c-commons">
+    <span class="mk"></span>
+    <div class="ch"><b>The commons</b><span class="req">Artemis</span></div>
+    <p>There is something not yet developed. She is the only sector that shrinks
+      as the others grow &mdash; every other capability on this page is spending
+      her &mdash; and she is the only one whose health you cannot read off her own
+      activity, because her activity is that nothing is happening.</p>
+  </div>
+
+  <div class="cap panel c-survive">
+    <span class="mk"></span>
+    <div class="ch"><b>Survive</b><span class="req">Hestia · Demeter · Poseidon</span></div>
+    <p>Shelter, food, water. This is the floor and it is three sectors, not one,
+      and the third is the one people leave out because on Earth it arrives by
+      itself.</p>
+  </div>
+
+  <div class="cap panel c-make">
+    <span class="mk"></span>
+    <div class="ch"><b>Make</b><span class="req">Hephaestus · Demeter</span></div>
+    <p>Tools exist, and tools that make tools. It requires the surplus first:
+      the forge is paid for in meals somebody else grew, and that transfer is
+      the oldest one there is.</p>
+  </div>
+
+  <div class="cap panel c-teach">
+    <span class="mk"></span>
+    <div class="ch"><b>Teach</b><span class="req">Athena · Demeter</span></div>
+    <p>A technique outlives the person holding it. Also bought with food: a day
+      spent teaching is a day not spent growing, and every apprenticeship in
+      history has been funded that way whether or not anybody said so.</p>
+  </div>
+
+  <div class="cap panel c-defend">
+    <span class="mk"></span>
+    <div class="ch"><b>Defend</b><span class="req">Ares · Demeter</span></div>
+    <p>There is something worth protecting and somebody protecting it. Note the
+      direction: the surplus comes first and the force is a response to it. A
+      restart that budgets security before it has anything to secure has
+      described a garrison.</p>
+  </div>
+
+  <div class="cap panel c-trade">
+    <span class="mk"></span>
+    <div class="ch"><b>Trade</b><span class="req">Hermes · Hephaestus · Demeter</span></div>
+    <p>Two producers with different surpluses and a road between them. One
+      producer is not a market. This is the first capability on the page that
+      needs three sectors, and it is where an economy stops being a household.</p>
+  </div>
+
+  <div class="cap panel c-account">
+    <span class="mk"></span>
+    <div class="ch"><b>Account</b><span class="req">Apollo · Hermes</span></div>
+    <p><b>Writing was invented for this.</b> Cuneiform does not begin with
+      poetry, law or scripture. It begins as commodity tallies &mdash; so many
+      measures of barley, so many head of livestock &mdash; pressed into clay
+      because somebody had to hold a quantity across time and could not.</p>
+    <p>Which fixes the order and settles an argument that is otherwise a matter
+      of taste: <b>the ledger is downstream of the trade.</b> Records are a
+      consequence of exchange rather than a precondition for it, Apollo comes
+      after Hermes, and the first thing anybody ever wrote down was a receipt.</p>
+    <p class="note" style="margin-top:9px">Five thousand years later this
+      repository is doing the same thing, and so is every ship in
+      <a href="ships/index.html">the fleet</a>: counting something in a form that
+      can be checked by somebody who was not there. The countersigned log and the
+      clay tablet are one invention.</p>
+  </div>
+
+  <div class="cap panel c-bind">
+    <span class="mk"></span>
+    <div class="ch"><b>Bind</b><span class="req">Hera · Apollo</span></div>
+    <p>An agreement survives the moment of making it. It needs the record: an
+      oath nobody can produce is a memory, and two memories that disagree is the
+      condition contract law exists to end.</p>
+  </div>
+
+  <div class="cap panel c-judge">
+    <span class="mk"></span>
+    <div class="ch"><b>Adjudicate</b><span class="req">Zeus · Hera · Apollo</span></div>
+    <p>A dispute can be settled by something other than who is stronger. It
+      needs a rule and it needs a record, and the authority is the least of the
+      three &mdash; which is visible here because Zeus is the only sector that
+      contributes nothing until two others are already running.</p>
+  </div>
+
+  <div class="flt panel x-memory">
+    <span class="mk"></span>
+    <div class="ch"><b>Rule by memory</b><span class="req">Zeus, no Apollo</span></div>
+    <p>Authority with no record. Every judgment is correct on the day it is made
+      and unavailable afterwards, so the same dispute is settled differently in
+      the same year by the same person, honestly. This is not corruption. It is
+      what adjudication is in the absence of writing, and it is the state
+      cuneiform was invented to leave.</p>
+  </div>
+
+  <div class="flt panel x-force">
+    <span class="mk"></span>
+    <div class="ch"><b>Force with nothing to protect</b><span class="req">Ares, no Demeter</span></div>
+    <p>Armed and hungry. Security funded before there is a surplus does not
+      produce safety, it produces the only group with the means to take what
+      little there is. The ordering is not a nicety.</p>
+  </div>
+
+  <div class="flt panel x-market">
+    <span class="mk"></span>
+    <div class="ch"><b>A market with one seller</b><span class="req">Hermes, no forge</span></div>
+    <p>Roads, messages and exchange, and only one kind of thing to exchange.
+      That is not trade; it is distribution, and it will be described as a
+      market for as long as somebody benefits from the description.</p>
+  </div>
+
+  <div class="flt panel x-hands">
+    <span class="mk"></span>
+    <div class="ch"><b>A forge nobody can feed</b><span class="req">Hephaestus, no Demeter</span></div>
+    <p>A smith works a day and does not grow food that day. Without the surplus
+      the forge is a person choosing between their craft and their supper, and
+      the craft loses every time, which is why the first thing a civilisation
+      does with grain is stop everybody having to grow it.</p>
+  </div>
+
+  <div class="empty panel" style="border-color:var(--edge);margin-top:10px">
+    <div class="ch"><b>Nothing running</b><span class="req">all twelve dark</span></div>
+    <p style="margin:0;font-size:12.5px">Not a ruin &mdash; a beginning. Four of
+      the twelve are roots and can be started from here with nothing upstream of
+      them: wanting, water, shelter and the commons. Everything else on the page
+      is waiting on one of those four.</p>
+  </div>
+
+  <h2>The tally</h2>
+  <div class="tally">
+    <div class="head"><span>Sectors</span><b class="n-sectors"></b></div>
+    <div class="head"><span>Of</span><b>12</b></div>
+    <div class="head g"><span>Working</span><b class="n-works"></b></div>
+    <div class="head"><span>Of</span><b>10</b></div>
+    <div class="head w"><span>Broken</span><b class="n-broken"></b></div>
+    <div class="head"><span>Of</span><b>4</b></div>
+  </div>
+
+  <h2>Sumer <b>where this actually happened</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">The first cities, the first surplus,
+      the first bureaucracy and the first writing, in that order, in the same
+      place. And the order is the point: <b>writing arrives fourth</b>, after
+      there is something to count, somebody to count it for, and a distance
+      across which the count has to survive.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">Tokens in clay envelopes came
+      before symbols. Then the envelope was marked on the outside so it did not
+      have to be broken to be read, and then somebody noticed the tokens inside
+      were now redundant. That is the whole invention: <b>a mark that stands for
+      a quantity, made because a container had to be readable without being
+      opened.</b> Literature is a much later use of the same tool and would not
+      have paid for its development.</p>
+    <p class="note"><b>What follows for a restart.</b> Do not plan to install
+      records early. Plan to install trade, and the records will be demanded by
+      the people doing it, in the form they actually need, which will not be the
+      form anybody designed in advance. Every accounting system that was
+      specified before the exchange it accounts for has had to be replaced by
+      one the traders wrote themselves.</p>
+  </div>
+
+  <p class="note" style="margin-top:22px">Also in this system:
+    <a href="ships/index.html">the fleet</a>, whose logs are the same invention
+    &middot; <a href="profiles/index.html">the profiles</a> &middot;
+    <a href="ecosystem.html">the ecosystem</a>, which is the same kind of graph
+    for a wood &middot; <a href="theory.md">theory.md</a> &middot;
+    <a href="index.html">the yard</a></p>
+</div>
