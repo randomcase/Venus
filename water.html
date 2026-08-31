@@ -1,0 +1,454 @@
+<title>The Waterway · it has to get dirty on purpose</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  THE WATERWAY — a healthy one, which is not a clean one.
+
+  WHAT THIS PAGE TAUGHT ME WHILE I BUILT IT
+  I had the forest sited at 50 km, because that is where the pressure is one
+  atmosphere and that is the number everybody quotes. Then I worked out the
+  dissolved oxygen and the site moved.
+
+  Water holds less oxygen the warmer it is. At 27 °C it saturates around
+  7.9 mg/L, which is healthy for anything. At 75 °C it holds about 2.6 mg/L,
+  which is hypoxic — below the level most fish survive and far below what a
+  nitrifying bed needs. The band at 50 km is 75 °C. The band at 55 km is 27 °C.
+
+  So the waterway picks the altitude. Not the pressure, not the buoyancy, not
+  the view: the oxygen budget of the water. Give up 0.53 bar of ambient
+  pressure, which costs nothing you cannot engineer, and gain 5.3 mg/L of
+  dissolved oxygen, which you cannot engineer at all without spending energy
+  forever. That is the trade, it was not obvious to me, and the page exists in
+  the shape it does because the arithmetic overruled the plan.
+
+  THE OTHER THING: HEALTHY IS NOT CLEAN
+  A sterile waterway is a dead one. The nitrogen cycle needs oxygen in one
+  place and the absence of oxygen in another — ammonia to nitrite to nitrate is
+  aerobic, and nitrate back to nitrogen gas is anaerobic. You cannot run both
+  in the same water at the same time, so a working system has BOTH ZONES, on
+  purpose, and the anoxic pocket is not a fault to be fixed. Take it out and
+  nitrate accumulates until the whole thing is poisoned by its own cleaning.
+
+  Water has to clean itself and dirty itself. Both, in different places, for it
+  to flow at all.
+
+  THE PRECEDENT, NAMED RATHER THAN AVOIDED
+  Biosphere 2 is the only serious attempt at a closed ecology at scale: 3.14
+  acres, eight people, sealed in 1991. Oxygen fell from 20.9% to 14.2% over
+  about sixteen months — the equivalent of living at 4,000 metres — and they had
+  to inject it. The cause was not exotic. Soil microbes respired faster than the
+  plants photosynthesised, and the curing concrete absorbed the CO₂ so the
+  carbon never came back round to be re-fixed.
+
+  The soil you install is metabolically active and it eats. Anybody building a
+  floor for a forest should have that sentence somewhere they can see it.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#05090c; --card:#0e1720; --card2:#121d27; --edge:#22323f;
+    --ink:#e6f0f5; --dim:#86a0ae; --bone:#dfe8ec;
+    --ox:#6ec6ff; --anox:#9a7fd0; --bed:#a08a5c; --flow:#4fc4c0;
+    --good:#65d6a8; --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 22% -6%,rgba(110,198,255,.11),transparent 44%),
+      radial-gradient(circle at 88% 96%,rgba(79,196,192,.09),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:22px;letter-spacing:-.015em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--flow);border:1px solid var(--flow);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  p{max-width:82ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.7;margin:10px 0 0;max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#0a1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--flow)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+
+  .stages{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:12px}
+  @media (max-width:900px){.stages{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.stages{grid-template-columns:1fr}}
+  .stages input{position:absolute;opacity:0;width:0;height:0}
+  .stages label{display:block;cursor:pointer;background:#0a1219;
+    border:1px solid var(--edge);border-radius:11px;padding:12px 13px}
+  .stages label:hover{border-color:var(--bone)}
+  .stages input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+  .stages label .nm{display:flex;align-items:baseline;gap:8px}
+  .stages label b{font-size:14px;color:var(--dim)}
+  .stages label .job{margin-left:auto;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:#4e6573}
+  .stages label .d{font-size:10.5px;line-height:1.58;color:var(--dim);margin-top:8px}
+  .stages label .st{margin-top:9px;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:#4e6573}
+  .stages label .st::after{content:"not built"}
+  .stages input:checked+label .st::after{content:"running"}
+  #cond:checked+label,#rif:checked+label{border-color:var(--ox);background:rgba(110,198,255,.09)}
+  #cond:checked+label b,#cond:checked+label .st,
+  #rif:checked+label b,#rif:checked+label .st{color:var(--ox)}
+  #pool:checked+label{border-color:var(--flow);background:rgba(79,196,192,.09)}
+  #pool:checked+label b,#pool:checked+label .st{color:var(--flow)}
+  #bed:checked+label{border-color:var(--bed);background:rgba(160,138,92,.11)}
+  #bed:checked+label b,#bed:checked+label .st{color:var(--bed)}
+  #anox:checked+label{border-color:var(--anox);background:rgba(154,127,208,.10)}
+  #anox:checked+label b,#anox:checked+label .st{color:var(--anox)}
+  #siph:checked+label{border-color:var(--good);background:rgba(101,214,168,.09)}
+  #siph:checked+label b,#siph:checked+label .st{color:var(--good)}
+
+  /* ========================================= 1 · COUNTERS ARE ARITHMETIC */
+  body{counter-reset:stages 0 checks 0 faults 0}
+  #cond:checked+label{counter-increment:stages 1}
+  #rif:checked+label{counter-increment:stages 1}
+  #pool:checked+label{counter-increment:stages 1}
+  #bed:checked+label{counter-increment:stages 1}
+  #anox:checked+label{counter-increment:stages 1}
+  #siph:checked+label{counter-increment:stages 1}
+  .chk .mk{counter-increment:checks 1}
+  .flt .mk{counter-increment:faults 1}
+  .n-stages::after{content:counter(stages)}
+  .n-checks::after{content:counter(checks)}
+  .n-faults::after{content:counter(faults)}
+
+  /* ============================================= 2 · WHAT THE WATER IS DOING */
+  .chk,.flt{display:none}
+  .chk.panel,.flt.panel{margin-top:10px}
+  .ch{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:8px;margin-bottom:10px}
+  .ch b{font-size:14px;color:var(--bone)}
+  .ch .req{margin-left:auto;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+  .chk p,.flt p{margin:0;font-size:12.5px}
+  .chk p+p,.flt p+p{margin-top:9px}
+
+  .way:has(#rif:checked) .k-ox{display:block}
+  .way:has(#pool:checked) .k-settle{display:block}
+  .way:has(#bed:checked):has(#rif:checked) .k-nitr{display:block}
+  .way:has(#bed:checked):has(#anox:checked) .k-denitr{display:block}
+  .way:has(#cond:checked):has(#siph:checked) .k-closed{display:block}
+  .way:has(#cond:checked):has(#rif:checked):has(#pool:checked):has(#bed:checked):has(#anox:checked):has(#siph:checked)
+    .k-healthy{display:block}
+
+  /* the faults, which are the lesson */
+  .way:has(#pool:checked):not(:has(#rif:checked)) .x-stag{display:block}
+  .way:has(#bed:checked):has(#rif:checked):not(:has(#anox:checked)) .x-nitrate{display:block}
+  .way:has(#cond:checked):not(:has(#siph:checked)) .x-open{display:block}
+  .way:has(#anox:checked):not(:has(#bed:checked)) .x-dead{display:block}
+
+  .k-ox{border-color:rgba(110,198,255,.45)}
+  .k-settle{border-color:rgba(79,196,192,.45)}
+  .k-nitr{border-color:rgba(160,138,92,.45)}
+  .k-denitr{border-color:rgba(154,127,208,.45)}
+  .k-closed{border-color:rgba(101,214,168,.45)}
+  .k-healthy{border-color:var(--good)}
+  .flt.panel{border-color:rgba(224,112,90,.5)}
+  .flt .ch b{color:var(--warn)}
+
+  .tally{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:12px}
+  @media (max-width:760px){.tally{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:480px){.tally{grid-template-columns:repeat(2,1fr)}}
+  .head{background:#0a1219;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .head span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:19px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:5px}
+  .head.g b{color:var(--good)} .head.w b{color:var(--warn)}
+
+  .do{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+  @media (max-width:760px){.do{grid-template-columns:repeat(2,1fr)}}
+  .do div{background:#0a1219;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .do span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);display:block}
+  .do b{display:block;font:15px/1.3 ui-monospace,Menlo,monospace;
+    color:var(--ox);margin-top:6px}
+  .do i{display:block;font-style:normal;font-size:10.5px;color:var(--dim);
+    margin-top:6px;line-height:1.55}
+  .do div.bad b{color:var(--warn)}
+
+  .empty{display:none}
+  .way:not(:has(input:checked)) .empty{display:block}
+</style>
+
+<div class="way wrap">
+  <header>
+    <span class="tag">no script</span>
+    <h1>The Waterway</h1>
+    <p class="sub">A healthy one, which is not a clean one. It has to get dirty
+      on purpose, in a specific place, or it poisons itself with its own
+      cleaning &mdash; and while I was working that out it moved the whole
+      settlement five kilometres up.</p>
+  </header>
+
+  <div class="panel" style="border-color:rgba(110,198,255,.45)">
+    <h2 style="margin-top:0">What this page taught me while I built it
+      <b>teach as you learn</b></h2>
+    <p style="margin:0;font-size:12.5px">The forest was sited at 50 km, because
+      that is where the pressure is one atmosphere and that is the number
+      everybody quotes. Then I worked out the dissolved oxygen, and the site
+      moved.</p>
+    <div class="do">
+      <div><span>at 55 km · 27 °C</span><b>7.9 mg/L</b><i>Healthy. Anything can live in it.</i></div>
+      <div class="bad"><span>at 50 km · 75 °C</span><b>2.6 mg/L</b><i>Hypoxic. Below what most fish survive.</i></div>
+      <div><span>the cost</span><b>0.53 bar</b><i>Ambient pressure given up. Engineerable.</i></div>
+      <div><span>the gain</span><b>+5.3 mg/L</b><i>Not engineerable without spending energy forever.</i></div>
+    </div>
+    <p class="note"><b>So the waterway picks the altitude.</b> Not the pressure,
+      not the buoyancy, not the view &mdash; the oxygen budget of the water.
+      Warm water holds less gas, and 75 °C water holds almost none. That was not
+      obvious to me when I sited it, the arithmetic overruled the plan, and
+      <a href="terraform.html">the terraform page</a> was written on the older
+      assumption. Both are still up. This one is right.</p>
+  </div>
+
+  <h2>The six stages <b>build the loop and see what it does</b></h2>
+  <div class="stages">
+    <input type="checkbox" id="cond" checked>
+    <label for="cond">
+      <span class="nm"><b>Condense</b><span class="job">input</span></span>
+      <span class="d">Water out of the air. The habitat is warm and full of
+        people and plants, all of which exhale it, so the first stage is not a
+        source so much as a recovery &mdash; you are catching what the loop
+        already has before it gets away.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="rif" checked>
+    <label for="rif">
+      <span class="nm"><b>Riffle</b><span class="job">aerate</span></span>
+      <span class="d">Broken, turbulent, noisy water over stones. This is not
+        scenery: turbulence is how oxygen gets into water, and every aerobic
+        thing downstream is spending what this stage dissolved.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="pool" checked>
+    <label for="pool">
+      <span class="nm"><b>Pool</b><span class="job">settle</span></span>
+      <span class="d">Slow, deep, quiet. Solids drop out, residence time goes
+        up, and things get long enough in one place to be processed. A stream
+        that is all riffle never settles anything.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="bed" checked>
+    <label for="bed">
+      <span class="nm"><b>The bed</b><span class="job">filter</span></span>
+      <span class="d">Through soil, root and mycelium. The floor is the filter
+        &mdash; the same structure doing burial and soil does the water in the
+        same pass, which is why the floor cannot be skipped and why this stage
+        is free if you already built one.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="anox" checked>
+    <label for="anox">
+      <span class="nm"><b>The anoxic pocket</b><span class="job">dirty</span></span>
+      <span class="d">A deliberately oxygen-free zone. Deep, still, buried. It
+        looks exactly like the part you would design out, and taking it out is
+        the most common way one of these fails.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="siph" checked>
+    <label for="siph">
+      <span class="nm"><b>The siphon</b><span class="job">return</span></span>
+      <span class="d">Gravity at 90% of Earth's, a height difference, and no
+        pump. Self-priming once started and it runs on nothing. Without it this
+        is not a loop, it is a drain with a nice filter in it.</span>
+      <span class="st"></span>
+    </label>
+  </div>
+
+  <h2>What the water is doing <b>counted from the panels, not declared</b></h2>
+
+  <div class="chk panel k-ox">
+    <span class="mk"></span>
+    <div class="ch"><b>Oxygenated</b><span class="req">needs riffle</span></div>
+    <p>Gas is going in. Turbulence puts oxygen into water and nothing else does
+      it for free &mdash; every alternative is a machine running on power you
+      have to keep supplying.</p>
+  </div>
+
+  <div class="chk panel k-settle">
+    <span class="mk"></span>
+    <div class="ch"><b>Settled</b><span class="req">needs pool</span></div>
+    <p>Solids are dropping out and the water is spending long enough in one
+      place to be worked on. Residence time is the quiet variable: too fast and
+      nothing is processed, too slow and it goes anoxic where you did not want
+      it to.</p>
+  </div>
+
+  <div class="chk panel k-nitr">
+    <span class="mk"></span>
+    <div class="ch"><b>Nitrifying</b><span class="req">bed · riffle</span></div>
+    <p>Ammonia to nitrite to nitrate, by bacteria living in the bed. It needs
+      oxygen, which is why it needs the riffle: the bed does the work and the
+      riffle pays for it. Ammonia is the toxic one, so this stage is the
+      difference between a waterway and a hazard.</p>
+  </div>
+
+  <div class="chk panel k-denitr">
+    <span class="mk"></span>
+    <div class="ch"><b>Denitrifying</b><span class="req">bed · anoxic pocket</span></div>
+    <p>Nitrate back to nitrogen gas, and out. This only happens where there is
+      <b>no</b> oxygen, which is why the pocket has to exist and be left
+      alone.</p>
+    <p><b>The two halves cannot share water.</b> One needs oxygen and the other
+      needs its absence, so a working system runs both in different places at
+      the same time. The waterway cleans itself and dirties itself, deliberately,
+      and neither zone is the healthy one.</p>
+  </div>
+
+  <div class="chk panel k-closed">
+    <span class="mk"></span>
+    <div class="ch"><b>Closed</b><span class="req">condense · siphon</span></div>
+    <p>What comes out goes back. On a planet where hydrogen is the only scarce
+      element, every litre lost is a litre that has to be wrung out of about
+      136,000 m&sup3; of sulfuric acid cloud. The loop is not tidiness. It is the
+      cheapest water there is by an enormous margin.</p>
+  </div>
+
+  <div class="chk panel k-healthy">
+    <span class="mk"></span>
+    <div class="ch"><b>Healthy</b><span class="req">all six</span></div>
+    <p>Oxygenated, settled, nitrifying, denitrifying and closed. Note what
+      healthy required: a stage whose whole job is to have no oxygen in it, and
+      a stage whose whole job is to be turbulent and loud. Neither is the good
+      one. The alternation is the good one.</p>
+    <p class="note" style="margin-top:9px">And it is at 55 km, at 27 &deg;C,
+      holding 7.9 mg/L &mdash; because at the altitude everyone quotes it would
+      be at 2.6 and none of the above would work regardless of how well it was
+      plumbed.</p>
+  </div>
+
+  <div class="flt panel x-stag">
+    <span class="mk"></span>
+    <div class="ch"><b>Stagnant</b><span class="req">pool, no riffle</span></div>
+    <p>All settling and no aeration. The pool consumes the oxygen it arrived
+      with, nothing replaces it, and the water goes anoxic where you needed it
+      aerobic. This is what a pond becomes when nothing disturbs it, and it is
+      the failure that looks most like success from a distance: still, clear,
+      and dead.</p>
+  </div>
+
+  <div class="flt panel x-nitrate">
+    <span class="mk"></span>
+    <div class="ch"><b>Nitrate accumulating</b><span class="req">bed and riffle, no anoxic pocket</span></div>
+    <p>Half a nitrogen cycle. Ammonia is being converted, which feels like the
+      system working, and the nitrate has nowhere to go &mdash; it builds up
+      indefinitely because the only thing that removes it needs an oxygen-free
+      zone you did not build.</p>
+    <p class="note" style="margin-top:9px"><b>This is the instructive one.</b>
+      Every reading is better than it was: ammonia down, oxygen high, water
+      clear. The failure is invisible in exactly the measurements you would take
+      to check for it, and it is caused by removing the part of the design that
+      looked unhealthy.</p>
+  </div>
+
+  <div class="flt panel x-dead">
+    <span class="mk"></span>
+    <div class="ch"><b>A dead spot</b><span class="req">anoxic pocket, no bed</span></div>
+    <p>An oxygen-free zone with no bacteria in it is not a denitrifying stage,
+      it is just somewhere the water goes bad. The pocket only works as part of
+      the bed &mdash; the biology is the mechanism and the absence of oxygen is
+      merely the condition it needs.</p>
+  </div>
+
+  <div class="flt panel x-open">
+    <span class="mk"></span>
+    <div class="ch"><b>Open loop</b><span class="req">condensing, not returning</span></div>
+    <p>Water is being made and not given back. This works perfectly and it works
+      until the reservoir is empty, at which point the cost per litre becomes the
+      cost of sweeping cloud. An open loop is a closed loop with the failure
+      deferred to whoever is on shift when it runs out.</p>
+  </div>
+
+  <div class="empty panel" style="border-color:var(--edge);margin-top:10px">
+    <div class="ch"><b>Dry channel</b><span class="req">nothing built</span></div>
+    <p style="margin:0;font-size:12.5px">A cut in the ground with no water in
+      it. Everything above is a stage in a process and none of them is the
+      process &mdash; which is worth seeing once, because the temptation with a
+      list of six things is to believe the list is the system.</p>
+  </div>
+
+  <h2>The tally</h2>
+  <div class="tally">
+    <div class="head"><span>Stages</span><b class="n-stages"></b></div>
+    <div class="head"><span>Of</span><b>6</b></div>
+    <div class="head g"><span>Checks</span><b class="n-checks"></b></div>
+    <div class="head"><span>Of</span><b>6</b></div>
+    <div class="head w"><span>Faults</span><b class="n-faults"></b></div>
+    <div class="head"><span>Of</span><b>4</b></div>
+  </div>
+
+  <h2>Oxygen against temperature <b>the table the site was chosen from</b></h2>
+  <div class="do" style="grid-template-columns:repeat(6,1fr)">
+    <div><span>0 °C</span><b>14.6</b></div>
+    <div><span>10 °C</span><b>11.3</b></div>
+    <div><span>20 °C</span><b>9.1</b></div>
+    <div><span>27 °C</span><b>7.9</b></div>
+    <div class="bad"><span>50 °C</span><b>5.6</b></div>
+    <div class="bad"><span>75 °C</span><b>2.6</b></div>
+  </div>
+  <p class="note">Milligrams per litre at saturation, fresh water. Above about
+    6 the demanding species are fine; below 5 most fish are in trouble; below 2
+    is hypoxic. <b>Warm water cannot hold oxygen and no amount of plumbing
+    changes that</b> &mdash; it is a property of the solubility of a gas, so the
+    only lever is temperature, and on Venus temperature is altitude.</p>
+
+  <h2>Biosphere 2 <b>the one that already tried it</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">3.14 acres, eight people, sealed in
+      1991 for two years. It is the only serious attempt at a closed ecology at
+      any scale and it should be named on every page like this one rather than
+      quietly not mentioned.</p>
+    <p style="margin:9px 0 0;font-size:12.5px"><b>The oxygen fell from 20.9% to
+      14.2% in about sixteen months</b> &mdash; the equivalent of moving everyone
+      to four thousand metres &mdash; and it had to be injected from outside. The
+      cause was not exotic and that is the point. Soil microbes respired faster
+      than the plants photosynthesised, and the curing concrete absorbed the CO&#8322;
+      so the carbon never came back round to be re-fixed. Two ordinary processes,
+      neither hidden, both left out of the model.</p>
+    <p class="note"><b>The soil you install is metabolically active and it
+      eats.</b> This forest's entire floor &mdash; the beetles, the burial, the
+      bed this waterway filters through &mdash; is that same process, deliberately
+      installed and deliberately fed. It is the right design and it is also
+      exactly the thing that took Biosphere 2's oxygen, and both of those are
+      true at once.</p>
+  </div>
+
+  <h2>Learn as you teach <b>what this page does not know</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">Nobody has run a closed water loop at
+      this scale. The ISS recovers most of its water and does it for six people
+      with consumable filters resupplied from Earth. Biosphere 2 was three acres
+      and lost its oxygen. This is twenty-three thousand square kilometres, and
+      the honest position is that the stages above are correct in kind and
+      completely unvalidated in size.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">What is solid: warm water holds
+      less oxygen, nitrification needs oxygen, denitrification needs its absence,
+      siphons work at 0.9 g, and soil respires. Every one of those is
+      school-level and none of them is in doubt. What is not solid is every
+      number that would follow from putting them together at scale, and this page
+      does not print those numbers rather than printing them softly.</p>
+  </div>
+
+  <p class="note" style="margin-top:22px">Also in this system:
+    <a href="terraform.html">the siting</a>, which this page corrects &middot;
+    <a href="mycelium.html">the fungus</a>, which is the bed &middot;
+    <a href="ecosystem.html">the ecosystem</a> &middot;
+    <a href="school.html">the school</a> &middot; <a href="index.html">the yard</a></p>
+</div>

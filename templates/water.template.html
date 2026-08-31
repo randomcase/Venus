@@ -1,0 +1,200 @@
+<title>TEMPLATE &middot; The Waterway · it has to get dirty on purpose</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from water.html by templatise.mjs.
+
+     source            water.html
+     radio groups      0
+     checkboxes        6
+     counters          stages, checks, faults
+     stored states     none — this page forgets everything on reload
+     :has() rules      24, 7 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#05090c; --card:#0e1720; --card2:#121d27; --edge:#22323f;
+    --ink:#e6f0f5; --dim:#86a0ae; --bone:#dfe8ec;
+    --ox:#6ec6ff; --anox:#9a7fd0; --bed:#a08a5c; --flow:#4fc4c0;
+    --good:#65d6a8; --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 22% -6%,rgba(110,198,255,.11),transparent 44%),
+      radial-gradient(circle at 88% 96%,rgba(79,196,192,.09),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:22px;letter-spacing:-.015em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--flow);border:1px solid var(--flow);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  p{max-width:82ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.7;margin:10px 0 0;max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#0a1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--flow)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+
+  .stages{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:12px}
+  @media (max-width:900px){.stages{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.stages{grid-template-columns:1fr}}
+  .stages input{position:absolute;opacity:0;width:0;height:0}
+  .stages label{display:block;cursor:pointer;background:#0a1219;
+    border:1px solid var(--edge);border-radius:11px;padding:12px 13px}
+  .stages label:hover{border-color:var(--bone)}
+  .stages input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+  .stages label .nm{display:flex;align-items:baseline;gap:8px}
+  .stages label b{font-size:14px;color:var(--dim)}
+  .stages label .job{margin-left:auto;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:#4e6573}
+  .stages label .d{font-size:10.5px;line-height:1.58;color:var(--dim);margin-top:8px}
+  .stages label .st{margin-top:9px;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:#4e6573}
+  .stages label .st::after{content:"not built"}
+  .stages input:checked+label .st::after{content:"running"}
+  #cond:checked+label,#rif:checked+label{border-color:var(--ox);background:rgba(110,198,255,.09)}
+  #cond:checked+label b,#cond:checked+label .st,
+  #rif:checked+label b,#rif:checked+label .st{color:var(--ox)}
+  #pool:checked+label{border-color:var(--flow);background:rgba(79,196,192,.09)}
+  #pool:checked+label b,#pool:checked+label .st{color:var(--flow)}
+  #bed:checked+label{border-color:var(--bed);background:rgba(160,138,92,.11)}
+  #bed:checked+label b,#bed:checked+label .st{color:var(--bed)}
+  #anox:checked+label{border-color:var(--anox);background:rgba(154,127,208,.10)}
+  #anox:checked+label b,#anox:checked+label .st{color:var(--anox)}
+  #siph:checked+label{border-color:var(--good);background:rgba(101,214,168,.09)}
+  #siph:checked+label b,#siph:checked+label .st{color:var(--good)}
+
+  /* ========================================= 1 · COUNTERS ARE ARITHMETIC */
+  body{counter-reset:stages 0 checks 0 faults 0}
+  #cond:checked+label{counter-increment:stages 1}
+  #rif:checked+label{counter-increment:stages 1}
+  #pool:checked+label{counter-increment:stages 1}
+  #bed:checked+label{counter-increment:stages 1}
+  #anox:checked+label{counter-increment:stages 1}
+  #siph:checked+label{counter-increment:stages 1}
+  .chk .mk{counter-increment:checks 1}
+  .flt .mk{counter-increment:faults 1}
+  .n-stages::after{content:counter(stages)}
+  .n-checks::after{content:counter(checks)}
+  .n-faults::after{content:counter(faults)}
+
+  /* ============================================= 2 · WHAT THE WATER IS DOING */
+  .chk,.flt{display:none}
+  .chk.panel,.flt.panel{margin-top:10px}
+  .ch{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:8px;margin-bottom:10px}
+  .ch b{font-size:14px;color:var(--bone)}
+  .ch .req{margin-left:auto;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+  .chk p,.flt p{margin:0;font-size:12.5px}
+  .chk p+p,.flt p+p{margin-top:9px}
+
+  .way:has(#rif:checked) .k-ox{display:block}
+  .way:has(#pool:checked) .k-settle{display:block}
+  .way:has(#bed:checked):has(#rif:checked) .k-nitr{display:block}
+  .way:has(#bed:checked):has(#anox:checked) .k-denitr{display:block}
+  .way:has(#cond:checked):has(#siph:checked) .k-closed{display:block}
+  .way:has(#cond:checked):has(#rif:checked):has(#pool:checked):has(#bed:checked):has(#anox:checked):has(#siph:checked)
+    .k-healthy{display:block}
+
+  /* the faults, which are the lesson */
+  .way:has(#pool:checked):not(:has(#rif:checked)) .x-stag{display:block}
+  .way:has(#bed:checked):has(#rif:checked):not(:has(#anox:checked)) .x-nitrate{display:block}
+  .way:has(#cond:checked):not(:has(#siph:checked)) .x-open{display:block}
+  .way:has(#anox:checked):not(:has(#bed:checked)) .x-dead{display:block}
+
+  .k-ox{border-color:rgba(110,198,255,.45)}
+  .k-settle{border-color:rgba(79,196,192,.45)}
+  .k-nitr{border-color:rgba(160,138,92,.45)}
+  .k-denitr{border-color:rgba(154,127,208,.45)}
+  .k-closed{border-color:rgba(101,214,168,.45)}
+  .k-healthy{border-color:var(--good)}
+  .flt.panel{border-color:rgba(224,112,90,.5)}
+  .flt .ch b{color:var(--warn)}
+
+  .tally{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:12px}
+  @media (max-width:760px){.tally{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:480px){.tally{grid-template-columns:repeat(2,1fr)}}
+  .head{background:#0a1219;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .head span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:19px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:5px}
+  .head.g b{color:var(--good)} .head.w b{color:var(--warn)}
+
+  .do{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+  @media (max-width:760px){.do{grid-template-columns:repeat(2,1fr)}}
+  .do div{background:#0a1219;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .do span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);display:block}
+  .do b{display:block;font:15px/1.3 ui-monospace,Menlo,monospace;
+    color:var(--ox);margin-top:6px}
+  .do i{display:block;font-style:normal;font-size:10.5px;color:var(--dim);
+    margin-top:6px;line-height:1.55}
+  .do div.bad b{color:var(--warn)}
+
+  .empty{display:none}
+  .way:not(:has(input:checked)) .empty{display:block}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO checkbox set <b>6</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="cond" checked><label for="cond">Condense input Water out of the air. The h</label>
+      <input type="checkbox" id="rif" checked><label for="rif">Riffle aerate Broken, turbulent, noisy wat</label>
+      <input type="checkbox" id="pool" checked><label for="pool">Pool settle Slow, deep, quiet. Solids drop</label>
+      <input type="checkbox" id="bed" checked><label for="bed">The bed filter Through soil, root and myce</label>
+      <input type="checkbox" id="anox" checked><label for="anox">The anoxic pocket dirty A deliberately oxy</label>
+      <input type="checkbox" id="siph" checked><label for="siph">The siphon return Gravity at 90% of Earth'</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>stages</span><b class="n-stages"></b></div>
+      <div class="head m"><span>checks</span><b class="n-checks"></b></div>
+      <div class="head m"><span>faults</span><b class="n-faults"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>
