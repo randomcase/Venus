@@ -1,7 +1,8 @@
 # Venus Yard
 
 Thirty-five pages about a shipyard that does not exist, built to find out how
-much a browser will do for you before you reach for JavaScript.
+much a browser will do for you before you reach for JavaScript — plus one more
+that a Scala program writes for itself.
 
 **Thirty-three of the thirty-five have no script in them at all.** They still
 add up, hold state, gate one control behind another, and hand documents to each
