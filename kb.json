@@ -320,7 +320,8 @@
         "the-injector",
         "hydrogen",
         "the-wallet",
-        "the-exchange"
+        "the-exchange",
+        "the-exchange-rate"
       ],
       "game": {
         "unlock": "Put a manifest line into Plant, and ship the thing that harvests rather than the harvest."
@@ -836,11 +837,51 @@
         "fungibility",
         "the-window",
         "the-relay",
-        "the-baton"
+        "the-baton",
+        "the-exchange-rate"
       ],
       "game": {
         "unlock": "Take a delivery. Any delivery."
       }
+    },
+    {
+      "id": "the-exchange-rate",
+      "term": "The exchange rate",
+      "class": "number",
+      "settled": "settled",
+      "short": "Every kelvin of heating you add to Venus buys 2.04e15 kg of water. That ratio is fixed by physics and it is what ends the bombardment plan.",
+      "body": [
+        "The obvious way to give Venus water is to throw it: redirect icy bodies and let them arrive. The mass arithmetic encourages this. A cometary body of 5 km radius at 600 kg/m3 carries 3.14e14 kg of water, and 43,000 of them would deliver one per cent of an Earth ocean — a large number, but a schedulable one at a hundred a year.",
+        "THE MASS IS NOT THE CONSTRAINT. THE ENERGY IS. That same body arriving at 20 km/s carries 6.28e22 J, and Venus's atmosphere is 4.8e20 kg at roughly 850 J/kg/K, so one impact warms the whole thing by 0.154 K. Divide: every kelvin of heating buys 2.04e15 kg of water, and the ratio does not care how you arrange the deliveries.",
+        "So one per cent of an ocean costs 6,618 K. The water arrives as steam into an atmosphere you have just heated by thousands of degrees, on a planet whose problem was already that it is 464 C at the surface and above water's critical temperature. THE DELIVERY DEFEATS THE DELIVERY. Not marginally, and not fixably by slowing it down — the energy is in the arrival, and arriving is the whole mechanism.",
+        "WHICH IS THE SAME SHAPE AS THE FOREST FINDING AND SHOULD HAVE BEEN EXPECTED. You do not ship the harvest. Venus already holds 3.98e15 kg of water as vapour in the bulk atmosphere, and the question was never where to get it — it was how to bring it down.",
+        "AND THE SITE DOES NOT NEED AN OCEAN. Over 9,000 square miles: a 50 m sea is 29.3% of all the water on Venus and is not happening. A 1 m marsh is 0.6%. A river 50 m wide, 3 m deep and 300 km long is 4.5e10 kg — one thousandth of one per cent — and at the dive rate of 375,000 kg of water a day per unit it is three years with a hundred units, or a hundred and twenty days with a thousand. The river was always the achievable object. The ocean was a category error wearing an ambition's clothes."
+      ],
+      "test": "Take any proposed delivery and divide its kinetic energy by the atmosphere's heat capacity before you divide its mass by anything. If the heating it buys is larger than the cooling you were hoping for, the method is self-defeating and no amount of scheduling fixes it. Then ask the second question, which is the one that actually helps: how much of the thing is already there, and what would it cost to bring it down instead of in?",
+      "evidence": [
+        {
+          "page": "terraform.html",
+          "what": "the 9,000 sq mi site and what an envelope over it costs"
+        },
+        {
+          "page": "water.html",
+          "what": "the siphon, the cleaning, and the waterway the river was always for"
+        },
+        {
+          "page": "profiles/hydrogen.html",
+          "what": "2.06% H in H2SO4, and the 20-30 ppmv of water vapour that is the real reservoir"
+        },
+        {
+          "page": "game.html",
+          "what": "skim and dive as the two rates that matter, against a ship that cannot compete with either"
+        }
+      ],
+      "see": [
+        "hydrogen",
+        "the-baton",
+        "superrotation",
+        "the-minimum-cycle"
+      ]
     },
     {
       "id": "cascade-order",
