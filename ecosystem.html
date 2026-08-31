@@ -1,14 +1,14 @@
-<title>The Ecosystem · nine orders, and what the forest can do without them</title>
+<title>The Ecosystem · eleven orders, and what the forest can do without them</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
   THE ECOSYSTEM — the forest that terraforms this planet, as a dependency graph.
 
-  Nine orders, twelve capabilities, and every capability a conjunction of the
-  orders it actually needs.
+  Eleven orders, sixteen capabilities, and every capability a conjunction of
+  the orders it actually needs.
 
   Nine thousand square miles of forest, the size of England, and it is not
   scenery. It is the machine that makes the planet habitable, and like every
-  machine it is a set of parts with jobs. Nine orders live in it. Each one does
+  machine it is a set of parts with jobs. Eleven orders live in it. Each one does
   something the others cannot, none of them is decoration, and the page's whole
   purpose is to let you take one out and see precisely what stops working.
 
@@ -28,6 +28,12 @@
                                nobody renews stops existing
     MOTHS       bear           a straight line held against something far
                                enough away to count as fixed
+    SPIDERS     catch          coverage without patrol: a structure that turns
+                               an area into notification, and cannot be worn
+                               while its owner is growing
+    BEETLES     bury           the floor. Seed put down where it will survive,
+                               litter turned into soil, by the only order whose
+                               armour is a pair of wings it has to open to fly
 
   WHAT HAPPENS WHEN THE CLOCK GOES
   Not everything. That was the first version of this page and it was wrong.
@@ -82,8 +88,46 @@
   heuristic calibrated to a condition, behaving exactly as designed, in a
   condition that no longer holds. Every system in this yard has one.
 
+  THE FLOOR, WHICH WAS EMPTY
+  Everything above was air. Fireflies, moths, butterflies and bees all work in
+  the space above the ground; the owls fly, the wolves cross it, the ants draw
+  on it. Nothing lived IN it. A forest is not its canopy — the canopy is what
+  the floor is currently spending — and a wood with nothing working the litter
+  layer is a wood running down a balance it cannot top up.
+
+  BEETLES are the tank, and the armour is the tell. A beetle's shell is not
+  plating bolted onto an animal — the elytra ARE its forewings, hardened. It is
+  wearing its own flight surfaces as a roof, and to fly it has to open them.
+  Protection and mobility are the same structure in two configurations and it
+  cannot have both at once, which is why a beetle on the ground looks
+  invulnerable and a beetle in the air looks like it is falling with opinions.
+  The earliest costumed heroes reached for the beetle for exactly this reason
+  and not for the mandibles: a shell that opens is a better idea than a shell.
+
+  So: armoured, slow, ground level, doing the heavy work nobody watches. The job is burial: a dung beetle rolling and burying is one of
+  the largest secondary seed dispersers there is, and burial is not the same
+  service as carriage. Bees move pollen sideways through the air between things
+  that cannot move, precisely, on a symbol. Beetles move seed DOWNWARD into the
+  ground, imprecisely, by force, to a depth where it is out of reach of what
+  eats it and in reach of what feeds it. One is the network. The other is the
+  write to disk, and a network with nothing writing anything down is a rumour.
+
+  SPIDERS occupy the part of the wood nothing else uses: the gap. A web is
+  strung across empty space, and it is not really a trap — it is an instrument.
+  A spider does not patrol. It converts an entire area into notification and
+  then waits, which is the cheapest coverage in the forest by an enormous
+  margin and the only kind that costs nothing while nothing is happening.
+
+  And a spider cannot moult in its own web. It grows by shedding a shell it has
+  outgrown, and to do that it must leave the structure it is running, hang
+  somewhere undefended, come out soft, and wait to harden before it can return.
+  It does not become a different animal the way a beetle or a butterfly does —
+  it is the same design, larger. But it cannot rebuild itself inside the thing
+  it is serving from, and it has no way to make that window shorter. Every
+  system that has ever had to ship a version of itself has met this.
+
   HOW IT IS BUILT
-  Nine checkboxes. Six capability panels, each gated by a compound :has() on
+  Eleven checkboxes. Six capability panels, each gated by a compound :has() on
   the orders it actually requires. The capability count is a CSS counter that
   increments on an element inside each panel — and an element inside a
   display:none panel does not increment anything, which is how the number
@@ -99,7 +143,7 @@
     --ink:#e8f0ea; --dim:#87998e; --bone:#e6dcc4;
     --fly:#f0c66a; --owl:#a9b7c9; --wolf:#c9857a;
     --peac:#4fb3a6; --flam:#e58aa0; --bee:#e0903c; --btfl:#b98ae0;
-    --ant:#b5764a; --moth:#cfd6c8;
+    --ant:#b5764a; --moth:#cfd6c8; --spid:#9aa0b8; --btle:#7f9a5c;
     --leaf:#6fc08a; --cool:#6ec6ff;
   }
   *{box-sizing:border-box}
@@ -168,6 +212,10 @@
   #ant:checked+label b,#ant:checked+label .st{color:var(--ant)}
   #moth:checked+label{border-color:var(--moth);background:rgba(207,214,200,.09)}
   #moth:checked+label b,#moth:checked+label .st{color:var(--moth)}
+  #spid:checked+label{border-color:var(--spid);background:rgba(154,160,184,.10)}
+  #spid:checked+label b,#spid:checked+label .st{color:var(--spid)}
+  #btle:checked+label{border-color:var(--btle);background:rgba(127,154,92,.12)}
+  #btle:checked+label b,#btle:checked+label .st{color:var(--btle)}
 
   /* ==================================== 1 · COUNTERS ARE ARITHMETIC
      Two counters. `orders` increments on the checked label, the ordinary way.
@@ -187,6 +235,8 @@
   #btfl:checked+label{counter-increment:orders 1}
   #ant:checked+label{counter-increment:orders 1}
   #moth:checked+label{counter-increment:orders 1}
+  #spid:checked+label{counter-increment:orders 1}
+  #btle:checked+label{counter-increment:orders 1}
   .cap .mk{counter-increment:can 1}
   .n-orders::after{content:counter(orders)}
   .n-can::after{content:counter(can)}
@@ -208,7 +258,11 @@
   .eco:has(#ant:checked) .c-path{display:block}
   .eco:has(#moth:checked) .c-bearing{display:block}
   .eco:has(#moth:checked):has(#fly:checked):has(#ant:checked) .c-navigate{display:block}
-  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked):has(#bee:checked):has(#btfl:checked):has(#ant:checked):has(#moth:checked)
+  .eco:has(#spid:checked) .c-catch{display:block}
+  .eco:has(#btle:checked) .c-bury{display:block}
+  .eco:has(#spid:checked):has(#owl:checked) .c-notice{display:block}
+  .eco:has(#btle:checked):has(#ant:checked) .c-soil{display:block}
+  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked):has(#bee:checked):has(#btfl:checked):has(#ant:checked):has(#moth:checked):has(#spid:checked):has(#btle:checked)
     .c-terraform{display:block}
 
   .cap.panel{margin-top:10px}
@@ -230,6 +284,10 @@
   .c-path{border-color:rgba(181,118,74,.45)}
   .c-bearing{border-color:rgba(207,214,200,.35)}
   .c-navigate{border-color:rgba(111,192,138,.35)}
+  .c-catch{border-color:rgba(154,160,184,.45)}
+  .c-bury{border-color:rgba(127,154,92,.45)}
+  .c-notice{border-color:rgba(154,160,184,.35)}
+  .c-soil{border-color:rgba(127,154,92,.35)}
   .c-terraform{border-color:var(--leaf)}
 
   .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
@@ -285,12 +343,12 @@
     <h1>The Ecosystem</h1>
     <p class="sub">Nine thousand square miles of forest, the size of England,
       and it is not scenery — it is the machine that makes this planet
-      habitable. Nine orders live in it. Take one out and see what stops
+      habitable. Eleven orders live in it. Take one out and see what stops
       working &mdash; and what carries on regardless, which is usually the more
       interesting half.</p>
   </header>
 
-  <h2>The nine orders <b>each one has a job, none of them is decoration</b></h2>
+  <h2>The eleven orders <b>each one has a job, none of them is decoration</b></h2>
   <div class="orders">
     <input type="checkbox" id="fly" checked>
     <label for="fly">
@@ -386,11 +444,45 @@
         condition the rule was calibrated for.</span>
       <span class="st"></span>
     </label>
+
+    <input type="checkbox" id="spid" checked>
+    <label for="spid">
+      <span class="nm"><b>Spiders</b><span class="job">catch</span></span>
+      <span class="d">They live in the gap &mdash; the part of the wood nothing
+        else uses. A web is not really a trap, it is an instrument: it converts
+        a whole area into notification and then costs nothing while nothing is
+        happening. And a spider cannot moult inside its own web. To grow it must
+        leave the thing it is running, hang somewhere undefended, and wait to
+        harden.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="btle" checked>
+    <label for="btle">
+      <span class="nm"><b>Beetles</b><span class="job">bury</span></span>
+      <span class="d">The tank, and the floor. Walking wings: the shell is a
+        pair of forewings hardened into a roof, so it flies by <i>opening its
+        armour</i> &mdash; protection and movement are the same structure and it
+        cannot have both at once. On the ground it buries seed deep enough to
+        survive and turns litter into soil. Bees move things sideways through the
+        air. Beetles move them down.</span>
+      <span class="st"></span>
+    </label>
   </div>
+
+  <p class="note"><b>Everything above the last two was air.</b> The fireflies,
+    moths, butterflies and bees work in the space above the ground, the owls fly
+    it, the wolves cross it and the ants draw on it &mdash; and until the
+    beetles, nothing lived <i>in</i> it. A forest is not its canopy. The canopy
+    is what the floor is currently spending, and a wood with nothing working the
+    litter layer is running down a balance it has no way to top up. The spiders
+    take the other empty place, which is the gap between things: the only order
+    here whose habitat is the space itself.</p>
+
   <p class="note"><b>Untick one and watch.</b> The capabilities below are not a
     list of features, they are conjunctions: each one names the orders it
-    actually requires, and it disappears when any of them leaves. Twelve rules for
-    twelve capabilities — adding a tenth animal costs as many rules as it has
+    actually requires, and it disappears when any of them leaves. Sixteen rules for
+    sixteen capabilities — adding a twelfth animal costs as many rules as it has
     jobs,
     not a doubled table.</p>
 
@@ -535,16 +627,86 @@
       redundancy. It is the only thing that can disagree with the other two.</p>
   </div>
 
+  <div class="cap panel c-catch">
+    <span class="mk"></span>
+    <div class="ch"><b>Catch</b><span class="req">needs spiders</span></div>
+    <p>Coverage without patrol. Every other order that watches anything has to
+      go and look; a web watches an entire volume of air continuously, reports
+      the moment anything crosses it, and costs almost nothing during the long
+      stretches when nothing does. It is the cheapest surveillance in the forest
+      by an enormous margin, and the reason is that the structure does the
+      watching rather than the animal.</p>
+    <p class="note" style="margin-top:9px"><b>And it cannot be worn while its
+      owner is growing.</b> A spider moults by shedding a shell it has outgrown,
+      and it cannot do that inside the web &mdash; it leaves, hangs somewhere
+      undefended, comes out soft, and waits to harden before it can go back. It
+      does not become a different animal the way the beetle and the butterfly do;
+      it is the same design, larger. But there is no version of this where it
+      rebuilds itself inside the thing it is serving from, and no way to make the
+      window shorter. Every system that has ever had to ship a new version of
+      itself has met this problem and none of them enjoyed it.</p>
+  </div>
+
+  <div class="cap panel c-bury">
+    <span class="mk"></span>
+    <div class="ch"><b>Bury</b><span class="req">needs beetles</span></div>
+    <p>Seed goes <i>down</i>. Not sideways &mdash; down, to a depth where it is
+      out of reach of the things that eat it and in reach of the things that feed
+      it. The bees are the network and this is the write: carriage decides where
+      a seed arrives, and burial decides whether arriving was worth anything.</p>
+    <p class="note" style="margin-top:9px">Burial is imprecise, slow and done by
+      force, which is why it is easy to mistake for the unimportant half. A wood
+      that can carry seed everywhere and bury none of it has excellent logistics
+      and no next generation.</p>
+    <p class="note" style="margin-top:9px"><b>The armour is a pair of wings.</b>
+      A beetle's elytra are its forewings, hardened into a roof over the flight
+      wings underneath, so it does not carry protection in addition to the
+      ability to move &mdash; it carries one structure that can be either, and it
+      must open the shell to use the wings. There is no configuration where it is
+      both armoured and airborne. That is the same shape as the spider that
+      cannot moult in its own web, and it is the honest version of every
+      trade-off between being safe and being able to change: you do not get to
+      pay for both at the same instant, and the moment you are changing is
+      exactly the moment you are open.</p>
+  </div>
+
+  <div class="cap panel c-notice">
+    <span class="mk"></span>
+    <div class="ch"><b>Notice</b><span class="req">needs spiders · owls</span></div>
+    <p>Something crossed the wood and somebody read the report. Both halves are
+      required and neither is any use alone: a web with nobody assessing what it
+      caught is an instrument logging into a void, and an assessor with no
+      instrument is asking around. This is the same shape as <b>Prove</b> &mdash;
+      a signal and a reader &mdash; and the wood needs both shapes, because one
+      handles claims that were made to it and the other handles things that
+      simply happened.</p>
+  </div>
+
+  <div class="cap panel c-soil">
+    <span class="mk"></span>
+    <div class="ch"><b>Build soil</b><span class="req">needs beetles · ants</span></div>
+    <p>The floor is turned rather than merely accumulating. Beetles break the
+      litter down and take it under; ants move it around and open it up. Between
+      them the ground stops being a pile of what fell and starts being the thing
+      the next century of forest is made out of.</p>
+    <p class="note" style="margin-top:9px">This is the slowest capability on the
+      page and the only one whose absence is invisible for decades. Nothing
+      breaks when it stops. The wood simply becomes, over a very long time, a
+      thinner version of itself, and no single year is ever the year it went
+      wrong.</p>
+  </div>
+
   <div class="cap panel c-terraform">
     <span class="mk"></span>
-    <div class="ch"><b>Terraform</b><span class="req">needs all nine</span></div>
+    <div class="ch"><b>Terraform</b><span class="req">needs all eleven</span></div>
     <p>The full machine. It keeps time, decides, acts, proves what it did, shows
       what passed through it, spreads past the clearing it began in, and carries
       the route across lives that do not overlap &mdash; which between them is
       the whole of what making a planet habitable actually consists of &mdash;
-      along with the ground to write routes on and a bearing to cross it by, and
-      none of it is the dramatic part.</p>
-    <p>Nine thousand square miles and nine orders, and the two that matter most
+      along with the ground to write routes on, a bearing to cross it by, a floor
+      that is being made rather than spent, and an instrument strung across the
+      gap &mdash; and none of it is the dramatic part.</p>
+    <p>Nine thousand square miles and eleven orders, and the two that matter most
       to whether any of it is still here in a century are the two smallest
       animals in the wood: the one that keeps the time and the one that keeps
       the way.</p>
@@ -593,9 +755,9 @@
   <h2>The tally <b>counted, not declared</b></h2>
   <div class="heads">
     <div class="head"><span>Orders present</span><b class="n-orders"></b></div>
-    <div class="head"><span>Of</span><b>9</b></div>
+    <div class="head"><span>Of</span><b>11</b></div>
     <div class="head g"><span>Capabilities</span><b class="n-can"></b></div>
-    <div class="head"><span>Of</span><b>12</b></div>
+    <div class="head"><span>Of</span><b>16</b></div>
   </div>
   <p class="note"><b>The capability count counts itself.</b> Each panel carries
     a marker that increments a CSS counter — and a marker inside a hidden panel
@@ -604,7 +766,7 @@
     a figure anybody typed, and it cannot drift away from what is on the screen,
     which is the only reason it is allowed to be printed at all.</p>
 
-  <h2>Why these nine <b>and not nine nicer ones</b></h2>
+  <h2>Why these eleven <b>and not eleven nicer ones</b></h2>
   <div class="panel">
     <p style="margin:0;font-size:12.5px">Every animal here does a real job that
       the others cannot, and each job is a real mechanism rather than a mood.
@@ -637,6 +799,18 @@
       honest picture anywhere on this page of how a good system actually fails:
       not by breaking, but by continuing to work perfectly in a condition it was
       never calibrated for.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">The spiders and the beetles are
+      the two the wood would notice last and miss most. A web is the only
+      instrument here that watches an area instead of a point and charges
+      nothing for the hours when nothing happens. Burial is the only service that
+      decides whether carriage was worth doing. And between them they hold the
+      two places every other order left empty &mdash; the floor, and the gap.
+      They are also the two that state the same law from opposite ends: a spider
+      cannot moult inside the web it is running, and a beetle cannot fly with its
+      armour shut. Being protected and being able to change are the same budget,
+      and nothing in this wood gets to spend it twice.
+      The floor is not the boring part of a forest. The canopy is what the floor
+      is currently spending.</p>
   </div>
 
   <p class="note" style="margin-top:22px">Also in this forest:

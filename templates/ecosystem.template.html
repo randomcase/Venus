@@ -1,14 +1,14 @@
-<title>TEMPLATE &middot; The Ecosystem · nine orders, and what the forest can do without them</title>
+<title>TEMPLATE &middot; The Ecosystem · eleven orders, and what the forest can do without them</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
   TEMPLATE, extracted from ecosystem.html by templatise.mjs.
 
      source            ecosystem.html
      radio groups      0
-     checkboxes        9
+     checkboxes        11
      counters          orders, can
      stored states     none — this page forgets everything on reload
-     :has() rules      36, 10 of them compound
+     :has() rules      44, 13 of them compound
      script            none
 
   WHAT IS STILL HERE
@@ -36,7 +36,7 @@
     --ink:#e8f0ea; --dim:#87998e; --bone:#e6dcc4;
     --fly:#f0c66a; --owl:#a9b7c9; --wolf:#c9857a;
     --peac:#4fb3a6; --flam:#e58aa0; --bee:#e0903c; --btfl:#b98ae0;
-    --ant:#b5764a; --moth:#cfd6c8;
+    --ant:#b5764a; --moth:#cfd6c8; --spid:#9aa0b8; --btle:#7f9a5c;
     --leaf:#6fc08a; --cool:#6ec6ff;
   }
   *{box-sizing:border-box}
@@ -105,6 +105,10 @@
   #ant:checked+label b,#ant:checked+label .st{color:var(--ant)}
   #moth:checked+label{border-color:var(--moth);background:rgba(207,214,200,.09)}
   #moth:checked+label b,#moth:checked+label .st{color:var(--moth)}
+  #spid:checked+label{border-color:var(--spid);background:rgba(154,160,184,.10)}
+  #spid:checked+label b,#spid:checked+label .st{color:var(--spid)}
+  #btle:checked+label{border-color:var(--btle);background:rgba(127,154,92,.12)}
+  #btle:checked+label b,#btle:checked+label .st{color:var(--btle)}
 
   /* ==================================== 1 · COUNTERS ARE ARITHMETIC
      Two counters. `orders` increments on the checked label, the ordinary way.
@@ -124,6 +128,8 @@
   #btfl:checked+label{counter-increment:orders 1}
   #ant:checked+label{counter-increment:orders 1}
   #moth:checked+label{counter-increment:orders 1}
+  #spid:checked+label{counter-increment:orders 1}
+  #btle:checked+label{counter-increment:orders 1}
   .cap .mk{counter-increment:can 1}
   .n-orders::after{content:counter(orders)}
   .n-can::after{content:counter(can)}
@@ -145,7 +151,11 @@
   .eco:has(#ant:checked) .c-path{display:block}
   .eco:has(#moth:checked) .c-bearing{display:block}
   .eco:has(#moth:checked):has(#fly:checked):has(#ant:checked) .c-navigate{display:block}
-  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked):has(#bee:checked):has(#btfl:checked):has(#ant:checked):has(#moth:checked)
+  .eco:has(#spid:checked) .c-catch{display:block}
+  .eco:has(#btle:checked) .c-bury{display:block}
+  .eco:has(#spid:checked):has(#owl:checked) .c-notice{display:block}
+  .eco:has(#btle:checked):has(#ant:checked) .c-soil{display:block}
+  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked):has(#bee:checked):has(#btfl:checked):has(#ant:checked):has(#moth:checked):has(#spid:checked):has(#btle:checked)
     .c-terraform{display:block}
 
   .cap.panel{margin-top:10px}
@@ -167,6 +177,10 @@
   .c-path{border-color:rgba(181,118,74,.45)}
   .c-bearing{border-color:rgba(207,214,200,.35)}
   .c-navigate{border-color:rgba(111,192,138,.35)}
+  .c-catch{border-color:rgba(154,160,184,.45)}
+  .c-bury{border-color:rgba(127,154,92,.45)}
+  .c-notice{border-color:rgba(154,160,184,.35)}
+  .c-soil{border-color:rgba(127,154,92,.35)}
   .c-terraform{border-color:var(--leaf)}
 
   .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
@@ -224,7 +238,7 @@
     <span class="tag">no script</span>
   </header>
 
-    <h2>TODO checkbox set <b>9</b></h2>
+    <h2>TODO checkbox set <b>11</b></h2>
     <div class="opts stack row">
       <input type="checkbox" id="fly" checked><label for="fly">Fireflies time A clock with nobody holding</label>
       <input type="checkbox" id="owl" checked><label for="owl">Owls decide Nine of them, and a quorum. Sl</label>
@@ -235,6 +249,8 @@
       <input type="checkbox" id="btfl" checked><label for="btfl">Butterflies inherit On the long routes no </label>
       <input type="checkbox" id="ant" checked><label for="ant">Ants build They do not tell each other any</label>
       <input type="checkbox" id="moth" checked><label for="moth">Moths bear A straight line across a dark w</label>
+      <input type="checkbox" id="spid" checked><label for="spid">Spiders catch They live in the gap &amp;mdash;</label>
+      <input type="checkbox" id="btle" checked><label for="btle">Beetles bury The tank, and the floor. Walk</label>
     </div>
     <h2>Totals <b>counted, not declared</b></h2>
     <div class="heads meter">
