@@ -1,0 +1,731 @@
+<title>Caught Up &middot; the format, and the superrotation</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  CAUGHT UP — a quiet storm set and a Venusian superrotation, which turn out to
+  be the same object described twice.
+
+  THE TITLE
+  "Caught Up in the Rapture" — Anita Baker, from Rapture (Elektra, 1986).
+  Written by Garry Glenn and Dianne Quander, produced by Michael J. Powell.
+  Released as a single 3 October 1986; it reached 6 on Billboard's Hot Black
+  Singles, 9 on Adult Contemporary, 37 on the Hot 100, 51 in the UK.
+
+  NO LYRICS ARE ON THIS PAGE and none are coming. Not a line, not a fragment,
+  not a paraphrase close enough to count. Somebody owns those words and it is
+  not this repository. What this page takes is the FORMAT the record was made
+  for and the phrase in the title, which are ideas, and ideas are the part you
+  are allowed to build with.
+
+  THE FORMAT
+  Quiet storm is not a genre, it is a radio format: Melvin Lindsey started it
+  at WHUR-FM in Washington in 1976 while he was still an intern at Howard, and
+  named it after the title track of Smokey Robinson's 1975 album A Quiet Storm.
+  By late 1977 it was the most-listened show in the city and every market in
+  the country had one.
+
+  Its rule is not the tempo. Its rule is that NOTHING IS ANNOUNCED. No countdown,
+  no top of the hour, no intro over the first bar, no gap between records. The
+  next one is already under the last one before the last one ends. A DJ working
+  that format has exactly one job, which is that the room never drops — and a
+  run with no drop in it has no win condition and no ending, which this yard
+  spent fifty pages arriving at and Lindsey shipped in 1976.
+
+  THE SUPERROTATION
+  And then Venus, where the phrase is not a metaphor. The solid planet turns
+  once in 243.02 days. The atmosphere at cloud top does not: it is carried
+  around at roughly 100 m/s and laps the whole planet in about four and a half
+  days — sixty times faster than the ground it is sitting on. An aerostat in
+  that band does not fly anywhere. It is caught up, and carried, and the
+  propulsion budget for a circumnavigation is zero.
+
+  THE JOIN
+  A format and a superrotation are the same object: a medium moving faster than
+  the thing it rests on, carrying whatever is in it, with no discontinuity
+  anywhere in it. And both are ruined by the same event — an announcement. The
+  DJ saying the time, or a thruster firing. The instant there is a break you can
+  hear, you are aware of the mechanism, and you are not carried any more.
+
+  No script decides anything on this page.
+-->
+<style>
+  :root{
+    --void:#0a080d; --card:#171320; --card2:#1c1727; --edge:#332a42;
+    --ink:#efe9f2; --dim:#a294b0; --bone:#e8dcc4;
+    --warm:#e0a05a; --rose:#d47fa8; --deep:#9d7fe0; --cool:#6ec6ff;
+    --go:#5fd6a4; --bad:#e0705a; --gold:#e0b155;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 54px;color:var(--ink);background:var(--void);
+    font:13.5px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 16% -8%,rgba(212,127,168,.13),transparent 46%),
+      radial-gradient(circle at 86% 102%,rgba(224,160,90,.09),transparent 44%)}
+  .w{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:22px;letter-spacing:-.018em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:66ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--rose);border:1px solid var(--rose);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:26px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px;font-weight:600}
+  p.n{color:var(--dim);font-size:11.5px;line-height:1.72;margin:10px 0 0;max-width:94ch}
+  p.n b{color:var(--ink)} p.n em{font-style:normal;color:var(--gold)}
+  a{color:var(--gold)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#100c16;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:13px;padding:16px 17px}
+
+  /* ─────────────────────────────────────────────────────── the credit block */
+  .credit{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:2px}
+  @media (max-width:800px){.credit{grid-template-columns:1fr}}
+  .credit div{background:#100c16;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px;border-left:3px solid var(--rose)}
+  .credit h4{margin:0 0 4px;font:8.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim)}
+  .credit p{margin:0;font-size:11.5px;color:var(--ink);line-height:1.6}
+  .credit s{display:block;text-decoration:none;font:9.5px/1.6 ui-monospace,monospace;
+    color:var(--dim);margin-top:5px}
+
+  /* ══════════════════════════════════════════════════════ 1 · THE SET
+     Seven segments on a forty-eight column grid, all in ROW ONE, and every one
+     of them starts three columns before the last one ends. They overlap in the
+     grid because they overlap in the set — a crossfade is not a transition
+     between two records, it is a stretch of time during which both are
+     playing. Grid items in the same cell stack; that stacking IS the picture. */
+  .set{display:grid;grid-template-columns:repeat(48,1fr);gap:0;margin-top:12px;
+    height:74px;border:1px solid var(--edge);border-radius:11px;
+    background:#0e0a13;padding:8px;overflow:hidden}
+  .seg{grid-row:1;border-radius:7px;padding:7px 9px;overflow:hidden;
+    font:9px/1.4 ui-monospace,monospace;letter-spacing:.06em;
+    border:0}
+  .seg b{display:block;color:#160f1c;font-weight:700;font-size:9.5px;
+    mix-blend-mode:normal}
+  .seg i{font-style:normal;color:rgba(22,15,28,.66)}
+  .s1{grid-column:1/10;  background:linear-gradient(90deg,transparent 0%,#7a4f8c 0%,#a86ca8 82%,transparent 100%)}
+  .s2{grid-column:8/17;  background:linear-gradient(90deg,transparent 0%,#a86ca8 18%,#d47fa8 82%,transparent 100%)}
+  .s3{grid-column:15/24; background:linear-gradient(90deg,transparent 0%,#d47fa8 18%,#e09a92 82%,transparent 100%)}
+  .s4{grid-column:22/31; background:linear-gradient(90deg,transparent 0%,#e09a92 18%,#e0a05a 82%,transparent 100%)}
+  .s5{grid-column:29/38; background:linear-gradient(90deg,transparent 0%,#e0a05a 18%,#c9a866 82%,transparent 100%)}
+  .s6{grid-column:36/45; background:linear-gradient(90deg,transparent 0%,#c9a866 18%,#8fa87f 82%,transparent 100%)}
+  .s7{grid-column:43/49; background:linear-gradient(90deg,transparent 0%,#8fa87f 18%,#6f9aa8 100%,transparent 100%)}
+  .ruler{display:grid;grid-template-columns:repeat(48,1fr);margin-top:5px;
+    font:8px/1 ui-monospace,monospace;color:#61556e}
+  .ruler span{grid-row:1}
+  .ruler .r1{grid-column:1/10}   .ruler .r2{grid-column:8/17}
+  .ruler .r3{grid-column:15/24}  .ruler .r4{grid-column:22/31}
+
+  /* ══════════════════════════════════ 2 · THE BAND · five tempos, a lookup
+     The format's band is roughly sixty to ninety. Outside it the format does
+     not get worse, it stops being that format, and what breaks is stated
+     rather than implied. */
+  .opts{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;padding:11px 14px;
+    border-radius:9px;border:1px solid var(--edge);color:var(--dim);user-select:none}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked + label{border-color:var(--bone);color:var(--bone);
+    background:rgba(232,220,196,.10);font-weight:700}
+  .opts input#t-52:checked + label,
+  .opts input#t-104:checked + label{border-color:var(--bad);color:var(--bad);
+    background:rgba(224,112,90,.10)}
+  .opts input:focus-visible + label{outline:2px solid var(--cool);outline-offset:2px}
+
+  .verdict{margin-top:12px;padding:13px 14px;border-radius:10px;background:#100c16;
+    border:1px solid var(--edge);border-left:3px solid var(--dim);min-height:86px}
+  .verdict h4{margin:0 0 5px;font-size:14px;color:var(--bone)}
+  .verdict p{margin:0;font-size:12px;color:var(--dim);line-height:1.7;max-width:80ch}
+  .verdict h4::before{content:"—"}
+  .verdict p::before{content:"Pick a tempo."}
+
+  .fm:has(#t-52:checked) .verdict{border-left-color:var(--bad)}
+  .fm:has(#t-52:checked) .verdict h4::before{content:"Under. The room notices the room."}
+  .fm:has(#t-52:checked) .verdict p::before{content:
+    "Below about sixty the gaps between beats get long enough to hear as gaps, and a listener who can hear the space starts listening to it instead of through it. Nothing is wrong with the record. The format has stopped being continuous and started being a sequence of separate events, which is the one thing it was designed never to be."}
+  .fm:has(#t-64:checked) .verdict{border-left-color:var(--go)}
+  .fm:has(#t-64:checked) .verdict h4::before{content:"In. The bottom of the band."}
+  .fm:has(#t-64:checked) .verdict p::before{content:
+    "Slow enough that the crossfade has somewhere to live. At this end of the band a segment can be under the one before it for eight bars and nobody in the room can tell you where one ended, which is the whole craft and it is invisible by construction — the better it is done, the less there is to notice."}
+  .fm:has(#t-76:checked) .verdict{border-left-color:var(--rose)}
+  .fm:has(#t-76:checked) .verdict h4::before{content:"In. The middle."}
+  .fm:has(#t-76:checked) .verdict p::before{content:
+    "The centre of the band, and near enough a resting pulse, which is not a coincidence and is not mysticism either — a format built to be left on for four hours settles where the body already is, because that is the tempo nobody has to adjust to. The listener does not entrain to the set. The set was already there."}
+  .fm:has(#t-88:checked) .verdict{border-left-color:var(--go)}
+  .fm:has(#t-88:checked) .verdict h4::before{content:"In. The top of the band."}
+  .fm:has(#t-88:checked) .verdict p::before{content:
+    "Still inside it, and the crossfades get tight. There is less room to hide a join, so the joins have to be better, and this is where a good hand is audible as an absence — you cannot point at what they did, only at the fact that nothing happened when something should have."}
+  .fm:has(#t-104:checked) .verdict{border-left-color:var(--bad)}
+  .fm:has(#t-104:checked) .verdict h4::before{content:"Over. Now it is a show."}
+  .fm:has(#t-104:checked) .verdict p::before{content:
+    "Past about ninety the set acquires momentum, and momentum has a shape — a build, a peak, somewhere it is going. That is a different format and a good one, but it has an arc, and an arc has an end. The quiet storm has no arc. It is the same at 11pm as at 2am and that is not a limitation, it is the product."}
+
+  /* ═════════════════════════════════════════ the counters · one reads zero
+     `gap` is declared, incremented by nothing, and printed. Same instrument as
+     `named` on bench.html: a counter a reader can watch fail to move is worth
+     more than a sentence claiming it would. */
+  body{counter-reset:seg 0 gap 0 lap 0 burn 0 body 0 air 0}
+  .seg{counter-increment:seg 1}
+  .sums{display:grid;gap:7px;grid-template-columns:repeat(4,1fr);margin-top:12px}
+  @media (max-width:640px){.sums{grid-template-columns:repeat(2,1fr)}}
+  .s{background:#100c16;border:1px solid var(--edge);border-radius:9px;
+    padding:10px 12px;display:flex;align-items:baseline;gap:9px}
+  .s span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .s b{margin-left:auto;font:17px/1 ui-monospace,monospace;color:var(--bone)}
+  .n-seg::after{content:counter(seg)}
+  .n-gap::after{content:counter(gap)}
+  .n-lap::after{content:counter(lap)}
+  .n-burn::after{content:counter(burn)}
+  .s-gap b,.s-burn b{color:var(--go)}
+
+  /* ══════════════════════════════════════════════ 3 · CAUGHT UP · the ride
+     Two radios. The arithmetic under each is written out because it is short
+     enough to check and this repo does not ask to be believed. */
+  .ride{display:grid;gap:11px;grid-template-columns:1fr 1fr;margin-top:12px}
+  @media (max-width:760px){.ride{grid-template-columns:1fr}}
+  .rc{background:#100c16;border:1px solid var(--edge);border-radius:11px;
+    padding:12px 13px;opacity:.34}
+  .rc b{display:block;font-size:13px;color:var(--bone);margin-bottom:2px}
+  .rc em{font-style:normal;font:9px/1 ui-monospace,monospace;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--dim);display:block;margin-bottom:8px}
+  .rc dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:3px 10px;
+    font:10px/1.6 ui-monospace,monospace}
+  .rc dt{color:var(--dim)} .rc dd{margin:0;color:var(--ink);text-align:right}
+  .rc p{margin:9px 0 0;font-size:10.5px;color:var(--dim);line-height:1.65}
+  .vn:has(#r-body:checked) .rc-body{opacity:1;border-color:var(--warm)}
+  .vn:has(#r-air:checked)  .rc-air{opacity:1;border-color:var(--cool)}
+  .vn:has(#r-air:checked)  .tick{counter-increment:lap 60 air 1}
+  .vn:has(#r-body:checked) .tick{counter-increment:body 1}
+  .tick{display:block;height:0;overflow:hidden}
+
+  /* the planet, drawn: a disc, a band of cloud over it, and the band moves.
+     transform only — workbook.html chapter twelve. */
+  .planet{position:relative;height:210px;border-radius:12px;overflow:hidden;
+    border:1px solid var(--edge);margin-top:12px;
+    background:radial-gradient(120% 100% at 50% 120%,#241a12,#0e0a13 70%)}
+  .planet .disc{position:absolute;left:50%;bottom:-118px;width:330px;height:330px;
+    transform:translateX(-50%);border-radius:50%;
+    background:radial-gradient(60% 60% at 38% 24%,#e8c98f,#c9954f 46%,#7d5a2e 78%,#3d2a15)}
+  .planet .band{position:absolute;left:-60%;width:220%;height:22px;border-radius:50%;
+    background:linear-gradient(90deg,transparent,rgba(255,238,205,.62) 18%,
+      transparent 34%,rgba(255,238,205,.44) 55%,transparent 72%,
+      rgba(255,238,205,.55) 88%,transparent);
+    filter:blur(1.2px)}
+  .planet .b1{bottom:104px;animation:sweep 26s linear infinite}
+  .planet .b2{bottom:74px; animation:sweep 21s linear infinite;opacity:.8}
+  .planet .b3{bottom:46px; animation:sweep 17s linear infinite;opacity:.6}
+  @keyframes sweep{from{transform:translate3d(0,0,0)}
+                   to  {transform:translate3d(-27.27%,0,0)}}
+  .planet .ball{position:absolute;left:50%;bottom:96px;width:16px;height:22px;
+    margin-left:-8px;border-radius:50% 50% 46% 46%;
+    background:linear-gradient(180deg,#eaf4ff,#9fc4e0);
+    box-shadow:0 0 14px rgba(160,200,235,.6)}
+  .planet .ball::after{content:"";position:absolute;left:50%;top:100%;width:1px;
+    height:9px;margin-left:-.5px;background:rgba(234,244,255,.6)}
+  /* riding the air: the aerostat goes with the band and holds station in frame.
+     riding the body: it is dragged backwards through the cloud at the full
+     difference, which is the honest picture of what station-keeping costs. */
+  .vn:has(#r-body:checked) .planet .ball{animation:drag 9s linear infinite}
+  @keyframes drag{from{transform:translateX(150px)}to{transform:translateX(-150px)}}
+  @media (prefers-reduced-motion:reduce){
+    .planet .band,.planet .ball{animation:none}}
+
+  .maths{margin-top:11px;padding:12px 13px;background:#0d0a12;
+    border:1px solid var(--edge);border-radius:9px;overflow-x:auto;
+    font:10.5px/1.75 ui-monospace,monospace;color:#b9aec6;white-space:pre}
+  .maths b{color:var(--cool);font-weight:600}
+  .maths i{color:#6b5e78;font-style:normal}
+
+  .join{margin-top:20px;display:grid;gap:11px;grid-template-columns:1fr 1fr}
+  @media (max-width:800px){.join{grid-template-columns:1fr}}
+  .join div{background:#100c16;border:1px solid var(--edge);border-radius:11px;
+    padding:13px 14px}
+  .join div:first-child{border-left:3px solid var(--rose)}
+  .join div:last-child{border-left:3px solid var(--cool)}
+  .join h4{margin:0 0 6px;font-size:12.5px;color:var(--bone)}
+  .join p{margin:0;font-size:11px;color:var(--dim);line-height:1.7}
+
+  footer{margin-top:32px;padding-top:14px;border-top:1px solid var(--edge);
+    color:var(--dim);font-size:10.5px;line-height:1.75}
+
+  /* ═══════════════════════════════════════════════════ THE GALACTIC BACKDROP
+     A window, not a wallpaper. Still no script.
+
+     69 bright stars and 139 dim ones, weighted the way the real sky is —
+     mostly dim and warm, a scatter of white, almost no blue — laid along a band
+     twenty-four degrees off horizontal with the dust lane cut back out of it in
+     the background colour, because the dark half of a galaxy is most of what
+     you see. The stars are Earth's, because they would be: Venus is 0.28 AU
+     away and that is nothing at stellar distances.
+
+     WE ARE TRAVELLING, so the sky does. It sits on two fixed pseudo-elements
+     rather than one background, and each one moves by TRANSFORM — which the
+     compositor does on its own thread, without repainting 208 gradients a
+     frame. Animating background-position instead would have cost the frame
+     budget of every board in the yard, and that is the only reason this is
+     built out of two layers instead of one.
+
+     AND WE ARE EXPANDING, so the near layer runs faster and scales harder than
+     the far one. That difference is parallax and parallax is the entire cue:
+     hold still and the bright stars slide past the dim ones, which is what a
+     window does and what a backdrop cannot. 21 minutes and 34 — coprime, so the
+     two never fall back into the arrangement they started in.
+
+     Both sit at z-index:-1 behind everything, each page keeps its own colour
+     wash on <body> over the top, and prefers-reduced-motion stops the travel
+     dead while leaving every star exactly where it is. */
+  html{background-color:#0a080d}
+  body{background-color:transparent}
+  html::before,html::after{content:"";position:fixed;z-index:-1;
+    inset:-18%;pointer-events:none;background-repeat:no-repeat;
+    background-size:cover;will-change:transform}
+  html::before{background-image:
+      radial-gradient(0.35px 0.35px at 63.60% 61.37%,rgba(202,215,255,0.16),transparent),
+      radial-gradient(0.54px 0.54px at 31.73% 56.60%,rgba(255,210,161,0.26),transparent),
+      radial-gradient(0.36px 0.36px at 16.19% 41.87%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.12% 16.25%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 61.37% 49.53%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.66px 0.66px at 89.13% 49.03%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.52px 0.52px at 23.10% 65.23%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 81.55% 90.93%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.35px 0.35px at 1.99% 39.17%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.67px 0.67px at 88.33% 64.79%,rgba(255,210,161,0.32),transparent),
+      radial-gradient(0.65px 0.65px at 52.00% 41.82%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.84px 0.84px at 59.58% 82.02%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.44px 0.44px at 55.83% 49.97%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.45px 0.45px at 61.17% 3.50%,rgba(202,215,255,0.21),transparent),
+      radial-gradient(0.48px 0.48px at 92.68% 74.19%,rgba(255,181,107,0.23),transparent),
+      radial-gradient(0.41px 0.41px at 44.55% 40.37%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.80px 0.80px at 33.50% 52.15%,rgba(255,181,107,0.39),transparent),
+      radial-gradient(0.70px 0.70px at 15.53% 74.11%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.69px 0.69px at 83.20% 49.99%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.86px 0.86px at 14.02% 0.25%,rgba(255,181,107,0.42),transparent),
+      radial-gradient(0.35px 0.35px at 8.46% 26.75%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 16.18% 29.77%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.57px 0.57px at 46.77% 49.71%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.58px 0.58px at 80.94% 96.51%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.44px 0.44px at 46.92% 31.31%,rgba(255,181,107,0.20),transparent),
+      radial-gradient(0.37px 0.37px at 34.69% 85.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.42px 0.42px at 56.44% 46.68%,rgba(255,210,161,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 7.58% 26.10%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.48px 0.48px at 16.83% 84.69%,rgba(202,215,255,0.22),transparent),
+      radial-gradient(0.53px 0.53px at 9.16% 5.95%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.57px 0.57px at 41.82% 44.48%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.90px 0.90px at 74.31% 45.97%,rgba(255,210,161,0.44),transparent),
+      radial-gradient(0.40px 0.40px at 64.18% 49.64%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 5.25% 39.37%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.53px 0.53px at 9.07% 72.19%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.78px 0.78px at 64.06% 69.96%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.37px 0.37px at 8.76% 35.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 57.68% 27.55%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 98.05% 7.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.66px 0.66px at 44.51% 72.98%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.46px 0.46px at 37.26% 1.54%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.59px 0.59px at 90.42% 72.27%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.57px 0.57px at 98.13% 10.35%,rgba(248,247,255,0.27),transparent),
+      radial-gradient(0.91px 0.91px at 94.93% 71.89%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.36px 0.36px at 4.64% 11.86%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.56px 0.56px at 46.09% 50.65%,rgba(255,210,161,0.27),transparent),
+      radial-gradient(0.72px 0.72px at 98.16% 60.72%,rgba(255,181,107,0.35),transparent),
+      radial-gradient(0.90px 0.90px at 23.45% 18.12%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.53px 0.53px at 13.29% 38.54%,rgba(248,247,255,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 48.20% 58.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 93.26% 70.43%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.77px 0.77px at 98.31% 71.27%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.51px 0.51px at 91.86% 57.08%,rgba(255,210,161,0.24),transparent),
+      radial-gradient(0.76px 0.76px at 3.22% 18.38%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 67.24% 79.63%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.44px 0.44px at 4.49% 37.24%,rgba(255,210,161,0.20),transparent),
+      radial-gradient(0.35px 0.35px at 19.05% 44.87%,rgba(248,247,255,0.16),transparent),
+      radial-gradient(0.43px 0.43px at 80.57% 75.11%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.38px 0.38px at 84.40% 42.68%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.44px 0.44px at 84.04% 97.87%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.65px 0.65px at 16.48% 27.55%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.75px 0.75px at 84.52% 73.60%,rgba(255,210,161,0.36),transparent),
+      radial-gradient(0.63px 0.63px at 50.13% 6.86%,rgba(248,247,255,0.30),transparent),
+      radial-gradient(0.78px 0.78px at 87.51% 70.49%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.76px 0.76px at 16.34% 26.34%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.35px 0.35px at 58.85% 56.40%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 4.52% 56.48%,rgba(255,181,107,0.33),transparent),
+      radial-gradient(0.46px 0.46px at 86.45% 52.09%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.39px 0.39px at 91.92% 82.50%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.36px 0.36px at 6.83% 33.67%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.10% 7.69%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 63.59% 62.73%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 72.64% 55.47%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.57px 0.57px at 1.57% 22.68%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.35px 0.35px at 20.24% 40.59%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 81.60% 86.38%,rgba(255,244,234,0.33),transparent),
+      radial-gradient(0.75px 0.75px at 1.01% 89.43%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.50px 0.50px at 1.89% 45.85%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.36px 0.36px at 86.06% 69.70%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.46px 0.46px at 54.27% 84.12%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.35px 0.35px at 68.88% 69.99%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 51.92% 44.11%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.37px 0.37px at 83.56% 88.23%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.61px 0.61px at 48.63% 32.82%,rgba(248,247,255,0.29),transparent),
+      radial-gradient(0.46px 0.46px at 3.14% 19.70%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.35px 0.35px at 91.65% 60.72%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 39.35% 42.18%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.60px 0.60px at 96.63% 57.34%,rgba(255,210,161,0.29),transparent),
+      radial-gradient(0.36px 0.36px at 93.19% 66.52%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 91.66% 53.83%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.53px 0.53px at 37.09% 33.98%,rgba(255,210,161,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 7.69% 48.04%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.76px 0.76px at 40.92% 77.22%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.62px 0.62px at 53.18% 55.13%,rgba(255,181,107,0.30),transparent),
+      radial-gradient(0.52px 0.52px at 36.16% 17.06%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.42px 0.42px at 7.30% 10.90%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 98.83% 35.83%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.57px 0.57px at 32.25% 40.39%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.77px 0.77px at 68.97% 58.36%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.35px 0.35px at 98.16% 72.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 49.07% 50.45%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.59px 0.59px at 36.73% 46.36%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.37px 0.37px at 59.16% 52.43%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 5.87% 47.43%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.35px 0.35px at 28.92% 42.34%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.84px 0.84px at 38.15% 61.03%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.35px 0.35px at 17.08% 95.56%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.56px 0.56px at 72.12% 52.35%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.43px 0.43px at 10.79% 34.15%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.36px 0.36px at 90.72% 54.28%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.36px 0.36px at 0.22% 39.29%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.38px 0.38px at 66.88% 43.63%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.76px 0.76px at 85.24% 53.71%,rgba(255,210,161,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 76.84% 68.26%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.82px 0.82px at 20.88% 36.67%,rgba(255,181,107,0.40),transparent),
+      radial-gradient(0.53px 0.53px at 72.59% 59.70%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.82px 0.82px at 99.56% 61.97%,rgba(248,247,255,0.40),transparent),
+      radial-gradient(0.37px 0.37px at 43.04% 22.87%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.38px 0.38px at 62.75% 36.42%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.64px 0.64px at 11.37% 52.16%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.35px 0.35px at 65.28% 54.10%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 23.22% 51.57%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.41px 0.41px at 7.86% 15.80%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 1.16% 17.03%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 24.23% 36.88%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 67.85% 71.10%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.87px 0.87px at 21.22% 9.64%,rgba(255,181,107,0.43),transparent),
+      radial-gradient(16px 16px at 11.38% 48.06%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 66.59% 41.28%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 40.80% 23.68%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 41.01% 67.29%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 31.18% 27.63%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 10.81% 18.20%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 3.23% 54.03%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(30% 30% at 22% 30%,rgba(91,127,199,0.055),transparent 70%),
+      radial-gradient(26% 26% at 74% 58%,rgba(201,87,143,0.040),transparent 70%),
+      radial-gradient(22% 22% at 46% 18%,rgba(79,179,166,0.035),transparent 70%),
+      linear-gradient(66deg,transparent 34%,rgba(148,138,196,.045) 43%,rgba(172,162,214,.085) 50%,rgba(148,138,196,.045) 57%,transparent 66%),
+      linear-gradient(66deg,transparent 46%,rgba(4,3,7,.55) 49.4%,rgba(4,3,7,.62) 50.6%,transparent 54%);
+    animation:au-far 2040s ease-in-out infinite alternate}
+  html::after{background-image:
+      radial-gradient(1.30px 1.30px at 68.42% 62.26%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(0.96px 0.96px at 44.46% 53.88%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.72px 1.72px at 97.52% 67.89%,rgba(255,210,161,0.86),transparent),
+      radial-gradient(1.27px 1.27px at 29.09% 44.54%,rgba(255,181,107,0.63),transparent),
+      radial-gradient(1.25px 1.25px at 0.41% 98.24%,rgba(255,181,107,0.62),transparent),
+      radial-gradient(1.12px 1.12px at 48.27% 61.45%,rgba(255,181,107,0.55),transparent),
+      radial-gradient(1.62px 1.62px at 21.27% 82.41%,rgba(255,181,107,0.81),transparent),
+      radial-gradient(1.13px 1.13px at 32.91% 34.63%,rgba(255,181,107,0.56),transparent),
+      radial-gradient(1.56px 1.56px at 71.19% 43.86%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.40px 1.40px at 6.85% 52.24%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.14px 1.14px at 86.46% 83.26%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.10px 1.10px at 71.95% 42.90%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.42px 1.42px at 36.96% 17.89%,rgba(255,181,107,0.71),transparent),
+      radial-gradient(1.13px 1.13px at 4.31% 1.17%,rgba(170,191,255,0.56),transparent),
+      radial-gradient(1.31px 1.31px at 41.52% 51.61%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(1.46px 1.46px at 76.09% 66.82%,rgba(255,244,234,0.72),transparent),
+      radial-gradient(1.78px 1.78px at 26.72% 43.06%,rgba(255,181,107,0.89),transparent),
+      radial-gradient(1.69px 1.69px at 22.68% 46.22%,rgba(170,191,255,0.84),transparent),
+      radial-gradient(1.76px 1.76px at 30.20% 97.65%,rgba(255,181,107,0.88),transparent),
+      radial-gradient(1.38px 1.38px at 99.58% 76.98%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.08px 1.08px at 15.38% 27.05%,rgba(255,244,234,0.53),transparent),
+      radial-gradient(0.95px 0.95px at 42.39% 32.32%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.57px 1.57px at 58.49% 81.25%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(0.94px 0.94px at 48.37% 39.34%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.41px 1.41px at 91.19% 97.04%,rgba(255,210,161,0.70),transparent),
+      radial-gradient(1.37px 1.37px at 7.79% 44.56%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.07px 1.07px at 89.66% 36.01%,rgba(255,181,107,0.53),transparent),
+      radial-gradient(1.69px 1.69px at 67.50% 93.44%,rgba(255,181,107,0.84),transparent),
+      radial-gradient(1.15px 1.15px at 57.27% 40.78%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.58px 1.58px at 33.10% 45.94%,rgba(255,181,107,0.79),transparent),
+      radial-gradient(1.04px 1.04px at 83.01% 82.39%,rgba(255,181,107,0.51),transparent),
+      radial-gradient(1.56px 1.56px at 88.42% 66.83%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.29px 1.29px at 24.78% 0.51%,rgba(255,181,107,0.64),transparent),
+      radial-gradient(1.09px 1.09px at 6.07% 6.69%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.32px 1.32px at 53.40% 80.43%,rgba(255,210,161,0.65),transparent),
+      radial-gradient(1.19px 1.19px at 76.80% 81.97%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(0.94px 0.94px at 69.80% 57.79%,rgba(255,244,234,0.46),transparent),
+      radial-gradient(1.10px 1.10px at 7.00% 33.07%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.22px 1.22px at 76.56% 52.71%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(0.96px 0.96px at 85.29% 63.59%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.18px 1.18px at 17.44% 43.04%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(1.51px 1.51px at 36.81% 57.97%,rgba(255,210,161,0.75),transparent),
+      radial-gradient(1.37px 1.37px at 98.28% 82.40%,rgba(248,247,255,0.68),transparent),
+      radial-gradient(1.65px 1.65px at 78.05% 82.63%,rgba(248,247,255,0.82),transparent),
+      radial-gradient(1.20px 1.20px at 59.28% 41.45%,rgba(248,247,255,0.60),transparent),
+      radial-gradient(1.55px 1.55px at 40.98% 18.58%,rgba(255,181,107,0.77),transparent),
+      radial-gradient(1.02px 1.02px at 82.66% 66.73%,rgba(255,181,107,0.50),transparent),
+      radial-gradient(1.20px 1.20px at 0.68% 23.74%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(1.15px 1.15px at 57.32% 67.46%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.34px 1.34px at 6.29% 37.15%,rgba(255,244,234,0.66),transparent),
+      radial-gradient(1.39px 1.39px at 63.56% 50.69%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.59px 1.59px at 80.48% 31.89%,rgba(202,215,255,0.79),transparent),
+      radial-gradient(1.52px 1.52px at 40.22% 51.94%,rgba(255,210,161,0.76),transparent),
+      radial-gradient(1.52px 1.52px at 78.35% 77.94%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(1.70px 1.70px at 33.95% 56.66%,rgba(255,181,107,0.85),transparent),
+      radial-gradient(1.16px 1.16px at 77.09% 41.34%,rgba(255,210,161,0.58),transparent),
+      radial-gradient(1.67px 1.67px at 39.69% 60.56%,rgba(255,210,161,0.83),transparent),
+      radial-gradient(1.47px 1.47px at 12.24% 30.52%,rgba(255,181,107,0.73),transparent),
+      radial-gradient(1.11px 1.11px at 80.16% 93.71%,rgba(255,210,161,0.55),transparent),
+      radial-gradient(1.52px 1.52px at 11.04% 44.84%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(0.94px 0.94px at 59.58% 30.37%,rgba(255,210,161,0.46),transparent),
+      radial-gradient(1.53px 1.53px at 0.35% 42.03%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(2.6px 2.6px at 11.38% 48.06%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 66.59% 41.28%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 40.80% 23.68%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 41.01% 67.29%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 31.18% 27.63%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 10.81% 18.20%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 3.23% 54.03%,rgba(255,255,255,.95),transparent);
+    animation:au-near 1260s ease-in-out infinite alternate}
+  @keyframes au-far{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-3.0%,1.6%,0) scale(1.09)}}
+  @keyframes au-near{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-8.5%,4.4%,0) scale(1.26)}}
+  @media (prefers-reduced-motion:reduce){
+    html::before,html::after{animation:none}}
+</style>
+
+<div class="w">
+  <header>
+    <h1>Caught Up</h1>
+    <span class="sub">A quiet storm set and a Venusian superrotation, which turn
+      out to be the same object described twice: a medium moving faster than the
+      thing it rests on, carrying whatever is in it, with no break anywhere in
+      it.</span>
+    <span class="tag">no script<a href="automat.html" style="color:inherit;text-decoration:none;opacity:.62" title="Still true: this board decides everything in its stylesheet. It also ships two inert script tags — automat.js and devmode.js — which do nothing unless the URL carries ?run or ?dev, a half of the address CSS cannot read. See automat.html.">&nbsp;&dagger;</a></span>
+  </header>
+
+  <div class="credit">
+    <div>
+      <h4>the record</h4>
+      <p>&ldquo;Caught Up in the Rapture&rdquo;</p>
+      <s>Anita Baker &middot; <i>Rapture</i> &middot; Elektra, 1986<br>
+        written by Garry Glenn and Dianne Quander<br>
+        produced by Michael J. Powell</s>
+    </div>
+    <div>
+      <h4>where it went</h4>
+      <p>Single, 3 October 1986</p>
+      <s>6 &middot; Hot Black Singles<br>9 &middot; Adult Contemporary<br>
+        37 &middot; Hot 100 &nbsp; 51 &middot; UK</s>
+    </div>
+    <div>
+      <h4>what is not here</h4>
+      <p>No lyrics. None coming.</p>
+      <s>Not a line, not a fragment, not a paraphrase close enough to count.
+        Somebody owns those words and it is not this repository. What this page
+        takes is the <b>format</b> and the <b>phrase in the title</b> — and
+        those are ideas.</s>
+    </div>
+  </div>
+
+  <h2>The format <b>quiet storm &middot; WHUR-FM, Washington, 1976</b></h2>
+  <div class="fm panel">
+    <p class="n">Melvin Lindsey started it while he was still an intern at
+      Howard, and named it after the title track of Smokey Robinson&rsquo;s 1975
+      album <i>A Quiet Storm</i>. By late 1977 it was the most-listened show in
+      the city and every market in the country had one of its own.</p>
+    <p class="n"><b>Its rule is not the tempo. Its rule is that nothing is
+      announced.</b> No countdown, no top of the hour, no intro over the first
+      bar, no gap between records. The next one is already under the last one
+      before the last one ends. A DJ working that format has exactly one job,
+      which is that the room never drops.</p>
+
+    <div class="set">
+      <div class="seg s1"><b>01</b><i>under</i></div>
+      <div class="seg s2"><b>02</b><i>under</i></div>
+      <div class="seg s3"><b>03</b><i>under</i></div>
+      <div class="seg s4"><b>04</b><i>under</i></div>
+      <div class="seg s5"><b>05</b><i>under</i></div>
+      <div class="seg s6"><b>06</b><i>under</i></div>
+      <div class="seg s7"><b>07</b><i>&rarr;</i></div>
+    </div>
+    <div class="ruler"><span class="r1">&larr; overlap &rarr;</span>
+      <span class="r2">&larr; overlap &rarr;</span>
+      <span class="r3">&larr; overlap &rarr;</span>
+      <span class="r4">&larr; overlap &rarr;</span></div>
+    <p class="n">Seven segments on a forty-eight column grid, <b>all of them in
+      row one</b>, and every one starts three columns before the last one ends.
+      They overlap in the grid because they overlap in the set: a crossfade is
+      not a transition <em>between</em> two records, it is a stretch of time
+      during which both are playing. Grid items placed in the same cells stack
+      rather than push each other along, and that stacking is the picture &mdash;
+      the drawing is not an illustration of the format, it is the format&rsquo;s
+      own arithmetic laid out in columns.</p>
+
+    <div class="opts">
+      <input type="radio" name="bpm" id="t-52"><label for="t-52">52</label>
+      <input type="radio" name="bpm" id="t-64"><label for="t-64">64</label>
+      <input type="radio" name="bpm" id="t-76" checked><label for="t-76">76</label>
+      <input type="radio" name="bpm" id="t-88"><label for="t-88">88</label>
+      <input type="radio" name="bpm" id="t-104"><label for="t-104">104</label>
+    </div>
+    <div class="verdict"><h4></h4><p></p></div>
+
+    <div class="sums">
+      <div class="s"><span>segments</span><b class="n-seg"></b></div>
+      <div class="s s-gap"><span>gaps</span><b class="n-gap"></b></div>
+      <div class="s"><span>arc</span><b>none</b></div>
+      <div class="s"><span>ending</span><b>none</b></div>
+    </div>
+    <p class="n"><code>gaps</code> is declared, incremented by nothing, and
+      printed &mdash; the same instrument as <code>named</code> on
+      <a href="bench.html">the bench</a>. A counter a reader can watch fail to
+      move is worth more than a sentence claiming it would.</p>
+    <p class="n">And note what the format is: <b>a run with no drop in it has no
+      win condition and no ending.</b> That is what this yard spent fifty pages
+      arriving at in <a href="theory.md">theory.md</a> and what
+      <a href="automat.html">automat.js</a> is built out of &mdash; and Lindsey
+      shipped it in 1976, on the radio, in Washington, with two turntables and
+      no theory of fungibility whatsoever.</p>
+  </div>
+
+  <h2>Caught up <b>Venus &middot; where the phrase is not a metaphor</b></h2>
+  <div class="vn panel">
+    <p class="n">The solid planet turns once in <b>243.02 days</b>, backwards.
+      The atmosphere at cloud top does not turn with it: it is carried around at
+      roughly <b>100 m/s</b> and laps the entire planet in about four and a half
+      days &mdash; some sixty times for every one the ground manages. It has a
+      name, <em>superrotation</em>, and after sixty years of measuring it nobody
+      has an agreed account of what keeps it going.</p>
+
+    <div class="opts">
+      <input type="radio" name="ride" id="r-air" checked>
+        <label for="r-air">ride the air</label>
+      <input type="radio" name="ride" id="r-body">
+        <label for="r-body">hold station over the ground</label>
+    </div>
+    <span class="tick"></span>
+
+    <div class="planet">
+      <div class="disc"></div>
+      <div class="band b1"></div><div class="band b2"></div><div class="band b3"></div>
+      <div class="ball"></div>
+    </div>
+
+    <div class="ride">
+      <div class="rc rc-air">
+        <b>Caught up</b><em>carried &middot; the aerostat does not fly</em>
+        <dl>
+          <dt>one lap of the planet</dt><dd>~4.5 d</dd>
+          <dt>speed over the ground</dt><dd>~360 km/h</dd>
+          <dt>propulsion to do it</dt><dd>0</dd>
+          <dt>station-keeping</dt><dd>none required</dd>
+        </dl>
+        <p>You do not go around Venus. Venus&rsquo;s air goes around Venus and
+          you are in it. Being caught up <b>is</b> the propulsion budget, and it
+          is the single largest thing the planet gives away free.</p>
+      </div>
+      <div class="rc rc-body">
+        <b>Held</b><em>station over one point on the ground</em>
+        <dl>
+          <dt>one solid rotation</dt><dd>243.02 d</dd>
+          <dt>one solar day</dt><dd>116.75 d</dd>
+          <dt>headwind, constant</dt><dd>~360 km/h</dd>
+          <dt>propulsion to do it</dt><dd>continuous</dd>
+        </dl>
+        <p>To stay above a fixed point you must fly against the whole
+          superrotation, forever, and never stop. The reward is that the ground
+          under you does not change. Watch the aerostat in the frame above: it
+          is not travelling, it is being <em>dragged backwards through the
+          cloud</em>, which is the honest picture of what station-keeping
+          costs.</p>
+      </div>
+    </div>
+
+    <div class="sums">
+      <div class="s"><span>laps per rotation</span><b class="n-lap"></b></div>
+      <div class="s s-burn"><span>burns, riding the air</span><b class="n-burn"></b></div>
+      <div class="s"><span>solar day</span><b>116.75 d</b></div>
+      <div class="s"><span>sidereal</span><b>243.02 d</b></div>
+    </div>
+
+    <div class="maths"><i>the four and a half days, so you can check it rather than believe it</i>
+  radius at the cloud deck   6051.8 km + 65 km   = <b>6116.8 km</b>
+  circumference              2π × 6116.8         = <b>38,433 km</b>
+  cloud-top wind             100 m/s             = <b>360 km/h</b>
+  one lap                    38,433 ÷ 360        = <b>106.8 h = 4.45 d</b>
+  laps per solid rotation    243.02 ÷ 4.45       ≈ <b>55</b>  <i>(≈54 relative to
+                                                     the ground, since the
+                                                     body turns the same way)</i></div>
+    <p class="n">The board prints <b>60</b> above and the arithmetic gives
+      <b>55</b>, and both are in the room on purpose. Sixty is the figure people
+      quote; fifty-five is what falls out of 100 m/s at 65 km. The wind is not
+      one number &mdash; it runs roughly 90&ndash;110 m/s across the cloud deck
+      and varies with latitude and altitude &mdash; so the honest statement is
+      <em>about four to five days, call it sixty-ish laps</em>, and the way to
+      say that honestly is to show the division and let you see how loose it is.
+      A page that printed one confident number would be claiming a precision the
+      measurement does not have.</p>
+  </div>
+
+  <h2>The join <b>the same object, described twice</b></h2>
+  <div class="join">
+    <div>
+      <h4>What they share</h4>
+      <p>A medium moving faster than the thing it rests on. It carries whatever
+        is in it. There is no discontinuity anywhere in it, and nothing in it is
+        going anywhere in particular &mdash; no arc, no build, no peak, no end.
+        In both cases the passenger supplies no energy: the set carries the
+        room, the band carries the balloon, and being carried is not a failure
+        to travel. It is the mechanism.</p>
+    </div>
+    <div>
+      <h4>What ruins both</h4>
+      <p>The same event: <b>an announcement.</b> The DJ saying the time, or a
+        thruster firing. Either one is a discontinuity you can perceive, and the
+        instant there is one you become aware of the mechanism instead of the
+        thing &mdash; you are listening to a radio station, or you are flying an
+        aircraft. Not caught up. The craft in both cases is entirely made of
+        what does not happen, which is why it is invisible when it is done well
+        and obvious the moment it is not.</p>
+    </div>
+  </div>
+
+  <p class="n">Which is also the argument this yard has been making from the
+    other end all along. <b>A thing with an ending has a last unit, and a last
+    unit is scarce, and scarcity is where the rent goes.</b> The quiet storm has
+    no last record. The superrotation has no last lap. Neither of them can be
+    sold by the unit, and neither of them was ever designed not to be &mdash;
+    they simply came out that way, one in a radio station in 1976 and one in the
+    atmosphere of a planet, and it took this repository fifty pages of CSS to
+    arrive somewhere both of them already were.</p>
+
+  <footer>
+    Song credits and chart placings from Wikipedia; the format&rsquo;s history
+    from WHUR&rsquo;s own account and Melvin Lindsey&rsquo;s. Venus figures are
+    the standard ones &mdash; 243.02 d sidereal, 116.75 d solar, ~100 m/s at the
+    cloud deck &mdash; and the lap arithmetic is shown above rather than
+    asserted. No lyrics are reproduced anywhere on this page.
+    <br><a href="automat.html">the automat</a>, which is this in code &middot;
+    <a href="theory.md">theory.md</a>, which is this as an argument &middot;
+    <a href="terraform.html">terraforming</a> &middot;
+    <a href="supply.html">the relay</a> &middot;
+    <a href="workbook.html">the workbook</a> &middot;
+    <a href="index.html">the yard</a>
+  </footer>
+</div>
+
+<script src="automat.js"></script>
+<script src="devmode.js"></script>
