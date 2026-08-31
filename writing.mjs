@@ -322,6 +322,78 @@ for (const l of lessons)
 
 const checkCount = lessons.reduce((a, l) => a + l.practice.checks.length, 0);
 
+
+/* ═══ the grading ══════════════════════════════════════════════════════
+   Every board in the yard, on two axes that can be counted rather than
+   judged. The notebook grades what is linked to it, which now includes the
+   idle board.
+
+   AUTOMATION is read out of the file: does it run with nothing pressed, does
+   it decide in the stylesheet with no script at all, does it wait to be
+   pressed, or does it do nothing.
+
+   USEFUL TO VENUS has exactly one honest signal available, so that is the one
+   used: whether kb.json cites the board as evidence, and how settled the
+   entry doing the citing is. A board cited by a settled entry has closed a
+   question. A board nothing cites is unassessed — a gap rather than a fault,
+   and naming the gap is the useful part.
+
+   Nothing here can be improved by writing more. Size is not an axis. */
+const boardFiles = readdirSync('.')
+  .filter((x) => x.endsWith('.html') && x !== 'arcade.html' && x !== 'dev.html')
+  .sort();
+
+/* who cites what, and how firmly */
+const citedBy = {};
+if (existsSync('kb.json')) {
+  for (const e of JSON.parse(readFileSync('kb.json', 'utf8')).entries)
+    for (const v of e.evidence || [])
+      if (v.page) (citedBy[v.page] = citedBy[v.page] || [])
+        .push({ id: e.id, settled: e.settled, what: v.what });
+}
+
+const grades = boardFiles.map((file) => {
+  const s = readFileSync(file, 'utf8');
+  const n = (re) => (s.match(re) || []).length;
+  const title = (s.match(/<title>([^<]*)<\/title>/) || [])[1] || file;
+  const scripts = n(/<script/g);
+  const decides = n(/counter-increment|counter-reset/g) + n(/:has\(/g) + n(/:target/g);
+  const controls = new Set((s.match(/type="radio"[^>]*name="([^"]+)"/g) || [])
+    .map((m) => (m.match(/name="([^"]+)"/) || [])[1])).size
+    + n(/type="checkbox"/g) + n(/<button/g);
+  const unpressed = /setInterval|requestAnimationFrame/.test(s);
+  /* external hooks are not logic. Almost every board links the automat and
+     dev-mode scripts, which add nothing to the page's own decisions, so
+     testing for zero script tags said no board decides in CSS — which is
+     the measurement being wrong rather than the boards. */
+  const inlineLogic = /<script>[\s\S]{200,}/.test(s);
+
+  const automation = unpressed ? 'runs unpressed'
+    : (!inlineLogic && decides > 0) ? 'decides in the stylesheet'
+    : controls > 0 ? 'waits to be pressed'
+    : 'does nothing';
+
+  const cites = citedBy[file] || [];
+  const settled = cites.filter((c) => c.settled === 'settled').length;
+  const useful = settled > 0 ? 'settles ' + settled
+    : cites.length ? 'provisional'
+    : 'unassessed';
+
+  return { file, title: title.split('\u00b7')[0].trim(), automation, useful,
+           decides, controls, scripts, inlineLogic, cited: cites.length, settled,
+           what: cites.length ? cites[0].what : '' };
+});
+
+const gradeTotals = {
+  boards: grades.length,
+  unpressed: grades.filter((g) => g.automation === 'runs unpressed').length,
+  stylesheet: grades.filter((g) => g.automation === 'decides in the stylesheet').length,
+  pressed: grades.filter((g) => g.automation === 'waits to be pressed').length,
+  inert: grades.filter((g) => g.automation === 'does nothing').length,
+  settling: grades.filter((g) => g.settled > 0).length,
+  unassessed: grades.filter((g) => g.useful === 'unassessed').length
+};
+
 /* ═══ 3 · Virgo, on her side, with the ecliptic through her ════════════ */
 /* Right ascension in hours, declination in degrees, magnitude. J2000. */
 const VIRGO = [
@@ -607,6 +679,23 @@ const html = '<!doctype html>\n<html lang="en">\n<head>\n' +
     font:400 10px/1 var(--mono);color:#544a3c}
   .rep span u{text-decoration:none;color:var(--gold);margin-left:6px}
 
+  /* the grade: two axes, both counted */
+  .gr{display:flex;align-items:baseline;gap:9px;padding:7px 0;
+    border-bottom:1px dotted #dbcfb6;font:400 11px/1.4 var(--mono)}
+  .gr a{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;
+    white-space:nowrap;color:var(--ink);text-decoration:none;
+    font:400 13px/1.35 var(--serif)}
+  .gr a:hover{color:var(--gold);text-decoration:underline}
+  .gr i{font-style:normal;font-size:8.5px;letter-spacing:.06em;
+    padding:3px 6px;border:1px solid var(--rule);white-space:nowrap}
+  .gr i.run{color:var(--gold);border-color:var(--gold)}
+  .gr i.css{color:#4d6b3f;border-color:#9db58e}
+  .gr i.press{color:var(--pale)}
+  .gr i.none{color:var(--faint);border-style:dashed}
+  .gr u{text-decoration:none;width:64px;text-align:right;color:var(--faint);
+    font-size:9.5px;white-space:nowrap}
+  .gr u.set{color:#4d6b3f} .gr u.prov{color:var(--gold)}
+  .gr.here{background:#ebe1ca}
   .dr{padding:10px 12px;border:1px solid var(--rule);margin-bottom:5px;
     cursor:pointer;background:#ece2cb}
   .dr:hover{border-color:var(--pale)}
@@ -740,12 +829,14 @@ forms.map((f) => '        <option value="' + esc(f.id) + '">' + esc(f.name) + '<
 '      <button data-p="form">the form</button>\n' +
 '      <button data-p="read">the reader</button>\n' +
 '      <button data-p="drafts">drafts</button>\n' +
+'      <button data-p="grade">the grade</button>\n' +
 '    </div>\n' +
 '    <div class="pane on" id="p-lesson"></div>\n' +
 '    <div class="pane" id="p-shape"></div>\n' +
 '    <div class="pane" id="p-form"></div>\n' +
 '    <div class="pane" id="p-read"></div>\n' +
 '    <div class="pane" id="p-drafts"><button id="newd">+ new draft</button><div id="dlist"></div></div>\n' +
+'    <div class="pane" id="p-grade"></div>\n' +
 '  </section>\n' +
 '</div>\n\n' +
 
@@ -766,6 +857,8 @@ forms.map((f) => '        <option value="' + esc(f.id) + '">' + esc(f.name) + '<
 'const FORMS = ' + JSON.stringify(forms) + ';\n' +
 'const LESSONS = ' + JSON.stringify(lessons) + ';\n' +
 'const QUENEAU = ' + JSON.stringify(QUENEAU) + ';\n' +
+'const GRADES = ' + JSON.stringify(grades) + ';\n' +
+'const GRADE_TOTALS = ' + JSON.stringify(gradeTotals) + ';\n' +
 `
 const KEY = 'venus.notebook.v1';
 const $ = (s) => document.querySelector(s);
@@ -1090,6 +1183,55 @@ function sestina(d, f) {
     QUENEAU.join(', ') + ' and up.</p>';
 }
 
+
+/* ══ the grade ═════════════════════════════════════════════════════════
+   Every board in the yard on two axes, both counted off the files rather
+   than judged.
+
+   AUTOMATION: what it does with nobody there. Runs unpressed, decides in the
+   stylesheet with no script at all, waits to be pressed, or does nothing.
+
+   USEFUL TO VENUS: whether the knowledge base cites it as evidence and how
+   settled the citing entry is. This is the only honest signal available, and
+   it means a board nothing cites reads as UNASSESSED — which is a gap rather
+   than a fault. Naming the gap is the point. Nothing here improves by being
+   longer; size is not an axis. */
+function paintGrade() {
+  const T = GRADE_TOTALS;
+  const cls = { 'runs unpressed': 'run', 'decides in the stylesheet': 'css',
+                'waits to be pressed': 'press', 'does nothing': 'none' };
+  const rank = { 'runs unpressed': 0, 'decides in the stylesheet': 1,
+                 'waits to be pressed': 2, 'does nothing': 3 };
+  const rows = GRADES.slice().sort((a, b) =>
+    (b.settled - a.settled) || (rank[a.automation] - rank[b.automation]) ||
+    a.file.localeCompare(b.file));
+
+  $('#p-grade').innerHTML =
+    '<h3>The grade</h3>' +
+    '<p class="sub">' + T.boards + ' boards \u00b7 two axes \u00b7 nothing judged</p>' +
+    '<div class="met">' +
+      '<div><u>' + T.unpressed + '</u><s>run unpressed</s></div>' +
+      '<div><u>' + T.stylesheet + '</u><s>decide in css</s></div>' +
+      '<div><u>' + T.pressed + '</u><s>wait to be pressed</s></div>' +
+      '<div><u>' + T.settling + '</u><s>settle something</s></div>' +
+      '<div><u>' + T.unassessed + '</u><s>unassessed</s></div>' +
+      '<div><u>' + T.inert + '</u><s>do nothing</s></div>' +
+    '</div>' +
+    '<p class="cap">Automation is read out of the file. Usefulness is whether ' +
+      'the knowledge base cites the board as evidence, and how settled the ' +
+      'entry doing the citing is \u2014 the only honest signal there is. ' +
+      '<b>Unassessed</b> means nothing cites it yet. That is a gap, not a ' +
+      'fault, and it is the most useful column here because it is the one you ' +
+      'can close.</p>' +
+    '<div>' + rows.map((g) =>
+      '<div class="gr' + (g.file === 'writing.html' ? ' here' : '') + '">' +
+      '<a href="' + esc(g.file) + '">' + esc(g.title.slice(0, 34)) + '</a>' +
+      '<i class="' + cls[g.automation] + '">' + esc(g.automation.split(' ')[0]) + '</i>' +
+      '<u class="' + (g.settled ? 'set' : g.cited ? 'prov' : '') + '">' +
+      (g.settled ? 'settles ' + g.settled : g.cited ? 'provisional' : 'unassessed') +
+      '</u></div>').join('') + '</div>';
+}
+
 /* ══ the form pane ═════════════════════════════════════════════════════ */
 function paintForm() {
   const f = byId(D().form);
@@ -1172,7 +1314,7 @@ function paintDrafts() {
 }
 
 function paint() {
-  paintCode(); paintLesson(); paintShape(); paintForm(); paintRead(); paintDrafts(); wireEnds();
+  paintCode(); paintLesson(); paintShape(); paintForm(); paintRead(); paintDrafts(); paintGrade(); wireEnds();
 }
 function show() {
   const d = D();
@@ -1434,6 +1576,7 @@ const HELP = [
   ['stanza', 'sign this draft; copy the block'],
   ['verify <block>', 'check somebody else\u2019s stanza block'],
   ['against <block>', 'is this draft the text that block signed?'],
+  ['grade [what]', 'every board on automation and usefulness'],
   ['export', 'write every draft to a markdown file'],
   ['clear', 'empty the console'],
   ['', 'anything else is evaluated as JavaScript']
@@ -1593,6 +1736,25 @@ function cmd(raw) {
     case 'stanza': stanza(); return;
     case 'verify': checkStanza(arg); return;
     case 'against': against(arg); return;
+
+    case 'grade': {
+      const T = GRADE_TOTALS;
+      const want = arg.trim().toLowerCase();
+      const rows = want
+        ? GRADES.filter((g) => g.file.includes(want) || g.automation.includes(want)
+            || (want === 'unassessed' && !g.cited))
+        : GRADES.slice().sort((a, b) => b.settled - a.settled).slice(0, 18);
+      if (!rows.length) return say('no board matches ' + arg, 'err');
+      openTab('grade');
+      return sayHTML('<span class="hd">' + T.boards + ' boards.</span> <span class="dim">' + T.unpressed + ' run unpressed, ' + T.stylesheet + ' decide in the stylesheet, ' + T.settling + ' settle something, ' + T.unassessed + ' are cited by nothing yet.</span>\\n' +
+        rows.map((g) => '  <span class="' + (g.settled ? 'ok' : 'dim') + '">' +
+          esc(g.file.replace('.html', '').padEnd(18)) + '</span>' +
+          '<span class="dim">' + esc(g.automation.padEnd(26)) + '</span>' +
+          '<span class="' + (g.settled ? 'ok' : g.cited ? 'hd' : 'dim') + '">' +
+          (g.settled ? 'settles ' + g.settled : g.cited ? 'provisional' : 'unassessed') +
+          '</span>').join('\\n') +
+        '\\n<span class="dim">grade unassessed — the ones nothing cites yet. Those are the gaps, and closing one is worth more than another board.</span>');
+    }
 
     case 'export': return say(exportAll(), 'ok');
 

@@ -1,0 +1,111 @@
+{
+ "id": "the-idle-board",
+ "order": 6,
+ "subject": "systems",
+ "title": "The idle board",
+ "one_line": "Six coprime cadences, an absence credited in full, and a total you are not allowed to maximise.",
+ "needs": [
+  "not-a-king"
+ ],
+ "sections": [
+  {
+   "heading": "Why the periods are prime",
+   "body": [
+    "Six longhouses tick on periods 2, 3, 5, 7, 11 and 13. If two of them shared a factor they would fire together forever after, and the board would walk one diagonal of its state space instead of the whole lattice.",
+    "Coprime is the whole requirement, and it has a consequence you can compute: the pattern of which halls fire together repeats after the least common multiple of the periods, and for pairwise coprime numbers the lcm IS the product. Thirty thousand and thirty ticks. Change one period to four and it collapses — 4 and 2 share a factor, and the answer stops being the product.",
+    "This is worth writing yourself rather than reading, because the lcm is the difference between a board that surprises you for a day and one that repeats before lunch."
+   ],
+   "show": {
+    "lang": "js",
+    "code": "// pairwise coprime: lcm is the product\nlcm([2, 3, 5, 7, 11, 13])   //  30030  = 2*3*5*7*11*13\n\n// share a factor and it is not\nlcm([2, 4, 6])              //  12     not 48"
+   }
+  },
+  {
+   "heading": "The absence is credited in full",
+   "body": [
+    "The board keeps a timestamp of when it last saw you. On load it works out how many ticks it missed and runs every one of them. There is no cap, no decay, and no bonus for having been present.",
+    "That last part is the design decision and it is not generosity. The moment presence is rewarded, the optimal play is to sit there, and an idle game whose optimal play is to sit there has become a job with a progress bar. Crediting the absence exactly is what keeps it from turning into one."
+   ]
+  },
+  {
+   "heading": "You cannot maximise the total",
+   "body": [
+    "Pressing a button on that board never raises output. It chooses which clan receives the next house — the composition — and nothing else. Total production is a function of time and tier, and tier only ever rises.",
+    "A game whose output can be maximised is a game that can be played wrong, and a game that can be played wrong has somebody in it who is behind. There is nobody behind on that board. What you can be is differently composed, and the deck has a composition it actually wants, so the interesting question is distance from it rather than size of it.",
+    "Distance is allowed to move in both directions. The RECORD of the closest you ever came is not. That split — a live figure that may fall beside a record that may not — is the whole of the +1 law expressed in two variables, and the audit you are about to write checks it."
+   ]
+  },
+  {
+   "heading": "What an audit is for",
+   "body": [
+    "The board saves its whole state under one key in this browser. You are going to read it and check three things: that it has actually run, that its record has never fallen behind its current figure, and that nothing in it records a loss.",
+    "The third is the one worth dwelling on. You are not checking that no loss occurred. You are checking that the data structure has no place to put one — which is a stronger statement, and the only kind of guarantee a schema can give you."
+   ]
+  }
+ ],
+ "practice": {
+  "form": "code-js",
+  "brief": "Write lcm, perTick, firesOn and audit. The first three are marked against fixtures. audit is marked against fixtures too, and then readBoard is checked against your actual saved board. Type check.",
+  "starter": "/* The idle board, audited. The clan table is given; everything\n   below it is yours. */\nconst CLANS = [\n  { id: 'hrafn',    period:  2, yield:  3 },\n  { id: 'bjorn',    period:  3, yield:  5 },\n  { id: 'ulf',      period:  5, yield:  4 },\n  { id: 'sigrid',   period:  7, yield:  2 },\n  { id: 'thorvald', period: 11, yield:  6 },\n  { id: 'ingrid',   period: 13, yield:  1 },\n];\n\n/* how many ticks before every cadence coincides again */\nfunction lcm(nums) {\n  return null;   // <- your answer here\n}\n\n/* average output per tick across the whole board */\nfunction perTick(clans) {\n  return null;   // <- your answer here\n}\n\n/* which clans fire on tick t */\nfunction firesOn(t, clans) {\n  return null;   // <- your answer here\n}\n\n/* read the saved board. Return null if there is nothing there —\n   do NOT invent a starting state. */\nfunction readBoard() {\n  return null;   // <- your answer here\n}\n\n/* three findings, and no opinions */\nfunction audit(state) {\n  // { ran, recordHolds, lossFree }\n  return null;   // <- your answer here\n}\n",
+  "checks": [
+   {
+    "name": "six coprime cadences realign after their product",
+    "test": "lcm([2,3,5,7,11,13]) === 30030"
+   },
+   {
+    "name": "and sharing a factor collapses it",
+    "test": "lcm([2,4,6]) === 12"
+   },
+   {
+    "name": "lcm of one number is that number",
+    "test": "lcm([7]) === 7"
+   },
+   {
+    "name": "the board at tier one puts out the sum of yield over period",
+    "test": "Math.abs(perTick(CLANS) - (3/2 + 5/3 + 4/5 + 2/7 + 6/11 + 1/13)) < 1e-9"
+   },
+   {
+    "name": "tick 6 fires the twos and the threes and nothing else",
+    "test": "JSON.stringify(firesOn(6, CLANS).slice().sort()) === JSON.stringify(['bjorn','hrafn'])"
+   },
+   {
+    "name": "tick 30030 fires every one of them",
+    "test": "firesOn(30030, CLANS).length === 6"
+   },
+   {
+    "name": "tick 1 fires nobody",
+    "test": "JSON.stringify(firesOn(1, CLANS)) === '[]'"
+   },
+   {
+    "name": "an audit of a board that has run says so",
+    "test": "audit({t: 500, bestFit: 71, fitNow: 68, stock:{}}).ran === true"
+   },
+   {
+    "name": "an audit of an untouched board says it has not",
+    "test": "audit({t: 0, bestFit: 0, fitNow: 0, stock:{}}).ran === false"
+   },
+   {
+    "name": "a record behind the live figure is caught",
+    "test": "audit({t: 9, bestFit: 40, fitNow: 55, stock:{}}).recordHolds === false && audit({t: 9, bestFit: 71, fitNow: 55, stock:{}}).recordHolds === true"
+   },
+   {
+    "name": "a state with a place to record a loss is caught",
+    "test": "audit({t: 9, bestFit: 1, fitNow: 1, stock:{}, casualties: 0}).lossFree === false && audit({t: 9, bestFit: 1, fitNow: 1, stock:{}}).lossFree === true"
+   },
+   {
+    "name": "readBoard goes to the board’s own key and nowhere else",
+    "test": "/venus\\.clans\\.v1/.test(readBoard.toString())",
+    "constraint": true
+   },
+   {
+    "name": "and invents nothing when the key is empty",
+    "test": "(() => { const real = localStorage.getItem('venus.clans.v1'); try { localStorage.removeItem('venus.clans.v1'); return readBoard() === null; } finally { if (real !== null) localStorage.setItem('venus.clans.v1', real); } })()",
+    "constraint": true
+   }
+  ],
+  "violators": [
+   "function lcm(n){const g=(a,b)=>b?g(b,a%b):a;return n.reduce((a,b)=>a*b/g(a,b));}\nfunction perTick(c){return c.reduce((a,x)=>a+x.yield/x.period,0);}\nfunction firesOn(t,c){return c.filter(x=>t%x.period===0).map(x=>x.id);}\nfunction readBoard(){\n  const raw = localStorage.getItem('venus.notebook.v1');\n  return raw ? JSON.parse(raw) : { t: 0, bestFit: 0, fitNow: 0, stock: {} };\n}\nfunction audit(s){return {ran:s.t>0,recordHolds:s.bestFit>=s.fitNow,lossFree:!('casualties' in s)};}\n"
+  ]
+ },
+ "ask": "Run your audit on your own board. If recordHolds is ever false, one of us has a bug and it is worth finding out which."
+}
