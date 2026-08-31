@@ -1,0 +1,12 @@
+{
+ "id": "code-js",
+ "name": "JavaScript",
+ "kind": "code",
+ "order": 12,
+ "language": "js",
+ "runnable": true,
+ "note": "The only language on this page that can be run where it is written. The drawer underneath evaluates it, captures what it logs, and prints what it returns. Everything else here is written and read.",
+ "ground": "Every generator in this yard is JavaScript run by node, and every one of them exists to refuse something: a quest that recurses, a faction with a gate in it, a building that shrinks when promoted, a form whose shape does not close. That is the house style — a generator is not a thing that emits, it is a thing that declines to emit.",
+ "ask": "What does this refuse, and what happens when you feed it the bad case?",
+ "template": "/* A generator is a thing that declines to emit. Say what it refuses\n   before you say what it makes. */\nconst RULES = [\n  ['has an id',     (x) => typeof x.id === 'string' && x.id.length > 0],\n  ['does not gate', (x) => !('milestones' in x) && !('review' in x)],\n];\n\nfunction check(items) {\n  const out = [], refused = [];\n  for (const x of items) {\n    const broke = RULES.filter(([, ok]) => !ok(x)).map(([name]) => name);\n    if (broke.length) refused.push([x.id || '(unnamed)', broke]);\n    else out.push(x);\n  }\n  return { out, refused };\n}\n\n/* the bad case, on purpose — a validator that is never shown one is a\n   validator nobody has tested */\nconst { out, refused } = check([\n  { id: 'the-observatory' },\n  { id: 'the-farm', milestones: ['q1'] },\n  { },\n]);\n\nconsole.log('kept   ', out.map((x) => x.id));\nconsole.log('refused', refused);\nrefused.length;\n"
+}

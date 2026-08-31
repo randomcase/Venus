@@ -1,0 +1,97 @@
+{
+ "id": "graphics-engine",
+ "order": 1,
+ "subject": "graphics",
+ "title": "The graphics engine",
+ "one_line": "Three numbers in, two numbers out, and a rule about what to draw first.",
+ "needs": [],
+ "sections": [
+  {
+   "heading": "There is no engine",
+   "body": [
+    "Nothing here uses WebGL, and nothing here uses a scene graph. The arcade's cabinets are five DOM elements each under preserve-3d, and the isometric boards are a 2D canvas context with fills on it. That is the whole engine.",
+    "This is not a limitation being apologised for. An isometric renderer is three functions long, and the reason it looks like a renderer is that all three are correct at once: a projection, an ordering, and a light. Get any one wrong and it reads as flat coloured boxes, which is what a mud hut looks like."
+   ]
+  },
+  {
+   "heading": "One: the projection",
+   "body": [
+    "Two-to-one isometric. A tile is twice as wide as it is tall, which is not the true isometric angle of 30 degrees but the one where every tile edge lands on a whole pixel, and that is why every game that has ever used it used this instead.",
+    "Moving one step east adds half a tile width to x and half a tile height to y. Moving one step south subtracts the same from x and adds the same to y. Height is the only axis that is not a trade-off: it comes straight off y."
+   ],
+   "show": {
+    "lang": "js",
+    "code": "const HALF_W = 32;   // half a tile wide\nconst HALF_H = 16;   // half a tile tall — the 2:1\nconst UNIT_Z = 32;   // one step up\n\n// world (x east, y south, z up) -> screen\nconst iso = (x, y, z) => [\n  (x - y) * HALF_W,\n  (x + y) * HALF_H - z * UNIT_Z\n];"
+   }
+  },
+  {
+   "heading": "Two: what to draw first",
+   "body": [
+    "There is no depth buffer, so the order you paint in is the depth. This is the painter's algorithm: draw what is far away, then draw over it.",
+    "Far away, in this projection, means small x plus y plus z. A tile at (0,0) is behind everything; a tile at the bottom of the screen is in front of everything. The whole sort key is one addition, and getting it wrong is the single most common way an isometric scene breaks: a wall drawn before the floor it stands on vanishes into it."
+   ]
+  },
+  {
+   "heading": "Three: one sun, three tones",
+   "body": [
+    "A cube has three visible faces in this projection: the top, and two sides. If you fill all three with the same colour you get a hexagon, not a cube. The eye reads solidity from the fact that one light source hits three surfaces at three angles.",
+    "Pick one direction for the sun and derive the rest. The top face takes the full colour. The face turned toward the light takes around seven tenths. The face turned away takes around half. These are not three colours you chose — they are one colour and two multipliers, which is why the scene stays coherent when you change the palette.",
+    "A contact shadow costs one ellipse and buys more than the shading does. Without it everything floats."
+   ],
+   "show": {
+    "lang": "js",
+    "code": "// one colour, three surfaces\nconst TOP = 1.00, LIT = 0.72, DARK = 0.52;\n\nfunction face(ctx, tone, base) {\n  const [r, g, b] = base;\n  ctx.fillStyle = 'rgb(' + [r, g, b].map(c =>\n    Math.round(c * tone)).join(',') + ')';\n}"
+   }
+  },
+  {
+   "heading": "Why it is worth knowing",
+   "body": [
+    "Every board in this yard that shows a place rather than a table is these three functions. The tower defence boards, the base plates, the arcade floor. When something looks wrong, it is almost always the ordering, because the projection is too simple to get wrong twice and the light is too obvious."
+   ]
+  }
+ ],
+ "practice": {
+  "form": "code-js",
+  "brief": "Write the three functions the engine is. iso(x,y,z) returns the screen pair. depth(x,y,z) returns the sort key. tone(face) returns the multiplier for \"top\", \"lit\" or \"dark\". Then type check.",
+  "starter": "/* The whole engine. Three functions, and they have to be right\n   at the same time. */\n\nconst HALF_W = 32, HALF_H = 16, UNIT_Z = 32;\n\nfunction iso(x, y, z) {\n  // east adds to screen x, south subtracts from it,\n  // and both add to screen y. Height only lifts.\n  return null;   // <- your answer here\n}\n\nfunction depth(x, y, z) {\n  // far away is small. One addition.\n  return NaN;   // <- your answer here\n}\n\nfunction tone(face) {\n  // one sun, three surfaces, two multipliers\n  return NaN;   // <- your answer here\n}\n",
+  "checks": [
+   {
+    "name": "the origin lands at the origin",
+    "test": "JSON.stringify(iso(0,0,0)) === '[0,0]'"
+   },
+   {
+    "name": "one step east moves right and down",
+    "test": "JSON.stringify(iso(1,0,0)) === '[32,16]'"
+   },
+   {
+    "name": "one step south moves left and down by the same",
+    "test": "JSON.stringify(iso(0,1,0)) === '[-32,16]'"
+   },
+   {
+    "name": "east and south together move straight down",
+    "test": "JSON.stringify(iso(1,1,0)) === '[0,32]'"
+   },
+   {
+    "name": "height lifts and does nothing else",
+    "test": "JSON.stringify(iso(0,0,1)) === '[0,-32]'"
+   },
+   {
+    "name": "the far corner sorts before the near one",
+    "test": "depth(0,0,0) < depth(1,1,0)"
+   },
+   {
+    "name": "something standing on a tile sorts after the tile",
+    "test": "depth(2,2,0) < depth(2,2,1)"
+   },
+   {
+    "name": "the top face takes the full colour",
+    "test": "tone('top') === 1"
+   },
+   {
+    "name": "the lit side is darker than the top, the dark side darker still",
+    "test": "tone('top') > tone('lit') && tone('lit') > tone('dark') && tone('dark') > 0"
+   }
+  ]
+ },
+ "ask": "If your scene renders wrong, which of the three did you get wrong? There are only three, so you can check each."
+}

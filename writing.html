@@ -4,240 +4,533 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The notebook &middot; Virgo on her side</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@300;400;600&display=swap">
 <style>
   :root{
-    --room:#0b0a0d;              /* the dark the book lies in */
-    --paper:#efe7d6; --paper2:#e7dcc6; --rule:#cbbfa6;
-    --ink:#2b2620; --pale:#7d7263; --faint:#a2957f;
-    --gold:#b8860b; --venus:#f0cf72; --red:#9b4a3c;
-    --edge:#241f1a;
+    --room:#08070a;
+    --paper:#f2ead7; --paper2:#e6dbc0; --edgepg:#d9cdb0;
+    --rule:#cec1a4; --margin:#a8443a;
+    --ink:#22201b; --pale:#7a6f5d; --faint:#a2957c;
+    --gold:#a8791a; --foil:#d9b455;
+    --term:#0c0b0a; --term2:#141210;
+    --amber:#d8b46b; --moss:#82a98d; --rust:#c4674f;
+    --serif:"EB Garamond",Georgia,"Iowan Old Style",serif;
+    --mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{margin:0;background:var(--room);color:var(--ink);overflow:hidden;
-    font:14px/1.6 ui-sans-serif,system-ui,"Segoe UI",sans-serif;
-    display:flex;align-items:center;justify-content:center}
-
-  /* ── the cover. She is lying down. ─────────────────────────────────── */
-  #cover{position:fixed;inset:0;z-index:60;background:
-    radial-gradient(160% 100% at 50% 62%,#151320 0%,#0b0a0d 58%,#050406 100%);
+    font:15px/1.6 var(--serif);
     display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:6px;cursor:pointer;transition:opacity .6s ease,visibility .6s}
+    padding:14px 14px 0}
+
+  /* ══ the cover ══════════════════════════════════════════════════════ */
+  #cover{position:fixed;inset:0;z-index:80;
+    background:radial-gradient(150% 105% at 50% 56%,#141223 0%,#0a0910 55%,#050409 100%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    cursor:pointer;transition:opacity .7s ease,visibility .7s}
   #cover.gone{opacity:0;visibility:hidden}
-  .sky{width:min(1140px,94vw);height:auto;display:block}
-  .ecl{fill:none;stroke:#4a5f7a;stroke-width:1;stroke-dasharray:5 6;opacity:.85}
-  .lk{stroke:#5d6b86;stroke-width:.9;opacity:.62}
-  .st{fill:#e9edf7}
-  .ven{fill:var(--venus)}
-  .lb{fill:#9aa6bd;font:10.5px/1 ui-monospace,monospace;letter-spacing:.06em}
-  .lb.dim{fill:#5f6a80;font-size:9px}
-  .lb.vn{fill:var(--venus);font-size:11.5px;letter-spacing:.12em}
-  .ecl-l{fill:#4a5f7a}
-  #cover h1{margin:4px 0 0;color:#e8e0cf;
-    font:400 27px/1.2 Georgia,"Iowan Old Style",serif;letter-spacing:.13em}
-  #cover p{margin:0;color:#6d7488;max-width:60ch;text-align:center;
-    font:10.5px/1.8 ui-monospace,monospace}
-  #cover p b{color:#93a0b8;font-weight:400}
-  #open{margin-top:14px;background:none;border:1px solid #333a4a;color:#8b93a8;
-    padding:8px 22px;border-radius:2px;cursor:pointer;
-    font:10px/1 ui-monospace,monospace;letter-spacing:.22em}
-  #open:hover{border-color:var(--venus);color:var(--venus)}
+  .sky{width:min(1180px,95vw);height:auto;display:block}
+  .ecl{fill:none;stroke:#46597a;stroke-width:1;stroke-dasharray:5 7;opacity:.8}
+  .lk{stroke:#5a688a;stroke-width:.85;opacity:.55}
+  .st{fill:#eef1fa}
+  .fs{fill:#8f9ab5;opacity:.4}
+  .ven{fill:#ffe9ae}
+  .lb{fill:#96a2ba;font:600 9.5px/1 var(--mono);letter-spacing:.22em}
+  .lb.dim{fill:#5b667c;font-weight:300;font-size:8.5px;letter-spacing:.1em}
+  .lb.vn{fill:var(--foil);font-size:10.5px}
+  #cover h1{margin:12px 0 3px;color:#efe6d2;
+    font:500 33px/1.1 var(--serif);letter-spacing:.3em;text-indent:.3em}
+  #cover .sub{color:var(--foil);font:300 8.5px/1 var(--mono);
+    letter-spacing:.4em;text-indent:.4em;margin:0 0 16px}
+  #cover p{margin:0;color:#6c7488;max-width:66ch;text-align:center;
+    font:300 10.5px/1.95 var(--mono)}
+  #cover p b{color:#9aa7bf;font-weight:400}
+  #open{margin-top:22px;background:none;border:1px solid #2f3648;color:#8d95aa;
+    padding:9px 26px;cursor:pointer;font:400 9.5px/1 var(--mono);letter-spacing:.3em}
+  #open:hover{border-color:var(--foil);color:var(--foil)}
 
-  /* ── the book, open flat, landscape ───────────────────────────────── */
-  #book{display:grid;grid-template-columns:1fr 10px 1fr;
-    width:min(1560px,97vw);height:min(880px,94vh);
-    box-shadow:0 40px 90px -20px #000,0 0 0 1px #1c1811;border-radius:3px}
-  .leaf{background:linear-gradient(180deg,var(--paper),var(--paper2));
+  /* ══ the book ═══════════════════════════════════════════════════════ */
+  #book{display:grid;grid-template-columns:1fr 16px 1fr;
+    width:min(1600px,100%);flex:1;min-height:0;
+    box-shadow:0 0 0 1px #191510, 0 2px 0 #cfc3a6, 0 4px 0 #b9ad91,
+      0 6px 0 #a2977d, 0 32px 66px -16px rgba(0,0,0,.85)}
+  .leaf{background:linear-gradient(175deg,var(--paper) 0%,var(--paper2) 88%,var(--edgepg) 100%);
     display:flex;flex-direction:column;min-width:0;min-height:0;position:relative}
-  .leaf.l{border-radius:3px 0 0 3px;
-    box-shadow:inset -22px 0 26px -22px rgba(60,44,20,.55)}
-  .leaf.r{border-radius:0 3px 3px 0;
-    box-shadow:inset 22px 0 26px -22px rgba(60,44,20,.55)}
-  /* the spine: a real gutter, because a notebook has one */
-  #spine{background:linear-gradient(90deg,#7a6a4c,#3a3125 42%,#2d251b 50%,#3a3125 58%,#7a6a4c);
-    box-shadow:inset 0 0 8px rgba(0,0,0,.6)}
+  .leaf::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E")}
+  .leaf.l{box-shadow:inset -26px 0 30px -26px rgba(62,44,18,.6)}
+  .leaf.r{box-shadow:inset 26px 0 30px -26px rgba(62,44,18,.6)}
+  #spine{background:linear-gradient(90deg,#8a7a58 0%,#3d3427 34%,#241d15 50%,#3d3427 66%,#8a7a58 100%);
+    box-shadow:inset 0 0 12px rgba(0,0,0,.75);position:relative}
+  #spine::before{content:"";position:absolute;left:50%;top:6%;bottom:6%;width:1px;
+    transform:translateX(-.5px);
+    background:repeating-linear-gradient(180deg,var(--foil) 0 9px,transparent 9px 22px);
+    opacity:.5}
 
-  /* the left leaf: where you write */
-  #head{display:flex;align-items:center;gap:12px;padding:13px 26px 10px;
-    border-bottom:1px solid var(--rule)}
+  #head{display:flex;align-items:center;gap:9px;padding:11px 20px 10px 60px;
+    border-bottom:1px solid var(--rule);flex:none}
   #ttl{flex:1;min-width:0;background:none;border:none;outline:none;color:var(--ink);
-    font:italic 600 19px/1.3 Georgia,"Iowan Old Style",serif}
+    font:italic 500 21px/1.25 var(--serif)}
   #ttl::placeholder{color:var(--faint)}
-  #head select{background:#e2d7bf;border:1px solid var(--rule);color:var(--ink);
-    border-radius:2px;padding:5px 7px;font:11px/1 ui-monospace,monospace;cursor:pointer}
-  #head button{background:none;border:1px solid var(--rule);color:var(--pale);
-    border-radius:2px;padding:5px 9px;cursor:pointer;font:10px/1 ui-monospace,monospace}
-  #head button:hover{color:var(--ink);border-color:var(--pale)}
-  #head button.warn:hover{color:var(--red);border-color:var(--red)}
-  /* ruled paper. The rules are the writing surface, not a background image
-     laid behind an unrelated line-height: the gradient period IS 30px and so
-     is the line-height, which is why the text sits on them. */
-  #wrap{flex:1;overflow-y:auto;position:relative}
-  #pen{display:block;width:100%;min-height:100%;background:transparent;
-    border:none;outline:none;resize:none;color:var(--ink);
-    padding:14px 30px 42vh 62px;
-    font:16px/30px Georgia,"Iowan Old Style",serif;
-    background-image:repeating-linear-gradient(180deg,
-      transparent 0,transparent 29px,var(--rule) 29px,var(--rule) 30px);
-    background-position:0 14px;background-attachment:local}
-  #pen::placeholder{color:var(--faint)}
-  /* the margin rule, the red one down the left of every school notebook */
-  .leaf.l::before{content:"";position:absolute;left:48px;top:0;bottom:0;width:1px;
-    background:var(--red);opacity:.35;pointer-events:none;z-index:2}
+  #head select,#head button{background:#e5d9bf;border:1px solid var(--rule);
+    color:var(--ink);padding:5px 8px;cursor:pointer;font:400 10px/1.25 var(--mono)}
+  #head select{max-width:160px}
+  #head button{background:none;color:var(--pale)}
+  #head button:hover{color:var(--gold);border-color:var(--gold)}
 
-  /* the right leaf: the form, and what you are actually making */
-  .leaf.r{padding:0}
+  #wrap{flex:1;overflow:auto;position:relative;display:flex;min-height:0}
+  #gut{flex:none;width:48px;padding:14px 8px 0 0;text-align:right;
+    font:400 12px/30px var(--mono);color:#bfb298;user-select:none;
+    border-right:1px solid transparent}
+  body.code #gut{border-right-color:var(--rule);font-size:11.5px;
+    line-height:24px;padding-top:12px;color:#b3a68c}
+  #stack{flex:1;position:relative;min-width:0}
+  /* the highlight layer sits directly under a transparent textarea. Identical
+     font, size, line-height, padding and wrapping, or the ink slides off the
+     letters — which is why both are set from one rule and never separately. */
+  #hl,#pen{margin:0;padding:14px 24px 40vh 14px;border:0;
+    font:16px/30px var(--serif);white-space:pre-wrap;word-break:break-word;
+    overflow-wrap:break-word;tab-size:2}
+  body.code #hl,body.code #pen{font:13.5px/24px var(--mono);padding-top:12px}
+  #hl{position:absolute;inset:0;pointer-events:none;color:var(--ink);overflow:hidden}
+  #pen{position:relative;width:100%;min-height:100%;display:block;resize:none;
+    background:transparent;outline:none;color:var(--ink);
+    background-image:repeating-linear-gradient(180deg,
+      transparent 0 29px,var(--rule) 29px 30px);
+    background-position:0 14px;background-attachment:local}
+  body.code #pen{color:transparent;caret-color:var(--ink);background-image:none}
+  #pen::placeholder{color:var(--faint)}
+  #pen::selection{background:rgba(168,68,58,.22)}
+  .leaf.l::before{content:"";position:absolute;left:48px;top:0;bottom:0;width:1px;
+    background:var(--margin);opacity:.34;pointer-events:none;z-index:3}
+  body.code .leaf.l::before{opacity:0}
+
+  /* syntax, in ink and iron rather than in neon */
+  .k{color:#7a4a86;font-weight:600}
+  .s{color:#5f7248}
+  .c{color:#9c9280;font-style:italic}
+  .n{color:#96661f}
+  .p{color:#6a6255}
+  .t{color:#2f5f6e;font-weight:600}
+  .a{color:#8a5a3a}
+
+  /* ══ the right leaf ═════════════════════════════════════════════════ */
   #tabs{display:flex;border-bottom:1px solid var(--rule);flex:none}
   #tabs button{flex:1;background:none;border:none;border-right:1px solid var(--rule);
-    padding:11px 4px;cursor:pointer;color:var(--faint);
-    font:9.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
-    text-transform:uppercase}
+    padding:12px 2px;cursor:pointer;color:var(--faint);
+    font:400 8px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase}
   #tabs button:last-child{border-right:none}
-  #tabs button.on{color:var(--ink);background:#e3d8c0;font-weight:600}
-  .pane{display:none;flex:1;overflow-y:auto;padding:18px 26px 30px;min-height:0}
+  #tabs button:hover{color:var(--pale)}
+  #tabs button.on{color:var(--ink);background:#e5d9bf;box-shadow:inset 0 -2px 0 var(--gold)}
+  #tabs button.teach.on{box-shadow:inset 0 -2px 0 var(--margin)}
+  .pane{display:none;flex:1;overflow-y:auto;padding:20px 24px 34px;min-height:0}
   .pane.on{display:block}
 
-  h3{margin:0 0 3px;font:600 15px/1.3 Georgia,serif;color:var(--ink)}
-  .sub{margin:0 0 13px;font:10px/1.5 ui-monospace,monospace;color:var(--faint);
-    letter-spacing:.05em}
-  .note{margin:0 0 12px;font:12.5px/1.75 Georgia,serif;color:#4a4238}
-  .ground{margin:0 0 12px;padding:11px 13px;background:#e6dbc3;
-    border-left:2px solid var(--gold);font:11.5px/1.7 Georgia,serif;color:#544b3e}
-  .ask{margin:0;padding:11px 13px;border:1px dashed var(--rule);
-    font:italic 12.5px/1.65 Georgia,serif;color:#5d5346}
-  .ask b{display:block;font:600 8.5px/1 ui-sans-serif,sans-serif;font-style:normal;
-    letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+  h3{margin:0 0 2px;font:600 20px/1.22 var(--serif);color:var(--ink)}
+  .sub{margin:0 0 15px;font:300 9.5px/1.5 var(--mono);color:var(--faint);
+    letter-spacing:.1em;text-transform:uppercase}
+  .note{margin:0 0 13px;font:400 14px/1.72 var(--serif);color:#3f382e}
+  .ground{margin:0 0 13px;padding:13px 15px;background:#e9dfc6;
+    border-left:2px solid var(--gold);font:400 13px/1.75 var(--serif);color:#4d4436}
+  .ask{margin:0;padding:13px 15px;border:1px dashed var(--rule);
+    font:italic 400 14px/1.65 var(--serif);color:#544a3c}
+  .ask b{display:block;font:400 8px/1 var(--mono);font-style:normal;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:7px}
 
-  /* the shape: one row per line of the form, filled as you write */
-  .shape{margin:0;padding:0;list-style:none;
-    font:11px/1 ui-monospace,monospace}
-  .shape li{display:flex;align-items:center;gap:8px;padding:4px 0;
-    border-bottom:1px dotted #d8ccb4}
-  .shape .no{width:20px;text-align:right;color:var(--faint);
-    font-variant-numeric:tabular-nums}
-  .shape .rh{width:15px;text-align:center;color:var(--gold);font-weight:700}
-  .shape .rf{width:auto;color:var(--red);font-size:9px;letter-spacing:.04em}
+  .shape{margin:0;padding:0;list-style:none;font:400 11px/1 var(--mono)}
+  .shape li{display:flex;align-items:center;gap:8px;padding:5px 0;
+    border-bottom:1px dotted #dbcfb6}
+  .shape .no{width:20px;text-align:right;color:var(--faint);font-variant-numeric:tabular-nums}
+  .shape .rh{width:14px;text-align:center;color:var(--gold);font-weight:600}
+  .shape .rf{color:var(--margin);font-size:8.5px}
   .shape .tx{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;
-    white-space:nowrap;color:#5a5044;font-family:Georgia,serif;font-size:12px}
-  .shape .tx.e{color:#c3b69c;font-style:italic}
-  .shape .sy{width:34px;text-align:right;color:var(--faint);font-size:9.5px;
+    white-space:nowrap;color:#544a3c;font:400 13px/1.3 var(--serif)}
+  .shape .tx.e{color:#c2b599;font-style:italic}
+  .shape .sy{width:36px;text-align:right;color:var(--faint);font-size:9.5px;
     font-variant-numeric:tabular-nums}
-  .shape .sy.off{color:var(--gold)}
-  .shape li.done{background:#e9dfc8}
-  .shape li.brk{border-bottom:1px solid var(--pale);padding-bottom:9px;margin-bottom:5px}
+  .shape .sy.off{color:var(--gold);font-weight:600}
+  .shape li.done{background:#ebe1ca}
+  .shape li.brk{border-bottom:1px solid var(--pale);padding-bottom:10px;margin-bottom:6px}
 
-  /* the sestina table, with your own six words in it */
-  #ends{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:12px}
-  #ends input{background:#e6dbc3;border:1px solid var(--rule);border-radius:2px;
-    padding:6px 5px;font:11px/1 ui-monospace,monospace;color:var(--ink);
-    text-align:center;min-width:0;outline:none}
-  #ends input:focus{border-color:var(--gold)}
-  #spiral{width:100%;border-collapse:collapse;font:10.5px/1 ui-monospace,monospace}
-  #spiral th{color:var(--faint);font-weight:400;font-size:8.5px;letter-spacing:.1em;
-    text-transform:uppercase;padding:0 0 6px}
-  #spiral td{padding:5px 4px;border-top:1px dotted #d8ccb4;color:#5a5044;
+  #ends{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:13px}
+  #ends input{background:#e9dfc6;border:1px solid var(--rule);padding:7px 5px;
+    font:400 11px/1 var(--mono);color:var(--ink);text-align:center;min-width:0;outline:none}
+  #ends input:focus{border-color:var(--gold);background:#f0e7d2}
+  #spiral{width:100%;border-collapse:collapse;font:400 10.5px/1 var(--mono)}
+  #spiral th{color:var(--faint);font-weight:400;font-size:8px;letter-spacing:.14em;
+    text-transform:uppercase;padding:0 0 7px}
+  #spiral td{padding:6px 4px;border-top:1px dotted #dbcfb6;color:#544a3c;
     text-align:center;overflow:hidden;text-overflow:ellipsis;max-width:0}
-  #spiral td.now{background:#e9dfc8;color:var(--ink);font-weight:700}
+  #spiral td.now{background:#ebe1ca;color:var(--ink);font-weight:600}
   #spiral tr.now th{color:var(--gold)}
 
-  /* the reader: counts, never scores */
   .met{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);
-    border:1px solid var(--rule);margin-bottom:14px}
-  .met div{background:var(--paper);padding:9px 5px;text-align:center}
-  .met u{display:block;text-decoration:none;font:17px/1.15 ui-monospace,monospace;
+    border:1px solid var(--rule);margin-bottom:15px}
+  .met div{background:var(--paper);padding:11px 5px;text-align:center}
+  .met u{display:block;text-decoration:none;font:400 19px/1.1 var(--mono);
     color:var(--ink);font-variant-numeric:tabular-nums}
-  .met s{display:block;text-decoration:none;margin-top:3px;
-    font:8px/1.25 ui-sans-serif,system-ui,sans-serif;letter-spacing:.09em;
+  .met s{display:block;text-decoration:none;margin-top:4px;
+    font:300 7.5px/1.25 var(--mono);letter-spacing:.12em;
     text-transform:uppercase;color:var(--faint)}
-  #bars{display:flex;align-items:flex-end;gap:2px;height:66px;margin-bottom:6px;
-    padding:0 1px;border-bottom:1px solid var(--rule)}
-  #bars i{flex:1;min-width:2px;background:#c0b294;border-radius:1px 1px 0 0}
+  #bars{display:flex;align-items:flex-end;gap:2px;height:70px;margin-bottom:7px;
+    border-bottom:1px solid var(--rule)}
+  #bars i{flex:1;min-width:2px;background:#c6b898}
   #bars i.long{background:var(--gold)}
-  .cap{margin:0 0 16px;font:9.5px/1.6 ui-monospace,monospace;color:var(--faint)}
-  .lex{margin:0 0 14px;font:11.5px/1.8 Georgia,serif;color:#544b3f}
+  .cap{margin:0 0 17px;font:300 9.5px/1.7 var(--mono);color:var(--faint)}
+  .cap b{color:var(--gold);font-weight:400}
+  .lex{margin:0 0 15px;font:400 13px/1.8 var(--serif);color:#4d4436}
   .lex b{color:var(--ink)}
-  .rep{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
-  .rep span{background:#e3d8c0;border:1px solid var(--rule);border-radius:2px;
-    padding:3px 7px;font:10px/1 ui-monospace,monospace;color:#5a5044}
-  .rep span u{text-decoration:none;color:var(--gold);margin-left:5px}
+  .rep{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+  .rep span{background:#e5d9bf;border:1px solid var(--rule);padding:3px 8px;
+    font:400 10px/1 var(--mono);color:#544a3c}
+  .rep span u{text-decoration:none;color:var(--gold);margin-left:6px}
 
-  /* the drafts, which only accumulate */
-  .dr{padding:9px 11px;border:1px solid var(--rule);border-radius:2px;
-    margin-bottom:5px;cursor:pointer;background:#eae0ca}
+  .dr{padding:10px 12px;border:1px solid var(--rule);margin-bottom:5px;
+    cursor:pointer;background:#ece2cb}
   .dr:hover{border-color:var(--pale)}
-  .dr.on{background:#e3d8c0;border-color:var(--gold)}
-  .dr b{display:block;font:600 12px/1.35 Georgia,serif;color:var(--ink);
+  .dr.on{background:#e5d9bf;border-color:var(--gold);box-shadow:inset 2px 0 0 var(--gold)}
+  .dr b{display:block;font:600 14px/1.3 var(--serif);color:var(--ink);
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .dr i{font-style:normal;display:block;margin-top:2px;
-    font:9px/1.4 ui-monospace,monospace;color:var(--faint)}
-  #newd{width:100%;margin-bottom:9px;padding:8px;background:#e3d8c0;
-    border:1px solid var(--rule);border-radius:2px;cursor:pointer;color:var(--ink);
-    font:600 10.5px/1 ui-monospace,monospace;letter-spacing:.1em}
+  .dr i{font-style:normal;display:block;margin-top:3px;
+    font:300 9px/1.4 var(--mono);color:var(--faint)}
+  #newd{width:100%;margin-bottom:10px;padding:9px;background:#e5d9bf;
+    border:1px solid var(--rule);cursor:pointer;color:var(--ink);
+    font:400 10px/1 var(--mono);letter-spacing:.14em}
   #newd:hover{border-color:var(--gold);color:var(--gold)}
 
-  #say{position:fixed;left:14px;bottom:12px;z-index:70;
-    font:9px/1 ui-monospace,monospace;color:#3d3a44}
-  #back{position:fixed;right:14px;bottom:12px;z-index:70;background:none;
-    border:none;cursor:pointer;color:#3d3a44;font:9px/1 ui-monospace,monospace;
-    letter-spacing:.1em}
-  #back:hover{color:var(--venus)}
+  /* ══ the lesson ═════════════════════════════════════════════════════ */
+  #lsel{width:100%;margin-bottom:16px;background:#e9dfc6;border:1px solid var(--rule);
+    padding:8px;font:400 10.5px/1.2 var(--mono);color:var(--ink);cursor:pointer}
+  .sec{margin:0 0 20px}
+  .sec h4{margin:0 0 7px;font:600 9px/1.3 var(--mono);letter-spacing:.18em;
+    text-transform:uppercase;color:var(--margin)}
+  .sec p{margin:0 0 11px;font:400 14px/1.74 var(--serif);color:#3b342b}
+  .sec pre{margin:0 0 11px;padding:12px 14px;background:#1a1713;color:#cdc4b2;
+    font:400 11px/1.62 var(--mono);overflow-x:auto;
+    border-left:2px solid var(--gold)}
+  .sec pre i{font-style:normal}
+  .prac{margin:20px 0 0;padding:15px;border:1px solid var(--margin);
+    background:#ece1c8}
+  .prac h4{margin:0 0 8px;font:600 9px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--margin)}
+  .prac p{margin:0 0 12px;font:400 13.5px/1.7 var(--serif);color:#3b342b}
+  .prac button{background:var(--margin);border:none;color:#f4ece0;
+    padding:9px 16px;cursor:pointer;font:400 10px/1 var(--mono);letter-spacing:.14em}
+  .prac button:hover{background:#8e392f}
+  .prac button.g{background:none;color:var(--pale);border:1px solid var(--rule)}
+  .prac button.g:hover{color:var(--ink);border-color:var(--pale)}
+  .cks{margin:13px 0 0;padding:0;list-style:none}
+  .cks li{display:flex;gap:9px;padding:6px 0;border-top:1px dotted #d3c6ac;
+    font:400 12.5px/1.5 var(--serif);color:#544a3c}
+  .cks li b{flex:none;width:15px;text-align:center;font:400 12px/1.5 var(--mono)}
+  .cks li.p b{color:#4f7a5e}
+  .cks li.f b{color:var(--rust)}
+  .cks li.u b{color:#bcae94}
+  .cks li.p{color:#3b342b}
+  .needs{margin:0 0 15px;font:300 9.5px/1.6 var(--mono);color:var(--faint)}
+  .needs b{color:var(--gold);font-weight:400}
 
-  @media (max-width:1000px){
-    body{overflow:auto;display:block}
-    #book{grid-template-columns:1fr;grid-template-rows:auto auto;height:auto;
-      width:100%;border-radius:0}
-    #spine{height:8px;background:linear-gradient(180deg,#7a6a4c,#2d251b,#7a6a4c)}
-    .leaf.l,.leaf.r{border-radius:0;box-shadow:none}
-    #wrap{min-height:60vh}
-    .pane{max-height:none}
+  /* ══ the drawer ═════════════════════════════════════════════════════ */
+  #drawer{width:min(1600px,100%);flex:none;height:236px;display:flex;
+    flex-direction:column;background:var(--term);border-top:1px solid #2a241c;
+    box-shadow:0 -18px 40px -20px rgba(0,0,0,.9);transition:height .22s ease}
+  body.shut #drawer{height:31px}
+  #dbar{flex:none;display:flex;align-items:center;gap:11px;height:31px;
+    padding:0 12px;background:var(--term2);border-bottom:1px solid #241e18;
+    font:400 9px/1 var(--mono);letter-spacing:.15em;color:#5f594f;
+    text-transform:uppercase;cursor:pointer;user-select:none}
+  #dbar b{color:var(--amber);font-weight:400}
+  #dbar .sp{margin-left:auto;text-transform:none;letter-spacing:.04em;color:#4b463e}
+  #dbar .sp em{font-style:normal;color:#7a746a}
+  #out{flex:1;overflow-y:auto;padding:11px 14px;
+    font:400 11.5px/1.62 var(--mono);color:#a49c8c;white-space:pre-wrap;
+    word-break:break-word}
+  #out .cmd{color:#6f6a60}
+  #out .cmd b{color:var(--amber);font-weight:400}
+  #out .ok{color:var(--moss)}
+  #out .err{color:var(--rust)}
+  #out .dim{color:#5f594f}
+  #out .hd{color:var(--amber)}
+  #out section{padding:2px 0 8px}
+  #inrow{flex:none;display:flex;align-items:center;gap:9px;padding:9px 14px;
+    border-top:1px solid #241e18;background:var(--term2)}
+  #ps{color:var(--amber);font:400 11.5px/1 var(--mono);flex:none}
+  #cli{flex:1;background:none;border:none;outline:none;color:#d6cfbf;
+    font:400 11.5px/1.4 var(--mono);min-width:0}
+  #cli::placeholder{color:#4b463e}
+
+  #say{position:fixed;left:16px;bottom:6px;z-index:90;
+    font:300 8.5px/1 var(--mono);color:#4a453d;letter-spacing:.07em}
+  #back{position:fixed;right:16px;bottom:6px;z-index:90;background:none;
+    border:none;cursor:pointer;color:#4a453d;font:300 8.5px/1 var(--mono);
+    letter-spacing:.11em}
+  #back:hover{color:var(--foil)}
+
+  @media (max-width:1040px){
+    body{overflow:auto;display:block;padding:0;height:auto}
+    #book{grid-template-columns:1fr;width:100%;box-shadow:none}
+    #spine{height:10px;background:linear-gradient(180deg,#8a7a58,#241d15,#8a7a58)}
+    #spine::before{left:0;right:0;top:50%;bottom:auto;width:auto;height:1px;
+      transform:none;background:repeating-linear-gradient(90deg,
+        var(--foil) 0 9px,transparent 9px 22px)}
+    #wrap{min-height:54vh}
+    #drawer{width:100%;height:280px}
   }
 </style>
 </head>
 <body>
 
 <div id="cover">
-<svg viewBox="0 0 1200 420" class="sky" aria-label="Virgo, lying on her side, with the ecliptic through her and Venus on it">
-  <defs><radialGradient id="vg"><stop offset="0" stop-color="#fff8e0"/><stop offset=".45" stop-color="#f2d489"/><stop offset="1" stop-color="#c9962a" stop-opacity="0"/></radialGradient></defs>
-  <path class="ecl" d="M1223.3 155.8 L1203.3 160.9 L1183.3 166.0 L1163.3 171.0 L1143.3 176.1 L1123.4 181.2 L1103.4 186.3 L1083.5 191.4 L1063.5 196.6 L1043.6 201.7 L1023.6 206.8 L1003.7 211.9 L983.8 217.0 L963.8 222.1 L943.9 227.2 L923.9 232.3 L904.0 237.4 L884.0 242.5 L864.0 247.6 L844.0 252.7 L824.0 257.7 L804.0 262.8 L783.9 267.8 L763.8 272.8 L743.7 277.8 L723.6 282.8 L703.4 287.8 L683.2 292.7 L663.0 297.6 L642.8 302.5 L622.5 307.4 L602.1 312.2 L581.8 317.0 L561.4 321.8 L540.9 326.5 L520.4 331.3 L499.9 336.0 L479.3 340.6 L458.7 345.2 L438.0 349.8 L417.3 354.3 L396.5 358.8 L375.7 363.3 L354.8 367.7 L333.8 372.1 L312.8 376.4 L291.8 380.7 L270.7 384.9 L249.5 389.1 L228.3 393.3 L207.0 397.3 L185.6 401.4 L164.2 405.3 L142.7 409.3 L121.1 413.1 L99.5 416.9 L77.9 420.7"/>
-  <line class="lk" x1="1074.2" y1="184.1" x2="915.5" y2="215.4"/>
-  <line class="lk" x1="915.5" y1="215.4" x2="797.4" y2="225.4"/>
-  <line class="lk" x1="797.4" y1="225.4" x2="721.7" y2="163.1"/>
-  <line class="lk" x1="721.7" y1="163.1" x2="686.0" y2="65.8"/>
-  <line class="lk" x1="797.4" y1="225.4" x2="560.9" y2="350.4"/>
-  <line class="lk" x1="560.9" y1="350.4" x2="509.3" y2="214.5"/>
-  <line class="lk" x1="509.3" y1="214.5" x2="721.7" y2="163.1"/>
-  <line class="lk" x1="509.3" y1="214.5" x2="284.9" y2="284.0"/>
-  <line class="lk" x1="284.9" y1="284.0" x2="138.0" y2="279.6"/>
-  <line class="lk" x1="138.0" y1="279.6" x2="120.7" y2="182.4"/>
-  <line class="lk" x1="120.7" y1="182.4" x2="362.9" y2="186.9"/>
-  <line class="lk" x1="362.9" y1="186.9" x2="509.3" y2="214.5"/>
-  <line class="lk" x1="560.9" y1="350.4" x2="301.8" y2="338.9"/>
-  <line class="lk" x1="1074.2" y1="184.1" x2="1093.3" y2="122.8"/>
-  <line class="lk" x1="1093.3" y1="122.8" x2="994.1" y2="94.5"/>
-  <circle class="st" cx="560.9" cy="350.4" r="3.89"><title>Spica, magnitude 0.98</title></circle>
-  <circle class="st" cx="1074.2" cy="184.1" r="2.01"><title>Zavijava, magnitude 3.6</title></circle>
-  <circle class="st" cx="915.5" cy="215.4" r="1.80"><title>Zaniah, magnitude 3.89</title></circle>
-  <circle class="st" cx="797.4" cy="225.4" r="2.63"><title>Porrima, magnitude 2.74</title></circle>
-  <circle class="st" cx="721.7" cy="163.1" r="2.17"><title>Auva, magnitude 3.38</title></circle>
-  <circle class="st" cx="686.0" cy="65.8" r="2.56"><title>Vindemiatrix, magnitude 2.83</title></circle>
-  <circle class="st" cx="509.3" cy="214.5" r="2.17"><title>Heze, magnitude 3.38</title></circle>
-  <circle class="st" cx="284.9" cy="284.0" r="1.66"><title>Syrma, magnitude 4.08</title></circle>
-  <circle class="st" cx="138.0" cy="279.6" r="1.81"><title>Rijl al Awwa, magnitude 3.87</title></circle>
-  <circle class="st" cx="120.7" cy="182.4" r="1.92"><title>109 Virginis, magnitude 3.72</title></circle>
-  <circle class="st" cx="362.9" cy="186.9" r="1.55"><title>Tau Virginis, magnitude 4.23</title></circle>
-  <circle class="st" cx="643.7" cy="278.0" r="1.45"><title>Theta Virginis, magnitude 4.38</title></circle>
-  <circle class="st" cx="301.8" cy="338.9" r="1.59"><title>Kappa Virginis, magnitude 4.18</title></circle>
-  <circle class="st" cx="1093.3" cy="122.8" r="1.69"><title>Nu Virginis, magnitude 4.04</title></circle>
-  <circle class="st" cx="994.1" cy="94.5" r="1.63"><title>Omicron Virginis, magnitude 4.12</title></circle>
-  <circle cx="602.1" cy="312.2" r="26" fill="url(#vg)"/>
-  <circle class="ven" cx="602.1" cy="312.2" r="5.2"><title>Venus, on the ecliptic</title></circle>
-  <text class="lb" x="571.9" y="365.4">Spica</text>
-  <text class="lb vn" x="615.1" y="300.2">Venus</text>
-  <text class="lb dim" x="697.0" y="69.8">Vindemiatrix</text>
-  <text class="lb dim ecl-l" x="137.2" y="235.1">the ecliptic</text>
+<svg viewBox="0 0 1200 400" class="sky" aria-label="Virgo lying on her side, the ecliptic through her, Venus on it">
+  <defs>
+    <radialGradient id="vg"><stop offset="0" stop-color="#fffbef"/><stop offset=".36" stop-color="#f4d98f"/><stop offset="1" stop-color="#c9962a" stop-opacity="0"/></radialGradient>
+    <radialGradient id="wash" cx="50%" cy="46%"><stop offset="0" stop-color="#191b2d" stop-opacity=".92"/><stop offset="1" stop-color="#0a0910" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1200" height="400" fill="url(#wash)"/>
+  <circle class="fs" cx="405.5" cy="18.0" r="1.00"/>
+  <circle class="fs" cx="928.5" cy="375.6" r="1.03"/>
+  <circle class="fs" cx="303.3" cy="24.2" r="0.40"/>
+  <circle class="fs" cx="649.5" cy="172.1" r="1.08"/>
+  <circle class="fs" cx="989.9" cy="183.1" r="0.40"/>
+  <circle class="fs" cx="568.4" cy="197.7" r="0.99"/>
+  <circle class="fs" cx="346.5" cy="75.8" r="1.07"/>
+  <circle class="fs" cx="770.7" cy="358.6" r="0.62"/>
+  <circle class="fs" cx="874.7" cy="159.5" r="0.37"/>
+  <circle class="fs" cx="677.7" cy="138.6" r="0.81"/>
+  <circle class="fs" cx="910.7" cy="349.0" r="0.95"/>
+  <circle class="fs" cx="140.4" cy="278.9" r="0.87"/>
+  <circle class="fs" cx="615.0" cy="344.3" r="0.89"/>
+  <circle class="fs" cx="194.2" cy="100.1" r="0.56"/>
+  <circle class="fs" cx="358.7" cy="20.2" r="1.04"/>
+  <circle class="fs" cx="798.4" cy="18.8" r="0.60"/>
+  <circle class="fs" cx="102.8" cy="309.6" r="0.31"/>
+  <circle class="fs" cx="629.0" cy="288.0" r="0.82"/>
+  <circle class="fs" cx="194.0" cy="363.1" r="0.35"/>
+  <circle class="fs" cx="770.9" cy="20.5" r="0.55"/>
+  <circle class="fs" cx="213.3" cy="64.5" r="0.47"/>
+  <circle class="fs" cx="519.6" cy="110.6" r="0.60"/>
+  <circle class="fs" cx="118.9" cy="38.5" r="0.59"/>
+  <circle class="fs" cx="950.9" cy="369.6" r="0.54"/>
+  <circle class="fs" cx="1012.7" cy="198.3" r="0.69"/>
+  <circle class="fs" cx="656.7" cy="135.0" r="0.46"/>
+  <circle class="fs" cx="13.6" cy="86.9" r="0.57"/>
+  <circle class="fs" cx="510.8" cy="216.3" r="0.65"/>
+  <circle class="fs" cx="26.8" cy="154.5" r="0.96"/>
+  <circle class="fs" cx="184.6" cy="200.8" r="0.63"/>
+  <circle class="fs" cx="202.0" cy="391.2" r="1.04"/>
+  <circle class="fs" cx="1193.5" cy="58.8" r="0.84"/>
+  <circle class="fs" cx="696.2" cy="246.4" r="0.41"/>
+  <circle class="fs" cx="888.4" cy="308.0" r="0.84"/>
+  <circle class="fs" cx="72.2" cy="227.3" r="0.54"/>
+  <circle class="fs" cx="155.7" cy="207.4" r="0.75"/>
+  <circle class="fs" cx="1062.9" cy="37.5" r="0.49"/>
+  <circle class="fs" cx="142.6" cy="391.3" r="0.48"/>
+  <circle class="fs" cx="812.2" cy="118.0" r="0.48"/>
+  <circle class="fs" cx="1024.2" cy="211.9" r="0.52"/>
+  <circle class="fs" cx="193.2" cy="321.2" r="0.73"/>
+  <circle class="fs" cx="762.9" cy="297.3" r="0.81"/>
+  <circle class="fs" cx="914.0" cy="320.0" r="0.38"/>
+  <circle class="fs" cx="10.1" cy="378.8" r="0.94"/>
+  <circle class="fs" cx="1188.5" cy="344.6" r="0.33"/>
+  <circle class="fs" cx="872.2" cy="256.3" r="0.86"/>
+  <circle class="fs" cx="127.3" cy="200.1" r="0.61"/>
+  <circle class="fs" cx="922.4" cy="45.8" r="0.92"/>
+  <circle class="fs" cx="324.0" cy="3.8" r="0.69"/>
+  <circle class="fs" cx="229.4" cy="172.0" r="0.90"/>
+  <circle class="fs" cx="978.5" cy="109.0" r="1.05"/>
+  <circle class="fs" cx="151.2" cy="124.6" r="0.53"/>
+  <circle class="fs" cx="808.6" cy="254.2" r="0.30"/>
+  <circle class="fs" cx="774.3" cy="252.7" r="0.76"/>
+  <circle class="fs" cx="455.8" cy="184.2" r="0.79"/>
+  <circle class="fs" cx="711.1" cy="217.7" r="0.63"/>
+  <circle class="fs" cx="33.6" cy="379.1" r="0.83"/>
+  <circle class="fs" cx="212.8" cy="136.2" r="0.83"/>
+  <circle class="fs" cx="928.1" cy="120.7" r="0.94"/>
+  <circle class="fs" cx="612.9" cy="14.1" r="0.71"/>
+  <circle class="fs" cx="1176.3" cy="79.1" r="0.43"/>
+  <circle class="fs" cx="624.4" cy="4.3" r="0.83"/>
+  <circle class="fs" cx="317.0" cy="192.4" r="0.57"/>
+  <circle class="fs" cx="875.3" cy="250.1" r="0.89"/>
+  <circle class="fs" cx="862.6" cy="287.4" r="1.03"/>
+  <circle class="fs" cx="889.9" cy="60.7" r="0.65"/>
+  <circle class="fs" cx="306.8" cy="71.3" r="0.47"/>
+  <circle class="fs" cx="1090.2" cy="247.5" r="0.47"/>
+  <circle class="fs" cx="353.5" cy="101.6" r="0.54"/>
+  <circle class="fs" cx="1059.1" cy="276.7" r="0.43"/>
+  <circle class="fs" cx="891.1" cy="111.5" r="0.85"/>
+  <circle class="fs" cx="79.8" cy="179.6" r="0.32"/>
+  <circle class="fs" cx="463.0" cy="174.9" r="0.68"/>
+  <circle class="fs" cx="573.8" cy="352.8" r="0.97"/>
+  <circle class="fs" cx="1021.8" cy="298.1" r="1.01"/>
+  <circle class="fs" cx="685.7" cy="250.5" r="0.94"/>
+  <circle class="fs" cx="411.9" cy="209.2" r="0.95"/>
+  <circle class="fs" cx="1135.3" cy="158.6" r="1.04"/>
+  <circle class="fs" cx="1019.8" cy="216.9" r="0.30"/>
+  <circle class="fs" cx="158.5" cy="366.8" r="0.80"/>
+  <circle class="fs" cx="837.3" cy="177.7" r="0.69"/>
+  <circle class="fs" cx="592.2" cy="34.5" r="0.35"/>
+  <circle class="fs" cx="407.9" cy="181.5" r="0.81"/>
+  <circle class="fs" cx="911.8" cy="337.1" r="0.66"/>
+  <circle class="fs" cx="1053.5" cy="276.4" r="0.57"/>
+  <circle class="fs" cx="695.9" cy="387.2" r="0.41"/>
+  <circle class="fs" cx="41.5" cy="229.8" r="0.81"/>
+  <circle class="fs" cx="437.4" cy="169.1" r="0.56"/>
+  <circle class="fs" cx="775.5" cy="25.9" r="0.81"/>
+  <circle class="fs" cx="724.7" cy="151.0" r="0.30"/>
+  <circle class="fs" cx="991.2" cy="123.2" r="0.83"/>
+  <circle class="fs" cx="233.6" cy="6.2" r="0.66"/>
+  <circle class="fs" cx="1043.9" cy="14.9" r="0.59"/>
+  <circle class="fs" cx="949.1" cy="253.7" r="0.80"/>
+  <circle class="fs" cx="1110.4" cy="324.5" r="0.80"/>
+  <circle class="fs" cx="510.2" cy="17.2" r="0.93"/>
+  <circle class="fs" cx="589.3" cy="88.2" r="0.46"/>
+  <circle class="fs" cx="388.2" cy="280.5" r="0.36"/>
+  <circle class="fs" cx="890.6" cy="387.3" r="0.45"/>
+  <circle class="fs" cx="216.9" cy="392.9" r="0.64"/>
+  <circle class="fs" cx="518.9" cy="17.8" r="0.92"/>
+  <circle class="fs" cx="520.3" cy="363.8" r="0.84"/>
+  <circle class="fs" cx="922.2" cy="6.3" r="0.41"/>
+  <circle class="fs" cx="378.0" cy="65.4" r="0.75"/>
+  <circle class="fs" cx="1093.4" cy="391.0" r="0.93"/>
+  <circle class="fs" cx="1161.5" cy="68.7" r="0.98"/>
+  <circle class="fs" cx="126.8" cy="104.4" r="0.34"/>
+  <circle class="fs" cx="474.7" cy="70.3" r="0.90"/>
+  <circle class="fs" cx="1157.7" cy="197.9" r="0.43"/>
+  <circle class="fs" cx="1145.6" cy="172.6" r="0.60"/>
+  <circle class="fs" cx="434.8" cy="350.4" r="1.05"/>
+  <circle class="fs" cx="413.8" cy="167.5" r="0.42"/>
+  <circle class="fs" cx="97.2" cy="25.7" r="0.85"/>
+  <circle class="fs" cx="619.5" cy="133.3" r="0.69"/>
+  <circle class="fs" cx="1191.9" cy="333.6" r="0.78"/>
+  <circle class="fs" cx="619.9" cy="104.9" r="0.80"/>
+  <circle class="fs" cx="142.6" cy="148.2" r="0.77"/>
+  <circle class="fs" cx="336.2" cy="121.8" r="0.92"/>
+  <circle class="fs" cx="1016.2" cy="176.3" r="0.47"/>
+  <circle class="fs" cx="593.0" cy="79.8" r="0.61"/>
+  <circle class="fs" cx="736.2" cy="215.8" r="0.71"/>
+  <circle class="fs" cx="133.8" cy="27.4" r="0.63"/>
+  <circle class="fs" cx="168.9" cy="377.5" r="0.30"/>
+  <circle class="fs" cx="882.7" cy="332.7" r="0.57"/>
+  <circle class="fs" cx="139.5" cy="27.4" r="0.61"/>
+  <circle class="fs" cx="738.6" cy="71.9" r="0.70"/>
+  <circle class="fs" cx="603.9" cy="281.2" r="0.39"/>
+  <circle class="fs" cx="29.9" cy="183.4" r="0.77"/>
+  <circle class="fs" cx="147.4" cy="30.9" r="0.39"/>
+  <circle class="fs" cx="218.0" cy="93.8" r="0.29"/>
+  <circle class="fs" cx="627.9" cy="114.0" r="0.99"/>
+  <circle class="fs" cx="539.0" cy="18.3" r="0.86"/>
+  <circle class="fs" cx="390.7" cy="28.2" r="0.61"/>
+  <circle class="fs" cx="1066.1" cy="217.6" r="0.51"/>
+  <circle class="fs" cx="409.4" cy="230.2" r="0.30"/>
+  <circle class="fs" cx="399.2" cy="297.5" r="1.04"/>
+  <circle class="fs" cx="591.5" cy="303.3" r="0.39"/>
+  <circle class="fs" cx="613.6" cy="67.9" r="0.86"/>
+  <circle class="fs" cx="73.0" cy="168.1" r="0.34"/>
+  <circle class="fs" cx="883.1" cy="107.1" r="0.42"/>
+  <circle class="fs" cx="294.2" cy="309.0" r="1.08"/>
+  <circle class="fs" cx="16.2" cy="106.7" r="0.98"/>
+  <circle class="fs" cx="1140.4" cy="261.1" r="1.04"/>
+  <circle class="fs" cx="861.3" cy="17.5" r="0.95"/>
+  <circle class="fs" cx="1059.0" cy="348.5" r="1.02"/>
+  <circle class="fs" cx="594.9" cy="1.5" r="1.05"/>
+  <circle class="fs" cx="1008.8" cy="303.6" r="0.68"/>
+  <circle class="fs" cx="362.3" cy="360.8" r="0.84"/>
+  <circle class="fs" cx="1005.5" cy="196.8" r="0.94"/>
+  <circle class="fs" cx="547.0" cy="112.0" r="0.97"/>
+  <circle class="fs" cx="1143.5" cy="317.2" r="0.81"/>
+  <circle class="fs" cx="840.6" cy="304.0" r="0.71"/>
+  <circle class="fs" cx="573.5" cy="266.1" r="0.62"/>
+  <circle class="fs" cx="878.5" cy="204.7" r="1.02"/>
+  <circle class="fs" cx="591.1" cy="284.1" r="0.65"/>
+  <circle class="fs" cx="362.4" cy="187.9" r="0.50"/>
+  <circle class="fs" cx="676.3" cy="137.0" r="0.66"/>
+  <circle class="fs" cx="930.6" cy="87.6" r="0.68"/>
+  <circle class="fs" cx="884.5" cy="286.3" r="0.72"/>
+  <circle class="fs" cx="1186.0" cy="236.4" r="0.92"/>
+  <circle class="fs" cx="45.4" cy="171.5" r="1.00"/>
+  <circle class="fs" cx="936.0" cy="358.0" r="0.62"/>
+  <circle class="fs" cx="638.3" cy="165.2" r="0.33"/>
+  <circle class="fs" cx="460.0" cy="329.6" r="0.47"/>
+  <circle class="fs" cx="124.2" cy="213.0" r="0.81"/>
+  <circle class="fs" cx="893.0" cy="190.5" r="0.66"/>
+  <circle class="fs" cx="218.3" cy="31.6" r="0.83"/>
+  <circle class="fs" cx="41.1" cy="237.4" r="0.34"/>
+  <circle class="fs" cx="1118.1" cy="72.2" r="0.49"/>
+  <circle class="fs" cx="383.0" cy="362.6" r="0.89"/>
+  <circle class="fs" cx="84.1" cy="138.0" r="0.32"/>
+  <circle class="fs" cx="1084.3" cy="150.1" r="0.95"/>
+  <circle class="fs" cx="683.5" cy="271.9" r="0.40"/>
+  <circle class="fs" cx="67.1" cy="93.4" r="0.60"/>
+  <circle class="fs" cx="80.2" cy="209.8" r="0.36"/>
+  <circle class="fs" cx="56.6" cy="329.3" r="0.58"/>
+  <circle class="fs" cx="462.2" cy="213.1" r="0.36"/>
+  <circle class="fs" cx="797.9" cy="196.5" r="0.31"/>
+  <circle class="fs" cx="589.4" cy="228.1" r="0.53"/>
+  <circle class="fs" cx="950.8" cy="245.5" r="0.94"/>
+  <circle class="fs" cx="950.2" cy="274.6" r="0.61"/>
+  <circle class="fs" cx="50.5" cy="210.0" r="0.46"/>
+  <circle class="fs" cx="535.8" cy="254.8" r="0.58"/>
+  <circle class="fs" cx="831.0" cy="334.8" r="0.58"/>
+  <circle class="fs" cx="950.8" cy="384.4" r="0.65"/>
+  <circle class="fs" cx="920.7" cy="212.9" r="0.70"/>
+  <circle class="fs" cx="236.6" cy="286.2" r="0.56"/>
+  <circle class="fs" cx="162.1" cy="334.8" r="0.66"/>
+  <circle class="fs" cx="30.9" cy="125.3" r="0.88"/>
+  <circle class="fs" cx="905.3" cy="314.0" r="0.68"/>
+  <circle class="fs" cx="335.6" cy="237.9" r="0.66"/>
+  <circle class="fs" cx="174.5" cy="262.8" r="0.69"/>
+  <circle class="fs" cx="828.1" cy="54.5" r="0.79"/>
+  <circle class="fs" cx="75.5" cy="106.6" r="0.75"/>
+  <circle class="fs" cx="674.7" cy="41.0" r="0.57"/>
+  <circle class="fs" cx="305.3" cy="260.3" r="0.95"/>
+  <circle class="fs" cx="742.8" cy="287.4" r="1.05"/>
+  <circle class="fs" cx="1113.7" cy="343.6" r="0.63"/>
+  <circle class="fs" cx="1161.2" cy="356.3" r="0.80"/>
+  <circle class="fs" cx="1103.0" cy="187.2" r="0.65"/>
+  <path class="ecl" d="M1227.8 147.8 L1207.6 152.7 L1187.5 157.6 L1167.4 162.5 L1147.2 167.4 L1127.1 172.3 L1107.0 177.2 L1086.9 182.1 L1066.9 187.0 L1046.8 192.0 L1026.7 196.9 L1006.6 201.8 L986.5 206.8 L966.5 211.7 L946.4 216.6 L926.3 221.5 L906.2 226.4 L886.1 231.3 L865.9 236.2 L845.8 241.1 L825.6 246.0 L805.4 250.8 L785.2 255.7 L765.0 260.5 L744.8 265.3 L724.5 270.1 L704.2 274.9 L683.8 279.7 L663.5 284.4 L643.1 289.1 L622.6 293.8 L602.2 298.5 L581.6 303.1 L561.1 307.7 L540.5 312.3 L519.9 316.8 L499.2 321.3 L478.4 325.8 L457.7 330.3 L436.8 334.7 L416.0 339.1 L395.0 343.4 L374.0 347.7 L353.0 352.0 L331.9 356.2 L310.8 360.3 L289.6 364.5 L268.3 368.5 L247.0 372.6 L225.6 376.6 L204.1 380.5 L182.6 384.4 L161.0 388.2 L139.4 392.0 L117.7 395.7 L95.9 399.3 L74.1 402.9"/>
+  <line class="lk" x1="1077.6" y1="175.0" x2="917.8" y2="205.2"/>
+  <line class="lk" x1="917.8" y1="205.2" x2="798.8" y2="214.9"/>
+  <line class="lk" x1="798.8" y1="214.9" x2="722.5" y2="154.8"/>
+  <line class="lk" x1="722.5" y1="154.8" x2="686.6" y2="61.1"/>
+  <line class="lk" x1="798.8" y1="214.9" x2="560.6" y2="335.2"/>
+  <line class="lk" x1="560.6" y1="335.2" x2="508.7" y2="204.3"/>
+  <line class="lk" x1="508.7" y1="204.3" x2="722.5" y2="154.8"/>
+  <line class="lk" x1="508.7" y1="204.3" x2="282.6" y2="271.3"/>
+  <line class="lk" x1="282.6" y1="271.3" x2="134.6" y2="267.0"/>
+  <line class="lk" x1="134.6" y1="267.0" x2="117.2" y2="173.4"/>
+  <line class="lk" x1="117.2" y1="173.4" x2="361.2" y2="177.8"/>
+  <line class="lk" x1="361.2" y1="177.8" x2="508.7" y2="204.3"/>
+  <line class="lk" x1="560.6" y1="335.2" x2="299.7" y2="324.2"/>
+  <line class="lk" x1="1077.6" y1="175.0" x2="1096.8" y2="116.0"/>
+  <line class="lk" x1="1096.8" y1="116.0" x2="997.0" y2="88.7"/>
+  <circle class="st" cx="560.6" cy="335.2" r="3.81"><title>Spica, magnitude 0.98</title></circle>
+  <circle class="st" cx="1077.6" cy="175.0" r="1.98"><title>Zavijava, magnitude 3.6</title></circle>
+  <circle class="st" cx="917.8" cy="205.2" r="1.78"><title>Zaniah, magnitude 3.89</title></circle>
+  <circle class="st" cx="798.8" cy="214.9" r="2.58"><title>Porrima, magnitude 2.74</title></circle>
+  <circle class="st" cx="722.5" cy="154.8" r="2.13"><title>Auva, magnitude 3.38</title></circle>
+  <circle class="st" cx="686.6" cy="61.1" r="2.52"><title>Vindemiatrix, magnitude 2.83</title></circle>
+  <circle class="st" cx="508.7" cy="204.3" r="2.13"><title>Heze, magnitude 3.38</title></circle>
+  <circle class="st" cx="282.6" cy="271.3" r="1.64"><title>Syrma, magnitude 4.08</title></circle>
+  <circle class="st" cx="134.6" cy="267.0" r="1.79"><title>Rijl al Awwa, magnitude 3.87</title></circle>
+  <circle class="st" cx="117.2" cy="173.4" r="1.90"><title>109 Virginis, magnitude 3.72</title></circle>
+  <circle class="st" cx="361.2" cy="177.8" r="1.54"><title>Tau Virginis, magnitude 4.23</title></circle>
+  <circle class="st" cx="644.0" cy="265.5" r="1.43"><title>Theta Virginis, magnitude 4.38</title></circle>
+  <circle class="st" cx="299.7" cy="324.2" r="1.57"><title>Kappa Virginis, magnitude 4.18</title></circle>
+  <circle class="st" cx="1096.8" cy="116.0" r="1.67"><title>Nu Virginis, magnitude 4.04</title></circle>
+  <circle class="st" cx="997.0" cy="88.7" r="1.62"><title>Omicron Virginis, magnitude 4.12</title></circle>
+  <circle cx="602.2" cy="298.5" r="30" fill="url(#vg)"/>
+  <circle class="ven" cx="602.2" cy="298.5" r="4.8"><title>Venus, on the ecliptic</title></circle>
+  <text class="lb" x="570.6" y="350.2">SPICA</text>
+  <text class="lb vn" x="616.2" y="284.5">VENUS</text>
+  <text class="lb dim" x="696.6" y="65.1">Vindemiatrix</text>
+  <text class="lb dim" x="101.1" y="229.1">the ecliptic</text>
 </svg>
-  <h1>The notebook</h1>
-  <p>Virgo, from her real stars, right ascension against declination &mdash; she is on her side because that is how she lies. The dashed line is the ecliptic, computed, and <b>Venus</b> is on it, because Virgo is a zodiac constellation and Venus crosses her. Spica lies <b>2.05&deg;</b> south of the ecliptic, barely off it, which is why the two keep meeting.</p>
+  <h1>THE NOTEBOOK</h1>
+  <p class="sub">WRITE &middot; CODE &middot; LEARN</p>
+  <p>Virgo, from her real stars, right ascension against declination &mdash; she is on her side because that is how she lies. The dashed line is the ecliptic, computed, and <b>Venus</b> is on it, because Virgo is a zodiac constellation and Venus crosses her. Spica lies <b>2.05&deg;</b> off the ecliptic, barely away from it, which is why the two keep meeting. Inside: <b>15</b> forms, <b>5</b> lessons, <b>37</b> checks that mark your own work.</p>
   <button id="open">OPEN IT</button>
 </div>
 
@@ -257,37 +550,56 @@
         <option value="sonnet-english">Sonnet, English</option>
         <option value="sonnet-italian">Sonnet, Italian</option>
         <option value="sestina">Sestina</option>
+        <option value="code-js">JavaScript</option>
+        <option value="code-css">CSS</option>
+        <option value="code-html">HTML</option>
+        <option value="code-scala">Scala</option>
       </select>
+      <button id="tpl" title="drop this form&rsquo;s template in">template</button>
       <button id="exp">export</button>
     </div>
-    <div id="wrap"><textarea id="pen" spellcheck="true" placeholder="The rules are 30px apart and so is the line. Write on them."></textarea></div>
+    <div id="wrap">
+      <div id="gut"></div>
+      <div id="stack"><pre id="hl" aria-hidden="true"></pre><textarea id="pen" spellcheck="true" autocomplete="off" placeholder="The rules are thirty pixels apart and so is the line. Write on them."></textarea></div>
+    </div>
   </section>
   <div id="spine"></div>
   <section class="leaf r">
     <div id="tabs">
-      <button data-p="shape" class="on">the shape</button>
+      <button data-p="lesson" class="teach on">learn</button>
+      <button data-p="shape">the shape</button>
       <button data-p="form">the form</button>
       <button data-p="read">the reader</button>
       <button data-p="drafts">drafts</button>
     </div>
-    <div class="pane on" id="p-shape"></div>
+    <div class="pane on" id="p-lesson"></div>
+    <div class="pane" id="p-shape"></div>
     <div class="pane" id="p-form"></div>
     <div class="pane" id="p-read"></div>
     <div class="pane" id="p-drafts"><button id="newd">+ new draft</button><div id="dlist"></div></div>
   </section>
 </div>
+
+<div id="drawer">
+  <div id="dbar"><b>venus</b> <span>console</span><span class="sp"><em>help</em> for the commands &middot; <em>check</em> to be marked &middot; <em>ctrl+`</em> to fold it away</span></div>
+  <div id="out"></div>
+  <div id="inrow"><span id="ps">&rsaquo;</span><input id="cli" autocomplete="off" spellcheck="false" placeholder="a command, or JavaScript"></div>
+</div>
 <div id="say"></div>
-<button id="back">show the cover</button>
+<button id="back">the cover</button>
 
 <script>
-const FORMS = [{"id":"free","name":"Free","kind":"prose","order":1,"note":"No form at all. The room still counts, because counting is not judging, but nothing here is held against a shape.","ground":"A form is a decision made in advance so you can stop making it. Sometimes the decision you need to make is the one the form would have made for you, and then the form is in the way.","ask":"What are you avoiding by not choosing a form? It may be a good reason."},{"id":"prose-scene","name":"Prose scene","kind":"prose","order":2,"beats":[{"name":"Want","ask":"What does somebody in this scene want, in this scene, concretely?"},{"name":"Obstacle","ask":"What is between them and it — and is it a person?"},{"name":"Turn","ask":"What changes? A scene where nothing changes is a description."},{"name":"Cost","ask":"What did it cost, and who pays later?"}],"note":"No line rules. A scene is a unit of change: somebody wants something, something is in the way, the situation turns, and the turn costs. The four beats are not an outline to fill in — they are the four questions you can ask a finished draft to find out whether it is a scene or a passage.","ground":"This is the working shape used across screenwriting and fiction craft alike, and it is descriptive rather than prescriptive: it names what scenes that work turn out to have.","ask":"If you cut this scene, what in the next one stops making sense?"},{"id":"haiku","name":"Haiku","kind":"verse","order":3,"lines":3,"stanzas":[3],"meter":{"name":"syllabic","syllables":[5,7,5]},"note":"Two images and the cut between them. The syllable count is the least interesting constraint and the only one a machine can check — what the form is actually about is the kireji, the break, and whether the two halves are doing something to each other rather than sitting next to each other.","ground":"The 5-7-5 is a count of Japanese on, which are not English syllables and are shorter. English haiku that hit 17 syllables are usually about 40 percent too long. The room counts them anyway, because you asked for the form and the count is what is countable.","ask":"Where is the cut, and do the two sides need each other?"},{"id":"triolet","name":"Triolet","kind":"verse","order":4,"lines":8,"stanzas":[8],"rhyme":"ABaAabAB","repeats":[{"line":4,"same_as":1},{"line":7,"same_as":1},{"line":8,"same_as":2}],"note":"Eight lines, five of them yours. Two repeat immediately, which means the form is short enough that a refrain cannot hide — it is either doing new work three lines later or it is padding.","ground":"Medieval French. It is the smallest of the fixed repeating forms, and it is the honest place to learn what a refrain costs.","ask":"Is line four already tired?"},{"id":"blank-verse","name":"Blank verse","kind":"verse","order":5,"meter":{"name":"iambic pentameter","syllables":10},"note":"Unrhymed iambic pentameter, no fixed length. The whole discipline is the line: it has to be a unit of sense as well as of measure, and when you break the meter it has to be because something happened.","ground":"Surrey again, translating the Aeneid, and then two centuries of English drama built on it because it is the closest metrical form to how English is actually stressed.","ask":"Which lines break the meter, and can you say what each break is for?"},{"id":"ghazal","name":"Ghazal","kind":"verse","order":6,"lines":10,"stanzas":[2,2,2,2,2],"radif":true,"note":"Independent couplets, each one able to stand alone, held together by a repeated end-word or phrase and the rhyme just before it. There is no narrative continuity and looking for one is the commonest mistake in English ghazals. The unity is sonic, not argumentative.","ground":"Arabic origin, Persian development, Urdu perfection. Traditionally the poet signs the last couplet with their own name, which is an unusual permission: the form invites you into it by name at the end.","ask":"Could you reorder your couplets without loss? In this form that is a pass, not a fail."},{"id":"villanelle","name":"Villanelle","kind":"verse","order":7,"lines":19,"stanzas":[3,3,3,3,3,4],"rhyme":"abaabaabaabaabaabaa","repeats":[{"line":6,"same_as":1},{"line":12,"same_as":1},{"line":18,"same_as":1},{"line":9,"same_as":3},{"line":15,"same_as":3},{"line":19,"same_as":3}],"note":"Two lines said four times each. The form is built so that a refrain arrives in a different sentence every time and therefore means something different every time — if your refrains mean the same thing in stanza six as in stanza one, the form did nothing.","ground":"A nineteenth-century French invention retrofitted onto a much older pastoral song, which is to say it is not ancient and does not need to be treated as sacred. It is a machine for obsession.","ask":"Has either refrain changed meaning by the last stanza?"},{"id":"pantoum","name":"Pantoum","kind":"verse","order":8,"lines":16,"stanzas":[4,4,4,4],"repeats":[{"line":5,"same_as":2},{"line":7,"same_as":4},{"line":9,"same_as":6},{"line":11,"same_as":8},{"line":13,"same_as":10},{"line":15,"same_as":12},{"line":14,"same_as":3},{"line":16,"same_as":1}],"note":"Lines two and four of each stanza become lines one and three of the next. The poem moves forward at half speed, always dragging half of itself along, and it closes by returning the two lines it never reused. It is the right shape for something you cannot leave behind.","ground":"Malay pantun, by way of French nineteenth-century borrowing. The interlocking is the whole of it and the length is arbitrary — this is the four-stanza case; you can run it longer.","ask":"Does a repeated line sit in a different grammar the second time?"},{"id":"sonnet-english","name":"Sonnet, English","kind":"verse","order":9,"lines":14,"stanzas":[4,4,4,2],"rhyme":"ababcdcdefefgg","meter":{"name":"iambic pentameter","syllables":10},"turn":9,"note":"Three quatrains that can each hold a different angle on the same thing, and a couplet that has to pay for all three. The couplet is the danger: it is short enough to be glib and positioned to sound like a verdict.","ground":"Surrey and Wyatt brought the Italian sonnet into English and found that English does not have enough rhyme-words to run four on one sound. The English form is a workaround for a shortage in the language, and it produced a different instrument: seven rhyme sounds instead of four or five, and a turn that can be delayed to the last two lines.","ask":"Where is your turn, and did you put it at nine because the form says so?"},{"id":"sonnet-italian","name":"Sonnet, Italian","kind":"verse","order":10,"lines":14,"stanzas":[8,6],"rhyme":"abbaabbacdecde","meter":{"name":"iambic pentameter","syllables":10},"turn":9,"note":"An octave that states and a sestet that answers, and the volta between them is structural rather than decorative — the rhyme sounds change at exactly the point the argument does.","ground":"Petrarch. Four a-rhymes and four b-rhymes in eight lines, which is comfortable in Italian and punishing in English, where it is the reason most English \"Petrarchan\" sonnets quietly cheat.","ask":"Does line nine answer the octave, or only continue it?"},{"id":"sestina","name":"Sestina","kind":"verse","order":11,"lines":39,"stanzas":[6,6,6,6,6,6,3],"end_words":6,"permutation":[[1,2,3,4,5,6],[6,1,5,2,4,3],[3,6,4,1,2,5],[5,3,2,6,1,4],[4,5,1,3,6,2],[2,4,6,5,3,1]],"envoi":[[2,5],[4,3],[6,1]],"note":"Six end-words, no rhyme, and a fixed spiral that retires each word through every position before returning it. You choose six words and then spend thirty-nine lines being driven back to them. Choose words that can change part of speech.","ground":"Arnaut Daniel, twelfth century, Provencal. The permutation is a single rule applied six times — take the last, then the first, then the second-to-last, then the second, and so on — and it happens to return to the starting order on the seventh pass, which is why the form is exactly six stanzas long and could not be any other length.","ask":"Can at least two of your six words work as more than one part of speech?"}];
+const FORMS = [{"id":"free","name":"Free","kind":"prose","order":1,"note":"No form at all. The room still counts, because counting is not judging, but nothing here is held against a shape.","ground":"A form is a decision made in advance so you can stop making it. Sometimes the decision you need to make is the one the form would have made for you, and then the form is in the way.","ask":"What are you avoiding by not choosing a form? It may be a good reason.","template":""},{"id":"prose-scene","name":"Prose scene","kind":"prose","order":2,"beats":[{"name":"Want","ask":"What does somebody in this scene want, in this scene, concretely?"},{"name":"Obstacle","ask":"What is between them and it — and is it a person?"},{"name":"Turn","ask":"What changes? A scene where nothing changes is a description."},{"name":"Cost","ask":"What did it cost, and who pays later?"}],"note":"No line rules. A scene is a unit of change: somebody wants something, something is in the way, the situation turns, and the turn costs. The four beats are not an outline to fill in — they are the four questions you can ask a finished draft to find out whether it is a scene or a passage.","ground":"This is the working shape used across screenwriting and fiction craft alike, and it is descriptive rather than prescriptive: it names what scenes that work turn out to have.","ask":"If you cut this scene, what in the next one stops making sense?","template":"## Want\n\nWhat does somebody in this scene want, in this scene, concretely?\n\n## Obstacle\n\nWhat is between them and it — and is it a person?\n\n## Turn\n\nWhat changes? A scene where nothing changes is a description.\n\n## Cost\n\nWhat did it cost, and who pays later?\n"},{"id":"haiku","name":"Haiku","kind":"verse","order":3,"lines":3,"stanzas":[3],"meter":{"name":"syllabic","syllables":[5,7,5]},"note":"Two images and the cut between them. The syllable count is the least interesting constraint and the only one a machine can check — what the form is actually about is the kireji, the break, and whether the two halves are doing something to each other rather than sitting next to each other.","ground":"The 5-7-5 is a count of Japanese on, which are not English syllables and are shorter. English haiku that hit 17 syllables are usually about 40 percent too long. The room counts them anyway, because you asked for the form and the count is what is countable.","ask":"Where is the cut, and do the two sides need each other?","template":"                    /* 1: 5 syllables */\n                    /* 2: 7 syllables */\n                    /* 3: 5 syllables */\n"},{"id":"triolet","name":"Triolet","kind":"verse","order":4,"lines":8,"stanzas":[8],"rhyme":"ABaAabAB","repeats":[{"line":4,"same_as":1},{"line":7,"same_as":1},{"line":8,"same_as":2}],"note":"Eight lines, five of them yours. Two repeat immediately, which means the form is short enough that a refrain cannot hide — it is either doing new work three lines later or it is padding.","ground":"Medieval French. It is the smallest of the fixed repeating forms, and it is the honest place to learn what a refrain costs.","ask":"Is line four already tired?","template":"                    /* 1: rhyme A */\n                    /* 2: rhyme B */\n                    /* 3: rhyme a */\n                    /* 4: rhyme A, REFRAIN — repeat line 1 */\n                    /* 5: rhyme a */\n                    /* 6: rhyme b */\n                    /* 7: rhyme A, REFRAIN — repeat line 1 */\n                    /* 8: rhyme B, REFRAIN — repeat line 2 */\n"},{"id":"blank-verse","name":"Blank verse","kind":"verse","order":5,"meter":{"name":"iambic pentameter","syllables":10},"note":"Unrhymed iambic pentameter, no fixed length. The whole discipline is the line: it has to be a unit of sense as well as of measure, and when you break the meter it has to be because something happened.","ground":"Surrey again, translating the Aeneid, and then two centuries of English drama built on it because it is the closest metrical form to how English is actually stressed.","ask":"Which lines break the meter, and can you say what each break is for?","template":""},{"id":"ghazal","name":"Ghazal","kind":"verse","order":6,"lines":10,"stanzas":[2,2,2,2,2],"radif":true,"note":"Independent couplets, each one able to stand alone, held together by a repeated end-word or phrase and the rhyme just before it. There is no narrative continuity and looking for one is the commonest mistake in English ghazals. The unity is sonic, not argumentative.","ground":"Arabic origin, Persian development, Urdu perfection. Traditionally the poet signs the last couplet with their own name, which is an unusual permission: the form invites you into it by name at the end.","ask":"Could you reorder your couplets without loss? In this form that is a pass, not a fail.","template":"\n\n\n\n\n\n\n\n\n\n\n\n\n\n"},{"id":"villanelle","name":"Villanelle","kind":"verse","order":7,"lines":19,"stanzas":[3,3,3,3,3,4],"rhyme":"abaabaabaabaabaabaa","repeats":[{"line":6,"same_as":1},{"line":12,"same_as":1},{"line":18,"same_as":1},{"line":9,"same_as":3},{"line":15,"same_as":3},{"line":19,"same_as":3}],"note":"Two lines said four times each. The form is built so that a refrain arrives in a different sentence every time and therefore means something different every time — if your refrains mean the same thing in stanza six as in stanza one, the form did nothing.","ground":"A nineteenth-century French invention retrofitted onto a much older pastoral song, which is to say it is not ancient and does not need to be treated as sacred. It is a machine for obsession.","ask":"Has either refrain changed meaning by the last stanza?","template":"                    /* 1: rhyme a */\n                    /* 2: rhyme b */\n                    /* 3: rhyme a */\n\n                    /* 4: rhyme a */\n                    /* 5: rhyme b */\n                    /* 6: rhyme a, REFRAIN — repeat line 1 */\n\n                    /* 7: rhyme a */\n                    /* 8: rhyme b */\n                    /* 9: rhyme a, REFRAIN — repeat line 3 */\n\n                    /* 10: rhyme a */\n                    /* 11: rhyme b */\n                    /* 12: rhyme a, REFRAIN — repeat line 1 */\n\n                    /* 13: rhyme a */\n                    /* 14: rhyme b */\n                    /* 15: rhyme a, REFRAIN — repeat line 3 */\n\n                    /* 16: rhyme a */\n                    /* 17: rhyme b */\n                    /* 18: rhyme a, REFRAIN — repeat line 1 */\n                    /* 19: rhyme a, REFRAIN — repeat line 3 */\n"},{"id":"pantoum","name":"Pantoum","kind":"verse","order":8,"lines":16,"stanzas":[4,4,4,4],"repeats":[{"line":5,"same_as":2},{"line":7,"same_as":4},{"line":9,"same_as":6},{"line":11,"same_as":8},{"line":13,"same_as":10},{"line":15,"same_as":12},{"line":14,"same_as":3},{"line":16,"same_as":1}],"note":"Lines two and four of each stanza become lines one and three of the next. The poem moves forward at half speed, always dragging half of itself along, and it closes by returning the two lines it never reused. It is the right shape for something you cannot leave behind.","ground":"Malay pantun, by way of French nineteenth-century borrowing. The interlocking is the whole of it and the length is arbitrary — this is the four-stanza case; you can run it longer.","ask":"Does a repeated line sit in a different grammar the second time?","template":"\n\n\n\n\n                    /* 5: REFRAIN — repeat line 2 */\n\n                    /* 7: REFRAIN — repeat line 4 */\n\n\n                    /* 9: REFRAIN — repeat line 6 */\n\n                    /* 11: REFRAIN — repeat line 8 */\n\n\n                    /* 13: REFRAIN — repeat line 10 */\n                    /* 14: REFRAIN — repeat line 3 */\n                    /* 15: REFRAIN — repeat line 12 */\n                    /* 16: REFRAIN — repeat line 1 */\n"},{"id":"sonnet-english","name":"Sonnet, English","kind":"verse","order":9,"lines":14,"stanzas":[4,4,4,2],"rhyme":"ababcdcdefefgg","meter":{"name":"iambic pentameter","syllables":10},"turn":9,"note":"Three quatrains that can each hold a different angle on the same thing, and a couplet that has to pay for all three. The couplet is the danger: it is short enough to be glib and positioned to sound like a verdict.","ground":"Surrey and Wyatt brought the Italian sonnet into English and found that English does not have enough rhyme-words to run four on one sound. The English form is a workaround for a shortage in the language, and it produced a different instrument: seven rhyme sounds instead of four or five, and a turn that can be delayed to the last two lines.","ask":"Where is your turn, and did you put it at nine because the form says so?","template":"                    /* 1: rhyme a, 10 syllables */\n                    /* 2: rhyme b, 10 syllables */\n                    /* 3: rhyme a, 10 syllables */\n                    /* 4: rhyme b, 10 syllables */\n\n                    /* 5: rhyme c, 10 syllables */\n                    /* 6: rhyme d, 10 syllables */\n                    /* 7: rhyme c, 10 syllables */\n                    /* 8: rhyme d, 10 syllables */\n\n                    /* 9: rhyme e, 10 syllables */\n                    /* 10: rhyme f, 10 syllables */\n                    /* 11: rhyme e, 10 syllables */\n                    /* 12: rhyme f, 10 syllables */\n\n                    /* 13: rhyme g, 10 syllables */\n                    /* 14: rhyme g, 10 syllables */\n"},{"id":"sonnet-italian","name":"Sonnet, Italian","kind":"verse","order":10,"lines":14,"stanzas":[8,6],"rhyme":"abbaabbacdecde","meter":{"name":"iambic pentameter","syllables":10},"turn":9,"note":"An octave that states and a sestet that answers, and the volta between them is structural rather than decorative — the rhyme sounds change at exactly the point the argument does.","ground":"Petrarch. Four a-rhymes and four b-rhymes in eight lines, which is comfortable in Italian and punishing in English, where it is the reason most English \"Petrarchan\" sonnets quietly cheat.","ask":"Does line nine answer the octave, or only continue it?","template":"                    /* 1: rhyme a, 10 syllables */\n                    /* 2: rhyme b, 10 syllables */\n                    /* 3: rhyme b, 10 syllables */\n                    /* 4: rhyme a, 10 syllables */\n                    /* 5: rhyme a, 10 syllables */\n                    /* 6: rhyme b, 10 syllables */\n                    /* 7: rhyme b, 10 syllables */\n                    /* 8: rhyme a, 10 syllables */\n\n                    /* 9: rhyme c, 10 syllables */\n                    /* 10: rhyme d, 10 syllables */\n                    /* 11: rhyme e, 10 syllables */\n                    /* 12: rhyme c, 10 syllables */\n                    /* 13: rhyme d, 10 syllables */\n                    /* 14: rhyme e, 10 syllables */\n"},{"id":"sestina","name":"Sestina","kind":"verse","order":11,"lines":39,"stanzas":[6,6,6,6,6,6,3],"end_words":6,"permutation":[[1,2,3,4,5,6],[6,1,5,2,4,3],[3,6,4,1,2,5],[5,3,2,6,1,4],[4,5,1,3,6,2],[2,4,6,5,3,1]],"envoi":[[2,5],[4,3],[6,1]],"note":"Six end-words, no rhyme, and a fixed spiral that retires each word through every position before returning it. You choose six words and then spend thirty-nine lines being driven back to them. Choose words that can change part of speech.","ground":"Arnaut Daniel, twelfth century, Provencal. The permutation is a single rule applied six times — take the last, then the first, then the second-to-last, then the second, and so on — and it happens to return to the starting order on the seventh pass, which is why the form is exactly six stanzas long and could not be any other length.","ask":"Can at least two of your six words work as more than one part of speech?","template":"                    /* 1: end word 1 */\n                    /* 2: end word 2 */\n                    /* 3: end word 3 */\n                    /* 4: end word 4 */\n                    /* 5: end word 5 */\n                    /* 6: end word 6 */\n\n                    /* 7: end word 6 */\n                    /* 8: end word 1 */\n                    /* 9: end word 5 */\n                    /* 10: end word 2 */\n                    /* 11: end word 4 */\n                    /* 12: end word 3 */\n\n                    /* 13: end word 3 */\n                    /* 14: end word 6 */\n                    /* 15: end word 4 */\n                    /* 16: end word 1 */\n                    /* 17: end word 2 */\n                    /* 18: end word 5 */\n\n                    /* 19: end word 5 */\n                    /* 20: end word 3 */\n                    /* 21: end word 2 */\n                    /* 22: end word 6 */\n                    /* 23: end word 1 */\n                    /* 24: end word 4 */\n\n                    /* 25: end word 4 */\n                    /* 26: end word 5 */\n                    /* 27: end word 1 */\n                    /* 28: end word 3 */\n                    /* 29: end word 6 */\n                    /* 30: end word 2 */\n\n                    /* 31: end word 2 */\n                    /* 32: end word 4 */\n                    /* 33: end word 6 */\n                    /* 34: end word 5 */\n                    /* 35: end word 3 */\n                    /* 36: end word 1 */\n\n                    /* 37: end words 2 and 5 */\n                    /* 38: end words 4 and 3 */\n                    /* 39: end words 6 and 1 */\n"},{"id":"code-js","name":"JavaScript","kind":"code","order":12,"language":"js","runnable":true,"note":"The only language on this page that can be run where it is written. The drawer underneath evaluates it, captures what it logs, and prints what it returns. Everything else here is written and read.","ground":"Every generator in this yard is JavaScript run by node, and every one of them exists to refuse something: a quest that recurses, a faction with a gate in it, a building that shrinks when promoted, a form whose shape does not close. That is the house style — a generator is not a thing that emits, it is a thing that declines to emit.","ask":"What does this refuse, and what happens when you feed it the bad case?","template":"/* A generator is a thing that declines to emit. Say what it refuses\n   before you say what it makes. */\nconst RULES = [\n  ['has an id',     (x) => typeof x.id === 'string' && x.id.length > 0],\n  ['does not gate', (x) => !('milestones' in x) && !('review' in x)],\n];\n\nfunction check(items) {\n  const out = [], refused = [];\n  for (const x of items) {\n    const broke = RULES.filter(([, ok]) => !ok(x)).map(([name]) => name);\n    if (broke.length) refused.push([x.id || '(unnamed)', broke]);\n    else out.push(x);\n  }\n  return { out, refused };\n}\n\n/* the bad case, on purpose — a validator that is never shown one is a\n   validator nobody has tested */\nconst { out, refused } = check([\n  { id: 'the-observatory' },\n  { id: 'the-farm', milestones: ['q1'] },\n  { },\n]);\n\nconsole.log('kept   ', out.map((x) => x.id));\nconsole.log('refused', refused);\nrefused.length;\n"},{"id":"code-css","name":"CSS","kind":"code","order":13,"language":"css","note":"Not styling. In this yard CSS is the computer: counters do the arithmetic, :has() is the state, and the cascade settles what is true. A hundred and forty boards decide things in a stylesheet with no script anywhere.","ground":"Three facts the boards are built on. A counter prints only after whatever increments it, so order of appearance is order of evaluation. An element with display:none generates no box and so increments nothing, which is how you branch. And cascade order settles only ties — origin, then layer, then specificity, then source order — so a rule that loses is not a rule that ran and failed, it is a rule that never applied.","ask":"Where is the state kept, and what would you have to press to change it?","template":"/* The stylesheet is the computer. State lives in the inputs; the\n   cascade settles what is true; the counter is the arithmetic. */\n\n.board { counter-reset: total 0 kept 0; }\n\n/* every checked box adds one. An unchecked box still generates a box, so it\n   is the :checked test that decides, not the presence of the element. */\n.board input:checked + label { counter-increment: total; }\n\n/* branching without a script: display:none generates NO box, so this rule\n   increments nothing at all when the condition fails. That absence is the\n   if-statement. */\n.board:has(#gate:checked) .row { counter-increment: kept; }\n.board:not(:has(#gate:checked)) .row { display: none; }\n\n/* the negative. Declare it, increment it with nothing, print it — the only\n   way to state that something is absent in a form a reader can watch. */\n.board .out::after {\n  content: counter(kept) \" of \" counter(total);\n}\n"},{"id":"code-html","name":"HTML","kind":"code","order":14,"language":"html","note":"The document is the data structure. Every board here keeps its state in inputs — radio groups for a choice, checkbox banks for a bit field, an id for a fragment gate — because those are the only things a stylesheet can read.","ground":"The URL splits in two and only half of it reaches CSS. The fragment is readable through :target; the query string is not readable at all. That is why the script layer signals on ?run and dev mode on ?dev — a channel the stylesheet cannot see cannot collide with it.","ask":"What state does this hold, and could the stylesheet alone read it?","template":"<!-- The document is the data structure. These inputs ARE the state:\n     a radio group is a choice, a bank of checkboxes is a bit field, and an\n     id is a gate the fragment can open. Nothing else is readable by CSS. -->\n<section class=\"board\">\n\n  <!-- one of many -->\n  <input type=\"radio\" name=\"phase\" id=\"phase-1\" checked><label for=\"phase-1\">placement</label>\n  <input type=\"radio\" name=\"phase\" id=\"phase-2\"><label for=\"phase-2\">the wave</label>\n\n  <!-- a bit field: k boxes is 2^k states, and one flip per beat walks them all -->\n  <input type=\"checkbox\" id=\"b0\"><label for=\"b0\">1</label>\n  <input type=\"checkbox\" id=\"b1\"><label for=\"b1\">2</label>\n  <input type=\"checkbox\" id=\"b2\"><label for=\"b2\">4</label>\n\n  <!-- the gate. :target reads this; the query string it cannot see. -->\n  <a href=\"#open\">open</a>\n  <div id=\"open\" class=\"gate\">\n\n    <div class=\"row\">a thing that is counted</div>\n    <div class=\"out\"></div>\n\n  </div>\n</section>\n"},{"id":"code-scala","name":"Scala","kind":"code","order":15,"language":"scala","note":"For venus-core. Written here, run elsewhere — this drawer has no JVM in it and says so rather than pretending.","ground":"The Scala under venus-core is the ledger and queue work, and the walkthrough is in docs/scala-ledger-queue-book.md. It is the one part of this repository where the computation is not a page.","ask":"What invariant holds after this runs that did not hold before?","template":"package io.cityoflight.virgo.scala\n\n/** State the invariant first. The point of the type is that the bad value\n  * cannot be constructed, not that it is caught later. */\nfinal case class Entry private (id: String, amount: Long)\n\nobject Entry:\n  /** Refuses rather than throws: the caller has to look at the result. */\n  def of(id: String, amount: Long): Either[String, Entry] =\n    if id.isEmpty then Left(\"an entry with no id cannot be reconciled\")\n    else if amount == 0 then Left(\"a zero entry is a row that says nothing\")\n    else Right(Entry(id, amount))\n\n/** The invariant: a ledger sums to zero, or it is not a ledger. */\nfinal class Ledger private (val entries: Vector[Entry]):\n  def total: Long = entries.map(_.amount).sum\n  def balanced: Boolean = total == 0\n\n  def add(e: Entry): Ledger = Ledger(entries :+ e)\n\nobject Ledger:\n  val empty: Ledger = Ledger(Vector.empty)\n  def apply(es: Vector[Entry]): Ledger = new Ledger(es)\n"}];
+const LESSONS = [{"id":"graphics-engine","order":1,"subject":"graphics","title":"The graphics engine","one_line":"Three numbers in, two numbers out, and a rule about what to draw first.","needs":[],"sections":[{"heading":"There is no engine","body":["Nothing here uses WebGL, and nothing here uses a scene graph. The arcade's cabinets are five DOM elements each under preserve-3d, and the isometric boards are a 2D canvas context with fills on it. That is the whole engine.","This is not a limitation being apologised for. An isometric renderer is three functions long, and the reason it looks like a renderer is that all three are correct at once: a projection, an ordering, and a light. Get any one wrong and it reads as flat coloured boxes, which is what a mud hut looks like."]},{"heading":"One: the projection","body":["Two-to-one isometric. A tile is twice as wide as it is tall, which is not the true isometric angle of 30 degrees but the one where every tile edge lands on a whole pixel, and that is why every game that has ever used it used this instead.","Moving one step east adds half a tile width to x and half a tile height to y. Moving one step south subtracts the same from x and adds the same to y. Height is the only axis that is not a trade-off: it comes straight off y."],"show":{"lang":"js","code":"const HALF_W = 32;   // half a tile wide\nconst HALF_H = 16;   // half a tile tall — the 2:1\nconst UNIT_Z = 32;   // one step up\n\n// world (x east, y south, z up) -> screen\nconst iso = (x, y, z) => [\n  (x - y) * HALF_W,\n  (x + y) * HALF_H - z * UNIT_Z\n];"}},{"heading":"Two: what to draw first","body":["There is no depth buffer, so the order you paint in is the depth. This is the painter's algorithm: draw what is far away, then draw over it.","Far away, in this projection, means small x plus y plus z. A tile at (0,0) is behind everything; a tile at the bottom of the screen is in front of everything. The whole sort key is one addition, and getting it wrong is the single most common way an isometric scene breaks: a wall drawn before the floor it stands on vanishes into it."]},{"heading":"Three: one sun, three tones","body":["A cube has three visible faces in this projection: the top, and two sides. If you fill all three with the same colour you get a hexagon, not a cube. The eye reads solidity from the fact that one light source hits three surfaces at three angles.","Pick one direction for the sun and derive the rest. The top face takes the full colour. The face turned toward the light takes around seven tenths. The face turned away takes around half. These are not three colours you chose — they are one colour and two multipliers, which is why the scene stays coherent when you change the palette.","A contact shadow costs one ellipse and buys more than the shading does. Without it everything floats."],"show":{"lang":"js","code":"// one colour, three surfaces\nconst TOP = 1.00, LIT = 0.72, DARK = 0.52;\n\nfunction face(ctx, tone, base) {\n  const [r, g, b] = base;\n  ctx.fillStyle = 'rgb(' + [r, g, b].map(c =>\n    Math.round(c * tone)).join(',') + ')';\n}"}},{"heading":"Why it is worth knowing","body":["Every board in this yard that shows a place rather than a table is these three functions. The tower defence boards, the base plates, the arcade floor. When something looks wrong, it is almost always the ordering, because the projection is too simple to get wrong twice and the light is too obvious."]}],"practice":{"form":"code-js","brief":"Write the three functions the engine is. iso(x,y,z) returns the screen pair. depth(x,y,z) returns the sort key. tone(face) returns the multiplier for \"top\", \"lit\" or \"dark\". Then type check.","starter":"/* The whole engine. Three functions, and they have to be right\n   at the same time. */\n\nconst HALF_W = 32, HALF_H = 16, UNIT_Z = 32;\n\nfunction iso(x, y, z) {\n  // east adds to screen x, south subtracts from it,\n  // and both add to screen y. Height only lifts.\n  return null;   // <- your answer here\n}\n\nfunction depth(x, y, z) {\n  // far away is small. One addition.\n  return NaN;   // <- your answer here\n}\n\nfunction tone(face) {\n  // one sun, three surfaces, two multipliers\n  return NaN;   // <- your answer here\n}\n","checks":[{"name":"the origin lands at the origin","test":"JSON.stringify(iso(0,0,0)) === '[0,0]'"},{"name":"one step east moves right and down","test":"JSON.stringify(iso(1,0,0)) === '[32,16]'"},{"name":"one step south moves left and down by the same","test":"JSON.stringify(iso(0,1,0)) === '[-32,16]'"},{"name":"east and south together move straight down","test":"JSON.stringify(iso(1,1,0)) === '[0,32]'"},{"name":"height lifts and does nothing else","test":"JSON.stringify(iso(0,0,1)) === '[0,-32]'"},{"name":"the far corner sorts before the near one","test":"depth(0,0,0) < depth(1,1,0)"},{"name":"something standing on a tile sorts after the tile","test":"depth(2,2,0) < depth(2,2,1)"},{"name":"the top face takes the full colour","test":"tone('top') === 1"},{"name":"the lit side is darker than the top, the dark side darker still","test":"tone('top') > tone('lit') && tone('lit') > tone('dark') && tone('dark') > 0"}]},"ask":"If your scene renders wrong, which of the three did you get wrong? There are only three, so you can check each."},{"id":"b2p2p2b","order":2,"subject":"economy","title":"The b2p2p2b model","one_line":"Two businesses at the ends, peers in the middle, and one question that decides whether the middle is real.","needs":[],"sections":[{"heading":"Read the name as a path","body":["Business to peer, peer to peer, peer to business. Four positions and three hops. A business issues something to a person; people move it among themselves; a business takes it back.","Compare it to what it is not. Business to business is one hop and no people. Business to consumer is one hop and no second hop — whatever the consumer has, they have until they consume it. The middle p2p hop is the entire difference, and it is the only hop with no company standing in it."]},{"heading":"What the middle buys","body":["In the middle nobody needs permission. That is not a slogan; it is a structural fact about how many parties can refuse. On a b2b hop either party can refuse and the transaction dies. On a p2p hop between many peers, a refusal by one peer routes around them, because there is more than one peer.","This is the layer where the guild is a bank to an amateur and a farm to a journeyman: both positions profit and it is stable, but it is stable because the guild is on the path. Move the guild off the middle hop and it stops being able to price the middle."]},{"heading":"The question that decides it","body":["Ask: is there any single party whose removal disconnects the issuer from the redeemer?","If there is, the middle is not peer to peer. It has a choke point, and whoever sits on it has a discretion, and a discretion is exactly where a syndicate attaches — the same finding the factions layer is built on. The whole model turns on one graph property, and it is a property you can compute rather than argue about."]},{"heading":"And the ends","body":["The middle can be perfectly peer to peer and the model still fails, because a token nobody will redeem is a token that stops moving. If the redeeming b is a single party, the freedom of the middle is bounded by that party's willingness, and it has simply moved the choke point to the end where it is harder to see.","So b2p2p2b is decentralised only when the b's are plural. The first b being plural means more than one issuer; the last b being plural means more than one place to spend. Neither is optional, and the check below will find either failure because both are the same graph property."]}],"practice":{"form":"code-js","brief":"Write chokes(graph, from, to) — the sorted list of nodes whose removal disconnects from and to. If it returns an empty list the middle is genuinely peer to peer. The graph is an object mapping a node to an array of neighbours, undirected. Then type check.","starter":"/* Given the hop graph, find every party who could stop it alone.\n   Brute force is the right answer here: remove each node, see\n   whether the two ends are still connected. */\n\nfunction reaches(graph, from, to, without) {\n  // breadth first, skipping the removed node\n  return null;   // <- your answer here\n}\n\nfunction chokes(graph, from, to) {\n  // every node that is not an end and whose removal cuts the path\n  return null;   // <- your answer here\n}\n\n/* the shapes worth trying */\nconst ONE_MIDDLEMAN = { issuer:['g'], g:['issuer','shop'], shop:['g'] };\nconst MANY_PEERS = { issuer:['a','b'], a:['issuer','shop'],\n                     b:['issuer','shop'], shop:['a','b'] };\n","checks":[{"name":"a single middleman is found","test":"JSON.stringify(chokes({issuer:['g'],g:['issuer','shop'],shop:['g']},'issuer','shop')) === '[\"g\"]'"},{"name":"two independent peers leave no choke point","test":"JSON.stringify(chokes({issuer:['a','b'],a:['issuer','shop'],b:['issuer','shop'],shop:['a','b']},'issuer','shop')) === '[]'"},{"name":"a chain of two middlemen names both","test":"JSON.stringify(chokes({issuer:['g'],g:['issuer','h'],h:['g','shop'],shop:['h']},'issuer','shop')) === '[\"g\",\"h\"]'"},{"name":"the ends are never themselves choke points","test":"chokes({issuer:['a','b'],a:['issuer','shop'],b:['issuer','shop'],shop:['a','b']},'issuer','shop').every(n => n !== 'issuer' && n !== 'shop')"},{"name":"a peer with no route to the shop is not a choke point either","test":"JSON.stringify(chokes({issuer:['a','b','c'],a:['issuer','shop'],b:['issuer','shop'],c:['issuer'],shop:['a','b']},'issuer','shop')) === '[]'"},{"name":"reaches can tell connected from disconnected","test":"reaches({a:['b'],b:['a']},'a','b',null) === true && reaches({a:['b'],b:['a','c'],c:['b']},'a','c','b') === false"}]},"ask":"Run it on your own arrangement. If it returns a name, that name is who you are asking permission from."},{"id":"fungibility-tokens","order":3,"subject":"economy","title":"Fungibility tokens","one_line":"A unit is interchangeable exactly as long as the ledger has forgotten where it came from.","needs":["b2p2p2b"],"sections":[{"heading":"Fungible is not a property of the token","body":["Two things are fungible when either will do in place of the other. A pound of the same grade of wheat, a barrel of the same crude, one ten pound note for another.","The mistake is to think this is a fact about the object. It is a fact about what anybody knows about the object. Two notes are interchangeable because nothing anybody can look up distinguishes them. Print a serial number on them and they are still interchangeable, because nobody keeps the list. Start keeping the list and they stop."]},{"heading":"Memory is what kills it","body":["This is the whole lesson. Fungibility is destroyed by memory, and by nothing else.","A token ledger that stores only balances is fungible: your one unit and my one unit are the same row shape with the same number in it, and no query can separate them. A ledger that stores provenance — this unit came from that address — has made them different objects that happen to have the same denomination.","Nobody has to intend this. It is enough that the history is reconstructible. A chain that publishes every transaction has published the provenance whether or not it stores it in that shape, which is why an openly auditable coin is less fungible than a note in your pocket, not more."]},{"heading":"And why anyone cares","body":["Because a merchant can price the difference. Once two units are distinguishable, someone will discount one of them, and at that moment the unit is no longer a unit — it is a class of units with a spread. Every property people want from money follows from there being no spread inside the denomination.","In the b2p2p2b model this bites in the middle hop. Peers can only route around a refusal if the thing they are passing is the same thing whoever they route to will take. Taint tracking on the middle hop reintroduces exactly the discretion the middle hop existed to remove."]}],"practice":{"form":"code-js","brief":"Write distinguishable(ledger) — true when any two units of the same denomination differ in anything the ledger stores. A ledger is an array of unit records. Then type check.","starter":"/* Fungibility is a property of what is remembered. So the test is\n   not about the units, it is about the fields. */\n\nfunction distinguishable(ledger) {\n  // group by denomination; within a group, is there any field\n  // on which two records disagree?\n  return null;   // <- your answer here\n}\n\nconst PLAIN   = [{denom:1}, {denom:1}, {denom:5}];\nconst TAINTED = [{denom:1, from:'mint'}, {denom:1, from:'seized'}];\n","checks":[{"name":"bare balances are not distinguishable","test":"distinguishable([{denom:1},{denom:1},{denom:5}]) === false"},{"name":"provenance makes same-denomination units differ","test":"distinguishable([{denom:1,from:'mint'},{denom:1,from:'seized'}]) === true"},{"name":"the same provenance on both is still fungible","test":"distinguishable([{denom:1,from:'mint'},{denom:1,from:'mint'}]) === false"},{"name":"different denominations are not the comparison","test":"distinguishable([{denom:1,from:'a'},{denom:5,from:'b'}]) === false"},{"name":"an empty ledger and a single unit are fungible by default","test":"distinguishable([]) === false && distinguishable([{denom:1,from:'x'}]) === false"},{"name":"a field present on one record and absent on the other counts","test":"distinguishable([{denom:1,from:'mint'},{denom:1}]) === true"}]},"ask":"Look at a ledger you actually use. What does it store that you could price against?"},{"id":"decentralized-coins","order":4,"subject":"economy","title":"Decentralized coins","one_line":"Not many copies. No reads.","needs":["fungibility-tokens"],"sections":[{"heading":"The usual definitions are all consequences","body":["Spread out. Many copies. No company owns it. Those are things people notice about decentralised systems and then mistake for the thing itself. Each of them can be true of a system that is entirely centralised, and a moment's thought produces the example: a thousand mirrors of one authoritative list.","The property is about READS. A system is decentralised exactly to the extent that no component's behaviour is a function of another component's state."]},{"heading":"Apply it to a coin","body":["A coin is valid or it is not. Ask what you have to read to find out.","If you have to consult a registry — a list of issued serials, a table of balances held somewhere in particular — then the coin's validity is a function of that registry's state, and it does not matter how many copies of the registry exist or who runs them. You have a read dependency, and whoever can write to what you read decides whether your coin is money.","If validity is checkable from the coin plus rules you already hold, there is no read. That is the whole distinction, and it is sharp enough to test in code."]},{"heading":"The uncomfortable part","body":["Most things called decentralised coins do have a read. They read a chain. The chain is replicated and expensive to rewrite, which makes the read hard to corrupt — but hard to corrupt is a different property from absent, and conflating them is how a system with one read dependency gets described as having none.","This is worth being precise about rather than partisan. A replicated read is a genuine engineering achievement. It is not the same as the coin in your hand, which you can verify by looking at it, and which is why cash keeps working when the network does not."]},{"heading":"What it costs","body":["Removing the read costs you double-spend protection, and there is no way around that: if nothing is consulted, nothing knows the coin was already spent. Every real design pays for this somewhere — with a read, with tamper-evident hardware, with an accepted loss rate.","The point of being able to name the read is not that reads are bad. It is that you should know exactly how many you have and who can write to each one."]}],"practice":{"form":"code-js","brief":"Write validate(coin) so that it is checkable from the coin alone. The checks verify both that it works and that it has no read dependency — one of them reads your own source to prove it never touches the registry. Then type check.","starter":"/* A registry exists in this file on purpose. Your validate must\n   never touch it — that is the thing being taught, and the check\n   reads your source to prove it. */\nconst REGISTRY = { 'c1': true, 'c2': true };\n\n/* the local rule: a coin carries a value and a check digit, and\n   the digit is the value's digits summed, modulo 9. */\nfunction validate(coin) {\n  return null;   // <- your answer here\n}\n\nconst GOOD = { value: 1234, digit: (1+2+3+4) % 9 };\nconst BAD  = { value: 1234, digit: 7 };\n","checks":[{"name":"a well formed coin validates","test":"validate({value:1234, digit:(1+2+3+4)%9}) === true"},{"name":"a coin with the wrong digit does not","test":"validate({value:1234, digit:7}) === false"},{"name":"it works on a coin the registry has never heard of","test":"validate({value:900, digit:0}) === true"},{"name":"it takes the coin and nothing else","test":"validate.length === 1","constraint":true},{"name":"its source never reads the registry — no read dependency","test":"!/REGISTRY/.test(validate.toString())","constraint":true},{"name":"and it is not just returning true","test":"validate({value:1, digit:5}) === false && validate({value:1, digit:1}) === true"}],"violators":["const REGISTRY = { 'c1': true, 'c2': true };\nfunction validate(coin, registry) {\n  if (REGISTRY[coin.id]) return true;\n  const sum = String(coin.value).split('').reduce((a,c)=>a+(+c),0);\n  return coin.digit === sum % 9;\n}\n"]},"ask":"Count the reads in something you rely on. Then say who can write to each one."},{"id":"not-a-king","order":5,"subject":"governance","title":"You are not a king on Venus","one_line":"Automatic means your discretion was spent once, at writing time, and is now gone.","needs":["decentralized-coins"],"sections":[{"heading":"A king decides each case","body":["That is the definition, not an insult. A king's authority is that the case comes to him and he rules on it, and the ruling is authoritative because of who made it. Every case is a fresh opportunity to decide differently, which is the same thing as saying no case is settled by the last one.","Everything anybody dislikes about arbitrary power follows from that single property. Not cruelty, not greed — just the fact that the decision is available to be made again."]},{"heading":"A president executes a rule","body":["The office is bounded three ways: by a rule written before the case arrived, by a term that ends, and by somebody who can overrule. Take away any of the three and you have a king with better paperwork.","The interesting one is the first. A president who writes the rule and then applies it to a case in front of them has collapsed the two roles, and the collapse is invisible from outside because the output looks the same either way — a decision, in an office, with a reason attached."]},{"heading":"Automatic is not a convenience","body":["Here is the whole point. When you automate something, your discretion is spent ONCE, at the moment you write the rule, and afterwards it is gone. You cannot make an exception for this case because the code does not know this case is different, and the reason it does not know is that you did not tell it, and the reason you did not tell it is that you did not know either.","People describe automation as a labour saving. It is a constitutional change. The relay in this yard gets one start button and one shutdown, and nothing in between, because anything in between would be a king reaching into a running process.","So a rule that consults the clock, or a random source, or any state you can reach in and change, is not automatic. It is a discretion with a delay on it, and the check below finds exactly that by reading your own source."]},{"heading":"More than a few judges","body":["One reviewer is a king with extra steps. Two deadlock. The reason benches are odd-numbered and larger than three is that you want a majority that no single member can produce and no single member can block.","The product of a bench is not the ruling. Any one judge could have produced a ruling. The product is the ruling together with the dissent, because the dissent is the record that the other reading existed and lost, which is the only thing that makes a later court able to change its mind honestly.","This is why the drafters in this yard sign their opinions. An unsigned dissent is not a dissent, it is a rumour."]},{"heading":"What it costs","body":["Slower, and sometimes wrong in a way a king would not have been. A bench cannot fix the case in front of it if fixing it requires ignoring the rule, and there will be cases where that is obviously the right thing to do and it will not be done.","That is the trade being made and it should be made with open eyes. You are buying the property that the next case gets the same treatment as this one, and you are paying for it with the cases where the same treatment is the wrong treatment."]}],"practice":{"form":"code-js","brief":"Write apply(rule, cases) so it is genuinely automatic, and panel(votes) so it is genuinely a bench. The checks verify the behaviour and then read your own source to prove apply consults nothing outside its arguments. Then type check.","starter":"/* Two functions. One must be a law, the other must be a bench. */\n\n/* Automatic: same cases in, same result out, forever. No clock,\n   no randomness, no order dependence. The check reads your source\n   to prove it. */\nfunction apply(rule, cases) {\n  // return the cases the rule keeps, in a settled order\n  return null;   // <- your answer here\n}\n\n/* A bench: the ruling AND the dissent. An even split is not a\n   ruling, it is a deadlock, and it must say so. */\nfunction panel(votes) {\n  // votes is an array of true/false\n  // return { ruling: true|false|null, for: n, against: n }\n  return null;   // <- your answer here\n}\n","checks":[{"name":"the rule keeps what it should","test":"JSON.stringify(apply(n => n > 2, [1,3,2,4])) === '[3,4]'"},{"name":"the same cases in a different order give the same answer","test":"JSON.stringify(apply(n => n > 2, [4,1,3,2])) === JSON.stringify(apply(n => n > 2, [1,3,2,4]))","constraint":true},{"name":"it does not mutate what it was handed","test":"(() => { const c = [1,3,2,4]; apply(n => n > 2, c); return JSON.stringify(c) === '[1,3,2,4]'; })()","constraint":true},{"name":"running it twice gives the same answer","test":"JSON.stringify(apply(n => n > 2, [1,3,2,4])) === JSON.stringify(apply(n => n > 2, [1,3,2,4]))","constraint":true},{"name":"it never reads a clock or a random source","test":"!/Date|Math\\.random|performance|now\\(/.test(apply.toString())","constraint":true},{"name":"a bench of five ruling three to two says so, dissent included","test":"JSON.stringify(panel([true,true,true,false,false])) === JSON.stringify({ruling:true,for:3,against:2})"},{"name":"the minority is recorded even when it loses badly","test":"panel([true,true,true,true,false]).against === 1"},{"name":"an even split is a deadlock, not a ruling","test":"panel([true,false]).ruling === null && panel([true,true,false,false]).ruling === null"},{"name":"one judge cannot rule alone on a bench of five","test":"panel([true,false,false,false,false]).ruling === false"},{"name":"no judge is named anywhere in it","test":"!/chief|senior|owner|admin|me\b/i.test(panel.toString())","constraint":true}],"violators":["function apply(rule, cases) {\n  cases.sort();                 // mutates the caller's array\n  const stamp = Date.now();     // and consults a clock\n  return cases.filter((c) => rule(c) && stamp > 0);\n}\nfunction panel(votes) {\n  const chief = votes[0];       // one judge, named, deciding alone\n  const on = votes.filter(Boolean).length, off = votes.length - on;\n  return { ruling: chief, for: on, against: off };\n}\n","function apply(rule, cases) {\n  return cases.filter(rule);    // the answer inherits the input's order\n}\nfunction panel(votes) {\n  const on = votes.filter(Boolean).length, off = votes.length - on;\n  return { ruling: on === off ? null : on > off, for: on, against: off };\n}\n","let calls = 0;\nfunction apply(rule, cases) {\n  calls++;\n  const kept = cases.filter(rule).slice().sort();\n  return calls % 2 ? kept : kept.reverse();   // changes between runs\n}\nfunction panel(votes) {\n  const on = votes.filter(Boolean).length, off = votes.length - on;\n  return { ruling: on === off ? null : on > off, for: on, against: off };\n}\n"]},"ask":"Find the place in your own work where you kept a discretion. Say why you kept it, or spend it."}];
 const QUENEAU = [2,3,5,6,9,11,14,18];
 
 const KEY = 'venus.notebook.v1';
 const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const byId = (id) => FORMS.find((f) => f.id === id) || FORMS[0];
+const lessonById = (id) => LESSONS.find((l) => l.id === id) || LESSONS[0];
 
-/* ── storage. Local, one key, nothing leaves. ───────────────────────── */
+/* ══ storage. Local, one key, nothing leaves. ═══════════════════════════ */
 function load() {
   try {
     const b = JSON.parse(localStorage.getItem(KEY) || 'null');
@@ -296,98 +608,291 @@ function load() {
   return null;
 }
 function save() {
-  try { localStorage.setItem(KEY, JSON.stringify(book)); $('#say').textContent = 'saved'; }
-  catch (e) { $('#say').textContent = 'NOT SAVED — storage unavailable'; }
+  try { localStorage.setItem(KEY, JSON.stringify(book)); $('#say').textContent = 'saved'; return true; }
+  catch (e) { $('#say').textContent = 'NOT SAVED \u2014 storage unavailable'; return false; }
 }
 function blank(formId) {
-  return { id: 'd' + Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36),
+  const now = new Date();
+  return { id: 'd' + now.getTime().toString(36) + Math.floor(Math.random() * 1e6).toString(36),
            title: '', text: '', form: formId || FORMS[0].id, ends: ['','','','','',''],
-           made: new Date().toISOString(), touched: new Date().toISOString() };
+           made: now.toISOString(), touched: now.toISOString() };
 }
 let book = load() || { drafts: [blank()] };
+if (!book.lesson) book.lesson = LESSONS.length ? LESSONS[0].id : null;
+/* passed checks only accumulate — a check that has ever passed stays passed
+   in the record, while the live column shows where you are right now. The +1
+   law, applied to marking. */
+if (!book.passed) book.passed = {};
 let cur = book.drafts[0].id;
-const D = () => book.drafts.find((d) => d.id === cur);
+const D = () => book.drafts.find((d) => d.id === cur) || book.drafts[0];
 
-/* ── syllables. A heuristic over English spelling, and the page says so
-   where you can see it rather than in a comment nobody reads. ───────── */
+/* ══ syllables. A heuristic over English spelling. ══════════════════════ */
 function syl(w) {
   w = w.toLowerCase().replace(/[^a-z]/g, '');
   if (!w) return 0;
   if (w.length <= 3) return 1;
   /* a consonant plus -le is its own syllable and needs its e; every other
-     final e is silent. Getting this wrong counted the e twice and made
-     "table" three. */
+     final e is silent. Counting the e twice made "table" three. */
   const le = /[^aeiouy]le$/.test(w);
-  /* -ed is a syllable after t or d and silent everywhere else: forested is
-     three, closed is one. Stripping it unconditionally lost the difference. */
+  /* -ed is a syllable after t or d and silent elsewhere: forested is three,
+     closed is one. */
   if (/[^td]ed$/.test(w)) w = w.replace(/ed$/, '');
   else if (/[^laeiouy]es$/.test(w)) w = w.replace(/es$/, '');
   else if (!le) w = w.replace(/e$/, '');
-  /* runs, not pairs: the "eau" of beautiful is one nucleus, not two */
-  const g = w.match(/[aeiouy]+/g);
+  const g = w.match(/[aeiouy]+/g);   /* runs, not pairs: eau is one nucleus */
   return Math.max(1, g ? g.length : 1);
 }
 const lineSyl = (l) => (l.match(/[A-Za-z']+/g) || []).reduce((a, w) => a + syl(w), 0);
 const linesOf = (t) => t.split('\n');
 const words = (t) => (t.match(/[A-Za-z'-]+/g) || []);
 
-/* ── the shape pane: the form's slots, filled as you write ──────────── */
+/* ══ the highlighter ═══════════════════════════════════════════════════ */
+const KW = {
+  js: /\b(const|let|var|function|return|if|else|for|of|in|while|do|break|continue|new|class|extends|import|export|from|default|await|async|try|catch|finally|throw|typeof|instanceof|delete|void|yield|static|this|super|null|undefined|true|false)\b/g,
+  scala: /\b(package|import|object|class|trait|case|final|def|val|var|if|else|match|for|yield|while|new|extends|with|override|private|protected|sealed|implicit|given|using|type|lazy|return|throw|try|catch|finally|this|super|null|true|false|Either|Left|Right|Option|Some|None|Vector|List|Map)\b/g
+};
+function tok(text, lang) {
+  const E = esc(text);
+  if (lang === 'js' || lang === 'scala') {
+    return E
+      .replace(/(\/\*[\s\S]*?\*\/|\/\/[^\n]*)/g, '<i class="c">$1</i>')
+      .replace(/('(?:[^'\n\\]|\\.)*'|&quot;(?:[^&\n]|&(?!quot;))*&quot;)/g, '<i class="s">$1</i>')
+      .replace(/\b(\d[\d_.]*)\b/g, '<i class="n">$1</i>')
+      .replace(KW[lang], '<i class="k">$&</i>');
+  }
+  if (lang === 'css') {
+    return E
+      .replace(/(\/\*[\s\S]*?\*\/)/g, '<i class="c">$1</i>')
+      .replace(/^(@[a-z-]+)/gm, '<i class="k">$1</i>')
+      .replace(/^([^{}\n\/][^{}\n]*?)(\s*\{)/gm, '<i class="t">$1</i><i class="p">$2</i>')
+      .replace(/^(\s*)([a-z-]+)(\s*:)/gm, '$1<i class="a">$2</i><i class="p">$3</i>');
+  }
+  if (lang === 'html') {
+    return E
+      .replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<i class="c">$1</i>')
+      .replace(/(&lt;\/?)([a-zA-Z][\w-]*)/g, '<i class="p">$1</i><i class="t">$2</i>')
+      .replace(/([a-zA-Z-]+)(=)(&quot;[^&]*&quot;)/g,
+               '<i class="a">$1</i><i class="p">$2</i><i class="s">$3</i>');
+  }
+  return E;
+}
+function paintCode() {
+  const d = D(), f = byId(d.form), isCode = f.kind === 'code';
+  document.body.classList.toggle('code', isCode);
+  const hl = $('#hl'), gut = $('#gut');
+  if (isCode) {
+    /* the trailing space keeps a final newline from collapsing, so the last
+       line of the overlay stays under the last line of the textarea */
+    hl.innerHTML = tok(d.text, f.language) + ' ';
+    gut.innerHTML = linesOf(d.text).map((_, i) => i + 1).join('<br>');
+  } else { hl.innerHTML = ''; gut.innerHTML = ''; }
+}
+
+/* ══ THE LESSON PANE ═══════════════════════════════════════════════════ */
+let liveChecks = null;   /* the last run, so the pane can show it */
+
+function paintLesson() {
+  const box = $('#p-lesson');
+  if (!LESSONS.length) { box.innerHTML = '<p class="note">No lessons are built in.</p>'; return; }
+  const L = lessonById(book.lesson);
+  const done = book.passed[L.id] || [];
+
+  const opts = LESSONS.map((l) => '<option value="' + esc(l.id) + '"' +
+    (l.id === L.id ? ' selected' : '') + '>' + l.order + '. ' + esc(l.title) +
+    '  — ' + ((book.passed[l.id] || []).filter((n) => l.practice.checks.some((c) => c.name === n && !c.constraint)).length) + '/' + l.practice.checks.filter((c) => !c.constraint).length +
+    '</option>').join('');
+
+  const secs = L.sections.map((s) =>
+    '<div class="sec"><h4>' + esc(s.heading) + '</h4>' +
+    s.body.map((p) => '<p>' + esc(p) + '</p>').join('') +
+    (s.show ? '<pre>' + tok(s.show.code, s.show.lang || 'js') + '</pre>' : '') +
+    '</div>').join('');
+
+  /* achievements and constraints are counted apart. A constraint is a thing
+     a wrong answer breaks, not a thing a right answer earns — every stub
+     satisfies all of them — so counting them as progress would credit the
+     student for the starter. Each is still shown, and each has a violator on
+     file proving it checks something. */
+  const rowsOf = (isCon) => L.practice.checks
+    .map((c, i) => [c, i])
+    .filter((e) => !!e[0].constraint === isCon)
+    .map((e) => {
+      const c = e[0], i = e[1];
+      const live = liveChecks && liveChecks.id === L.id ? liveChecks.results[i] : null;
+      const ever = done.includes(c.name);
+      const cls = live === true ? 'p' : live === false ? 'f' : ever ? 'p' : 'u';
+        const mark = live === true ? '\u2713' : live === false ? '\u00d7' : ever ? '\u2713' : '\u00b7';
+        return '<li class="' + cls + '"><b>' + mark + '</b>' + esc(c.name) + '</li>';
+    }).join('');
+  const rows = rowsOf(false), consRows = rowsOf(true);
+  const earn = L.practice.checks.filter((c) => !c.constraint);
+  const earned = done.filter((n) => earn.some((c) => c.name === n)).length;
+
+  box.innerHTML =
+    '<select id="lsel">' + opts + '</select>' +
+    '<h3>' + esc(L.title) + '</h3>' +
+    '<p class="sub">' + esc(L.subject) + ' \u00b7 lesson ' + L.order + ' of ' + LESSONS.length + '</p>' +
+    '<p class="note" style="font-style:italic">' + esc(L.one_line) + '</p>' +
+    ((L.needs || []).length
+      ? '<p class="needs">after <b>' + L.needs.map((n) => esc(lessonById(n).title)).join('</b> and <b>') + '</b></p>'
+      : '') +
+    secs +
+    '<div class="prac"><h4>the practice</h4>' +
+      '<p>' + esc(L.practice.brief) + '</p>' +
+      '<button id="startp">start it</button> ' +
+      '<button class="g" id="runck">check</button>' +
+      '<ul class="cks">' + rows + '</ul>' +
+      (consRows
+        ? '<p class="cap" style="margin:14px 0 0">and these it must not break: a ' +
+          'stub satisfies every one, so they are not progress — but each has a ' +
+          'violator on file proving it catches something.</p>' +
+          '<ul class="cks">' + consRows + '</ul>'
+        : '') +
+      '<p class="cap" style="margin:12px 0 0">' + earned + ' of ' + earn.length +
+        ' earned at least once. A check that has passed stays passed in the ' +
+        'record; the column shows where you are now.</p>' +
+    '</div>' +
+    '<p class="ask" style="margin-top:18px"><b>the question this lesson leaves you</b>' +
+      esc(L.ask) + '</p>';
+
+  $('#lsel').onchange = (e) => { book.lesson = e.target.value; liveChecks = null; save(); paintLesson(); };
+  $('#startp').onclick = () => startPractice();
+  $('#runck').onclick = () => { runChecks(); };
+}
+
+function startPractice() {
+  const L = lessonById(book.lesson);
+  const d = blank(L.practice.form || 'code-js');
+  d.title = L.title + ' \u2014 practice';
+  d.text = L.practice.starter;
+  d.lesson = L.id;
+  book.drafts.unshift(d); cur = d.id; save(); show();
+  say('practice started: ' + L.title + '. Write it, then type check.', 'ok');
+  return d;
+}
+
+/* the marking. The draft is evaluated in global scope, so its declarations
+   become reachable, and then every check expression is evaluated against
+   them. Two of the checks in this syllabus read the student's own source
+   rather than its output, because the absence of a dependency cannot be
+   tested any other way. */
+function runChecks(quiet) {
+  const L = lessonById(book.lesson), d = D();
+  const f = byId(d.form);
+  if (f.kind !== 'code') {
+    say('this draft is a ' + f.name + '. Open the practice first \u2014 start it, ' +
+        'in the lesson pane, or type practice.', 'err');
+    return null;
+  }
+  let threw = null;
+  try { (0, eval)(d.text); } catch (e) { threw = e; }
+  if (threw) {
+    say('the draft did not run: ' + threw.name + ': ' + threw.message, 'err');
+    return null;
+  }
+  const results = L.practice.checks.map((c) => {
+    try { return (0, eval)(c.test) === true; } catch (e) { return false; }
+  });
+  liveChecks = { id: L.id, results };
+  const passed = L.practice.checks.filter((c, i) => results[i]).map((c) => c.name);
+  const was = book.passed[L.id] || [];
+  book.passed[L.id] = Array.from(new Set(was.concat(passed)));
+  save(); paintLesson();
+
+  const n = results.filter(Boolean).length;
+  if (!quiet) {
+    sayHTML(L.practice.checks.map((c, i) =>
+      '  <span class="' + (results[i] ? 'ok' : 'err') + '">' +
+      (results[i] ? '\u2713' : '\u00d7') + '</span>  <span class="' +
+      (results[i] ? '' : 'dim') + '">' + esc(c.name) + '</span>').join('\n') +
+      '\n\n<span class="' + (n === results.length ? 'ok' : 'hd') + '">' + n + ' of ' +
+      results.length + '</span>' +
+      (n === results.length
+        ? ' <span class="dim">\u2014 all of them. ' + esc(L.ask) + '</span>'
+        : ' <span class="dim">\u2014 nothing here is timed and nothing is lost.</span>'));
+  }
+  return n;
+}
+
+/* ══ the shape pane ════════════════════════════════════════════════════ */
 function paintShape() {
   const d = D(), f = byId(d.form), L = linesOf(d.text);
   const box = $('#p-shape');
+
+  if (f.kind === 'code') {
+    const n = L.length, empty = L.filter((x) => !x.trim()).length;
+    const comment = L.filter((x) => /^\s*(\/\/|\/\*|\*|#)/.test(x)).length;
+    const deep = Math.max(0, ...L.map((x) => x.match(/^ */)[0].length));
+    box.innerHTML = '<h3>' + esc(f.name) + '</h3>' +
+      '<p class="sub">' + esc(f.language) +
+        (f.runnable ? ' \u00b7 runs in the drawer' : ' \u00b7 written here, run elsewhere') + '</p>' +
+      '<div class="met">' +
+        '<div><u>' + n + '</u><s>lines</s></div>' +
+        '<div><u>' + (n - empty) + '</u><s>not blank</s></div>' +
+        '<div><u>' + comment + '</u><s>comment lines</s></div>' +
+        '<div><u>' + Math.max(0, ...L.map((x) => x.length)) + '</u><s>widest</s></div>' +
+        '<div><u>' + deep + '</u><s>deepest indent</s></div>' +
+        '<div><u>' + (n ? Math.round(comment / n * 100) : 0) + '%</u><s>commented</s></div>' +
+      '</div>' +
+      (f.runnable
+        ? '<p class="cap">Type <b>run</b> in the drawer and this is evaluated where it ' +
+          'stands. What it logs is captured; what it returns is printed.</p>'
+        : '<p class="cap">There is no ' + esc(f.language) + ' runtime in the drawer, and ' +
+          'it will say so rather than pretend.</p>') +
+      '<p class="ask"><b>the question this form asks</b>' + esc(f.ask) + '</p>';
+    return;
+  }
+
   if (!f.lines) {
     const beats = f.beats || [];
-    box.innerHTML = '<h3>' + f.name + '</h3><p class="sub">no fixed length</p>' +
+    box.innerHTML = '<h3>' + esc(f.name) + '</h3><p class="sub">no fixed length</p>' +
       (beats.length
-        ? '<ul class="shape">' + beats.map((b, i) => {
-            const hit = L.filter((x) => x.trim()).length > i * 2;
-            return '<li class="' + (hit ? 'done' : '') + '"><span class="no">' +
-              (i + 1) + '</span><span class="tx">' + b.name + ' &mdash; ' + b.ask + '</span></li>';
-          }).join('') + '</ul>'
-        : '<p class="note">Nothing is being held against a shape. ' +
-          linesOf(d.text).filter((x) => x.trim()).length + ' lines so far.</p>') +
-      '<p class="ask" style="margin-top:14px"><b>the question</b>' + f.ask + '</p>';
+        ? '<ul class="shape">' + beats.map((b, i) =>
+            '<li><span class="no">' + (i + 1) + '</span><span class="tx">' +
+            esc(b.name) + ' \u2014 ' + esc(b.ask) + '</span></li>').join('') + '</ul>'
+        : '<p class="note">Nothing is held against a shape here. ' +
+          L.filter((x) => x.trim()).length + ' lines so far.</p>') +
+      '<p class="ask" style="margin-top:15px"><b>the question this form asks</b>' +
+      esc(f.ask) + '</p>';
     return;
   }
 
   const rep = {}; (f.repeats || []).forEach((r) => { rep[r.line] = r.same_as; });
   const brk = new Set(); let acc = 0;
   (f.stanzas || []).forEach((n) => { acc += n; brk.add(acc); });
-  const target = Array.isArray(f.meter && f.meter.syllables) ? null
-    : (f.meter ? f.meter.syllables : null);
 
   let rows = '';
   for (let i = 1; i <= f.lines; i++) {
     const raw = L[i - 1] === undefined ? '' : L[i - 1];
     const has = raw.trim().length > 0;
     const s = has ? lineSyl(raw) : 0;
-    const want = Array.isArray(f.meter && f.meter.syllables)
-      ? f.meter.syllables[(i - 1) % f.meter.syllables.length] : target;
+    const want = f.meter
+      ? (Array.isArray(f.meter.syllables)
+          ? f.meter.syllables[(i - 1) % f.meter.syllables.length] : f.meter.syllables)
+      : null;
     const off = has && want && s !== want;
     rows += '<li class="' + (has ? 'done ' : '') + (brk.has(i) ? 'brk' : '') + '">' +
       '<span class="no">' + i + '</span>' +
       (f.rhyme ? '<span class="rh">' + f.rhyme[i - 1] + '</span>' : '') +
       '<span class="tx' + (has ? '' : ' e') + '">' +
-        (has ? esc(raw.trim()).slice(0, 52)
-             : (rep[i] ? 'refrain, line ' + rep[i] : '\u00b7')) + '</span>' +
+        (has ? esc(raw.trim()).slice(0, 60) : (rep[i] ? 'refrain, line ' + rep[i] : '\u00b7')) +
+      '</span>' +
       (rep[i] ? '<span class="rf">R' + rep[i] + '</span>' : '') +
       (want ? '<span class="sy' + (off ? ' off' : '') + '">' +
-        (has ? s + '/' + want : want) + '</span>' : '') +
-      '</li>';
+        (has ? s + '/' + want : String(want)) + '</span>' : '') + '</li>';
   }
   const written = L.filter((x) => x.trim()).length;
-  box.innerHTML = '<h3>' + f.name + '</h3>' +
+  box.innerHTML = '<h3>' + esc(f.name) + '</h3>' +
     '<p class="sub">' + written + ' of ' + f.lines + ' lines' +
       (f.rhyme ? ' \u00b7 ' + f.rhyme : '') +
-      (f.meter ? ' \u00b7 ' + f.meter.name : '') + '</p>' +
+      (f.meter ? ' \u00b7 ' + esc(f.meter.name) : '') + '</p>' +
     (f.permutation ? sestina(d, f) : '') +
     '<ul class="shape">' + rows + '</ul>' +
-    (target ? '<p class="cap" style="margin-top:10px">Syllables are estimated ' +
-      'from spelling. The estimate is wrong on names, on some -ed endings, and ' +
-      'on anything borrowed. A number in gold is a difference, not a mistake.</p>' : '');
+    (f.meter ? '<p class="cap" style="margin-top:11px">Syllables are estimated from ' +
+      'spelling. The estimate is wrong on names, on some borrowings, and wherever ' +
+      'English elides. A number in gold is a difference, not a mistake.</p>' : '');
 }
 
-/* the sestina table, driven by the six words you actually chose */
 function sestina(d, f) {
   const E = d.ends || ['','','','','',''];
   const written = linesOf(d.text).filter((x) => x.trim()).length;
@@ -398,58 +903,55 @@ function sestina(d, f) {
     [1,2,3,4,5,6].map((n) => '<th>' + n + '</th>').join('') + '</tr>';
   f.permutation.forEach((row, i) => {
     t += '<tr class="' + (i === stanza ? 'now' : '') + '"><th>' + (i + 1) + '</th>' +
-      row.map((n, j) => '<td class="' + (i === stanza ? 'now' : '') + '">' +
+      row.map((n) => '<td class="' + (i === stanza ? 'now' : '') + '">' +
         (E[n - 1] ? esc(E[n - 1]) : n) + '</td>').join('') + '</tr>';
   });
   t += '<tr><th>env</th><td colspan="6">' + f.envoi.map((p) =>
-    (E[p[0] - 1] || p[0]) + '/' + (E[p[1] - 1] || p[1])).join('  \u00b7  ') + '</td></tr>';
+    esc(E[p[0] - 1] || p[0]) + '/' + esc(E[p[1] - 1] || p[1])).join('  \u00b7  ') + '</td></tr>';
   return t + '</table><p class="cap">One rule, applied six times: last, first, ' +
-    'second-to-last, second, inward. After six passes it is back where it ' +
-    'started, and that is why the form has six stanzas — the stanza count ' +
-    'is the order of the permutation, not a number anybody picked. It does not ' +
-    'work for every count: four end-words come back after three passes. The ' +
-    'counts that do are ' + QUENEAU.join(', ') + ' and up.</p>';
+    'second-to-last, second, inward. After six passes it is back where it started, ' +
+    'and that is why the form has six stanzas \u2014 the stanza count is the order ' +
+    'of the permutation, not a number anybody picked. It does not work for every ' +
+    'count: four end-words come back after three. The counts that do are ' +
+    QUENEAU.join(', ') + ' and up.</p>';
 }
 
-/* ── the form pane ──────────────────────────────────────────────────── */
+/* ══ the form pane ═════════════════════════════════════════════════════ */
 function paintForm() {
   const f = byId(D().form);
-  $('#p-form').innerHTML = '<h3>' + f.name + '</h3>' +
-    '<p class="sub">' + f.kind + (f.lines ? ' \u00b7 ' + f.lines + ' lines' : '') + '</p>' +
-    '<p class="note">' + f.note + '</p>' +
-    '<div class="ground">' + f.ground + '</div>' +
-    '<p class="ask"><b>the question this form asks</b>' + f.ask + '</p>';
+  $('#p-form').innerHTML = '<h3>' + esc(f.name) + '</h3>' +
+    '<p class="sub">' + esc(f.kind) +
+      (f.lines ? ' \u00b7 ' + f.lines + ' lines' : '') +
+      (f.language ? ' \u00b7 ' + esc(f.language) : '') + '</p>' +
+    '<p class="note">' + esc(f.note) + '</p>' +
+    '<div class="ground">' + esc(f.ground) + '</div>' +
+    '<p class="ask"><b>the question this form asks</b>' + esc(f.ask) + '</p>';
 }
 
-/* ── the reader. Counts. Never a score. ─────────────────────────────── */
+/* ══ the reader. Counts. Never a score. ════════════════════════════════ */
 function paintRead() {
-  const t = D().text, L = linesOf(t).filter((x) => x.trim()), W = words(t);
+  const d = D(), f = byId(d.form), t = d.text;
+  const L = linesOf(t).filter((x) => x.trim()), W = words(t);
   const S = W.reduce((a, w) => a + syl(w), 0);
   const sent = (t.match(/[^.!?\n]+[.!?]+(\s|$)|[^.!?\n]+$/gm) || [])
     .filter((x) => x.trim()).length;
 
-  /* the shape of the lines, as a run of bars. This is the one picture worth
-     having: a poem whose lines are all the same length looks like a wall. */
-  const lens = L.map((l) => lineSyl(l));
+  const lens = L.map((l) => f.kind === 'code' ? l.length : lineSyl(l));
   const max = Math.max(6, ...lens);
   const bars = lens.slice(-70).map((n) =>
     '<i style="height:' + Math.round(n / max * 100) + '%" class="' +
     (n > max * 0.85 ? 'long' : '') + '"></i>').join('');
 
-  /* repeated words, which is the only thing here that reads like advice and
-     is not: a repeat may be the whole point, in six of these eleven forms. */
-  const stop = new Set(('the a an and or but of to in on at it is was be for '
-    + 'with as by from that this i you he she they we not no so if all my her his'
-    ).split(' '));
+  const stop = new Set(('the a an and or but of to in on at it is was be for with as by '
+    + 'from that this i you he she they we not no so if all my her his const let var '
+    + 'return function').split(' '));
   const freq = {};
-  W.forEach((w) => { const k = w.toLowerCase(); if (!stop.has(k) && k.length > 2) freq[k] = (freq[k] || 0) + 1; });
+  W.forEach((w) => { const k = w.toLowerCase();
+    if (!stop.has(k) && k.length > 2) freq[k] = (freq[k] || 0) + 1; });
   const rep = Object.entries(freq).filter(([, n]) => n > 1)
-    .sort((a, b) => b[1] - a[1]).slice(0, 14);
+    .sort((a, b) => b[1] - a[1]).slice(0, 16);
 
-  /* short words carry the Germanic core of English; long ones the Latinate
-     borrowings. The ratio is a real fact about a passage, not a verdict. */
-  const shortW = W.filter((w) => w.length <= 4).length;
-  const pc = W.length ? Math.round(shortW / W.length * 100) : 0;
+  const pc = W.length ? Math.round(W.filter((w) => w.length <= 4).length / W.length * 100) : 0;
 
   $('#p-read').innerHTML =
     '<div class="met">' +
@@ -461,99 +963,373 @@ function paintRead() {
       '<div><u>' + pc + '%</u><s>four letters or less</s></div>' +
     '</div>' +
     '<div id="bars">' + bars + '</div>' +
-    '<p class="cap">The shape of the last ' + Math.min(70, lens.length) +
-      ' lines by syllable. Gold is a line in the longest sixth. A flat run is ' +
-      'a wall; whether you want a wall is your business.</p>' +
-    '<p class="lex">Short words \u2014 four letters or fewer \u2014 are ' +
-      '<b>' + pc + '%</b> of this. English keeps its oldest and plainest ' +
-      'vocabulary in its short words and its borrowed, abstract vocabulary in ' +
-      'its long ones, so this number moves when the register does. It is a ' +
-      'measurement, not a target.</p>' +
+    '<p class="cap">The last ' + Math.min(70, lens.length) + ' lines by ' +
+      (f.kind === 'code' ? 'width' : 'syllable') + '. Gold is a line in the longest ' +
+      'sixth. A flat run is a wall; whether you want a wall is your business.</p>' +
+    '<p class="lex">Short words \u2014 four letters or fewer \u2014 are <b>' + pc +
+      '%</b> of this. English keeps its oldest and plainest vocabulary in its short ' +
+      'words and its borrowed, abstract vocabulary in its long ones, so this number ' +
+      'moves when the register does. It is a measurement, not a target.</p>' +
     (rep.length
-      ? '<p class="lex">Words you used more than once:<span class="rep">' +
+      ? '<p class="lex">Used more than once:<span class="rep">' +
         rep.map(([w, n]) => '<span>' + esc(w) + '<u>' + n + '</u></span>').join('') +
-        '</span></p><p class="cap">Six of the eleven forms here are built on ' +
-        'repetition. This is a list, not a complaint.</p>'
+        '</span></p><p class="cap">Three of the ' + FORMS.length + ' forms here are ' +
+        'built on repetition and one is built on six words you must return to. This ' +
+        'is a list, not a complaint.</p>'
       : '');
 }
 
-/* ── drafts. They only accumulate. ──────────────────────────────────── */
+/* ══ drafts. They only accumulate. ═════════════════════════════════════ */
 function paintDrafts() {
   const L = $('#dlist'); L.innerHTML = '';
-  book.drafts.forEach((d) => {
+  book.drafts.forEach((d, i) => {
     const el = document.createElement('div');
     el.className = 'dr' + (d.id === cur ? ' on' : '');
     const b = document.createElement('b');
-    b.textContent = d.title || (d.text.split('\n').find((x) => x.trim()) || 'Untitled').slice(0, 38);
-    const i = document.createElement('i');
-    i.textContent = byId(d.form).name + '  \u00b7  ' +
-      linesOf(d.text).filter((x) => x.trim()).length + ' lines  \u00b7  ' +
-      d.touched.slice(0, 10);
-    el.append(b, i);
+    b.textContent = d.title || (d.text.split('\n').find((x) => x.trim()) || 'Untitled').trim().slice(0, 40);
+    const s = document.createElement('i');
+    s.textContent = (i + 1) + '  \u00b7  ' + byId(d.form).name + '  \u00b7  ' +
+      linesOf(d.text).filter((x) => x.trim()).length + ' lines  \u00b7  ' + d.touched.slice(0, 10) +
+      (d.lesson ? '  \u00b7  practice' : '');
+    el.append(b, s);
     el.onclick = () => { cur = d.id; show(); };
     L.appendChild(el);
   });
 }
 
-const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-function paint() { paintShape(); paintForm(); paintRead(); paintDrafts(); wire(); }
+function paint() {
+  paintCode(); paintLesson(); paintShape(); paintForm(); paintRead(); paintDrafts(); wireEnds();
+}
 function show() {
   const d = D();
   $('#ttl').value = d.title; $('#pen').value = d.text; $('#form').value = d.form;
+  if (d.lesson) { book.lesson = d.lesson; liveChecks = null; }
   paint(); $('#pen').focus();
 }
-
-/* the end-word inputs are rebuilt on every paint, so they are wired after */
-function wire() {
+function wireEnds() {
   document.querySelectorAll('#ends input').forEach((inp) => {
     inp.oninput = () => {
       const d = D();
       d.ends = d.ends || ['','','','','',''];
       d.ends[+inp.dataset.e] = inp.value;
-      save(); paintShape(); wire();
+      save(); paintShape(); wireEnds();
     };
   });
 }
 
-let t = null;
+let timer = null;
 function touch() {
   const d = D();
   d.title = $('#ttl').value; d.text = $('#pen').value;
   d.touched = new Date().toISOString();
+  paintCode();
   $('#say').textContent = 'writing';
-  clearTimeout(t);
-  t = setTimeout(() => { save(); paint(); }, 380);
+  clearTimeout(timer);
+  timer = setTimeout(() => { save(); paintShape(); paintRead(); paintDrafts(); wireEnds(); }, 340);
 }
 $('#pen').addEventListener('input', touch);
 $('#ttl').addEventListener('input', touch);
+$('#wrap').addEventListener('scroll', () => {
+  $('#hl').style.transform = 'translateY(' + (-$('#wrap').scrollTop) + 'px)';
+}, { passive: true });
+/* tab indents instead of leaving the field, which is the difference between
+   a textarea and somewhere you would write code */
+$('#pen').addEventListener('keydown', (ev) => {
+  if (ev.key !== 'Tab' || ev.ctrlKey || ev.metaKey) return;
+  ev.preventDefault();
+  const el = ev.target, a = el.selectionStart, b = el.selectionEnd;
+  el.value = el.value.slice(0, a) + '  ' + el.value.slice(b);
+  el.selectionStart = el.selectionEnd = a + 2;
+  touch();
+});
+
 $('#form').onchange = () => { D().form = $('#form').value; save(); paint(); };
-$('#newd').onclick = () => { const d = blank($('#form').value); book.drafts.unshift(d); cur = d.id; save(); show(); };
+$('#newd').onclick = () => {
+  const d = blank($('#form').value); book.drafts.unshift(d); cur = d.id; save(); show();
+};
+$('#tpl').onclick = () => dropTemplate();
+
+function dropTemplate() {
+  const d = D(), f = byId(d.form);
+  if (!f.template)
+    return say('the ' + f.name + ' form has no template \u2014 no shape to derive one from.', 'dim');
+  if (d.text.trim() && !confirm('Replace this draft with the ' + f.name + ' template?')) return;
+  d.text = f.template; $('#pen').value = d.text;
+  touch(); save(); paint();
+  say(f.name + ' template dropped in: ' + linesOf(f.template).length + ' lines.', 'ok');
+}
 
 document.querySelectorAll('#tabs button').forEach((b) => {
   b.onclick = () => {
     document.querySelectorAll('#tabs button').forEach((x) => x.classList.remove('on'));
     document.querySelectorAll('.pane').forEach((x) => x.classList.remove('on'));
-    b.classList.add('on');
-    $('#p-' + b.dataset.p).classList.add('on');
+    b.classList.add('on'); $('#p-' + b.dataset.p).classList.add('on');
   };
 });
+function openTab(name) {
+  const b = document.querySelector('#tabs button[data-p="' + name + '"]');
+  if (b) b.click();
+}
 
-$('#exp').onclick = () => {
-  const md = book.drafts.slice().reverse().map((d) =>
-    '# ' + (d.title || 'Untitled') + '\n\n*' + byId(d.form).name + ' \u00b7 ' +
-    d.made.slice(0, 10) + '*\n\n' + d.text + '\n').join('\n---\n\n');
+function exportAll() {
+  const md = book.drafts.slice().reverse().map((d) => {
+    const f = byId(d.form);
+    const fence = '\u0060\u0060\u0060';
+    const body = f.kind === 'code' ? fence + f.language + '\n' + d.text + '\n' + fence : d.text;
+    return '# ' + (d.title || 'Untitled') + '\n\n*' + f.name + ' \u00b7 ' +
+      d.made.slice(0, 10) + '*\n\n' + body + '\n';
+  }).join('\n---\n\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([md], { type: 'text/markdown' }));
   a.download = 'notebook-' + new Date().toISOString().slice(0, 10) + '.md';
   a.click(); URL.revokeObjectURL(a.href);
-};
+  return book.drafts.length + ' drafts written to a markdown file.';
+}
+$('#exp').onclick = exportAll;
+
+/* ══ THE DRAWER ════════════════════════════════════════════════════════ */
+function say(text, cls) {
+  const out = $('#out'), s = document.createElement('section');
+  s.innerHTML = '<span class="' + (cls || '') + '">' + esc(text) + '</span>';
+  out.appendChild(s); out.scrollTop = out.scrollHeight;
+}
+function sayHTML(html) {
+  const out = $('#out'), s = document.createElement('section');
+  s.innerHTML = html; out.appendChild(s); out.scrollTop = out.scrollHeight;
+}
+
+const HELP = [
+  ['help', 'this'],
+  ['learn', 'the lessons, and how far you are into each'],
+  ['lesson <n>', 'open lesson n'],
+  ['practice', 'start this lesson\u2019s practice in a new draft'],
+  ['check', 'run this lesson\u2019s checks against your draft'],
+  ['run', 'evaluate this draft (JavaScript only)'],
+  ['ls', 'the drafts, numbered'],
+  ['open <n>', 'switch to draft n'],
+  ['new [form]', 'a new draft, optionally in a form'],
+  ['form [id]', 'show the current form, or change it'],
+  ['forms', 'every form, in the order you meet them'],
+  ['template', 'drop the current form\u2019s starter in'],
+  ['count', 'the reader\u2019s numbers for this draft'],
+  ['syl <words>', 'the syllable heuristic, word by word'],
+  ['spiral [a b c d e f]', 'the sestina table, with your words in it'],
+  ['rhyme', 'the scheme against the words your lines end on'],
+  ['export', 'write every draft to a markdown file'],
+  ['clear', 'empty the console'],
+  ['', 'anything else is evaluated as JavaScript']
+];
+
+function cmd(raw) {
+  const line = raw.trim();
+  if (!line) return;
+  sayHTML('<span class="cmd">\u203a <b>' + esc(line) + '</b></span>');
+  const [verb, ...rest] = line.split(/\s+/);
+  const arg = rest.join(' ');
+  const d = D(), f = byId(d.form);
+
+  switch (verb) {
+    case 'help':
+      return sayHTML('<span class="hd">the console operates the notebook.</span>\n' +
+        HELP.map(([c, w]) => '  <span class="ok">' + esc(c.padEnd(22)) + '</span>' +
+          '<span class="dim">' + esc(w) + '</span>').join('\n'));
+
+    case 'clear': return ($('#out').innerHTML = '');
+
+    case 'learn':
+      if (!LESSONS.length) return say('no lessons are built in.', 'dim');
+      return sayHTML('<span class="hd">' + LESSONS.length + ' lessons.</span>\n' +
+        LESSONS.map((l) => {
+          const p = (book.passed[l.id] || []).length, t = l.practice.checks.length;
+          return '  <span class="dim">' + l.order + '  </span>' +
+            '<span class="' + (l.id === book.lesson ? 'ok' : '') + '">' +
+            esc(l.title.padEnd(28)) + '</span>' +
+            '<span class="' + (p === t ? 'ok' : 'dim') + '">' + p + '/' + t + '</span>' +
+            '<span class="dim">  ' + esc(l.one_line.slice(0, 54)) + '</span>';
+        }).join('\n') +
+        '\n<span class="dim">lesson &lt;n&gt; to open one, practice to start it, check to be marked.</span>');
+
+    case 'lesson': {
+      const n = parseInt(arg, 10);
+      const L = isNaN(n) ? LESSONS.find((x) => x.id === arg) : LESSONS[n - 1];
+      if (!L) return say('there is no lesson ' + arg + '. learn to see them.', 'err');
+      book.lesson = L.id; liveChecks = null; save(); paintLesson(); openTab('lesson');
+      return sayHTML('<span class="hd">' + esc(L.title) + '</span>\n' +
+        '<span class="dim">' + esc(L.one_line) + '</span>\n' +
+        L.sections.map((s) => '  <span class="ok">\u00b7</span> ' + esc(s.heading)).join('\n') +
+        '\n<span class="dim">it is open on the right. practice to start the exercise.</span>');
+    }
+
+    case 'practice': { startPractice(); return; }
+
+    case 'check': { runChecks(); return; }
+
+    case 'ls':
+      return sayHTML(book.drafts.map((x, i) =>
+        '  <span class="' + (x.id === cur ? 'ok' : 'dim') + '">' +
+        String(i + 1).padStart(3) + (x.id === cur ? ' * ' : '   ') +
+        esc((x.title || linesOf(x.text).find((l) => l.trim()) || 'Untitled').trim().slice(0, 38).padEnd(40)) +
+        '</span><span class="dim">' + esc(byId(x.form).name) + '</span>').join('\n'));
+
+    case 'open': {
+      const n = parseInt(arg, 10);
+      if (!(n >= 1 && n <= book.drafts.length))
+        return say('there is no draft ' + arg + '. ls to see them.', 'err');
+      cur = book.drafts[n - 1].id; show();
+      return say('draft ' + n + ' \u2014 ' + byId(D().form).name, 'ok');
+    }
+
+    case 'new': {
+      const nf = arg ? FORMS.find((x) => x.id === arg || x.name.toLowerCase() === arg.toLowerCase()) : null;
+      if (arg && !nf) return say('no form called ' + arg + '. forms to list them.', 'err');
+      const x = blank(nf ? nf.id : d.form);
+      book.drafts.unshift(x); cur = x.id; save(); show();
+      return say('a new draft in ' + byId(x.form).name + '.', 'ok');
+    }
+
+    case 'forms':
+      return sayHTML(FORMS.map((x) =>
+        '  <span class="dim">' + String(x.order).padStart(3) + '  </span>' +
+        '<span class="' + (x.id === f.id ? 'ok' : '') + '">' + esc(x.id.padEnd(16)) + '</span>' +
+        '<span class="dim">' + esc(x.kind.padEnd(6)) +
+        esc(x.lines ? x.lines + ' lines' : (x.language || '')) + '</span>').join('\n'));
+
+    case 'form': {
+      if (!arg) return sayHTML('<span class="ok">' + esc(f.id) + '</span> <span class="dim">' +
+        esc(f.kind) + (f.lines ? ' \u00b7 ' + f.lines + ' lines' : '') +
+        (f.language ? ' \u00b7 ' + esc(f.language) : '') + '</span>\n' + esc(f.ask));
+      const nf = FORMS.find((x) => x.id === arg || x.name.toLowerCase() === arg.toLowerCase());
+      if (!nf) return say('no form called ' + arg + '. forms to list them.', 'err');
+      d.form = nf.id; $('#form').value = nf.id; save(); paint();
+      return say('now ' + nf.name + '. ' + nf.ask, 'ok');
+    }
+
+    case 'template': dropTemplate(); return;
+
+    case 'count': {
+      const L = linesOf(d.text).filter((x) => x.trim()), W = words(d.text);
+      const S = W.reduce((a, w) => a + syl(w), 0);
+      return sayHTML(
+        '  <span class="dim">lines     </span><span class="ok">' + L.length + '</span>\n' +
+        '  <span class="dim">words     </span><span class="ok">' + W.length + '</span>\n' +
+        '  <span class="dim">syllables </span><span class="ok">' + S + '</span>\n' +
+        '  <span class="dim">per line  </span><span class="ok">' +
+          (L.length ? (S / L.length).toFixed(2) : '0') + '</span>' +
+        (f.lines ? '\n  <span class="dim">of the ' + f.lines + ' this form wants: </span>' +
+          '<span class="ok">' + L.length + '</span>' : ''));
+    }
+
+    case 'syl': {
+      if (!arg) return say('syl <word> \u2014 the heuristic, word by word.', 'dim');
+      return sayHTML(words(arg).map((w) =>
+        '  <span class="ok">' + String(syl(w)).padStart(2) + '</span>  ' +
+        '<span class="dim">' + esc(w) + '</span>').join('\n') +
+        '\n  <span class="dim">total </span><span class="ok">' + lineSyl(arg) + '</span>' +
+        '\n<span class="dim">a heuristic over spelling, wrong on names and elisions.</span>');
+    }
+
+    case 'spiral': {
+      const sf = FORMS.find((x) => x.permutation);
+      if (!sf) return say('no form here declares a permutation.', 'err');
+      const given = rest.length === 6 ? rest : (d.ends || []).filter(Boolean);
+      const E = given.length === 6 ? given : ['1','2','3','4','5','6'];
+      if (rest.length === 6) { d.ends = rest.slice(); save(); paintShape(); wireEnds(); }
+      const w = Math.max(...E.map((x) => x.length)) + 2;
+      return sayHTML('<span class="hd">the sestina spiral</span>\n' +
+        sf.permutation.map((row, i) => '  <span class="dim">' + (i + 1) + '  </span>' +
+          row.map((n) => '<span class="ok">' + esc(String(E[n - 1]).padEnd(w)) + '</span>').join('')).join('\n') +
+        '\n  <span class="dim">env</span> ' + sf.envoi.map((p) =>
+          esc(E[p[0] - 1]) + '/' + esc(E[p[1] - 1])).join('  ') +
+        '\n<span class="dim">stanza count is the order of the permutation. It equals the ' +
+        'end-word count only at ' + QUENEAU.join(', ') + '.</span>');
+    }
+
+    case 'rhyme': {
+      if (!f.rhyme) return say(f.name + ' declares no rhyme scheme.', 'dim');
+      const L = linesOf(d.text);
+      return sayHTML(f.rhyme.split('').map((ch, i) => {
+        const last = (L[i] || '').trim().split(/\s+/).pop() || '';
+        return '  <span class="dim">' + String(i + 1).padStart(2) + '</span> ' +
+          '<span class="hd">' + ch + '</span>  ' +
+          '<span class="' + (last ? 'ok' : 'dim') + '">' + esc(last || '\u00b7') + '</span>';
+      }).join('\n'));
+    }
+
+    case 'export': return say(exportAll(), 'ok');
+
+    case 'run': {
+      if (f.kind !== 'code')
+        return say('this draft is a ' + f.name + '. Only a code draft runs.', 'err');
+      if (f.language !== 'js')
+        return say('there is no ' + f.language + ' runtime in this drawer, and it will ' +
+          'not pretend there is. Write it here, run it where it belongs.', 'err');
+      return evaluate(d.text, true);
+    }
+
+    default: return evaluate(line, false);
+  }
+}
+
+/* evaluating. console is captured so what a draft logs lands here rather than
+   in a devtools panel nobody has open. */
+function evaluate(src, isDraft) {
+  const real = console.log;
+  const lines = [];
+  console.log = (...a) => { lines.push(a.map(fmt).join(' ')); real(...a); };
+  let value, threw = null;
+  try { value = (0, eval)(src); } catch (e) { threw = e; }
+  console.log = real;
+  if (lines.length) sayHTML(lines.map((l) => '<span class="dim">' + esc(l) + '</span>').join('\n'));
+  if (threw) return say(threw.name + ': ' + threw.message, 'err');
+  if (value !== undefined) say(fmt(value), 'ok');
+  else if (isDraft && !lines.length) say('ran, logged nothing, returned nothing.', 'dim');
+}
+function fmt(v) {
+  if (typeof v === 'string') return v;
+  if (v instanceof Error) return v.name + ': ' + v.message;
+  try { return JSON.stringify(v, null, 1); } catch (e) { return String(v); }
+}
+
+const hist = []; let hp = 0;
+$('#cli').addEventListener('keydown', (ev) => {
+  const el = ev.target;
+  if (ev.key === 'Enter') {
+    const v = el.value;
+    if (v.trim()) { hist.push(v); hp = hist.length; }
+    el.value = '';
+    try { cmd(v); } catch (e) { say(e.name + ': ' + e.message, 'err'); }
+    return;
+  }
+  if (ev.key === 'ArrowUp' && hp > 0) { ev.preventDefault(); el.value = hist[--hp]; }
+  if (ev.key === 'ArrowDown') {
+    ev.preventDefault();
+    if (hp < hist.length - 1) el.value = hist[++hp];
+    else { hp = hist.length; el.value = ''; }
+  }
+});
+$('#dbar').onclick = () => document.body.classList.toggle('shut');
+addEventListener('keydown', (ev) => {
+  if ((ev.ctrlKey || ev.metaKey) && ev.key === '\u0060') {
+    ev.preventDefault();
+    document.body.classList.remove('shut');
+    $('#cli').focus();
+  }
+});
 
 $('#open').onclick = (e) => { e.stopPropagation(); $('#cover').classList.add('gone'); $('#pen').focus(); };
-$('#cover').onclick = () => $('#cover').classList.add('gone');
+$('#cover').onclick = () => { $('#cover').classList.add('gone'); $('#pen').focus(); };
 $('#back').onclick = () => $('#cover').classList.remove('gone');
 
 show();
+sayHTML('<span class="hd">the notebook console.</span> <span class="dim">' +
+  FORMS.length + ' forms, ' + FORMS.filter((f) => f.kind === 'code').length +
+  ' of them code. ' + LESSONS.length + ' lessons carrying ' +
+  LESSONS.reduce((a, l) => a + l.practice.checks.length, 0) +
+  ' checks that mark your own work. ' + book.drafts.length + ' draft' +
+  (book.drafts.length === 1 ? '' : 's') + ' in this browser.</span>\n' +
+  '<span class="dim">Type </span><span class="ok">learn</span><span class="dim"> to be ' +
+  'taught, </span><span class="ok">help</span><span class="dim"> for everything else, ' +
+  'or just start writing on the left.</span>');
 </script>
 </body>
 </html>

@@ -1,0 +1,11 @@
+{
+ "id": "code-html",
+ "name": "HTML",
+ "kind": "code",
+ "order": 14,
+ "language": "html",
+ "note": "The document is the data structure. Every board here keeps its state in inputs — radio groups for a choice, checkbox banks for a bit field, an id for a fragment gate — because those are the only things a stylesheet can read.",
+ "ground": "The URL splits in two and only half of it reaches CSS. The fragment is readable through :target; the query string is not readable at all. That is why the script layer signals on ?run and dev mode on ?dev — a channel the stylesheet cannot see cannot collide with it.",
+ "ask": "What state does this hold, and could the stylesheet alone read it?",
+ "template": "<!-- The document is the data structure. These inputs ARE the state:\n     a radio group is a choice, a bank of checkboxes is a bit field, and an\n     id is a gate the fragment can open. Nothing else is readable by CSS. -->\n<section class=\"board\">\n\n  <!-- one of many -->\n  <input type=\"radio\" name=\"phase\" id=\"phase-1\" checked><label for=\"phase-1\">placement</label>\n  <input type=\"radio\" name=\"phase\" id=\"phase-2\"><label for=\"phase-2\">the wave</label>\n\n  <!-- a bit field: k boxes is 2^k states, and one flip per beat walks them all -->\n  <input type=\"checkbox\" id=\"b0\"><label for=\"b0\">1</label>\n  <input type=\"checkbox\" id=\"b1\"><label for=\"b1\">2</label>\n  <input type=\"checkbox\" id=\"b2\"><label for=\"b2\">4</label>\n\n  <!-- the gate. :target reads this; the query string it cannot see. -->\n  <a href=\"#open\">open</a>\n  <div id=\"open\" class=\"gate\">\n\n    <div class=\"row\">a thing that is counted</div>\n    <div class=\"out\"></div>\n\n  </div>\n</section>\n"
+}

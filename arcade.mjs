@@ -88,7 +88,8 @@ const LAYERS = [
   ['templates-quest',     'Quests',         'quests.mjs',     'quests.js',     'giver, object, done, produces — no recursion'],
   ['templates-faction',   'Factions',       'factions.mjs',   'factions.js',   'patrons, all unconditional'],
   ['templates-challenge', 'Challenges',     'challenges.mjs', 'challenges.js', 'coding, assessment, writing, voice'],
-  ['templates-form',      'Forms',          'writing.mjs',    'writing.html',  'eleven, and every shape closes'],
+  ['templates-form',      'Forms',          'writing.mjs',    'writing.html',  'fifteen, and every shape closes'],
+  ['templates-lesson',    'Lessons',        'writing.mjs',    'writing.html',  'each one marks your own work'],
 ].filter(([d]) => existsSync(d)).map(([dir, name, gen, out, note]) => ({
   dir, name, gen, out, note,
   n: readdirSync(dir).filter((f) => f.endsWith('.json')).length

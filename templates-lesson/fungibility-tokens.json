@@ -1,0 +1,66 @@
+{
+ "id": "fungibility-tokens",
+ "order": 3,
+ "subject": "economy",
+ "title": "Fungibility tokens",
+ "one_line": "A unit is interchangeable exactly as long as the ledger has forgotten where it came from.",
+ "needs": [
+  "b2p2p2b"
+ ],
+ "sections": [
+  {
+   "heading": "Fungible is not a property of the token",
+   "body": [
+    "Two things are fungible when either will do in place of the other. A pound of the same grade of wheat, a barrel of the same crude, one ten pound note for another.",
+    "The mistake is to think this is a fact about the object. It is a fact about what anybody knows about the object. Two notes are interchangeable because nothing anybody can look up distinguishes them. Print a serial number on them and they are still interchangeable, because nobody keeps the list. Start keeping the list and they stop."
+   ]
+  },
+  {
+   "heading": "Memory is what kills it",
+   "body": [
+    "This is the whole lesson. Fungibility is destroyed by memory, and by nothing else.",
+    "A token ledger that stores only balances is fungible: your one unit and my one unit are the same row shape with the same number in it, and no query can separate them. A ledger that stores provenance — this unit came from that address — has made them different objects that happen to have the same denomination.",
+    "Nobody has to intend this. It is enough that the history is reconstructible. A chain that publishes every transaction has published the provenance whether or not it stores it in that shape, which is why an openly auditable coin is less fungible than a note in your pocket, not more."
+   ]
+  },
+  {
+   "heading": "And why anyone cares",
+   "body": [
+    "Because a merchant can price the difference. Once two units are distinguishable, someone will discount one of them, and at that moment the unit is no longer a unit — it is a class of units with a spread. Every property people want from money follows from there being no spread inside the denomination.",
+    "In the b2p2p2b model this bites in the middle hop. Peers can only route around a refusal if the thing they are passing is the same thing whoever they route to will take. Taint tracking on the middle hop reintroduces exactly the discretion the middle hop existed to remove."
+   ]
+  }
+ ],
+ "practice": {
+  "form": "code-js",
+  "brief": "Write distinguishable(ledger) — true when any two units of the same denomination differ in anything the ledger stores. A ledger is an array of unit records. Then type check.",
+  "starter": "/* Fungibility is a property of what is remembered. So the test is\n   not about the units, it is about the fields. */\n\nfunction distinguishable(ledger) {\n  // group by denomination; within a group, is there any field\n  // on which two records disagree?\n  return null;   // <- your answer here\n}\n\nconst PLAIN   = [{denom:1}, {denom:1}, {denom:5}];\nconst TAINTED = [{denom:1, from:'mint'}, {denom:1, from:'seized'}];\n",
+  "checks": [
+   {
+    "name": "bare balances are not distinguishable",
+    "test": "distinguishable([{denom:1},{denom:1},{denom:5}]) === false"
+   },
+   {
+    "name": "provenance makes same-denomination units differ",
+    "test": "distinguishable([{denom:1,from:'mint'},{denom:1,from:'seized'}]) === true"
+   },
+   {
+    "name": "the same provenance on both is still fungible",
+    "test": "distinguishable([{denom:1,from:'mint'},{denom:1,from:'mint'}]) === false"
+   },
+   {
+    "name": "different denominations are not the comparison",
+    "test": "distinguishable([{denom:1,from:'a'},{denom:5,from:'b'}]) === false"
+   },
+   {
+    "name": "an empty ledger and a single unit are fungible by default",
+    "test": "distinguishable([]) === false && distinguishable([{denom:1,from:'x'}]) === false"
+   },
+   {
+    "name": "a field present on one record and absent on the other counts",
+    "test": "distinguishable([{denom:1,from:'mint'},{denom:1}]) === true"
+   }
+  ]
+ },
+ "ask": "Look at a ledger you actually use. What does it store that you could price against?"
+}

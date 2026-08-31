@@ -1,0 +1,70 @@
+{
+ "id": "b2p2p2b",
+ "order": 2,
+ "subject": "economy",
+ "title": "The b2p2p2b model",
+ "one_line": "Two businesses at the ends, peers in the middle, and one question that decides whether the middle is real.",
+ "needs": [],
+ "sections": [
+  {
+   "heading": "Read the name as a path",
+   "body": [
+    "Business to peer, peer to peer, peer to business. Four positions and three hops. A business issues something to a person; people move it among themselves; a business takes it back.",
+    "Compare it to what it is not. Business to business is one hop and no people. Business to consumer is one hop and no second hop — whatever the consumer has, they have until they consume it. The middle p2p hop is the entire difference, and it is the only hop with no company standing in it."
+   ]
+  },
+  {
+   "heading": "What the middle buys",
+   "body": [
+    "In the middle nobody needs permission. That is not a slogan; it is a structural fact about how many parties can refuse. On a b2b hop either party can refuse and the transaction dies. On a p2p hop between many peers, a refusal by one peer routes around them, because there is more than one peer.",
+    "This is the layer where the guild is a bank to an amateur and a farm to a journeyman: both positions profit and it is stable, but it is stable because the guild is on the path. Move the guild off the middle hop and it stops being able to price the middle."
+   ]
+  },
+  {
+   "heading": "The question that decides it",
+   "body": [
+    "Ask: is there any single party whose removal disconnects the issuer from the redeemer?",
+    "If there is, the middle is not peer to peer. It has a choke point, and whoever sits on it has a discretion, and a discretion is exactly where a syndicate attaches — the same finding the factions layer is built on. The whole model turns on one graph property, and it is a property you can compute rather than argue about."
+   ]
+  },
+  {
+   "heading": "And the ends",
+   "body": [
+    "The middle can be perfectly peer to peer and the model still fails, because a token nobody will redeem is a token that stops moving. If the redeeming b is a single party, the freedom of the middle is bounded by that party's willingness, and it has simply moved the choke point to the end where it is harder to see.",
+    "So b2p2p2b is decentralised only when the b's are plural. The first b being plural means more than one issuer; the last b being plural means more than one place to spend. Neither is optional, and the check below will find either failure because both are the same graph property."
+   ]
+  }
+ ],
+ "practice": {
+  "form": "code-js",
+  "brief": "Write chokes(graph, from, to) — the sorted list of nodes whose removal disconnects from and to. If it returns an empty list the middle is genuinely peer to peer. The graph is an object mapping a node to an array of neighbours, undirected. Then type check.",
+  "starter": "/* Given the hop graph, find every party who could stop it alone.\n   Brute force is the right answer here: remove each node, see\n   whether the two ends are still connected. */\n\nfunction reaches(graph, from, to, without) {\n  // breadth first, skipping the removed node\n  return null;   // <- your answer here\n}\n\nfunction chokes(graph, from, to) {\n  // every node that is not an end and whose removal cuts the path\n  return null;   // <- your answer here\n}\n\n/* the shapes worth trying */\nconst ONE_MIDDLEMAN = { issuer:['g'], g:['issuer','shop'], shop:['g'] };\nconst MANY_PEERS = { issuer:['a','b'], a:['issuer','shop'],\n                     b:['issuer','shop'], shop:['a','b'] };\n",
+  "checks": [
+   {
+    "name": "a single middleman is found",
+    "test": "JSON.stringify(chokes({issuer:['g'],g:['issuer','shop'],shop:['g']},'issuer','shop')) === '[\"g\"]'"
+   },
+   {
+    "name": "two independent peers leave no choke point",
+    "test": "JSON.stringify(chokes({issuer:['a','b'],a:['issuer','shop'],b:['issuer','shop'],shop:['a','b']},'issuer','shop')) === '[]'"
+   },
+   {
+    "name": "a chain of two middlemen names both",
+    "test": "JSON.stringify(chokes({issuer:['g'],g:['issuer','h'],h:['g','shop'],shop:['h']},'issuer','shop')) === '[\"g\",\"h\"]'"
+   },
+   {
+    "name": "the ends are never themselves choke points",
+    "test": "chokes({issuer:['a','b'],a:['issuer','shop'],b:['issuer','shop'],shop:['a','b']},'issuer','shop').every(n => n !== 'issuer' && n !== 'shop')"
+   },
+   {
+    "name": "a peer with no route to the shop is not a choke point either",
+    "test": "JSON.stringify(chokes({issuer:['a','b','c'],a:['issuer','shop'],b:['issuer','shop'],c:['issuer'],shop:['a','b']},'issuer','shop')) === '[]'"
+   },
+   {
+    "name": "reaches can tell connected from disconnected",
+    "test": "reaches({a:['b'],b:['a']},'a','b',null) === true && reaches({a:['b'],b:['a','c'],c:['b']},'a','c','b') === false"
+   }
+  ]
+ },
+ "ask": "Run it on your own arrangement. If it returns a name, that name is who you are asking permission from."
+}

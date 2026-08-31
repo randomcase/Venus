@@ -1,0 +1,11 @@
+{
+ "id": "code-css",
+ "name": "CSS",
+ "kind": "code",
+ "order": 13,
+ "language": "css",
+ "note": "Not styling. In this yard CSS is the computer: counters do the arithmetic, :has() is the state, and the cascade settles what is true. A hundred and forty boards decide things in a stylesheet with no script anywhere.",
+ "ground": "Three facts the boards are built on. A counter prints only after whatever increments it, so order of appearance is order of evaluation. An element with display:none generates no box and so increments nothing, which is how you branch. And cascade order settles only ties — origin, then layer, then specificity, then source order — so a rule that loses is not a rule that ran and failed, it is a rule that never applied.",
+ "ask": "Where is the state kept, and what would you have to press to change it?",
+ "template": "/* The stylesheet is the computer. State lives in the inputs; the\n   cascade settles what is true; the counter is the arithmetic. */\n\n.board { counter-reset: total 0 kept 0; }\n\n/* every checked box adds one. An unchecked box still generates a box, so it\n   is the :checked test that decides, not the presence of the element. */\n.board input:checked + label { counter-increment: total; }\n\n/* branching without a script: display:none generates NO box, so this rule\n   increments nothing at all when the condition fails. That absence is the\n   if-statement. */\n.board:has(#gate:checked) .row { counter-increment: kept; }\n.board:not(:has(#gate:checked)) .row { display: none; }\n\n/* the negative. Declare it, increment it with nothing, print it — the only\n   way to state that something is absent in a form a reader can watch. */\n.board .out::after {\n  content: counter(kept) \" of \" counter(total);\n}\n"
+}
