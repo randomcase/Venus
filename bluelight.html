@@ -1,0 +1,524 @@
+<title>The Blue Light &middot; ten miles up and down, and a register of nothings</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  THE BLUE LIGHT — a vertical traverse, and the record this yard did not have.
+
+  Ten miles up and down is 16.09 km, so 55 ± 8.05, and that is not an arbitrary
+  span. It carries a light from 46.95 km to 63.05 km: out of the pre-cloud haze,
+  up through the lower cloud where the big mode-3 particles are, through the
+  middle cloud where the deck flies, and into the upper cloud — which is where
+  the unknown ultraviolet absorber lives and has lived, unidentified, since the
+  1920s.
+
+  Pressure across the traverse runs 1.40 bar to 0.14, a factor of ten.
+  Temperature runs +96 °C to −22. One instrument, eleven stations, and the top
+  half of the climb is inside the open question.
+
+  THE REGISTER IS THE POINT, AND IT IS THE THING THIS REPOSITORY WAS MISSING.
+  There are thirty-one knowledge-base entries here and every one records
+  something established. Nothing anywhere records what was looked for and NOT
+  found — which in real science is most of the work and nearly all of the
+  honest part. Mile one, nothing. Mile two, nothing. That is data. It rules
+  things out, it costs the same to collect, and it is the half nobody publishes
+  because nobody is paid for it.
+
+  So this board keeps a register of nothings: what was searched, over what
+  range, at what sensitivity, and what therefore is not there. Each line is +1
+  the same as any finding, because ruling a candidate out at a stated
+  sensitivity is exactly as much of a result as finding one.
+
+  No script decides anything on this page.
+-->
+<style>
+  :root{
+    --void:#05070d; --card:#0e1420; --card2:#131a28; --edge:#22304a;
+    --ink:#e6ecf5; --dim:#8595ad; --bone:#e4d9b8;
+    --blue:#5aa8e8; --deep:#2f6fa8; --none:#6b7a92; --hit:#e0b155;
+    --go:#5fd6a4; --key:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 56px;color:var(--ink);background:var(--void);
+    font:13.5px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 50% -8%,rgba(90,168,232,.14),transparent 48%),
+      radial-gradient(circle at 88% 102%,rgba(47,111,168,.10),transparent 44%)}
+  .w{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:22px;letter-spacing:-.018em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:66ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--blue);border:1px solid var(--blue);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px;font-weight:600}
+  p.n{color:var(--dim);font-size:11.5px;line-height:1.72;margin:10px 0 0;max-width:94ch}
+  p.n b{color:var(--ink)} p.n em{font-style:normal;color:var(--hit)}
+  a{color:var(--hit)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#080c14;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:13px;padding:16px 17px}
+
+  /* ══════════════════════════════ 1 · THE TRAVERSE, drawn as a column */
+  .trav{display:grid;gap:2px;margin-top:13px}
+  .st{display:grid;grid-template-columns:52px 78px 66px 58px 1fr;gap:11px;
+    align-items:center;padding:8px 11px;border-radius:5px;
+    background:linear-gradient(90deg,var(--bg1),var(--bg2));
+    border:1px solid rgba(0,0,0,.3);font:10.5px/1.4 ui-monospace,monospace}
+  .st b{color:var(--bone);font-size:11px}
+  .st i{font-style:normal;color:rgba(230,236,245,.62)}
+  .st u{text-decoration:none;color:rgba(230,236,245,.85);font-size:10px}
+  .st.zero{outline:1px solid var(--blue);outline-offset:-1px}
+  .st.abs u{color:var(--hit)}
+  .l-haze{--bg1:#1a1410;--bg2:#120e0b}
+  .l-low{--bg1:#2a2118;--bg2:#1c160f}
+  .l-mid{--bg1:#1a2434;--bg2:#121a26}
+  .l-up{--bg1:#20304a;--bg2:#182438}
+
+  .kpis{display:grid;gap:10px;grid-template-columns:repeat(4,1fr);margin-top:13px}
+  @media (max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .k{background:#080c14;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .k span{display:block;font:8px/1.3 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:#5b6a80;margin-bottom:6px}
+  .k b{font:17px/1 ui-monospace,monospace;color:var(--blue)}
+
+  /* ══════════════════════════════ 2 · THE REGISTER OF NOTHINGS */
+  .reg{display:grid;gap:8px;margin-top:13px}
+  .r{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start;
+    background:#080c14;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 13px;border-left:3px solid var(--none)}
+  .r.found{border-left-color:var(--hit)}
+  .r b{display:block;font-size:12.5px;color:var(--ink);margin-bottom:3px}
+  .r i{font-style:normal;font-size:10.5px;color:var(--dim);line-height:1.62;
+    display:block}
+  .r s{text-decoration:none;font:9px/1.5 ui-monospace,monospace;color:#5b6a80;
+    display:block;margin-top:6px}
+  .r em{font-style:normal;font:9.5px/1 ui-monospace,monospace;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--none);border:1px solid var(--edge);
+    border-radius:5px;padding:6px 8px;white-space:nowrap}
+  .r.found em{color:var(--hit);border-color:var(--hit)}
+
+  /* the counters. `found` is declared, incremented by nothing, and printed. */
+  body{counter-reset:ruled 0 found 0}
+  .r:not(.found){counter-increment:ruled 1}
+  .tot{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-top:13px}
+  @media (max-width:600px){.tot{grid-template-columns:1fr}}
+  .t{background:#080c14;border:1px dashed var(--edge);border-radius:10px;
+    padding:12px 14px;display:flex;align-items:baseline;gap:11px}
+  .t span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:#5b6a80}
+  .t b{margin-left:auto;font:20px/1 ui-monospace,monospace;color:var(--blue)}
+  .t-ruled b::after{content:counter(ruled)}
+  .t-found b::after{content:counter(found);color:var(--none)}
+
+  .close{margin-top:22px;padding:16px 18px;border:1px solid var(--edge);
+    border-left:3px solid var(--hit);border-radius:0 12px 12px 0;background:#080c14}
+  .close h4{margin:0 0 8px;font-size:14px;color:var(--bone)}
+  .close p{margin:0 0 11px;font-size:12px;color:var(--dim);line-height:1.74;
+    max-width:88ch}
+  .close p:last-child{margin-bottom:0}
+  .close b{color:var(--ink)} .close em{font-style:normal;color:var(--hit)}
+
+  footer{margin-top:32px;padding-top:14px;border-top:1px solid var(--edge);
+    color:var(--dim);font-size:10.5px;line-height:1.75}
+
+  /* ═══════════════════════════════════════════════════ THE GALACTIC BACKDROP
+     A window, not a wallpaper. Still no script.
+
+     69 bright stars and 139 dim ones, weighted the way the real sky is —
+     mostly dim and warm, a scatter of white, almost no blue — laid along a band
+     twenty-four degrees off horizontal with the dust lane cut back out of it in
+     the background colour, because the dark half of a galaxy is most of what
+     you see. The stars are Earth's, because they would be: Venus is 0.28 AU
+     away and that is nothing at stellar distances.
+
+     WE ARE TRAVELLING, so the sky does. It sits on two fixed pseudo-elements
+     rather than one background, and each one moves by TRANSFORM — which the
+     compositor does on its own thread, without repainting 208 gradients a
+     frame. Animating background-position instead would have cost the frame
+     budget of every board in the yard, and that is the only reason this is
+     built out of two layers instead of one.
+
+     AND WE ARE EXPANDING, so the near layer runs faster and scales harder than
+     the far one. That difference is parallax and parallax is the entire cue:
+     hold still and the bright stars slide past the dim ones, which is what a
+     window does and what a backdrop cannot. 21 minutes and 34 — coprime, so the
+     two never fall back into the arrangement they started in.
+
+     Both sit at z-index:-1 behind everything, each page keeps its own colour
+     wash on <body> over the top, and prefers-reduced-motion stops the travel
+     dead while leaving every star exactly where it is. */
+  html{background-color:#05070d}
+  body{background-color:transparent}
+  html::before,html::after{content:"";position:fixed;z-index:-1;
+    inset:-18%;pointer-events:none;background-repeat:no-repeat;
+    background-size:cover;will-change:transform}
+  html::before{background-image:
+      radial-gradient(0.35px 0.35px at 63.60% 61.37%,rgba(202,215,255,0.16),transparent),
+      radial-gradient(0.54px 0.54px at 31.73% 56.60%,rgba(255,210,161,0.26),transparent),
+      radial-gradient(0.36px 0.36px at 16.19% 41.87%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.12% 16.25%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 61.37% 49.53%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.66px 0.66px at 89.13% 49.03%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.52px 0.52px at 23.10% 65.23%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 81.55% 90.93%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.35px 0.35px at 1.99% 39.17%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.67px 0.67px at 88.33% 64.79%,rgba(255,210,161,0.32),transparent),
+      radial-gradient(0.65px 0.65px at 52.00% 41.82%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.84px 0.84px at 59.58% 82.02%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.44px 0.44px at 55.83% 49.97%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.45px 0.45px at 61.17% 3.50%,rgba(202,215,255,0.21),transparent),
+      radial-gradient(0.48px 0.48px at 92.68% 74.19%,rgba(255,181,107,0.23),transparent),
+      radial-gradient(0.41px 0.41px at 44.55% 40.37%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.80px 0.80px at 33.50% 52.15%,rgba(255,181,107,0.39),transparent),
+      radial-gradient(0.70px 0.70px at 15.53% 74.11%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.69px 0.69px at 83.20% 49.99%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.86px 0.86px at 14.02% 0.25%,rgba(255,181,107,0.42),transparent),
+      radial-gradient(0.35px 0.35px at 8.46% 26.75%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 16.18% 29.77%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.57px 0.57px at 46.77% 49.71%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.58px 0.58px at 80.94% 96.51%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.44px 0.44px at 46.92% 31.31%,rgba(255,181,107,0.20),transparent),
+      radial-gradient(0.37px 0.37px at 34.69% 85.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.42px 0.42px at 56.44% 46.68%,rgba(255,210,161,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 7.58% 26.10%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.48px 0.48px at 16.83% 84.69%,rgba(202,215,255,0.22),transparent),
+      radial-gradient(0.53px 0.53px at 9.16% 5.95%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.57px 0.57px at 41.82% 44.48%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.90px 0.90px at 74.31% 45.97%,rgba(255,210,161,0.44),transparent),
+      radial-gradient(0.40px 0.40px at 64.18% 49.64%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 5.25% 39.37%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.53px 0.53px at 9.07% 72.19%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.78px 0.78px at 64.06% 69.96%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.37px 0.37px at 8.76% 35.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 57.68% 27.55%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 98.05% 7.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.66px 0.66px at 44.51% 72.98%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.46px 0.46px at 37.26% 1.54%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.59px 0.59px at 90.42% 72.27%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.57px 0.57px at 98.13% 10.35%,rgba(248,247,255,0.27),transparent),
+      radial-gradient(0.91px 0.91px at 94.93% 71.89%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.36px 0.36px at 4.64% 11.86%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.56px 0.56px at 46.09% 50.65%,rgba(255,210,161,0.27),transparent),
+      radial-gradient(0.72px 0.72px at 98.16% 60.72%,rgba(255,181,107,0.35),transparent),
+      radial-gradient(0.90px 0.90px at 23.45% 18.12%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.53px 0.53px at 13.29% 38.54%,rgba(248,247,255,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 48.20% 58.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 93.26% 70.43%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.77px 0.77px at 98.31% 71.27%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.51px 0.51px at 91.86% 57.08%,rgba(255,210,161,0.24),transparent),
+      radial-gradient(0.76px 0.76px at 3.22% 18.38%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 67.24% 79.63%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.44px 0.44px at 4.49% 37.24%,rgba(255,210,161,0.20),transparent),
+      radial-gradient(0.35px 0.35px at 19.05% 44.87%,rgba(248,247,255,0.16),transparent),
+      radial-gradient(0.43px 0.43px at 80.57% 75.11%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.38px 0.38px at 84.40% 42.68%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.44px 0.44px at 84.04% 97.87%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.65px 0.65px at 16.48% 27.55%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.75px 0.75px at 84.52% 73.60%,rgba(255,210,161,0.36),transparent),
+      radial-gradient(0.63px 0.63px at 50.13% 6.86%,rgba(248,247,255,0.30),transparent),
+      radial-gradient(0.78px 0.78px at 87.51% 70.49%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.76px 0.76px at 16.34% 26.34%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.35px 0.35px at 58.85% 56.40%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 4.52% 56.48%,rgba(255,181,107,0.33),transparent),
+      radial-gradient(0.46px 0.46px at 86.45% 52.09%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.39px 0.39px at 91.92% 82.50%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.36px 0.36px at 6.83% 33.67%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.10% 7.69%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 63.59% 62.73%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 72.64% 55.47%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.57px 0.57px at 1.57% 22.68%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.35px 0.35px at 20.24% 40.59%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 81.60% 86.38%,rgba(255,244,234,0.33),transparent),
+      radial-gradient(0.75px 0.75px at 1.01% 89.43%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.50px 0.50px at 1.89% 45.85%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.36px 0.36px at 86.06% 69.70%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.46px 0.46px at 54.27% 84.12%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.35px 0.35px at 68.88% 69.99%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 51.92% 44.11%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.37px 0.37px at 83.56% 88.23%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.61px 0.61px at 48.63% 32.82%,rgba(248,247,255,0.29),transparent),
+      radial-gradient(0.46px 0.46px at 3.14% 19.70%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.35px 0.35px at 91.65% 60.72%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 39.35% 42.18%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.60px 0.60px at 96.63% 57.34%,rgba(255,210,161,0.29),transparent),
+      radial-gradient(0.36px 0.36px at 93.19% 66.52%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 91.66% 53.83%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.53px 0.53px at 37.09% 33.98%,rgba(255,210,161,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 7.69% 48.04%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.76px 0.76px at 40.92% 77.22%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.62px 0.62px at 53.18% 55.13%,rgba(255,181,107,0.30),transparent),
+      radial-gradient(0.52px 0.52px at 36.16% 17.06%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.42px 0.42px at 7.30% 10.90%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 98.83% 35.83%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.57px 0.57px at 32.25% 40.39%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.77px 0.77px at 68.97% 58.36%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.35px 0.35px at 98.16% 72.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 49.07% 50.45%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.59px 0.59px at 36.73% 46.36%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.37px 0.37px at 59.16% 52.43%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 5.87% 47.43%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.35px 0.35px at 28.92% 42.34%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.84px 0.84px at 38.15% 61.03%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.35px 0.35px at 17.08% 95.56%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.56px 0.56px at 72.12% 52.35%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.43px 0.43px at 10.79% 34.15%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.36px 0.36px at 90.72% 54.28%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.36px 0.36px at 0.22% 39.29%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.38px 0.38px at 66.88% 43.63%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.76px 0.76px at 85.24% 53.71%,rgba(255,210,161,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 76.84% 68.26%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.82px 0.82px at 20.88% 36.67%,rgba(255,181,107,0.40),transparent),
+      radial-gradient(0.53px 0.53px at 72.59% 59.70%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.82px 0.82px at 99.56% 61.97%,rgba(248,247,255,0.40),transparent),
+      radial-gradient(0.37px 0.37px at 43.04% 22.87%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.38px 0.38px at 62.75% 36.42%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.64px 0.64px at 11.37% 52.16%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.35px 0.35px at 65.28% 54.10%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 23.22% 51.57%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.41px 0.41px at 7.86% 15.80%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 1.16% 17.03%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 24.23% 36.88%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 67.85% 71.10%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.87px 0.87px at 21.22% 9.64%,rgba(255,181,107,0.43),transparent),
+      radial-gradient(16px 16px at 11.38% 48.06%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 66.59% 41.28%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 40.80% 23.68%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 41.01% 67.29%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 31.18% 27.63%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 10.81% 18.20%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 3.23% 54.03%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(30% 30% at 22% 30%,rgba(91,127,199,0.055),transparent 70%),
+      radial-gradient(26% 26% at 74% 58%,rgba(201,87,143,0.040),transparent 70%),
+      radial-gradient(22% 22% at 46% 18%,rgba(79,179,166,0.035),transparent 70%),
+      linear-gradient(66deg,transparent 34%,rgba(148,138,196,.045) 43%,rgba(172,162,214,.085) 50%,rgba(148,138,196,.045) 57%,transparent 66%),
+      linear-gradient(66deg,transparent 46%,rgba(4,3,7,.55) 49.4%,rgba(4,3,7,.62) 50.6%,transparent 54%);
+    animation:au-far 2040s ease-in-out infinite alternate}
+  html::after{background-image:
+      radial-gradient(1.30px 1.30px at 68.42% 62.26%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(0.96px 0.96px at 44.46% 53.88%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.72px 1.72px at 97.52% 67.89%,rgba(255,210,161,0.86),transparent),
+      radial-gradient(1.27px 1.27px at 29.09% 44.54%,rgba(255,181,107,0.63),transparent),
+      radial-gradient(1.25px 1.25px at 0.41% 98.24%,rgba(255,181,107,0.62),transparent),
+      radial-gradient(1.12px 1.12px at 48.27% 61.45%,rgba(255,181,107,0.55),transparent),
+      radial-gradient(1.62px 1.62px at 21.27% 82.41%,rgba(255,181,107,0.81),transparent),
+      radial-gradient(1.13px 1.13px at 32.91% 34.63%,rgba(255,181,107,0.56),transparent),
+      radial-gradient(1.56px 1.56px at 71.19% 43.86%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.40px 1.40px at 6.85% 52.24%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.14px 1.14px at 86.46% 83.26%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.10px 1.10px at 71.95% 42.90%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.42px 1.42px at 36.96% 17.89%,rgba(255,181,107,0.71),transparent),
+      radial-gradient(1.13px 1.13px at 4.31% 1.17%,rgba(170,191,255,0.56),transparent),
+      radial-gradient(1.31px 1.31px at 41.52% 51.61%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(1.46px 1.46px at 76.09% 66.82%,rgba(255,244,234,0.72),transparent),
+      radial-gradient(1.78px 1.78px at 26.72% 43.06%,rgba(255,181,107,0.89),transparent),
+      radial-gradient(1.69px 1.69px at 22.68% 46.22%,rgba(170,191,255,0.84),transparent),
+      radial-gradient(1.76px 1.76px at 30.20% 97.65%,rgba(255,181,107,0.88),transparent),
+      radial-gradient(1.38px 1.38px at 99.58% 76.98%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.08px 1.08px at 15.38% 27.05%,rgba(255,244,234,0.53),transparent),
+      radial-gradient(0.95px 0.95px at 42.39% 32.32%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.57px 1.57px at 58.49% 81.25%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(0.94px 0.94px at 48.37% 39.34%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.41px 1.41px at 91.19% 97.04%,rgba(255,210,161,0.70),transparent),
+      radial-gradient(1.37px 1.37px at 7.79% 44.56%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.07px 1.07px at 89.66% 36.01%,rgba(255,181,107,0.53),transparent),
+      radial-gradient(1.69px 1.69px at 67.50% 93.44%,rgba(255,181,107,0.84),transparent),
+      radial-gradient(1.15px 1.15px at 57.27% 40.78%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.58px 1.58px at 33.10% 45.94%,rgba(255,181,107,0.79),transparent),
+      radial-gradient(1.04px 1.04px at 83.01% 82.39%,rgba(255,181,107,0.51),transparent),
+      radial-gradient(1.56px 1.56px at 88.42% 66.83%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.29px 1.29px at 24.78% 0.51%,rgba(255,181,107,0.64),transparent),
+      radial-gradient(1.09px 1.09px at 6.07% 6.69%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.32px 1.32px at 53.40% 80.43%,rgba(255,210,161,0.65),transparent),
+      radial-gradient(1.19px 1.19px at 76.80% 81.97%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(0.94px 0.94px at 69.80% 57.79%,rgba(255,244,234,0.46),transparent),
+      radial-gradient(1.10px 1.10px at 7.00% 33.07%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.22px 1.22px at 76.56% 52.71%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(0.96px 0.96px at 85.29% 63.59%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.18px 1.18px at 17.44% 43.04%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(1.51px 1.51px at 36.81% 57.97%,rgba(255,210,161,0.75),transparent),
+      radial-gradient(1.37px 1.37px at 98.28% 82.40%,rgba(248,247,255,0.68),transparent),
+      radial-gradient(1.65px 1.65px at 78.05% 82.63%,rgba(248,247,255,0.82),transparent),
+      radial-gradient(1.20px 1.20px at 59.28% 41.45%,rgba(248,247,255,0.60),transparent),
+      radial-gradient(1.55px 1.55px at 40.98% 18.58%,rgba(255,181,107,0.77),transparent),
+      radial-gradient(1.02px 1.02px at 82.66% 66.73%,rgba(255,181,107,0.50),transparent),
+      radial-gradient(1.20px 1.20px at 0.68% 23.74%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(1.15px 1.15px at 57.32% 67.46%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.34px 1.34px at 6.29% 37.15%,rgba(255,244,234,0.66),transparent),
+      radial-gradient(1.39px 1.39px at 63.56% 50.69%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.59px 1.59px at 80.48% 31.89%,rgba(202,215,255,0.79),transparent),
+      radial-gradient(1.52px 1.52px at 40.22% 51.94%,rgba(255,210,161,0.76),transparent),
+      radial-gradient(1.52px 1.52px at 78.35% 77.94%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(1.70px 1.70px at 33.95% 56.66%,rgba(255,181,107,0.85),transparent),
+      radial-gradient(1.16px 1.16px at 77.09% 41.34%,rgba(255,210,161,0.58),transparent),
+      radial-gradient(1.67px 1.67px at 39.69% 60.56%,rgba(255,210,161,0.83),transparent),
+      radial-gradient(1.47px 1.47px at 12.24% 30.52%,rgba(255,181,107,0.73),transparent),
+      radial-gradient(1.11px 1.11px at 80.16% 93.71%,rgba(255,210,161,0.55),transparent),
+      radial-gradient(1.52px 1.52px at 11.04% 44.84%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(0.94px 0.94px at 59.58% 30.37%,rgba(255,210,161,0.46),transparent),
+      radial-gradient(1.53px 1.53px at 0.35% 42.03%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(2.6px 2.6px at 11.38% 48.06%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 66.59% 41.28%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 40.80% 23.68%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 41.01% 67.29%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 31.18% 27.63%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 10.81% 18.20%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 3.23% 54.03%,rgba(255,255,255,.95),transparent);
+    animation:au-near 1260s ease-in-out infinite alternate}
+  @keyframes au-far{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-3.0%,1.6%,0) scale(1.09)}}
+  @keyframes au-near{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-8.5%,4.4%,0) scale(1.26)}}
+  @media (prefers-reduced-motion:reduce){
+    html::before,html::after{animation:none}}
+</style>
+
+<div class="w">
+  <header>
+    <h1>The Blue Light</h1>
+    <span class="sub">Ten miles up and down &mdash; 16.09 km, 55 &plusmn; 8.05
+      &mdash; and the record this yard never had: what was looked for and not
+      found.</span>
+    <span class="tag">no script<a href="automat.html" style="color:inherit;text-decoration:none;opacity:.62" title="Still true: this board decides everything in its stylesheet. It also ships two inert script tags — automat.js and devmode.js — which do nothing unless the URL carries ?run or ?dev, a half of the address CSS cannot read. See automat.html.">&nbsp;&dagger;</a></span>
+  </header>
+
+  <h2>1 &middot; The traverse <b>eleven stations &middot; 1.40 bar to 0.14 &middot; +96 &deg;C to &minus;22</b></h2>
+  <div class="panel">
+    <div class="trav">
+      <div class="st l-up abs"><b>+5</b><i>63.05 km</i><i>0.141 bar</i><i>&minus;22 &deg;C</i><u>upper cloud &mdash; the absorber lives here</u></div>
+      <div class="st l-up abs"><b>+4</b><i>61.44 km</i><i>0.187 bar</i><i>&minus;16 &deg;C</i><u>upper cloud &mdash; 320&ndash;500 nm</u></div>
+      <div class="st l-up abs"><b>+3</b><i>59.83 km</i><i>0.247 bar</i><i>&minus;9 &deg;C</i><u>upper cloud &mdash; 320&ndash;500 nm</u></div>
+      <div class="st l-up abs"><b>+2</b><i>58.22 km</i><i>0.318 bar</i><i>+3 &deg;C</i><u>upper cloud &mdash; 320&ndash;500 nm</u></div>
+      <div class="st l-up abs"><b>+1</b><i>56.61 km</i><i>0.411 bar</i><i>+15 &deg;C</i><u>upper cloud base &mdash; the absorber starts</u></div>
+      <div class="st l-mid zero"><b>0</b><i>55.00 km</i><i>0.530 bar</i><i>+27 &deg;C</i><u>middle cloud &mdash; the deck. baseline.</u></div>
+      <div class="st l-mid"><b>&minus;1</b><i>53.39 km</i><i>0.665 bar</i><i>+42 &deg;C</i><u>middle cloud &mdash; mode 2</u></div>
+      <div class="st l-mid"><b>&minus;2</b><i>51.78 km</i><i>0.833 bar</i><i>+58 &deg;C</i><u>middle cloud &mdash; mode 2</u></div>
+      <div class="st l-low"><b>&minus;3</b><i>50.17 km</i><i>1.045 bar</i><i>+73 &deg;C</i><u>lower cloud &mdash; mode 3, the big ones</u></div>
+      <div class="st l-low"><b>&minus;4</b><i>48.56 km</i><i>1.214 bar</i><i>+85 &deg;C</i><u>lower cloud &mdash; opacity, particle size</u></div>
+      <div class="st l-haze"><b>&minus;5</b><i>46.95 km</i><i>1.399 bar</i><i>+96 &deg;C</i><u>below the deck &mdash; pre-cloud haze</u></div>
+    </div>
+    <div class="kpis">
+      <div class="k"><span>span</span><b>16.09 km</b></div>
+      <div class="k"><span>pressure ratio</span><b>&times;9.9</b></div>
+      <div class="k"><span>temperature swing</span><b>118 &deg;C</b></div>
+      <div class="k"><span>stations in the absorber</span><b>5 of 11</b></div>
+    </div>
+    <p class="n"><b>Ten miles is not an arbitrary span.</b> Down five and you are
+      under the cloud in the pre-cloud haze at almost a hundred degrees. Up five
+      and you are inside the layer that holds the <em>unknown ultraviolet
+      absorber</em> &mdash; the thing that takes 320 to 500 nm out of the
+      sunlight, that has been measured since the 1920s, and that nobody has
+      identified. Half the stations on this climb are inside an open question,
+      which is a good ratio for an instrument.</p>
+  </div>
+
+  <h2>2 &middot; The register of nothings <b>what was looked for, and was not there</b></h2>
+  <div class="panel">
+    <p class="n">This repository holds thirty-one knowledge-base entries and
+      every one of them records something established. <b>Nothing anywhere
+      records what was searched and came back empty</b> &mdash; which in real
+      science is most of the work and nearly all of the honest part. Mile one,
+      nothing. Mile two, nothing. <em>That is data.</em> It rules things out, it
+      costs exactly as much to collect, and it is the half nobody publishes
+      because nobody is paid for it.</p>
+    <div class="reg">
+      <div class="r"><div><b>FeCl&#8323; as the sole absorber</b>
+        <i>Ferric chloride in sulfuric acid does match the observed band shape,
+          and on its own it does not close the budget &mdash; Fe&#8322;(SO&#8324;)&#8323;
+          absorbs strongly below 320 nm and has to be in the reconstruction too.
+          Ruled out as a single answer; retained as a component.</i>
+        <s>searched 200&ndash;500 nm &middot; laboratory, Venus conditions</s></div>
+        <em>not it, alone</em></div>
+      <div class="r"><div><b>OSSO &mdash; the sulfur monoxide dimer</b>
+        <i>Proposed, spectrally plausible, and never confirmed in situ. Its
+          predicted abundance has not been matched to the depth of the observed
+          absorption. Still a candidate and still not a finding.</i>
+        <s>searched 320&ndash;500 nm &middot; spectral, remote</s></div>
+        <em>unconfirmed</em></div>
+      <div class="r"><div><b>Elemental sulfur allotropes</b>
+        <i>Amorphous sulfur and S&#8322;O have been on the list since the 1970s.
+          Half a century of looking has not produced an abundance that accounts
+          for the absorption. The oldest nothing on this page.</i>
+        <s>searched since ~1970 &middot; multiple missions</s></div>
+        <em>50 yr, nothing</em></div>
+      <div class="r"><div><b>A single compound, of any kind</b>
+        <i>The 200&ndash;300 nm and 300&ndash;500 nm features may not have the
+          same cause. Recent iron-sulfur work &mdash; rhomboclase and acid
+          ferric sulfate with dissolved Fe&sup3;&#8314; &mdash; explains both
+          only as a combination. The assumption that there is one absorber is
+          itself unsupported.</i>
+        <s>searched: the premise</s></div>
+        <em>premise unfounded</em></div>
+      <div class="r"><div><b>A biological absorber</b>
+        <i>Proposed seriously and not demonstrated. Nothing on this page rules
+          it out and nothing on this page supports it, and both halves of that
+          sentence are the finding. It is recorded here so that it is on the
+          register rather than in the air.</i>
+        <s>searched: not decisively &middot; no in-situ sampling has been done</s></div>
+        <em>open</em></div>
+      <div class="r"><div><b>Seismic activity, by measurement</b>
+        <i>No seismometer has ever been placed on Venus. The crust is 20&ndash;50
+          km because models say so. This is not a null result &mdash; it is an
+          unattempted one, which is a different and worse kind of nothing.</i>
+        <s>searched: never</s></div>
+        <em>never looked</em></div>
+    </div>
+    <div class="tot">
+      <div class="t t-ruled"><span>nothings on the register</span><b></b></div>
+      <div class="t t-found"><span>identified absorbers</span><b></b></div>
+    </div>
+    <p class="n"><code>identified</code> is declared, incremented by nothing, and
+      printed &mdash; the same instrument as <code>named</code> on
+      <a href="bench.html">the bench</a> and <code>gaps</code> on
+      <a href="rapture.html">the quiet storm</a>. It reads zero because after a
+      hundred years of looking, that is the honest number. <b>Every line above is
+      +1 exactly as a finding would be</b>, because ruling a candidate out at a
+      stated sensitivity costs the same and is worth the same, and a base that
+      only counts hits is a base that will quietly stop reporting misses.</p>
+  </div>
+
+  <div class="close">
+    <h4>The fair, and the name on the fuselage</h4>
+    <p>St. Louis put on a world&rsquo;s fair in 1904 and offered a hundred
+      thousand dollars for a flight around a closed course. Nobody collected it.
+      The aeronautic exhibits were mostly balloons and mostly disappointing, and
+      the thing being debuted did not work.</p>
+    <p>Twenty-three years later a monoplane crossed from New York to Paris, and
+      it was called the <b>Spirit of St. Louis</b> &mdash; because a group of
+      St. Louis businessmen had put up the money and the name of the backers
+      went on the fuselage and over the ocean. <em>The fair did not produce the
+      aeroplane. It produced the people who paid for one.</em></p>
+    <p>Which is the argument for showing the thing before it works, and for the
+      register above. You do not debut a result. You debut a <b>traverse</b>
+      &mdash; ten miles, eleven stations, six nothings and a stated sensitivity
+      &mdash; and what you are actually publishing is the method and the empty
+      rows, so that the next person does not spend their years on the same
+      absent sulfur. <b>Join the guild, rise through the ranks, and confer.</b>
+      The conferring is the whole of it: a guild member who publishes freely has
+      broken the guild&rsquo;s rent, and that is the only betrayal that leaves
+      everybody better off, including the people betrayed.</p>
+  </div>
+
+  <footer>
+    Altitude profile interpolated from standard Venus atmosphere anchors at 45,
+    50, 55, 60 and 65 km. Cloud layer boundaries: lower ~47.5&ndash;50.5, middle
+    ~50.5&ndash;56.5, upper ~56.5&ndash;70 km. The unknown UV absorber spans
+    roughly 200&ndash;300 and 300&ndash;500 nm; candidates on the register are
+    those in the current literature, and the nature, abundance and distribution
+    of all of them remain in debate.
+    <br><a href="interior.html">the interior</a> &middot;
+    <a href="residence.html">residence time</a> &middot;
+    <a href="kb.html#the-bag">fish in a bag</a> &middot;
+    <a href="index.html">the yard</a>
+  </footer>
+</div>
+
+<script src="automat.js"></script>
+<script src="devmode.js"></script>
