@@ -55,13 +55,41 @@
   /* the sky, behind everything, bleeding past the phone */
   #sky{position:fixed;inset:0;z-index:0}
 
-  /* ---------------------------------------------------------- the handset */
-  .phone{position:relative;z-index:1;width:404px;height:876px;max-height:96vh;
+  /* ------------------------------------------------------------ the shell
+     Phone shape on a phone, a proper wide app on a desktop. The aspect ratio
+     is not the design; the single column is, and above 860px the panes stop
+     being pages you switch to and become a sidebar that is always open. */
+  .phone{position:relative;z-index:1;width:min(404px,100vw);height:min(876px,100vh);
     border-radius:34px;border:1px solid #2a2333;overflow:hidden;
     background:linear-gradient(180deg,rgba(12,10,17,.86),rgba(8,7,12,.94));
     box-shadow:0 40px 120px rgba(0,0,0,.75),0 0 0 9px #0b0910,0 0 0 10px #1d1826;
     display:flex;flex-direction:column;backdrop-filter:blur(2px)}
-  @media (max-height:900px){.phone{height:96vh}}
+
+  @media (max-width:520px){
+    body{display:block}
+    .phone{width:100vw;height:100vh;border-radius:0;border:0;box-shadow:none}
+  }
+
+  @media (min-width:860px){
+    .phone{width:min(1180px,94vw);height:min(880px,94vh);
+      display:grid;grid-template-columns:1fr 344px;grid-template-rows:auto auto 1fr auto;
+      grid-template-areas:'res side' 'clock side' 'stage side' 'nav side'}
+    .res{grid-area:res} .clockbar{grid-area:clock}
+    .stage{grid-area:stage} nav{grid-area:nav}
+    .side{grid-area:side;border-left:1px solid var(--edge);overflow:auto;
+      background:rgba(10,8,14,.6);display:block}
+    .pane{display:none !important}
+    .side .pane{display:block !important;border-bottom:1px solid var(--edge)}
+    .side h4{margin:0;padding:11px 13px 8px;font:9px/1 ui-monospace,monospace;
+      letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
+      background:#0d0b13;border-bottom:1px solid var(--edge)}
+    nav button[data-tab="roster"],nav button[data-tab="fleet"],
+    nav button[data-tab="codex"]{display:none}
+    nav{grid-template-columns:repeat(2,1fr)}
+    .run{perspective:640px}
+    .stage.off{display:block}
+  }
+  .side{display:none}
 
   /* ------------------------------------------------------------- top bar */
   .res{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#241e2e;
@@ -155,7 +183,7 @@
   button.ghost{background:transparent;color:var(--dim);border-color:var(--edge)}
 
   /* ----------------------------------------------------------------- nav */
-  nav{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#241e2e;
+  nav{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#241e2e;
     border-top:1px solid var(--edge);flex:none}
   nav button{width:auto;margin:0;border-radius:0;border:0;background:#100d16;
     color:var(--dim);font-size:10px;font-weight:600;padding:11px 4px 12px;
@@ -180,6 +208,62 @@
   .pane{display:none;flex:1;overflow:auto}
   .pane.on{display:block}
   .stage.off{display:none}
+
+  /* ------------------------------------------------------------- the run
+     Same CSS-3D technique, camera turned to face down the colonnade instead of
+     down at the plate. Segments recycle as they pass the camera. */
+  .run{position:relative;flex:1;overflow:hidden;perspective:520px;
+    perspective-origin:50% 44%;display:none;touch-action:none;
+    user-select:none;-webkit-user-select:none;
+    background:linear-gradient(180deg,#0a0713 0%,#1a1020 46%,#2a1508 100%)}
+  .run.on{display:block}
+  .track{position:absolute;left:50%;top:50%;width:0;height:0;
+    transform-style:preserve-3d}
+  .seg{position:absolute;transform-style:preserve-3d}
+  .floor{position:absolute;left:-150px;width:300px;height:200px;
+    background:linear-gradient(180deg,rgba(232,192,105,.13),rgba(232,192,105,.03));
+    border-top:1px solid rgba(232,192,105,.30);
+    transform:rotateX(90deg);transform-origin:top center}
+  .pil{position:absolute;width:34px;transform-style:preserve-3d}
+  .pil i{position:absolute;left:0;width:34px;display:block;
+    border:1px solid rgba(0,0,0,.5)}
+  .pick{position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;
+    border-radius:50%;background:radial-gradient(circle at 36% 32%,#dffaff,#7fd0e0 60%,#2f7c8c);
+    box-shadow:0 0 14px rgba(127,208,224,.8)}
+  .hz{position:absolute;width:56px;height:44px;margin-left:-28px;
+    background:linear-gradient(180deg,#e0705a,#7a2a1e);border:1px solid #ff9c86;
+    border-radius:4px;box-shadow:0 0 16px rgba(224,112,90,.6)}
+  .runner{position:absolute;left:50%;width:26px;height:34px;margin-left:-13px;
+    border-radius:6px;background:linear-gradient(180deg,#ffe6a8,#e8c069);
+    box-shadow:0 0 20px rgba(232,192,105,.8);transition:transform .11s ease-out}
+  .hud{position:absolute;left:0;right:0;top:0;display:flex;gap:14px;
+    padding:9px 13px;font:10px/1 ui-monospace,monospace;color:var(--dim);
+    background:linear-gradient(180deg,rgba(8,6,12,.9),transparent);z-index:3}
+  .hud b{color:var(--gold2)} .hud .r{margin-left:auto}
+  .over{position:absolute;inset:0;display:none;place-items:center;z-index:6;
+    background:rgba(8,6,12,.9);text-align:center;padding:24px}
+  .over.on{display:grid}
+  .over h3{margin:0 0 6px;font-size:19px;color:var(--gold2)}
+  .over p{margin:0 0 4px;font-size:12px;color:var(--dim);max-width:34ch}
+  .over button{max-width:230px;margin:14px auto 0}
+
+  /* the gate: the run keeps going, you do the thinking */
+  .gate{position:absolute;left:10px;right:10px;bottom:12px;z-index:7;
+    background:linear-gradient(180deg,rgba(26,21,36,.97),rgba(16,12,24,.99));
+    border:1px solid var(--gold);border-radius:14px;padding:13px 14px;
+    transform:translateY(140%);transition:transform .26s cubic-bezier(.2,.8,.3,1)}
+  .gate.up{transform:translateY(0)}
+  .gate .stanza{font:italic 12px/1.55 ui-serif,Georgia,serif;color:var(--gold2);
+    border-left:2px solid var(--gold);padding-left:11px;margin:0 0 10px}
+  .gate .q{font-size:13px;margin:0 0 10px;color:var(--ink)}
+  .gate .opts{display:grid;gap:7px}
+  .gate .opts button{margin:0;padding:10px;font-size:12.5px;background:#221b30;
+    color:var(--ink);border-color:var(--edge);font-weight:600}
+  .gate .opts button:hover{border-color:var(--gold)}
+  .gate .opts button.right{background:var(--ok);color:#07130d;border-color:var(--ok)}
+  .gate .opts button.wrong{background:#3a1c18;color:#ffb3a3;border-color:var(--bad)}
+  .gate .tag{font:8.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:7px}
 
   .toast{position:absolute;left:12px;right:12px;bottom:74px;z-index:9;
     background:rgba(30,24,40,.97);border:1px solid var(--edge);border-radius:11px;
@@ -217,12 +301,34 @@
     <div class="toast" id="toast"></div>
   </div>
 
+  <div class="run" id="run">
+    <div class="hud">
+      <span>run <b id="r-dist">0</b> m</span>
+      <span>recovered <b id="r-h2">0</b> kg</span>
+      <span class="r" id="r-tip">&larr; &rarr; or swipe</span>
+    </div>
+    <div class="track" id="track"></div>
+    <div class="runner" id="runner"></div>
+    <div class="over" id="over"><div>
+      <h3 id="over-t">The colonnade</h3>
+      <p id="over-p"></p>
+      <button onclick="startRun()">run</button>
+    </div></div>
+  </div>
+
   <div class="pane" id="pane-roster"><div class="list" id="rosterList"></div></div>
   <div class="pane" id="pane-fleet"><div class="list" id="fleetList"></div></div>
   <div class="pane" id="pane-codex"><div class="list" id="codexList"></div></div>
 
+  <div class="side">
+    <h4>Orders</h4><div class="pane" id="side-roster"></div>
+    <h4>Fleet</h4><div class="pane" id="side-fleet"></div>
+    <h4>Codex</h4><div class="pane" id="side-codex"></div>
+  </div>
+
   <nav>
     <button class="on" data-tab="base">BASE</button>
+    <button data-tab="run">RUN</button>
     <button data-tab="roster">ORDERS</button>
     <button data-tab="fleet">FLEET</button>
     <button data-tab="codex">CODEX</button>
@@ -599,17 +705,255 @@ $('codexList').innerHTML = CODEX.map(([t, d]) =>
   'taken from a page in this repository that worked it out first. Nothing is balanced for ' +
   'fun &mdash; the difficulty is the physics.</span></div></div>';
 
+['roster','fleet','codex'].forEach(t => {
+  const src = $('pane-' + t), dst = $('side-' + t);
+  if (src && dst) dst.innerHTML = src.innerHTML;
+});
+
 document.querySelectorAll('nav button').forEach(b => {
   b.onclick = () => {
     document.querySelectorAll('nav button').forEach(x => x.classList.remove('on'));
     b.classList.add('on');
     S.tab = b.dataset.tab;
     stage.classList.toggle('off', S.tab !== 'base');
+    runView.classList.toggle('on', S.tab === 'run');
+    if (S.tab === 'run' && !R.on && !$('over').classList.contains('on')) {
+      const n = SECTORS.filter(x => S.built[x.id]).length;
+      $('over-t').textContent = 'The colonnade';
+      $('over-p').innerHTML = n
+        ? 'You run through what you built. ' + n + ' temple' + (n === 1 ? '' : 's') +
+          ' stand along this route.<br><br>It runs itself. What you do at a gate is answer.'
+        : 'Nothing is built yet, so the colonnade is bare columns.<br><br>' +
+          'Build on the base and they become temples.';
+      $('over').classList.add('on');
+    }
     ['roster', 'fleet', 'codex'].forEach(t =>
       $('pane-' + t).classList.toggle('on', S.tab === t));
     if (S.tab !== 'base') closeSheet();
   };
 });
+
+/* ══════════════════════════════════════════════════════ THE RUN — automated
+   The colonnade is the base you built, seen from the floor. It runs itself:
+   the runner dodges on its own, and what you actually do at a gate is answer
+   a question. That is the inversion — the reflexes are automated and the
+   thinking is not, which is the same arrangement as every other board here.
+
+   Every question is drawn from something this repository worked out. Getting
+   them right is the upgrade path; there is no currency for it. */
+
+const STANZAS = [
+  ['Hestia',    'The fire is not the flame you see,\nbut the hour it is kept.'],
+  ['Demeter',   'What is sown is a promise made to a season\nthat has not agreed to it.'],
+  ['Hephaestus','The tool is the second thing.\nThe hands that were spared to make it are the first.'],
+  ['Hermes',    'A road is an argument that two places\nshould be able to disagree.'],
+  ['Apollo',    'Measure first the thing you will be asked for.\nThe rest is decoration on a tally.'],
+  ['Hera',      'An oath no one can produce\nis a memory wearing a crown.'],
+  ['Athena',    'The craft outlives the hand\nonly if a second hand was fed.'],
+  ['Artemis',   'Count what is not being spent.\nIt is the only account nobody keeps.'],
+  ['Poseidon',  'Water goes first and decides everything after,\nand is thanked for none of it.'],
+  ['Ares',      'The guard is a debt the granary took out\nbefore it was full.'],
+  ['Aphrodite', 'Want is not the reward at the end.\nIt is the reason the first furrow was cut.'],
+  ['Zeus',      'Authority is the last thing installed\nand the first thing claimed.']
+];
+
+const PUZZLES = [
+  { kind:'order', q:'Zeus can adjudicate only when two others run. Which two?',
+    a:['Hera and Apollo','Ares and Hera','Apollo and Hermes'], c:0,
+    note:'A rule and a record. With the rule alone you have authority ruling by memory.' },
+  { kind:'order', q:'Writing was invented for which of these first?',
+    a:['Accounting','Law','Poetry'], c:0,
+    note:'Cuneiform begins as barley and livestock tallies. Apollo comes after Hermes.' },
+  { kind:'math',  q:'Five Venus synodic cycles at 583.92 days is closest to:',
+    a:['2,920 days','1,460 days','4,380 days'], c:0,
+    note:'2,919.6 — and thirteen Venus years is 2,921.1, and eight Earth years 2,922.' },
+  { kind:'math',  q:'Venus surface gravity is 8.87 m/s². As a share of Earth\u2019s 9.81:',
+    a:['about 90%','about 62%','about 38%'], c:0,
+    note:'90.4%. Mars is 38% and the Moon 17%, which is the whole argument for Venus.' },
+  { kind:'order', q:'Which sector is a root — needing nothing upstream of it?',
+    a:['Aphrodite','Hephaestus','Apollo'], c:0,
+    note:'Demand is a root, not a luxury. Nobody farms without wanting something.' },
+  { kind:'math',  q:'Water at 27 °C holds 7.9 mg/L of oxygen. At 75 °C it holds:',
+    a:['2.6 mg/L','7.1 mg/L','11.4 mg/L'], c:0,
+    note:'Which is why the settlement sits at 55 km and not at 50.' },
+  { kind:'word',  q:'Which god stands for records, measure and standards?',
+    a:['Apollo','Hermes','Athena'], c:0,
+    note:'Measure, medicine and prophecy — which is standards, health and the written account.' },
+  { kind:'word',  q:'One order in the wood forgets by default. Which?',
+    a:['Ants','Owls','Bees'], c:0,
+    note:'An unrenewed trail evaporates, so a route that stopped being useful stops existing.' },
+  { kind:'math',  q:'9,000 sq mi against Venus\u2019s 177.7 million is about:',
+    a:['0.005%','0.5%','5%'], c:0,
+    note:'One part in 19,744. It takes 197 such forests to reach a single per cent.' },
+  { kind:'order', q:'Force is downstream of which sector?',
+    a:['Demeter — the surplus','Zeus — authority','Hephaestus — the forge'], c:0,
+    note:'Force needs something worth taking. Security is a response to having food.' },
+  { kind:'word',  q:'What can a beetle NOT do while its armour is shut?',
+    a:['Fly','Bury seed','Walk'], c:0,
+    note:'The elytra are its forewings. Protection and movement are the same structure.' },
+  { kind:'math',  q:'Light from Venus takes 2.2 to 14.3 minutes. Mass takes:',
+    a:['4 to 6 months','2 to 3 weeks','the same'], c:0,
+    note:'About 45,000 times slower on the identical route. Atoms visit; light commutes.' }
+];
+
+const R = { on:false, dist:0, h2:0, speed:1, lane:1, tier:1, seg:[], nextGate:260,
+            gate:null, best:0, upgrades:0 };
+const LANEX = [-84, 0, 84];
+const SEGLEN = 200, SEGS = 9;
+
+const track = $('track'), runner = $('runner'), runView = $('run');
+
+function buildTrack() {
+  track.innerHTML = '';
+  R.seg = [];
+  for (let i = 0; i < SEGS; i++) R.seg.push(makeSeg(-i * SEGLEN));
+}
+function makeSeg(z) {
+  const el = document.createElement('div');
+  el.className = 'seg';
+  const built = SECTORS.filter(x => S.built[x.id]);
+  let html = '<div class="floor" style="transform:rotateX(90deg) translateZ(60px)"></div>';
+  // a column each side; a temple when the sector behind it is built
+  for (const side of [-1, 1]) {
+    const pick = built.length ? built[Math.floor(Math.random() * built.length)] : null;
+    const h = pick ? 70 + pick.build / 3 : 44;
+    const col = pick ? HUE[pick.sector] : 'rgb(70,60,86)';
+    html += '<div class="pil" style="left:' + (side * 150 - 17) + 'px;bottom:60px;height:' + h + 'px">' +
+      ['0,26px,rotateY(0deg)', '0,-26px,rotateY(180deg)',
+       '-17px,0,rotateY(-90deg)', '17px,0,rotateY(90deg)'].map(sp => {
+        const [tx, tz, rot] = sp.split(',');
+        return '<i style="height:' + h + 'px;bottom:0;background:linear-gradient(180deg,' + col +
+          ',rgba(0,0,0,.75));transform:translate3d(' + tx + ',0,' + tz + ') ' + rot +
+          ' translateZ(17px)"></i>';
+      }).join('') + '</div>';
+  }
+  // one hazard and one pickup, on random lanes
+  const hl = Math.floor(Math.random() * 3), pl = (hl + 1 + Math.floor(Math.random() * 2)) % 3;
+  html += '<div class="hz" data-lane="' + hl + '" style="left:' + LANEX[hl] +
+    'px;bottom:60px;transform:translateZ(-40px)"></div>';
+  html += '<div class="pick" data-lane="' + pl + '" style="left:' + LANEX[pl] +
+    'px;bottom:96px;transform:translateZ(40px)"></div>';
+  el.innerHTML = html;
+  el.dataset.z = z;
+  place(el, z);
+  track.appendChild(el);
+  return el;
+}
+function place(el, z) { el.style.transform = 'translate3d(0,0,' + z + 'px)'; el.dataset.z = z; }
+
+function startRun() {
+  R.on = true; R.dist = 0; R.h2 = 0; R.speed = 1; R.lane = 1;
+  R.nextGate = 260; R.gate = null;
+  $('over').classList.remove('on');
+  buildTrack(); paintRunner();
+  const g = $('gate'); if (g) g.classList.remove('up');
+}
+window.startRun = startRun;
+
+function paintRunner() {
+  runner.style.transform = 'translateX(' + LANEX[R.lane] + 'px) translateZ(0)';
+  runner.style.bottom = (runView.clientHeight * 0.30) + 'px';
+}
+
+/* the automated part: it steers itself away from the nearest hazard */
+function autopilot() {
+  let danger = null, dz = 1e9;
+  for (const el of R.seg) {
+    const z = +el.dataset.z;
+    for (const h of el.querySelectorAll('.hz')) {
+      const hz = z - 40;
+      if (hz < -30 && hz > -320 && -hz < dz) { dz = -hz; danger = +h.dataset.lane; }
+    }
+  }
+  if (danger !== null && danger === R.lane) {
+    const opts = [0, 1, 2].filter(l => l !== danger);
+    R.lane = opts[Math.floor(Math.random() * opts.length)];
+    paintRunner();
+  }
+}
+
+function runStep(dt) {
+  if (!R.on || R.gate) return;
+  const v = (0.19 + R.tier * 0.05) * R.speed * dt;
+  R.dist += v * 0.06;
+
+  for (const el of R.seg) {
+    let z = +el.dataset.z + v;
+    if (z > 220) {
+      z -= SEGS * SEGLEN;
+      const fresh = makeSeg(z);
+      track.replaceChild(fresh, el);
+      R.seg[R.seg.indexOf(el)] = fresh;
+      continue;
+    }
+    place(el, z);
+    // pickups collected when they reach the runner's plane, in lane
+    for (const pk of el.querySelectorAll('.pick')) {
+      const pz = z + 40;
+      if (pz > -20 && pz < 40 && +pk.dataset.lane === R.lane && !pk._got) {
+        pk._got = true; pk.style.display = 'none';
+        R.h2 += 4 + R.tier * 2;
+      }
+    }
+  }
+  autopilot();
+
+  $('r-dist').textContent = Math.round(R.dist);
+  $('r-h2').textContent = Math.round(R.h2);
+
+  if (R.dist > R.nextGate) { R.nextGate += 300; openGate(); }
+}
+
+/* ─────────────────────────────────────────────────────────── the gate */
+function openGate() {
+  const p = PUZZLES[Math.floor(Math.random() * PUZZLES.length)];
+  const st = STANZAS[Math.floor(Math.random() * STANZAS.length)];
+  R.gate = p;
+  let g = $('gate');
+  if (!g) { g = document.createElement('div'); g.className = 'gate'; g.id = 'gate'; runView.appendChild(g); }
+  g.innerHTML =
+    '<div class="tag">' + p.kind + ' &middot; ' + st[0] + '</div>' +
+    '<p class="stanza">' + st[1].replace('\n', '<br>') + '</p>' +
+    '<p class="q">' + p.q + '</p><div class="opts">' +
+    p.a.map((t, i) => '<button data-i="' + i + '">' + t + '</button>').join('') + '</div>';
+  g.querySelectorAll('button').forEach(b => {
+    b.onclick = () => answer(+b.dataset.i, b, p);
+  });
+  requestAnimationFrame(() => g.classList.add('up'));
+}
+function answer(i, btn, p) {
+  const right = i === p.c;
+  btn.className = right ? 'right' : 'wrong';
+  const g = $('gate');
+  g.querySelectorAll('button').forEach(b => b.disabled = true);
+  if (right) {
+    R.tier++; R.upgrades++; R.speed = Math.min(2.6, R.speed + 0.14);
+    S.upgrades = (S.upgrades || 0) + 1;
+  } else {
+    R.speed = Math.max(0.6, R.speed - 0.18);
+  }
+  g.insertAdjacentHTML('beforeend',
+    '<p class="stanza" style="border-color:' + (right ? 'var(--ok)' : 'var(--bad)') +
+    ';color:var(--dim);margin:10px 0 0;font-style:normal;font-family:inherit;font-size:11px">' +
+    (right ? 'Tier ' + R.tier + '. ' : 'Slower. ') + p.note + '</p>');
+  setTimeout(() => {
+    g.classList.remove('up');
+    setTimeout(() => { R.gate = null; }, 240);
+  }, 2100);
+}
+
+function endRun(why) {
+  R.on = false;
+  R.best = Math.max(R.best, R.dist);
+  S.h2 += R.h2;
+  $('over-t').textContent = 'Run ended';
+  $('over-p').innerHTML = why + '<br><br>' + Math.round(R.dist) + ' m &middot; ' +
+    Math.round(R.h2) + ' kg recovered and banked &middot; tier ' + R.tier +
+    '<br>best ' + Math.round(R.best) + ' m';
+  $('over').classList.add('on');
+  render();
+}
+window.endRun = endRun;
 
 /* ═══════════════════════════════════════════════════════════════════ START */
 render();
@@ -618,6 +962,7 @@ function frame(now) {
   const dt = Math.min(now - last, 200); last = now;
   drawSky();
   if (S.tab === 'base') { acc += dt; while (acc > 420) { acc -= 420; step(); } }
+  if (S.tab === 'run') runStep(dt);
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
