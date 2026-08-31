@@ -1,0 +1,53 @@
+{
+ "id": "voice-rename",
+ "type": "voice",
+ "tier": 1,
+ "title": "The rename",
+ "unlocks": "the-rename",
+ "ground": "Johnson v. M'Intosh, US Supreme Court, 1823. A title dispute over land in what is now southern Illinois. Thomas Johnson's heirs held land bought directly from Piankeshaw sellers in 1773 and 1775; William M'Intosh held a later federal patent on overlapping ground. Chief Justice Marshall, for a unanimous court, held that discovery had vested title in the discovering European nation, that the United States had inherited it, and that native nations retained only a 'right of occupancy' — which meant they could not sell to a private buyer, because they had never held the thing being sold. Nobody was dispossessed by the ruling on the day it was handed down. The land had been renamed, and the renaming was the whole of it.",
+ "sources": [
+  "Johnson & Graham’s Lessee v. M’Intosh, 21 U.S. (8 Wheat.) 543 (1823)",
+  "Marshall, C.J., for a unanimous court"
+ ],
+ "standpoints": [
+  {
+   "id": "marshall",
+   "who": "Marshall, writing the opinion",
+   "brief": "He is not gloating and he is not lying. He believes he is describing a settled state of affairs rather than creating one, and the opinion goes out of its way to call the doctrine 'opposed to natural right' while applying it anyway. Write the voice of a man who knows exactly what he is doing and has decided it is already done."
+  },
+  {
+   "id": "seller",
+   "who": "A Piankeshaw signatory to the 1775 sale",
+   "brief": "He signed something. Forty-eight years later a court in a city he has never seen rules that what he signed could not have been what he thought it was. Write him without making him a symbol — he had reasons, he had a price, and he was not naive."
+  },
+  {
+   "id": "mcintosh",
+   "who": "M'Intosh, holding the federal patent",
+   "brief": "He bought from the government. He is, on the facts, the innocent party in a title dispute, and the ruling that vindicates him rests on a doctrine he did not invent and probably has not read. Write the voice of somebody being handed a windfall he considers ordinary."
+  },
+  {
+   "id": "clerk",
+   "who": "The clerk copying the decision into the reports",
+   "brief": "He is paid by the page. He will read this sentence more carefully than anybody in the courtroom did, and he has no standing to say anything about it. The attribution gap, from inside."
+  }
+ ],
+ "task": "Write 300–400 words in ONE of these voices, at a specific hour on a specific day. No summary of the case, no verdict on it, no anachronism. The voice must know things the other three do not, and must not know things they do.",
+ "rubric": [
+  {
+   "band": "It is a voice",
+   "test": "Could a reader identify the standpoint from any 40 consecutive words, with the header removed?"
+  },
+  {
+   "band": "It is that voice and not a costume",
+   "test": "Does it contain at least one thing this person would find ordinary that the reader will find remarkable — and is it left unremarked?"
+  },
+  {
+   "band": "It knows its own limits",
+   "test": "Is there something the voice is wrong about, or cannot see, that the piece does not step outside itself to correct?"
+  },
+  {
+   "band": "It is not an argument",
+   "test": "Remove every sentence that could appear in an essay about the case. Is there still a piece left?"
+  }
+ ]
+}

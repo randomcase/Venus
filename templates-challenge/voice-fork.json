@@ -1,0 +1,54 @@
+{
+ "id": "voice-fork",
+ "type": "voice",
+ "tier": 4,
+ "title": "The fork in the road",
+ "unlocks": "the-injector",
+ "ground": "Two documents, two years apart. In December 1830 President Jackson tells Congress that removal is generous — that it will \"separate the Indians from immediate contact with settlements of whites\" and is what a humane policy requires. In 1832, in Worcester v. Georgia, Marshall’s court holds that the Cherokee Nation is a distinct community within which Georgia law has no force. The executive does not enforce it. Removal proceeds. Nobody in this story acts outside their office and the outcome is what it is.",
+ "sources": [
+  "Jackson, Second Annual Message to Congress, 6 December 1830",
+  "Indian Removal Act, 28 May 1830",
+  "Worcester v. Georgia, 31 U.S. (6 Pet.) 515 (1832)"
+ ],
+ "standpoints": [
+  {
+   "id": "president",
+   "who": "The President, drafting the message",
+   "brief": "He believes it. That is the exercise. Write a man arriving at a decision he considers merciful, using an argument he finds sound, in an office that gives him the last word and the fewest hours to use it. No wink to the reader."
+  },
+  {
+   "id": "justice",
+   "who": "Marshall, two years later",
+   "brief": "He has now written both opinions. In 1823 he supplied the doctrine; in 1832 he limits it. Write somebody discovering the reach of a sentence he wrote nine years ago."
+  },
+  {
+   "id": "delegate",
+   "who": "A Cherokee delegate in Washington",
+   "brief": "He has won in court and it has changed nothing. He is literate in two legal systems and both have just been demonstrated to him. Write competence meeting a wall, not helplessness."
+  },
+  {
+   "id": "clerk2",
+   "who": "A War Department clerk costing the removal",
+   "brief": "Wagons, rations, per head, per mile. He is good at his job. The attribution gap again, and this time the numbers are his."
+  }
+ ],
+ "task": "Write 300–400 words in ONE voice on the day the decision becomes irreversible. A fork closes behind whoever takes it — find the moment it shuts, and do not have the voice notice it shutting.",
+ "rubric": [
+  {
+   "band": "It is a voice",
+   "test": "Could a reader identify the standpoint from any 40 consecutive words, header removed?"
+  },
+  {
+   "band": "The President is not a villain",
+   "test": "If you wrote him: is the argument he makes one a reader could be persuaded by for the length of a paragraph? If not, you wrote a verdict."
+  },
+  {
+   "band": "Nobody steps outside their office",
+   "test": "Does every figure act within their actual powers? An invented abuse of power is an escape from the exercise, which is about the ordinary use of it."
+  },
+  {
+   "band": "The fork is visible and unremarked",
+   "test": "Can a reader see the point of no return that the voice cannot?"
+  }
+ ]
+}

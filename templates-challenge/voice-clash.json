@@ -1,0 +1,53 @@
+{
+ "id": "voice-clash",
+ "type": "voice",
+ "tier": 3,
+ "title": "The clash, and the people standing in it",
+ "unlocks": "the-prior-condition",
+ "ground": "The Carnatic Wars, south-east India, 1746–1763. Two European companies — French at Pondicherry, English at Madras — fight each other through local succession disputes, each backing a claimant, each raising and paying local troops. Neither is governing. Both are trading companies with armies. The ground they are contesting is somebody’s district, and the people on it are not the subject of the dispute; they are the terrain of it. The same shape appears on the other coast, in North America, in the same decades and with the same two companies’ governments behind it.",
+ "sources": [
+  "Carnatic Wars, 1746–1763",
+  "Anglo-French contest for the Coromandel coast; Pondichéry and Madras"
+ ],
+ "standpoints": [
+  {
+   "id": "weaver",
+   "who": "A weaver in a village that changes hands twice",
+   "brief": "The buyer of his cloth changes and the price changes with it. He has no view on which company should win and a very precise view on what each one pays. Write somebody for whom this is a market condition."
+  },
+  {
+   "id": "french",
+   "who": "A French officer at Pondichéry",
+   "brief": "He is outnumbered, underfunded, and better at this than his opposite number, and he knows all three. Write a professional losing slowly to a larger balance sheet."
+  },
+  {
+   "id": "factor",
+   "who": "An English factor at Madras",
+   "brief": "He came out to trade and is now signing for gunpowder. Write the voice of somebody who has noticed that his job changed and has not said so in a letter home."
+  },
+  {
+   "id": "both",
+   "who": "A sepoy who has served both companies",
+   "brief": "He has worn two uniforms and been paid by both, and the drill was nearly the same. He is the only person in this exercise who can compare them from inside. Do not make him cynical — make him accurate."
+  }
+ ],
+ "task": "Write 300–400 words in ONE voice, during a week when the district changes hands. The contest is the weather, not the subject.",
+ "rubric": [
+  {
+   "band": "It is a voice",
+   "test": "Could a reader identify the standpoint from any 40 consecutive words, header removed?"
+  },
+  {
+   "band": "Neither company is the protagonist",
+   "test": "Could either side quote this piece approvingly? If exactly one could, it has become an argument."
+  },
+  {
+   "band": "The ground is somebody’s home",
+   "test": "Is there a detail in it that only somebody who lives there would think to mention?"
+  },
+  {
+   "band": "It is not an argument",
+   "test": "Remove every essayable sentence. Is there still a piece?"
+  }
+ ]
+}
