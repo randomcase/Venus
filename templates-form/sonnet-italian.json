@@ -1,0 +1,19 @@
+{
+ "id": "sonnet-italian",
+ "name": "Sonnet, Italian",
+ "kind": "verse",
+ "lines": 14,
+ "stanzas": [
+  8,
+  6
+ ],
+ "rhyme": "abbaabbacdecde",
+ "meter": {
+  "name": "iambic pentameter",
+  "syllables": 10
+ },
+ "turn": 9,
+ "note": "An octave that states and a sestet that answers, and the volta between them is structural rather than decorative — the rhyme sounds change at exactly the point the argument does.",
+ "ground": "Petrarch. Four a-rhymes and four b-rhymes in eight lines, which is comfortable in Italian and punishing in English, where it is the reason most English \"Petrarchan\" sonnets quietly cheat.",
+ "ask": "Does line nine answer the octave, or only continue it?"
+}

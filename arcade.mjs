@@ -88,6 +88,7 @@ const LAYERS = [
   ['templates-quest',     'Quests',         'quests.mjs',     'quests.js',     'giver, object, done, produces — no recursion'],
   ['templates-faction',   'Factions',       'factions.mjs',   'factions.js',   'patrons, all unconditional'],
   ['templates-challenge', 'Challenges',     'challenges.mjs', 'challenges.js', 'coding, assessment, writing, voice'],
+  ['templates-form',      'Forms',          'writing.mjs',    'writing.html',  'eleven, and every shape closes'],
 ].filter(([d]) => existsSync(d)).map(([dir, name, gen, out, note]) => ({
   dir, name, gen, out, note,
   n: readdirSync(dir).filter((f) => f.endsWith('.json')).length
@@ -109,6 +110,7 @@ const SHOP = [
   ['challenges.mjs', 'challenges.js — refuses a rubric band carrying a number'],
   ['hub.mjs',        'hub.js — the knowledge hub, from kb.json'],
   ['journal.mjs',    'journal.html — the desk, and the prompts it reads'],
+  ['writing.mjs',    'writing.html — the notebook, and the forms it holds you to'],
   ['profiles.mjs',   'profiles/ — fourteen requirement pages'],
   ['ships.mjs',      'ships/ — seven logs and their charts'],
   ['templatise.mjs', 'templates/ — one per authored board'],

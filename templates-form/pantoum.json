@@ -1,0 +1,49 @@
+{
+ "id": "pantoum",
+ "name": "Pantoum",
+ "kind": "verse",
+ "lines": 16,
+ "stanzas": [
+  4,
+  4,
+  4,
+  4
+ ],
+ "repeats": [
+  {
+   "line": 5,
+   "same_as": 2
+  },
+  {
+   "line": 7,
+   "same_as": 4
+  },
+  {
+   "line": 9,
+   "same_as": 6
+  },
+  {
+   "line": 11,
+   "same_as": 8
+  },
+  {
+   "line": 13,
+   "same_as": 10
+  },
+  {
+   "line": 15,
+   "same_as": 12
+  },
+  {
+   "line": 14,
+   "same_as": 3
+  },
+  {
+   "line": 16,
+   "same_as": 1
+  }
+ ],
+ "note": "Lines two and four of each stanza become lines one and three of the next. The poem moves forward at half speed, always dragging half of itself along, and it closes by returning the two lines it never reused. It is the right shape for something you cannot leave behind.",
+ "ground": "Malay pantun, by way of French nineteenth-century borrowing. The interlocking is the whole of it and the length is arbitrary — this is the four-stanza case; you can run it longer.",
+ "ask": "Does a repeated line sit in a different grammar the second time?"
+}

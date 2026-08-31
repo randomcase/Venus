@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The notebook &middot; Virgo on her side</title>
+<style>
+  :root{
+    --room:#0b0a0d;              /* the dark the book lies in */
+    --paper:#efe7d6; --paper2:#e7dcc6; --rule:#cbbfa6;
+    --ink:#2b2620; --pale:#7d7263; --faint:#a2957f;
+    --gold:#b8860b; --venus:#f0cf72; --red:#9b4a3c;
+    --edge:#241f1a;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--room);color:var(--ink);overflow:hidden;
+    font:14px/1.6 ui-sans-serif,system-ui,"Segoe UI",sans-serif;
+    display:flex;align-items:center;justify-content:center}
+
+  /* ── the cover. She is lying down. ─────────────────────────────────── */
+  #cover{position:fixed;inset:0;z-index:60;background:
+    radial-gradient(160% 100% at 50% 62%,#151320 0%,#0b0a0d 58%,#050406 100%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:6px;cursor:pointer;transition:opacity .6s ease,visibility .6s}
+  #cover.gone{opacity:0;visibility:hidden}
+  .sky{width:min(1140px,94vw);height:auto;display:block}
+  .ecl{fill:none;stroke:#4a5f7a;stroke-width:1;stroke-dasharray:5 6;opacity:.85}
+  .lk{stroke:#5d6b86;stroke-width:.9;opacity:.62}
+  .st{fill:#e9edf7}
+  .ven{fill:var(--venus)}
+  .lb{fill:#9aa6bd;font:10.5px/1 ui-monospace,monospace;letter-spacing:.06em}
+  .lb.dim{fill:#5f6a80;font-size:9px}
+  .lb.vn{fill:var(--venus);font-size:11.5px;letter-spacing:.12em}
+  .ecl-l{fill:#4a5f7a}
+  #cover h1{margin:4px 0 0;color:#e8e0cf;
+    font:400 27px/1.2 Georgia,"Iowan Old Style",serif;letter-spacing:.13em}
+  #cover p{margin:0;color:#6d7488;max-width:60ch;text-align:center;
+    font:10.5px/1.8 ui-monospace,monospace}
+  #cover p b{color:#93a0b8;font-weight:400}
+  #open{margin-top:14px;background:none;border:1px solid #333a4a;color:#8b93a8;
+    padding:8px 22px;border-radius:2px;cursor:pointer;
+    font:10px/1 ui-monospace,monospace;letter-spacing:.22em}
+  #open:hover{border-color:var(--venus);color:var(--venus)}
+
+  /* ── the book, open flat, landscape ───────────────────────────────── */
+  #book{display:grid;grid-template-columns:1fr 10px 1fr;
+    width:min(1560px,97vw);height:min(880px,94vh);
+    box-shadow:0 40px 90px -20px #000,0 0 0 1px #1c1811;border-radius:3px}
+  .leaf{background:linear-gradient(180deg,var(--paper),var(--paper2));
+    display:flex;flex-direction:column;min-width:0;min-height:0;position:relative}
+  .leaf.l{border-radius:3px 0 0 3px;
+    box-shadow:inset -22px 0 26px -22px rgba(60,44,20,.55)}
+  .leaf.r{border-radius:0 3px 3px 0;
+    box-shadow:inset 22px 0 26px -22px rgba(60,44,20,.55)}
+  /* the spine: a real gutter, because a notebook has one */
+  #spine{background:linear-gradient(90deg,#7a6a4c,#3a3125 42%,#2d251b 50%,#3a3125 58%,#7a6a4c);
+    box-shadow:inset 0 0 8px rgba(0,0,0,.6)}
+
+  /* the left leaf: where you write */
+  #head{display:flex;align-items:center;gap:12px;padding:13px 26px 10px;
+    border-bottom:1px solid var(--rule)}
+  #ttl{flex:1;min-width:0;background:none;border:none;outline:none;color:var(--ink);
+    font:italic 600 19px/1.3 Georgia,"Iowan Old Style",serif}
+  #ttl::placeholder{color:var(--faint)}
+  #head select{background:#e2d7bf;border:1px solid var(--rule);color:var(--ink);
+    border-radius:2px;padding:5px 7px;font:11px/1 ui-monospace,monospace;cursor:pointer}
+  #head button{background:none;border:1px solid var(--rule);color:var(--pale);
+    border-radius:2px;padding:5px 9px;cursor:pointer;font:10px/1 ui-monospace,monospace}
+  #head button:hover{color:var(--ink);border-color:var(--pale)}
+  #head button.warn:hover{color:var(--red);border-color:var(--red)}
+  /* ruled paper. The rules are the writing surface, not a background image
+     laid behind an unrelated line-height: the gradient period IS 30px and so
+     is the line-height, which is why the text sits on them. */
+  #wrap{flex:1;overflow-y:auto;position:relative}
+  #pen{display:block;width:100%;min-height:100%;background:transparent;
+    border:none;outline:none;resize:none;color:var(--ink);
+    padding:14px 30px 42vh 62px;
+    font:16px/30px Georgia,"Iowan Old Style",serif;
+    background-image:repeating-linear-gradient(180deg,
+      transparent 0,transparent 29px,var(--rule) 29px,var(--rule) 30px);
+    background-position:0 14px;background-attachment:local}
+  #pen::placeholder{color:var(--faint)}
+  /* the margin rule, the red one down the left of every school notebook */
+  .leaf.l::before{content:"";position:absolute;left:48px;top:0;bottom:0;width:1px;
+    background:var(--red);opacity:.35;pointer-events:none;z-index:2}
+
+  /* the right leaf: the form, and what you are actually making */
+  .leaf.r{padding:0}
+  #tabs{display:flex;border-bottom:1px solid var(--rule);flex:none}
+  #tabs button{flex:1;background:none;border:none;border-right:1px solid var(--rule);
+    padding:11px 4px;cursor:pointer;color:var(--faint);
+    font:9.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;
+    text-transform:uppercase}
+  #tabs button:last-child{border-right:none}
+  #tabs button.on{color:var(--ink);background:#e3d8c0;font-weight:600}
+  .pane{display:none;flex:1;overflow-y:auto;padding:18px 26px 30px;min-height:0}
+  .pane.on{display:block}
+
+  h3{margin:0 0 3px;font:600 15px/1.3 Georgia,serif;color:var(--ink)}
+  .sub{margin:0 0 13px;font:10px/1.5 ui-monospace,monospace;color:var(--faint);
+    letter-spacing:.05em}
+  .note{margin:0 0 12px;font:12.5px/1.75 Georgia,serif;color:#4a4238}
+  .ground{margin:0 0 12px;padding:11px 13px;background:#e6dbc3;
+    border-left:2px solid var(--gold);font:11.5px/1.7 Georgia,serif;color:#544b3e}
+  .ask{margin:0;padding:11px 13px;border:1px dashed var(--rule);
+    font:italic 12.5px/1.65 Georgia,serif;color:#5d5346}
+  .ask b{display:block;font:600 8.5px/1 ui-sans-serif,sans-serif;font-style:normal;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+
+  /* the shape: one row per line of the form, filled as you write */
+  .shape{margin:0;padding:0;list-style:none;
+    font:11px/1 ui-monospace,monospace}
+  .shape li{display:flex;align-items:center;gap:8px;padding:4px 0;
+    border-bottom:1px dotted #d8ccb4}
+  .shape .no{width:20px;text-align:right;color:var(--faint);
+    font-variant-numeric:tabular-nums}
+  .shape .rh{width:15px;text-align:center;color:var(--gold);font-weight:700}
+  .shape .rf{width:auto;color:var(--red);font-size:9px;letter-spacing:.04em}
+  .shape .tx{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;
+    white-space:nowrap;color:#5a5044;font-family:Georgia,serif;font-size:12px}
+  .shape .tx.e{color:#c3b69c;font-style:italic}
+  .shape .sy{width:34px;text-align:right;color:var(--faint);font-size:9.5px;
+    font-variant-numeric:tabular-nums}
+  .shape .sy.off{color:var(--gold)}
+  .shape li.done{background:#e9dfc8}
+  .shape li.brk{border-bottom:1px solid var(--pale);padding-bottom:9px;margin-bottom:5px}
+
+  /* the sestina table, with your own six words in it */
+  #ends{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:12px}
+  #ends input{background:#e6dbc3;border:1px solid var(--rule);border-radius:2px;
+    padding:6px 5px;font:11px/1 ui-monospace,monospace;color:var(--ink);
+    text-align:center;min-width:0;outline:none}
+  #ends input:focus{border-color:var(--gold)}
+  #spiral{width:100%;border-collapse:collapse;font:10.5px/1 ui-monospace,monospace}
+  #spiral th{color:var(--faint);font-weight:400;font-size:8.5px;letter-spacing:.1em;
+    text-transform:uppercase;padding:0 0 6px}
+  #spiral td{padding:5px 4px;border-top:1px dotted #d8ccb4;color:#5a5044;
+    text-align:center;overflow:hidden;text-overflow:ellipsis;max-width:0}
+  #spiral td.now{background:#e9dfc8;color:var(--ink);font-weight:700}
+  #spiral tr.now th{color:var(--gold)}
+
+  /* the reader: counts, never scores */
+  .met{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);
+    border:1px solid var(--rule);margin-bottom:14px}
+  .met div{background:var(--paper);padding:9px 5px;text-align:center}
+  .met u{display:block;text-decoration:none;font:17px/1.15 ui-monospace,monospace;
+    color:var(--ink);font-variant-numeric:tabular-nums}
+  .met s{display:block;text-decoration:none;margin-top:3px;
+    font:8px/1.25 ui-sans-serif,system-ui,sans-serif;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--faint)}
+  #bars{display:flex;align-items:flex-end;gap:2px;height:66px;margin-bottom:6px;
+    padding:0 1px;border-bottom:1px solid var(--rule)}
+  #bars i{flex:1;min-width:2px;background:#c0b294;border-radius:1px 1px 0 0}
+  #bars i.long{background:var(--gold)}
+  .cap{margin:0 0 16px;font:9.5px/1.6 ui-monospace,monospace;color:var(--faint)}
+  .lex{margin:0 0 14px;font:11.5px/1.8 Georgia,serif;color:#544b3f}
+  .lex b{color:var(--ink)}
+  .rep{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+  .rep span{background:#e3d8c0;border:1px solid var(--rule);border-radius:2px;
+    padding:3px 7px;font:10px/1 ui-monospace,monospace;color:#5a5044}
+  .rep span u{text-decoration:none;color:var(--gold);margin-left:5px}
+
+  /* the drafts, which only accumulate */
+  .dr{padding:9px 11px;border:1px solid var(--rule);border-radius:2px;
+    margin-bottom:5px;cursor:pointer;background:#eae0ca}
+  .dr:hover{border-color:var(--pale)}
+  .dr.on{background:#e3d8c0;border-color:var(--gold)}
+  .dr b{display:block;font:600 12px/1.35 Georgia,serif;color:var(--ink);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dr i{font-style:normal;display:block;margin-top:2px;
+    font:9px/1.4 ui-monospace,monospace;color:var(--faint)}
+  #newd{width:100%;margin-bottom:9px;padding:8px;background:#e3d8c0;
+    border:1px solid var(--rule);border-radius:2px;cursor:pointer;color:var(--ink);
+    font:600 10.5px/1 ui-monospace,monospace;letter-spacing:.1em}
+  #newd:hover{border-color:var(--gold);color:var(--gold)}
+
+  #say{position:fixed;left:14px;bottom:12px;z-index:70;
+    font:9px/1 ui-monospace,monospace;color:#3d3a44}
+  #back{position:fixed;right:14px;bottom:12px;z-index:70;background:none;
+    border:none;cursor:pointer;color:#3d3a44;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.1em}
+  #back:hover{color:var(--venus)}
+
+  @media (max-width:1000px){
+    body{overflow:auto;display:block}
+    #book{grid-template-columns:1fr;grid-template-rows:auto auto;height:auto;
+      width:100%;border-radius:0}
+    #spine{height:8px;background:linear-gradient(180deg,#7a6a4c,#2d251b,#7a6a4c)}
+    .leaf.l,.leaf.r{border-radius:0;box-shadow:none}
+    #wrap{min-height:60vh}
+    .pane{max-height:none}
+  }
+</style>
+</head>
+<body>
+
+<div id="cover">
+<svg viewBox="0 0 1200 420" class="sky" aria-label="Virgo, lying on her side, with the ecliptic through her and Venus on it">
+  <defs><radialGradient id="vg"><stop offset="0" stop-color="#fff8e0"/><stop offset=".45" stop-color="#f2d489"/><stop offset="1" stop-color="#c9962a" stop-opacity="0"/></radialGradient></defs>
+  <path class="ecl" d="M1223.3 155.8 L1203.3 160.9 L1183.3 166.0 L1163.3 171.0 L1143.3 176.1 L1123.4 181.2 L1103.4 186.3 L1083.5 191.4 L1063.5 196.6 L1043.6 201.7 L1023.6 206.8 L1003.7 211.9 L983.8 217.0 L963.8 222.1 L943.9 227.2 L923.9 232.3 L904.0 237.4 L884.0 242.5 L864.0 247.6 L844.0 252.7 L824.0 257.7 L804.0 262.8 L783.9 267.8 L763.8 272.8 L743.7 277.8 L723.6 282.8 L703.4 287.8 L683.2 292.7 L663.0 297.6 L642.8 302.5 L622.5 307.4 L602.1 312.2 L581.8 317.0 L561.4 321.8 L540.9 326.5 L520.4 331.3 L499.9 336.0 L479.3 340.6 L458.7 345.2 L438.0 349.8 L417.3 354.3 L396.5 358.8 L375.7 363.3 L354.8 367.7 L333.8 372.1 L312.8 376.4 L291.8 380.7 L270.7 384.9 L249.5 389.1 L228.3 393.3 L207.0 397.3 L185.6 401.4 L164.2 405.3 L142.7 409.3 L121.1 413.1 L99.5 416.9 L77.9 420.7"/>
+  <line class="lk" x1="1074.2" y1="184.1" x2="915.5" y2="215.4"/>
+  <line class="lk" x1="915.5" y1="215.4" x2="797.4" y2="225.4"/>
+  <line class="lk" x1="797.4" y1="225.4" x2="721.7" y2="163.1"/>
+  <line class="lk" x1="721.7" y1="163.1" x2="686.0" y2="65.8"/>
+  <line class="lk" x1="797.4" y1="225.4" x2="560.9" y2="350.4"/>
+  <line class="lk" x1="560.9" y1="350.4" x2="509.3" y2="214.5"/>
+  <line class="lk" x1="509.3" y1="214.5" x2="721.7" y2="163.1"/>
+  <line class="lk" x1="509.3" y1="214.5" x2="284.9" y2="284.0"/>
+  <line class="lk" x1="284.9" y1="284.0" x2="138.0" y2="279.6"/>
+  <line class="lk" x1="138.0" y1="279.6" x2="120.7" y2="182.4"/>
+  <line class="lk" x1="120.7" y1="182.4" x2="362.9" y2="186.9"/>
+  <line class="lk" x1="362.9" y1="186.9" x2="509.3" y2="214.5"/>
+  <line class="lk" x1="560.9" y1="350.4" x2="301.8" y2="338.9"/>
+  <line class="lk" x1="1074.2" y1="184.1" x2="1093.3" y2="122.8"/>
+  <line class="lk" x1="1093.3" y1="122.8" x2="994.1" y2="94.5"/>
+  <circle class="st" cx="560.9" cy="350.4" r="3.89"><title>Spica, magnitude 0.98</title></circle>
+  <circle class="st" cx="1074.2" cy="184.1" r="2.01"><title>Zavijava, magnitude 3.6</title></circle>
+  <circle class="st" cx="915.5" cy="215.4" r="1.80"><title>Zaniah, magnitude 3.89</title></circle>
+  <circle class="st" cx="797.4" cy="225.4" r="2.63"><title>Porrima, magnitude 2.74</title></circle>
+  <circle class="st" cx="721.7" cy="163.1" r="2.17"><title>Auva, magnitude 3.38</title></circle>
+  <circle class="st" cx="686.0" cy="65.8" r="2.56"><title>Vindemiatrix, magnitude 2.83</title></circle>
+  <circle class="st" cx="509.3" cy="214.5" r="2.17"><title>Heze, magnitude 3.38</title></circle>
+  <circle class="st" cx="284.9" cy="284.0" r="1.66"><title>Syrma, magnitude 4.08</title></circle>
+  <circle class="st" cx="138.0" cy="279.6" r="1.81"><title>Rijl al Awwa, magnitude 3.87</title></circle>
+  <circle class="st" cx="120.7" cy="182.4" r="1.92"><title>109 Virginis, magnitude 3.72</title></circle>
+  <circle class="st" cx="362.9" cy="186.9" r="1.55"><title>Tau Virginis, magnitude 4.23</title></circle>
+  <circle class="st" cx="643.7" cy="278.0" r="1.45"><title>Theta Virginis, magnitude 4.38</title></circle>
+  <circle class="st" cx="301.8" cy="338.9" r="1.59"><title>Kappa Virginis, magnitude 4.18</title></circle>
+  <circle class="st" cx="1093.3" cy="122.8" r="1.69"><title>Nu Virginis, magnitude 4.04</title></circle>
+  <circle class="st" cx="994.1" cy="94.5" r="1.63"><title>Omicron Virginis, magnitude 4.12</title></circle>
+  <circle cx="602.1" cy="312.2" r="26" fill="url(#vg)"/>
+  <circle class="ven" cx="602.1" cy="312.2" r="5.2"><title>Venus, on the ecliptic</title></circle>
+  <text class="lb" x="571.9" y="365.4">Spica</text>
+  <text class="lb vn" x="615.1" y="300.2">Venus</text>
+  <text class="lb dim" x="697.0" y="69.8">Vindemiatrix</text>
+  <text class="lb dim ecl-l" x="137.2" y="235.1">the ecliptic</text>
+</svg>
+  <h1>The notebook</h1>
+  <p>Virgo, from her real stars, right ascension against declination &mdash; she is on her side because that is how she lies. The dashed line is the ecliptic, computed, and <b>Venus</b> is on it, because Virgo is a zodiac constellation and Venus crosses her. Spica lies <b>2.05&deg;</b> south of the ecliptic, barely off it, which is why the two keep meeting.</p>
+  <button id="open">OPEN IT</button>
+</div>
+
+<div id="book">
+  <section class="leaf l">
+    <div id="head">
+      <input id="ttl" placeholder="Untitled" autocomplete="off" spellcheck="false">
+      <select id="form">
+        <option value="blank-verse">Blank verse</option>
+        <option value="free">Free</option>
+        <option value="ghazal">Ghazal</option>
+        <option value="haiku">Haiku</option>
+        <option value="pantoum">Pantoum</option>
+        <option value="prose-scene">Prose scene</option>
+        <option value="sestina">Sestina</option>
+        <option value="sonnet-english">Sonnet, English</option>
+        <option value="sonnet-italian">Sonnet, Italian</option>
+        <option value="triolet">Triolet</option>
+        <option value="villanelle">Villanelle</option>
+      </select>
+      <button id="exp">export</button>
+    </div>
+    <div id="wrap"><textarea id="pen" spellcheck="true" placeholder="The rules are 30px apart and so is the line. Write on them."></textarea></div>
+  </section>
+  <div id="spine"></div>
+  <section class="leaf r">
+    <div id="tabs">
+      <button data-p="shape" class="on">the shape</button>
+      <button data-p="form">the form</button>
+      <button data-p="read">the reader</button>
+      <button data-p="drafts">drafts</button>
+    </div>
+    <div class="pane on" id="p-shape"></div>
+    <div class="pane" id="p-form"></div>
+    <div class="pane" id="p-read"></div>
+    <div class="pane" id="p-drafts"><button id="newd">+ new draft</button><div id="dlist"></div></div>
+  </section>
+</div>
+<div id="say"></div>
+<button id="back">show the cover</button>
+
+<script>
+const FORMS = [{"id":"blank-verse","name":"Blank verse","kind":"verse","meter":{"name":"iambic pentameter","syllables":10},"note":"Unrhymed iambic pentameter, no fixed length. The whole discipline is the line: it has to be a unit of sense as well as of measure, and when you break the meter it has to be because something happened.","ground":"Surrey again, translating the Aeneid, and then two centuries of English drama built on it because it is the closest metrical form to how English is actually stressed.","ask":"Which lines break the meter, and can you say what each break is for?"},{"id":"free","name":"Free","kind":"prose","note":"No form at all. The room still counts, because counting is not judging, but nothing here is held against a shape.","ground":"A form is a decision made in advance so you can stop making it. Sometimes the decision you need to make is the one the form would have made for you, and then the form is in the way.","ask":"What are you avoiding by not choosing a form? It may be a good reason."},{"id":"ghazal","name":"Ghazal","kind":"verse","lines":10,"stanzas":[2,2,2,2,2],"radif":true,"note":"Independent couplets, each one able to stand alone, held together by a repeated end-word or phrase and the rhyme just before it. There is no narrative continuity and looking for one is the commonest mistake in English ghazals. The unity is sonic, not argumentative.","ground":"Arabic origin, Persian development, Urdu perfection. Traditionally the poet signs the last couplet with their own name, which is an unusual permission: the form invites you into it by name at the end.","ask":"Could you reorder your couplets without loss? In this form that is a pass, not a fail."},{"id":"haiku","name":"Haiku","kind":"verse","lines":3,"stanzas":[3],"meter":{"name":"syllabic","syllables":[5,7,5]},"note":"Two images and the cut between them. The syllable count is the least interesting constraint and the only one a machine can check — what the form is actually about is the kireji, the break, and whether the two halves are doing something to each other rather than sitting next to each other.","ground":"The 5-7-5 is a count of Japanese on, which are not English syllables and are shorter. English haiku that hit 17 syllables are usually about 40 percent too long. The room counts them anyway, because you asked for the form and the count is what is countable.","ask":"Where is the cut, and do the two sides need each other?"},{"id":"pantoum","name":"Pantoum","kind":"verse","lines":16,"stanzas":[4,4,4,4],"repeats":[{"line":5,"same_as":2},{"line":7,"same_as":4},{"line":9,"same_as":6},{"line":11,"same_as":8},{"line":13,"same_as":10},{"line":15,"same_as":12},{"line":14,"same_as":3},{"line":16,"same_as":1}],"note":"Lines two and four of each stanza become lines one and three of the next. The poem moves forward at half speed, always dragging half of itself along, and it closes by returning the two lines it never reused. It is the right shape for something you cannot leave behind.","ground":"Malay pantun, by way of French nineteenth-century borrowing. The interlocking is the whole of it and the length is arbitrary — this is the four-stanza case; you can run it longer.","ask":"Does a repeated line sit in a different grammar the second time?"},{"id":"prose-scene","name":"Prose scene","kind":"prose","beats":[{"name":"Want","ask":"What does somebody in this scene want, in this scene, concretely?"},{"name":"Obstacle","ask":"What is between them and it — and is it a person?"},{"name":"Turn","ask":"What changes? A scene where nothing changes is a description."},{"name":"Cost","ask":"What did it cost, and who pays later?"}],"note":"No line rules. A scene is a unit of change: somebody wants something, something is in the way, the situation turns, and the turn costs. The four beats are not an outline to fill in — they are the four questions you can ask a finished draft to find out whether it is a scene or a passage.","ground":"This is the working shape used across screenwriting and fiction craft alike, and it is descriptive rather than prescriptive: it names what scenes that work turn out to have.","ask":"If you cut this scene, what in the next one stops making sense?"},{"id":"sestina","name":"Sestina","kind":"verse","lines":39,"stanzas":[6,6,6,6,6,6,3],"end_words":6,"permutation":[[1,2,3,4,5,6],[6,1,5,2,4,3],[3,6,4,1,2,5],[5,3,2,6,1,4],[4,5,1,3,6,2],[2,4,6,5,3,1]],"envoi":[[2,5],[4,3],[6,1]],"note":"Six end-words, no rhyme, and a fixed spiral that retires each word through every position before returning it. You choose six words and then spend thirty-nine lines being driven back to them. Choose words that can change part of speech.","ground":"Arnaut Daniel, twelfth century, Provencal. The permutation is a single rule applied six times — take the last, then the first, then the second-to-last, then the second, and so on — and it happens to return to the starting order on the seventh pass, which is why the form is exactly six stanzas long and could not be any other length.","ask":"Can at least two of your six words work as more than one part of speech?"},{"id":"sonnet-english","name":"Sonnet, English","kind":"verse","lines":14,"stanzas":[4,4,4,2],"rhyme":"ababcdcdefefgg","meter":{"name":"iambic pentameter","syllables":10},"turn":9,"note":"Three quatrains that can each hold a different angle on the same thing, and a couplet that has to pay for all three. The couplet is the danger: it is short enough to be glib and positioned to sound like a verdict.","ground":"Surrey and Wyatt brought the Italian sonnet into English and found that English does not have enough rhyme-words to run four on one sound. The English form is a workaround for a shortage in the language, and it produced a different instrument: seven rhyme sounds instead of four or five, and a turn that can be delayed to the last two lines.","ask":"Where is your turn, and did you put it at nine because the form says so?"},{"id":"sonnet-italian","name":"Sonnet, Italian","kind":"verse","lines":14,"stanzas":[8,6],"rhyme":"abbaabbacdecde","meter":{"name":"iambic pentameter","syllables":10},"turn":9,"note":"An octave that states and a sestet that answers, and the volta between them is structural rather than decorative — the rhyme sounds change at exactly the point the argument does.","ground":"Petrarch. Four a-rhymes and four b-rhymes in eight lines, which is comfortable in Italian and punishing in English, where it is the reason most English \"Petrarchan\" sonnets quietly cheat.","ask":"Does line nine answer the octave, or only continue it?"},{"id":"triolet","name":"Triolet","kind":"verse","lines":8,"stanzas":[8],"rhyme":"ABaAabAB","repeats":[{"line":4,"same_as":1},{"line":7,"same_as":1},{"line":8,"same_as":2}],"note":"Eight lines, five of them yours. Two repeat immediately, which means the form is short enough that a refrain cannot hide — it is either doing new work three lines later or it is padding.","ground":"Medieval French. It is the smallest of the fixed repeating forms, and it is the honest place to learn what a refrain costs.","ask":"Is line four already tired?"},{"id":"villanelle","name":"Villanelle","kind":"verse","lines":19,"stanzas":[3,3,3,3,3,4],"rhyme":"abaabaabaabaabaabaa","repeats":[{"line":6,"same_as":1},{"line":12,"same_as":1},{"line":18,"same_as":1},{"line":9,"same_as":3},{"line":15,"same_as":3},{"line":19,"same_as":3}],"note":"Two lines said four times each. The form is built so that a refrain arrives in a different sentence every time and therefore means something different every time — if your refrains mean the same thing in stanza six as in stanza one, the form did nothing.","ground":"A nineteenth-century French invention retrofitted onto a much older pastoral song, which is to say it is not ancient and does not need to be treated as sacred. It is a machine for obsession.","ask":"Has either refrain changed meaning by the last stanza?"}];
+const QUENEAU = [2,3,5,6,9,11,14,18];
+
+const KEY = 'venus.notebook.v1';
+const $ = (s) => document.querySelector(s);
+const byId = (id) => FORMS.find((f) => f.id === id) || FORMS[0];
+
+/* ── storage. Local, one key, nothing leaves. ───────────────────────── */
+function load() {
+  try {
+    const b = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (b && Array.isArray(b.drafts) && b.drafts.length) return b;
+  } catch (e) { /* private window, cleared data, storage blocked */ }
+  return null;
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(book)); $('#say').textContent = 'saved'; }
+  catch (e) { $('#say').textContent = 'NOT SAVED — storage unavailable'; }
+}
+function blank(formId) {
+  return { id: 'd' + Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36),
+           title: '', text: '', form: formId || FORMS[0].id, ends: ['','','','','',''],
+           made: new Date().toISOString(), touched: new Date().toISOString() };
+}
+let book = load() || { drafts: [blank()] };
+let cur = book.drafts[0].id;
+const D = () => book.drafts.find((d) => d.id === cur);
+
+/* ── syllables. A heuristic over English spelling, and the page says so
+   where you can see it rather than in a comment nobody reads. ───────── */
+function syl(w) {
+  w = w.toLowerCase().replace(/[^a-z]/g, '');
+  if (!w) return 0;
+  if (w.length <= 3) return 1;
+  /* a consonant plus -le is its own syllable and needs its e; every other
+     final e is silent. Getting this wrong counted the e twice and made
+     "table" three. */
+  const le = /[^aeiouy]le$/.test(w);
+  /* -ed is a syllable after t or d and silent everywhere else: forested is
+     three, closed is one. Stripping it unconditionally lost the difference. */
+  if (/[^td]ed$/.test(w)) w = w.replace(/ed$/, '');
+  else if (/[^laeiouy]es$/.test(w)) w = w.replace(/es$/, '');
+  else if (!le) w = w.replace(/e$/, '');
+  /* runs, not pairs: the "eau" of beautiful is one nucleus, not two */
+  const g = w.match(/[aeiouy]+/g);
+  return Math.max(1, g ? g.length : 1);
+}
+const lineSyl = (l) => (l.match(/[A-Za-z']+/g) || []).reduce((a, w) => a + syl(w), 0);
+const linesOf = (t) => t.split('\n');
+const words = (t) => (t.match(/[A-Za-z'-]+/g) || []);
+
+/* ── the shape pane: the form's slots, filled as you write ──────────── */
+function paintShape() {
+  const d = D(), f = byId(d.form), L = linesOf(d.text);
+  const box = $('#p-shape');
+  if (!f.lines) {
+    const beats = f.beats || [];
+    box.innerHTML = '<h3>' + f.name + '</h3><p class="sub">no fixed length</p>' +
+      (beats.length
+        ? '<ul class="shape">' + beats.map((b, i) => {
+            const hit = L.filter((x) => x.trim()).length > i * 2;
+            return '<li class="' + (hit ? 'done' : '') + '"><span class="no">' +
+              (i + 1) + '</span><span class="tx">' + b.name + ' &mdash; ' + b.ask + '</span></li>';
+          }).join('') + '</ul>'
+        : '<p class="note">Nothing is being held against a shape. ' +
+          linesOf(d.text).filter((x) => x.trim()).length + ' lines so far.</p>') +
+      '<p class="ask" style="margin-top:14px"><b>the question</b>' + f.ask + '</p>';
+    return;
+  }
+
+  const rep = {}; (f.repeats || []).forEach((r) => { rep[r.line] = r.same_as; });
+  const brk = new Set(); let acc = 0;
+  (f.stanzas || []).forEach((n) => { acc += n; brk.add(acc); });
+  const target = Array.isArray(f.meter && f.meter.syllables) ? null
+    : (f.meter ? f.meter.syllables : null);
+
+  let rows = '';
+  for (let i = 1; i <= f.lines; i++) {
+    const raw = L[i - 1] === undefined ? '' : L[i - 1];
+    const has = raw.trim().length > 0;
+    const s = has ? lineSyl(raw) : 0;
+    const want = Array.isArray(f.meter && f.meter.syllables)
+      ? f.meter.syllables[(i - 1) % f.meter.syllables.length] : target;
+    const off = has && want && s !== want;
+    rows += '<li class="' + (has ? 'done ' : '') + (brk.has(i) ? 'brk' : '') + '">' +
+      '<span class="no">' + i + '</span>' +
+      (f.rhyme ? '<span class="rh">' + f.rhyme[i - 1] + '</span>' : '') +
+      '<span class="tx' + (has ? '' : ' e') + '">' +
+        (has ? esc(raw.trim()).slice(0, 52)
+             : (rep[i] ? 'refrain, line ' + rep[i] : '\u00b7')) + '</span>' +
+      (rep[i] ? '<span class="rf">R' + rep[i] + '</span>' : '') +
+      (want ? '<span class="sy' + (off ? ' off' : '') + '">' +
+        (has ? s + '/' + want : want) + '</span>' : '') +
+      '</li>';
+  }
+  const written = L.filter((x) => x.trim()).length;
+  box.innerHTML = '<h3>' + f.name + '</h3>' +
+    '<p class="sub">' + written + ' of ' + f.lines + ' lines' +
+      (f.rhyme ? ' \u00b7 ' + f.rhyme : '') +
+      (f.meter ? ' \u00b7 ' + f.meter.name : '') + '</p>' +
+    (f.permutation ? sestina(d, f) : '') +
+    '<ul class="shape">' + rows + '</ul>' +
+    (target ? '<p class="cap" style="margin-top:10px">Syllables are estimated ' +
+      'from spelling. The estimate is wrong on names, on some -ed endings, and ' +
+      'on anything borrowed. A number in gold is a difference, not a mistake.</p>' : '');
+}
+
+/* the sestina table, driven by the six words you actually chose */
+function sestina(d, f) {
+  const E = d.ends || ['','','','','',''];
+  const written = linesOf(d.text).filter((x) => x.trim()).length;
+  const stanza = Math.min(5, Math.floor(written / 6));
+  let t = '<div id="ends">' + E.map((v, i) =>
+    '<input data-e="' + i + '" value="' + esc(v) + '" placeholder="' + (i + 1) + '">').join('') + '</div>';
+  t += '<table id="spiral"><tr><th></th>' +
+    [1,2,3,4,5,6].map((n) => '<th>' + n + '</th>').join('') + '</tr>';
+  f.permutation.forEach((row, i) => {
+    t += '<tr class="' + (i === stanza ? 'now' : '') + '"><th>' + (i + 1) + '</th>' +
+      row.map((n, j) => '<td class="' + (i === stanza ? 'now' : '') + '">' +
+        (E[n - 1] ? esc(E[n - 1]) : n) + '</td>').join('') + '</tr>';
+  });
+  t += '<tr><th>env</th><td colspan="6">' + f.envoi.map((p) =>
+    (E[p[0] - 1] || p[0]) + '/' + (E[p[1] - 1] || p[1])).join('  \u00b7  ') + '</td></tr>';
+  return t + '</table><p class="cap">One rule, applied six times: last, first, ' +
+    'second-to-last, second, inward. After six passes it is back where it ' +
+    'started, and that is why the form has six stanzas — the stanza count ' +
+    'is the order of the permutation, not a number anybody picked. It does not ' +
+    'work for every count: four end-words come back after three passes. The ' +
+    'counts that do are ' + QUENEAU.join(', ') + ' and up.</p>';
+}
+
+/* ── the form pane ──────────────────────────────────────────────────── */
+function paintForm() {
+  const f = byId(D().form);
+  $('#p-form').innerHTML = '<h3>' + f.name + '</h3>' +
+    '<p class="sub">' + f.kind + (f.lines ? ' \u00b7 ' + f.lines + ' lines' : '') + '</p>' +
+    '<p class="note">' + f.note + '</p>' +
+    '<div class="ground">' + f.ground + '</div>' +
+    '<p class="ask"><b>the question this form asks</b>' + f.ask + '</p>';
+}
+
+/* ── the reader. Counts. Never a score. ─────────────────────────────── */
+function paintRead() {
+  const t = D().text, L = linesOf(t).filter((x) => x.trim()), W = words(t);
+  const S = W.reduce((a, w) => a + syl(w), 0);
+  const sent = (t.match(/[^.!?\n]+[.!?]+(\s|$)|[^.!?\n]+$/gm) || [])
+    .filter((x) => x.trim()).length;
+
+  /* the shape of the lines, as a run of bars. This is the one picture worth
+     having: a poem whose lines are all the same length looks like a wall. */
+  const lens = L.map((l) => lineSyl(l));
+  const max = Math.max(6, ...lens);
+  const bars = lens.slice(-70).map((n) =>
+    '<i style="height:' + Math.round(n / max * 100) + '%" class="' +
+    (n > max * 0.85 ? 'long' : '') + '"></i>').join('');
+
+  /* repeated words, which is the only thing here that reads like advice and
+     is not: a repeat may be the whole point, in six of these eleven forms. */
+  const stop = new Set(('the a an and or but of to in on at it is was be for '
+    + 'with as by from that this i you he she they we not no so if all my her his'
+    ).split(' '));
+  const freq = {};
+  W.forEach((w) => { const k = w.toLowerCase(); if (!stop.has(k) && k.length > 2) freq[k] = (freq[k] || 0) + 1; });
+  const rep = Object.entries(freq).filter(([, n]) => n > 1)
+    .sort((a, b) => b[1] - a[1]).slice(0, 14);
+
+  /* short words carry the Germanic core of English; long ones the Latinate
+     borrowings. The ratio is a real fact about a passage, not a verdict. */
+  const shortW = W.filter((w) => w.length <= 4).length;
+  const pc = W.length ? Math.round(shortW / W.length * 100) : 0;
+
+  $('#p-read').innerHTML =
+    '<div class="met">' +
+      '<div><u>' + L.length + '</u><s>lines</s></div>' +
+      '<div><u>' + W.length + '</u><s>words</s></div>' +
+      '<div><u>' + S + '</u><s>syllables</s></div>' +
+      '<div><u>' + sent + '</u><s>sentences</s></div>' +
+      '<div><u>' + (L.length ? (S / L.length).toFixed(1) : '0') + '</u><s>syl / line</s></div>' +
+      '<div><u>' + pc + '%</u><s>four letters or less</s></div>' +
+    '</div>' +
+    '<div id="bars">' + bars + '</div>' +
+    '<p class="cap">The shape of the last ' + Math.min(70, lens.length) +
+      ' lines by syllable. Gold is a line in the longest sixth. A flat run is ' +
+      'a wall; whether you want a wall is your business.</p>' +
+    '<p class="lex">Short words \u2014 four letters or fewer \u2014 are ' +
+      '<b>' + pc + '%</b> of this. English keeps its oldest and plainest ' +
+      'vocabulary in its short words and its borrowed, abstract vocabulary in ' +
+      'its long ones, so this number moves when the register does. It is a ' +
+      'measurement, not a target.</p>' +
+    (rep.length
+      ? '<p class="lex">Words you used more than once:<span class="rep">' +
+        rep.map(([w, n]) => '<span>' + esc(w) + '<u>' + n + '</u></span>').join('') +
+        '</span></p><p class="cap">Six of the eleven forms here are built on ' +
+        'repetition. This is a list, not a complaint.</p>'
+      : '');
+}
+
+/* ── drafts. They only accumulate. ──────────────────────────────────── */
+function paintDrafts() {
+  const L = $('#dlist'); L.innerHTML = '';
+  book.drafts.forEach((d) => {
+    const el = document.createElement('div');
+    el.className = 'dr' + (d.id === cur ? ' on' : '');
+    const b = document.createElement('b');
+    b.textContent = d.title || (d.text.split('\n').find((x) => x.trim()) || 'Untitled').slice(0, 38);
+    const i = document.createElement('i');
+    i.textContent = byId(d.form).name + '  \u00b7  ' +
+      linesOf(d.text).filter((x) => x.trim()).length + ' lines  \u00b7  ' +
+      d.touched.slice(0, 10);
+    el.append(b, i);
+    el.onclick = () => { cur = d.id; show(); };
+    L.appendChild(el);
+  });
+}
+
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+function paint() { paintShape(); paintForm(); paintRead(); paintDrafts(); wire(); }
+function show() {
+  const d = D();
+  $('#ttl').value = d.title; $('#pen').value = d.text; $('#form').value = d.form;
+  paint(); $('#pen').focus();
+}
+
+/* the end-word inputs are rebuilt on every paint, so they are wired after */
+function wire() {
+  document.querySelectorAll('#ends input').forEach((inp) => {
+    inp.oninput = () => {
+      const d = D();
+      d.ends = d.ends || ['','','','','',''];
+      d.ends[+inp.dataset.e] = inp.value;
+      save(); paintShape(); wire();
+    };
+  });
+}
+
+let t = null;
+function touch() {
+  const d = D();
+  d.title = $('#ttl').value; d.text = $('#pen').value;
+  d.touched = new Date().toISOString();
+  $('#say').textContent = 'writing';
+  clearTimeout(t);
+  t = setTimeout(() => { save(); paint(); }, 380);
+}
+$('#pen').addEventListener('input', touch);
+$('#ttl').addEventListener('input', touch);
+$('#form').onchange = () => { D().form = $('#form').value; save(); paint(); };
+$('#newd').onclick = () => { const d = blank($('#form').value); book.drafts.unshift(d); cur = d.id; save(); show(); };
+
+document.querySelectorAll('#tabs button').forEach((b) => {
+  b.onclick = () => {
+    document.querySelectorAll('#tabs button').forEach((x) => x.classList.remove('on'));
+    document.querySelectorAll('.pane').forEach((x) => x.classList.remove('on'));
+    b.classList.add('on');
+    $('#p-' + b.dataset.p).classList.add('on');
+  };
+});
+
+$('#exp').onclick = () => {
+  const md = book.drafts.slice().reverse().map((d) =>
+    '# ' + (d.title || 'Untitled') + '\n\n*' + byId(d.form).name + ' \u00b7 ' +
+    d.made.slice(0, 10) + '*\n\n' + d.text + '\n').join('\n---\n\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([md], { type: 'text/markdown' }));
+  a.download = 'notebook-' + new Date().toISOString().slice(0, 10) + '.md';
+  a.click(); URL.revokeObjectURL(a.href);
+};
+
+$('#open').onclick = (e) => { e.stopPropagation(); $('#cover').classList.add('gone'); $('#pen').focus(); };
+$('#cover').onclick = () => $('#cover').classList.add('gone');
+$('#back').onclick = () => $('#cover').classList.remove('gone');
+
+show();
+</script>
+</body>
+</html>

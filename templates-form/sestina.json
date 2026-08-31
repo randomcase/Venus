@@ -1,0 +1,83 @@
+{
+ "id": "sestina",
+ "name": "Sestina",
+ "kind": "verse",
+ "lines": 39,
+ "stanzas": [
+  6,
+  6,
+  6,
+  6,
+  6,
+  6,
+  3
+ ],
+ "end_words": 6,
+ "permutation": [
+  [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  [
+   6,
+   1,
+   5,
+   2,
+   4,
+   3
+  ],
+  [
+   3,
+   6,
+   4,
+   1,
+   2,
+   5
+  ],
+  [
+   5,
+   3,
+   2,
+   6,
+   1,
+   4
+  ],
+  [
+   4,
+   5,
+   1,
+   3,
+   6,
+   2
+  ],
+  [
+   2,
+   4,
+   6,
+   5,
+   3,
+   1
+  ]
+ ],
+ "envoi": [
+  [
+   2,
+   5
+  ],
+  [
+   4,
+   3
+  ],
+  [
+   6,
+   1
+  ]
+ ],
+ "note": "Six end-words, no rhyme, and a fixed spiral that retires each word through every position before returning it. You choose six words and then spend thirty-nine lines being driven back to them. Choose words that can change part of speech.",
+ "ground": "Arnaut Daniel, twelfth century, Provencal. The permutation is a single rule applied six times — take the last, then the first, then the second-to-last, then the second, and so on — and it happens to return to the starting order on the seventh pass, which is why the form is exactly six stanzas long and could not be any other length.",
+ "ask": "Can at least two of your six words work as more than one part of speech?"
+}
