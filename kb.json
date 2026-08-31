@@ -110,7 +110,8 @@
       ],
       "see": [
         "decentralization",
-        "hydrogen"
+        "hydrogen",
+        "the-substrate"
       ],
       "game": {
         "unlock": "Build every root the template has, and nothing else, until it is clear that nothing is happening."
@@ -916,7 +917,51 @@
       "see": [
         "the-exchange-rate",
         "hydrogen",
-        "superrotation"
+        "superrotation",
+        "the-substrate"
+      ]
+    },
+    {
+      "id": "the-substrate",
+      "class": "concept",
+      "settled": "working",
+      "term": "The substrate",
+      "short": "You cannot grow anything on Venus's surface and you do not need to ship soil. Three of the four fractions are already there; only the living one has to arrive, and it weighs kilograms.",
+      "body": [
+        "The surface is 737 K and 92 bar, which is above water's critical temperature — water cannot be liquid there at any pressure, so nothing grows on it, ever, at any stage of any plan. The substrate has to be at the deck, 55 km up, where it is 27 C and half a bar. And there is no ground at 55 km. Whatever the forest stands in has to be lifted there.",
+        "WHICH SOUNDS LIKE THE END OF IT, AND IS NOT. Half a metre of basalt over the whole 9,000 square miles is 3.38e13 kg, and raising that 55 km costs 1.64e19 J. The site collects 2,601 W/m2 across 2.33e10 m2, which is 6.06e13 W — so the lift is THREE DAYS of the site's own sunlight at perfect efficiency, or about a month at ten per cent. Lifting is not the constraint and never was. The constraint is the same one as drilling: 127 minutes is the longest anything has survived at the working face, and the mine is down there.",
+        "SORT THE SOIL INTO FRACTIONS AND ONLY ONE OF THEM HAS TO COME FROM EARTH.",
+        "MINERAL — already there, and good. Basalt is one of the best soil parent materials there is: it weathers to clay and releases calcium, magnesium, iron, potassium and phosphorus, and the Deccan, Java, Hawaii and the Ethiopian highlands are all basalt underneath. Venus is 80% volcanic plain. The rock is not a problem; reaching it is.",
+        "NITROGEN — already there, and abundant, which is the fact nobody expects. Venus's atmosphere is 3.5% N2, and 3.5% of 4.8e20 kg is 1.68e19 kg. Earth's ENTIRE atmosphere holds 3.9e18 kg of nitrogen. Venus has 4.3 times more of it than Earth does. The nutrient that limits most terrestrial ecosystems is the one this planet is richest in.",
+        "ORGANIC CARBON — not there, and not shipped either. It is grown. The air is 96.5% CO2 and photosynthesis is the machine that turns that into soil organic matter. You do not import humus; you import the thing that makes humus and then wait.",
+        "THE LIVING FRACTION — this, and only this, has to come from Earth. A gram of healthy soil carries on the order of a billion bacteria and a million fungal propagules, so a kilogram is 1e12 organisms and a hundred kilograms is 1e14. The shipping manifest for the biology of an entire forest is a culture collection that fits inside a single window's 11,400 kg with room for everything else.",
+        "SURTSEY IS THE EXPERIMENT, AND IT WAS RUN ACCIDENTALLY. A volcanic island surfaced off Iceland in November 1963 — sterile basalt, no soil, nothing alive on it. The first colonists were not plants: they were bacteria, fungi and microorganisms. The first vascular plant, a sea rocket, was found in 1965. Ten species by the end of the first decade. Seventy-four recorded between 1965 and 2015, of which thirty-nine had established viable populations by 2013.",
+        "AND THE THING THAT UNLOCKED IT WAS BIRDS. A gull colony formed after 1985, and from then on bird dispersal was the principal pathway — the guano amended the site enough that wind-dispersed species could finally establish from 1990. Sixty years from bare basalt to a functioning ecosystem, with a whole continent next door supplying propagules BY ACCIDENT. On Venus you would supply them on purpose, which is the only part of that timeline you get to shorten. It is also the argument for the range: seventy thousand square feet of flamingos and peacocks fertilising round the clock is not decoration, it is the mechanism that made Surtsey work, installed deliberately instead of waiting for gulls to find the place."
+      ],
+      "test": "Sort the soil into its four fractions — mineral, nitrogen, organic carbon, living — and ask which of them actually has to arrive. If the answer is 'all of it', somebody has costed the mineral fraction and forgotten that carbon is grown from the air and the living fraction is an inoculum measured in kilograms. Then find the real constraint: on this problem it is neither mass nor energy but time at the working face, and it is 127 minutes.",
+      "evidence": [
+        {
+          "page": "flood.html",
+          "what": "the pulse that has to arrive on whatever substrate gets built, and the gravity ledger for building it"
+        },
+        {
+          "page": "interior.html",
+          "what": "the 127-minute survival limit, and the crust the mineral fraction has to come out of"
+        },
+        {
+          "page": "ecosystem.html",
+          "what": "the twelve orders, and the two agents nothing requires"
+        },
+        {
+          "page": "mycelium.html",
+          "what": "the living fraction, and what it does once it is there"
+        }
+      ],
+      "see": [
+        "the-gravity-ledger",
+        "the-exchange-rate",
+        "hydrogen",
+        "the-minimum-cycle"
       ]
     },
     {
