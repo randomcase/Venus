@@ -1,0 +1,63 @@
+{
+ "id": "himeji",
+ "order": 5,
+ "name": "Himeji",
+ "era": "1333, rebuilt 1609",
+ "kind": "spiral",
+ "ground": "A hill on the road west out of the capital. Flat country around it, so the defence has to be in the plan rather than in the ground.",
+ "motte": {
+  "diameter": 90,
+  "height": 23,
+  "note": "A stone base, battered, curving outward at the foot — the curve sheds an earthquake rather than resisting it."
+ },
+ "keep": {
+  "name": "The great keep",
+  "diameter": 36,
+  "height": 46,
+  "shape": "block",
+  "note": "Six storeys reading as five from outside. Whitewashed against fire."
+ },
+ "wards": [
+  {
+   "id": "ni",
+   "name": "Ni-no-maru",
+   "w": 180,
+   "d": 150,
+   "wall": 12,
+   "note": "The second circle."
+  },
+  {
+   "id": "hon",
+   "name": "Hon-maru",
+   "w": 120,
+   "d": 100,
+   "wall": 14,
+   "note": "The first circle, at the top of the spiral."
+  }
+ ],
+ "towers": 12,
+ "axis": {
+  "name": "The spiral approach",
+  "length_m": 1600,
+  "note": "The path to the keep winds through twenty-one gates and doubles back repeatedly. It is longer than the castle is wide by a factor of ten, and every metre of it is overlooked."
+ },
+ "figures": [
+  {
+   "what": "buildings",
+   "value": "83 still standing"
+  },
+  {
+   "what": "the approach",
+   "value": "deliberately confusing — a spiral, not a line"
+  },
+  {
+   "what": "survived",
+   "value": "the 1945 bombing and the 1995 Kobe earthquake"
+  },
+  {
+   "what": "never taken",
+   "value": "in seven centuries"
+  }
+ ],
+ "lesson": "Where Krak makes you go through the wall, Himeji makes you go the long way. The approach is the weapon: a spiral turns an assault into a queue, and a queue can be dealt with a few at a time. If you cannot make the wall thicker, make the route longer."
+}

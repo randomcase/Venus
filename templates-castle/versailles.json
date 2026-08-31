@@ -1,0 +1,77 @@
+{
+ "id": "versailles",
+ "order": 2,
+ "name": "Versailles",
+ "era": "1661 to 1715",
+ "kind": "axial",
+ "ground": "Flat, marshy, and with no strategic value whatsoever, which was the point: nothing about the site constrains the plan, so the plan is purely an argument.",
+ "motte": null,
+ "keep": {
+  "name": "The Corps de Logis",
+  "diameter": 0,
+  "height": 24,
+  "shape": "block",
+  "note": "No keep. There is nothing to defend against, and saying so is the message."
+ },
+ "wards": [
+  {
+   "id": "cour",
+   "name": "Cour de Marbre",
+   "w": 60,
+   "d": 40,
+   "wall": 0,
+   "note": "The narrowest point, so that arriving feels like a funnel."
+  },
+  {
+   "id": "corps",
+   "name": "Corps de Logis",
+   "w": 180,
+   "d": 60,
+   "wall": 0,
+   "note": "The block the whole axis runs through."
+  },
+  {
+   "id": "parterre",
+   "name": "Parterre d’Eau",
+   "w": 240,
+   "d": 140,
+   "wall": 0,
+   "note": "Water, held flat, so the sky is doubled and the axis keeps going."
+  }
+ ],
+ "towers": 0,
+ "axis": {
+  "name": "The Grand Axis",
+  "length_m": 3000,
+  "note": "East to west, so the sun sets along it. That is not a coincidence and it was the single most expensive decision."
+ },
+ "gallery": {
+  "name": "Hall of Mirrors",
+  "length_m": 73,
+  "width_m": 10.5,
+  "height_m": 12.3,
+  "bays": 17,
+  "mirrors": 357,
+  "windows": 17,
+  "note": "Seventeen mirrored arches facing seventeen windows. The mirrors are there to put the garden on the wall that has no garden behind it."
+ },
+ "figures": [
+  {
+   "what": "the Hall",
+   "value": "73 m long, 10.5 m wide, 12.3 m high"
+  },
+  {
+   "what": "mirrors",
+   "value": "357, in 17 arches"
+  },
+  {
+   "what": "per arch",
+   "value": "exactly 21 — the division is why the room reads calm"
+  },
+  {
+   "what": "proportion",
+   "value": "the hall is about 7 times as long as it is wide"
+  }
+ ],
+ "lesson": "One axis, laid out at once, and everything placed to be seen from a point on it. The opposite of Windsor in every way, and equally correct — which is the whole reason both are here. A base is either arrived at or argued, and you should know which one you are doing."
+}

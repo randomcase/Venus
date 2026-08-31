@@ -1,0 +1,67 @@
+{
+ "id": "malbork",
+ "order": 6,
+ "name": "Malbork",
+ "era": "1274 onward",
+ "kind": "three-ward",
+ "ground": "A flat bank of the Nogat, chosen for the river rather than the height. Brick, because there is no building stone for a hundred miles and the clay is underfoot.",
+ "motte": null,
+ "keep": {
+  "name": "The High Castle",
+  "diameter": 0,
+  "height": 30,
+  "shape": "block",
+  "note": "A closed quadrangle around a courtyard — a keep you can live an entire administration inside."
+ },
+ "wards": [
+  {
+   "id": "high",
+   "name": "High Castle",
+   "w": 160,
+   "d": 160,
+   "wall": 20,
+   "note": "The convent."
+  },
+  {
+   "id": "middle",
+   "name": "Middle Castle",
+   "w": 220,
+   "d": 180,
+   "wall": 14,
+   "note": "The Grand Master."
+  },
+  {
+   "id": "outer",
+   "name": "Outer Bailey",
+   "w": 300,
+   "d": 200,
+   "wall": 10,
+   "note": "Everything that works."
+  }
+ ],
+ "towers": 20,
+ "axis": {
+  "name": "The river frontage",
+  "length_m": 700,
+  "note": "Seven hundred metres of brick along the water, which is the view, the wharf and the argument all at once."
+ },
+ "figures": [
+  {
+   "what": "land area",
+   "value": "about 21 hectares — the largest castle in the world by area"
+  },
+  {
+   "what": "material",
+   "value": "brick, roughly 4.5 million of them"
+  },
+  {
+   "what": "built by",
+   "value": "the Teutonic Order, as a headquarters and not a fort"
+  },
+  {
+   "what": "reconstructed",
+   "value": "after 1945, from photographs and rubble"
+  }
+ ],
+ "lesson": "The largest castle in the world is made of the cheapest material available at the site. That is not a compromise, it is the reason it could be that large — a stone Malbork was never possible and a brick one was inevitable. Build with what is under your feet and the size takes care of itself."
+}

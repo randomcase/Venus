@@ -91,6 +91,7 @@ const LAYERS = [
   ['templates-form',      'Forms',          'writing.mjs',    'writing.html',  'fifteen, and every shape closes'],
   ['templates-lesson',    'Lessons',        'writing.mjs',    'writing.html',  'each one marks your own work'],
   ['templates-clan',      'Clans',          'clans.mjs',      'clans.html',    'six cadences, all prime, none the same'],
+  ['templates-castle',    'Castle plans',   'castle.mjs',     'castle.html',   'and the glossary for the kingdom'],
 ].filter(([d]) => existsSync(d)).map(([dir, name, gen, out, note]) => ({
   dir, name, gen, out, note,
   n: readdirSync(dir).filter((f) => f.endsWith('.json')).length
@@ -114,6 +115,7 @@ const SHOP = [
   ['journal.mjs',    'journal.html — the desk, and the prompts it reads'],
   ['corps.mjs',      'corps.html — the order of battle, costed'],
   ['clans.mjs',      'clans.html — the idle board, which runs unpressed'],
+  ['castle.mjs',     'castle.html — seven plans, drawn with lesson one'],
   ['writing.mjs',    'writing.html — the notebook, and the forms it holds you to'],
   ['profiles.mjs',   'profiles/ — fourteen requirement pages'],
   ['ships.mjs',      'ships/ — seven logs and their charts'],
