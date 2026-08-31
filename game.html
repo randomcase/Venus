@@ -61,7 +61,7 @@
      being pages you switch to and become a sidebar that is always open. */
   .phone{position:relative;z-index:1;width:min(404px,100vw);height:min(876px,100vh);
     border-radius:34px;border:1px solid #2a2333;overflow:hidden;
-    background:linear-gradient(180deg,rgba(12,10,17,.86),rgba(8,7,12,.94));
+    background:linear-gradient(180deg,rgba(12,10,17,.30),rgba(8,7,12,.48));
     box-shadow:0 40px 120px rgba(0,0,0,.75),0 0 0 9px #0b0910,0 0 0 10px #1d1826;
     display:flex;flex-direction:column;backdrop-filter:blur(2px)}
 
@@ -114,7 +114,8 @@
   /* --------------------------------------------------------- the 3D stage */
   .stage{position:relative;flex:1;overflow:hidden;perspective:900px;
     perspective-origin:50% 42%;touch-action:none;cursor:grab;
-    user-select:none;-webkit-user-select:none}
+    user-select:none;-webkit-user-select:none;
+    background:radial-gradient(ellipse at 50% 46%,rgba(6,4,10,.30),rgba(4,3,7,.78) 78%)}
   .sheet{user-select:text;-webkit-user-select:text}
   .stage:active{cursor:grabbing}
   .world{position:absolute;left:50%;top:50%;width:0;height:0;
@@ -205,8 +206,17 @@
   .row .badge{font:8.5px/1 ui-monospace,monospace;letter-spacing:.1em;
     text-transform:uppercase;padding:4px 6px;border-radius:5px;flex:none;
     border:1px solid var(--edge);color:var(--dim)}
-  .pane{display:none;flex:1;overflow:auto}
+  /* TWO REGISTERS. The kingdom — base and run — is dark, dimensional and lit
+     from a planet. The administrative layers — orders, fleet, codex — get the
+     office view: flat, pale-ruled, papery, no perspective and no glow, because
+     a ledger that looks like a throne room is a ledger nobody checks. */
+  .pane{display:none;flex:1;overflow:auto;
+    background:linear-gradient(180deg,#15131c,#101019);
+    background-image:repeating-linear-gradient(180deg,
+      rgba(255,255,255,.022) 0 1px,transparent 1px 34px)}
   .pane.on{display:block}
+  .pane .row .dot{background:#1e1b28;border-radius:5px;box-shadow:none}
+  .pane .row .badge{border-radius:3px;background:#1a1824}
   .stage.off{display:none}
 
   /* ------------------------------------------------------------- the run
@@ -428,16 +438,148 @@ const $ = id => document.getElementById(id);
 
 /* ═════════════════════════════════════════════════════════════════ THE SKY */
 const sky = $('sky'), sctx = sky.getContext('2d');
-let stars = [];
+
+/* The galactic backdrop is painted ONCE to an offscreen canvas and blitted
+   every frame. Three thousand stars redrawn sixty times a second is a way to
+   make a phone hot for no reason; the sky does not move and neither should the
+   work. Only Venus is repainted, because only Venus turns.
+
+   The stars are Earth's. From Venus they would be: 0.28 AU is nothing at
+   stellar distances, so the constellations are unchanged and the Milky Way
+   runs where it always did. What differs is the Sun, at 1.91x, and the fact
+   that Earth is the morning star — which is drawn, and labelled, because it is
+   the one detail on this page that is worth stopping at. */
+const bg = document.createElement('canvas');
+const bctx = bg.getContext('2d');
+
+/* a rough Harvard sequence, weighted the way the sky actually is: mostly dim
+   and red, a scatter of white, very few blue */
+const CLASS = [
+  ['#9db4ff', .006], ['#aabfff', .013], ['#cad7ff', .03],
+  ['#f8f7ff', .075], ['#fff4ea', .12],  ['#ffd2a1', .25], ['#ffb56b', 1]
+];
+function starColour() {
+  const r = Math.random();
+  for (const [c, p] of CLASS) if (r < p) return c;
+  return '#ffb56b';
+}
+
+function paintGalaxy(W, H) {
+  bctx.setTransform(1, 0, 0, 1, 0, 0);
+  bctx.clearRect(0, 0, W, H);
+  bctx.fillStyle = '#040307'; bctx.fillRect(0, 0, W, H);
+
+  const tilt = -0.42, cx = W * .5, cy = H * .34;
+  const bandW = Math.hypot(W, H) * 1.2, bandH = H * .30;
+
+  // the band's diffuse light, before any individual star
+  bctx.save();
+  bctx.translate(cx, cy); bctx.rotate(tilt);
+  for (let i = 0; i < 3; i++) {
+    const h = bandH * (1 - i * 0.28);
+    const g = bctx.createLinearGradient(0, -h, 0, h);
+    g.addColorStop(0, 'rgba(120,110,170,0)');
+    g.addColorStop(.5, 'rgba(150,140,200,' + (0.045 + i * 0.03) + ')');
+    g.addColorStop(1, 'rgba(120,110,170,0)');
+    bctx.fillStyle = g;
+    bctx.fillRect(-bandW / 2, -h, bandW, h * 2);
+  }
+  // dust lanes: the dark half of a galaxy, which is most of what you see
+  for (let i = 0; i < 14; i++) {
+    const y = (Math.random() - .5) * bandH * .8;
+    const w = bandW * (.25 + Math.random() * .5);
+    const x = (Math.random() - .5) * bandW * .7;
+    bctx.globalAlpha = .5;
+    bctx.fillStyle = '#040307';
+    bctx.beginPath();
+    bctx.ellipse(x, y, w / 2, bandH * (.03 + Math.random() * .07), 0, 0, 7);
+    bctx.fill();
+  }
+  bctx.globalAlpha = 1;
+  bctx.restore();
+
+  // nebulae, sparse and desaturated — bright ones would be a lie
+  const NEB = [['#5b7fc7', .05], ['#c9578f', .04], ['#4fb3a6', .035]];
+  for (let i = 0; i < 5; i++) {
+    const [c, a] = NEB[i % NEB.length];
+    const nx = Math.random() * W, ny = cy + (Math.random() - .5) * bandH * 1.6;
+    const r = 60 + Math.random() * 190;
+    const g = bctx.createRadialGradient(nx, ny, 0, nx, ny, r);
+    g.addColorStop(0, c.replace(')', '') + '');
+    bctx.globalAlpha = a;
+    const gg = bctx.createRadialGradient(nx, ny, 0, nx, ny, r);
+    gg.addColorStop(0, c); gg.addColorStop(1, 'rgba(0,0,0,0)');
+    bctx.fillStyle = gg;
+    bctx.beginPath(); bctx.arc(nx, ny, r, 0, 7); bctx.fill();
+  }
+  bctx.globalAlpha = 1;
+
+  // the field: concentrated in the band, thin away from it
+  const N = Math.round(W * H / 620);
+  for (let i = 0; i < N; i++) {
+    let x, y;
+    if (Math.random() < .62) {
+      const t = (Math.random() - .5) * bandW;
+      const u = (Math.random() + Math.random() + Math.random() - 1.5) * bandH * .8;
+      x = cx + t * Math.cos(tilt) - u * Math.sin(tilt);
+      y = cy + t * Math.sin(tilt) + u * Math.cos(tilt);
+    } else { x = Math.random() * W; y = Math.random() * H; }
+    if (x < -20 || x > W + 20 || y < -20 || y > H + 20) continue;
+    const mag = Math.pow(Math.random(), 2.6);
+    bctx.globalAlpha = .18 + mag * .8;
+    bctx.fillStyle = starColour();
+    bctx.beginPath(); bctx.arc(x, y, .25 + mag * 1.25, 0, 7); bctx.fill();
+  }
+  bctx.globalAlpha = 1;
+
+  // a dozen bright ones, with spikes
+  for (let i = 0; i < 12; i++) {
+    const x = Math.random() * W, y = Math.random() * H * .8;
+    const r = 1.4 + Math.random() * 1.1, c = starColour();
+    const g = bctx.createRadialGradient(x, y, 0, x, y, r * 9);
+    g.addColorStop(0, c); g.addColorStop(.18, c.replace('#', 'rgba(') === c ? c : c);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    bctx.globalAlpha = .5; bctx.fillStyle = g;
+    bctx.beginPath(); bctx.arc(x, y, r * 9, 0, 7); bctx.fill();
+    bctx.globalAlpha = .85; bctx.strokeStyle = c; bctx.lineWidth = .7;
+    bctx.beginPath();
+    bctx.moveTo(x - r * 7, y); bctx.lineTo(x + r * 7, y);
+    bctx.moveTo(x, y - r * 7); bctx.lineTo(x, y + r * 7);
+    bctx.stroke();
+    bctx.globalAlpha = 1; bctx.fillStyle = '#fff';
+    bctx.beginPath(); bctx.arc(x, y, r * .8, 0, 7); bctx.fill();
+  }
+
+  /* Earth, which from here is the morning star. Placed high and to the right,
+     away from Venus, and labelled — it is the only object in this sky that
+     anybody reading has stood on. */
+  const ex = W * .78, ey = H * .17;
+  const eg = bctx.createRadialGradient(ex, ey, 0, ex, ey, 26);
+  eg.addColorStop(0, 'rgba(190,225,255,.95)');
+  eg.addColorStop(.25, 'rgba(120,180,255,.45)');
+  eg.addColorStop(1, 'rgba(120,180,255,0)');
+  bctx.fillStyle = eg; bctx.beginPath(); bctx.arc(ex, ey, 26, 0, 7); bctx.fill();
+  bctx.fillStyle = '#eaf4ff';
+  bctx.beginPath(); bctx.arc(ex, ey, 1.9, 0, 7); bctx.fill();
+  bctx.globalAlpha = .55;
+  bctx.strokeStyle = 'rgba(150,190,240,.5)'; bctx.lineWidth = 1;
+  bctx.beginPath(); bctx.moveTo(ex + 9, ey + 5); bctx.lineTo(ex + 24, ey + 15); bctx.stroke();
+  bctx.fillStyle = '#9dc4e8';
+  bctx.font = '10px ui-monospace, monospace';
+  bctx.fillText('EARTH', ex + 28, ey + 19);
+  bctx.font = '8px ui-monospace, monospace';
+  bctx.fillStyle = '#5f7690';
+  bctx.fillText('the morning star, from here', ex + 28, ey + 31);
+  bctx.globalAlpha = 1;
+}
+
 function sizeSky() {
   const d = window.devicePixelRatio || 1;
   sky.width = Math.round(innerWidth * d); sky.height = Math.round(innerHeight * d);
   sky.style.width = innerWidth + 'px'; sky.style.height = innerHeight + 'px';
   sctx.setTransform(d, 0, 0, d, 0, 0);
-  stars = Array.from({ length: 220 }, () => ({
-    x: Math.random() * innerWidth, y: Math.random() * innerHeight,
-    r: Math.random() * 1.1 + .2, a: Math.random() * .7 + .2
-  }));
+  bg.width = innerWidth; bg.height = innerHeight;
+  paintGalaxy(innerWidth, innerHeight);
 }
 addEventListener('resize', sizeSky); sizeSky();
 
@@ -445,12 +587,7 @@ let spin = 0;
 function drawSky() {
   const W = innerWidth, H = innerHeight;
   sctx.clearRect(0, 0, W, H);
-  sctx.fillStyle = '#050407'; sctx.fillRect(0, 0, W, H);
-  for (const s of stars) {
-    sctx.globalAlpha = s.a; sctx.fillStyle = '#fff';
-    sctx.beginPath(); sctx.arc(s.x, s.y, s.r, 0, 7); sctx.fill();
-  }
-  sctx.globalAlpha = 1;
+  sctx.drawImage(bg, 0, 0, W, H);
 
   // Venus, low and enormous, turning the wrong way
   const R = Math.max(W, H) * 0.52, cx = W * .17, cy = H * .92;
