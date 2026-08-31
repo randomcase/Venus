@@ -1,14 +1,14 @@
-<title>The Ecosystem · seven orders, and what the forest can do without them</title>
+<title>The Ecosystem · nine orders, and what the forest can do without them</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
   THE ECOSYSTEM — the forest that terraforms this planet, as a dependency graph.
 
-  Seven orders, nine capabilities, and every capability a conjunction of the
+  Nine orders, twelve capabilities, and every capability a conjunction of the
   orders it actually needs.
 
   Nine thousand square miles of forest, the size of England, and it is not
   scenery. It is the machine that makes the planet habitable, and like every
-  machine it is a set of parts with jobs. Seven orders live in it. Each one does
+  machine it is a set of parts with jobs. Nine orders live in it. Each one does
   something the others cannot, none of them is decoration, and the page's whole
   purpose is to let you take one out and see precisely what stops working.
 
@@ -24,6 +24,10 @@
                                dance that encodes where in a symbol
     BUTTERFLIES inherit        a route longer than any life on it, and a body
                                that can become another body without starting
+    ANTS        build          the ground itself is the message, and a message
+                               nobody renews stops existing
+    MOTHS       bear           a straight line held against something far
+                               enough away to count as fixed
 
   WHAT HAPPENS WHEN THE CLOCK GOES
   Not everything. That was the first version of this page and it was wrong.
@@ -61,8 +65,25 @@
   generations removed from the one that set out, and none of them ever met.
   The route is carried by animals that will not see the end of it.
 
+  ON THE LAST TWO, AGAIN
+  Ants do not tell each other anything. An ant that finds food walks home
+  leaving a trail, other ants prefer a stronger trail, and the trail of a route
+  worth walking gets walked more and therefore reinforced. Nobody holds the map
+  and nobody decides. The important half is the evaporation: a trail nobody is
+  renewing fades out on its own, so a path that has stopped being useful stops
+  existing without anybody having to notice, decide or delete it. The memory is
+  the ground, and it forgets by default.
+
+  Moths fly a straight line by holding a constant angle to a distant light. It
+  works because the moon is far enough away that the angle does not change as
+  you move — and it is the same mechanism, unaltered, that spirals a moth into
+  a candle, because a light six feet away fails the assumption the rule was
+  built on. Do not read that as a fable about moths being foolish. It is a
+  heuristic calibrated to a condition, behaving exactly as designed, in a
+  condition that no longer holds. Every system in this yard has one.
+
   HOW IT IS BUILT
-  Seven checkboxes. Six capability panels, each gated by a compound :has() on
+  Nine checkboxes. Six capability panels, each gated by a compound :has() on
   the orders it actually requires. The capability count is a CSS counter that
   increments on an element inside each panel — and an element inside a
   display:none panel does not increment anything, which is how the number
@@ -78,6 +99,7 @@
     --ink:#e8f0ea; --dim:#87998e; --bone:#e6dcc4;
     --fly:#f0c66a; --owl:#a9b7c9; --wolf:#c9857a;
     --peac:#4fb3a6; --flam:#e58aa0; --bee:#e0903c; --btfl:#b98ae0;
+    --ant:#b5764a; --moth:#cfd6c8;
     --leaf:#6fc08a; --cool:#6ec6ff;
   }
   *{box-sizing:border-box}
@@ -108,7 +130,7 @@
     border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
 
   /* ------------------------------------------------------------ the orders */
-  .orders{display:grid;gap:10px;grid-template-columns:repeat(4,1fr);margin-top:12px}
+  .orders{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:12px}
   @media (max-width:1000px){.orders{grid-template-columns:repeat(3,1fr)}}
   @media (max-width:760px){.orders{grid-template-columns:repeat(2,1fr)}}
   @media (max-width:520px){.orders{grid-template-columns:1fr}}
@@ -142,6 +164,10 @@
   #bee:checked+label b,#bee:checked+label .st{color:var(--bee)}
   #btfl:checked+label{border-color:var(--btfl);background:rgba(185,138,224,.10)}
   #btfl:checked+label b,#btfl:checked+label .st{color:var(--btfl)}
+  #ant:checked+label{border-color:var(--ant);background:rgba(181,118,74,.12)}
+  #ant:checked+label b,#ant:checked+label .st{color:var(--ant)}
+  #moth:checked+label{border-color:var(--moth);background:rgba(207,214,200,.09)}
+  #moth:checked+label b,#moth:checked+label .st{color:var(--moth)}
 
   /* ==================================== 1 · COUNTERS ARE ARITHMETIC
      Two counters. `orders` increments on the checked label, the ordinary way.
@@ -159,6 +185,8 @@
   #flam:checked+label{counter-increment:orders 1}
   #bee:checked+label{counter-increment:orders 1}
   #btfl:checked+label{counter-increment:orders 1}
+  #ant:checked+label{counter-increment:orders 1}
+  #moth:checked+label{counter-increment:orders 1}
   .cap .mk{counter-increment:can 1}
   .n-orders::after{content:counter(orders)}
   .n-can::after{content:counter(can)}
@@ -177,7 +205,10 @@
   .eco:has(#bee:checked) .c-spread{display:block}
   .eco:has(#btfl:checked) .c-inherit{display:block}
   .eco:has(#bee:checked):has(#btfl:checked):has(#fly:checked) .c-recover{display:block}
-  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked):has(#bee:checked):has(#btfl:checked)
+  .eco:has(#ant:checked) .c-path{display:block}
+  .eco:has(#moth:checked) .c-bearing{display:block}
+  .eco:has(#moth:checked):has(#fly:checked):has(#ant:checked) .c-navigate{display:block}
+  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked):has(#bee:checked):has(#btfl:checked):has(#ant:checked):has(#moth:checked)
     .c-terraform{display:block}
 
   .cap.panel{margin-top:10px}
@@ -196,6 +227,9 @@
   .c-spread{border-color:rgba(224,144,60,.45)}
   .c-inherit{border-color:rgba(185,138,224,.45)}
   .c-recover{border-color:rgba(111,192,138,.35)}
+  .c-path{border-color:rgba(181,118,74,.45)}
+  .c-bearing{border-color:rgba(207,214,200,.35)}
+  .c-navigate{border-color:rgba(111,192,138,.35)}
   .c-terraform{border-color:var(--leaf)}
 
   .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
@@ -251,12 +285,12 @@
     <h1>The Ecosystem</h1>
     <p class="sub">Nine thousand square miles of forest, the size of England,
       and it is not scenery — it is the machine that makes this planet
-      habitable. Seven orders live in it. Take one out and see what stops
+      habitable. Nine orders live in it. Take one out and see what stops
       working &mdash; and what carries on regardless, which is usually the more
       interesting half.</p>
   </header>
 
-  <h2>The seven orders <b>each one has a job, none of them is decoration</b></h2>
+  <h2>The nine orders <b>each one has a job, none of them is decoration</b></h2>
   <div class="orders">
     <input type="checkbox" id="fly" checked>
     <label for="fly">
@@ -330,11 +364,33 @@
         that becomes another body without starting again.</span>
       <span class="st"></span>
     </label>
+
+    <input type="checkbox" id="ant" checked>
+    <label for="ant">
+      <span class="nm"><b>Ants</b><span class="job">build</span></span>
+      <span class="d">They do not tell each other anything. A trail is walked,
+        a walked trail is reinforced, and a trail nobody renews evaporates
+        &mdash; so a route that has stopped being useful stops existing without
+        anybody noticing, deciding or deleting it. The memory is the ground, and
+        it forgets by default.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="moth" checked>
+    <label for="moth">
+      <span class="nm"><b>Moths</b><span class="job">bear</span></span>
+      <span class="d">A straight line across a dark wood, held at a constant
+        angle to something far enough away that the angle does not change as you
+        move. The same rule, unaltered, spirals them into a candle &mdash; not
+        because they are foolish but because a light six feet away fails the
+        condition the rule was calibrated for.</span>
+      <span class="st"></span>
+    </label>
   </div>
   <p class="note"><b>Untick one and watch.</b> The capabilities below are not a
     list of features, they are conjunctions: each one names the orders it
-    actually requires, and it disappears when any of them leaves. Nine rules for
-    nine capabilities — adding an eighth animal costs as many rules as it has
+    actually requires, and it disappears when any of them leaves. Twelve rules for
+    twelve capabilities — adding a tenth animal costs as many rules as it has
     jobs,
     not a doubled table.</p>
 
@@ -435,15 +491,60 @@
       register that it had begun.</p>
   </div>
 
+  <div class="cap panel c-path">
+    <span class="mk"></span>
+    <div class="ch"><b>Path</b><span class="req">needs ants</span></div>
+    <p>The wood finds good routes with nobody holding the map. A trail is walked,
+      walking reinforces it, and the reinforcement makes it likelier to be walked
+      again &mdash; and no ant on it has ever seen more of the wood than the
+      metre in front of its face.</p>
+    <p>The half that matters is the evaporation. A trail nobody renews fades on
+      its own, so a route that has stopped being worth walking stops existing
+      without anybody having to notice it, decide about it, or remove it. This is
+      the only structure in the forest that <b>forgets by default</b>, and it is
+      the reason the ground can be used as memory without silting up.</p>
+  </div>
+
+  <div class="cap panel c-bearing">
+    <span class="mk"></span>
+    <div class="ch"><b>Hold a bearing</b><span class="req">needs moths</span></div>
+    <p>Something can fly a straight line across a dark wood. The rule is one
+      line: keep a constant angle to a distant light. It works because the moon
+      does not move relative to you as you travel, so the angle you are holding
+      is a direction.</p>
+    <p class="note" style="margin-top:9px"><b>And the same rule, unaltered, puts
+      them in the candle.</b> A light six feet away does change angle as you
+      move, so holding it constant produces a spiral rather than a line. The moth
+      is not malfunctioning. It is a heuristic calibrated to a condition,
+      behaving exactly as specified, in a condition that no longer holds &mdash;
+      which is the most common way a working system fails, and the hardest to
+      see from inside it. Every capability on this page has a version of it.</p>
+  </div>
+
+  <div class="cap panel c-navigate">
+    <span class="mk"></span>
+    <div class="ch"><b>Navigate</b><span class="req">needs moths · fireflies · ants</span></div>
+    <p>Not a bearing &mdash; a <i>fix</i>. Three independent references, and none
+      of them enough alone: a distant light for direction, a clock for elapsed
+      time, and a trail on the ground to correct against. That is what
+      navigation has always actually been, and it is why one reference is a
+      heuristic and three is a position.</p>
+    <p class="note" style="margin-top:9px">Take the ants away and the wood still
+      holds a bearing and still knows the hour, and it has no way to notice it
+      has been flying at a candle for a mile. The third reference is not
+      redundancy. It is the only thing that can disagree with the other two.</p>
+  </div>
+
   <div class="cap panel c-terraform">
     <span class="mk"></span>
-    <div class="ch"><b>Terraform</b><span class="req">needs all seven</span></div>
+    <div class="ch"><b>Terraform</b><span class="req">needs all nine</span></div>
     <p>The full machine. It keeps time, decides, acts, proves what it did, shows
       what passed through it, spreads past the clearing it began in, and carries
       the route across lives that do not overlap &mdash; which between them is
-      the whole of what making a planet habitable actually consists of, and none
-      of it is the dramatic part.</p>
-    <p>Nine thousand square miles and seven orders, and the two that matter most
+      the whole of what making a planet habitable actually consists of &mdash;
+      along with the ground to write routes on and a bearing to cross it by, and
+      none of it is the dramatic part.</p>
+    <p>Nine thousand square miles and nine orders, and the two that matter most
       to whether any of it is still here in a century are the two smallest
       animals in the wood: the one that keeps the time and the one that keeps
       the way.</p>
@@ -492,9 +593,9 @@
   <h2>The tally <b>counted, not declared</b></h2>
   <div class="heads">
     <div class="head"><span>Orders present</span><b class="n-orders"></b></div>
-    <div class="head"><span>Of</span><b>7</b></div>
-    <div class="head g"><span>Capabilities</span><b class="n-can"></b></div>
     <div class="head"><span>Of</span><b>9</b></div>
+    <div class="head g"><span>Capabilities</span><b class="n-can"></b></div>
+    <div class="head"><span>Of</span><b>12</b></div>
   </div>
   <p class="note"><b>The capability count counts itself.</b> Each panel carries
     a marker that increments a CSS counter — and a marker inside a hidden panel
@@ -503,7 +604,7 @@
     a figure anybody typed, and it cannot drift away from what is on the screen,
     which is the only reason it is allowed to be printed at all.</p>
 
-  <h2>Why these seven <b>and not seven nicer ones</b></h2>
+  <h2>Why these nine <b>and not nine nicer ones</b></h2>
   <div class="panel">
     <p style="margin:0;font-size:12.5px">Every animal here does a real job that
       the others cannot, and each job is a real mechanism rather than a mood.
@@ -528,6 +629,14 @@
       by four generations of an insect that never met each other. A wood with
       the five and not the last two works perfectly and ends with the animals
       currently in it.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">The ants and the moths are the
+      two that are about being <i>wrong</i>. An ant trail is a claim about the
+      world that decays unless the world keeps agreeing with it, which is the
+      only self-correcting memory in the wood. A moth is a rule that is right
+      for a thousand generations and then meets a candle, which is the only
+      honest picture anywhere on this page of how a good system actually fails:
+      not by breaking, but by continuing to work perfectly in a condition it was
+      never calibrated for.</p>
   </div>
 
   <p class="note" style="margin-top:22px">Also in this forest:
