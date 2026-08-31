@@ -1,0 +1,626 @@
+<title>Venus Yard · the aerostat</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  VENUS YARD — the game. Mobile shape, desktop screen.
+
+  WHAT THIS IS BUILT OUT OF
+  Nothing here is invented for the game. Every number, dependency and refusal
+  comes from a page in this repository that worked it out first:
+
+    the twelve sectors and their build order   economy.html
+    the twelve ecosystem orders as the roster  ecosystem.html
+    the fleet, and what each ship carries      ships/ + ships.json
+    the site, the lift, the hydrogen budget    terraform.html, water.html
+    the requirement graph and its statuses     profiles.json
+
+  THE LOOP, AND WHY IT IS NOT THE USUAL ONE
+  City builders run on several scarcities that all behave alike. This one has
+  exactly one scarcity and it behaves differently from everything else:
+
+    POWER    2,601 W/m2 at Venus, 1.91x Earth. Effectively unlimited, and it
+             stops for two days at a time because the band's day is four days
+             long and half of that is night.
+    CARBON   96.5% of the atmosphere. Unlimited. You cannot run out.
+    WATER    made locally, at a cost, out of hydrogen you did not make.
+    HYDROGEN cannot be produced here at any price. It arrives by ship or it
+             does not arrive. 292 days round trip for 11,400 kg.
+
+  So the game cannot be won by optimising production. Hydrogen is exogenous,
+  the ships come on a fixed 584-day cadence set by orbital mechanics, and the
+  only real decision is what you spend the arriving mass on before the next one.
+  That is the actual shape of the problem and it makes a stranger game than the
+  usual four-resource grind.
+
+  THE 3D
+  CSS 3D transforms rather than WebGL: a real perspective camera, real depth,
+  and a build plate you can orbit. These games are isometric anyway. The planet
+  behind is 2D canvas. No libraries, no CDN, one file, runs from disk.
+
+  SCRIPT: yes, obviously. It is a game. Everything else in this yard is
+  scriptless and marked as such; this is the exception and it is marked too.
+-->
+<style>
+  :root{
+    --void:#07060a; --panel:#141119; --panel2:#1b1722; --edge:#332c40;
+    --ink:#f2eee6; --dim:#9a8fa8; --gold:#e8c069; --gold2:#ffe6a8;
+    --venus:#f0a83c; --h2:#7fd0e0; --pw:#e8c069; --wat:#6ec6ff; --com:#7fc98a;
+    --bad:#e0705a; --ok:#65d6a8;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{margin:0;background:#050407;color:var(--ink);overflow:hidden;
+    font:13px/1.5 ui-rounded,system-ui,-apple-system,sans-serif;
+    display:grid;place-items:center}
+
+  /* the sky, behind everything, bleeding past the phone */
+  #sky{position:fixed;inset:0;z-index:0}
+
+  /* ---------------------------------------------------------- the handset */
+  .phone{position:relative;z-index:1;width:404px;height:876px;max-height:96vh;
+    border-radius:34px;border:1px solid #2a2333;overflow:hidden;
+    background:linear-gradient(180deg,rgba(12,10,17,.86),rgba(8,7,12,.94));
+    box-shadow:0 40px 120px rgba(0,0,0,.75),0 0 0 9px #0b0910,0 0 0 10px #1d1826;
+    display:flex;flex-direction:column;backdrop-filter:blur(2px)}
+  @media (max-height:900px){.phone{height:96vh}}
+
+  /* ------------------------------------------------------------- top bar */
+  .res{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#241e2e;
+    border-bottom:1px solid var(--edge);flex:none}
+  .res div{background:#100d16;padding:8px 6px;text-align:center}
+  .res span{display:block;font:8px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim)}
+  .res b{display:block;font:14px/1.2 ui-monospace,Menlo,monospace;margin-top:4px}
+  .res i{display:block;font-style:normal;font:8px/1 ui-monospace,monospace;
+    color:#5f5470;margin-top:3px}
+  .r-h2 b{color:var(--h2)} .r-pw b{color:var(--pw)}
+  .r-wa b{color:var(--wat)} .r-co b{color:var(--com)}
+  .res b.low{color:var(--bad)}
+
+  .clockbar{display:flex;align-items:center;gap:8px;padding:6px 12px;flex:none;
+    background:#0c0a11;border-bottom:1px solid var(--edge);
+    font:9px/1 ui-monospace,monospace;letter-spacing:.1em;color:var(--dim)}
+  .clockbar b{color:var(--gold2)}
+  .clockbar .day{margin-left:auto}
+  .clockbar .night{color:var(--h2)}
+
+  /* --------------------------------------------------------- the 3D stage */
+  .stage{position:relative;flex:1;overflow:hidden;perspective:900px;
+    perspective-origin:50% 42%;touch-action:none;cursor:grab;
+    user-select:none;-webkit-user-select:none}
+  .sheet{user-select:text;-webkit-user-select:text}
+  .stage:active{cursor:grabbing}
+  .world{position:absolute;left:50%;top:50%;width:0;height:0;
+    transform-style:preserve-3d;transition:transform .12s linear}
+  .plate{position:absolute;width:460px;height:460px;left:-230px;top:-230px;
+    transform-style:preserve-3d;
+    background:
+      repeating-linear-gradient(0deg,rgba(232,192,105,.10) 0 1px,transparent 1px 46px),
+      repeating-linear-gradient(90deg,rgba(232,192,105,.10) 0 1px,transparent 1px 46px),
+      radial-gradient(circle at 50% 50%,rgba(240,168,60,.16),rgba(20,15,28,.86) 68%);
+    border:1px solid rgba(232,192,105,.28);border-radius:10px;
+    box-shadow:0 0 60px rgba(240,168,60,.18)}
+  .plate::after{content:"";position:absolute;inset:-40px;border-radius:24px;
+    border:1px dashed rgba(232,192,105,.16);transform:translateZ(-26px)}
+
+  .slot{position:absolute;width:84px;height:84px;margin:-42px 0 0 -42px;
+    transform-style:preserve-3d;cursor:pointer}
+  .slot .pad{position:absolute;inset:0;border:1px solid rgba(232,192,105,.3);
+    border-radius:7px;background:rgba(232,192,105,.05)}
+  .slot.locked .pad{border-style:dashed;border-color:rgba(154,143,168,.3);
+    background:rgba(154,143,168,.03)}
+  .slot .tower{position:absolute;left:50%;bottom:50%;width:44px;margin-left:-22px;
+    transform-style:preserve-3d}
+  .slot .face{position:absolute;left:0;width:44px;transform-origin:bottom center;
+    border:1px solid rgba(0,0,0,.5)}
+  .slot .top{position:absolute;left:0;width:44px;height:44px;
+    border:1px solid rgba(255,255,255,.22)}
+  .slot .cap{position:absolute;left:50%;transform:translate(-50%,0);
+    white-space:nowrap;font:8.5px/1 ui-monospace,monospace;letter-spacing:.06em;
+    color:var(--dim);text-shadow:0 1px 3px #000;pointer-events:none}
+  .slot.built .cap{color:var(--gold2)}
+  .slot.sel .pad{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.35),
+    0 0 26px rgba(232,192,105,.5)}
+  .slot .bar{position:absolute;left:50%;width:52px;height:4px;margin-left:-26px;
+    background:#2a2333;border-radius:3px;overflow:hidden}
+  .slot .bar i{display:block;height:100%;background:var(--gold);width:0}
+
+  /* --------------------------------------------------------------- sheets */
+  .sheet{position:absolute;left:0;right:0;bottom:0;max-height:74%;overflow:auto;
+    background:linear-gradient(180deg,rgba(24,20,32,.97),rgba(16,13,22,.99));
+    border-top:1px solid var(--edge);border-radius:16px 16px 0 0;
+    transform:translateY(101%);transition:transform .22s cubic-bezier(.2,.8,.3,1);
+    z-index:5;padding:12px 14px 16px}
+  .sheet.up{transform:translateY(0)}
+  .sheet .grab{width:36px;height:4px;border-radius:3px;background:#3a3247;
+    margin:0 auto 10px}
+  .sheet h3{margin:0 0 2px;font-size:16px;color:var(--gold2)}
+  .sheet .sub{color:var(--dim);font-size:10.5px;margin:0 0 10px}
+  .sheet .body{font-size:12px;color:#d6cfe0}
+  .sheet .why{border-left:3px solid var(--gold);padding:2px 0 2px 11px;
+    margin:10px 0;color:var(--dim);font-size:11px}
+  .cost{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0;
+    font:10px/1 ui-monospace,monospace}
+  .cost span{color:var(--dim)} .cost b{color:var(--ink)}
+  .needs{margin:9px 0 0;font-size:11px}
+  .needs div{display:flex;gap:8px;align-items:center;padding:4px 0}
+  .needs .tick{width:14px;height:14px;border-radius:4px;flex:none;
+    border:1px solid var(--edge)}
+  .needs .yes .tick{background:var(--ok);border-color:var(--ok)}
+  .needs .no .tick{background:transparent;border-color:var(--bad)}
+  .needs .no{color:var(--bad)}
+  button{font:inherit;font-size:13px;font-weight:650;cursor:pointer;width:100%;
+    padding:12px;border-radius:11px;border:1px solid var(--gold);
+    background:var(--gold);color:#171009;margin-top:10px}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  button.ghost{background:transparent;color:var(--dim);border-color:var(--edge)}
+
+  /* ----------------------------------------------------------------- nav */
+  nav{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#241e2e;
+    border-top:1px solid var(--edge);flex:none}
+  nav button{width:auto;margin:0;border-radius:0;border:0;background:#100d16;
+    color:var(--dim);font-size:10px;font-weight:600;padding:11px 4px 12px;
+    letter-spacing:.06em}
+  nav button.on{color:var(--gold2);background:#171226;
+    box-shadow:inset 0 2px 0 var(--gold)}
+
+  .list{padding:2px 0 8px}
+  .row{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;
+    border-bottom:1px solid #241e2e}
+  .row:last-child{border-bottom:0}
+  .row .dot{width:34px;height:34px;border-radius:9px;flex:none;
+    display:grid;place-items:center;font-size:16px;background:#1a1524;
+    border:1px solid var(--edge)}
+  .row .t{flex:1;min-width:0}
+  .row .t b{display:block;font-size:12.5px;color:var(--ink)}
+  .row .t span{display:block;font-size:10.5px;color:var(--dim);margin-top:2px;
+    line-height:1.45}
+  .row .badge{font:8.5px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;padding:4px 6px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);color:var(--dim)}
+  .pane{display:none;flex:1;overflow:auto}
+  .pane.on{display:block}
+  .stage.off{display:none}
+
+  .toast{position:absolute;left:12px;right:12px;bottom:74px;z-index:9;
+    background:rgba(30,24,40,.97);border:1px solid var(--edge);border-radius:11px;
+    padding:10px 12px;font-size:11.5px;color:#e4dcf0;opacity:0;
+    transition:opacity .2s;pointer-events:none}
+  .toast.show{opacity:1}
+  .toast b{color:var(--bad)}
+
+  .hint{position:absolute;left:0;right:0;bottom:8px;text-align:center;
+    font:9px/1.4 ui-monospace,monospace;color:#544a63;pointer-events:none}
+</style>
+
+<canvas id="sky"></canvas>
+
+<div class="phone">
+  <div class="res">
+    <div class="r-h2"><span>hydrogen</span><b id="v-h2">0</b><i id="d-h2">kg · ship only</i></div>
+    <div class="r-pw"><span>power</span><b id="v-pw">0</b><i id="d-pw">MW</i></div>
+    <div class="r-wa"><span>water</span><b id="v-wa">0</b><i>kg</i></div>
+    <div class="r-co"><span>commons</span><b id="v-co">100</b><i>%</i></div>
+  </div>
+
+  <div class="clockbar">
+    <span>day <b id="v-day">1</b></span>
+    <span id="v-phase">daylight</span>
+    <span class="day">next ship <b id="v-ship">584</b>d</span>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="world" id="world">
+      <div class="plate" id="plate"></div>
+    </div>
+    <div class="hint">drag to orbit &middot; tap a pad to build</div>
+    <div class="sheet" id="sheet"><div class="grab"></div><div id="sheetBody"></div></div>
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <div class="pane" id="pane-roster"><div class="list" id="rosterList"></div></div>
+  <div class="pane" id="pane-fleet"><div class="list" id="fleetList"></div></div>
+  <div class="pane" id="pane-codex"><div class="list" id="codexList"></div></div>
+
+  <nav>
+    <button class="on" data-tab="base">BASE</button>
+    <button data-tab="roster">ORDERS</button>
+    <button data-tab="fleet">FLEET</button>
+    <button data-tab="codex">CODEX</button>
+  </nav>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════ DATA — all of it real
+   Every sector, dependency and figure below is taken from a page in this
+   repository that worked it out. Nothing is balanced for fun; the difficulty
+   is the physics. */
+
+const SECTORS = [
+  { id:'aphro', name:'Aphrodite', sector:'demand',    glyph:'❦', root:true,
+    needs:[], cost:{pw:2},              build:20,
+    why:'Desire is a root, not a luxury. Nobody farms without wanting something, and an economy with no demand in it is not early — it is stopped.' },
+  { id:'posei', name:'Poseidon', sector:'water',      glyph:'≋', root:true,
+    needs:[], cost:{pw:8},              build:40,
+    why:'Water and the routes over it. Nothing else is a root because nothing else can be: no agriculture, no settlement, no transport until you have decided where the water is.' },
+  { id:'hesti', name:'Hestia',   sector:'shelter',    glyph:'⌂', root:true,
+    needs:[], cost:{pw:6},              build:35,
+    why:'The hearth. Somewhere warm that is the same place tomorrow. First in the old rites for the same reason it is a root here — everything else needs an address.' },
+  { id:'artem', name:'Artemis',  sector:'commons',    glyph:'⌖', root:true,
+    needs:[], cost:{},                  build:10,
+    why:'The un-farmed. The only sector that does not grow when the others do — she is what the rest are spending, and her health cannot be read off her own activity, because her activity is that nothing is happening.' },
+  { id:'demet', name:'Demeter',  sector:'food',       glyph:'✿',
+    needs:['posei'], cost:{pw:14,wa:400}, build:90,
+    why:'Grain, and therefore surplus, and therefore every hand not growing food. She needs water. Almost everything else needs her.' },
+  { id:'hepha', name:'Hephaestus',sector:'forge',     glyph:'⚒',
+    needs:['demet'], cost:{pw:26},      build:110,
+    why:'Tools, and tools that make tools. Cannot start until somebody has enough food that a pair of hands can be spared from growing it — the forge is paid for in meals somebody else grew.' },
+  { id:'athen', name:'Athena',   sector:'skill',      glyph:'◈',
+    needs:['demet'], cost:{pw:12},      build:80,
+    why:'Craft, and the passing of it on. A day spent teaching is a day not spent growing, and every apprenticeship in history was funded that way whether or not anybody said so.' },
+  { id:'ares',  name:'Ares',     sector:'force',      glyph:'⚔',
+    needs:['demet'], cost:{pw:18},      build:70,
+    why:'Force, under its own name, and downstream of the surplus — it needs something worth taking. A restart that budgets security before it has anything to secure has described a garrison.' },
+  { id:'herme', name:'Hermes',   sector:'trade',      glyph:'⇌',
+    needs:['hepha','demet'], cost:{pw:16}, build:100,
+    why:'Roads, exchange, messages. Needs two producers with different surpluses; with one producer there is no market, only a stall.' },
+  { id:'apoll', name:'Apollo',   sector:'records',    glyph:'☉',
+    needs:['herme'], cost:{pw:10},      build:85,
+    why:'Measure, standards, the written account — and he comes AFTER trade. Cuneiform begins as barley tallies, not poetry. The ledger is downstream of the exchange and the first thing anybody wrote was a receipt.' },
+  { id:'hera',  name:'Hera',     sector:'contract',   glyph:'⊗',
+    needs:['apoll'], cost:{pw:8},       build:75,
+    why:'Oath, and the binding of an agreement past the moment of making it. Needs the record: an oath nobody can produce is a memory, and two memories that disagree is the condition contract law exists to end.' },
+  { id:'zeus',  name:'Zeus',     sector:'authority',  glyph:'⚡',
+    needs:['hera','apoll'], cost:{pw:20}, build:120,
+    why:'The appeal of last resort, and the only sector that contributes nothing until two others are already running. You cannot adjudicate without a rule AND a record — with the rule alone you have authority ruling by memory.' }
+];
+
+const ORDERS = [
+  ['Fireflies','keep time','A clock with nobody holding it. Each runs its own cycle and shifts it toward whatever it just saw flash.','🜂'],
+  ['Owls','decide','Nine and a quorum. The only order that turns a disagreement into a decision that binds — and it abstains.','◑'],
+  ['Wolves','move','Two, coordinated, no debate. Not the villains: the velocity, and the reason the owls’ procedure has to be good.','▲'],
+  ['Peacocks','prove','Costly signalling. The train cannot be faked because affording it IS the evidence.','❋'],
+  ['Flamingos','show','They take their colour from what they eat, so they cannot lie about the food chain.','⌇'],
+  ['Bees','spread','Carriage between things that cannot move, and a dance that says WHERE in a symbol.','✶'],
+  ['Butterflies','inherit','A route longer than any life on it. The one that arrives is generations from the one that left.','❈'],
+  ['Ants','build','The ground is the memory, and it forgets by default — an unrenewed trail evaporates.','⋯'],
+  ['Moths','bear','A straight line held on a distant light. The same rule puts them in the candle.','✧'],
+  ['Spiders','catch','Coverage without patrol. And a spider cannot moult inside its own web.','✳'],
+  ['Beetles','bury','Walking wings — the armour IS the forewings. Seed goes down, not sideways.','⬢'],
+  ['Geckos','retrieve','Goes anywhere, takes one thing, leaves no residue. And the tail comes off on purpose.','◗']
+];
+
+const SHIPS = [
+  ['Hestia','clock','cycler — lands at neither end','∞'],
+  ['Iris','hydrogen','11,400 kg out, 40 kg of rock home','⬡'],
+  ['Atlas','envelope','410 km of membrane, 1,800 km of seam','▤'],
+  ['Demeter','biology','seed, cultures, soil starter','✿'],
+  ['Prometheus','power','and the price charged again daily','⚡'],
+  ['Hermes','relay','2.2 to 14.3 light-minutes','⇌'],
+  ['Charon','the lift','55 km down. Six minutes at the bottom.','↓']
+];
+
+const CODEX = [
+  ['Hydrogen is the only scarcity','Carbon, oxygen, nitrogen and sunlight are effectively unlimited here. Water vapour runs 20–30 ppm and sulfuric acid is 2.06% hydrogen by mass against water’s 11.19% — about 136,000 m³ of cloud swept per kilogram of water. You cannot produce it. It arrives or it does not.'],
+  ['The day is four days long','The band super-rotates and laps the planet in about four Earth days, so the platform’s day is four days and half of that is night. The surface below has a day of 116.75. Two clocks, differing by twenty-nine.'],
+  ['55 km, not 50','1.00 bar is at 49.5 km where it is 82 °C. 0–50 °C is at 53–58 km where it is 0.36–0.75 bar. You cannot have both, and water at 27 °C holds 7.9 mg/L of oxygen against 2.6 at 75 °C. The waterway picked the altitude.'],
+  ['Gravity is not a commodity','8.87 m/s², 90.4% of Earth’s, against Mars at 38% and the Moon at 17%. It cannot be shipped, stored or traded — a premium attached to a location, which cannot be cornered because it cannot change hands.'],
+  ['The forest is 0.005% of Venus','9,000 sq mi against 177.7 million. One part in 19,744, and 197 such forests to reach a single per cent. Drawn as a pie chart it is a solid circle.'],
+  ['Writing was invented for accounting','Cuneiform begins as commodity tallies pressed into clay. Tokens in envelopes, then the envelope marked outside so it need not be broken to be read, then the tokens inside were redundant. Literature is a later use of the same tool.']
+];
+
+/* ═══════════════════════════════════════════════════════════════════ STATE */
+const S = {
+  day: 1, tick: 0, phase: 'day',
+  h2: 11400, pw: 0, wa: 2000, co: 100,
+  built: {}, building: {}, sel: null,
+  shipIn: 584, tab: 'base',
+  yaw: -0.62, pitch: 0.92, drag: null
+};
+
+const byId = Object.fromEntries(SECTORS.map(s => [s.id, s]));
+const $ = id => document.getElementById(id);
+
+/* ═════════════════════════════════════════════════════════════════ THE SKY */
+const sky = $('sky'), sctx = sky.getContext('2d');
+let stars = [];
+function sizeSky() {
+  const d = window.devicePixelRatio || 1;
+  sky.width = Math.round(innerWidth * d); sky.height = Math.round(innerHeight * d);
+  sky.style.width = innerWidth + 'px'; sky.style.height = innerHeight + 'px';
+  sctx.setTransform(d, 0, 0, d, 0, 0);
+  stars = Array.from({ length: 220 }, () => ({
+    x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+    r: Math.random() * 1.1 + .2, a: Math.random() * .7 + .2
+  }));
+}
+addEventListener('resize', sizeSky); sizeSky();
+
+let spin = 0;
+function drawSky() {
+  const W = innerWidth, H = innerHeight;
+  sctx.clearRect(0, 0, W, H);
+  sctx.fillStyle = '#050407'; sctx.fillRect(0, 0, W, H);
+  for (const s of stars) {
+    sctx.globalAlpha = s.a; sctx.fillStyle = '#fff';
+    sctx.beginPath(); sctx.arc(s.x, s.y, s.r, 0, 7); sctx.fill();
+  }
+  sctx.globalAlpha = 1;
+
+  // Venus, low and enormous, turning the wrong way
+  const R = Math.max(W, H) * 0.52, cx = W * .17, cy = H * .92;
+  const g = sctx.createRadialGradient(cx - R * .3, cy - R * .45, R * .05, cx, cy, R);
+  g.addColorStop(0, '#ffe7ae'); g.addColorStop(.45, '#f0a83c');
+  g.addColorStop(.82, '#b4671d'); g.addColorStop(1, '#5d3210');
+  sctx.fillStyle = g; sctx.beginPath(); sctx.arc(cx, cy, R, 0, 7); sctx.fill();
+
+  // cloud bands, retrograde
+  spin -= 0.00035;
+  sctx.save(); sctx.beginPath(); sctx.arc(cx, cy, R, 0, 7); sctx.clip();
+  for (let i = 0; i < 9; i++) {
+    const t = i / 9, y = cy - R + t * R * 2;
+    sctx.globalAlpha = .10 + .05 * Math.sin(i);
+    sctx.fillStyle = i % 2 ? '#fff3d2' : '#c07a24';
+    const off = Math.sin(spin * (1 + i * .12) + i) * R * .5;
+    sctx.beginPath();
+    sctx.ellipse(cx + off, y, R * 1.1, R * (.05 + .02 * Math.cos(i)), 0, 0, 7);
+    sctx.fill();
+  }
+  sctx.restore(); sctx.globalAlpha = 1;
+
+  const glow = sctx.createRadialGradient(cx, cy, R * .88, cx, cy, R * 1.4);
+  glow.addColorStop(0, 'rgba(240,168,60,.28)'); glow.addColorStop(1, 'rgba(240,168,60,0)');
+  sctx.fillStyle = glow; sctx.beginPath(); sctx.arc(cx, cy, R * 1.4, 0, 7); sctx.fill();
+  // the band we are floating in, edge-on
+  sctx.globalAlpha = .5;
+  const band = sctx.createLinearGradient(0, H * .40, 0, H * .60);
+  band.addColorStop(0, 'rgba(232,213,168,0)');
+  band.addColorStop(.5, 'rgba(232,213,168,.16)');
+  band.addColorStop(1, 'rgba(232,213,168,0)');
+  sctx.fillStyle = band; sctx.fillRect(0, H * .40, W, H * .20);
+  sctx.globalAlpha = 1;
+}
+
+/* ═══════════════════════════════════════════════════ THE PLATE, IN 3D (CSS) */
+const plate = $('plate'), world = $('world');
+const COLS = 4, GAP = 108;
+
+SECTORS.forEach((s, i) => {
+  const x = (i % COLS - (COLS - 1) / 2) * GAP;
+  const y = (Math.floor(i / COLS) - 1) * GAP;
+  const el = document.createElement('div');
+  el.className = 'slot locked';
+  el.id = 'slot-' + s.id;
+  el.style.left = (230 + x) + 'px';
+  el.style.top = (230 + y) + 'px';
+  el.innerHTML =
+    '<div class="pad"></div>' +
+    '<div class="tower"></div>' +
+    '<div class="bar" style="transform:translateZ(2px) rotateX(-90deg);bottom:-9px"><i></i></div>' +
+    '<div class="cap" style="bottom:-30px">' + s.name + '</div>';
+  el.onclick = () => openSheet(s.id);
+  plate.appendChild(el);
+});
+
+/* an extruded block, four faces and a top, in real 3D transforms */
+function tower(el, h, colour, glyph) {
+  const t = el.querySelector('.tower');
+  if (!h) { t.innerHTML = ''; t.style.height = '0px'; return; }
+  t.style.height = h + 'px';
+  const dark = colour.replace('rgb(', 'rgba(').replace(')', ',.55)');
+  t.innerHTML =
+    ['0,' + (-h / 2) + 'px,22px,rotateY(0deg)',
+     '0,' + (-h / 2) + 'px,-22px,rotateY(180deg)',
+     '-22px,' + (-h / 2) + 'px,0,rotateY(-90deg)',
+     '22px,' + (-h / 2) + 'px,0,rotateY(90deg)'].map((spec, i) => {
+      const [tx, ty, tz, rot] = spec.split(',');
+      return '<div class="face" style="height:' + h + 'px;bottom:0;' +
+        'background:linear-gradient(180deg,' + colour + ',' + dark + ');' +
+        'transform:translate3d(' + tx + ',0,' + tz + ') ' + rot +
+        ' translateZ(22px) translateY(0);opacity:' + (i < 2 ? .95 : .78) + '">' +
+        (i === 0 ? '<div style="position:absolute;left:0;right:0;top:6px;text-align:center;' +
+          'font-size:15px;color:#fff;text-shadow:0 1px 4px #000">' + glyph + '</div>' : '') +
+        '</div>';
+    }).join('') +
+    '<div class="top" style="background:' + colour + ';filter:brightness(1.35);' +
+    'transform:translate3d(0,' + (-h) + 'px,0) rotateX(-90deg) translateZ(0)"></div>';
+}
+
+const HUE = { demand:'rgb(201,138,127)', water:'rgb(110,198,255)', shelter:'rgb(232,192,105)',
+  commons:'rgb(127,201,138)', food:'rgb(143,191,122)', forge:'rgb(224,144,60)',
+  skill:'rgb(154,127,208)', force:'rgb(224,112,90)', trade:'rgb(95,211,224)',
+  records:'rgb(255,230,168)', contract:'rgb(169,183,201)', authority:'rgb(240,224,140)' };
+
+function applyCam() {
+  world.style.transform =
+    'rotateX(' + (S.pitch * 57.3) + 'deg) rotateZ(' + (S.yaw * 57.3) + 'deg)';
+  /* Billboard: the world is rotateX then rotateZ, so a label that should face
+     the viewer has to undo them in the opposite order. Without this the names
+     lie flat on the plate and read backwards through half the orbit. */
+  const bb = 'translate(-50%,0) rotateZ(' + (-S.yaw * 57.3) + 'deg) rotateX(' +
+             (-S.pitch * 57.3) + 'deg)';
+  document.querySelectorAll('.slot .cap').forEach(c => { c.style.transform = bb; });
+}
+applyCam();
+
+const stage = $('stage');
+stage.addEventListener('pointerdown', e => {
+  if (e.target.closest('.sheet')) return;
+  S.drag = { x: e.clientX, y: e.clientY, yaw: S.yaw, pitch: S.pitch, moved: 0 };
+  stage.setPointerCapture(e.pointerId);
+});
+stage.addEventListener('pointermove', e => {
+  if (!S.drag) return;
+  const dx = e.clientX - S.drag.x, dy = e.clientY - S.drag.y;
+  S.drag.moved = Math.max(S.drag.moved, Math.abs(dx) + Math.abs(dy));
+  S.yaw = S.drag.yaw + dx * 0.006;
+  S.pitch = Math.max(0.35, Math.min(1.35, S.drag.pitch + dy * 0.005));
+  applyCam();
+});
+stage.addEventListener('pointerup', () => { S.drag = null; });
+
+/* ═════════════════════════════════════════════════════════════ THE SHEET */
+function unmet(s) { return s.needs.filter(n => !S.built[n]); }
+function affordable(s) {
+  return (!s.cost.pw || S.pw >= s.cost.pw) && (!s.cost.wa || S.wa >= s.cost.wa);
+}
+
+function openSheet(id) {
+  if (S.drag && S.drag.moved > 6) return;
+  const s = byId[id];
+  S.sel = id;
+  document.querySelectorAll('.slot').forEach(e => e.classList.remove('sel'));
+  $('slot-' + id).classList.add('sel');
+
+  const miss = unmet(s), done = !!S.built[id], busy = S.building[id];
+  const needs = s.needs.length
+    ? '<div class="needs">' + s.needs.map(n =>
+        '<div class="' + (S.built[n] ? 'yes' : 'no') + '"><i class="tick"></i>' +
+        byId[n].name + ' &mdash; ' + byId[n].sector + '</div>').join('') + '</div>'
+    : '<div class="needs"><div class="yes"><i class="tick"></i>a root &mdash; nothing upstream</div></div>';
+
+  const cost = '<div class="cost">' +
+    (s.cost.pw ? '<span>power <b>' + s.cost.pw + ' MW</b></span>' : '') +
+    (s.cost.wa ? '<span>water <b>' + s.cost.wa + ' kg</b></span>' : '') +
+    '<span>build <b>' + s.build + 'd</b></span></div>';
+
+  let action;
+  if (done) action = '<button class="ghost" disabled>running</button>';
+  else if (busy) action = '<button class="ghost" disabled>building &mdash; ' +
+    Math.ceil(s.build - busy.p) + ' days left</button>';
+  else if (miss.length) action = '<button disabled>needs ' +
+    miss.map(m => byId[m].name).join(' and ') + '</button>';
+  else if (!affordable(s)) action = '<button disabled>not enough ' +
+    (s.cost.pw && S.pw < s.cost.pw ? 'power' : 'water') + '</button>';
+  else action = '<button onclick="startBuild(\'' + id + '\')">build</button>';
+
+  $('sheetBody').innerHTML =
+    '<h3>' + s.name + '</h3><p class="sub">' + s.sector +
+    (s.root ? ' &middot; root' : '') + '</p>' +
+    '<div class="why">' + s.why + '</div>' + cost + needs + action +
+    '<button class="ghost" onclick="closeSheet()">close</button>';
+  $('sheet').classList.add('up');
+}
+function closeSheet() {
+  $('sheet').classList.remove('up'); S.sel = null;
+  document.querySelectorAll('.slot').forEach(e => e.classList.remove('sel'));
+}
+function toast(html) {
+  const t = $('toast'); t.innerHTML = html; t.classList.add('show');
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 3400);
+}
+function startBuild(id) {
+  const s = byId[id];
+  if (unmet(s).length || !affordable(s) || S.built[id] || S.building[id]) return;
+  if (s.cost.pw) S.pw -= s.cost.pw;
+  if (s.cost.wa) S.wa -= s.cost.wa;
+  S.building[id] = { p: 0 };
+  closeSheet();
+  toast('<b>' + s.name + '</b> laid down. ' + s.build + ' days.');
+}
+window.startBuild = startBuild; window.closeSheet = closeSheet;
+
+/* ═════════════════════════════════════════════════════════════════ THE LOOP
+   One tick is one Venus-band day. The band's day is four Earth days and half
+   of it is night, so power comes in a two-on two-off square wave, which is the
+   single most awkward fact about living there and is not smoothed out here. */
+function step() {
+  S.day++;
+  S.phase = (Math.floor((S.day - 1) / 2) % 2 === 0) ? 'day' : 'night';
+
+  const built = Object.keys(S.built);
+  const gen = S.phase === 'day' ? 6 + built.length * 2 : 0;
+  S.pw = Math.min(999, S.pw + gen);
+
+  // water: made from hydrogen, and only if Poseidon is running
+  if (S.built.posei && S.h2 > 0 && S.pw >= 4) {
+    const made = Math.min(9, S.h2 * 9);          // 1 kg H2 -> ~9 kg water
+    S.h2 = Math.max(0, S.h2 - made / 9);
+    S.wa += made; S.pw -= 4;
+  }
+  // the commons is spent by everything that is not Artemis
+  const spend = built.filter(b => b !== 'artem').length * 0.012;
+  S.co = Math.max(0, S.co - spend + (S.built.artem ? 0.006 : 0));
+
+  for (const [id, b] of Object.entries(S.building)) {
+    b.p += 1;
+    if (b.p >= byId[id].build) {
+      delete S.building[id]; S.built[id] = true;
+      toast('<b>' + byId[id].name + '</b> running.');
+    }
+  }
+
+  S.shipIn--;
+  if (S.shipIn <= 0) {
+    S.shipIn = 584; S.h2 += 11400;
+    toast('<b>Iris</b> matched velocity. 11,400 kg of hydrogen aboard. ' +
+      'She goes home with forty kilograms of rock.');
+  }
+  render();
+}
+
+function render() {
+  $('v-h2').textContent = Math.round(S.h2).toLocaleString();
+  $('v-pw').textContent = Math.round(S.pw);
+  $('v-wa').textContent = Math.round(S.wa).toLocaleString();
+  $('v-co').textContent = S.co.toFixed(1);
+  $('v-h2').classList.toggle('low', S.h2 < 500);
+  $('v-co').classList.toggle('low', S.co < 40);
+  $('v-day').textContent = S.day;
+  $('v-ship').textContent = S.shipIn;
+  const ph = $('v-phase');
+  ph.textContent = S.phase === 'day' ? 'daylight' : 'night · no power';
+  ph.className = S.phase === 'day' ? '' : 'night';
+
+  for (const s of SECTORS) {
+    const el = $('slot-' + s.id);
+    const done = !!S.built[s.id], busy = S.building[s.id];
+    el.classList.toggle('built', done);
+    el.classList.toggle('locked', !done && unmet(s).length > 0);
+    const bar = el.querySelector('.bar'), fill = el.querySelector('.bar i');
+    bar.style.display = busy ? 'block' : 'none';
+    if (busy) fill.style.width = Math.min(100, 100 * busy.p / s.build) + '%';
+    const want = done ? 26 + s.build / 4 : 0;
+    if (el._h !== want) { el._h = want; tower(el, want, HUE[s.sector], s.glyph); }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════ PANES */
+$('rosterList').innerHTML = ORDERS.map(([n, job, d, g]) =>
+  '<div class="row"><div class="dot">' + g + '</div><div class="t"><b>' + n +
+  '</b><span>' + d + '</span></div><span class="badge">' + job + '</span></div>').join('');
+
+$('fleetList').innerHTML = SHIPS.map(([n, c, d, g]) =>
+  '<div class="row"><div class="dot">' + g + '</div><div class="t"><b>' + n +
+  '</b><span>' + d + '</span></div><span class="badge">' + c + '</span></div>').join('');
+
+$('codexList').innerHTML = CODEX.map(([t, d]) =>
+  '<div class="row"><div class="t"><b>' + t + '</b><span>' + d + '</span></div></div>').join('') +
+  '<div class="row"><div class="t"><span style="color:#5f5470">Every figure in this game is ' +
+  'taken from a page in this repository that worked it out first. Nothing is balanced for ' +
+  'fun &mdash; the difficulty is the physics.</span></div></div>';
+
+document.querySelectorAll('nav button').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('nav button').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    S.tab = b.dataset.tab;
+    stage.classList.toggle('off', S.tab !== 'base');
+    ['roster', 'fleet', 'codex'].forEach(t =>
+      $('pane-' + t).classList.toggle('on', S.tab === t));
+    if (S.tab !== 'base') closeSheet();
+  };
+});
+
+/* ═══════════════════════════════════════════════════════════════════ START */
+render();
+let acc = 0, last = performance.now();
+function frame(now) {
+  const dt = Math.min(now - last, 200); last = now;
+  drawSky();
+  if (S.tab === 'base') { acc += dt; while (acc > 420) { acc -= 420; step(); } }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+toast('Four roots can be laid immediately. They are <b>not enough to survive on</b> — ' +
+  'Demeter is not a root, and she needs Poseidon first.');
+</script>
