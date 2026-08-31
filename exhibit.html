@@ -1,0 +1,247 @@
+<title>Exhibit A · the transcript</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  EXHIBIT A — the record in In re the Pot.
+
+  The case has one piece of evidence and this is it: the conversation in which
+  the case was commissioned. It is entered verbatim. Nothing is corrected —
+  not the spelling, not the half-sentences, not the lines that turned out to be
+  the holding. A transcript that has been tidied is a summary, and a summary is
+  the other side's argument wearing the record's clothes.
+
+  The appellant's turns are given exactly as typed. The agent's turns are given
+  as actions rather than prose, because what an agent said matters less than
+  what it did to the filesystem, and the actions are the part that can be
+  checked against the repository.
+
+  The bench takes six findings from this record. They are set out at the foot
+  of the page with the line numbers they rest on, so that anyone who thinks the
+  reading is wrong can say which line and be answered.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#060a08; --card:#101a15; --card2:#15211b; --edge:#25362c;
+    --ink:#e8f2ea; --dim:#8ba396; --bone:#e4d9b8;
+    --moss:#6fc08a; --amber:#e0a94f; --violet:#a58ae0; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 30% -6%,rgba(111,192,138,.12),transparent 44%)}
+  .wrap{max-width:940px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.015em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:66ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--moss);border:1px solid var(--moss);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:26px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.68;margin:10px 0 0;max-width:96ch}
+  .note b{color:var(--ink)}
+  a{color:var(--moss)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0a120e;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ------------------------------------------------------------ the record */
+  .rec{counter-reset:ln 0;margin-top:12px}
+  .ln{display:grid;grid-template-columns:44px 92px 1fr;gap:12px;align-items:baseline;
+    padding:5px 0;border-bottom:1px solid rgba(37,54,44,.55)}
+  .ln:last-child{border-bottom:0}
+  .ln::before{counter-increment:ln 1;content:counter(ln);
+    font:10px/1.6 ui-monospace,monospace;color:#4d6357;text-align:right}
+  .ln .sp{font:8.5px/1.7 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .ln .tx{font-size:13px}
+  .ln.a .sp{color:var(--bone)}
+  .ln.m .tx{color:var(--dim);font:11.5px/1.7 ui-monospace,monospace}
+  .ln.m .sp{color:#4d6357}
+  .ln.key{background:rgba(111,192,138,.07);border-radius:6px;
+    box-shadow:inset 3px 0 0 var(--moss)}
+  .ln.key .tx{color:var(--bone)}
+  .ln.url .tx{color:var(--violet);font:11px/1.7 ui-monospace,monospace;
+    word-break:break-all}
+  @media (max-width:640px){
+    .ln{grid-template-columns:30px 1fr;gap:8px}
+    .ln .sp{grid-column:2;margin-bottom:-4px}
+    .ln .tx{grid-column:2}}
+
+  /* ---------------------------------------------------------- the findings */
+  .find{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:11px 0;
+    border-bottom:1px solid rgba(37,54,44,.55)}
+  .find:last-child{border-bottom:0}
+  .find .at{font:10px/1.7 ui-monospace,monospace;color:var(--moss)}
+  .find b{color:var(--bone);display:block;margin-bottom:3px;font-size:12.5px}
+  .find p{margin:0;font-size:12px;color:var(--dim);max-width:82ch}
+  .seal{font:10px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--amber);border:1px solid var(--amber);
+    border-radius:4px;padding:5px 9px;display:inline-block}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Exhibit A</h1>
+    <span class="sub">The transcript in <i>In re the Pot</i>. Entered verbatim,
+      uncorrected, in the order it was said. It is the only evidence in the
+      case and it is also the commission for the court that hears it.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="panel" style="border-color:rgba(224,169,79,.45)">
+    <span class="seal">Certified · 30 August 2026</span>
+    <p class="note" style="margin-top:11px"><b>Nothing here is corrected.</b>
+      Spelling, fragments and reversals stand as typed. Three of the six
+      findings below rest on lines the appellant plainly did not sit down
+      intending to write, which is the ordinary way a record works and the
+      reason a tidied one is worthless. The agent's turns are entered as
+      actions, not as speech: what it said is not evidence of anything, and
+      what it wrote to disk can be checked against this repository.</p>
+  </div>
+
+  <h2>The record <b>as taken</b></h2>
+  <div class="panel rec">
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">Go</span></div>
+    <div class="ln m"><span class="sp">Agent</span><span class="tx">[reads PROTOCOL.md and the folder log; finds no pending task; asks for a target]</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">Create game.</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">A full voting system.</span></div>
+    <div class="ln m"><span class="sp">Agent</span><span class="tx">[surveys the yard — 35 pages, no script in 33 of them]</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">Do you know what a circulatory vote is</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">a pulse vote</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">a vote of biases and practice</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">a ceremnoial vote</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">not a rigid electorate</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">no days off vote</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">but a nice vote</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">just hey how are you vote</span></div>
+    <div class="ln url"><span class="sp">Appellant</span><span class="tx">https://en.wikipedia.org/wiki/Martial_arts</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">so a practiced vote</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">you're never going to believe</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">syndicates don't vote</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">they just matriculate funds up and then promote within</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">it's transparent when you see it</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">because it's cyclical</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">it will breed anther one</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">identitcal no</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">but formed</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">indentitarianly aligned</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">it'd micmick the strucutre of each other</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">so it's less amoeba nad more germ</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">100% cohesive</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">but factions</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">hat switching</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">by the person</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">you can't say incestuous there's noooo love</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">it is not sex</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">it is not survivale</span></div>
+    <div class="ln m"><span class="sp">Agent</span><span class="tx">[writes pulse.html — six seats, three instruments, twelve circuits, no script]</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">it's matriculation of funds</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">where does the money go</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">in the pot ok split dash and dine</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">because</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">we come together for one thing</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">food</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">or i'll abstain</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">as i have for the last 15 years</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">i'm 33</span></div>
+    <div class="ln url"><span class="sp">Appellant</span><span class="tx">https://en.wikipedia.org/wiki/Superhero_fiction</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">first court case</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">this transcript</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">just uplaod it</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">and give me  9 judges</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">supreme court judges</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">use a wiki article about suprme court judges</span></div>
+    <div class="ln m"><span class="sp">Agent</span><span class="tx">[fetches Wikipedia · Supreme Court of the United States — nine seats, rule of four, majority decides, the Chief assigns when in the majority]</span></div>
+    <div class="ln url"><span class="sp">Appellant</span><span class="tx">https://en.wikipedia.org/wiki/Fantasy</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">light fantasy</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">you're in a forest</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">it's 9000 square miles</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">that's the size of england</span></div>
+    <div class="ln url"><span class="sp">Appellant</span><span class="tx">https://en.wikipedia.org/wiki/Action_fiction#Action_genre</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">it's 9000 square miles of forest</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">be opinionates</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">be opinionated</span></div>
+    <div class="ln url"><span class="sp">Appellant</span><span class="tx">https://en.wikipedia.org/wiki/Ninpuu_Sentai_Hurricaneger</span></div>
+    <div class="ln m"><span class="sp">Agent</span><span class="tx">[writes bench.html — nine judges in three benches of three, the rule of four, twelve circuits]</span></div>
+    <div class="ln url"><span class="sp">Appellant</span><span class="tx">https://en.wikipedia.org/wiki/Toei_Company</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">start with japan</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">one of our newest allies</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">you a syndicate</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">should appreciate this</span></div>
+    <div class="ln a"><span class="sp">Appellant</span><span class="tx">their currency is worthless</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">so you can be anything you wanna be as a agent</span></div>
+    <div class="ln m"><span class="sp">Agent</span><span class="tx">[wires both boards into index.html as 38 and 39; cross-checks the rule families against the hand-built tables]</span></div>
+    <div class="ln a key"><span class="sp">Appellant</span><span class="tx">upload the transcript as the case exhibit</span></div>
+    <div class="ln m"><span class="sp">Agent</span><span class="tx">[writes this file]</span></div>
+  </div>
+
+  <h2>Findings on the record <b>six, with the lines they rest on</b></h2>
+  <div class="panel">
+    <div class="find">
+      <span class="at">17–18</span>
+      <div><b>Matriculation is not a vote.</b>
+        <p>Stated by the appellant as fact, not as argument, and never
+          retracted. The whole of <i>In re the Pot</i> is the question of
+          whether this sentence is law or merely true.</p></div>
+    </div>
+    <div class="find">
+      <span class="at">36–40</span>
+      <div><b>The pot, and where the money goes.</b>
+        <p>Funds in; split, dashed and dined. The stated purpose of the
+          gathering is food. Nothing in the record describes a moment at which
+          anyone was asked anything, and the court below inferred the asking
+          from the paying.</p></div>
+    </div>
+    <div class="find">
+      <span class="at">41–42</span>
+      <div><b>Fifteen years of abstention, entered by the abstainer.</b>
+        <p>The appellant is the ninth chair and says so on the record. The
+          holding below converts this into fifteen years of consent. The bench
+          declines to, on all twelve circuits, including the ones it loses.</p></div>
+    </div>
+    <div class="find">
+      <span class="at">24, 29–33</span>
+      <div><b>Cohesive body, factional parts, hats rather than people.</b>
+        <p>Less amoeba than germ; identitarianly aligned rather than identical;
+          not love, not sex, not survival. This is why the register at seats 2
+          and 5 of <a href="pulse.html">the Pulse</a> is left open instead of
+          netted off — one hand, two hats, and on two circuits it votes against
+          itself and both votes count.</p></div>
+    </div>
+    <div class="find">
+      <span class="at">8, 10, 15</span>
+      <div><b>Practice, not preference.</b>
+        <p>A vote of biases and practice; not a rigid electorate; a practised
+          vote. Every seat on both boards answers to an instrument rather than
+          to persuasion, and no control on either page can change anybody's
+          mind. That was a specification, not a limitation of the medium.</p></div>
+    </div>
+    <div class="find">
+      <span class="at">13</span>
+      <div><b>The motion itself.</b>
+        <p><i>just hey how are you vote.</i> Six words, entered between two
+          other things, and the only line in the record that says what the
+          court is ultimately for. Motion 12 is that line with the grammar put
+          back and nothing else added.</p></div>
+    </div>
+  </div>
+
+  <h2>Not in evidence</h2>
+  <p class="note">The transcript contains four links the bench did not rely on —
+    martial arts, superhero fiction, fantasy, action fiction — and two on the
+    Toei Company and <i>Hurricaneger</i>, from which the court took its shape
+    and nothing more: three benches of three, cohesive and factional, which is
+    the sentai arrangement and also the syndicate's, and the page is aware that
+    this is the joke. No holding rests on any of them. The appellant's age is on
+    the record and is not material; the fifteen years are.</p>
+  <p class="note">Filed with: <a href="bench.html">The Bench of Nine</a> ·
+    <a href="pulse.html">The Pulse</a> · <a href="court.html">the Floating
+    Court</a> · <a href="index.html">the yard</a></p>
+</div>

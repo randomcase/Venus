@@ -1,0 +1,550 @@
+<title>The Writing Chamber · an exchange of ideas</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  THE WRITING CHAMBER — where the opinion is minted, and what it trades at.
+
+  The Bench of Nine decides the case. It does not write it. Writing happens
+  here, and here the thing being written is not a judgment, it is an issue: an
+  idea with a signature on it, a float, a book of holders and a price. This
+  board is an exchange, and the listed instrument is a sentence.
+
+  THE BUNDLE OF STICKS
+  A syndicate class. One stick snaps in the hand of a child; nine bound
+  together will not snap under a boot, which is the oldest political image
+  there is and still the most honest one anybody has drawn of this. The bundle
+  here is a lever with two positions and it is the only lever that matters.
+  Look at the twelve circuits when you have played them: the idea's price is a
+  function of how many sticks are bound to it and whose name is on it, and it
+  is not, at any point, on any circuit, a function of whether the idea is any
+  good. That is the finding. It is not subtle and it is not meant to be.
+
+  CHICKENS AND MONKEYS
+  The two animals this market actually contains. The monkeys ape in — they buy
+  the noise, they buy it late, and they are the reason anything has a price at
+  all. The chickens do not buy, and are right about it, later, at a moment when
+  being right is worth nothing to anybody including them. Both are counted.
+  Neither is mocked more than the other, because the market needs exactly one
+  of each and has never once run without both.
+
+  ON THE NAMES
+  Every mind on this board is an archetype and none of them is a real person.
+  Real people were suggested for these chairs and are not in them. Putting a
+  living, named individual into a fictional syndicate is a different kind of
+  document from this one, and the satire is better without it: the whole point
+  is that the chairs work the same whoever is sitting in them, which is the one
+  claim a named portrait would actually undermine.
+
+  THE NINTH WALLET
+  Has not traded in fifteen years. Bind the nine and she is bound in and mints
+  — not because she was persuaded but because being bound is the first time
+  anybody put the question to her. Leave the sticks loose and she does not
+  trade, and the chamber splits four to four every single time. Four of the
+  twelve circuits end that way and all four are the same circuit wearing
+  different clothes.
+
+  HOW IT IS BUILT — the five techniques, no script
+    1 COUNTERS ARE ARITHMETIC    the book and the float, counted
+    2 :has() IS STATE            minted, shorted, unbound
+    3 COMPOUND :has() IS LOOKUP  the Auditor reads pen and bundle together
+    4 CASCADE ORDER IS AUTHORITY the loose stick, written last, beats a mint
+    5 A GET FORM IS TRANSPORT    the issue goes to the bridge
+    6 application/json IS DATA   the listing
+
+  Companions: bench.html decides it, pulse.html votes on it, exhibit.html is
+  the record. Nothing here runs.
+-->
+<style>
+  :root{
+    --void:#07080b; --card:#12151c; --card2:#171b24; --edge:#2a303c;
+    --ink:#e9edf3; --dim:#8d97a8; --bone:#e6dcc4;
+    --mint:#4fd18b; --short:#e8635f; --gold:#e0b155; --violet:#9d8ae0;
+    --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 12% -6%,rgba(79,209,139,.12),transparent 42%),
+      radial-gradient(circle at 90% 94%,rgba(232,99,95,.10),transparent 42%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.015em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:68ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--mint);border:1px solid var(--mint);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.68;margin:10px 0 0;max-width:98ch}
+  .note b{color:var(--ink)}
+  .lbl{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b0e14;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--mint)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:880px){.two{grid-template-columns:1fr}}
+
+  .opts{display:flex;gap:6px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;padding:10px 13px;
+    border-radius:8px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{border-color:var(--bone);color:var(--bone);
+    background:rgba(230,220,196,.10);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* --------------------------------------------------------- the book ---- */
+  .book{display:grid;gap:10px;grid-template-columns:repeat(3,1fr)}
+  @media (max-width:880px){.book{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:540px){.book{grid-template-columns:1fr}}
+  .m{background:#0c0f15;border:1px solid var(--edge);border-radius:11px;
+    padding:11px 12px}
+  .m .who{display:flex;align-items:baseline;gap:8px}
+  .m .who i{font:9px/1 ui-monospace,monospace;font-style:normal;color:var(--dim);
+    border:1px solid var(--edge);border-radius:4px;padding:3px 5px}
+  .m .who b{font-size:13px;color:var(--bone)}
+  .m .who em{margin-left:auto;font:9px/1 ui-monospace,monospace;font-style:normal;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+  .m.fund{border-left:3px solid var(--gold)}
+  .m.floor{border-left:3px solid var(--cool)}
+  .m.anon{border-left:3px solid var(--violet)}
+  .m .prac{color:var(--dim);font-size:10.5px;line-height:1.6;margin:7px 0 9px;
+    min-height:5.2em}
+  .m .row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+    border-top:1px solid var(--edge);padding-top:8px}
+  .m .stk{font:8.5px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim)}
+  .side{font:14px/1 ui-monospace,Menlo,monospace;font-weight:700;color:var(--dim)}
+
+  /* =================================== 1 · THE BOOK IS COUNTED, NOT QUOTED
+     Six counters. Every increment sits on a mind's .side, and every .side is
+     in the DOM ahead of the book that prints it. The one rule, again. */
+  body{counter-reset:mint 0 short 0 mintf 0 shortf 0 trading 0 sticks 0}
+
+  /* ---- 1 · THE ALLOCATOR · fund · monkey · stake 3
+     Reads the signature and nothing else. An unsigned idea is not an idea, it
+     is a rumour, and he has a policy about rumours. */
+  .ex:has(#p-ch:checked) .m1 .side::after{content:"MINT"}
+  .ex:has(#p-se:checked) .m1 .side::after{content:"MINT"}
+  .ex:has(#p-pc:checked) .m1 .side::after{content:"SHORT"}
+  .ex:has(#p-ch:checked) .m1 .side{counter-increment:mint 1 mintf 3 trading 1;color:var(--mint)}
+  .ex:has(#p-se:checked) .m1 .side{counter-increment:mint 1 mintf 3 trading 1;color:var(--mint)}
+  .ex:has(#p-pc:checked) .m1 .side{counter-increment:short 1 shortf 3 trading 1;color:var(--short)}
+
+  /* ---- 2 · THE LP · fund · chicken · stake 2
+     Trades against the room on principle. When the monkeys are loud she is
+     out; when the room has gone quiet she is the only bid in it. */
+  .ex:has(#a-mo:checked) .m2 .side::after{content:"SHORT"}
+  .ex:has(#a-ck:checked) .m2 .side::after{content:"MINT"}
+  .ex:has(#a-mo:checked) .m2 .side{counter-increment:short 1 shortf 2 trading 1;color:var(--short)}
+  .ex:has(#a-ck:checked) .m2 .side{counter-increment:mint 1 mintf 2 trading 1;color:var(--mint)}
+
+  /* ---- 3 · THE FOUNDER · fund · monkey · stake 3
+     Answers to no lever and has never seen an idea he would not ship. This is
+     not enthusiasm, it is a business model: he is paid on issuance. */
+  .m3 .side::after{content:"MINT"}
+  .m3 .side{counter-increment:mint 1 mintf 3 trading 1;color:var(--mint)}
+
+  /* ---- 4 · THE MARKET MAKER · floor · monkey · stake 2
+     Reads the bundle. Nine bound sticks is a book he can quote both sides of.
+     One loose stick is a position, and he does not take positions. */
+  .ex:has(#b-ni:checked) .m4 .side::after{content:"MINT"}
+  .ex:has(#b-on:checked) .m4 .side::after{content:"SHORT"}
+  .ex:has(#b-ni:checked) .m4 .side{counter-increment:mint 1 mintf 2 trading 1;color:var(--mint)}
+  .ex:has(#b-on:checked) .m4 .side{counter-increment:short 1 shortf 2 trading 1;color:var(--short)}
+
+  /* ---- 5 · THE RETAIL DESK · floor · chicken · stake 1
+     Reads the animals and buys the loud ones. Called a chicken by the monkeys
+     and a monkey by the chickens, and is the only one here with customers. */
+  .ex:has(#a-mo:checked) .m5 .side::after{content:"MINT"}
+  .ex:has(#a-ck:checked) .m5 .side::after{content:"SHORT"}
+  .ex:has(#a-mo:checked) .m5 .side{counter-increment:mint 1 mintf 1 trading 1;color:var(--mint)}
+  .ex:has(#a-ck:checked) .m5 .side{counter-increment:short 1 shortf 1 trading 1;color:var(--short)}
+
+  /* =============================== 3 · COMPOUND :has() IS LOOKUP — THE AUDITOR
+     floor · chicken · stake 1. The only mind here that reads two keys. Neither
+     the signature nor the bundle states her position; the pair does. Six cells
+     for three pens by two bundles, written out because there is no
+     multiplication in this language and no shortcut worth having anyway. Her
+     table is printed below and she can be held to it. */
+  .ex:has(#p-ch:checked):has(#b-ni:checked) .m6 .side::after{content:"MINT"}
+  .ex:has(#p-ch:checked):has(#b-on:checked) .m6 .side::after{content:"SHORT"}
+  .ex:has(#p-se:checked):has(#b-ni:checked) .m6 .side::after{content:"MINT"}
+  .ex:has(#p-se:checked):has(#b-on:checked) .m6 .side::after{content:"SHORT"}
+  .ex:has(#p-pc:checked):has(#b-ni:checked) .m6 .side::after{content:"SHORT"}
+  .ex:has(#p-pc:checked):has(#b-on:checked) .m6 .side::after{content:"SHORT"}
+  .ex:has(#p-ch:checked):has(#b-ni:checked) .m6 .side{counter-increment:mint 1 mintf 1 trading 1;color:var(--mint)}
+  .ex:has(#p-ch:checked):has(#b-on:checked) .m6 .side{counter-increment:short 1 shortf 1 trading 1;color:var(--short)}
+  .ex:has(#p-se:checked):has(#b-ni:checked) .m6 .side{counter-increment:mint 1 mintf 1 trading 1;color:var(--mint)}
+  .ex:has(#p-se:checked):has(#b-on:checked) .m6 .side{counter-increment:short 1 shortf 1 trading 1;color:var(--short)}
+  .ex:has(#p-pc:checked):has(#b-ni:checked) .m6 .side{counter-increment:short 1 shortf 1 trading 1;color:var(--short)}
+  .ex:has(#p-pc:checked):has(#b-on:checked) .m6 .side{counter-increment:short 1 shortf 1 trading 1;color:var(--short)}
+
+  /* ---- 7 · THE ANON · anon · monkey · stake 1
+     Reads the bundle and takes the other side of it. Nine bound sticks is the
+     thing he left somewhere else to get away from; one loose stick is the only
+     honest object on the board and he will bid for it every time. */
+  .ex:has(#b-ni:checked) .m7 .side::after{content:"SHORT"}
+  .ex:has(#b-on:checked) .m7 .side::after{content:"MINT"}
+  .ex:has(#b-ni:checked) .m7 .side{counter-increment:short 1 shortf 1 trading 1;color:var(--short)}
+  .ex:has(#b-on:checked) .m7 .side{counter-increment:mint 1 mintf 1 trading 1;color:var(--mint)}
+
+  /* ---- 8 · THE MAXIMALIST · anon · chicken · stake 1
+     Answers to nothing and shorts everything. Has been right four times and
+     will tell you about all four. Costs the book nothing and moves it never. */
+  .m8 .side::after{content:"SHORT"}
+  .m8 .side{counter-increment:short 1 shortf 1 trading 1;color:var(--short)}
+
+  /* ---- 9 · THE NINTH WALLET · anon · stake 2
+     Has not traded in fifteen years. Bind the nine and she is bound in, and she
+     mints — not because anybody persuaded her but because binding her in is
+     the first time the question was actually put. Leave the sticks loose and
+     she does not trade, is counted as nothing, and the chamber splits. */
+  .ex:has(#b-ni:checked) .m9 .side::after{content:"MINT"}
+  .ex:has(#b-on:checked) .m9 .side::after{content:"— NOT TRADING —"}
+  .ex:has(#b-ni:checked) .m9 .side{counter-increment:mint 1 mintf 2 trading 1;color:var(--mint)}
+  .ex:has(#b-on:checked) .m9 .side{color:var(--dim);font-size:10.5px}
+  .ex:has(#b-on:checked) .m9{opacity:.62}
+
+  /* how many sticks are actually bound — the lever, counted on the lever */
+  #b-ni:checked+label{counter-increment:sticks 9}
+  #b-on:checked+label{counter-increment:sticks 1}
+
+  /* --------------------------------------------------------- the tape ---- */
+  .tape{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .tape .head{background:#0c0f15;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .tape .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .tape .head b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:5px}
+  .tape .head.m b{color:var(--mint)} .tape .head.s b{color:var(--short)}
+  @media (max-width:540px){.tape{grid-template-columns:repeat(2,1fr)}}
+  .n-mint::after{content:counter(mint)} .n-short::after{content:counter(short)}
+  .n-mintf::after{content:counter(mintf)} .n-shortf::after{content:counter(shortf)}
+  .n-trading::after{content:counter(trading)} .n-sticks::after{content:counter(sticks)}
+
+  /* ==================================================== 2 · THE SETTLEMENT
+     Twelve circuits, twelve rules. The exchange settles on heads, not on
+     stake. CSS compares nothing, so nothing was compared: each circuit was
+     worked out once by hand and the six numbers above are what let you audit
+     it rather than trust it. */
+  .st{display:none}
+  .st.panel{margin-top:2px}
+  .sh{font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700}
+  .s-mint .sh{color:var(--mint)} .s-short .sh{color:var(--short)}
+  .s-unb .sh{color:var(--gold)}
+  .st p{margin:8px 0 0;font-size:12.5px;max-width:84ch}
+
+  .ex:has(#p-ch:checked):has(#b-ni:checked):has(#a-mo:checked) .s-mint{display:block}
+  .ex:has(#p-ch:checked):has(#b-ni:checked):has(#a-ck:checked) .s-mint{display:block}
+  .ex:has(#p-se:checked):has(#b-ni:checked):has(#a-mo:checked) .s-mint{display:block}
+  .ex:has(#p-se:checked):has(#b-ni:checked):has(#a-ck:checked) .s-mint{display:block}
+  .ex:has(#p-pc:checked):has(#b-ni:checked):has(#a-mo:checked) .s-short{display:block}
+  .ex:has(#p-pc:checked):has(#b-ni:checked):has(#a-ck:checked) .s-short{display:block}
+  .ex:has(#p-pc:checked):has(#b-on:checked):has(#a-mo:checked) .s-short{display:block}
+  .ex:has(#p-pc:checked):has(#b-on:checked):has(#a-ck:checked) .s-short{display:block}
+  /* a signed issue mints. That is the rule as the chamber states it, and as
+     stated it is wrong four times out of twelve — see the bottom of the file. */
+  .ex:has(#p-ch:checked):has(#b-on:checked):has(#a-mo:checked) .s-mint{display:block}
+  .ex:has(#p-ch:checked):has(#b-on:checked):has(#a-ck:checked) .s-mint{display:block}
+  .ex:has(#p-se:checked):has(#b-on:checked):has(#a-mo:checked) .s-mint{display:block}
+  .ex:has(#p-se:checked):has(#b-on:checked):has(#a-ck:checked) .s-mint{display:block}
+
+  /* the bundle, drawn. Nine sticks bound, or one stick on its own. */
+  .fasces{display:flex;gap:4px;align-items:flex-end;justify-content:center;
+    height:78px;margin-top:12px}
+  .fasces i{display:block;width:7px;background:linear-gradient(180deg,#6b5836,#3a3020);
+    border:1px solid #7d6840;border-radius:2px;height:64px}
+  .fasces i:nth-child(2n){height:70px} .fasces i:nth-child(3n){height:58px}
+  .ex:has(#b-on:checked) .fasces i:not(:first-child){opacity:.13;transform:rotate(9deg)}
+  .band{height:9px;border-radius:2px;background:var(--gold);margin:-30px auto 0;
+    width:78px;position:relative;z-index:2}
+  .ex:has(#b-on:checked) .band{opacity:0}
+
+  /* ====================================== 4 · CASCADE ORDER IS AUTHORITY
+     NOTHING BELOW THIS LINE. A single stick does not carry an issue, whoever
+     signed it and however loud the room is. This rule has the same specificity
+     as the twelve above and beats four of them on position alone. Move it up
+     and a loose stick starts minting, the tape stays internally consistent,
+     and the board quietly begins to lie. */
+  .ex:has(#p-ch:checked):has(#b-on:checked):has(#a-mo:checked) .s-mint{display:none}
+  .ex:has(#p-ch:checked):has(#b-on:checked):has(#a-ck:checked) .s-mint{display:none}
+  .ex:has(#p-se:checked):has(#b-on:checked):has(#a-mo:checked) .s-mint{display:none}
+  .ex:has(#p-se:checked):has(#b-on:checked):has(#a-ck:checked) .s-mint{display:none}
+  .ex:has(#p-ch:checked):has(#b-on:checked):has(#a-mo:checked) .s-unb{display:block}
+  .ex:has(#p-ch:checked):has(#b-on:checked):has(#a-ck:checked) .s-unb{display:block}
+  .ex:has(#p-se:checked):has(#b-on:checked):has(#a-mo:checked) .s-unb{display:block}
+  .ex:has(#p-se:checked):has(#b-on:checked):has(#a-ck:checked) .s-unb{display:block}
+</style>
+
+<!-- 5 · A GET FORM IS TRANSPORT -->
+<form id="vy" action="bridge.html" method="get">
+  <input type="hidden" name="board" value="chamber" form="vy">
+</form>
+
+<div class="ex wrap">
+  <header>
+    <h1>The Writing Chamber</h1>
+    <span class="sub">An exchange of ideas, run as an exchange. The bench
+      decides the case; the chamber issues it. Nine minds, three houses, and a
+      listed instrument that is a sentence.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="panel" style="border-color:rgba(224,177,85,.42)">
+    <h2 style="margin-top:0">The issue <b>one sentence, listed</b></h2>
+    <p style="margin:0;font-size:14.5px;max-width:78ch">That paying in was not
+      voting, that dining was not ratifying, and that fifteen years of silence
+      was fifteen years of a question nobody put.</p>
+    <p class="note"><b>The chamber does not care whether that is true.</b> It
+      prices it. Three levers set the price and none of them is the sentence:
+      who signed it, how many sticks are bound to it, and which animal is loud
+      in the room today. Play all twelve circuits and check — there is no
+      circuit on this board where the quality of the idea appears in the
+      arithmetic, because there is no line in the stylesheet where it could.
+      That absence is the argument. It was not difficult to arrange.</p>
+  </div>
+
+  <!-- ==== INPUTS FIRST. The tape cannot count backwards. ================= -->
+  <h2>The levers <b>three, and the idea is not one of them</b></h2>
+  <div class="two">
+    <div class="panel">
+      <div style="margin-bottom:13px">
+        <div class="lbl">The pen — whose name goes on it</div>
+        <div class="opts">
+          <input type="radio" name="p" id="p-ch" form="vy" value="chief" checked><label for="p-ch">The Chief</label>
+          <input type="radio" name="p" id="p-se" form="vy" value="senior"><label for="p-se">Senior in majority</label>
+          <input type="radio" name="p" id="p-pc" form="vy" value="percuriam"><label for="p-pc">Per curiam</label>
+        </div>
+      </div>
+      <div style="margin-bottom:13px">
+        <div class="lbl">The bundle — the syndicate class</div>
+        <div class="opts">
+          <input type="radio" name="b" id="b-ni" form="vy" value="nine"><label for="b-ni">Nine bound</label>
+          <input type="radio" name="b" id="b-on" form="vy" value="one" checked><label for="b-on">One loose stick</label>
+        </div>
+      </div>
+      <div>
+        <div class="lbl">The animals — who is loud today</div>
+        <div class="opts">
+          <input type="radio" name="a" id="a-mo" form="vy" value="monkeys" checked><label for="a-mo">Monkeys</label>
+          <input type="radio" name="a" id="a-ck" form="vy" value="chickens"><label for="a-ck">Chickens</label>
+        </div>
+      </div>
+      <p class="note">The monkeys ape in: they buy the noise, they buy it late,
+        and they are the only reason anything here has a price. The chickens do
+        not buy, and are right about it later, at a moment when being right is
+        worth nothing to anyone including them. This market needs exactly one of
+        each and has never run without both.</p>
+    </div>
+
+    <div class="panel">
+      <div class="lbl">The bundle, drawn</div>
+      <div class="fasces"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="band"></div>
+      <div class="tape" style="grid-template-columns:repeat(2,1fr);margin-top:18px">
+        <div class="head"><span>Sticks bound</span><b class="n-sticks"></b></div>
+        <div class="head"><span>Trading</span><b class="n-trading"></b></div>
+      </div>
+      <p class="note">One stick snaps in the hand of a child. Nine bound will
+        not snap under a boot. It is the oldest political image there is, it has
+        been carried by republics and by the worst governments of the last
+        century alike, and neither of them was wrong about the mechanics.</p>
+    </div>
+  </div>
+
+  <h2>The book <b>nine minds, three houses, stake declared</b></h2>
+  <div class="book">
+    <div class="m fund m1">
+      <div class="who"><i>1</i><b>The Allocator</b><em>fund · monkey</em></div>
+      <div class="prac">Reads the signature and nothing else. An unsigned idea
+        is not an idea, it is a rumour, and he has a written policy about
+        rumours that he has never once had to consult.</div>
+      <div class="row"><span class="stk">stake 3</span><span class="side"></span></div>
+    </div>
+    <div class="m fund m2">
+      <div class="who"><i>2</i><b>The LP</b><em>fund · chicken</em></div>
+      <div class="prac">Trades against the room on principle. When the monkeys
+        are loud she is out; when the room has gone quiet she is the only bid
+        left in it, and she has made every penny she has that way.</div>
+      <div class="row"><span class="stk">stake 2</span><span class="side"></span></div>
+    </div>
+    <div class="m fund m3">
+      <div class="who"><i>3</i><b>The Founder</b><em>fund · monkey</em></div>
+      <div class="prac">Answers to no lever and has never seen an idea he would
+        not ship. This is not enthusiasm, it is a compensation structure: he is
+        paid on issuance and issuance is a thing he can always do.</div>
+      <div class="row"><span class="stk">stake 3</span><span class="side"></span></div>
+    </div>
+    <div class="m floor m4">
+      <div class="who"><i>4</i><b>The Market Maker</b><em>floor · monkey</em></div>
+      <div class="prac">Reads the bundle. Nine bound sticks is a book he can
+        quote both sides of. One loose stick is a position, and he does not
+        take positions — he takes the spread on other people's.</div>
+      <div class="row"><span class="stk">stake 2</span><span class="side"></span></div>
+    </div>
+    <div class="m floor m5">
+      <div class="who"><i>5</i><b>The Retail Desk</b><em>floor · chicken</em></div>
+      <div class="prac">Reads the animals and buys the loud ones. Called a
+        chicken by the monkeys and a monkey by the chickens, and is the only
+        participant on this board who has customers.</div>
+      <div class="row"><span class="stk">stake 1</span><span class="side"></span></div>
+    </div>
+    <div class="m floor m6">
+      <div class="who"><i>6</i><b>The Auditor</b><em>floor · chicken</em></div>
+      <div class="prac">The only mind here that reads two keys. Neither the pen
+        nor the bundle moves her; the pair does. Her six cells are printed
+        below, which makes her the only one who can be proved wrong.</div>
+      <div class="row"><span class="stk">stake 1</span><span class="side"></span></div>
+    </div>
+    <div class="m anon m7">
+      <div class="who"><i>7</i><b>The Anon</b><em>anon · monkey</em></div>
+      <div class="prac">Reads the bundle and takes the other side of it. Nine
+        bound sticks is the thing he left somewhere else to get away from. One
+        loose stick is the only honest object on the board and he bids it up.</div>
+      <div class="row"><span class="stk">stake 1</span><span class="side"></span></div>
+    </div>
+    <div class="m anon m8">
+      <div class="who"><i>8</i><b>The Maximalist</b><em>anon · chicken</em></div>
+      <div class="prac">Answers to nothing and shorts everything. Has been right
+        four times and will tell you about all four. Costs the book nothing and
+        has never once moved it.</div>
+      <div class="row"><span class="stk">stake 1</span><span class="side"></span></div>
+    </div>
+    <div class="m anon m9">
+      <div class="who"><i>9</i><b>The Ninth Wallet</b><em>anon · the ninth</em></div>
+      <div class="prac">Has not traded in fifteen years. Bind the nine and she
+        is bound in and mints — not persuaded, asked. Leave the sticks loose and
+        she does not trade and is counted as nothing, which is the one thing
+        this board refuses to call agreement.</div>
+      <div class="row"><span class="stk">stake 2</span><span class="side"></span></div>
+    </div>
+  </div>
+
+  <!-- ==== THE TAPE. Counted off the nine cards above and nowhere else. === -->
+  <h2>The tape <b>counted, not quoted</b></h2>
+  <div class="tape">
+    <div class="head m"><span>Mint · heads</span><b class="n-mint"></b></div>
+    <div class="head s"><span>Short · heads</span><b class="n-short"></b></div>
+    <div class="head"><span>Trading</span><b class="n-trading"></b></div>
+    <div class="head m"><span>Mint · float</span><b class="n-mintf"></b></div>
+    <div class="head s"><span>Short · float</span><b class="n-shortf"></b></div>
+    <div class="head"><span>Sticks bound</span><b class="n-sticks"></b></div>
+  </div>
+  <p class="note"><b>The float is printed and not used.</b> This exchange
+    settles on heads. The stake column is there so you can see what settling on
+    stake would mean: the fund is three hands of the nine and holds eight of the
+    sixteen — half the float in three chairs — and every real exchange that has
+    ever existed settles the other way. No margin is printed anywhere on this
+    page, because a margin is a subtraction and this page cannot subtract. Both
+    sides are given. Hold them against each other yourself.</p>
+
+  <h2>Settlement <b>twelve circuits, twelve rules</b></h2>
+
+  <div class="st panel s-mint" style="border-color:var(--mint)">
+    <div class="sh">Minted</div>
+    <p>Signed, and nine sticks bound to it. Six heads to three and the issue
+      trades. Notice what did that: a name on the front and a bundle behind it.
+      The sentence has not been read by anyone in this room since the levers
+      were set, and it did not need to be.</p>
+  </div>
+  <div class="st panel s-short" style="border-color:var(--short)">
+    <div class="sh">Shorted</div>
+    <p>Per curiam. Nobody's name on it, so nobody's reputation in it, so no
+      float — and it does not matter how many sticks you bind to an anonymous
+      thing, five heads still take the other side. An unsigned good idea and an
+      unsigned bad one price identically here, which ought to be the most
+      alarming line on the board and is generally the least remarked.</p>
+  </div>
+  <div class="st panel s-unb" style="border-color:var(--gold)">
+    <div class="sh">Unbound · four all</div>
+    <p>One loose stick. Four heads each way, eight trading, and the ninth wallet
+      is not one of them — she is not bound in, so she is not asked, so she does
+      not trade, and the chamber cannot settle. All four of the circuits that
+      end this way end this way for that reason. The signature does not save it
+      and the animals do not save it. Bind the nine and it settles on the first
+      attempt, which tells you exactly what was being priced.</p>
+  </div>
+
+  <h2>The Auditor's table <b>§3 · two keys, one answer</b></h2>
+  <div class="panel">
+    <div class="tape" style="grid-template-columns:repeat(3,1fr);margin-top:0">
+      <div class="head"><span>Chief · nine</span><b style="color:var(--mint)">MINT</b></div>
+      <div class="head"><span>Chief · one</span><b style="color:var(--short)">SHORT</b></div>
+      <div class="head"><span>Senior · nine</span><b style="color:var(--mint)">MINT</b></div>
+      <div class="head"><span>Senior · one</span><b style="color:var(--short)">SHORT</b></div>
+      <div class="head"><span>Per curiam · nine</span><b style="color:var(--short)">SHORT</b></div>
+      <div class="head"><span>Per curiam · one</span><b style="color:var(--short)">SHORT</b></div>
+    </div>
+    <p class="note">Six cells, each typed by someone who can be asked why. She
+      is the only participant here whose reasoning fits in a box, and she is
+      consequently the only one anybody has ever been able to argue with.</p>
+  </div>
+
+  <h2>What the board is saying <b>since you asked for an opinion</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px;max-width:86ch">An exchange of ideas is
+      a lovely phrase and this is what one actually looks like when you build
+      the mechanism honestly: three levers, none of them the idea. A syndicate
+      does not vote — it matriculates funds upward and promotes from within, and
+      being cyclical it reproduces, in bodies not identical but identitarianly
+      aligned, mimicking the structure closely enough to be run the same way by
+      the same hands. Less amoeba than germ. Cohesive as one organism, factional
+      in its parts, and the factions are hats rather than people. There is no
+      love in it, no sex, no survival. It is a cycle that learned to make
+      another of itself.</p>
+    <p style="margin:10px 0 0;font-size:12.5px;max-width:86ch">The bundle is the
+      whole tell. Nine sticks bound is a syndicate and it mints; one stick is a
+      person and it snaps; and the ninth wallet only ever gets asked in the
+      configuration where she is already bound in. That is not a market failure,
+      it is the product. The single most useful thing on this page is the rule
+      at the bottom of the stylesheet that stops a loose stick from minting,
+      and the second most useful is that you can move it up three lines and
+      watch the whole board keep counting, perfectly consistently, while
+      quietly lying.</p>
+    <p class="note">Every mind here is an archetype. Real people were proposed
+      for these chairs and are not in them — the claim being made is that the
+      chairs work the same whoever sits in them, and a named portrait is the
+      one thing that would undermine it.</p>
+  </div>
+
+  <h2>Carry it on <b>§5 and §6</b></h2>
+  <div class="panel">
+    <script type="application/json" id="doc">
+{ "manifest": "venus.yard/1", "board": "chamber", "instrument": "one sentence",
+  "houses": ["fund", "floor", "anon"], "minds": 9, "float": 16,
+  "levers": ["pen", "bundle", "animals"], "circuits": 12,
+  "settles": { "minted": 4, "shorted": 4, "unbound": 4 },
+  "prices_the_idea": false,
+  "$note": "the listing. The ninth wallet has not traded in fifteen years." }
+    </script>
+    <button type="submit" form="vy" style="font:inherit;font-size:13px;
+      font-weight:650;cursor:pointer;background:var(--mint);color:#06130c;
+      border:1px solid var(--mint);border-radius:9px;padding:11px 22px">
+      List the issue at the bridge →</button>
+    <p class="note">The button is in no form of its own — it carries
+      <code>form="vy"</code> like every input here. Press it and the browser
+      opens <code>bridge.html?board=chamber&amp;p=chief&amp;b=one&amp;a=monkeys</code>.
+      Nothing was fetched and nothing was sent anywhere but to another file.</p>
+  </div>
+
+  <h2>Where to start</h2>
+  <p class="note">The board opens on <b>the Chief · one loose stick ·
+    monkeys</b>, which is a signed idea that will not settle. Bind the nine and
+    it mints on the first attempt without a single mind having changed
+    position. Then set it per curiam and watch nine bound sticks fail to save
+    an unsigned sentence. Three levers, twelve circuits, and the idea never
+    appears in the arithmetic once.</p>
+  <p class="note">Filed with: <a href="bench.html">The Bench of Nine</a> ·
+    <a href="exhibit.html">Exhibit A</a> · <a href="pulse.html">The Pulse</a> ·
+    <a href="index.html">the yard</a></p>
+</div>

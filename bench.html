@@ -1,0 +1,585 @@
+<title>The Bench of Nine · In re the Pot</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  THE BENCH OF NINE — the first case, heard in a forest.
+
+  THE FOREST
+  Nine thousand square miles of it, which is the size of England, and there is
+  one court in it. Not one court per county: one. That is the fact the whole
+  page turns on, because a jurisdiction that large with a bench that small
+  cannot hear everything, so the first vote a court of nine ever takes is not
+  about the case. It is about whether there is a case. That vote needs four.
+
+  THE BENCH
+  Three benches of three. The Canopy reads the forest from above and is very
+  good at the shape of things and very bad at the floor. The Understory reads
+  the paths, which is to say it reads who actually walks where. The Root reads
+  what is underneath and is the only bench that has ever been right about
+  anything twice. They are cohesive as one court and factional in threes, and
+  the factions are hats, not people — which is a sentence that will come back.
+
+  THE CASE
+  In re the Pot. Nine came together for one thing, which was food. Money went
+  into the pot. The pot was split, dashed and dined. The court below held that
+  the pot was a vote: that paying in was consent, that everyone who dined had
+  thereby voted, and that the one who has abstained for fifteen years had
+  consented by not objecting.
+
+  THE PAGE'S VIEW, SINCE YOU ASKED FOR ONE
+  That holding is wrong, and it is wrong in a way that is worth being blunt
+  about. Matriculating funds upward is not voting. A structure that takes money
+  in, promotes from within, and reproduces itself in bodies that are not
+  identical but identitarianly aligned has no step at which anybody is asked,
+  and calling the pot a vote is how it avoids ever adding one. Abstention is
+  not consent. Fifteen years of abstention is not fifteen years of consent; it
+  is fifteen years of a question nobody put. The court reverses on eight of the
+  twelve circuits you can put it through, and the two circuits where it splits
+  four to four both happen for the same reason: the abstainer was not asked to
+  sit. That is not a coincidence in the model. It is the model.
+
+  HOW IT IS BUILT — the same five things as every board here
+    1 COUNTERS ARE ARITHMETIC    both polls counted, never declared
+    2 :has() IS STATE            cert, the merits, the recusal
+    3 COMPOUND :has() IS LOOKUP  Fern's two keys; the opinion assignment
+    4 CASCADE ORDER IS AUTHORITY denial of cert, written last, beats a verdict
+    5 A GET FORM IS TRANSPORT    the judgment goes to the bridge
+    6 application/json IS DATA   the docket entry
+
+  Companion board: pulse.html, where the same argument is put to a chamber that
+  actually votes. No script here either.
+-->
+<style>
+  :root{
+    --void:#060a08; --card:#101a15; --card2:#15211b; --edge:#25362c;
+    --ink:#e8f2ea; --dim:#8ba396; --bone:#e4d9b8;
+    --moss:#6fc08a; --amber:#e0a94f; --violet:#a58ae0;
+    --rev:#6fc08a; --aff:#e07a5f; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 20% -6%,rgba(111,192,138,.14),transparent 44%),
+      radial-gradient(circle at 84% 96%,rgba(165,138,224,.12),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.015em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--moss);border:1px solid var(--moss);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.68;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  .lbl{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0a120e;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--moss)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:880px){.two{grid-template-columns:1fr}}
+
+  .opts{display:flex;gap:6px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;padding:10px 13px;
+    border-radius:8px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{border-color:var(--bone);color:var(--bone);
+    background:rgba(228,217,184,.10);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* ------------------------------------------------------------- the bench */
+  .bench{display:grid;gap:10px;grid-template-columns:repeat(3,1fr)}
+  @media (max-width:880px){.bench{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:540px){.bench{grid-template-columns:1fr}}
+  .j{background:#0b1310;border:1px solid var(--edge);border-radius:11px;
+    padding:11px 12px;position:relative}
+  .j .who{display:flex;align-items:baseline;gap:8px}
+  .j .who i{font:9px/1 ui-monospace,monospace;font-style:normal;color:var(--dim);
+    border:1px solid var(--edge);border-radius:4px;padding:3px 5px}
+  .j .who b{font-size:13px;color:var(--bone)}
+  .j .who em{margin-left:auto;font:8.5px/1 ui-monospace,monospace;font-style:normal;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .j.can{border-left:3px solid var(--moss)}
+  .j.und{border-left:3px solid var(--amber)}
+  .j.roo{border-left:3px solid var(--violet)}
+  .j .prac{color:var(--dim);font-size:10.5px;line-height:1.6;margin:7px 0 9px;
+    min-height:5.2em}
+  .j .row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+    border-top:1px solid var(--edge);padding-top:8px}
+  .j .cert{font:8.5px/1 ui-monospace,monospace;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--dim)}
+  .vote{font:14px/1 ui-monospace,Menlo,monospace;font-weight:700;color:var(--dim)}
+
+  /* ==================================== 1 · BOTH POLLS ARE COUNTED, NOT SAID
+     Four counters. Every increment sits on a judge's .vote or .cert, and every
+     one of those is in the DOM before the tallies that print them. That is the
+     one rule this whole layout is arranged around. */
+  body{counter-reset:rev 0 aff 0 sit 0 grantv 0}
+
+  /* ---- SENIORITY 1 · HAWTHORN, Chief Justice, Canopy.
+     Votes with the grant. If you bring her the pot itself she will treat the
+     pot as the record, which is exactly the error the appeal is about, and she
+     is the only judge on this bench who commits it in good faith. */
+  .ct:has(#g-pa:checked) .j1 .vote::after{content:"REVERSE"}
+  .ct:has(#g-re:checked) .j1 .vote::after{content:"REVERSE"}
+  .ct:has(#g-po:checked) .j1 .vote::after{content:"AFFIRM"}
+  .ct:has(#g-pa:checked) .j1 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-re:checked) .j1 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-po:checked) .j1 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#g-pa:checked) .j1 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 2 · ROOK, Canopy. Votes with the season. In leaf she cannot
+     see the floor and defers to the court below; bare, she can, and does not. */
+  .ct:has(#s-gr:checked) .j2 .vote::after{content:"AFFIRM"}
+  .ct:has(#s-ba:checked) .j2 .vote::after{content:"REVERSE"}
+  .ct:has(#s-gr:checked) .j2 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#s-ba:checked) .j2 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-pa:checked) .j2 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 3 · ASH, Canopy. Answers to no instrument, votes to hear
+     everything, and has been reversing this holding since before it was one. */
+  .j3 .vote::after{content:"REVERSE"}
+  .j3 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .j3 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 4 · BRAMBLE, Understory. Votes with the grant. Will not
+     decide a thing on the papers when the paths are right there to be walked. */
+  .ct:has(#g-pa:checked) .j4 .vote::after{content:"AFFIRM"}
+  .ct:has(#g-re:checked) .j4 .vote::after{content:"REVERSE"}
+  .ct:has(#g-po:checked) .j4 .vote::after{content:"REVERSE"}
+  .ct:has(#g-pa:checked) .j4 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#g-re:checked) .j4 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-po:checked) .j4 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-re:checked) .j4 .cert{counter-increment:grantv 1;color:var(--bone)}
+  .ct:has(#g-po:checked) .j4 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 5 · THORN, Understory. Votes with the ninth chair. Will not
+     hold that silence was consent while the silent party is not in the room —
+     and will not decide it in her favour behind her back either. */
+  .ct:has(#n-se:checked) .j5 .vote::after{content:"REVERSE"}
+  .ct:has(#n-re:checked) .j5 .vote::after{content:"AFFIRM"}
+  .ct:has(#n-se:checked) .j5 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#n-re:checked) .j5 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+
+  /* ================================ 3 · COMPOUND :has() IS LOOKUP — FERN
+     The only judge who reads two keys. Neither the grant nor the season states
+     her vote; the PAIR states it. Six cells for three grants by two seasons,
+     and there is no shorter way to write it in a language with no
+     multiplication. The table is the model, and it is printed further down so
+     you can hold the page to it. */
+  .ct:has(#g-pa:checked):has(#s-gr:checked) .j6 .vote::after{content:"AFFIRM"}
+  .ct:has(#g-pa:checked):has(#s-ba:checked) .j6 .vote::after{content:"REVERSE"}
+  .ct:has(#g-re:checked):has(#s-gr:checked) .j6 .vote::after{content:"REVERSE"}
+  .ct:has(#g-re:checked):has(#s-ba:checked) .j6 .vote::after{content:"REVERSE"}
+  .ct:has(#g-po:checked):has(#s-gr:checked) .j6 .vote::after{content:"AFFIRM"}
+  .ct:has(#g-po:checked):has(#s-ba:checked) .j6 .vote::after{content:"AFFIRM"}
+  .ct:has(#g-pa:checked):has(#s-gr:checked) .j6 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#g-pa:checked):has(#s-ba:checked) .j6 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-re:checked):has(#s-gr:checked) .j6 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-re:checked):has(#s-ba:checked) .j6 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-po:checked):has(#s-gr:checked) .j6 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#g-po:checked):has(#s-ba:checked) .j6 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#g-po:checked) .j6 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 7 · LOAM, Root. Answers to nothing and affirms. The pot has
+     always been the pot; he would like it settled and he does not much mind
+     which way, which is how a great deal of law gets made. */
+  .j7 .vote::after{content:"AFFIRM"}
+  .j7 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#g-re:checked) .j7 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 8 · MYCEL, Root. Votes with the season, and is the only
+     judge who reads the season as evidence rather than as weather. */
+  .ct:has(#s-gr:checked) .j8 .vote::after{content:"AFFIRM"}
+  .ct:has(#s-ba:checked) .j8 .vote::after{content:"REVERSE"}
+  .ct:has(#s-gr:checked) .j8 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#s-ba:checked) .j8 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-re:checked) .j8 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 9 · WREN, Root. The ninth chair. Has abstained for fifteen
+     years, which is not the same as fifteen years of agreement, and is the
+     precise thing the court below held that it was. Seated, she votes, and she
+     votes on the only question she was ever entitled to answer. Recused, she
+     casts nothing and is counted as nothing — the page will not do to her what
+     the judgment below did. */
+  .ct:has(#n-se:checked) .j9 .vote::after{content:"REVERSE"}
+  .ct:has(#n-re:checked) .j9 .vote::after{content:"— RECUSED —"}
+  .ct:has(#n-se:checked) .j9 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#n-re:checked) .j9 .vote{color:var(--dim);font-size:11px}
+  .ct:has(#n-se:checked) .j9 .cert{counter-increment:grantv 1;color:var(--bone)}
+  .ct:has(#n-re:checked) .j9{opacity:.62}
+
+  /* ------------------------------------------------------------ the tallies */
+  .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .tally .head{background:#0b1310;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .tally .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .tally .head b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:5px}
+  .tally .head.r b{color:var(--rev)} .tally .head.a b{color:var(--aff)}
+  @media (max-width:540px){.tally{grid-template-columns:repeat(2,1fr)}}
+  .n-rev::after{content:counter(rev)} .n-aff::after{content:counter(aff)}
+  .n-sit::after{content:counter(sit)} .n-grantv::after{content:counter(grantv)}
+
+  /* ================================================= 2 · THE RULE OF FOUR
+     Six rules, one per grant-and-ninth pair. Four votes hears the case. The
+     counter above prints how many there actually are, so the enumeration below
+     can be checked rather than believed — which is the only reason a page is
+     allowed to enumerate anything. */
+  .cst,.vst{display:none}
+  .ct:has(#g-pa:checked):has(#n-re:checked) .c-deny{display:block}
+  .ct:has(#g-pa:checked):has(#n-se:checked) .c-grant{display:block}
+  .ct:has(#g-re:checked):has(#n-re:checked) .c-grant{display:block}
+  .ct:has(#g-re:checked):has(#n-se:checked) .c-grant{display:block}
+  .ct:has(#g-po:checked):has(#n-re:checked) .c-deny{display:block}
+  .ct:has(#g-po:checked):has(#n-se:checked) .c-grant{display:block}
+
+  /* ================================================= 2 · THE MERITS · twelve
+     Twelve circuits, twelve rules. CSS cannot compare two counters, so the
+     comparison was not faked: it was done once by hand per circuit, and the
+     four numbers above are what let you audit it. */
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .v-aff{display:block}
+  .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
+  .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
+  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .v-eq {display:block}
+  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-se:checked) .v-rev{display:block}
+  .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
+  .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
+  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
+  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .v-aff{display:block}
+  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-re:checked) .v-eq {display:block}
+  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
+
+  /* ====================================== 3 · WHO WRITES IT · the assignment
+     The rule is the real one: if the Chief is in the majority the Chief
+     assigns the opinion, and otherwise the most senior justice in the majority
+     does. Three keys decide the majority, so three keys decide the writer, and
+     the eight cells that can be reached are written out. Nothing computes this
+     — a page that cannot subtract certainly cannot work out who is senior in a
+     set it did not build. It was worked out by hand and it is checkable
+     against the nine cards above, which is the deal. */
+  .wr{display:none}
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .w-rook{display:inline}
+  .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
+  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
+  .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
+  .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
+  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
+  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .w-rook{display:inline}
+
+  .vst.panel,.cst.panel{margin-top:2px}
+  .vh{font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700}
+  .v-rev .vh,.c-grant .vh{color:var(--rev)}
+  .v-aff .vh{color:var(--aff)} .v-eq .vh,.c-deny .vh{color:var(--amber)}
+  .vst p,.cst p{margin:8px 0 0;font-size:12.5px;max-width:84ch}
+
+  /* the canopy closes over the page when the season is green */
+  .canopy{height:4px;border-radius:3px;background:var(--edge);margin:14px 0 0;
+    overflow:hidden;position:relative}
+  .canopy::after{content:"";position:absolute;inset:0;transform-origin:left;
+    background:linear-gradient(90deg,var(--moss),var(--amber));transform:scaleX(.34)}
+  .ct:has(#s-gr:checked) .canopy::after{transform:scaleX(1)}
+
+  /* ======================================= 4 · CASCADE ORDER IS AUTHORITY
+     NOTHING BELOW THIS LINE. If the court did not take the case, the court did
+     not decide the case, and no merits panel above may say otherwise — not
+     even the one the twelve rules just chose. Same specificity as those rules;
+     it wins because it is last. The tally stays on the page on purpose. The
+     votes were real. They were simply never taken, and a court that shows you
+     the poll it never held is being more honest than one that hides it. */
+  .ct:has(#g-pa:checked):has(#n-re:checked) .vst{display:none}
+  .ct:has(#g-po:checked):has(#n-re:checked) .vst{display:none}
+  .ct:has(#g-pa:checked):has(#n-re:checked) .wr{display:none}
+  .ct:has(#g-po:checked):has(#n-re:checked) .wr{display:none}
+</style>
+
+<!-- 5 · A GET FORM IS TRANSPORT -->
+<form id="vy" action="bridge.html" method="get">
+  <input type="hidden" name="board" value="bench" form="vy">
+</form>
+
+<div class="ct wrap">
+  <header>
+    <h1>The Bench of Nine</h1>
+    <span class="sub">Nine thousand square miles of forest — the size of England
+      — and one court in it. <i>In re the Pot</i>, first case. Two votes are
+      taken here and the first one is not about the pot.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="panel" style="border-color:rgba(111,192,138,.4)">
+    <h2 style="margin-top:0">In re the Pot <b>on appeal from the forest floor</b></h2>
+    <p style="margin:0;font-size:14.5px;max-width:78ch">Nine came together for
+      one thing, and the thing was food. Money went in the pot. The pot was
+      split, dashed and dined. The court below held that the pot was a vote —
+      that paying in was consent, that everyone who dined had voted, and that
+      the one who has abstained for fifteen years consented by saying nothing.</p>
+    <p class="note"><b>The appeal is narrow and the page thinks it is right.</b>
+      Matriculating funds upward is not voting. A structure that takes money in,
+      promotes from within, and reproduces itself in bodies that are not
+      identical but identitarianly aligned has no step at which anybody is
+      asked — and holding that the pot was the asking is precisely how it never
+      adds one. Abstention is not consent. Fifteen years of it is not fifteen
+      years of agreement; it is fifteen years of a question nobody put.</p>
+  </div>
+
+  <!-- ==== INPUTS FIRST. The tallies below cannot count backwards. ========= -->
+  <h2>How the case comes up <b>three keys, and they are all you hold</b></h2>
+  <div class="two">
+    <div class="panel">
+      <div style="margin-bottom:13px">
+        <div class="lbl">The grant — what is put before the bench</div>
+        <div class="opts">
+          <input type="radio" name="g" id="g-pa" form="vy" value="papers" checked><label for="g-pa">On the papers</label>
+          <input type="radio" name="g" id="g-re" form="vy" value="record"><label for="g-re">On the record</label>
+          <input type="radio" name="g" id="g-po" form="vy" value="pot"><label for="g-po">On the pot</label>
+        </div>
+      </div>
+      <div style="margin-bottom:13px">
+        <div class="lbl">The season — whether the canopy is closed</div>
+        <div class="opts">
+          <input type="radio" name="s" id="s-gr" form="vy" value="green" checked><label for="s-gr">In leaf</label>
+          <input type="radio" name="s" id="s-ba" form="vy" value="bare"><label for="s-ba">Bare</label>
+        </div>
+        <div class="canopy"></div>
+      </div>
+      <div>
+        <div class="lbl">The ninth chair — whether the abstainer is asked to sit</div>
+        <div class="opts">
+          <input type="radio" name="n" id="n-re" form="vy" value="recused" checked><label for="n-re">Recused</label>
+          <input type="radio" name="n" id="n-se" form="vy" value="seated"><label for="n-se">Seated</label>
+        </div>
+      </div>
+      <p class="note">Nobody's mind changes when you move these. What moves is
+        which of nine practised positions each judge is standing in when the
+        question arrives — which is what a practice is, and why a bench is not
+        an opinion poll.</p>
+    </div>
+
+    <div class="panel">
+      <div class="lbl">The first vote · the rule of four</div>
+      <div class="tally" style="grid-template-columns:repeat(2,1fr);margin-top:0">
+        <div class="head"><span>Votes to hear</span><b class="n-grantv"></b></div>
+        <div class="head"><span>Needed</span><b>4</b></div>
+      </div>
+      <div class="cst panel c-grant" style="border-color:var(--rev);margin-top:10px">
+        <div class="vh">Certiorari granted</div>
+        <p>Four or more. The forest is nine thousand square miles and this court
+          hears eighty things a year; getting through that door is most of what
+          winning is, and the appellant has just done the hard part.</p>
+      </div>
+      <div class="cst panel c-deny" style="border-color:var(--amber);margin-top:10px">
+        <div class="vh">Certiorari denied</div>
+        <p>Three or fewer. The judgment below stands, unreviewed and unreasoned,
+          and the pot remains a vote in every county of a jurisdiction the size
+          of England — not because a court held that it was, but because no
+          court held anything. Seat the ninth chair and count again.</p>
+      </div>
+      <p class="note">Denial is not disagreement and it is not a small thing.
+        Nothing on this page is more consequential than that first number, and
+        it is the number the fewest people ever look at.</p>
+    </div>
+  </div>
+
+  <h2>The bench <b>three benches of three · seniority in the corner</b></h2>
+  <div class="bench">
+    <div class="j can j1">
+      <div class="who"><i>1</i><b>Hawthorn</b><em>chief · canopy</em></div>
+      <div class="prac">Votes with the grant. Brought the pot itself, she will
+        treat the pot as the record — the exact error under appeal, committed in
+        good faith by the one judge with the power to assign who explains it.</div>
+      <div class="row"><span class="cert">grants on: papers</span><span class="vote"></span></div>
+    </div>
+    <div class="j can j2">
+      <div class="who"><i>2</i><b>Rook</b><em>canopy</em></div>
+      <div class="prac">Votes with the season. In leaf she cannot see the forest
+        floor and defers to the people who can. Bare, she can see it herself,
+        and defers to nobody.</div>
+      <div class="row"><span class="cert">grants on: papers</span><span class="vote"></span></div>
+    </div>
+    <div class="j can j3">
+      <div class="who"><i>3</i><b>Ash</b><em>canopy</em></div>
+      <div class="prac">Answers to no instrument. Votes to hear everything and
+        has been reversing this holding since before it was a holding. Costs the
+        appellant nothing and wins them nothing.</div>
+      <div class="row"><span class="cert">grants on: always</span><span class="vote"></span></div>
+    </div>
+    <div class="j und j4">
+      <div class="who"><i>4</i><b>Bramble</b><em>understory</em></div>
+      <div class="prac">Votes with the grant. Will not decide on the papers when
+        the paths are there to be walked, and reads who walks where as the only
+        evidence of what anybody actually agreed to.</div>
+      <div class="row"><span class="cert">grants on: record, pot</span><span class="vote"></span></div>
+    </div>
+    <div class="j und j5">
+      <div class="who"><i>5</i><b>Thorn</b><em>understory</em></div>
+      <div class="prac">Votes with the ninth chair. Will not hold that silence
+        was consent while the silent party is out of the room — and will not
+        decide it in her favour behind her back either.</div>
+      <div class="row"><span class="cert">grants on: never</span><span class="vote"></span></div>
+    </div>
+    <div class="j und j6">
+      <div class="who"><i>6</i><b>Fern</b><em>understory</em></div>
+      <div class="prac">The only judge who reads two keys. Neither the grant nor
+        the season moves her; the pair does. Her table is printed below because
+        a judge whose reasoning cannot be tabulated is not reasoning.</div>
+      <div class="row"><span class="cert">grants on: pot</span><span class="vote"></span></div>
+    </div>
+    <div class="j roo j7">
+      <div class="who"><i>7</i><b>Loam</b><em>root</em></div>
+      <div class="prac">Answers to nothing and affirms. The pot has always been
+        the pot. He would like it settled and does not much mind which way,
+        which is how a great deal of law gets made and most of it kept.</div>
+      <div class="row"><span class="cert">grants on: record</span><span class="vote"></span></div>
+    </div>
+    <div class="j roo j8">
+      <div class="who"><i>8</i><b>Mycel</b><em>root</em></div>
+      <div class="prac">Votes with the season and is the only judge who reads
+        the season as evidence rather than as weather. Bare ground is a record
+        of who walked on it, and he has read it.</div>
+      <div class="row"><span class="cert">grants on: record</span><span class="vote"></span></div>
+    </div>
+    <div class="j roo j9">
+      <div class="who"><i>9</i><b>Wren</b><em>root · the ninth</em></div>
+      <div class="prac">Has abstained for fifteen years. That is not fifteen
+        years of agreement, and it is the precise thing the court below held it
+        to be. Seated, she votes. Recused, she casts nothing and is counted as
+        nothing — this page will not do to her what the judgment did.</div>
+      <div class="row"><span class="cert">grants on: when seated</span><span class="vote"></span></div>
+    </div>
+  </div>
+
+  <!-- ==== TOTALS AFTER. Counted from the nine cards above and nowhere else. -->
+  <h2>The second vote <b>counted, not declared</b></h2>
+  <div class="tally">
+    <div class="head r"><span>Reverse</span><b class="n-rev"></b></div>
+    <div class="head a"><span>Affirm</span><b class="n-aff"></b></div>
+    <div class="head"><span>Sitting</span><b class="n-sit"></b></div>
+    <div class="head"><span>Votes to hear</span><b class="n-grantv"></b></div>
+  </div>
+  <p class="note"><b>Four numbers and no margin.</b> A margin is a subtraction
+    and this page cannot subtract, so both sides are printed and you may hold
+    them against each other, which is what a bench does anyway. When the ninth
+    chair is recused, <code>Sitting</code> reads eight, and an eight-judge court
+    is a court that can tie.</p>
+
+  <h2>The judgment <b>eight of twelve circuits reverse</b></h2>
+
+  <div class="vst panel v-rev" style="border-color:var(--rev)">
+    <div class="vh">Reversed</div>
+    <p>The pot was not a vote. Paying in is not consent, dining is not
+      ratification, and the fifteen-year abstention is an abstention — it says
+      what it has always said, which is nothing, and nothing may not be read as
+      yes. The holding below is vacated across all nine thousand square miles.</p>
+    <p class="note">Opinion by <span class="wr w-haw"><b>Hawthorn, C.J.</b> —
+      the Chief is in the majority and assigns to herself.</span><span class="wr
+      w-rook"><b>Rook, J.</b> — the Chief is not in the majority, so the most
+      senior justice who is takes the pen. She is second of nine and this is
+      the only power that fact has ever given her.</span></p>
+  </div>
+  <div class="vst panel v-aff" style="border-color:var(--aff)">
+    <div class="vh">Affirmed</div>
+    <p>The court below stands. Put to this bench in leaf, or put to it as the
+      pot itself, five of nine will hold that the money was the meaning — and
+      they are not fools, they are reading a structure that has genuinely never
+      had a step where anyone was asked, and concluding that the pot must
+      therefore have been it. That is the error. It is an extremely easy one.</p>
+    <p class="note">Opinion by <span class="wr w-haw"><b>Hawthorn, C.J.</b> —
+      the Chief is in the majority and assigns to herself.</span><span class="wr
+      w-rook"><b>Rook, J.</b> — the most senior justice in a majority the Chief
+      is not in.</span></p>
+  </div>
+  <div class="vst panel v-eq" style="border-color:var(--amber)">
+    <div class="vh">Equally divided · four to four</div>
+    <p>Eight sitting, four each way, no opinion, no precedent, and the judgment
+      below stands by default rather than by reasoning. Look at which chair is
+      empty. Both of the circuits on this board that end four to four end that
+      way because the abstainer was not asked to sit, and a court that cannot
+      break a tie without her is a court that was always deciding her case
+      without her in it.</p>
+  </div>
+
+  <h2>Fern's table <b>§3 · two keys, one answer</b></h2>
+  <div class="panel">
+    <div class="tally" style="grid-template-columns:repeat(3,1fr);margin-top:0">
+      <div class="head"><span>Papers · in leaf</span><b style="color:var(--aff)">AFFIRM</b></div>
+      <div class="head"><span>Papers · bare</span><b style="color:var(--rev)">REVERSE</b></div>
+      <div class="head"><span>Record · in leaf</span><b style="color:var(--rev)">REVERSE</b></div>
+      <div class="head"><span>Record · bare</span><b style="color:var(--rev)">REVERSE</b></div>
+      <div class="head"><span>Pot · in leaf</span><b style="color:var(--aff)">AFFIRM</b></div>
+      <div class="head"><span>Pot · bare</span><b style="color:var(--aff)">AFFIRM</b></div>
+    </div>
+    <p class="note">Six cells, each typed by someone who can be asked why. Three
+      grants by two seasons is the whole of her jurisprudence and it fits in a
+      box — which is a higher standard of transparency than most benches meet
+      and a lower one than any bench should be allowed to fall below.</p>
+  </div>
+
+  <h2>Why the first vote is the whole case <b>the page being opinionated</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px;max-width:86ch">A syndicate does not
+      vote. It matriculates funds upward and promotes from within, and those are
+      one motion seen from either end. Being cyclical, it reproduces — not a
+      copy but a body identitarianly aligned with itself, mimicking the
+      structure closely enough to be run the same way by the same hands. Less
+      amoeba than germ: cohesive as one organism, factional in its parts, and
+      the factions are hats rather than people. There is no love in it and no
+      sex and no survival. It is a cycle that learned to make another of itself,
+      and the reason it looks transparent the moment you see it is that it was
+      never hiding — it simply has no step at which anyone is asked.</p>
+    <p style="margin:10px 0 0;font-size:12.5px;max-width:86ch">Which is why the
+      rule of four is the real holding of this page and the merits are the
+      footnote. Four votes is the step where somebody gets asked. Deny cert and
+      the structure keeps running with a court sitting right on top of it,
+      unreversed, having decided nothing — and that is not a failure of the
+      system, it is the system working exactly as built. The one reliable way
+      to lose <i>In re the Pot</i> is to leave the ninth chair empty, and the
+      ninth chair has been empty for fifteen years.</p>
+  </div>
+
+  <h2>Carry it on <b>§5 and §6</b></h2>
+  <div class="panel">
+    <script type="application/json" id="doc">
+{ "manifest": "venus.yard/1", "board": "bench", "case": "In re the Pot",
+  "court": { "seats": 9, "benches": ["canopy", "understory", "root"],
+             "jurisdiction_sq_mi": 9000, "hears_per_year": 80 },
+  "rules": { "cert": 4, "decides": 5, "tie": "affirmed by an equally divided court",
+             "assignment": "chief if in majority, else senior-most in majority" },
+  "circuits": 12, "reversed_on": 6, "affirmed_on": 4, "divided_on": 2,
+  "$note": "the docket entry. The ninth chair has been empty for fifteen years." }
+    </script>
+    <button type="submit" form="vy" style="font:inherit;font-size:13px;
+      font-weight:650;cursor:pointer;background:var(--moss);color:#08120c;
+      border:1px solid var(--moss);border-radius:9px;padding:11px 22px">
+      Enter the judgment at the bridge →</button>
+    <p class="note">The button is in no form of its own — it carries
+      <code>form="vy"</code> like every input here. Press it and the browser
+      opens <code>bridge.html?board=bench&amp;g=papers&amp;s=green&amp;n=seated</code>.
+      Nothing was fetched and nothing was sent anywhere but to another file.</p>
+  </div>
+
+  <h2>Where to start</h2>
+  <p class="note">The board opens <b>on the papers · in leaf · recused</b>,
+    which is three votes to hear and therefore no case at all. Seat the ninth
+    chair and the door opens on every grant. Then find the two circuits that
+    end four to four, and notice what they have in common before the page tells
+    you again.</p>
+  <p class="note">Next: <a href="chamber.html">the Writing Chamber</a>, where
+    the opinion is minted and priced · <a href="exhibit.html">Exhibit A</a>,
+    the record · <a href="pulse.html">the Pulse</a>, where the same
+    argument is put to a chamber that actually votes ·
+    <a href="court.html">the Floating Court</a> ·
+    <a href="index.html">the yard</a></p>
+</div>
