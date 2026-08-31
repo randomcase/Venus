@@ -1,0 +1,30 @@
+{
+  "id": "blank",
+  "name": "Start from four",
+  "note": "The smallest board that runs. Four roots, nothing downstream, and a fifth slot that needs two of them — which is the whole lesson from the minimum-cycle entry expressed as the shortest possible file. Copy it, rename it, and add rows. The generator will tell you if the graph you wrote has a cycle in it, references a sector that does not exist, or has no roots at all, so the failure mode is a build error rather than a board that silently does nothing.",
+  "plate": { "cols": 3, "gap": 118, "size": 380, "tower": "spire" },
+  "palette": {
+    "demand": "rgb(201,138,127)",
+    "water": "rgb(110,198,255)",
+    "shelter": "rgb(232,192,105)",
+    "commons": "rgb(111,192,138)",
+    "food": "rgb(159,214,120)"
+  },
+  "sectors": [
+    { "id": "want", "name": "Want", "sector": "demand", "glyph": "❦", "root": true,
+      "needs": [], "cost": { "pw": 2 }, "build": 15,
+      "why": "A root. Something has to be wanted or nothing downstream has a reason to exist." },
+    { "id": "wet", "name": "Water", "sector": "water", "glyph": "≋", "root": true,
+      "needs": [], "cost": { "pw": 8 }, "build": 30,
+      "why": "A root. Decide where the water is before you decide anything else, because everything else is sited relative to it." },
+    { "id": "roof", "name": "Roof", "sector": "shelter", "glyph": "⌂", "root": true,
+      "needs": [], "cost": { "pw": 6 }, "build": 25,
+      "why": "A root. Somewhere that is the same place tomorrow — everything else needs an address." },
+    { "id": "rest", "name": "The rest", "sector": "commons", "glyph": "⌖", "root": true,
+      "needs": [], "cost": {}, "build": 10,
+      "why": "A root, and the odd one: it does not grow when the others do. It is what the others are spending, and its health cannot be read off its own activity because its activity is that nothing is happening." },
+    { "id": "food", "name": "Food", "sector": "food", "glyph": "✿", "root": false,
+      "needs": ["wet", "roof"], "cost": { "pw": 14, "wa": 300 }, "build": 60,
+      "why": "The first thing that is not a root, and the point of the file. It needs two of them at once — which is why a board full of roots produces nothing and the shortest closed loop is the thing to look for rather than the most important node." }
+  ]
+}

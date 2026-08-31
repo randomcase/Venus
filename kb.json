@@ -76,7 +76,10 @@
         "the-rename",
         "decentralization",
         "the-wallet"
-      ]
+      ],
+      "game": {
+        "unlock": "Let the commons read bare, and watch nothing fail."
+      }
     },
     {
       "id": "the-minimum-cycle",
@@ -108,7 +111,10 @@
       "see": [
         "decentralization",
         "hydrogen"
-      ]
+      ],
+      "game": {
+        "unlock": "Build every root the template has, and nothing else, until it is clear that nothing is happening."
+      }
     },
     {
       "id": "the-window",
@@ -145,7 +151,10 @@
         "the-passage",
         "the-relay",
         "superrotation"
-      ]
+      ],
+      "game": {
+        "unlock": "Let a window open."
+      }
     },
     {
       "id": "the-passage",
@@ -183,7 +192,10 @@
         "the-window",
         "the-relay",
         "the-light-delay"
-      ]
+      ],
+      "game": {
+        "unlock": "Complete one leg of the relay, either way."
+      }
     },
     {
       "id": "the-light-delay",
@@ -222,7 +234,10 @@
         "the-passage",
         "superrotation",
         "the-injector"
-      ]
+      ],
+      "game": {
+        "unlock": "Fly past the three-quarter mark, where the correction lag passes two minutes."
+      }
     },
     {
       "id": "the-relay",
@@ -263,7 +278,10 @@
         "the-injector",
         "the-baton",
         "the-exchange"
-      ]
+      ],
+      "game": {
+        "unlock": "Take a delivery that carries a held window with it — two or more at once."
+      }
     },
     {
       "id": "the-baton",
@@ -303,7 +321,10 @@
         "hydrogen",
         "the-wallet",
         "the-exchange"
-      ]
+      ],
+      "game": {
+        "unlock": "Put a manifest line into Plant, and ship the thing that harvests rather than the harvest."
+      }
     },
     {
       "id": "the-exchange",
@@ -346,7 +367,10 @@
         "the-relay",
         "the-attribution-gap",
         "the-gas"
-      ]
+      ],
+      "game": {
+        "unlock": "Miss an exchange and have the baton held at a station."
+      }
     },
     {
       "id": "the-injector",
@@ -386,7 +410,10 @@
         "the-gas",
         "decentralization",
         "the-baton"
-      ]
+      ],
+      "game": {
+        "unlock": "Press START. That is the whole trigger and it is the whole point."
+      }
     },
     {
       "id": "smart-contracts",
@@ -623,7 +650,10 @@
         "the-wallet",
         "the-retainer",
         "fungibility"
-      ]
+      ],
+      "game": {
+        "unlock": "Switch base template — the same board, read against a different roster."
+      }
     },
     {
       "id": "the-retainer",
@@ -807,7 +837,10 @@
         "the-window",
         "the-relay",
         "the-baton"
-      ]
+      ],
+      "game": {
+        "unlock": "Take a delivery. Any delivery."
+      }
     },
     {
       "id": "cascade-order",

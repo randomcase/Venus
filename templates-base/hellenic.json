@@ -1,0 +1,192 @@
+{
+  "id": "hellenic",
+  "name": "The Hellenic Twelve",
+  "note": "The default. Twelve sectors in the order economy.html worked out, each one unable to start until the thing that feeds it is running. Extracted from the game rather than retyped, so it is exactly what shipped.",
+  "plate": {
+    "cols": 4,
+    "gap": 108,
+    "size": 460,
+    "tower": "block"
+  },
+  "palette": {
+    "demand": "rgb(201,138,127)",
+    "water": "rgb(110,198,255)",
+    "shelter": "rgb(232,192,105)",
+    "commons": "rgb(111,192,138)",
+    "food": "rgb(159,214,120)",
+    "forge": "rgb(224,140,90)",
+    "skill": "rgb(157,138,224)",
+    "force": "rgb(224,112,90)",
+    "trade": "rgb(110,198,255)",
+    "records": "rgb(232,192,105)",
+    "contract": "rgb(180,170,200)",
+    "authority": "rgb(240,200,90)"
+  },
+  "sectors": [
+    {
+      "id": "aphro",
+      "name": "Aphrodite",
+      "sector": "demand",
+      "glyph": "❦",
+      "root": true,
+      "needs": [],
+      "cost": {
+        "pw": 2
+      },
+      "build": 20,
+      "why": "Desire is a root, not a luxury. Nobody farms without wanting something, and an economy with no demand in it is not early — it is stopped."
+    },
+    {
+      "id": "posei",
+      "name": "Poseidon",
+      "sector": "water",
+      "glyph": "≋",
+      "root": true,
+      "needs": [],
+      "cost": {
+        "pw": 8
+      },
+      "build": 40,
+      "why": "Water and the routes over it. Nothing else is a root because nothing else can be: no agriculture, no settlement, no transport until you have decided where the water is."
+    },
+    {
+      "id": "hesti",
+      "name": "Hestia",
+      "sector": "shelter",
+      "glyph": "⌂",
+      "root": true,
+      "needs": [],
+      "cost": {
+        "pw": 6
+      },
+      "build": 35,
+      "why": "The hearth. Somewhere warm that is the same place tomorrow. First in the old rites for the same reason it is a root here — everything else needs an address."
+    },
+    {
+      "id": "artem",
+      "name": "Artemis",
+      "sector": "commons",
+      "glyph": "⌖",
+      "root": true,
+      "needs": [],
+      "cost": {},
+      "build": 10,
+      "why": "The un-farmed. The only sector that does not grow when the others do — she is what the rest are spending, and her health cannot be read off her own activity, because her activity is that nothing is happening."
+    },
+    {
+      "id": "demet",
+      "name": "Demeter",
+      "sector": "food",
+      "glyph": "✿",
+      "needs": [
+        "posei"
+      ],
+      "cost": {
+        "pw": 14,
+        "wa": 400
+      },
+      "build": 90,
+      "why": "Grain, and therefore surplus, and therefore every hand not growing food. She needs water. Almost everything else needs her."
+    },
+    {
+      "id": "hepha",
+      "name": "Hephaestus",
+      "sector": "forge",
+      "glyph": "⚒",
+      "needs": [
+        "demet"
+      ],
+      "cost": {
+        "pw": 26
+      },
+      "build": 110,
+      "why": "Tools, and tools that make tools. Cannot start until somebody has enough food that a pair of hands can be spared from growing it — the forge is paid for in meals somebody else grew."
+    },
+    {
+      "id": "athen",
+      "name": "Athena",
+      "sector": "skill",
+      "glyph": "◈",
+      "needs": [
+        "demet"
+      ],
+      "cost": {
+        "pw": 12
+      },
+      "build": 80,
+      "why": "Craft, and the passing of it on. A day spent teaching is a day not spent growing, and every apprenticeship in history was funded that way whether or not anybody said so."
+    },
+    {
+      "id": "ares",
+      "name": "Ares",
+      "sector": "force",
+      "glyph": "⚔",
+      "needs": [
+        "demet"
+      ],
+      "cost": {
+        "pw": 18
+      },
+      "build": 70,
+      "why": "Force, under its own name, and downstream of the surplus — it needs something worth taking. A restart that budgets security before it has anything to secure has described a garrison."
+    },
+    {
+      "id": "herme",
+      "name": "Hermes",
+      "sector": "trade",
+      "glyph": "⇌",
+      "needs": [
+        "hepha",
+        "demet"
+      ],
+      "cost": {
+        "pw": 16
+      },
+      "build": 100,
+      "why": "Roads, exchange, messages. Needs two producers with different surpluses; with one producer there is no market, only a stall."
+    },
+    {
+      "id": "apoll",
+      "name": "Apollo",
+      "sector": "records",
+      "glyph": "☉",
+      "needs": [
+        "herme"
+      ],
+      "cost": {
+        "pw": 10
+      },
+      "build": 85,
+      "why": "Measure, standards, the written account — and he comes AFTER trade. Cuneiform begins as barley tallies, not poetry. The ledger is downstream of the exchange and the first thing anybody wrote was a receipt."
+    },
+    {
+      "id": "hera",
+      "name": "Hera",
+      "sector": "contract",
+      "glyph": "⊗",
+      "needs": [
+        "apoll"
+      ],
+      "cost": {
+        "pw": 8
+      },
+      "build": 75,
+      "why": "Oath, and the binding of an agreement past the moment of making it. Needs the record: an oath nobody can produce is a memory, and two memories that disagree is the condition contract law exists to end."
+    },
+    {
+      "id": "zeus",
+      "name": "Zeus",
+      "sector": "authority",
+      "glyph": "⚡",
+      "needs": [
+        "hera",
+        "apoll"
+      ],
+      "cost": {
+        "pw": 20
+      },
+      "build": 120,
+      "why": "The appeal of last resort, and the only sector that contributes nothing until two others are already running. You cannot adjudicate without a rule AND a record — with the rule alone you have authority ruling by memory."
+    }
+  ]
+}

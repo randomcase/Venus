@@ -89,7 +89,8 @@
       letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
       background:#0d0b13;border-bottom:1px solid var(--edge)}
     nav button[data-tab="roster"],nav button[data-tab="fleet"],
-    nav button[data-tab="codex"]{display:none}
+    nav button[data-tab="codex"],nav button[data-tab="hub"]{display:none}
+    .side #side-hub{padding:0}
     nav{grid-template-columns:repeat(3,1fr)}
     .run{perspective:640px}
     .stage.off{display:block}
@@ -162,10 +163,25 @@
     background:rgba(154,143,168,.03)}
   .slot .tower{position:absolute;left:50%;bottom:50%;width:44px;margin-left:-22px;
     transform-style:preserve-3d}
-  .slot .face{position:absolute;left:0;width:44px;transform-origin:bottom center;
+  /* a BOX is one storey: four faces and a lid, at its own width, lifted to its
+     own base. A tower is one or more of them stacked, which is the whole of
+     how three silhouettes come out of one function. */
+  .slot .box{position:absolute;transform-style:preserve-3d}
+  .slot .face{position:absolute;left:0;transform-origin:bottom center;
     border:1px solid rgba(0,0,0,.5)}
-  .slot .top{position:absolute;left:0;width:44px;height:44px;
-    border:1px solid rgba(255,255,255,.22)}
+  .slot .top{position:absolute;left:0;border:1px solid rgba(255,255,255,.22)}
+  /* contact shadow — the one cue that makes a floating box sit on a plate */
+  .slot .ao{position:absolute;left:50%;top:50%;width:96px;height:96px;
+    margin:-48px 0 0 -48px;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(0,0,0,.55),rgba(0,0,0,0) 66%);
+    transform:translateZ(1px);opacity:0;transition:opacity .3s}
+  .slot.built .ao{opacity:1}
+  /* and a light at the crown, so a built sector reads as running rather than
+     merely present */
+  .slot .crown{position:absolute;left:50%;width:70px;height:70px;
+    margin-left:-35px;border-radius:50%;pointer-events:none;opacity:0;
+    transition:opacity .45s}
+  .slot.built .crown{opacity:.5}
   .slot .cap{position:absolute;left:50%;transform:translate(-50%,0);
     white-space:nowrap;font:8.5px/1 ui-monospace,monospace;letter-spacing:.06em;
     color:var(--dim);text-shadow:0 1px 3px #000;pointer-events:none}
@@ -440,6 +456,38 @@
     line-height:1.6;margin-top:5px}
   .src .r s{display:block;text-decoration:none;font:9.5px/1.6 ui-monospace,monospace;
     color:#5f6f80;margin-top:6px;border-top:1px solid #1b2530;padding-top:6px}
+  /* ══════════════════════════════════════════════════════ THE KNOWLEDGE HUB */
+  .hub{padding:11px 12px}
+  .hub .hd{display:flex;align-items:baseline;gap:9px;margin-bottom:10px;
+    font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .hub .hd b{color:var(--gold2);font-size:13px;letter-spacing:0;
+    text-transform:none;font-family:inherit}
+  .hub .hd s{margin-left:auto;text-decoration:none;color:#5f5470}
+  .k{background:#100d16;border:1px solid var(--edge);border-radius:11px;
+    padding:11px 12px;margin-bottom:8px;border-left:3px solid #2f2840}
+  .k.got{border-left-color:#6fc08a}
+  .k h5{margin:0;font-size:13px;color:#5f5470;display:flex;align-items:baseline;
+    gap:8px}
+  .k.got h5{color:var(--gold2)}
+  .k h5 i{font-style:normal;margin-left:auto;font:8px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:#4d4460;
+    border:1px solid #2f2840;border-radius:4px;padding:4px 6px}
+  .k.got h5 i{color:#6fc08a;border-color:#3f6b52}
+  .k .lock{margin:7px 0 0;font-size:10.5px;color:#5f5470;line-height:1.6}
+  .k .lock b{color:#8a7fa0}
+  .k .sh{margin:7px 0 0;font-size:11.5px;color:#d6cfe0;line-height:1.65}
+  .k .tst{margin:9px 0 0;padding:9px 10px;background:#0b0910;border-radius:8px;
+    border-left:2px solid var(--gold);font-size:10.5px;color:var(--dim);
+    line-height:1.65}
+  .k .tst u{display:block;text-decoration:none;font:8px/1 ui-monospace,monospace;
+    letter-spacing:.15em;text-transform:uppercase;color:var(--gold);
+    margin-bottom:5px}
+  .k .ran{margin:8px 0 0;padding:9px 10px;border-radius:8px;font-size:11px;
+    line-height:1.65;background:rgba(111,192,138,.08);
+    border:1px solid rgba(111,192,138,.28);color:#bfe6cd}
+  .k .ran b{color:#eafaf0}
+  .k .ran em{font-style:normal;color:#ffe9a8}
 </style>
 
 <canvas id="sky"></canvas>
@@ -511,11 +559,13 @@
   <div class="pane" id="pane-roster"><div class="list" id="rosterList"></div></div>
   <div class="pane" id="pane-fleet"><div class="list" id="fleetList"></div></div>
   <div class="pane" id="pane-codex"><div class="list" id="codexList"></div></div>
+  <div class="pane" id="pane-hub"><div class="hub" id="hubList"></div></div>
 
   <div class="side">
     <h4>Orders</h4><div class="pane" id="side-roster"></div>
     <h4>Fleet</h4><div class="pane" id="side-fleet"></div>
     <h4>Codex</h4><div class="pane" id="side-codex"></div>
+    <h4>Knowledge</h4><div class="pane" id="side-hub"><div class="hub"></div></div>
   </div>
 
   <nav>
@@ -525,16 +575,19 @@
     <button data-tab="roster">ORDERS</button>
     <button data-tab="fleet">FLEET</button>
     <button data-tab="codex">CODEX</button>
+    <button data-tab="hub">HUB</button>
   </nav>
 </div>
 
+<script src="bases.js"></script>
+<script src="hub.js"></script>
 <script>
 /* ══════════════════════════════════════════════════════ DATA — all of it real
    Every sector, dependency and figure below is taken from a page in this
    repository that worked it out. Nothing is balanced for fun; the difficulty
    is the physics. */
 
-const SECTORS = [
+const SECTORS_DEFAULT = [
   { id:'aphro', name:'Aphrodite', sector:'demand',    glyph:'❦', root:true,
     needs:[], cost:{pw:2},              build:20,
     why:'Desire is a root, not a luxury. Nobody farms without wanting something, and an economy with no demand in it is not early — it is stopped.' },
@@ -623,7 +676,31 @@ const S = {
   yaw: -0.62, pitch: 0.92, drag: null
 };
 
-const byId = Object.fromEntries(SECTORS.map(s => [s.id, s]));
+/* ══════════════════════════════════════════════════════ THE BASE TEMPLATE
+   Everybody builds their own base, which means the roster cannot live in
+   this file. It lives in templates-base/*.json, gets checked by bases.mjs
+   for duplicate ids, unresolved needs, cycles, missing palette colours and
+   rootlessness, and arrives here as window.BASES.
+
+   A template carries four things and all four are yours to change:
+     the SECTORS   what can be built, what it needs, what it costs, and why
+     the PALETTE   a colour per sector kind
+     the PLATE     columns, spacing, size
+     the TOWER     block, drum or spire — the extrusion the game draws
+
+   The generator refuses to emit a broken one rather than shipping a board
+   that looks buildable and is not, because a sector that needs something
+   with a typo in it is unbuildable forever and nothing on screen says so. */
+let TPL = (window.BASES || []).find(b => b.id === 'hellenic') || {
+  id:'hellenic', name:'The Hellenic Twelve', sectors:SECTORS_DEFAULT,
+  plate:{cols:4,gap:108,size:460,tower:'block'},
+  palette:{demand:'rgb(201,138,127)',water:'rgb(110,198,255)',shelter:'rgb(232,192,105)',
+    commons:'rgb(111,192,138)',food:'rgb(159,214,120)',forge:'rgb(224,140,90)',
+    skill:'rgb(157,138,224)',force:'rgb(224,112,90)',trade:'rgb(110,198,255)',
+    records:'rgb(232,192,105)',contract:'rgb(180,170,200)',authority:'rgb(240,200,90)'}
+};
+let SECTORS = TPL.sectors;
+let byId = Object.fromEntries(SECTORS.map(s => [s.id, s]));
 const $ = id => document.getElementById(id);
 
 /* ═════════════════════════════════════════════════════════════════ THE SKY */
@@ -815,53 +892,162 @@ function drawSky() {
 
 /* ═══════════════════════════════════════════════════ THE PLATE, IN 3D (CSS) */
 const plate = $('plate'), world = $('world');
-const COLS = 4, GAP = 108;
 
-SECTORS.forEach((s, i) => {
-  const x = (i % COLS - (COLS - 1) / 2) * GAP;
-  const y = (Math.floor(i / COLS) - 1) * GAP;
-  const el = document.createElement('div');
-  el.className = 'slot locked';
-  el.id = 'slot-' + s.id;
-  el.style.left = (230 + x) + 'px';
-  el.style.top = (230 + y) + 'px';
-  el.innerHTML =
-    '<div class="pad"></div>' +
-    '<div class="tower"></div>' +
-    '<div class="bar" style="transform:translateZ(2px) rotateX(-90deg);bottom:-9px"><i></i></div>' +
-    '<div class="cap" style="bottom:-30px">' + s.name + '</div>';
-  el.onclick = () => openSheet(s.id);
-  plate.appendChild(el);
-});
+/* the plate is rebuilt, not written once, because the template can change */
+function buildPlate() {
+  const P = TPL.plate || {}, COLS = P.cols || 4, GAP = P.gap || 108,
+        SIZE = P.size || 460, half = SIZE / 2;
+  plate.style.width = plate.style.height = SIZE + 'px';
+  plate.style.left = plate.style.top = (-half) + 'px';
+  plate.innerHTML = '';
+  const rows = Math.ceil(SECTORS.length / COLS);
+  SECTORS.forEach((s, i) => {
+    const x = (i % COLS - (COLS - 1) / 2) * GAP;
+    const y = (Math.floor(i / COLS) - (rows - 1) / 2) * GAP;
+    const el = document.createElement('div');
+    el.className = 'slot locked';
+    el.id = 'slot-' + s.id;
+    el.style.left = (half + x) + 'px';
+    el.style.top = (half + y) + 'px';
+    el.innerHTML =
+      '<div class="pad"></div>' +
+      '<div class="tower"></div>' +
+      '<div class="bar" style="transform:translateZ(2px) rotateX(-90deg);bottom:-9px"><i></i></div>' +
+      '<div class="cap" style="bottom:-30px">' + s.name + '</div>';
+    el.onclick = () => openSheet(s.id);
+    plate.appendChild(el);
+  });
+}
+buildPlate();
+
+/* ─── switching template resets the run, and says so before it does */
+function useTemplate(id) {
+  const t = (window.BASES || []).find(b => b.id === id);
+  if (!t || t.id === TPL.id) return;
+  TPL = t; SECTORS = t.sectors;
+  byId = Object.fromEntries(SECTORS.map(s => [s.id, s]));
+  S.built = {}; S.building = {}; S.sel = null; S._done = false;
+  S.day = 1; S.pw = 0; S.wa = 2000; S.co = 100;
+  buildPlate(); closeSheet(); render();
+  toast('<b>' + t.name + '</b> &mdash; ' + SECTORS.length + ' sectors, depth ' +
+    (t._stats ? t._stats.depth : '?') + '. The plate is cleared: a different ' +
+    'roster is a different graph, not a reskin.');
+}
+window.useTemplate = useTemplate;
+
+function openTemplates() {
+  const B = window.BASES || [];
+  $('sheetBody').innerHTML =
+    '<h3>Base templates</h3><p class="sub">' + B.length +
+    ' available &middot; templates-base/*.json</p>' +
+    '<div class="why">The roster, the palette, the plate geometry and the tower ' +
+    'shape are all data. Copy <code>blank.json</code>, add rows, run ' +
+    '<code>node bases.mjs</code> &mdash; it checks for duplicate ids, needs that ' +
+    'point at nothing, cycles, missing colours and boards with no roots, and it ' +
+    '<b>refuses to build a broken one</b> rather than shipping a plate that looks ' +
+    'buildable and is not.</div>' +
+    '<div class="src">' + B.map(t =>
+      '<div class="r' + (t.id === TPL.id ? ' on' : '') + '">' +
+      '<em>' + (t._stats ? t._stats.sectors + ' &middot; d' + t._stats.depth : '') + '</em>' +
+      '<b>' + t.name + '</b><i>' + (t.note || '').slice(0, 260) +
+      ((t.note || '').length > 260 ? '&hellip;' : '') + '</i>' +
+      '<s>' + (t.id === TPL.id ? 'running' :
+        '<a href="#" onclick="useTemplate(\'' + t.id + '\');return false" ' +
+        'style="color:#6fc08a">load it &mdash; clears the plate</a>') +
+      ' &middot; ' + (t.plate ? t.plate.tower : 'block') + ' towers &middot; ' +
+      (t._stats ? t._stats.roots + ' roots, widest rank ' + t._stats.width : '') +
+      '</s></div>').join('') + '</div>' +
+    '<button class="ghost" onclick="closeSheet()">close</button>';
+  $('sheet').classList.add('up');
+}
+window.openTemplates = openTemplates;
 
 /* an extruded block, four faces and a top, in real 3D transforms */
-function tower(el, h, colour, glyph) {
-  const t = el.querySelector('.tower');
-  if (!h) { t.innerHTML = ''; t.style.height = '0px'; return; }
-  t.style.height = h + 'px';
+/* ═════════════════════════════════════════════════════════ THE TOWER, IN 3D
+   THREE SHAPES OUT OF ONE BOX. A storey is four faces and a lid; a tower is
+   a stack of storeys, and the stack is the whole difference:
+
+     block   one storey, full width, flat lid.
+     drum    three storeys of falling width and falling height. A ziggurat,
+             which is the right building for the Sumerian roster and is also
+             just what a stack does when you shrink each course.
+     spire   a narrow shaft and a cap, taller than it is anything else.
+
+   A base built from a different roster should not look like the one before
+   it, and it does not — the silhouette changes before you have read a label. */
+function storey(w, base, h, colour, glyph, lidBright) {
+  const half = w / 2, off = (44 - w) / 2;
   const dark = colour.replace('rgb(', 'rgba(').replace(')', ',.55)');
-  t.innerHTML =
-    ['0,' + (-h / 2) + 'px,22px,rotateY(0deg)',
-     '0,' + (-h / 2) + 'px,-22px,rotateY(180deg)',
-     '-22px,' + (-h / 2) + 'px,0,rotateY(-90deg)',
-     '22px,' + (-h / 2) + 'px,0,rotateY(90deg)'].map((spec, i) => {
-      const [tx, ty, tz, rot] = spec.split(',');
-      return '<div class="face" style="height:' + h + 'px;bottom:0;' +
-        'background:linear-gradient(180deg,' + colour + ',' + dark + ');' +
-        'transform:translate3d(' + tx + ',0,' + tz + ') ' + rot +
-        ' translateZ(22px) translateY(0);opacity:' + (i < 2 ? .95 : .78) + '">' +
-        (i === 0 ? '<div style="position:absolute;left:0;right:0;top:6px;text-align:center;' +
-          'font-size:15px;color:#fff;text-shadow:0 1px 4px #000">' + glyph + '</div>' : '') +
-        '</div>';
-    }).join('') +
-    '<div class="top" style="background:' + colour + ';filter:brightness(1.35);' +
-    'transform:translate3d(0,' + (-h) + 'px,0) rotateX(-90deg) translateZ(0)"></div>';
+  const faces =
+    [[0, half, 'rotateY(0deg)'], [0, -half, 'rotateY(180deg)'],
+     [-half, 0, 'rotateY(-90deg)'], [half, 0, 'rotateY(90deg)']]
+    .map(([tx, tz, rot], i) =>
+      '<div class="face" style="width:' + w + 'px;height:' + h + 'px;bottom:0;' +
+      'background:linear-gradient(180deg,' + colour + ',' + dark + ');' +
+      'transform:translate3d(' + tx + 'px,0,' + tz + 'px) ' + rot +
+      ' translateZ(' + half + 'px);opacity:' + (i < 2 ? .95 : .78) + '">' +
+      (i === 0 && glyph
+        ? '<div style="position:absolute;left:0;right:0;top:5px;text-align:center;' +
+          'font-size:' + Math.max(10, Math.min(16, w * .34)) + 'px;color:#fff;' +
+          'text-shadow:0 1px 4px #000">' + glyph + '</div>'
+        : '') + '</div>').join('');
+  return '<div class="box" style="left:' + off + 'px;bottom:' + base + 'px;' +
+    'width:' + w + 'px;height:' + h + 'px">' + faces +
+    '<div class="top" style="width:' + w + 'px;height:' + w + 'px;' +
+    'background:' + colour + ';filter:brightness(' + lidBright + ');' +
+    'transform:translate3d(0,' + (-h) + 'px,0) rotateX(-90deg)"></div></div>';
 }
 
-const HUE = { demand:'rgb(201,138,127)', water:'rgb(110,198,255)', shelter:'rgb(232,192,105)',
+function tower(el, h, colour, glyph) {
+  const shape = (TPL.plate && TPL.plate.tower) || 'block';
+  const t = el.querySelector('.tower');
+  let crown = el.querySelector('.crown');
+  if (!crown) {
+    crown = document.createElement('div'); crown.className = 'crown';
+    el.appendChild(crown);
+    const ao = document.createElement('div'); ao.className = 'ao';
+    el.insertBefore(ao, el.firstChild);
+  }
+  if (!h) { t.innerHTML = ''; t.style.height = '0px'; crown.style.opacity = 0; return; }
+
+  let html, top = h;
+  if (shape === 'drum') {
+    /* a ziggurat: three courses, each narrower and shorter than the one under
+       it, which is what the building actually did and why it reads as ancient
+       from any angle without a single texture */
+    const hs = [h * .46, h * .32, h * .22], ws = [44, 33, 22];
+    let base = 0; html = '';
+    for (let i = 0; i < 3; i++) {
+      html += storey(ws[i], base, hs[i], colour, i === 0 ? glyph : '', 1.2 + i * .18);
+      base += hs[i];
+    }
+    top = base;
+  } else if (shape === 'spire') {
+    const shaft = h * 1.55, cap = h * .5;
+    html = storey(26, 0, shaft, colour, glyph, 1.15) +
+           storey(11, shaft, cap, colour, '', 1.7);
+    top = shaft + cap;
+  } else {
+    html = storey(44, 0, h, colour, glyph, 1.35);
+  }
+  t.style.height = top + 'px';
+  t.innerHTML = html;
+
+  /* the crown sits at the height the tower actually reached, which differs by
+     shape — so it is computed rather than assumed */
+  crown.style.bottom = (top - 35) + 'px';
+  crown.style.background = 'radial-gradient(circle,' +
+    colour.replace('rgb(', 'rgba(').replace(')', ',.55)') + ',transparent 62%)';
+}
+
+const HUE_FALLBACK = { demand:'rgb(201,138,127)', water:'rgb(110,198,255)', shelter:'rgb(232,192,105)',
   commons:'rgb(127,201,138)', food:'rgb(143,191,122)', forge:'rgb(224,144,60)',
   skill:'rgb(154,127,208)', force:'rgb(224,112,90)', trade:'rgb(95,211,224)',
   records:'rgb(255,230,168)', contract:'rgb(169,183,201)', authority:'rgb(240,224,140)' };
+/* the palette is the template's, and falls back per key rather than wholesale
+   so a template that names five colours still draws the other seven */
+const HUE = new Proxy({}, { get: (_, k) =>
+  (TPL.palette && TPL.palette[k]) || HUE_FALLBACK[k] || 'rgb(150,140,170)' });
 
 function applyCam() {
   world.style.transform =
@@ -993,6 +1179,10 @@ function step() {
 
   /* THE WINDOW OPENS. It does not deliver — flying the leg delivers, and
      that is the relay. A window that passes unflown is held, not lost. */
+  hubWatch();
+  /* the Hub's checks read the board, so they have to be re-read. Every twelfth
+     tick is about five seconds and is cheap enough not to matter. */
+  if (S.day % 12 === 0) renderHub();
   S.shipIn--;
   if (S.shipIn <= 0) {
     S.shipIn = 584;
@@ -1212,6 +1402,129 @@ function openSources() {
 }
 window.openSources = openSources;
 
+/* ══════════════════════════════════════════════════════ THE KNOWLEDGE HUB
+   Eleven of the knowledge base's twenty-seven entries have a trigger in this
+   game. An entry unlocks when the board has actually demonstrated it — not
+   when you walk past it, not when you buy it.
+
+   AND THEN IT BECOMES AN INSTRUMENT. Every entry in that base carries a TEST:
+   the thing you could do that would show it false. Printing the test is worth
+   nothing. So the Hub RUNS it, against your board, and reports what it found —
+   your dependency graph, your counters, your held windows, your commons.
+
+   Unlocking grants nothing. No bonus, no multiplier, no gated mechanic. A
+   knowledge system that pays out makes knowing a currency, and a currency you
+   cannot refuse is the thing that base spends its whole length arguing
+   against. It is a record and an instrument, and those are enough. */
+
+const HUBGOT = {};
+
+/* the live checks, keyed by entry id. Each answers the entry's own test
+   against the state as it stands right now. */
+const HUBRUN = {
+  'the-minimum-cycle': () => {
+    const built = Object.keys(S.built);
+    const roots = SECTORS.filter(x => !(x.needs || []).length).map(x => x.id);
+    const nonRoot = built.filter(b => !roots.includes(b));
+    const fed = SECTORS.filter(x => (x.needs || []).length &&
+      (x.needs || []).every(n => S.built[n])).length;
+    return 'Your board: <b>' + built.length + '</b> built, of which <b>' +
+      nonRoot.length + '</b> are downstream of anything. ' +
+      (nonRoot.length ? '<b>' + fed + '</b> more can start now — you have a loop.'
+        : 'Nothing downstream is running, so nothing is feeding anything: ' +
+          '<em>you have roots, not a start.</em>');
+  },
+  'hydrogen': () => 'Banked: <b>' + fmtKg(S.h2) + '</b> of hydrogen, <b>' +
+    fmtKg(S.stock) + '</b> in stock. The forest needs <b>' + fmtKg(F_TARGET) +
+    '</b>. Trace anything you want to build back along its inputs and it ends here.',
+  'the-window': () => S.windowOpen
+    ? 'A window is <b>open now</b>. It will not deliver by itself.'
+    : 'Next window in <b>' + S.shipIn + ' days</b>. Nothing shortens it — ' +
+      'not power, not lift, not anything on this plate.',
+  'the-passage': () => 'Legs flown: <b>' + RL.legs + '</b>. Batons at Venus: <b>' +
+    RL.delivered + '</b>. Minimum-energy passage is 146 days; leaving off the top ' +
+    'of the window costs about 0.45 days for every day early or late.',
+  'the-light-delay': () => 'Corrections in flight right now: <b>' + RL.queue.length +
+    '</b>. At arrival the lag is <b>4.94 minutes</b> and the autopilot is steering ' +
+    'on a picture that old. <em>Count the procedures that need an answer faster ' +
+    'than that — that is the authority you have to send with it.</em>',
+  'the-exchange': () => 'The baton is <b>' + (RL.batonAt === 'hull' ? 'aboard' :
+    RL.batonAt === 'venus' ? 'at Venus' : 'held at exchange ' + (RL.batonAt + 1)) +
+    '</b>. Held is not lost: the next hull collects it in passing. Ask when ' +
+    'responsibility changed hands — on this board there is an answer to the second.',
+  'the-relay': () => 'Windows held: <b>' + S.held + '</b>. The next delivery carries ' +
+    'all of them at once (' + fmtKg((11400 + S.lift) * (1 + S.held)) + '). ' +
+    'The hull is not the baton and does not wait with the cargo.',
+  'the-injector': () => 'Your verbs on the relay: <b>two</b> — start, and stop. ' +
+    'Mid-run adjustment is not one of them, which is what makes it automated ' +
+    'rather than assisted. Legs flown: <b>' + RL.legs + '</b>.',
+  'the-baton': () => {
+    const carriers = ['power', 'water', 'commons', 'day'];
+    return 'Your dashboard measures <b>' + carriers.length + '</b> carriers (' +
+      carriers.join(', ') + ') and <b>one</b> baton: the forest, at <b>' +
+      forestPct().toFixed(4) + '%</b>. Plant units: <b>' + S.skim + ' skim, ' +
+      S.dive + ' dive</b>. <em>Everything except the forest line goes home at the ' +
+      'end of the shift.</em>';
+  },
+  'fungibility': () => {
+    const cr = commonsReading(S.co);
+    return 'Commons reads <b>' + cr[0] + '</b> at ' + S.co.toFixed(1) + '. ' +
+      'There is no rule anywhere in this file that ends a run, subtracts a life, ' +
+      'or takes the plate away &mdash; <em>try to write the function that would ' +
+      'rank two of your days against each other.</em>';
+  },
+  'the-prior-condition': () => 'Running <b>' + TPL.name + '</b>: ' + SECTORS.length +
+    ' sectors, depth ' + (TPL._stats ? TPL._stats.depth : '?') + '. The same board, ' +
+    'read against a different roster, produces a different graph &mdash; ' +
+    '<em>not a reskin, a different shape.</em>'
+};
+
+function hubUnlock(id) {
+  if (HUBGOT[id] || !(window.HUB || []).some(e => e.id === id)) return;
+  HUBGOT[id] = true;
+  const e = window.HUB.find(x => x.id === id);
+  toast('<b>Hub &mdash; ' + e.term + '</b> unlocked. It grants nothing; it is ' +
+    'an instrument. HUB tab.');
+  renderHub();
+}
+function hubWatch() {
+  const roots = SECTORS.filter(x => !(x.needs || []).length);
+  if (roots.length && roots.every(r => S.built[r.id]) &&
+      Object.keys(S.built).length === roots.length) hubUnlock('the-minimum-cycle');
+  if (S.h2 > 0 || S.stock > 0) hubUnlock('hydrogen');
+  if (S.windowOpen || S.held) hubUnlock('the-window');
+  if (RL.legs) { hubUnlock('the-passage'); hubUnlock('the-injector'); }
+  if (RL.f > 0.75) hubUnlock('the-light-delay');
+  if (typeof RL.batonAt === 'number') hubUnlock('the-exchange');
+  if (S.held >= 1 && S.pending) hubUnlock('the-relay');
+  if (S.skim || S.dive) hubUnlock('the-baton');
+  if (S.co < 15) hubUnlock('fungibility');
+  if (TPL.id !== 'hellenic') hubUnlock('the-prior-condition');
+}
+function renderHub() {
+  const H = window.HUB || [], got = Object.keys(HUBGOT).length;
+  const html =
+    '<div class="hd"><b>Knowledge</b><span>' + got + ' of ' + H.length +
+    '</span><s>unlocking grants nothing</s></div>' +
+    H.map(e => {
+      const on = !!HUBGOT[e.id];
+      return '<div class="k' + (on ? ' got' : '') + '">' +
+        '<h5>' + (on ? e.term : '&mdash;&mdash;&mdash;') +
+        '<i>' + (on ? e.cls : 'locked') + '</i></h5>' +
+        (on ? '<p class="sh">' + e.short + '</p>' +
+              '<div class="tst"><u>the test</u>' + e.test + '</div>' +
+              '<div class="ran">' + (HUBRUN[e.id] ? HUBRUN[e.id]() :
+                'No live check for this one yet.') + '</div>'
+            : '<p class="lock"><b>To unlock:</b> ' + e.unlock + '</p>') +
+      '</div>';
+    }).join('') +
+    '<p class="lock" style="padding:4px 2px 0">Generated from <b>kb.json</b> by ' +
+    'hub.mjs. Sixteen more entries in the base have no trigger &mdash; they are ' +
+    'read, not earned, and that is correct for most of them.</p>';
+  document.querySelectorAll('#hubList, #side-hub .hub').forEach(n => n.innerHTML = html);
+}
+window.renderHub = renderHub;
+
 function render() {
   $('v-h2').textContent = Math.round(S.h2).toLocaleString();
   $('v-pw').textContent = Math.round(S.pw);
@@ -1300,6 +1613,7 @@ $('fleetList').innerHTML = SHIPS.map(([n, c, d, g]) =>
   '<div class="row"><div class="dot">' + g + '</div><div class="t"><b>' + n +
   '</b><span>' + d + '</span></div><span class="badge">' + c + '</span></div>').join('');
 
+renderHub();
 $('codexList').innerHTML = CODEX.map(([t, d]) =>
   '<div class="row"><div class="t"><b>' + t + '</b><span>' + d + '</span></div></div>').join('') +
   '<div class="row"><div class="t"><span style="color:#5f5470">Every figure in this game is ' +
@@ -1334,6 +1648,8 @@ document.querySelectorAll('nav button').forEach(b => {
     }
     ['roster', 'fleet', 'codex'].forEach(t =>
       $('pane-' + t).classList.toggle('on', S.tab === t));
+    $('pane-hub').classList.toggle('on', S.tab === 'hub');
+    if (S.tab === 'hub') renderHub();
     if (S.tab !== 'base') closeSheet();
   };
 });
