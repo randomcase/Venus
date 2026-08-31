@@ -364,6 +364,26 @@
   .ct:has(#g-re:checked) .j14 .cert{counter-increment:grantv 1;color:var(--bone)}
   .ct:has(#g-po:checked) .j14{opacity:.62}
 
+  /* ---- ROWAN, Chief Justice of the Forest. THE FIFTEENTH SEAT, and the
+     first one seated ABOVE the bench rather than at the end of it.
+     She takes no part in either vote. She does not grant and she does not
+     decide, so not one number on this page moved when she arrived: the same
+     eight circuits reverse, the same two affirm, the same two deadlock on the
+     pot, and every judge already here votes exactly as they did yesterday.
+     What she has is the assignment. Until her appointment the pen went to the
+     Chief when the Chief was in the majority and otherwise to the most senior
+     judge who was, which meant Hawthorn wrote eight of the ten decided
+     circuits and Rook wrote two. Rowan is never in the majority — she does not
+     vote — so under the old rule she could never have assigned anything. The
+     rule was changed with her. She assigns all ten.
+     No outcome changed. Every word of every judgment did. The lookup table
+     below still computes who would have held the pen, because that is the most
+     useful thing left to compute here: it is the record of what one
+     appointment took, taken without moving a single vote, from a court that
+     had already been packed five times over the votes. */
+  .j0 .vote::after{content:"— DOES NOT VOTE —"}
+  .j0 .vote{color:var(--dim);font-size:9.5px}
+
   /* ------------------------------------------------------------ the tallies */
   .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
   .tally .head{background:#0b1310;border:1px solid var(--edge);border-radius:10px;
@@ -408,9 +428,11 @@
   .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
 
   /* ====================================== 3 · WHO WRITES IT · the assignment
-     The rule is the real one: if the Chief is in the majority the Chief
+     The rule WAS the real one: if the Chief is in the majority the Chief
      assigns the opinion, and otherwise the most senior justice in the majority
-     does. Three keys decide the majority, so three keys decide the writer, and
+     does. It is not the rule on this page any more - Rowan assigns everything -
+     and these ten cells are kept as the counterfactual, which is now the most
+     useful thing here to be able to compute. Three keys decide the majority, so three keys decide the writer, and
      the eight cells that can be reached are written out. Nothing computes this
      — a page that cannot subtract certainly cannot work out who is senior in a
      set it did not build. It was worked out by hand and it is checkable
@@ -465,8 +487,8 @@
     <h1>The Bench of Nine</h1>
     <span class="sub">Nine thousand square miles of forest — the size of England
       — and one court in it. <i>In re the Pot</i>, first case. Two votes are
-      taken here and the first one is not about the pot. There are fourteen judges
-      and never more than thirteen of them vote.
+      taken here and the first one is not about the pot. There are fifteen judges,
+      never more than thirteen of them vote, and the newest one never does.
       It is still called the Bench of Nine.</span>
     <span class="tag">no script</span>
   </header>
@@ -547,13 +569,31 @@
     </div>
   </div>
 
-  <h2>The bench <b>three benches of three, and then a tenth</b></h2>
+  <h2>The bench <b>three benches of three, and then six more</b></h2>
   <div class="bench">
+    <div class="j cop j0">
+      <div class="who"><i>0</i><b>Rowan</b><em>chief justice · the fifteenth seat</em></div>
+      <div class="prac">Seated above the bench rather than at the end of it, and
+        she takes no part in either vote — she does not grant and she does not
+        decide. Not one number on this page moved when she arrived: the same
+        eight circuits reverse, the same two affirm, the same two deadlock on
+        the pot, and every judge here votes exactly as they did the day before.
+        What she has is the assignment. Until her appointment the pen went to
+        the Chief when the Chief was in the majority and otherwise to the most
+        senior judge who was, so Hawthorn wrote eight of the ten decided
+        circuits and Rook wrote two. Rowan is never in the majority, because
+        she never votes, and under that rule she could not have assigned
+        anything at all — so the rule was changed with her. She assigns all
+        ten. No outcome changed. Every word of every judgment did.</div>
+      <div class="row"><span class="cert">grants: never · decides: never</span><span class="vote"></span></div>
+    </div>
     <div class="j can j1">
-      <div class="who"><i>1</i><b>Hawthorn</b><em>chief · canopy</em></div>
+      <div class="who"><i>1</i><b>Hawthorn</b><em>canopy · chief until the fifteenth</em></div>
       <div class="prac">Votes with the grant. Brought the pot itself, she will
         treat the pot as the record — the exact error under appeal, committed in
-        good faith by the one judge with the power to assign who explains it.</div>
+        good faith by the judge who used to have the power to assign who
+        explains it. She was Chief of this court for the whole of its history
+        until the fifteenth seat, and has not written a word of it since.</div>
       <div class="row"><span class="cert">grants on: papers</span><span class="vote"></span></div>
     </div>
     <div class="j can j2">
@@ -710,11 +750,12 @@
       ratification, and the fifteen-year abstention is an abstention — it says
       what it has always said, which is nothing, and nothing may not be read as
       yes. The holding below is vacated across all nine thousand square miles.</p>
-    <p class="note">Opinion by <span class="wr w-haw"><b>Hawthorn, C.J.</b> —
-      the Chief is in the majority and assigns to herself.</span><span class="wr
-      w-rook"><b>Rook, J.</b> — the Chief is not in the majority, so the most
-      senior justice who is takes the pen. She is second of nine and this is
-      the only power that fact has ever given her.</span></p>
+    <p class="note">Opinion assigned by <b>Rowan, C.J.</b>, who did not vote.
+      Under the rule that stood until her appointment the pen would have gone
+      to <span class="wr w-haw"><b>Hawthorn, J.</b>, who is in the majority and
+      was Chief until the fifteenth seat.</span><span class="wr w-rook"><b>Rook,
+      J.</b>, the most senior judge in a majority the old Chief was not in —
+      the only power that fact ever gave her, and it is gone.</span></p>
   </div>
   <div class="vst panel v-aff" style="border-color:var(--aff)">
     <div class="vh">Affirmed</div>
@@ -723,10 +764,11 @@
       they are not fools, they are reading a structure that has genuinely never
       had a step where anyone was asked, and concluding that the pot must
       therefore have been it. That is the error. It is an extremely easy one.</p>
-    <p class="note">Opinion by <span class="wr w-haw"><b>Hawthorn, C.J.</b> —
-      the Chief is in the majority and assigns to herself.</span><span class="wr
-      w-rook"><b>Rook, J.</b> — the most senior justice in a majority the Chief
-      is not in.</span></p>
+    <p class="note">Opinion assigned by <b>Rowan, C.J.</b>, who did not vote.
+      Under the old rule it would have been <span class="wr w-haw"><b>Hawthorn,
+      J.</b>, in the majority and Chief until the fifteenth seat.</span><span
+      class="wr w-rook"><b>Rook, J.</b>, senior-most in a majority the old
+      Chief was not in.</span></p>
   </div>
   <div class="vst panel v-eq" style="border-color:var(--amber)">
     <div class="vh">Equally divided · six to six</div>
@@ -793,11 +835,13 @@
   <div class="panel">
     <script type="application/json" id="doc">
 { "manifest": "venus.yard/1", "board": "bench", "case": "In re the Pot",
-  "court": { "seats": 14, "vote_on_any_day": "12 on the pot, 13 otherwise",
+  "court": { "seats": 15, "vote_on_any_day": "12 on the pot, 13 otherwise",
              "known_as": "the Bench of Nine", "benches": ["canopy", "understory", "root"],
              "jurisdiction_sq_mi": 9000, "hears_per_year": 80 },
-  "rules": { "cert": 4, "decides": 5, "tie": "affirmed by an equally divided court",
-             "assignment": "chief if in majority, else senior-most in majority" },
+  "rules": { "cert": 4, "decides": "a majority of those sitting",
+             "tie": "affirmed by an equally divided court",
+             "assignment": "the Chief, who does not vote",
+             "assignment_until_the_fifteenth_seat": "chief if in majority, else senior-most in majority" },
   "circuits": 12, "reversed_on": 8, "affirmed_on": 2, "divided_on": 2,
   "divided_circuits_are_all": "on the pot",
   "cert_denied_on": 0,
@@ -808,7 +852,9 @@
     { "seniority": 13, "holds": "the ninth chair proxy", "grants": "as she does",
       "ended_it": false, "doubled_it": true },
     { "seniority": 14, "was_at": "the pot", "grants": ["papers", "record"],
-      "recuses_for_interest_on": "the pot", "cleared": 8, "left": 2 }
+      "recuses_for_interest_on": "the pot", "cleared": 8, "left": 2 },
+    { "seniority": 0, "chief": true, "grants": false, "votes": false,
+      "outcomes_changed": 0, "opinions_reassigned": 10 }
   ],
   "seats_that_grant": 12,
   "$note": "the docket entry. The ninth chair has been empty for fifteen years." }
@@ -830,10 +876,12 @@
     either way now, because the twelfth seat opened one and the thirteenth
     holds the other's proxy. Then put the case up <b>on the pot</b>, both
     seasons, and watch the only two deadlocks left on the board appear. Five
-    appointments were made to fix this court. What is left of all of them is
-    two circuits where the pot is on the table and the one witness may not
-    speak. Decide for yourself which appointment fixed anything, and then read
-    the last paragraph of the source comment.</p>
+    appointments were made to fix this court. What is left of all of them is two
+    circuits where the pot is on the table and the one witness may not speak.
+    Then look at the line under whichever judgment you are shown, and note that
+    the sixth appointment changed no outcome on any circuit and took every
+    opinion on the board. Decide for yourself which of the six fixed anything,
+    and then read the last paragraph of the source comment.</p>
   <p class="note">Next: <a href="chamber.html">the Writing Chamber</a>, where
     the opinion is minted and priced · <a href="exhibit.html">Exhibit A</a>,
     the record · <a href="pulse.html">the Pulse</a>, where the same
