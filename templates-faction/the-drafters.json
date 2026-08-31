@@ -1,0 +1,16 @@
+{
+ "id": "the-drafters",
+ "name": "The Drafters",
+ "patron": "The bench, by standing order rather than by retainer.",
+ "holds": "The three who write what binds, under their own names.",
+ "because": "The reasons are the part that outlives everybody and they were being produced by people the record did not mention. Making them a faction rather than staff is the whole correction: a patron pays the expense and the work carries the worker’s name.",
+ "produces_mostly": "opinions, signed by the people who wrote them",
+ "study": "Whether attribution changes the writing. The bench has forty years of unsigned drafts to compare against.",
+ "stream": {
+  "cadence": "continuous",
+  "term": "perpetual"
+ },
+ "ends_when": "never",
+ "unconditional": true,
+ "anchor": "The attribution gap, closed by paying for the work instead of retaining the worker."
+}

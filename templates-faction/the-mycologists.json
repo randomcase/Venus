@@ -1,0 +1,16 @@
+{
+ "id": "the-mycologists",
+ "name": "The Mycologists",
+ "patron": "The yard, from the seed line.",
+ "holds": "Four people and a laboratory, on the living fraction.",
+ "because": "The network under the forest is the only nutrient pump a sealed deck has, and it will take decades to know whether the inoculum took. Nothing they do will be legible for twenty years and the forest depends on all of it.",
+ "produces_mostly": "measurements that mean nothing yet",
+ "study": "Whether a mycorrhizal network assembles at 0.888 g under a four-day light cycle from a culture collection, and if it does not, which of those three is the reason.",
+ "stream": {
+  "cadence": "continuous",
+  "term": "perpetual"
+ },
+ "ends_when": "never",
+ "unconditional": true,
+ "anchor": "Every closed-system agriculture failure on record was a soil biology failure that looked like something else for two years first."
+}

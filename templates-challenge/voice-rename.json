@@ -29,6 +29,11 @@
    "id": "clerk",
    "who": "The clerk copying the decision into the reports",
    "brief": "He is paid by the page. He will read this sentence more carefully than anybody in the courtroom did, and he has no standing to say anything about it. The attribution gap, from inside."
+  },
+  {
+   "id": "surveyor",
+   "who": "The surveyor running the line",
+   "brief": "He puts the abstraction on the ground with a chain and a compass. The doctrine is a sentence in a report he has not read; the boundary is a day's work in weather, and he is good at it. He is the point where a ruling stops being paper — and the only person in this exercise whose hands are on the thing. Write competence with no opinion in it, and do not give him a moment of doubt at sunset."
   }
  ],
  "task": "Write 300–400 words in ONE of these voices, at a specific hour on a specific day. No summary of the case, no verdict on it, no anachronism. The voice must know things the other three do not, and must not know things they do.",
@@ -48,6 +53,10 @@
   {
    "band": "It is not an argument",
    "test": "Remove every sentence that could appear in an essay about the case. Is there still a piece left?"
+  },
+  {
+   "band": "The execution is skilled and unexamined",
+   "test": "If you wrote the surveyor: is the craft rendered well enough that a reader admires it before they notice what it is for?"
   }
  ]
 }

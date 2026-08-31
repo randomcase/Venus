@@ -29,6 +29,11 @@
    "id": "farmer",
    "who": "A revenue farmer in the district",
    "brief": "The demand went up because the force has to be paid for. Nobody lied to him and nothing was stolen. Write the voice of somebody doing arithmetic that comes out wrong."
+  },
+  {
+   "id": "commander",
+   "who": "The officer commanding the subsidiary force",
+   "brief": "British officer, Company orders, and his men are paid out of the treasury of the ruler they are stationed on. He is a garrison that the garrisoned pays for. He did not design the instrument, could not alter it, and is the visible daily fact of it — the thing the farmer actually sees when he sees the arrangement at all."
   }
  ],
  "task": "Write 300–400 words in ONE voice, on a day when nothing happens. The hard version of this exercise is that there is no villain in the room and the piece still has to land.",
@@ -48,6 +53,10 @@
   {
    "band": "It is not an argument",
    "test": "Remove every sentence that could appear in an essay. Is there still a piece?"
+  },
+  {
+   "band": "He is the instrument and not its author",
+   "test": "If you wrote the commander: does the piece resist letting him explain the treaty? A man who can articulate the structure he embodies has stepped outside it, and the exercise is to stay inside."
   }
  ]
 }

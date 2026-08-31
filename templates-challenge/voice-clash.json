@@ -29,6 +29,11 @@
    "id": "both",
    "who": "A sepoy who has served both companies",
    "brief": "He has worn two uniforms and been paid by both, and the drill was nearly the same. He is the only person in this exercise who can compare them from inside. Do not make him cynical — make him accurate."
+  },
+  {
+   "id": "raiser",
+   "who": "The officer raising local troops for the company",
+   "brief": "He recruits, drills and pays men into a private army belonging to a trading house. This was ordinary work and he was ordinary at it. Two companies are doing the same thing forty miles apart with the same recruiting ground, and the men know both rates. Write somebody for whom this is a labour market."
   }
  ],
  "task": "Write 300–400 words in ONE voice, during a week when the district changes hands. The contest is the weather, not the subject.",
@@ -48,6 +53,10 @@
   {
    "band": "It is not an argument",
    "test": "Remove every essayable sentence. Is there still a piece?"
+  },
+  {
+   "band": "The private army is not remarked upon",
+   "test": "If you wrote the raiser: does the piece let a trading company having an army pass without comment, the way it passed for him?"
   }
  ]
 }
