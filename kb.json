@@ -261,7 +261,8 @@
         "the-passage",
         "the-light-delay",
         "the-injector",
-        "the-baton"
+        "the-baton",
+        "the-exchange"
       ]
     },
     {
@@ -300,7 +301,51 @@
         "the-relay",
         "the-injector",
         "hydrogen",
-        "the-wallet"
+        "the-wallet",
+        "the-exchange"
+      ]
+    },
+    {
+      "id": "the-exchange",
+      "term": "The exchange",
+      "class": "mechanism",
+      "settled": "settled",
+      "short": "The only place a relay fails, and the only place authority changes. For the length of it the object has either two owners or none.",
+      "body": [
+        "A relay does not fail in the middle of a leg. The legs are long, visible and measured, and they are not where anything goes wrong. It fails in the seconds where the baton is in nobody's hand — and that is where the design attention belongs and almost never goes, because the exchange is short and looks like nothing.",
+        "THE HAZARD IS THAT RESPONSIBILITY DOES NOT TRANSFER AT AN INSTANT. It transfers over an interval, and inside the interval there are only two possibilities and both are bad. Two owners: each is entitled to assume the other has it, and both assumptions are reasonable. No owner: nobody is watching and nobody is wrong for not watching. Every dropped baton in any system is one of those two, and neither is a competence failure — they are the arithmetic of an undefined boundary.",
+        "SO THE FIX IS A DEFINED MOMENT, checkable after the fact by somebody who was not there. Not a period, not a handover process, not a shared understanding: an event, with a name. convoy.html releases in pairs and the markup does not offer half a pair, which is a defined moment enforced by structure rather than by a rule anybody has to remember. contract.html states the boundary as an inequality — gas within budget, or escalate, or burn — so the disposition of any form is a fact rather than a judgement. persist.html gives every state a name you can type, which means the moment it changed is in the URL.",
+        "AND THE EXCHANGE IS WHERE AUTHORITY CHANGES, not the leg. The chain's three legs carry sixteen, eight and four states, and the decrease does not happen gradually along the way — it happens AT the handoffs, because that is the only place a decision about who may say what can actually be taken. A leg is a period during which nothing is decided.",
+        "The court has three handoffs in it and only two of them have a defined moment. The Master disposes: that is an event, dated, on the list. A clerk drafts and a judge signs: that is an event, and the signature is on the page. But the moment the reasoning became the JUDGE'S reasoning rather than the drafter's has no name, no date and no record, and that is exactly why the name never appears anywhere."
+      ],
+      "test": "Ask both parties when responsibility changed hands and check whether they name the same event. If either names a period rather than an event, or if they name different events, you have found the gap — and it is the same gap whether or not anything has fallen through it yet. Then ask who could verify the answer without having been present.",
+      "evidence": [
+        {
+          "page": "game.html",
+          "what": "two exchange zones, and the baton is either aboard or held at one — never in between"
+        },
+        {
+          "page": "convoy.html",
+          "what": "a pair is the unit and the markup cannot release half of one; structure rather than a rule"
+        },
+        {
+          "page": "chain.html",
+          "what": "16 / 8 / 4 states — the decrease happens at the handoffs, not along the legs"
+        },
+        {
+          "page": "contract.html",
+          "what": "gas within budget, escalate, or burn — the disposition is a fact and not a judgement"
+        },
+        {
+          "page": "bench.html",
+          "what": "three handoffs, two with a defined moment; the third is why no drafter is named"
+        }
+      ],
+      "see": [
+        "the-baton",
+        "the-relay",
+        "the-attribution-gap",
+        "the-gas"
       ]
     },
     {
@@ -589,7 +634,8 @@
       "see": [
         "the-retainer",
         "the-constant-judge",
-        "the-zero-counter"
+        "the-zero-counter",
+        "the-exchange"
       ]
     },
     {
