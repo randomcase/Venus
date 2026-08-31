@@ -1,14 +1,14 @@
-<title>TEMPLATE &middot; The Ecosystem · eleven orders, and what the forest can do without them</title>
+<title>TEMPLATE &middot; The Ecosystem · twelve orders, and what the forest can do without them</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
   TEMPLATE, extracted from ecosystem.html by templatise.mjs.
 
      source            ecosystem.html
      radio groups      0
-     checkboxes        11
-     counters          orders, can
+     checkboxes        14
+     counters          orders, can, agents
      stored states     none — this page forgets everything on reload
-     :has() rules      44, 13 of them compound
+     :has() rules      52, 16 of them compound
      script            none
 
   WHAT IS STILL HERE
@@ -37,6 +37,7 @@
     --fly:#f0c66a; --owl:#a9b7c9; --wolf:#c9857a;
     --peac:#4fb3a6; --flam:#e58aa0; --bee:#e0903c; --btfl:#b98ae0;
     --ant:#b5764a; --moth:#cfd6c8; --spid:#9aa0b8; --btle:#7f9a5c;
+    --geck:#5fd3e0; --rom:#d8c07a; --rem:#7d8ea8;
     --leaf:#6fc08a; --cool:#6ec6ff;
   }
   *{box-sizing:border-box}
@@ -109,6 +110,31 @@
   #spid:checked+label b,#spid:checked+label .st{color:var(--spid)}
   #btle:checked+label{border-color:var(--btle);background:rgba(127,154,92,.12)}
   #btle:checked+label b,#btle:checked+label .st{color:var(--btle)}
+  #geck:checked+label{border-color:var(--geck);background:rgba(95,211,224,.10)}
+  #geck:checked+label b,#geck:checked+label .st{color:var(--geck)}
+
+  /* the two that were made rather than kept */
+  .agents{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-top:12px}
+  @media (max-width:700px){.agents{grid-template-columns:1fr}}
+  .agents input{position:absolute;opacity:0;width:0;height:0}
+  .agents label{display:block;cursor:pointer;background:#0b110e;
+    border:1px dashed var(--edge);border-radius:11px;padding:12px 13px}
+  .agents label:hover{border-color:var(--bone)}
+  .agents input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+  .agents label .nm{display:flex;align-items:baseline;gap:8px}
+  .agents label b{font-size:14px;color:var(--dim)}
+  .agents label .job{margin-left:auto;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:#4e6157}
+  .agents label .d{font-size:10.5px;line-height:1.55;color:var(--dim);margin-top:8px}
+  .agents label .st{margin-top:9px;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:#4e6157}
+  .agents label .st::after{content:"stood down"}
+  .agents input:checked+label .st::after{content:"trying"}
+  .agents input:checked+label{border-style:solid}
+  #rom:checked+label{border-color:var(--rom);background:rgba(216,192,122,.09)}
+  #rom:checked+label b,#rom:checked+label .st{color:var(--rom)}
+  #rem:checked+label{border-color:var(--rem);background:rgba(125,142,168,.10)}
+  #rem:checked+label b,#rem:checked+label .st{color:var(--rem)}
 
   /* ==================================== 1 · COUNTERS ARE ARITHMETIC
      Two counters. `orders` increments on the checked label, the ordinary way.
@@ -118,7 +144,7 @@
      do is counted by the capabilities that are actually showing, rather than
      declared by anybody. It is the only honest way to print that number in a
      language with no way to ask how many rules matched. */
-  body{counter-reset:orders 0 can 0}
+  body{counter-reset:orders 0 can 0 agents 0}
   #fly:checked+label{counter-increment:orders 1}
   #owl:checked+label{counter-increment:orders 1}
   #wolf:checked+label{counter-increment:orders 1}
@@ -130,8 +156,14 @@
   #moth:checked+label{counter-increment:orders 1}
   #spid:checked+label{counter-increment:orders 1}
   #btle:checked+label{counter-increment:orders 1}
+  #geck:checked+label{counter-increment:orders 1}
+  /* the agents are counted separately, because they are not orders and
+     folding them in would quietly claim they belong to the same kind of thing */
+  #rom:checked+label{counter-increment:agents 1}
+  #rem:checked+label{counter-increment:agents 1}
   .cap .mk{counter-increment:can 1}
   .n-orders::after{content:counter(orders)}
+  .n-agents::after{content:counter(agents)}
   .n-can::after{content:counter(can)}
 
   /* ============================================= 2 · WHAT THE FOREST CAN DO
@@ -153,9 +185,14 @@
   .eco:has(#moth:checked):has(#fly:checked):has(#ant:checked) .c-navigate{display:block}
   .eco:has(#spid:checked) .c-catch{display:block}
   .eco:has(#btle:checked) .c-bury{display:block}
+  .eco:has(#btle:checked) .c-slowclock{display:block}
   .eco:has(#spid:checked):has(#owl:checked) .c-notice{display:block}
   .eco:has(#btle:checked):has(#ant:checked) .c-soil{display:block}
-  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked):has(#bee:checked):has(#btfl:checked):has(#ant:checked):has(#moth:checked):has(#spid:checked):has(#btle:checked)
+  .eco:has(#geck:checked) .c-retrieve{display:block}
+  .eco:has(#geck:checked) .c-unseen{display:block}
+  .eco:has(#geck:checked):has(#ant:checked) .c-salvage{display:block}
+  .eco:has(#rom:checked):has(#rem:checked) .c-repair{display:block}
+  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked):has(#bee:checked):has(#btfl:checked):has(#ant:checked):has(#moth:checked):has(#spid:checked):has(#btle:checked):has(#geck:checked)
     .c-terraform{display:block}
 
   .cap.panel{margin-top:10px}
@@ -179,8 +216,13 @@
   .c-navigate{border-color:rgba(111,192,138,.35)}
   .c-catch{border-color:rgba(154,160,184,.45)}
   .c-bury{border-color:rgba(127,154,92,.45)}
+  .c-slowclock{border-color:rgba(240,198,106,.35)}
   .c-notice{border-color:rgba(154,160,184,.35)}
   .c-soil{border-color:rgba(127,154,92,.35)}
+  .c-retrieve{border-color:rgba(95,211,224,.45)}
+  .c-unseen{border-color:rgba(95,211,224,.30)}
+  .c-salvage{border-color:rgba(95,211,224,.30)}
+  .c-repair{border-color:rgba(216,192,122,.45);border-style:dashed}
   .c-terraform{border-color:var(--leaf)}
 
   .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
@@ -238,7 +280,7 @@
     <span class="tag">no script</span>
   </header>
 
-    <h2>TODO checkbox set <b>11</b></h2>
+    <h2>TODO checkbox set <b>14</b></h2>
     <div class="opts stack row">
       <input type="checkbox" id="fly" checked><label for="fly">Fireflies time A clock with nobody holding</label>
       <input type="checkbox" id="owl" checked><label for="owl">Owls decide Nine of them, and a quorum. Sl</label>
@@ -251,11 +293,15 @@
       <input type="checkbox" id="moth" checked><label for="moth">Moths bear A straight line across a dark w</label>
       <input type="checkbox" id="spid" checked><label for="spid">Spiders catch They live in the gap &amp;mdash;</label>
       <input type="checkbox" id="btle" checked><label for="btle">Beetles bury The tank, and the floor. Walk</label>
+      <input type="checkbox" id="geck" checked><label for="geck">Geckos retrieve Goes anywhere, takes one t</label>
+      <input type="checkbox" id="rom" checked><label for="rom">Romulus holds One thing, and it is a walle</label>
+      <input type="checkbox" id="rem" checked><label for="rem">Remus carries Everything that is not Romul</label>
     </div>
     <h2>Totals <b>counted, not declared</b></h2>
     <div class="heads meter">
       <div class="head m"><span>orders</span><b class="n-orders"></b></div>
       <div class="head m"><span>can</span><b class="n-can"></b></div>
+      <div class="head m"><span>agents</span><b class="n-agents"></b></div>
     </div>
 
   <div class="panel">
