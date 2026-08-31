@@ -72,10 +72,13 @@
 
   @media (min-width:860px){
     .phone{width:min(1180px,94vw);height:min(880px,94vh);
-      display:grid;grid-template-columns:1fr 344px;grid-template-rows:auto auto 1fr auto;
-      grid-template-areas:'res side' 'clock side' 'stage side' 'nav side'}
+      display:grid;grid-template-columns:1fr 344px;
+      grid-template-rows:auto auto auto 1fr auto;
+      grid-template-areas:'res side' 'clock side' 'supply side' 'stage side' 'nav side'}
     .res{grid-area:res} .clockbar{grid-area:clock}
+    #supply{grid-area:supply;margin:9px 12px 0}
     .stage{grid-area:stage} nav{grid-area:nav}
+    .relay,.run{grid-area:stage}
     .side{grid-area:side;border-left:1px solid var(--edge);overflow:auto;
       background:rgba(10,8,14,.6);display:block}
     .pane{display:none !important}
@@ -85,9 +88,27 @@
       background:#0d0b13;border-bottom:1px solid var(--edge)}
     nav button[data-tab="roster"],nav button[data-tab="fleet"],
     nav button[data-tab="codex"]{display:none}
-    nav{grid-template-columns:repeat(2,1fr)}
+    nav{grid-template-columns:repeat(3,1fr)}
     .run{perspective:640px}
     .stage.off{display:block}
+
+    /* THE SHEET STOPS BEING A DRAWER. On a phone a panel that slides up from
+       the bottom edge is right — the thumb is there and the edge is reachable.
+       On a desktop there is no thumb and no edge, and 74% of the height
+       arriving from below is a phone gesture performed at somebody who is
+       sitting still. Same element, same .up class, same JS: only the geometry
+       changes, which is what a media query is for. */
+    .sheet{left:50%;right:auto;bottom:auto;top:50%;width:min(560px,62vw);
+      max-height:78%;border-radius:14px;border:1px solid var(--edge);
+      box-shadow:0 24px 70px rgba(0,0,0,.6);padding:16px 18px 18px;
+      transform:translate(-50%,-46%) scale(.97);opacity:0;pointer-events:none;
+      transition:transform .18s cubic-bezier(.2,.8,.3,1),opacity .18s}
+    .sheet.up{transform:translate(-50%,-50%) scale(1);opacity:1;
+      pointer-events:auto}
+    .sheet .grab{display:none}
+    /* four destinations read better side by side than stacked when there is
+       room for them to be */
+    .mf{grid-template-columns:1fr 1fr}
   }
   .side{display:none}
 
@@ -362,6 +383,37 @@
   .rl-card p{margin:0;max-width:46ch;color:#8fa1b4;font-size:12px;line-height:1.75}
   .rl-card p b{color:#e6eef7} .rl-card p em{font-style:normal;color:#ffe9a8}
 
+  /* ══════════════════════════════════════════════════════════ THE MANIFEST
+     The sheet a ship's arriving mass opens. Four rows, a remainder, and a
+     commit — because the game's own header has always said the only real
+     decision is what you spend the arriving mass on before the next one, and
+     until now the mass just landed in the pot and converted itself. */
+  .mf{display:grid;gap:8px;margin:12px 0 4px}
+  .mf .r{min-width:0}
+  .mf .r{display:grid;grid-template-columns:1fr auto auto auto;gap:9px;
+    align-items:center;background:#0d141b;border:1px solid #22303f;
+    border-radius:10px;padding:9px 10px}
+  .mf .r b{display:block;font-size:12.5px;color:#e6eef7}
+  .mf .r i{font-style:normal;display:block;font-size:10px;color:#7b8b9c;
+    line-height:1.55;margin-top:2px}
+  .mf .r em{font-style:normal;font:13px/1 ui-monospace,monospace;color:#ffe9a8;
+    min-width:5.5ch;text-align:right}
+  .mf .r button{cursor:pointer;width:34px;height:34px;border-radius:8px;
+    border:1px solid #22303f;background:#111a24;color:#9fb0c2;
+    font:15px/1 ui-monospace,monospace}
+  .mf .r button:active{background:#18242f;color:#eaf2fa}
+  .mf .r button:disabled{opacity:.25;cursor:default}
+  .mf-left{display:flex;align-items:baseline;gap:9px;padding:10px 11px;
+    border:1px dashed #22303f;border-radius:10px;margin-bottom:4px}
+  .mf-left span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:#7b8b9c}
+  .mf-left b{margin-left:auto;font:16px/1 ui-monospace,monospace;color:#ffe9a8}
+  .mf-left.zero b{color:#5fd6a4}
+  .win{display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:9px;
+    border:1px solid #3d5a2a;background:rgba(95,214,164,.10);margin-bottom:9px;
+    font:10px/1.5 ui-monospace,monospace;color:#5fd6a4}
+  .win.held{border-color:#5a4a2a;background:rgba(224,177,85,.10);color:#e0b155}
+
 </style>
 
 <canvas id="sky"></canvas>
@@ -535,6 +587,10 @@ const S = {
   h2: 11400, pw: 0, wa: 2000, co: 100,
   built: {}, building: {}, sel: null,
   shipIn: 584, tab: 'base',
+  /* the supply line. `held` is windows whose baton did not get through —
+     never a loss, only later, so the next delivery carries them all. */
+  held: 0, windowOpen: false, pending: 0, stock: 0, lift: 0,
+  alloc: { wa: 0, st: 0, li: 0, se: 0 },
   yaw: -0.62, pitch: 0.92, drag: null
 };
 
@@ -897,13 +953,121 @@ function step() {
     }
   }
 
+  /* THE WINDOW OPENS. It does not deliver — flying the leg delivers, and
+     that is the relay. A window that passes unflown is held, not lost. */
   S.shipIn--;
   if (S.shipIn <= 0) {
-    S.shipIn = 584; S.h2 += 11400;
-    toast('<b>Iris</b> matched velocity. 11,400 kg of hydrogen aboard. ' +
-      'She goes home with forty kilograms of rock.');
+    S.shipIn = 584;
+    if (S.windowOpen) S.held++;          /* the last one went unflown */
+    S.windowOpen = true;
+    toast('<b>Window open.</b> 584 days to the next one. ' +
+      'Fly the leg on <b>RELAY</b> &mdash; the baton is the hydrogen.');
   }
   render();
+}
+
+/* ══════════════════════════════════════════════════════ THE SUPPLY LINE
+   The base and the relay were two modes that did not know about each other.
+   They do now, and it is the same object joining them: the baton in the relay
+   IS the hydrogen in the base.
+
+     the window opens        every 584 days, on the base clock
+     you fly the leg         RELAY — one press, and the delay does the rest
+     the baton reaches Venus the base gets a manifest
+     the baton is held       the base gets nothing THIS window and everything
+                             next one, because a held baton is later, not lost
+
+   Not flying at all is the same as a held baton. `held` counts windows whose
+   mass has not arrived yet, and the next delivery carries all of them, so
+   there is no way to fall permanently behind and nothing to lose by ignoring
+   the relay for a while. The cost of a held window is time, and time is the
+   only thing this game has ever charged. */
+
+const MASS = 11400;
+
+function baseDeliver() {
+  const windows = 1 + S.held;
+  S.pending = Math.round((MASS + S.lift) * windows);
+  S.held = 0; S.windowOpen = false;
+  S.alloc = { wa: 0, st: 0, li: 0, se: 0 };
+  if (S.stock) { S.pending += S.stock; S.stock = 0; }
+  toast('<b>' + S.pending.toLocaleString() + ' kg</b> alongside' +
+        (windows > 1 ? ' &mdash; ' + windows + ' windows at once' : '') +
+        '. The manifest is open.');
+  if (S.tab === 'base') openManifest();
+  render();
+}
+
+/* ─── the manifest. Four destinations, and they pay back over different
+   spans, which is the only reason it is a decision at all. */
+const DEST = [
+  { k:'wa', n:'Water',  i:'Cracked and banked. 1 kg of hydrogen makes about 9 of water, and water is what a build costs.' },
+  { k:'st', n:'Stock',  i:'Held back for the next window. Does nothing now; arrives on top of whatever comes next.' },
+  { k:'li', n:'Lift',   i:'Spent on the return mass, which buys a bigger hull. Every 1,000 kg here adds 400 kg to every delivery after this one, forever.' },
+  { k:'se', n:'Seed',   i:'Straight into the commons. The only line that puts anything back into the thing everything else is spending.' }
+];
+const STEP = 500;
+
+function mfLeft() {
+  return S.pending - DEST.reduce((a, d) => a + S.alloc[d.k], 0);
+}
+function mfSet(k, dir) {
+  const v = S.alloc[k] + dir * STEP;
+  if (v < 0) return;
+  if (dir > 0 && mfLeft() < STEP) return;
+  S.alloc[k] = v; openManifest();
+}
+function mfCommit() {
+  const a = S.alloc;
+  S.h2    += a.wa;
+  S.stock += a.st;
+  S.lift  += Math.round(a.li * 0.4);
+  S.co     = Math.min(100, S.co + a.se / 900);
+  const rest = mfLeft();
+  if (rest) S.stock += rest;                    /* unallocated is not burned */
+  S.pending = 0; S.alloc = { wa:0, st:0, li:0, se:0 };
+  closeSheet();
+  toast('Manifest signed. ' + (rest ? rest.toLocaleString() +
+        ' kg unallocated went to stock &mdash; nothing here is ever burned.' :
+        'All of it placed.'));
+  render();
+}
+function openManifest() {
+  if (!S.pending) return;
+  const left = mfLeft();
+  $('sheetBody').innerHTML =
+    '<h3>Manifest</h3><p class="sub">' + S.pending.toLocaleString() +
+    ' kg alongside &middot; ' + STEP + ' kg a press</p>' +
+    '<div class="why">This is the decision the whole cadence exists for. ' +
+    'Hydrogen cannot be made here at any price &mdash; it arrives or it does ' +
+    'not &mdash; so what is standing on the deck now is the entire budget ' +
+    'until the next window. Nothing is lost if you leave some: it goes to ' +
+    'stock.</div>' +
+    '<div class="mf-left' + (left ? '' : ' zero') + '"><span>unallocated</span>' +
+    '<b>' + left.toLocaleString() + ' kg</b></div>' +
+    '<div class="mf">' + DEST.map(d =>
+      '<div class="r"><span><b>' + d.n + '</b><i>' + d.i + '</i></span>' +
+      '<button onclick="mfSet(\'' + d.k + '\',-1)"' +
+        (S.alloc[d.k] ? '' : ' disabled') + '>&minus;</button>' +
+      '<em>' + S.alloc[d.k].toLocaleString() + '</em>' +
+      '<button onclick="mfSet(\'' + d.k + '\',1)"' +
+        (left >= STEP ? '' : ' disabled') + '>+</button></div>').join('') +
+    '</div>' +
+    '<button onclick="mfCommit()">sign the manifest</button>' +
+    '<button class="ghost" onclick="closeSheet()">later</button>';
+  $('sheet').classList.add('up');
+}
+window.mfSet = mfSet; window.mfCommit = mfCommit; window.openManifest = openManifest;
+
+/* ─── the commons, read rather than scored. Nothing happens at zero except
+   that it reads spent. There is no failure state in this game and there was
+   never going to be one. */
+function commonsReading(v) {
+  if (v >= 92) return ['un-farmed', 'Nothing is happening on it, which is the whole of what it is for.'];
+  if (v >= 70) return ['worked',    'In use and keeping up. This is where a commons normally sits and it is fine.'];
+  if (v >= 40) return ['thin',      'Still there. Recovering slower than it is being spent, and the gap is widening.'];
+  if (v >= 15) return ['spent',     'Running on what is left. Artemis slows this and seed on the manifest is the only thing that reverses it.'];
+  return ['bare', 'Bare. Nothing stops, nothing fails, and nothing is coming to take the plate away — it simply reads bare, and it will read bare until somebody spends a window on it.'];
 }
 
 function render() {
@@ -914,10 +1078,32 @@ function render() {
   $('v-h2').classList.toggle('low', S.h2 < 500);
   $('v-co').classList.toggle('low', S.co < 40);
   $('v-day').textContent = S.day;
-  $('v-ship').textContent = S.shipIn;
+  $('v-ship').textContent = S.windowOpen ? 'NOW' : S.shipIn;
+  $('v-ship').classList.toggle('low', S.windowOpen);
   const ph = $('v-phase');
-  ph.textContent = S.phase === 'day' ? 'daylight' : 'night · no power';
+  const cr = commonsReading(S.co);
+  ph.textContent = (S.phase === 'day' ? 'daylight' : 'night') + ' · ' + cr[0];
   ph.className = S.phase === 'day' ? '' : 'night';
+  ph.title = cr[1];
+
+  /* the supply strip, above the plate: window, held windows, stock, lift */
+  let strip = $('supply');
+  if (!strip) {
+    strip = document.createElement('div');
+    strip.id = 'supply'; strip.className = 'win';
+    $('stage').insertAdjacentElement('beforebegin', strip);
+  }
+  const bits = [];
+  if (S.pending) bits.push('<b>' + S.pending.toLocaleString() +
+    ' kg on the deck</b> &mdash; <a href="#" onclick="openManifest();return false" ' +
+    'style="color:inherit">open the manifest</a>');
+  else if (S.windowOpen) bits.push('<b>WINDOW OPEN</b> &mdash; fly the leg on RELAY');
+  else bits.push('next window in <b>' + S.shipIn + ' d</b>');
+  if (S.held)  bits.push(S.held + ' window' + (S.held === 1 ? '' : 's') + ' held');
+  if (S.stock) bits.push('stock ' + S.stock.toLocaleString() + ' kg');
+  if (S.lift)  bits.push('lift +' + S.lift.toLocaleString() + ' kg/window');
+  strip.innerHTML = bits.join(' &nbsp;·&nbsp; ');
+  strip.className = 'win' + (S.held || (!S.pending && !S.windowOpen) ? ' held' : '');
 
   for (const s of SECTORS) {
     const el = $('slot-' + s.id);
@@ -929,6 +1115,21 @@ function render() {
     if (busy) fill.style.width = Math.min(100, 100 * busy.p / s.build) + '%';
     const want = done ? 26 + s.build / 4 : 0;
     if (el._h !== want) { el._h = want; tower(el, want, HUE[s.sector], s.glyph); }
+  }
+
+  /* THE TWELVE FINISH. THE GAME DOES NOT.
+     There is no completion screen here and there is not going to be one. When
+     every sector is running, the only thing still moving is the commons, which
+     eleven of them are spending and one of them is slowing — and the only
+     thing that puts any back is a line on a manifest that arrives every 584
+     days. That is not an endgame bolted on. It is the same loop with the
+     scaffolding taken away, and it is the one this yard has been arguing for
+     since theory.md: the thing with no completion state is the un-farmed. */
+  if (Object.keys(S.built).length === SECTORS.length && !S._done) {
+    S._done = true;
+    toast('All twelve running. <b>Nothing ends.</b> The commons is the only ' +
+      'thing still moving, and seed on the manifest is the only thing that ' +
+      'moves it back.');
   }
 }
 
@@ -958,6 +1159,9 @@ document.querySelectorAll('nav button').forEach(b => {
     b.classList.add('on');
     S.tab = b.dataset.tab;
     stage.classList.toggle('off', S.tab !== 'base');
+    /* the supply strip belongs to the plate; it is not a global HUD */
+    const sup = $('supply');
+    if (sup) sup.style.display = S.tab === 'base' ? '' : 'none';
     runView.classList.toggle('on', S.tab === 'run');
     $('relay').classList.toggle('on', S.tab === 'relay');
     if (S.tab === 'run' && !R.on && !$('over').classList.contains('on')) {
@@ -1380,9 +1584,11 @@ function relayStep(dt) {
       $('rl-go').disabled = false; $('rl-kill').disabled = true;
       let where;
       if (RL.batonAt === 'hull') { RL.batonAt = 'venus'; RL.delivered++;
-        where = 'The baton is <b>at Venus</b>.'; }
-      else where = 'The baton is <b>held at exchange ' + (RL.batonAt + 1) +
+        where = 'The baton is <b>at Venus</b>.';
+        baseDeliver();                       /* the base gets its manifest */ }
+      else { where = 'The baton is <b>held at exchange ' + (RL.batonAt + 1) +
         '</b>, and the next hull collects it on the way past.';
+        S.held++; S.windowOpen = false; }
       rlCard('Arrived in ' + Math.round(RL.passage) + ' days. The hull goes home.',
         where + ' Nothing was lost and nothing was decided &mdash; a relay does ' +
         'not pick a winner, it moves a baton, and the baton is where it is.' +
