@@ -1,0 +1,379 @@
+<title>Sumer · the same list, named fifteen hundred years earlier</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  SUMER — the older stratum, and the two places the mapping breaks.
+
+  WHY PUT THEM SIDE BY SIDE
+  economy.html argues that twelve sectors are the things an economy cannot do
+  without, using the Olympians because their domains are already attested. The
+  obvious objection is that I picked a list to fit an argument. So here is the
+  same list, itemised by people fifteen hundred years earlier who had never
+  heard of Olympus, and who wrote theirs down on clay because they were running
+  the actual thing.
+
+  It matches almost everywhere. What is worth the page is the two places it
+  does not.
+
+  NISABA IS ONE GODDESS DOING TWO GREEK JOBS
+  She is grain. She is also writing, accounting and the scribe's craft. Not two
+  deities who became associated — one goddess whose domain is both, from the
+  start, because in Sumer counting grain and writing are the same activity and
+  nobody there would have understood the question. Greece needed Demeter AND
+  Apollo for what Sumer did with Nisaba, and that split is Greece forgetting
+  where writing came from.
+
+  ZEUS NEEDS TWO SUMERIAN GODS
+  An is the sky and the highest authority and does essentially nothing. Enlil is
+  the one who actually decides and enforces. Sumer distinguished authority-in-
+  name from authority-that-acts and kept them as separate gods; Greece merged
+  them into one and gave him a thunderbolt. Every constitutional crisis since is
+  an argument about which half you are appealing to.
+
+  AND INANNA IS THE PLANET
+  Not a metaphor and not a later identification: Inanna is Venus, the morning
+  and the evening star, in the earliest layers. The thing this whole yard is
+  terraforming was the first thing that pantheon put in the sky, and it was
+  already the same object seen twice.
+
+  THE ME
+  Enki's decrees: a list, itemised, of the components of civilisation, which
+  Inanna takes from him to Uruk. Kingship, priesthood, truth, the craft of the
+  scribe, the craft of the smith, descent to the underworld, the making of
+  decisions. It is profiles.json from four thousand years ago, and the fact
+  that somebody thought to enumerate it at all is more striking than any entry
+  on it.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#0a0806; --card:#171208; --card2:#1e180d; --edge:#3a2f1c;
+    --ink:#f4ecdc; --dim:#a9977a; --bone:#eadfc0;
+    --clay:#c98f4a; --clay2:#e8b46a; --lapis:#5b7fc7; --gold:#e0b155;
+    --greek:#9aa8c0; --split:#e0705a; --ok:#8fc98a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.68 ui-serif,Georgia,'Times New Roman',serif;
+    background-image:
+      radial-gradient(circle at 18% -6%,rgba(201,143,74,.13),transparent 44%),
+      radial-gradient(circle at 88% 96%,rgba(91,127,199,.10),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:24px;letter-spacing:-.015em;color:var(--clay2);font-weight:500}
+  header .sub{color:var(--dim);font-size:12px;max-width:76ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--clay);border:1px solid var(--clay);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  p{max-width:82ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.72;margin:10px 0 0;max-width:98ch;
+    font-family:ui-rounded,system-ui,sans-serif}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#0d0a06;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--clay2)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+
+  /* ------------------------------------------------------------ the tablet */
+  .rows{margin-top:12px;border:1px solid var(--edge);border-radius:12px;overflow:hidden}
+  .row{display:grid;grid-template-columns:1fr 26px 1fr;gap:0;
+    border-bottom:1px solid var(--edge)}
+  .row:last-child{border-bottom:0}
+  .row > div{padding:11px 13px}
+  .row .gk{background:#12100c;border-right:1px solid var(--edge)}
+  .row .su{background:#171208;border-left:1px solid var(--edge)}
+  .row .mid{display:grid;place-items:center;background:#0d0b07;
+    font:11px/1 ui-monospace,monospace;color:#5c4f36}
+  .row b{display:block;font-size:13.5px}
+  .row .gk b{color:var(--greek)} .row .su b{color:var(--clay2)}
+  .row span{display:block;font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);margin-top:4px}
+  .row i{display:block;font-style:normal;font-size:11px;color:var(--dim);
+    margin-top:7px;line-height:1.55;font-family:ui-rounded,system-ui,sans-serif}
+  .row.split{background:rgba(224,112,90,.05)}
+  .row.split .mid{color:var(--split);font-weight:700}
+  .row.gap .su{opacity:.55}
+  @media (max-width:720px){
+    .row{grid-template-columns:1fr}
+    .row .gk{border-right:0;border-bottom:1px solid var(--edge)}
+    .row .su{border-left:0}
+    .row .mid{padding:5px;background:#0d0b07}
+  }
+
+  .me{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+  @media (max-width:760px){.me{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:480px){.me{grid-template-columns:1fr}}
+  .me div{background:#12100c;border:1px solid var(--edge);border-radius:9px;
+    padding:9px 11px;font-size:11.5px;color:var(--bone);
+    font-family:ui-rounded,system-ui,sans-serif}
+  .me div i{display:block;font-style:normal;font-size:10px;color:var(--dim);margin-top:4px}
+
+  .fig{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}
+  @media (max-width:700px){.fig{grid-template-columns:1fr}}
+  .fig div{background:#12100c;border:1px solid var(--edge);border-radius:10px;padding:10px 11px}
+  .fig span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);display:block}
+  .fig b{display:block;font:15px/1.3 ui-monospace,Menlo,monospace;
+    color:var(--clay2);margin-top:6px}
+  .fig i{display:block;font-style:normal;font-size:10.5px;color:var(--dim);
+    margin-top:6px;line-height:1.55;font-family:ui-rounded,system-ui,sans-serif}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="tag">no script</span>
+    <h1>Sumer</h1>
+    <p class="sub">The same twelve functions, itemised fifteen hundred years
+      earlier by people who had never heard of Olympus and who wrote theirs on
+      clay because they were running the actual thing. It matches almost
+      everywhere. The page is about where it does not.</p>
+  </header>
+
+  <div class="panel" style="border-color:rgba(201,143,74,.45)">
+    <h2 style="margin-top:0">Why put them side by side <b>the obvious objection</b></h2>
+    <p style="margin:0;font-size:12.5px"><a href="economy.html">The Twelve</a>
+      argues that twelve sectors are what an economy cannot do without, and uses
+      the Olympians because their domains are already attested. The fair
+      objection is that I chose a list to fit an argument.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">So: here is an independent list.
+      Older, unconnected, and drawn up by the civilisation that was doing it
+      first rather than describing it afterwards. <b>Where two cultures who
+      never met itemise the same functions, the list is doing less arguing than
+      it looks.</b> And where they disagree, one of them drew a distinction the
+      other lost.</p>
+  </div>
+
+  <h2>The two lists <b>Greek left, Sumerian right</b></h2>
+  <div class="rows">
+    <div class="row">
+      <div class="gk"><b>Aphrodite</b><span>demand</span>
+        <i>Wanting, and therefore the reason anything is grown at all.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Inanna</b><span>desire · war · the star</span>
+        <i>And she <b>is</b> Venus &mdash; the morning and the evening star, in
+          the earliest layers, not a later identification. The planet this yard
+          is terraforming was the first thing that pantheon put in the sky, and
+          it was already one object seen twice.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Poseidon</b><span>water</span>
+        <i>Water and the routes over it, and a root because nothing else can be.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Enki</b><span>fresh water · craft · the abzu</span>
+        <i>Not the sea &mdash; the <i>fresh</i> water under the ground, which is
+          the water that matters if you are farming. A sharper assignment than
+          the Greek one, from people whose survival depended on the
+          distinction.</i></div>
+    </div>
+
+    <div class="row gap">
+      <div class="gk"><b>Hestia</b><span>shelter</span>
+        <i>The hearth. Somewhere warm that is the same place tomorrow.</i></div>
+      <div class="mid">~</div>
+      <div class="su"><b>no clean match</b><span>the gap</span>
+        <i>There is no single Sumerian hearth deity of this weight. The household
+          is distributed across Ninlil, the city gods and the personal god who
+          attends one family. Recorded as a gap rather than forced &mdash; a
+          mapping with no holes in it has been fitted rather than found.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Artemis</b><span>the commons</span>
+        <i>The un-farmed, and the only sector the others are spending.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Ninhursag</b><span>the sacred mountain</span>
+        <i>Lady of the stony highland &mdash; literally the uncultivated ground
+          above the fields. The same idea arrived at from the other end: not
+          wilderness as a place to hunt, but as the land that is not
+          farmland.</i></div>
+    </div>
+
+    <div class="row split">
+      <div class="gk"><b>Demeter</b><span>food</span>
+        <i>Grain, and therefore surplus, and therefore every hand not growing
+          food.</i></div>
+      <div class="mid">2&rarr;1</div>
+      <div class="su"><b>Nisaba</b><span>grain · writing · accounting</span>
+        <i><b>One goddess doing two Greek jobs.</b> She is grain and she is the
+          scribe's craft, from the start &mdash; not two domains that became
+          associated. See below, because this is the finding.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Hephaestus</b><span>forge</span>
+        <i>Tools, and tools that make tools, paid for in meals somebody grew.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Ninagal</b><span>the smith</span>
+        <i>Patron of metalworkers, and one of Enki's craftsmen. The forge is a
+          named office in both systems, which is what you would expect of the
+          first job that had to be fed by somebody else.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Athena</b><span>skill</span>
+        <i>Craft and technique, and the passing of it on.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Enki</b><span>the me</span>
+        <i>He holds the <i>me</i>: the decrees, the itemised arts of
+          civilisation, which are transferred rather than invented. Skill as a
+          thing that is <b>handed over</b> is a better model than skill as a
+          thing you have.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Ares</b><span>force</span>
+        <i>Force under its own name, downstream of the surplus.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Ninurta</b><span>the plough and the club</span>
+        <i>God of the plough <i>and</i> of war, in one figure. Sumer put
+          agriculture and force in the same god, which states the dependency
+          this yard had to work out the long way: the guard exists because the
+          granary does.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Hermes</b><span>trade</span>
+        <i>Roads, exchange and messages. Needs two producers.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Ninshubur</b><span>the vizier who goes</span>
+        <i>Inanna's messenger, and the one sent between powers when something
+          must actually be carried. The errand is the office.</i></div>
+    </div>
+
+    <div class="row split">
+      <div class="gk"><b>Apollo</b><span>records</span>
+        <i>Measure, standards and the written account &mdash; and downstream of
+          trade.</i></div>
+      <div class="mid">2&rarr;1</div>
+      <div class="su"><b>Nisaba</b><span>again</span>
+        <i>The same goddess as food. Greece needed two deities for what Sumer
+          did with one, and the split is Greece forgetting where writing came
+          from.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Hera</b><span>contract</span>
+        <i>Oath, and the binding of an agreement past the moment of making it.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Utu</b><span>the sun, and therefore the judge</span>
+        <i>Oaths were sworn by Utu because the sun sees everything, which makes
+          him the witness and so the guarantor. Justice derived from
+          <b>visibility</b> rather than from authority &mdash; the same argument
+          the ships' countersigned logs are making.</i></div>
+    </div>
+
+    <div class="row split">
+      <div class="gk"><b>Zeus</b><span>authority</span>
+        <i>The appeal of last resort, and the only sector contributing nothing
+          until two others run.</i></div>
+      <div class="mid">1&rarr;2</div>
+      <div class="su"><b>An &middot; Enlil</b><span>name · and act</span>
+        <i><b>It takes two Sumerian gods to cover Zeus.</b> An is the sky and
+          the highest authority and does essentially nothing. Enlil is the one
+          who decides and enforces. See below.</i></div>
+    </div>
+  </div>
+
+  <h2>Nisaba <b>the finding, and it is theirs rather than mine</b></h2>
+  <div class="panel" style="border-color:rgba(224,112,90,.45)">
+    <p style="margin:0;font-size:12.5px"><a href="economy.html">The Twelve</a>
+      argues that writing is downstream of trade, on the evidence that cuneiform
+      begins as barley tallies. That is an inference from the archaeology.</p>
+    <p style="margin:9px 0 0;font-size:12.5px"><b>Sumer states it directly.</b>
+      Nisaba is the goddess of grain and the goddess of writing and the goddess
+      of accounts, and she is one goddess. Not a grain deity who later acquired
+      literacy: her domain is both from the earliest attestations, because to
+      the people doing it, counting grain and writing were not two activities
+      that needed relating. Scribes ended their tablets praising her, and they
+      were praising the same power that made the barley.</p>
+    <p class="note"><b>Greece split her.</b> Demeter got the grain and Apollo got
+      the measure, and once they are two gods the connection between them is a
+      thesis somebody has to argue rather than a fact of the pantheon. That is
+      what a lost distinction looks like from the far side: not an error, just a
+      question nobody has a reason to ask any more.</p>
+  </div>
+
+  <h2>An and Enlil <b>the other break, in the other direction</b></h2>
+  <div class="panel" style="border-color:rgba(224,112,90,.45)">
+    <div class="fig">
+      <div><span>An</span><b>authority in name</b><i>Sky, highest rank, invoked in every list, and does almost nothing in any story.</i></div>
+      <div><span>Enlil</span><b>authority that acts</b><i>Wind and storm, the executive, the one whose word settles it and whose anger has consequences.</i></div>
+      <div><span>Zeus</span><b>both, merged</b><i>Highest rank AND the thunderbolt, in one figure, with no seam.</i></div>
+    </div>
+    <p class="note" style="margin-top:12px"><b>Sumer kept them apart and Greece
+      welded them together</b>, and the weld is where every constitutional
+      argument since has happened. A crown that reigns and a cabinet that rules;
+      a founding document and a court; a board and an executive. Every one of
+      those is a society rediscovering that authority-in-name and
+      authority-that-acts are different things, after inheriting a model in
+      which they were the same god.</p>
+    <p class="note">On <a href="economy.html">the board</a>, Zeus contributes
+      nothing until Hera and Apollo are running &mdash; he needs a rule and a
+      record. That is the An half showing through: rank with nothing to act on.
+      The Enlil half is the part that does something, and it is downstream of
+      everything.</p>
+  </div>
+
+  <h2>The me <b>a requirements list from four thousand years ago</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">Enki holds the <i>me</i>: the decrees,
+      the itemised components of civilisation, which Inanna takes from him to
+      Uruk. What is remarkable is not any single entry. It is that somebody
+      thought civilisation was the kind of thing you could <b>enumerate</b>.</p>
+    <div class="me">
+      <div>kingship<i>authority</i></div>
+      <div>the throne<i>and the office, separately</i></div>
+      <div>truth<i>listed as a component</i></div>
+      <div>the craft of the scribe<i>records</i></div>
+      <div>the craft of the smith<i>the forge</i></div>
+      <div>the craft of the leatherworker<i>named individually</i></div>
+      <div>descent to the underworld<i>and the return from it</i></div>
+      <div>the making of decisions<i>as distinct from authority</i></div>
+      <div>counsel<i>advice, as its own thing</i></div>
+      <div>the giving of judgments<i>distinct again</i></div>
+      <div>music<i>on the same list as the smithy</i></div>
+      <div>fear and dismay<i>civilisation includes its costs</i></div>
+    </div>
+    <p class="note"><b>Three things about that list are worth taking.</b> It
+      separates authority, decision-making and judgment into three entries, which
+      is the An/Enlil split again and finer than most modern org charts. It puts
+      the crafts in individually rather than as "industry". And it includes fear
+      and dismay &mdash; the costs are components, not side effects, which is
+      more honest than any requirements document I have ever seen.</p>
+    <p class="note"><a href="profiles/index.html">profiles.json</a> is the same
+      artefact: a list of what a thing needs, with statuses, because somebody
+      decided the components could be written down and counted. Four thousand
+      years apart and the format is recognisable.</p>
+  </div>
+
+  <h2>Inanna is the planet <b>and always was</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">Inanna is Venus. Not by later
+      syncretism &mdash; in the earliest layers, the goddess and the morning and
+      evening star are the same. The Venus Tablet of Ammisaduqa, which
+      <a href="assembly.html">the assembly</a> uses as the oldest observational
+      record on the page, is a record of <i>her</i> risings and settings, kept
+      because her appearances mattered and had to be predicted.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">Which puts the whole of this yard
+      in an odd position. The planet being terraformed is the one that pantheon
+      put in the sky first; the 583.92-day period that every calendar-keeper
+      found independently was found by watching her; and
+      <a href="assembly.html">Hesperus and Phosphorus</a> &mdash; the thing that
+      is and is not itself &mdash; is her, seen from two sides of her own orbit,
+      by people who had been counting her for a thousand years before anybody
+      wrote the paradox down.</p>
+  </div>
+
+  <p class="note" style="margin-top:22px">Also in this system:
+    <a href="economy.html">the Twelve</a>, which this page checks &middot;
+    <a href="assembly.html">the assembly</a> &middot;
+    <a href="profiles/index.html">the profiles</a>, which are a me &middot;
+    <a href="theory.md">theory.md</a> &middot; <a href="index.html">the yard</a></p>
+</div>

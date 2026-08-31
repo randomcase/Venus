@@ -1,6 +1,6 @@
 {
   "manifest": "venus.yard/patterns/1",
-  "pages": 47,
+  "pages": 49,
   "patterns": [
     {
       "id": "counter",
