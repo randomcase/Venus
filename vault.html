@@ -1,0 +1,388 @@
+<title>The Vault · dual control and a time lock</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  The vault under the bank, where the yard's reserve sits.
+
+  A vault is not a strong box. A strong box resists a stranger; a vault resists
+  a single person with authority — which is the harder problem and the only one
+  worth building for, because the reserve has never once been taken by somebody
+  who did not have keys.
+
+  Two controls, and both are real:
+
+    DUAL CONTROL   three keys are held by three officers and any two will open
+                   it. One will not, ever, no matter whose. That is not distrust
+                   of the officers. It is the removal of a situation where one
+                   person can be leaned on alone, because a person who cannot
+                   open it by themselves cannot be made to.
+
+    TIME LOCK      even two correct keys do nothing outside the window. Not to
+                   stop the officers — to stop anybody who has spent the night
+                   persuading two of them.
+
+  Both are older than the ledger they protect. Neither can be argued with, which
+  is exactly the property you want.
+
+  No script. The quorum is three :has() pairs, the time lock is one more
+  condition on each, and the bolts are a transform.
+-->
+<style>
+  :root{
+    --dark:#08090c; --steel:#1a1f27; --steel2:#232a34; --edge:#39424f;
+    --ink:#eceff3; --dim:#8e97a4; --brass:#c9a24a; --brass2:#e8cd8a;
+    --lapis:#26467f; --lapis2:#3a67b4; --slime:#9ed45c;
+    --red:#d9604f; --green:#5fc98f; --amber:#dfa93f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--dark);
+    font:14px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 50% -6%,rgba(201,162,74,.14),transparent 46%),
+      radial-gradient(circle at 8% 96%,rgba(38,70,127,.22),transparent 44%)}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0;font-size:22px;letter-spacing:-.02em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--brass);border:1px solid var(--brass);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 11px;font-weight:600;
+    display:flex;align-items:center;gap:12px}
+  h2::after{content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(201,162,74,.4),transparent)}
+  .note{color:var(--dim);font-size:11px;line-height:1.7;margin:10px 0 0;max-width:94ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--brass2);background:#0d1118;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--steel),var(--steel2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+
+  .hall{display:grid;gap:16px;grid-template-columns:420px 1fr;align-items:start}
+  @media (max-width:900px){.hall{grid-template-columns:1fr}}
+
+  /* ---------------------------------------------------------------- the door */
+  .door{background:radial-gradient(circle at 40% 30%,#222a35,#0d1117 70%);
+    border:1px solid var(--edge);border-radius:12px;padding:14px}
+  .door svg{display:block;width:100%;height:auto}
+  .bolt{transition:transform .7s cubic-bezier(.6,0,.2,1)}
+  .dial{transform-box:fill-box;transform-origin:center;
+    transition:transform 1.1s cubic-bezier(.5,0,.2,1)}
+  .leaf{transition:transform 1s cubic-bezier(.5,0,.2,1);transform-box:fill-box;
+    transform-origin:14% 50%}
+  .lamp{transition:fill .3s,filter .3s}
+
+  /* quorum — any two of three. Three pairs, written out. */
+  .v:has(#k-a:checked):has(#k-b:checked) .q-lamp,
+  .v:has(#k-a:checked):has(#k-c:checked) .q-lamp,
+  .v:has(#k-b:checked):has(#k-c:checked) .q-lamp
+    {fill:var(--amber);filter:drop-shadow(0 0 7px var(--amber))}
+  /* time lock */
+  .v:has(#t-open:checked) .t-lamp{fill:var(--green);
+    filter:drop-shadow(0 0 7px var(--green))}
+  /* open — quorum AND the window. Both, or nothing moves. */
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked) .bolt,
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-c:checked) .bolt,
+  .v:has(#t-open:checked):has(#k-b:checked):has(#k-c:checked) .bolt
+    {transform:translateX(-30px)}
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked) .dial,
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-c:checked) .dial,
+  .v:has(#t-open:checked):has(#k-b:checked):has(#k-c:checked) .dial
+    {transform:rotate(214deg)}
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked) .leaf,
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-c:checked) .leaf,
+  .v:has(#t-open:checked):has(#k-b:checked):has(#k-c:checked) .leaf
+    {transform:perspective(900px) rotateY(-32deg)}
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked) .o-lamp,
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-c:checked) .o-lamp,
+  .v:has(#t-open:checked):has(#k-b:checked):has(#k-c:checked) .o-lamp
+    {fill:var(--green);filter:drop-shadow(0 0 9px var(--green))}
+
+  /* --------------------------------------------------------------- the keys */
+  .officer{display:flex;align-items:center;gap:12px;padding:11px 0;
+    border-bottom:1px solid var(--edge)}
+  .officer:last-of-type{border-bottom:0}
+  .officer input{position:absolute;opacity:0;width:0;height:0}
+  .officer .nm{font-size:13.5px;font-weight:650}
+  .officer .rl{font:8.5px/1.5 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .officer label{margin-left:auto;cursor:pointer;display:flex;align-items:center;
+    gap:9px;font:10px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);border:1px solid var(--edge);
+    border-radius:8px;padding:10px 14px}
+  .officer label .kb{width:15px;height:15px;border-radius:50%;flex:none;
+    border:1px solid var(--edge);background:#10151d;transition:.2s}
+  .officer input:checked+label{color:var(--brass2);border-color:var(--brass)}
+  .officer input:checked+label .kb{background:var(--brass);
+    border-color:var(--brass);box-shadow:0 0 9px rgba(201,162,74,.6)}
+  .officer input:focus-visible+label{outline:2px solid var(--lapis2);outline-offset:2px}
+
+  .seg{display:flex;gap:6px;margin-top:4px}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;text-align:center;cursor:pointer;padding:11px 12px;
+    border-radius:9px;border:1px solid var(--edge);color:var(--dim);
+    font:10.5px/1.4 ui-monospace,monospace}
+  .seg label b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:2px}
+  #t-open:checked+label{border-color:var(--green);background:rgba(95,201,143,.10)}
+  #t-open:checked+label b{color:var(--green)}
+  #t-shut:checked+label{border-color:var(--red);background:rgba(217,96,79,.10)}
+  #t-shut:checked+label b{color:var(--red)}
+  .seg input:focus-visible+label{outline:2px solid var(--lapis2);outline-offset:2px}
+
+  /* ------------------------------------------------------------- the state */
+  .state{display:none;border-radius:10px;padding:12px 14px;margin-top:14px;
+    border:1px solid;font-size:12.5px;line-height:1.66}
+  .state b{color:inherit}
+  /* sealed: fewer than two keys */
+  .s-sealed{border-color:var(--edge);background:#10151d;color:var(--dim)}
+  .v .s-sealed{display:block}
+  .v:has(#k-a:checked):has(#k-b:checked) .s-sealed,
+  .v:has(#k-a:checked):has(#k-c:checked) .s-sealed,
+  .v:has(#k-b:checked):has(#k-c:checked) .s-sealed{display:none}
+  /* quorum met but the window is shut */
+  .s-held{border-color:var(--amber);background:rgba(223,169,63,.09);color:var(--amber)}
+  .v:has(#t-shut:checked):has(#k-a:checked):has(#k-b:checked) .s-held,
+  .v:has(#t-shut:checked):has(#k-a:checked):has(#k-c:checked) .s-held,
+  .v:has(#t-shut:checked):has(#k-b:checked):has(#k-c:checked) .s-held{display:block}
+  /* open */
+  .s-open{border-color:var(--green);background:rgba(95,201,143,.09);color:var(--green)}
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked) .s-open,
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-c:checked) .s-open,
+  .v:has(#t-open:checked):has(#k-b:checked):has(#k-c:checked) .s-open{display:block}
+
+  /* the register line, written only when it actually opens */
+  .reg{display:none;margin-top:12px;font:11px/1.8 ui-monospace,Menlo,monospace;
+    background:#0c1017;border:1px solid var(--edge);border-radius:9px;
+    padding:11px 13px;color:#bcd0c4}
+  .reg .who{color:var(--brass2)}
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked) .r-ab,
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-c:checked) .r-ac,
+  .v:has(#t-open:checked):has(#k-b:checked):has(#k-c:checked) .r-bc{display:block}
+  /* all three turned: the pair rules would all fire, so name it properly */
+  .v:has(#k-a:checked):has(#k-b:checked):has(#k-c:checked) .r-ab,
+  .v:has(#k-a:checked):has(#k-b:checked):has(#k-c:checked) .r-ac,
+  .v:has(#k-a:checked):has(#k-b:checked):has(#k-c:checked) .r-bc{display:none}
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked):has(#k-c:checked)
+    .r-all{display:block}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td .q{color:var(--dim);font-size:10.5px}
+  tr.sum td{border-top:1.5px solid var(--brass);font-weight:700}
+  tr.sum td:last-child{color:var(--brass2)}
+</style>
+
+<div class="v wrap">
+  <header>
+    <h1>The Vault</h1>
+    <span class="sub">Under the bank. Two keys of three, inside the window, or
+      it does not move — and neither condition can be talked round.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="hall">
+
+    <!-- ------------------------------------------------------------- door -->
+    <div class="door">
+      <svg viewBox="0 0 380 380" role="img"
+           aria-label="A vault door: brass bolt-work, a combination dial, a time-lock window and three key lamps.">
+        <defs>
+          <radialGradient id="plate" cx=".38" cy=".3">
+            <stop offset="0" stop-color="#3a4552"/>
+            <stop offset=".62" stop-color="#232b36"/>
+            <stop offset="1" stop-color="#141a22"/></radialGradient>
+          <linearGradient id="br" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#e8cd8a"/><stop offset=".5" stop-color="#c9a24a"/>
+            <stop offset="1" stop-color="#8a6c26"/></linearGradient>
+          <linearGradient id="frame" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2b333f"/><stop offset="1" stop-color="#151b23"/>
+          </linearGradient>
+        </defs>
+
+        <rect x="6" y="6" width="368" height="368" rx="10" fill="url(#frame)"
+              stroke="#4a5665"/>
+        <rect x="20" y="20" width="340" height="340" rx="8" fill="#0a0e14"/>
+
+        <!-- bolt-work: four bolts that withdraw into the leaf -->
+        <g fill="url(#br)" stroke="#6b5320">
+          <rect class="bolt" x="330" y="86"  width="34" height="16" rx="3"/>
+          <rect class="bolt" x="330" y="140" width="34" height="16" rx="3"/>
+          <rect class="bolt" x="330" y="222" width="34" height="16" rx="3"/>
+          <rect class="bolt" x="330" y="276" width="34" height="16" rx="3"/>
+        </g>
+
+        <!-- the leaf -->
+        <g class="leaf">
+          <circle cx="190" cy="190" r="152" fill="url(#plate)" stroke="#4d5a6a"
+                  stroke-width="2"/>
+          <circle cx="190" cy="190" r="140" fill="none" stroke="#c9a24a"
+                  stroke-opacity=".35"/>
+          <circle cx="190" cy="190" r="112" fill="none" stroke="#c9a24a"
+                  stroke-opacity=".22"/>
+          <!-- radial ribs -->
+          <g stroke="#0e131a" stroke-opacity=".7">
+            <path d="M190 50v40M190 290v40M50 190h40M290 190h40"/>
+            <path d="M92 92l28 28M288 92l-28 28M92 288l28-28M288 288l-28-28"
+                  stroke-opacity=".4"/>
+          </g>
+          <!-- rivets -->
+          <g fill="#8fa0b2">
+            <circle cx="190" cy="58" r="3"/><circle cx="190" cy="322" r="3"/>
+            <circle cx="58" cy="190" r="3"/><circle cx="322" cy="190" r="3"/>
+            <circle cx="99" cy="99" r="2.4"/><circle cx="281" cy="99" r="2.4"/>
+            <circle cx="99" cy="281" r="2.4"/><circle cx="281" cy="281" r="2.4"/>
+          </g>
+
+          <!-- the dial -->
+          <circle cx="190" cy="190" r="58" fill="#161d26" stroke="#c9a24a"
+                  stroke-opacity=".6"/>
+          <g class="dial">
+            <circle cx="190" cy="190" r="50" fill="url(#plate)" stroke="#6b7787"/>
+            <g stroke="#c9a24a" stroke-opacity=".75">
+              <path d="M190 142v10M190 228v10M142 190h10M228 190h10"/>
+              <path d="M156 156l7 7M224 156l-7 7M156 224l7-7M224 224l-7-7"
+                    stroke-opacity=".45"/>
+            </g>
+            <path d="M190 152v38" stroke="#e8cd8a" stroke-width="3"
+                  stroke-linecap="round"/>
+            <circle cx="190" cy="190" r="7" fill="url(#br)" stroke="#6b5320"/>
+          </g>
+          <!-- spoke handle -->
+          <g stroke="url(#br)" stroke-width="7" stroke-linecap="round" opacity=".9">
+            <path d="M190 108v-26M190 272v26M108 190h-26M272 190h26"/>
+          </g>
+
+          <!-- the three lamps: keys, time, open -->
+          <g>
+            <circle class="lamp q-lamp" cx="150" cy="104" r="7" fill="#232b36"
+                    stroke="#0d1219"/>
+            <circle class="lamp t-lamp" cx="190" cy="98"  r="7" fill="#232b36"
+                    stroke="#0d1219"/>
+            <circle class="lamp o-lamp" cx="230" cy="104" r="7" fill="#232b36"
+                    stroke="#0d1219"/>
+          </g>
+          <text x="190" y="266" text-anchor="middle" fill="#8e97a4"
+                style="font:9px ui-monospace,monospace;letter-spacing:.28em">
+            TWO OF THREE</text>
+        </g>
+      </svg>
+      <p class="note" style="margin-top:11px">Lamps, left to right: <b>quorum</b>,
+        <b>window</b>, <b>open</b>. The third only lights when the other two do.</p>
+    </div>
+
+    <!-- ------------------------------------------------------------ controls -->
+    <div>
+      <div class="panel">
+        <h2 style="margin-top:0">The keys <b style="margin-left:auto;
+          color:var(--brass);font-family:inherit;letter-spacing:0;
+          text-transform:none;font-size:10.5px">any two will open it · one never will</b></h2>
+
+        <div class="officer">
+          <div><div class="nm">OKONKWO, ADA</div>
+            <div class="rl">signals · key A · holds the register</div></div>
+          <input type="checkbox" id="k-a"><label for="k-a"><i class="kb"></i>turn</label>
+        </div>
+        <div class="officer">
+          <div><div class="nm">REYES, MARTA</div>
+            <div class="rl">deck · key B · quartermaster's warrant</div></div>
+          <input type="checkbox" id="k-b"><label for="k-b"><i class="kb"></i>turn</label>
+        </div>
+        <div class="officer">
+          <div><div class="nm">FALK, JORIS</div>
+            <div class="rl">stores · key C · countersigns the count</div></div>
+          <input type="checkbox" id="k-c"><label for="k-c"><i class="kb"></i>turn</label>
+        </div>
+
+        <h2>The window</h2>
+        <div class="seg">
+          <input type="radio" name="t" id="t-open" checked><label for="t-open">
+            <b>Open</b>04:00–16:00 · the working day</label>
+          <input type="radio" name="t" id="t-shut"><label for="t-shut">
+            <b>Shut</b>outside hours · the lock does not care who is asking</label>
+        </div>
+
+        <div class="state s-sealed"><b>Sealed.</b> Fewer than two keys are
+          turned. One key is not a lesser amount of authority — it is none. The
+          bolts have not moved and no amount of correctness on the part of a
+          single holder will move them.</div>
+        <div class="state s-held"><b>Quorum met · time lock holding.</b> Two
+          proper keys, turned by two proper officers, and the door does not
+          move. This is the case the time lock exists for: everything is right
+          except the hour, and the mechanism has no way to be persuaded that
+          tonight is an exception.</div>
+        <div class="state s-open"><b>Open.</b> Two keys inside the window. The
+          bolts are back, the dial has run, and a line is being written in the
+          register below — which is the part that actually protects the
+          reserve.</div>
+
+        <div class="reg r-ab"><span class="who">OKONKWO, A.</span> and
+          <span class="who">REYES, M.</span> · vault opened · 09:14 · window open
+          · countersign pending FALK</div>
+        <div class="reg r-ac"><span class="who">OKONKWO, A.</span> and
+          <span class="who">FALK, J.</span> · vault opened · 09:14 · window open
+          · countersign pending REYES</div>
+        <div class="reg r-bc"><span class="who">REYES, M.</span> and
+          <span class="who">FALK, J.</span> · vault opened · 09:14 · window open
+          · register held by OKONKWO — <b>note: the register keeper was not
+          present at the opening</b></div>
+        <div class="reg r-all"><span class="who">OKONKWO, A.</span>,
+          <span class="who">REYES, M.</span> and <span class="who">FALK, J.</span>
+          · vault opened · 09:14 · all three present · <b>note: three keys where
+          two are required is not extra security, it is one fewer person left
+          outside to notice</b></div>
+      </div>
+
+      <div class="panel" style="margin-top:14px">
+        <h2 style="margin-top:0">What is in it</h2>
+        <table>
+          <tr><th>Holding</th><th>&nbsp;</th><th>SLIME</th></tr>
+          <tr><td>Reserve <span class="q">· against the funded capacity</span></td>
+              <td class="q">sealed</td><td>41,400</td></tr>
+          <tr><td>Working float <span class="q">· drawn on daily</span></td>
+              <td class="q">open</td><td>4,200</td></tr>
+          <tr><td>Bonded store <span class="q">· case-three crates, under seal</span></td>
+              <td class="q">held</td><td>—</td></tr>
+          <tr class="sum"><td>Counted at the last audit</td><td></td>
+              <td>45,600</td></tr>
+        </table>
+        <p class="note"><b>The reserve is the spare from the funded tier</b> —
+          90,000 capacity against a 48,600 yard, which leaves 41,400 that is
+          not doing anything and is therefore the only money that can absorb a
+          bad year. A reserve being idle is not a reserve failing to work. That
+          is the work.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Why it is built this way</h2>
+  <div class="panel">
+    <p class="note" style="margin-top:0"><b>Dual control is not distrust.</b> A
+      single keyholder can be threatened, blackmailed, or simply worn down, and
+      every one of those attacks requires that the person be <em>able</em> to
+      comply. Two keys removes the ability, which removes the reason to lean on
+      anybody. The officers are safer for it — that is the point people usually
+      miss about the control, and it is the more important half.</p>
+    <p class="note"><b>The time lock protects against the same night.</b> Two
+      keys can be gathered by patience or by force in a few hours. A lock that
+      will not open before four in the morning cannot be reasoned with, cannot
+      be shown a good cause, and does not know whose life is being threatened.
+      Its uselessness in an emergency is precisely its value — a mechanism that
+      could be overridden for a good enough reason is a mechanism that will be
+      overridden for a reason that sounded good enough.</p>
+    <p class="note"><b>And the register is the real security.</b> The bolts stop
+      a wrong opening; the register makes a right one accountable. Note what the
+      third and fourth entries above say — that the register keeper was absent,
+      or that all three came at once. Neither is a violation. Both are the kind
+      of fact you want written down at the time and read by somebody else
+      later, because the openings that turn out to matter almost never look
+      wrong on the day.</p>
+    <p class="note"><a href="bank.html" style="color:var(--brass)">← the ledger
+      this sits under</a> &nbsp;·&nbsp;
+      <a href="slime.html" style="color:var(--slime)">the wallet that funds it →</a></p>
+  </div>
+</div>

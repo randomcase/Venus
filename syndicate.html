@@ -1,0 +1,412 @@
+<title>Spotting a Syndicate · the last form</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  The closer. Three parts:
+
+    ONE   six indicators. Not vibes — each one is a structural fact you can
+          check on paper, and each has a matching control already built
+          somewhere in this yard.
+    TWO   the case. Every thread that has run through these files — the void
+          endorsement block, the crates nobody claimed, the clause that acted
+          past its powers — laid out as evidence. Mark each indicator, file the
+          report.
+    THREE what it wants, and how you take it apart. The answer is not force.
+          It is that a syndicate is a shape, and the shape cannot survive
+          controls it has to pass through.
+
+  A note on what this is and is not. This is about institutional capture —
+  procurement, audit, permits, the ordinary machinery by which one party ends
+  up able to approve, execute and check the same decision. It is governance,
+  and every remedy on this page is a paperwork remedy: separation of duties,
+  recomputation, dual control, a reporting duty, a readable register. None of
+  it is vigilante and none of it needs to be. The paperwork is what works.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#0a0b0f; --card:#141821; --card2:#1a1f2a; --edge:#2c3340;
+    --ink:#eaeef4; --dim:#8b93a2; --gold:#d9b25c;
+    --red:#dd6a58; --green:#5fc98f; --amber:#dfa93f; --plum:#8a6ab8;
+    --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:14px/1.68 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 50% -4%,rgba(217,178,92,.10),transparent 44%),
+      radial-gradient(circle at 92% 90%,rgba(138,106,184,.12),transparent 42%)}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:14px;margin-bottom:8px}
+  h1{margin:0 0 5px;font-size:26px;letter-spacing:-.022em}
+  .lede{color:var(--dim);font-size:13px;max-width:76ch;margin:0}
+  .lede b{color:var(--ink)}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin:30px 0 12px;font-weight:600;
+    display:flex;align-items:center;gap:12px;padding-top:14px;
+    border-top:1px solid var(--edge)}
+  h2::after{content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(217,178,92,.4),transparent)}
+  h3{margin:0 0 5px;font-size:15.5px;letter-spacing:-.01em}
+  .note{color:var(--dim);font-size:11.5px;line-height:1.7;margin:9px 0 0;max-width:92ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--gold);background:#0e131b;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px;margin-top:12px}
+
+  /* ------------------------------------------------------- the indicators */
+  .ind{display:grid;grid-template-columns:34px 1fr;gap:13px;padding:13px 0;
+    border-bottom:1px solid var(--edge)}
+  .ind:last-of-type{border-bottom:0}
+  .ind .n{font:12px/1 ui-monospace,monospace;color:var(--plum);padding-top:3px}
+  .ind .evidence{margin-top:8px;border-left:2px solid var(--edge);padding-left:12px;
+    font-size:12px;color:var(--dim)}
+  .ind .evidence b{color:var(--ink)}
+  .ind .remedy{margin-top:8px;font-size:11.5px;color:var(--dim)}
+  .ind .remedy b{color:var(--green)}
+  .opts{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10px/1 ui-monospace,monospace;letter-spacing:.12em;
+    padding:8px 13px;border-radius:6px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(217,178,92,.12);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* five of the six are present in this case; number four is not */
+  body{counter-reset:found 0 err 0}
+  #i1-y:checked+label{counter-increment:found 1} #i1-n:checked+label{counter-increment:err 1}
+  #i2-y:checked+label{counter-increment:found 1} #i2-n:checked+label{counter-increment:err 1}
+  #i3-y:checked+label{counter-increment:found 1} #i3-n:checked+label{counter-increment:err 1}
+  #i4-n:checked+label{counter-increment:found 1} #i4-y:checked+label{counter-increment:err 1}
+  #i5-y:checked+label{counter-increment:found 1} #i5-n:checked+label{counter-increment:err 1}
+  #i6-y:checked+label{counter-increment:found 1} #i6-n:checked+label{counter-increment:err 1}
+  .n-found::after{content:counter(found)} .n-err::after{content:counter(err)}
+
+  .heads{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .head{background:#0e131b;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:23px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+    margin-top:5px}
+  .head.e b{color:var(--red)}
+
+  .verdict .opts label{padding:12px 18px;font-size:11.5px;letter-spacing:.14em}
+  #v-none:checked+label{border-color:var(--green);color:var(--green);
+    background:rgba(95,201,143,.12)}
+  #v-watch:checked+label{border-color:var(--amber);color:var(--amber);
+    background:rgba(223,169,63,.12)}
+  #v-report:checked+label{border-color:var(--red);color:var(--red);
+    background:rgba(221,106,88,.12)}
+
+  .file{margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .file input{position:absolute;opacity:0;width:0;height:0}
+  .file label{cursor:pointer;font:12.5px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700;padding:15px 30px;border-radius:9px;
+    border:2px solid var(--gold);color:var(--gold);background:#12161f}
+  #file:checked+label{background:var(--gold);color:#14100a}
+  .file input:focus-visible+label{outline:2px solid var(--cool);outline-offset:3px}
+  .wrap:not(:has(input[name="v"]:checked)) .file label{opacity:.32;pointer-events:none}
+  .wrap:not(:has(input[name="v"]:checked)) #file{visibility:hidden}
+  .file .said{font-size:11.5px;color:var(--dim);max-width:36ch}
+
+  .after{display:none} .wrap:has(#file:checked) .after{display:block}
+  .wrap:has(#file:checked) .before{display:none}
+
+  .out{display:none;border-left:3px solid var(--edge);padding:2px 0 2px 15px;
+    margin-top:14px}
+  .out p{margin:0 0 9px;font-size:13px;max-width:80ch}
+  .out p:last-child{margin-bottom:0}
+  .wrap:has(#file:checked):has(#v-none:checked)   .o-none{display:block}
+  .wrap:has(#file:checked):has(#v-watch:checked)  .o-watch{display:block}
+  .wrap:has(#file:checked):has(#v-report:checked) .o-report{display:block}
+  .o-report{border-color:var(--red)} .o-watch{border-color:var(--amber)}
+  .o-none{border-color:var(--green)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 8px;font-weight:600}
+  td{padding:8px 0;border-top:1px solid var(--edge);vertical-align:top}
+  td:first-child{color:var(--ink);width:34%}
+  td .q{color:var(--dim);font-size:11px;display:block;margin-top:3px}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Spotting a Syndicate</h1>
+    <p class="lede">A syndicate is not a mood or a conspiracy. It is a
+      <b>shape</b> — a particular arrangement of decision rights that anybody
+      can check for on paper. Six indicators, a live case, and the six controls
+      that take the shape apart. All of the remedies are paperwork, because
+      paperwork is what actually works.</p>
+  </header>
+
+  <h2>One · the six indicators <b></b></h2>
+  <p class="note" style="margin-top:0">Mark each one against the evidence.
+    <b>Five are present in this case and one is not</b> — over-reporting is a
+    failure too, and this page scores it as one.</p>
+
+  <div class="panel">
+
+    <div class="ind"><span class="n">01</span><div>
+      <h3>One party approves, executes and checks the same thing</h3>
+      <p class="note" style="margin-top:2px">The single most reliable
+        indicator, and the only one that is nearly sufficient on its own.
+        Everything else on this list is downstream of it.</p>
+      <div class="evidence">The Proprietor's office issued the lading
+        endorsement, supplied the cargo it endorsed, and holds the block of
+        numbers that would have to be checked against.
+        <b>Approver, supplier and auditor are one office.</b></div>
+      <div class="remedy"><b>Control:</b> separation of duties — the tariff
+        stages can charge, fuel, tow and invoice you, and cannot set an aspect
+        or stop you. <a href="cruise-control.html">the lane</a></div>
+      <div class="opts">
+        <input type="radio" name="i1" id="i1-y"><label for="i1-y">present</label>
+        <input type="radio" name="i1" id="i1-n"><label for="i1-n">absent</label>
+      </div>
+    </div></div>
+
+    <div class="ind"><span class="n">02</span><div>
+      <h3>Figures that cannot be recomputed from their inputs</h3>
+      <p class="note" style="margin-top:2px">Not wrong figures — unauditable
+        ones. If a total can only be taken on trust, the trust is the product
+        being sold.</p>
+      <div class="evidence">The manifest at the desk stated a take of 2,080
+        against a run that computes 1,620, and stated it as though authored.
+        <b>The ledger was a claim wearing the clothes of a calculation.</b></div>
+      <div class="remedy"><b>Control:</b> recompute every derived block instead
+        of believing it, and report the drift. <a href="bridge.html">the
+        bridge</a> · <a href="gate-3.html">case three</a></div>
+      <div class="opts">
+        <input type="radio" name="i2" id="i2-y"><label for="i2-y">present</label>
+        <input type="radio" name="i2" id="i2-n"><label for="i2-n">absent</label>
+      </div>
+    </div></div>
+
+    <div class="ind"><span class="n">03</span><div>
+      <h3>An arm that acts beyond its stated powers</h3>
+      <p class="note" style="margin-top:2px">Watch for action outside the
+        written authority, not for action you dislike. The test is the document,
+        not the outcome.</p>
+      <div class="evidence">The clause terminated a run and recorded a forfeit
+        of 2,080. Its powers block permitted <code>assess</code> and nothing
+        else. <b>It seized on a figure it was not entitled to act on, and the
+        figure was wrong.</b></div>
+      <div class="remedy"><b>Control:</b> a powers block that the checker
+        enforces — an arm with no declared powers has none.
+        <a href="manifest.example.json">venus.yard/1</a></div>
+      <div class="opts">
+        <input type="radio" name="i3" id="i3-y"><label for="i3-y">present</label>
+        <input type="radio" name="i3" id="i3-n"><label for="i3-n">absent</label>
+      </div>
+    </div></div>
+
+    <div class="ind"><span class="n">04</span><div>
+      <h3>Access concentrated in one person</h3>
+      <p class="note" style="margin-top:2px">A single holder of the keys, the
+        codes, or the only account with the right. Look for who <em>can</em>
+        act alone, not for who did.</p>
+      <div class="evidence">The vault takes two keys of three, inside a window,
+        and writes a register line naming who turned. No single officer can
+        open it and none has been asked to.
+        <b>This indicator is not present — and saying it is would be the
+        over-report.</b></div>
+      <div class="remedy"><b>Control:</b> dual control and a time lock — a
+        person who cannot comply alone cannot be made to.
+        <a href="vault.html">the vault</a></div>
+      <div class="opts">
+        <input type="radio" name="i4" id="i4-y"><label for="i4-y">present</label>
+        <input type="radio" name="i4" id="i4-n"><label for="i4-n">absent</label>
+      </div>
+    </div></div>
+
+    <div class="ind"><span class="n">05</span><div>
+      <h3>The same party is always the exception</h3>
+      <p class="note" style="margin-top:2px">Rules that exist and are waived —
+        and the waivers land on one name. One exception is a judgement call. A
+        pattern of exceptions is a policy nobody wrote down.</p>
+      <div class="evidence">Ordnance transits on a numbered endorsement. Twice
+        at this gate the consignment was the Proprietor's and twice the number
+        was missing or void — and the harbourmaster had already recorded that
+        two clerks asked whether a void number could be honoured for a bearer
+        acting in good faith. <b>The question had been asked before.</b></div>
+      <div class="remedy"><b>Control:</b> record the exception at the time,
+        with a name on it, in a register a stranger can read.
+        <a href="gate.html">case one</a> · <a href="gate-2.html">case two</a></div>
+      <div class="opts">
+        <input type="radio" name="i5" id="i5-y"><label for="i5-y">present</label>
+        <input type="radio" name="i5" id="i5-n"><label for="i5-n">absent</label>
+      </div>
+    </div></div>
+
+    <div class="ind"><span class="n">06</span><div>
+      <h3>Nobody comes to ask</h3>
+      <p class="note" style="margin-top:2px">The quiet one, and the most
+        telling. When property is held, seized or lost and no owner appears to
+        complain, the owner is not absent — the owner is arranging not to be
+        visible.</p>
+      <div class="evidence">Three crates went into the bonded store under seal
+        after case two. <b>Nobody from the Proprietor's office has come to ask
+        about them.</b> Legitimate consignors are the loudest people in any
+        yard; they have invoices to settle.</div>
+      <div class="remedy"><b>Control:</b> a claims window with a published
+        deadline — make silence cost something and it stops being free.
+        <a href="court.html">the court</a></div>
+      <div class="opts">
+        <input type="radio" name="i6" id="i6-y"><label for="i6-y">present</label>
+        <input type="radio" name="i6" id="i6-n"><label for="i6-n">absent</label>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="heads">
+    <div class="head"><span>Marked correctly</span><b class="n-found"></b></div>
+    <div class="head e"><span>Errors</span><b class="n-err"></b></div>
+    <div class="head"><span>Indicators in the case</span><b>5 / 6</b></div>
+  </div>
+
+  <h2>Two · the finding</h2>
+  <div class="panel">
+    <div class="verdict">
+      <span class="opts">
+        <input type="radio" name="v" id="v-none"><label for="v-none">no finding</label>
+        <input type="radio" name="v" id="v-watch"><label for="v-watch">monitor</label>
+        <input type="radio" name="v" id="v-report"><label for="v-report">report and refer</label>
+      </span>
+    </div>
+    <div class="file">
+      <input type="checkbox" id="file"><label for="file">File the report</label>
+      <span class="said before">No filing without a finding.</span>
+      <span class="said after">Filed. It is on the roll and readable.</span>
+    </div>
+
+    <div class="after">
+      <div class="out o-report">
+        <p><b>Report and refer.</b> Five of six indicators, and the one that is
+          absent is absent because a control is doing its job — which is itself
+          the evidence that the controls work when they exist. The report goes
+          to the court and to the harbourmaster, and it names the office rather
+          than the couriers, because Vane and Brannock were carrying, not
+          arranging.</p>
+        <p>Note what the report can and cannot do. It cannot prove intent and
+          should not try. It states the shape: one office approving, supplying
+          and auditing; a ledger that does not recompute; a clause that acted
+          past its powers; a pattern of exceptions on one name; and property
+          nobody has claimed. <b>Every one of those is checkable by a stranger,
+          which is what makes it a report rather than an accusation.</b></p>
+      </div>
+      <div class="out o-watch">
+        <p><b>Monitor.</b> Defensible if you think the arithmetic was
+          incompetence rather than design. But notice what monitoring costs:
+          the endorsement block stays void and in circulation, the clause keeps
+          its powers block, and the next courier through the gate carries the
+          same folder.</p>
+        <p>Monitoring is the right answer when you have one indicator. At five,
+          it is mostly a way of not writing anything down — and the entire
+          shape depends on nothing being written down.</p>
+      </div>
+      <div class="out o-none">
+        <p><b>No finding.</b> Then the file closes, and every indicator on this
+          page remains true tomorrow. The office keeps its three roles, the
+          numbers stay unauditable, and the crates stay unclaimed in a store
+          nobody is paying for.</p>
+        <p>This is how it usually goes, and not through corruption. It goes this
+          way because each individual item is small, arguable, and somebody
+          else's job — which is precisely the property the shape is selecting
+          for.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Three · what it wants, and how it comes apart</h2>
+  <div class="panel">
+    <p class="note" style="margin-top:0"><b>What a syndicate wants is not
+      money.</b> Money is what it converts into the thing it wants, which is
+      <b>the removal of anybody able to say no</b>. Watch the direction of
+      travel: money buys capital, capital buys land, land buys domain, and
+      domain is just the formal name for a place where no one else's refusal
+      counts. Every step buys the next, and none of them buys judgement — which
+      is why the shape reliably ends up doing something stupid at scale.</p>
+
+    <table>
+      <tr><th>The shape needs</th><th>So the control is</th></tr>
+      <tr><td>one party to approve, execute and check
+        <span class="q">the founding condition</span></td>
+        <td>separation of duties — the stage that charges you cannot stop you
+          <span class="q">and the arm that assesses cannot seize</span></td></tr>
+      <tr><td>figures taken on trust
+        <span class="q">so the take is unquestionable</span></td>
+        <td>recomputation by a party with no stake — every derived block redone
+          from its inputs, and the drift reported</td></tr>
+      <tr><td>authority that expands quietly
+        <span class="q">a clause doing more than it may</span></td>
+        <td>a written powers block, enforced by whoever checks the document.
+          An arm with no declared powers has none.</td></tr>
+      <tr><td>one person able to act alone
+        <span class="q">so one person can be leaned on</span></td>
+        <td>dual control and a time lock — remove the ability and you remove
+          the reason to apply pressure</td></tr>
+      <tr><td>exceptions that leave no trace
+        <span class="q">the waiver nobody logged</span></td>
+        <td>record the exception at the time, with a name, in a register a
+          stranger can read</td></tr>
+      <tr><td>silence to be free
+        <span class="q">nobody comes to ask</span></td>
+        <td>a claims window with a deadline, so not-asking has a cost and a
+          date</td></tr>
+    </table>
+
+    <p class="note"><b>None of that is dramatic and all of it works.</b> The
+      shape cannot survive being made to pass through controls it does not
+      control, because its whole advantage is that no single step looks like
+      anything. Take away the single point of decision and the rest stops
+      assembling — the arithmetic gets checked by somebody with no stake, the
+      exceptions acquire names, and the property in the bonded store starts
+      costing somebody money on a published date.</p>
+    <p class="note"><b>And the honest warning.</b> The same controls constrain
+      whoever installs them, and they are supposed to. A body that dismantles a
+      syndicate and exempts itself from recomputation, dual control and a
+      readable register has not dismantled anything — it has changed the
+      letterhead. If your remedy needs an exception for the people applying it,
+      you are looking at indicator one from the other side.</p>
+  </div>
+
+  <h2>The template</h2>
+  <div class="panel">
+    <p class="note" style="margin-top:0">Run it on anything: a procurement, a
+      permit office, a standards body, a market, a department. Six questions,
+      each answerable from documents rather than impressions.</p>
+    <table>
+      <tr><td><b>1</b> Who approves, who executes, who checks?
+        <span class="q">If any two are the same office, stop and write that
+          down first.</span></td>
+        <td class="q">name three parties, or one problem</td></tr>
+      <tr><td><b>2</b> Can I recompute the headline figure from its inputs?
+        <span class="q">Not "is it right" — can it be redone at all.</span></td>
+        <td class="q">reproduce it or record that you cannot</td></tr>
+      <tr><td><b>3</b> What is this body's written authority, and has it acted
+        outside it?<span class="q">Compare the act to the document, not to your
+          expectations.</span></td><td class="q">cite the clause</td></tr>
+      <tr><td><b>4</b> Who can act alone?
+        <span class="q">One holder, one signature, one account.</span></td>
+        <td class="q">count the people required</td></tr>
+      <tr><td><b>5</b> Who is always the exception?
+        <span class="q">Pull the waivers and sort them by name.</span></td>
+        <td class="q">a list, with dates</td></tr>
+      <tr><td><b>6</b> What is unclaimed, and by whom?
+        <span class="q">Money, property, or a duty nobody has come to
+          collect.</span></td><td class="q">the silence, and its date</td></tr>
+    </table>
+    <p class="note"><b>Scoring it honestly.</b> One indicator is noise. Two is a
+      badly run office. Five is a shape. And a finding you cannot show your
+      working for is worth less than no finding at all — which is the same rule
+      the gate desks, the bridge and the court have all been applying, in three
+      different costumes, this whole time.</p>
+    <p class="note"><a href="index.html">← the yard</a> ·
+      <a href="learn.html">how these pages were built</a> ·
+      <a href="template.html">the board template</a></p>
+  </div>
+</div>
