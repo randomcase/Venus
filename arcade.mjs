@@ -27,6 +27,7 @@
        node arcade.mjs
    ═══════════════════════════════════════════════════════════════════════════ */
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
   .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -61,6 +62,58 @@ const files = readdirSync('.')
   .filter((f) => f.endsWith('.html') && !SKIP.has(f))
   .sort();
 const cabs = files.map(scan);
+
+/* the generated wings. Four directories the arcade did not know existed,
+   which is the same staleness the root list had and worth fixing once. */
+const WINGS = [
+  { dir: 'profiles',  name: 'The profiles',
+    note: 'Fourteen things that have to work before anybody lands, generated from profiles.json. Each one carries what it depends on and what depends on it, inverted so a link stated once reads correctly at both ends.' },
+  { dir: 'ships',     name: 'The fleet',
+    note: 'Seven logs, 23 entries, a 146-day passage. Every diary is generated from ships.json, and the commandants keep their own days.' },
+  { dir: 'lessons',   name: 'The lessons',
+    note: 'The firefly swarm, four lessons deep. These carry scripts of their own and say so.' },
+  { dir: 'templates', name: 'The templates',
+    note: 'One per authored board, extracted by templatise.mjs. Each keeps its source stylesheet and every input id, so it runs as it stands — the prose is what was removed.' }
+].filter((w) => existsSync(w.dir));
+WINGS.forEach((w) => {
+  w.list = readdirSync(w.dir).filter((f) => f.endsWith('.html')).sort()
+    .map((f) => ({ ...scan(join(w.dir, f)), f: `${w.dir}/${f}` }));
+});
+
+/* the data layers. Not pages — the JSON every generator reads, counted so the
+   arcade is a census of the whole yard rather than only the half that renders. */
+const LAYERS = [
+  ['templates-base',      'Base rosters',   'bases.mjs',      'bases.js',      'a plate you can build on'],
+  ['templates-build',     'Buildings',      'builds.mjs',     'builds.js',     'thirteen kinds, four tiers, +1 monotone'],
+  ['templates-quest',     'Quests',         'quests.mjs',     'quests.js',     'giver, object, done, produces — no recursion'],
+  ['templates-faction',   'Factions',       'factions.mjs',   'factions.js',   'patrons, all unconditional'],
+  ['templates-challenge', 'Challenges',     'challenges.mjs', 'challenges.js', 'coding, assessment, writing, voice'],
+].filter(([d]) => existsSync(d)).map(([dir, name, gen, out, note]) => ({
+  dir, name, gen, out, note,
+  n: readdirSync(dir).filter((f) => f.endsWith('.json')).length
+}));
+
+const KB = existsSync('kb.json')
+  ? JSON.parse(readFileSync('kb.json', 'utf8')).entries.length : 0;
+
+/* the workshop: every generator, and what it makes */
+const SHOP = [
+  ['arcade.mjs',     'this page, from the directory'],
+  ['kb.mjs',         `kb.html — ${KB} entries, citations checked at build time`],
+  ['guild.mjs',      'guild.html — the ladder, the rename, the quest board'],
+  ['automat.mjs',    'automat.html — the script layer and its orbits'],
+  ['quests.mjs',     'quests.js — refuses anything that recurses'],
+  ['factions.mjs',   'factions.js — refuses anything with a gate in it'],
+  ['builds.mjs',     'builds.js — refuses a building that shrinks on promotion'],
+  ['bases.mjs',      'bases.js — refuses a roster with a cycle in it'],
+  ['challenges.mjs', 'challenges.js — refuses a rubric band carrying a number'],
+  ['hub.mjs',        'hub.js — the knowledge hub, from kb.json'],
+  ['journal.mjs',    'journal.html — the desk, and the prompts it reads'],
+  ['profiles.mjs',   'profiles/ — fourteen requirement pages'],
+  ['ships.mjs',      'ships/ — seven logs and their charts'],
+  ['templatise.mjs', 'templates/ — one per authored board'],
+  ['compile.mjs',    'the pattern census across every page'],
+].filter(([f]) => existsSync(f));
 
 /* the halls. Derived from what a page IS rather than from a hand list:
    anything with controls is playable, anything that runs is a machine, the
@@ -264,6 +317,33 @@ ${cabs.map((_, i) => `  .a:has(#h-attract:checked) .cab:nth-child(${i + 1}) .bod
     background:rgba(224,112,90,.12)}
   .hub input:focus-visible + label{outline:2px solid var(--glow);outline-offset:2px}
 
+  /* the stockroom — the data layers, drawn as tins on a shelf rather than as
+     cabinets, because they are not pages and pretending otherwise would be the
+     same lie the old hand-kept list told. */
+  .shelf{display:grid;gap:10px;margin-top:14px;
+    grid-template-columns:repeat(auto-fill,minmax(232px,1fr))}
+  .tin{background:linear-gradient(180deg,#151d28,#0d131b);
+    border:1px solid var(--edge);border-radius:10px;padding:12px 13px;
+    border-left:3px solid var(--plum)}
+  .tin.kb{border-left-color:var(--glow)}
+  .tin h4{margin:0 0 6px;font-size:13px;color:var(--bone);display:flex;
+    align-items:baseline;gap:8px}
+  .tin h4 i{font-style:normal;margin-left:auto;font:15px/1 ui-monospace,monospace;
+    color:var(--plum)}
+  .tin.kb h4 i{color:var(--glow)}
+  .tin p{margin:0;font-size:10.5px;color:var(--dim);line-height:1.6}
+  .tin s{display:block;text-decoration:none;font:9px/1.6 ui-monospace,monospace;
+    color:#5f6f82;margin-top:8px;padding-top:7px;border-top:1px solid #1b2430}
+
+  .shop{display:grid;gap:7px;margin-top:14px;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  .tool{display:flex;align-items:baseline;gap:10px;background:#0b1017;
+    border:1px solid var(--edge);border-radius:8px;padding:9px 11px;
+    font:9.5px/1.5 ui-monospace,monospace}
+  .tool a{color:var(--gold);text-decoration:none;flex:none}
+  .tool a:hover{text-decoration:underline}
+  .tool span{color:#5f6f82}
+
   footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--edge);
     color:var(--dim);font-size:10.5px;line-height:1.75}
 ${SKY}</style>
@@ -274,7 +354,7 @@ ${SKY}</style>
     <span class="sub">Every board in the yard, in a cabinet, running. Not
       screenshots &mdash; ${cabs.length} live frames of the real files, counted
       from the directory so this page cannot go stale.</span>
-    <span class="tag">${cabs.length} cabinets</span>
+    <span class="tag">${cabs.length + WINGS.reduce((a, w) => a + w.list.length, 0)} cabinets</span>
   </header>
 
   <div class="hub">
@@ -306,6 +386,39 @@ ${halls.map((h) => `  <h2>${esc(h.name)} <b>${h.list.length} of ${cabs.length}</
 ${h.list.map(cabinet).join('\n')}
   </div>`).join('\n\n')}
 
+${WINGS.map((w) => `  <h2>${esc(w.name)} <b>${w.list.length} generated</b></h2>
+  <p class="n">${esc(w.note)}</p>
+  <div class="floor">
+${w.list.map(cabinet).join('\n')}
+  </div>`).join('\n\n')}
+
+  <h2>The stockroom <b>what the generators read</b></h2>
+  <p class="n">Not pages. These are the JSON layers every board is built from,
+    and they are here because the arcade is a census of the yard and not only of
+    the half that renders. Each one has a generator that <b>refuses</b> a file
+    breaking its rule, which is the only reason any of the rules hold when
+    nobody is looking.</p>
+  <div class="shelf">
+${LAYERS.map((L) => `    <article class="tin">
+      <h4>${esc(L.name)}<i>${L.n}</i></h4>
+      <p>${esc(L.note)}</p>
+      <s><a href="${esc(L.gen)}">${esc(L.gen)}</a> &rarr; ${esc(L.out)}</s>
+    </article>`).join('\n')}
+    <article class="tin kb">
+      <h4>Knowledge base<i>${KB}</i></h4>
+      <p>Every entry carries a test — the thing you could do that would show it
+        false. Citations are checked against the filesystem at build time.</p>
+      <s><a href="kb.mjs">kb.mjs</a> &rarr; <a href="kb.html">kb.html</a></s>
+    </article>
+  </div>
+
+  <h2>The workshop <b>${SHOP.length} generators</b></h2>
+  <p class="n">Nothing in this yard is maintained by hand that could be counted
+    instead. Run any of these and it rereads the directory it owns.</p>
+  <div class="shop">
+${SHOP.map(([f, what]) => `    <div class="tool"><a href="${esc(f)}">${esc(f)}</a><span>${esc(what)}</span></div>`).join('\n')}
+  </div>
+
   <footer>
     Generated by <a href="arcade.mjs">arcade.mjs</a> from the directory
     &mdash; ${cabs.length} pages read, every figure counted from the file
@@ -321,7 +434,11 @@ ${h.list.map(cabinet).join('\n')}
 </div>
 `);
 
-console.log(`arcade.html · ${cabs.length} cabinets`);
+const wingTotal = WINGS.reduce((a, w) => a + w.list.length, 0);
+console.log(`arcade.html · ${cabs.length + wingTotal} cabinets`);
 halls.forEach((h) => console.log(`  ${h.name.padEnd(20)} ${h.list.length}`));
+WINGS.forEach((w) => console.log(`  ${w.name.padEnd(20)} ${w.list.length}`));
+console.log(`  ${LAYERS.length} data layers · ${LAYERS.reduce((a, L) => a + L.n, 0)} files · ` +
+  `${KB} kb entries · ${SHOP.length} generators`);
 console.log(`  ${tot('radios')} radio groups · ${tot('boxes')} checkboxes · ` +
   `${tot('counters')} counters · ${tot('rules')} :has()`);
