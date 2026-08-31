@@ -1,0 +1,450 @@
+<title>Cloud Deck Defence · a placement template</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Tower defence on Venus, minus the part CSS cannot honestly do.
+
+  WHAT IS NOT HERE, AND WHY
+  A real-time tower defence needs a simulation loop: positions updated per
+  frame, collisions, damage accumulating over time. CSS has none of that and
+  faking it would mean animating something that looks like a fight while the
+  outcome was decided by a lookup. So this is the other half of the genre —
+  the placement phase, which is where every tower defence is actually won or
+  lost. You place, you commit, and then you find out.
+
+  THE STRUCTURE, WHICH IS THE TEMPLATE
+    · a WAVE of N threats, printed before you choose
+    · M mounts, each a radio over the available defences (M < N, always)
+    · coverage: a threat is stopped if any mount holds its counter
+    · commit, then the result — one line per threat, and no undo
+
+  Three mounts against four threats means something always gets through. That
+  is not a difficulty setting. It is the whole design: a defence you can fully
+  solve is a puzzle, and a puzzle teaches nothing about triage.
+
+  TO RESKIN IT: change the wave list, the defence list, and the coverage map.
+  Everything else is layout. The coverage map is the only interesting part and
+  it is three selectors per defence — one for each mount.
+
+  The hazards are real. Sulfuric acid aerosol, ~100 m/s superrotation, thermal
+  load on descent, and UV above the cloud deck are what an aerostat at 50–56 km
+  would actually be built against.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#120b06; --card:#1e150e; --card2:#251b12; --edge:#493526;
+    --ink:#f6ecdd; --dim:#b39c82; --amber:#e8a34a; --gold:#e8c77a;
+    --acid:#cbd36a; --wind:#7fb6d8; --heat:#e0705a; --uv:#b58ae0;
+    --good:#7fd6a0; --bad:#e0705a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 46px;color:var(--ink);background:var(--void);
+    font:14px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 50% -6%,rgba(232,163,74,.16),transparent 46%),
+      radial-gradient(circle at 90% 92%,rgba(122,74,44,.24),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:14px}
+  h1{margin:0;font-size:22px;letter-spacing:-.02em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:72ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 11px;font-weight:600;
+    display:flex;align-items:center;gap:12px}
+  h2::after{content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(232,199,122,.4),transparent)}
+  .note{color:var(--dim);font-size:11px;line-height:1.7;margin:9px 0 0;max-width:94ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--gold);background:#160f09;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px;margin-top:12px}
+
+  /* ------------------------------------------------------------- the deck */
+  .deck{position:relative;border:1px solid var(--edge);border-radius:12px;
+    overflow:hidden}
+  .deck svg{display:block;width:100%;height:auto}
+  .drift{animation:drift 15s linear infinite}
+  .drift.b{animation-delay:-5s} .drift.c{animation-delay:-10s}
+  @keyframes drift{from{transform:translateX(1040px)}to{transform:translateX(-160px)}}
+  .bob{animation:bob 9s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-8px)}}
+  .sweep{transform-box:fill-box;transform-origin:center;
+    animation:sw 5s linear infinite}
+  @keyframes sw{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.drift,.bob,.sweep{animation:none}}
+  /* a mounted defence lights its emplacement */
+  .em{opacity:.2;transition:opacity .3s}
+  .wrap:has(#m1-none:checked) .em1{opacity:.2}
+  .wrap:not(:has(#m1-none:checked)) .em1,
+  .wrap:not(:has(#m2-none:checked)) .em2,
+  .wrap:not(:has(#m3-none:checked)) .em3{opacity:1}
+
+  /* ------------------------------------------------------------ the wave */
+  .wave{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  @media (max-width:760px){.wave{grid-template-columns:repeat(2,1fr)}}
+  .th{background:#160f09;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .th .k{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;display:block;margin-bottom:5px}
+  .th.acid .k{color:var(--acid)} .th.wind .k{color:var(--wind)}
+  .th.heat .k{color:var(--heat)} .th.uv .k{color:var(--uv)}
+  .th b{font-size:13.5px;display:block}
+  .th p{margin:5px 0 0;font-size:11px;color:var(--dim);line-height:1.55}
+
+  /* ----------------------------------------------------------- the mounts */
+  .mount{padding:12px 0;border-bottom:1px solid var(--edge)}
+  .mount:last-of-type{border-bottom:0}
+  .mount .lbl{font:9.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:8px;display:block}
+  .opts{display:flex;gap:5px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10.5px/1.4 ui-monospace,monospace;padding:9px 12px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim);min-width:118px}
+  .opts label b{display:block;color:var(--ink);font-size:11.5px;margin-bottom:2px}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{border-color:var(--gold);background:rgba(232,199,122,.12)}
+  .opts input:checked+label b{color:var(--gold)}
+  .opts input:focus-visible+label{outline:2px solid var(--wind);outline-offset:2px}
+
+  /* cost, counted; the budget is printed beside it and the comparison is yours */
+  body{counter-reset:cost 0 placed 0}
+  #m1-skin:checked+label,#m2-skin:checked+label,#m3-skin:checked+label
+    {counter-increment:cost 30 placed 1}
+  #m1-drogue:checked+label,#m2-drogue:checked+label,#m3-drogue:checked+label
+    {counter-increment:cost 25 placed 1}
+  #m1-ballonet:checked+label,#m2-ballonet:checked+label,#m3-ballonet:checked+label
+    {counter-increment:cost 35 placed 1}
+  #m1-radiator:checked+label,#m2-radiator:checked+label,#m3-radiator:checked+label
+    {counter-increment:cost 30 placed 1}
+  #m1-shade:checked+label,#m2-shade:checked+label,#m3-shade:checked+label
+    {counter-increment:cost 20 placed 1}
+  #m1-patch:checked+label,#m2-patch:checked+label,#m3-patch:checked+label
+    {counter-increment:cost 15 placed 1}
+  .n-cost::after{content:counter(cost)} .n-placed::after{content:counter(placed)}
+
+  .meter{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .m{background:#160f09;border:1px solid var(--edge);border-radius:10px;padding:11px 12px}
+  .m span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .m b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+    margin-top:5px}
+
+  /* ------------------------------------------------------------- commit */
+  .go{margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .go input{position:absolute;opacity:0;width:0;height:0}
+  .go label{cursor:pointer;font:12.5px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700;padding:15px 32px;border-radius:9px;
+    border:2px solid var(--amber);color:var(--amber);background:#1a120b}
+  #commit:checked+label{background:var(--amber);color:#1a1008}
+  .go input:focus-visible+label{outline:2px solid var(--wind);outline-offset:3px}
+  .go .said{font-size:11px;color:var(--dim);max-width:40ch}
+
+  .after{display:none} .wrap:has(#commit:checked) .after{display:block}
+  .wrap:has(#commit:checked) .before{display:none}
+
+  /* ------------------------------------------------------------ coverage
+     A threat is stopped if ANY mount holds its counter. Three selectors per
+     defence, one per mount. This is the only interesting rule on the page. */
+  .res{display:flex;gap:11px;align-items:baseline;padding:9px 0;
+    border-bottom:1px solid var(--edge);font-size:12.5px}
+  .res:last-of-type{border-bottom:0}
+  .res .st{font:10px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;min-width:74px;color:var(--bad)}
+  .res .st::after{content:"THROUGH"}
+  .res.ok .st{color:var(--good)} .res.ok .st::after{content:"STOPPED"}
+  .res .why{color:var(--dim);font-size:11.5px}
+  .res .why.hit{color:var(--bad)}
+  /* Coverage, written out: a threat reads STOPPED when any mount holds a
+     defence that answers it. Three selectors per defence, one per mount. */
+  .wrap:has(#m1-skin:checked) .r-acid .st,.wrap:has(#m2-skin:checked) .r-acid .st,
+  .wrap:has(#m3-skin:checked) .r-acid .st{color:var(--good)}
+  .wrap:has(#m1-skin:checked) .r-acid .st::after,
+  .wrap:has(#m2-skin:checked) .r-acid .st::after,
+  .wrap:has(#m3-skin:checked) .r-acid .st::after{content:"STOPPED"}
+  .wrap:has(#m1-drogue:checked) .r-wind .st,.wrap:has(#m2-drogue:checked) .r-wind .st,
+  .wrap:has(#m3-drogue:checked) .r-wind .st{color:var(--good)}
+  .wrap:has(#m1-drogue:checked) .r-wind .st::after,
+  .wrap:has(#m2-drogue:checked) .r-wind .st::after,
+  .wrap:has(#m3-drogue:checked) .r-wind .st::after{content:"STOPPED"}
+  .wrap:has(#m1-ballonet:checked) .r-heat .st,.wrap:has(#m2-ballonet:checked) .r-heat .st,
+  .wrap:has(#m3-ballonet:checked) .r-heat .st,
+  .wrap:has(#m1-radiator:checked) .r-heat .st,.wrap:has(#m2-radiator:checked) .r-heat .st,
+  .wrap:has(#m3-radiator:checked) .r-heat .st{color:var(--good)}
+  .wrap:has(#m1-ballonet:checked) .r-heat .st::after,
+  .wrap:has(#m2-ballonet:checked) .r-heat .st::after,
+  .wrap:has(#m3-ballonet:checked) .r-heat .st::after,
+  .wrap:has(#m1-radiator:checked) .r-heat .st::after,
+  .wrap:has(#m2-radiator:checked) .r-heat .st::after,
+  .wrap:has(#m3-radiator:checked) .r-heat .st::after{content:"STOPPED"}
+  .wrap:has(#m1-shade:checked) .r-uv .st,.wrap:has(#m2-shade:checked) .r-uv .st,
+  .wrap:has(#m3-shade:checked) .r-uv .st{color:var(--good)}
+  .wrap:has(#m1-shade:checked) .r-uv .st::after,
+  .wrap:has(#m2-shade:checked) .r-uv .st::after,
+  .wrap:has(#m3-shade:checked) .r-uv .st::after{content:"STOPPED"}
+
+  /* the two notes that only appear when you have wasted a mount */
+  .waste{display:none;border:1px solid var(--amber);background:rgba(232,163,74,.09);
+    color:var(--amber);border-radius:10px;padding:11px 13px;margin-top:12px;
+    font-size:12px;line-height:1.62}
+  .wrap:has(#commit:checked):has(#m1-patch:checked) .w-patch,
+  .wrap:has(#commit:checked):has(#m2-patch:checked) .w-patch,
+  .wrap:has(#commit:checked):has(#m3-patch:checked) .w-patch{display:block}
+  .wrap:has(#commit:checked):has(#m1-ballonet:checked):has(#m2-radiator:checked) .w-dup,
+  .wrap:has(#commit:checked):has(#m1-ballonet:checked):has(#m3-radiator:checked) .w-dup,
+  .wrap:has(#commit:checked):has(#m2-ballonet:checked):has(#m3-radiator:checked) .w-dup,
+  .wrap:has(#commit:checked):has(#m1-radiator:checked):has(#m2-ballonet:checked) .w-dup,
+  .wrap:has(#commit:checked):has(#m1-radiator:checked):has(#m3-ballonet:checked) .w-dup,
+  .wrap:has(#commit:checked):has(#m2-radiator:checked):has(#m3-ballonet:checked) .w-dup{display:block}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 8px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge);vertical-align:top}
+  td .q{color:var(--dim);font-size:10.5px}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Cloud Deck Defence</h1>
+    <span class="sub">Fifty-three kilometres above the surface, four hazards
+      inbound and three mounts to answer them with. Something gets through —
+      the question is which.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="deck">
+    <svg viewBox="0 0 1040 260" role="img"
+         aria-label="An aerostat on the Venus cloud deck with three defensive emplacements, hazards drifting in from the right.">
+      <defs>
+        <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f0cd92"/><stop offset=".45" stop-color="#c07b40"/>
+          <stop offset="1" stop-color="#5a2c18"/></linearGradient>
+        <linearGradient id="env2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f4eee2"/><stop offset=".55" stop-color="#cdc2b0"/>
+          <stop offset="1" stop-color="#8b8172"/></linearGradient>
+      </defs>
+      <rect width="1040" height="260" fill="url(#sky2)"/>
+      <g opacity=".38" fill="#e8b878">
+        <ellipse class="drift"   cx="0" cy="52"  rx="150" ry="20"/>
+        <ellipse class="drift b" cx="0" cy="196" rx="200" ry="26"/>
+        <ellipse class="drift c" cx="0" cy="120" rx="130" ry="16"/>
+      </g>
+
+      <!-- inbound hazards, drifting right to left -->
+      <g class="drift" opacity=".9">
+        <g transform="translate(0,86)">
+          <circle r="7" fill="#cbd36a" opacity=".8"/><circle cx="16" cy="9" r="5"
+            fill="#cbd36a" opacity=".6"/><circle cx="-13" cy="7" r="4"
+            fill="#cbd36a" opacity=".5"/></g>
+      </g>
+      <g class="drift b" opacity=".85">
+        <g transform="translate(0,148)" stroke="#7fb6d8" stroke-width="2.5" fill="none">
+          <path d="M0 0h44M-8 9h44M4 18h44"/></g>
+      </g>
+      <g class="drift c" opacity=".8">
+        <g transform="translate(0,206)">
+          <path d="M0 0q16-10 30 0t30 0" stroke="#e0705a" stroke-width="3" fill="none"/>
+          <path d="M0 10q16-10 30 0t30 0" stroke="#e0705a" stroke-width="2"
+                fill="none" opacity=".6"/></g>
+      </g>
+
+      <!-- the station -->
+      <g class="bob" transform="translate(150,60)">
+        <ellipse cx="120" cy="60" rx="118" ry="46" fill="url(#env2)" stroke="#6b6152"/>
+        <path d="M20 50q100-28 200 0" stroke="#a89a88" fill="none" opacity=".7"/>
+        <path d="M78 104h84l-8 24H86z" fill="#3a4650" stroke="#141a1f"/>
+        <g fill="#ffcf87" fill-opacity=".9">
+          <rect x="92" y="111" width="7" height="5"/><rect x="106" y="111" width="7" height="5"/>
+          <rect x="120" y="111" width="7" height="5"/><rect x="134" y="111" width="7" height="5"/></g>
+
+        <!-- three emplacements -->
+        <g class="em em1"><circle cx="24" cy="72" r="13" fill="#2c3742" stroke="#141a1f"/>
+          <g class="sweep"><path d="M24 72h13" stroke="#e8c77a" stroke-width="2.6"/></g>
+          <text x="24" y="98" text-anchor="middle" fill="#b39c82"
+                style="font:8px ui-monospace,monospace;letter-spacing:.16em">I</text></g>
+        <g class="em em2"><circle cx="120" cy="20" r="13" fill="#2c3742" stroke="#141a1f"/>
+          <g class="sweep"><path d="M120 20h13" stroke="#e8c77a" stroke-width="2.6"/></g>
+          <text x="120" y="6" text-anchor="middle" fill="#b39c82"
+                style="font:8px ui-monospace,monospace;letter-spacing:.16em">II</text></g>
+        <g class="em em3"><circle cx="216" cy="72" r="13" fill="#2c3742" stroke="#141a1f"/>
+          <g class="sweep"><path d="M216 72h13" stroke="#e8c77a" stroke-width="2.6"/></g>
+          <text x="216" y="98" text-anchor="middle" fill="#b39c82"
+                style="font:8px ui-monospace,monospace;letter-spacing:.16em">III</text></g>
+      </g>
+    </svg>
+  </div>
+
+  <h2>The wave <b></b></h2>
+  <div class="wave">
+    <div class="th acid"><span class="k">01 · aerosol</span>
+      <b>Sulfuric acid</b>
+      <p>The cloud deck is acid droplets. Bare aluminium and ordinary polymer
+        do not last.</p></div>
+    <div class="th wind"><span class="k">02 · shear</span>
+      <b>Superrotation</b>
+      <p>The atmosphere circles the planet in four days — about 100 m/s at this
+        altitude, and the gusts are the problem, not the mean.</p></div>
+    <div class="th heat"><span class="k">03 · thermal</span>
+      <b>Descent soak</b>
+      <p>Sink below fifty kilometres and it is 75 °C and climbing. Losing
+        altitude is a heat problem before it is anything else.</p></div>
+    <div class="th uv"><span class="k">04 · flux</span>
+      <b>Ultraviolet</b>
+      <p>Above most of the cloud the solar flux is fierce, and it is what ages
+        an envelope that acid has not already taken.</p></div>
+  </div>
+
+  <div class="panel">
+    <h2 style="margin-top:0">Mounts <b>three of them, and four hazards</b></h2>
+
+    <div class="mount"><span class="lbl">Emplacement I · forward</span>
+      <div class="opts">
+        <input type="radio" name="m1" id="m1-none" checked><label for="m1-none">
+          <b>empty</b>0</label>
+        <input type="radio" name="m1" id="m1-skin"><label for="m1-skin">
+          <b>Fluoropolymer skin</b>acid · 30</label>
+        <input type="radio" name="m1" id="m1-drogue"><label for="m1-drogue">
+          <b>Drogue anchor</b>shear · 25</label>
+        <input type="radio" name="m1" id="m1-ballonet"><label for="m1-ballonet">
+          <b>Ballonet trim</b>thermal · 35</label>
+        <input type="radio" name="m1" id="m1-radiator"><label for="m1-radiator">
+          <b>Radiator fin</b>thermal · 30</label>
+        <input type="radio" name="m1" id="m1-shade"><label for="m1-shade">
+          <b>Solar shade</b>uv · 20</label>
+        <input type="radio" name="m1" id="m1-patch"><label for="m1-patch">
+          <b>Patch drone</b>creep · 15</label>
+      </div></div>
+
+    <div class="mount"><span class="lbl">Emplacement II · crown</span>
+      <div class="opts">
+        <input type="radio" name="m2" id="m2-none" checked><label for="m2-none">
+          <b>empty</b>0</label>
+        <input type="radio" name="m2" id="m2-skin"><label for="m2-skin">
+          <b>Fluoropolymer skin</b>acid · 30</label>
+        <input type="radio" name="m2" id="m2-drogue"><label for="m2-drogue">
+          <b>Drogue anchor</b>shear · 25</label>
+        <input type="radio" name="m2" id="m2-ballonet"><label for="m2-ballonet">
+          <b>Ballonet trim</b>thermal · 35</label>
+        <input type="radio" name="m2" id="m2-radiator"><label for="m2-radiator">
+          <b>Radiator fin</b>thermal · 30</label>
+        <input type="radio" name="m2" id="m2-shade"><label for="m2-shade">
+          <b>Solar shade</b>uv · 20</label>
+        <input type="radio" name="m2" id="m2-patch"><label for="m2-patch">
+          <b>Patch drone</b>creep · 15</label>
+      </div></div>
+
+    <div class="mount"><span class="lbl">Emplacement III · aft</span>
+      <div class="opts">
+        <input type="radio" name="m3" id="m3-none" checked><label for="m3-none">
+          <b>empty</b>0</label>
+        <input type="radio" name="m3" id="m3-skin"><label for="m3-skin">
+          <b>Fluoropolymer skin</b>acid · 30</label>
+        <input type="radio" name="m3" id="m3-drogue"><label for="m3-drogue">
+          <b>Drogue anchor</b>shear · 25</label>
+        <input type="radio" name="m3" id="m3-ballonet"><label for="m3-ballonet">
+          <b>Ballonet trim</b>thermal · 35</label>
+        <input type="radio" name="m3" id="m3-radiator"><label for="m3-radiator">
+          <b>Radiator fin</b>thermal · 30</label>
+        <input type="radio" name="m3" id="m3-shade"><label for="m3-shade">
+          <b>Solar shade</b>uv · 20</label>
+        <input type="radio" name="m3" id="m3-patch"><label for="m3-patch">
+          <b>Patch drone</b>creep · 15</label>
+      </div></div>
+
+    <div class="meter">
+      <div class="m"><span>mounts filled</span><b class="n-placed"></b></div>
+      <div class="m"><span>spent, slime</span><b class="n-cost"></b></div>
+      <div class="m"><span>allowance</span><b>90</b></div>
+    </div>
+    <p class="note">Cost is counted; the allowance is printed next to it and the
+      comparison is yours to make. <b>Three mounts against four hazards means at
+      least one is getting through</b> — a defence you can fully solve is a
+      puzzle, and a puzzle teaches nothing about triage.</p>
+
+    <div class="go">
+      <input type="checkbox" id="commit"><label for="commit">Ride it out</label>
+      <span class="said before">The wave is already inbound. Placement closes
+        when you commit, and there is no undo.</span>
+      <span class="said after">Committed. It went how it went.</span>
+    </div>
+  </div>
+
+  <div class="panel after">
+    <h2 style="margin-top:0">The wave <b>as it passed</b></h2>
+    <div class="res r-acid"><span class="st"></span>
+      <span><b>Sulfuric acid.</b>
+        <span class="why">Answered only by the fluoropolymer skin. Through, it
+          takes the envelope slowly and you will not notice for months.</span>
+      </span></div>
+    <div class="res r-wind"><span class="st"></span>
+      <span><b>Superrotation shear.</b>
+        <span class="why">Answered only by the drogue. Through, she yaws and the
+          rigging works against itself all the way round the planet.</span>
+      </span></div>
+    <div class="res r-heat"><span class="st"></span>
+      <span><b>Descent soak.</b>
+        <span class="why">Answered by either the ballonet or the radiator — two
+          different ways to solve one problem, and you only need one.</span>
+      </span></div>
+    <div class="res r-uv"><span class="st"></span>
+      <span><b>Ultraviolet.</b>
+        <span class="why">Answered only by the shade, and the cheapest counter
+          on the board at twenty. Easy to leave out, and it is the one that ages
+          everything else.</span>
+      </span></div>
+
+    <div class="waste w-patch"><b>A patch drone is mounted.</b> It answers
+      envelope creep, which is not in this wave. It was the cheapest thing on
+      the list and it did nothing — the classic tower-defence mistake, which is
+      buying coverage against the threat you can afford rather than the one that
+      is coming.</div>
+    <div class="waste w-dup"><b>Both thermal counters are mounted.</b> The
+      ballonet and the radiator solve the same hazard by different means, so the
+      second one bought nothing this wave. Redundancy is a real strategy and it
+      is not free — it cost you a mount that had a hazard with no answer.</div>
+
+    <p class="note"><b>There is no score.</b> Four lines, and each says stopped
+      or through. What that is worth depends on which one you chose to let past,
+      and the page will not pretend to know that better than you do.</p>
+  </div>
+
+  <h2>Using this as a template</h2>
+  <div class="panel">
+    <p class="note" style="margin-top:0">Change three lists and it is a
+      different game. Everything else is layout.</p>
+    <table>
+      <tr><th>Change</th><th>Where</th></tr>
+      <tr><td><b>The wave</b> — how many hazards, what they are
+        <span class="q">four here; more makes it harder without changing a rule</span></td>
+        <td class="q">the <code>.wave</code> block, and one <code>.res</code>
+          row per hazard</td></tr>
+      <tr><td><b>The defences</b> — the options in every mount
+        <span class="q">keep them identical across mounts or placement stops
+          meaning anything</span></td>
+        <td class="q">the three <code>.mount</code> blocks, and the cost
+          counters</td></tr>
+      <tr><td><b>The coverage map</b> — which defence answers which hazard
+        <span class="q">the only interesting rule on the page</span></td>
+        <td class="q">three selectors per defence, one per mount, setting the
+          matching <code>.r-*</code> row to STOPPED</td></tr>
+      <tr><td><b>The pressure</b> — mounts fewer than hazards
+        <span class="q">this is the design, not the difficulty</span></td>
+        <td class="q">add or remove a <code>.mount</code></td></tr>
+    </table>
+    <p class="note"><b>What cannot be added without script.</b> Waves over time,
+      damage that accumulates, towers that fire at what is nearest, anything
+      where the outcome depends on when rather than what. CSS has no loop and no
+      clock it can read. If you want that, this page is the planning screen in
+      front of it — and the planning screen is the part players actually
+      replay.</p>
+    <p class="note"><a href="new-paris.html">← the outpost this defends</a> ·
+      <a href="template.html">the board template</a> ·
+      <a href="index.html">the yard</a></p>
+  </div>
+</div>

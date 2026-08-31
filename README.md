@@ -1,9 +1,9 @@
 # Venus Yard
 
-Thirty-three pages about a shipyard that does not exist, built to find out how
+Thirty-four pages about a shipyard that does not exist, built to find out how
 much a browser will do for you before you reach for JavaScript.
 
-**Thirty-one of the thirty-three have no script in them at all.** They still
+**Thirty-two of the thirty-four have no script in them at all.** They still
 add up, hold state, gate one control behind another, and hand documents to each
 other. The arithmetic is CSS counters, the state is `:has()`, and the transport
 is a plain `<form method="get">`.
@@ -57,6 +57,9 @@ responses are the ones used throughout:
 **Build** — [`ship-forge.html`](ship-forge.html) ten historical hulls, costed
 from their own geometry · [`station.html`](station.html) the order desk ·
 [`auxiliaries.html`](auxiliaries.html) twelve fleet auxiliaries
+
+**Play** — [`defense.html`](defense.html) tower defence, placement phase only —
+the part CSS can do honestly
 
 **Run it** — [`cruise-control.html`](cruise-control.html) one lane, one control,
 one cut · [`convoy.html`](convoy.html) pairs released down a rank chain ·
@@ -127,7 +130,7 @@ never be able to pass for evidence.
 
 ## Caveats, in order of how likely they are to bite you
 
-1. **`:has()` is required.** Twenty-nine of the pages depend on it. On a
+1. **`:has()` is required.** Thirty of the pages depend on it. On a
    browser without support they render as static, wrong pages — there is no
    fallback and no graceful degradation. Chrome/Edge 105+, Safari 15.4+,
    Firefox 121+.
