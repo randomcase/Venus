@@ -198,7 +198,8 @@
      Four counters. Every increment sits on a judge's .vote or .cert, and every
      one of those is in the DOM before the tallies that print them. That is the
      one rule this whole layout is arranged around. */
-  body{counter-reset:rev 0 aff 0 sit 0 grantv 0}
+  body{counter-reset:rev 0 aff 0 sit 0 grantv 0
+        disposed 0 fee 0 drafted 0 signed 0 named 0}
 
   /* ---- SENIORITY 1 · HAWTHORN, Chief Justice, Canopy.
      Votes with the grant. If you bring her the pot itself she will treat the
@@ -418,6 +419,88 @@
      That is the last thing this board had left to demonstrate. */
   .j16 .vote::after{content:"REVERSE · JUDGMENT ONLY"}
   .j16 .vote{counter-increment:rev 1 sit 1;color:var(--rev);font-size:10px}
+
+
+  /* ---- SENIORITY 17 · THE MASTER OF THE ORDINARY LIST. THE SEVENTEENTH SEAT.
+     Every judge above this line is selected by the circuit. Sixteen cards, and
+     every one of them reads
+         .ct:has(#g-po:checked) .jN .vote::after { content: … }
+     because sixteen of these judges decide differently depending on what is in
+     front of them. That is what the whole board has been demonstrating.
+
+     The Master has no :has() at all. One rule, no condition, no circuit.
+
+     That is not a shortcut in the stylesheet, it is the finding about him. He
+     takes this question forty times a day and has done for eleven years. He is
+     not indifferent and he is not lazy — he is fast, he is almost always right,
+     and he is the only reason the other sixteen ever reach a hard case at all.
+     But the file in front of him stopped being the input a long time ago.
+     Toggle the circuits. Sixteen cards change. His does not.
+
+     AND HE IS PAID PER DISPOSAL. Not per hearing — per disposal, which is the
+     only line item a list can actually count. So the fee reads the same on the
+     eight circuits that produce a judgment and on the two that produce a
+     plurality with no holding in it, because the instrument cannot tell those
+     apart. Nothing about that is corrupt. It is an accurate meter measuring the
+     wrong quantity, which is worse, because there is nobody to accuse.
+
+     HE IS NOT IN THE DIVISION, and that is the second half of him. A Master of
+     the ordinary list is not on the appellate bench: he increments `disposed`
+     and `fee` and he touches `rev`, `aff` and `sit` with nothing. Every number
+     in the second vote above is unchanged by his existence, which is exactly
+     the situation being described — the bench of sixteen settles this question
+     once, in public, with a holding; he settles it forty times a day, on a
+     list, and his forty thousand dispositions appear in none of the court's
+     figures because the figures were built to count the sixteen. */
+  .j17 .vote::after{content:"DISPOSED · 40 TODAY"}
+  .j17 .vote{counter-increment:disposed 40 fee 40;
+    color:var(--rev);font-size:10px}
+
+  /* ---- THE CLERGY. Three of them, and they are paid to assist.
+     A disposal needs a judge. An OPINION needs somebody to write it, and nobody
+     on the bench above has the hours — which is why the reasons that bind the
+     next court are drafted by three people whose names appear nowhere in the
+     record. Retain them and twelve opinions are drafted, twelve are signed, and
+     none of the twelve carries a drafter's name. Release them and every disposal
+     still happens, on time, at the same fee. What stops is the reasons.
+     That is the sharpest thing on this board and it is not about money. The part
+     of a court's output that is DISPOSABLE is the part with a name on it. The
+     part that BINDS is the part without one. */
+  .ct:has(#cl-on:checked)  .clg .qty::after{content:"4 opinions drafted"}
+  .ct:has(#cl-on:checked)  .clg .qty{counter-increment:drafted 4 signed 4;
+    color:var(--bone)}
+  .ct:has(#cl-off:checked) .clg .qty::after{content:"— released —"}
+  .ct:has(#cl-off:checked) .clg .qty{color:var(--dim)}
+  .ct:has(#cl-off:checked) .clg{opacity:.42}
+  /* `named` never increments under either setting. It is declared, printed, and
+     reads zero forever, which is the only way to state a negative in CSS — and
+     it is worth a counter rather than a sentence because a reader can watch it
+     fail to move. */
+
+  .clergy{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:11px}
+  @media (max-width:820px){.clergy{grid-template-columns:1fr}}
+  .clg{background:#0b1310;border:1px solid var(--edge);border-radius:11px;
+    padding:11px 12px;border-left:3px solid var(--dim)}
+  .clg b{display:block;font-size:13px;color:var(--bone)}
+  .clg em{font-style:normal;font:9px/1 ui-monospace,monospace;letter-spacing:.11em;
+    text-transform:uppercase;color:var(--dim);display:block;margin:3px 0 7px}
+  .clg p{margin:0;font-size:10.5px;color:var(--dim);line-height:1.65}
+  .clg .qty{display:block;margin-top:8px;padding-top:7px;
+    border-top:1px solid var(--edge);font:10px/1 ui-monospace,monospace}
+  .retain{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+  .retain input{position:absolute;opacity:0;width:0;height:0}
+  .retain label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;
+    padding:10px 14px;border-radius:8px;border:1px solid var(--edge);
+    color:var(--dim);user-select:none}
+  .retain label:hover{color:var(--ink)}
+  .retain input:checked + label{border-color:var(--bone);color:var(--bone);
+    background:rgba(228,217,184,.10);font-weight:700}
+  .retain input:focus-visible + label{outline:2px solid var(--rev);outline-offset:2px}
+  .n-disposed::after{content:counter(disposed)}
+  .n-fee::after{content:counter(fee)}
+  .n-drafted::after{content:counter(drafted)}
+  .n-signed::after{content:counter(signed)}
+  .n-named::after{content:counter(named)}
 
   /* ------------------------------------------------------------ the tallies */
   .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
@@ -774,9 +857,10 @@
     <h1>The Bench of Nine</h1>
     <span class="sub">Nine thousand square miles of forest — the size of England
       — and one court in it. <i>In re the Pot</i>, first case. Two votes are
-      taken here and the first one is not about the pot. There are sixteen judges,
-      never more than fourteen of them vote, one never does, and one will not
-      sign anything.
+      taken here and the first one is not about the pot. There are seventeen judges
+      and three clergy; never more than fifteen of the judges vote, one never
+      does, one will not sign anything, one is paid by the disposal &mdash; and
+      the three who write what binds are named nowhere in the record.
       It is still called the Bench of Nine.</span>
     <span class="tag">no script<a href="automat.html" style="color:inherit;text-decoration:none;opacity:.62" title="Still true: this board decides everything in its stylesheet. It also ships two inert script tags — automat.js and devmode.js — which do nothing unless the URL carries ?run or ?dev, a half of the address CSS cannot read. See automat.html.">&nbsp;&dagger;</a></span>
   </header>
@@ -1026,7 +1110,93 @@
         not sign.</div>
       <div class="row"><span class="cert">grants: never</span><span class="vote"></span></div>
     </div>
+    <div class="j cop j17">
+      <div class="who"><i>17</i><b>The Master</b><em>the ordinary list &middot; paid per disposal</em></div>
+      <div class="prac">He takes this question forty times a day and has done
+        for eleven years. He is fast, he is almost always right, and he is the
+        only reason the sixteen above him ever reach a hard case &mdash; a court
+        that heard every pot would hear nothing else. But toggle the circuits
+        and watch this card: <b>it does not change.</b> Every other judge on
+        this bench is selected by what is in front of them; his is the one card
+        on the board with no condition on it at all, because the file stopped
+        being the input somewhere around the four thousandth time. And he is
+        paid <b>per disposal</b>, which is the only line a list can count
+        &mdash; so the fee reads the same on the eight circuits that produce a
+        judgment and the two that produce a plurality with no holding in it.
+        Nothing here is corrupt. It is an accurate meter measuring the wrong
+        quantity, which is worse, because there is nobody to accuse.</div>
+      <div class="row"><span class="cert">grants: all, always</span><span class="vote"></span></div>
+    </div>
   </div>
+
+  <!-- ======================================================== THE CLERGY -->
+  <h2>The clergy <b>paid to assist &middot; and the reasons are theirs</b></h2>
+  <p class="note">A disposal needs a judge. An <b>opinion</b> needs somebody to
+    write it, and nobody on the bench above has the hours. Three clerks are
+    retained. Between them they draft all twelve, the judges read, correct and
+    sign them, and <b>not one of the twelve carries a drafter&rsquo;s name.</b>
+    Release them with the control below and watch which number falls and which
+    does not.</p>
+  <div class="retain">
+    <input type="radio" name="clergy" id="cl-on" checked>
+      <label for="cl-on">the clergy are retained</label>
+    <input type="radio" name="clergy" id="cl-off">
+      <label for="cl-off">the clergy are released</label>
+  </div>
+  <div class="clergy">
+    <div class="clg">
+      <b>Sister Wren</b><em>drafts &middot; the merits</em>
+      <p>Reads the file the Master no longer reads, and writes the paragraph the
+        next court will quote. Eleven years less service than he has, and the
+        sentence that binds is hers.</p>
+      <span class="qty"></span>
+    </div>
+    <div class="clg">
+      <b>Brother Alder</b><em>drafts &middot; the dissents</em>
+      <p>Writes both sides, including the one his judge is against, because a
+        dissent nobody drafted is a dissent nobody filed &mdash; and an
+        unanswered majority is a stronger precedent than a contested one.</p>
+      <span class="qty"></span>
+    </div>
+    <div class="clg">
+      <b>Sister Holt</b><em>drafts &middot; the record</em>
+      <p>Keeps the citations honest and the findings tied to line numbers, which
+        is the whole reason <a href="exhibit.html">Exhibit A</a> can be checked
+        against this judgment at all.</p>
+      <span class="qty"></span>
+    </div>
+  </div>
+  <div class="tally" style="grid-template-columns:repeat(5,1fr)">
+    <div class="head r"><span>Disposed today</span><b class="n-disposed"></b></div>
+    <div class="head"><span>Fee units</span><b class="n-fee"></b></div>
+    <div class="head"><span>Drafted</span><b class="n-drafted"></b></div>
+    <div class="head"><span>Signed</span><b class="n-signed"></b></div>
+    <div class="head a"><span>Bearing a drafter</span><b class="n-named"></b></div>
+  </div>
+  <p class="note"><b>Five numbers, and the last one is zero under every setting
+    on this page.</b> Forty disposals, twelve opinions, no names. Release the
+    clergy and <code>Disposed</code> and <code>Fee</code> do not move &mdash;
+    every case still ends, on time, at the same price. <code>Drafted</code> and
+    <code>Signed</code> go to nothing. The disposal never needed them; the
+    reasons did.</p>
+  <p class="note">Note also what the Master does <b>not</b> touch. Scroll back:
+    <code>Reverse</code>, <code>Affirm</code> and <code>Sitting</code> are
+    identical to what they were before the seventeenth seat existed, because a
+    Master of the ordinary list is not on the appellate bench and his card
+    increments neither. That is not an omission in the stylesheet, it is the
+    situation. <b>The bench of sixteen settles this question once, in public,
+    with a holding. He settles it forty times a day, on a list, and none of it
+    is in the court&rsquo;s figures</b> &mdash; the figures were built to count
+    the sixteen.</p>
+  <p class="note">Which is the finding, and it is the hardest one this board has
+    produced. <b>The part of a court&rsquo;s output that is disposable is the
+    part with a name on it.</b> The part that binds the next court &mdash; the
+    holding, the reasons, the sentence somebody will quote across nine thousand
+    square miles of forest for the next forty years &mdash; is drafted by three
+    people the record does not mention, on a retainer, and the meter that pays
+    for all of it cannot see the difference between a judgment and a plurality.
+    Nobody did anything wrong. That is the problem, and it is the second time
+    this board has had to say so.</p>
 
   <!-- ==== TOTALS AFTER. Counted from the nine cards above and nowhere else. -->
   <h2>The second vote <b>counted, not declared</b></h2>
