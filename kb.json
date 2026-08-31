@@ -220,7 +220,8 @@
       "see": [
         "the-relay",
         "the-passage",
-        "superrotation"
+        "superrotation",
+        "the-injector"
       ]
     },
     {
@@ -258,7 +259,47 @@
       "see": [
         "the-window",
         "the-passage",
-        "the-light-delay"
+        "the-light-delay",
+        "the-injector"
+      ]
+    },
+    {
+      "id": "the-injector",
+      "term": "The injector",
+      "class": "figure",
+      "settled": "settled",
+      "short": "What the operator of an automated thing actually is. Two verbs: start it, and stop it. Steering is not on the list.",
+      "body": [
+        "Automation does not remove the operator. It changes the operator's verbs, and the change is bigger than it looks: a continuous control surface — many small corrections, made constantly, each one cheap and each one revisable — collapses into a handful of discrete injections. Fewer decisions, and every one of them heavier, because each is now committed for the whole duration of a run.",
+        "THE MIDDLE IS THE PART THAT CHANGED. In the relay you cannot correct once it is flying, and the reason is physical rather than a design choice: by arrival your picture of the hull is 4.94 minutes old and anything you send is 4.94 minutes from landing. Most automated systems are in the same position and disguise it. The operator believes intervention is available, and it is, and it is useless — by the time a problem is perceived the system has already acted on it several times. Calling yourself an injector is not a diminishment. It is admitting the thing that was true anyway.",
+        "SO THE SKILL IS TIMING, NOT INTERVENTION. The relay has exactly one decision in it and it is when to leave: at the top of the window the passage is 146 days, and two hundred days off the top it is 236. Ninety days, bought or lost, in the one press you actually get. An injector who spends their attention wishing they could steer is spending it on the one thing they do not have, and not on the one thing they do.",
+        "AND THE STOP IS NOT A CONTROL, IT IS A REFUSAL. Shutdown does not adjust, tune, pause or reset — it stops, and nothing it stops is undone. That is a different verb from adjustment and the difference is the diagnostic: if mid-run adjustment is on the operator's list, the thing is not automated, it is ASSISTED. Assisted is a perfectly good design. It simply has different failure modes, needs different training, and should not be described with the other word.",
+        "The same shape is already elsewhere in this yard. The automat has four lights and one stop, and the stop resets nothing. The contract desk can complete, escalate, or burn — three verbs, and the third one only refuses. The chain's three legs carry sixteen, eight and four states, strictly decreasing, and the arrival leg can only receive. None of those were built from this entry; the entry is what they have in common."
+      ],
+      "test": "Count the operator's verbs and check whether mid-run adjustment is one of them. If it is, the system is assisted rather than automated and somebody is still flying it. If it is not, find the last moment a decision could have changed the outcome — that moment is the operator's entire job, and if the interface gives it the same weight as everything else, the interface is wrong.",
+      "evidence": [
+        {
+          "page": "game.html",
+          "what": "the relay — two buttons, an autopilot correcting on a picture up to 4.94 minutes old, and one decision that is worth ninety days"
+        },
+        {
+          "page": "automat.html",
+          "what": "four lights and one stop; the stop resets nothing and there is no reset in the file"
+        },
+        {
+          "page": "chain.html",
+          "what": "16 / 8 / 4 states across three legs, and the arrival leg can only receive"
+        },
+        {
+          "page": "contract.html",
+          "what": "complete, escalate, or burn — and the third verb only refuses"
+        }
+      ],
+      "see": [
+        "the-relay",
+        "the-light-delay",
+        "the-gas",
+        "decentralization"
       ]
     },
     {
