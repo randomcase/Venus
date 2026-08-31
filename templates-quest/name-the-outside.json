@@ -5,7 +5,9 @@
  "giver": "The deck, which is sealed and keeps being reasoned about as though it were not.",
  "object": "Point at the place a nutrient enters your system and the place one leaves it.",
  "done": "You have named both, or you have stated plainly that there is neither — and either answer completes it.",
- "produces": "a boundary, drawn",
+ "produces": [
+  "a boundary, drawn"
+ ],
  "requires": [],
  "note": "The one quest whose most useful outcome is the negative one, which is why `done` accepts it explicitly."
 }

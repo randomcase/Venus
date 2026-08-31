@@ -8,7 +8,8 @@
  "sources": [
   "Jackson, Second Annual Message to Congress, 6 December 1830",
   "Indian Removal Act, 28 May 1830",
-  "Worcester v. Georgia, 31 U.S. (6 Pet.) 515 (1832)"
+  "Worcester v. Georgia, 31 U.S. (6 Pet.) 515 (1832)",
+  "Winfield Scott, General Order No. 25 and address to the Cherokee, May 1838"
  ],
  "standpoints": [
   {
@@ -30,6 +31,11 @@
    "id": "clerk2",
    "who": "A War Department clerk costing the removal",
    "brief": "Wagons, rations, per head, per mile. He is good at his job. The attribution gap again, and this time the numbers are his."
+  },
+  {
+   "id": "general",
+   "who": "The general commanding the removal",
+   "brief": "Winfield Scott took command in May 1838 and issued an order telling his troops that every possible kindness must be shown — and then carried out the removal. This is the hardest voice on the board and it is harder than the President's, because the President at least chose. Write a professional executing a policy he did not set, in an office that contains no mechanism for declining, who has written the humane order himself and does not experience it as a contradiction. If you find him cynical you have not found him."
   }
  ],
  "task": "Write 300–400 words in ONE voice on the day the decision becomes irreversible. A fork closes behind whoever takes it — find the moment it shuts, and do not have the voice notice it shutting.",
@@ -49,6 +55,10 @@
   {
    "band": "The fork is visible and unremarked",
    "test": "Can a reader see the point of no return that the voice cannot?"
+  },
+  {
+   "band": "The order and the act are the same man",
+   "test": "If you wrote the general: does the piece let his humanity and his compliance sit in one person without resolving them? An officer who privately dissents is a much easier subject and is not this one."
   }
  ]
 }

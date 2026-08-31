@@ -5,7 +5,9 @@
  "giver": "A stylesheet where a rule does nothing and nobody can say whether it lost or never matched.",
  "object": "Take two selectors that set the same property on the same element and compute both specificity triples by hand, including any :has(), :is(), :not() and :where().",
  "done": "You have both triples, the winner, and the column that decided it. PROBE under ?dev agrees with you.",
- "produces": "an answer, checkable against the machine",
+ "produces": [
+  "an answer, checkable against the machine"
+ ],
  "requires": [],
  "note": "The only quest on the board with an oracle: the browser already knows and will tell you whether you were right."
 }

@@ -5,7 +5,9 @@
  "giver": "The automat, which claims no tribe reads any other and cannot prove it about itself.",
  "object": "Open any board with ?run, note the beat count of three tribes, remove a fourth from the page with ?dev, and let it run a hundred beats.",
  "done": "You can state whether the three remaining beat counts differ from what they would have been. A second person can repeat it and get the same answer.",
- "produces": "a measurement",
+ "produces": [
+  "a measurement"
+ ],
  "requires": [],
  "note": "The deletion test, and it is first on the board because it is the only one that can be finished in two minutes by somebody who has never seen the yard."
 }
