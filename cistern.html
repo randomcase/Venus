@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The cistern &middot; the command centre round the water</title>
+<!-- No off-origin requests. Every figure computed in cistern.mjs. -->
+<style>
+  :root{
+    --deep:#080c10; --panel:#0f151b; --edge:#1c262f; --edge2:#2a3743;
+    --ink:#dfe6ea; --dim:#8a949c; --faint:#5a646c;
+    --water:#4d94ad; --hot:#c2603c; --cool:#6f9fb5; --gold:#c9a227; --good:#6f9d63;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--deep);color:var(--ink);
+    font:17px/1.72 var(--serif);padding:46px 22px 100px}
+  main{max-width:920px;margin:0 auto}
+  a{color:var(--water)}
+  .kick{margin:0 0 9px;font:400 9px/1 var(--mono);letter-spacing:.34em;
+    text-transform:uppercase;color:var(--water)}
+  h1{margin:0 0 8px;font:500 42px/1.06 var(--serif)}
+  .sub{margin:0 0 30px;font:italic 400 19px/1.5 var(--serif);color:var(--dim);max-width:64ch}
+  h2{margin:52px 0 12px;font:500 27px/1.2 var(--serif);
+    padding-bottom:8px;border-bottom:1px solid var(--edge)}
+  h2 s{text-decoration:none;display:block;margin-bottom:5px;
+    font:400 8.5px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--water)}
+  p{margin:0 0 15px;max-width:74ch} b{font-weight:600}
+
+  .vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));
+    gap:14px;margin:24px 0}
+  .w{background:var(--panel);border:1px solid var(--edge);padding:18px 20px}
+  .w.v{border-top:2px solid var(--hot)} .w.e{border-top:2px solid var(--cool)}
+  .w h3{margin:0 0 12px;font:600 22px/1.2 var(--serif)}
+  .w dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:7px 12px;
+    font:400 12px/1.4 var(--mono)}
+  .w dt{color:var(--faint)} .w dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+  .w dd.hi{color:var(--gold);font-weight:600}
+  .w .gh{margin-top:14px;padding-top:12px;border-top:1px solid var(--edge)}
+  .w .gh u{display:block;text-decoration:none;font:400 8px/1.3 var(--mono);
+    letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:5px}
+  .w .gh b{font:400 30px/1 var(--mono);font-weight:400}
+  .w.v .gh b{color:var(--hot)} .w.e .gh b{color:var(--cool)}
+
+  .flip{margin:26px 0;padding:22px 24px;background:#101a20;border-left:3px solid var(--hot)}
+  .flip h4{margin:0 0 10px;font:400 8.5px/1 var(--mono);letter-spacing:.22em;
+    text-transform:uppercase;color:var(--hot)}
+  .flip p:last-child{margin:0}
+
+  .scroll{overflow-x:auto;margin:22px 0}
+  table{width:100%;border-collapse:collapse;min-width:640px;font:400 12.5px/1.5 var(--mono)}
+  th{text-align:right;padding:0 11px 9px 0;color:var(--faint);font-weight:400;
+    font-size:8px;letter-spacing:.14em;text-transform:uppercase;
+    border-bottom:1px solid var(--edge2)}
+  th:first-child,td:first-child{text-align:left}
+  td{padding:9px 11px 9px 0;border-bottom:1px solid #151d24;text-align:right;
+    font-variant-numeric:tabular-nums}
+  td.d{text-align:left;color:var(--dim);font:400 13px/1.4 var(--serif)}
+  tr.here td{background:#141f26}
+  tr.best td{background:#132019;color:var(--good)}
+  .bar{display:block;height:6px;background:#18242c;margin-top:4px}
+  .bar i{display:block;height:100%;background:var(--water)}
+
+  .lever{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));
+    gap:1px;background:var(--edge);border:1px solid var(--edge);margin:24px 0}
+  .lever div{background:var(--panel);padding:17px 16px}
+  .lever u{display:block;text-decoration:none;font:400 8px/1.3 var(--mono);
+    letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:7px}
+  .lever b{font:400 28px/1.1 var(--mono);color:var(--ink);font-weight:400;
+    font-variant-numeric:tabular-nums}
+  .lever b.big{color:var(--gold)}
+  .lever s{display:block;text-decoration:none;margin-top:7px;
+    font:400 11px/1.55 var(--serif);color:var(--dim)}
+
+  .ring{margin:22px 0}
+  .r{display:grid;grid-template-columns:150px 1fr;gap:0;background:var(--panel);
+    border:1px solid var(--edge);margin-bottom:8px}
+  .r .h{padding:14px 16px;border-right:1px solid var(--edge)}
+  .r .h b{display:block;font:600 16px/1.25 var(--serif)}
+  .r .h span{display:block;margin-top:4px;font:400 9px/1.4 var(--mono);color:var(--faint)}
+  .r .t{padding:14px 16px}
+  .r .t em{font-style:normal;display:inline-block;margin-bottom:6px;
+    font:400 8px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--hot);border:1px solid #3d2a22;padding:4px 7px}
+  .r .t p{margin:0;font-size:14px;color:var(--dim)}
+
+  footer{margin-top:66px;padding-top:20px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 11.5px/1.85 var(--mono)}
+</style>
+</head>
+<body>
+<main>
+<p class="kick">Venus &middot; the command centre</p>
+<h1>The cistern</h1>
+<p class="sub">Water readiness is not a supply question, because there is no supply. It is one number, and this works out how much that number is worth.</p>
+<h2><s>the twin</s>Venus absorbs less sunlight than Earth</h2>
+<p>The framing is right and the usual arithmetic behind it is wrong. Venus is nearer the Sun and receives <b>1.91&times;</b> the flux, and almost everyone stops there. But Venus is also the most reflective body in the inner system &mdash; a Bond albedo of <b>0.77</b> against Earth&rsquo;s <b>0.306</b> &mdash; and what decides a temperature is not what arrives, it is what is <em>absorbed</em>.</p>
+<div class="vs">
+  <div class="w v">
+    <h3>Venus</h3>
+    <dl><dt>distance</dt><dd>0.723 AU</dd><dt>flux arriving</dt><dd>2,601 W/m&sup2;</dd><dt>Bond albedo</dt><dd>0.77</dd><dt>absorbed</dt><dd class="hi">150 W/m&sup2;</dd><dt>without air</dt><dd>227 K</dd><dt>surface</dt><dd>737 K</dd></dl>
+    <div class="gh"><u>greenhouse</u><b>+510 K</b></div>
+  </div>
+  <div class="w e">
+    <h3>Earth</h3>
+    <dl><dt>distance</dt><dd>1 AU</dd><dt>flux arriving</dt><dd>1,361 W/m&sup2;</dd><dt>Bond albedo</dt><dd>0.306</dd><dt>absorbed</dt><dd class="hi">236 W/m&sup2;</dd><dt>without air</dt><dd>254 K</dd><dt>surface</dt><dd>288 K</dd></dl>
+    <div class="gh"><u>greenhouse</u><b>+34 K</b></div>
+  </div>
+</div>
+<div class="flip">
+  <h4>the inversion</h4>
+  <p>Venus absorbs <b>150 W/m&sup2;</b>. Earth absorbs <b>236</b>. Venus takes in <b>63%</b> of what Earth does &mdash; less, despite being closer, because the clouds send most of it straight back.</p>
+  <p>Which means <b>not one kelvin</b> of that 737 K surface is a sunlight story. Bare, Venus would sit at 227 K and Earth at 254 &mdash; Venus <em>colder</em>. The entire difference is greenhouse: +34 K on Earth against +510 K on Venus, a factor of <b>15</b>.</p>
+  <p>That is the twin story stated properly. The two planets did not diverge because one is nearer the fire. They diverged because one of them lost control of its own atmosphere, and the run to 737 K was the consequence rather than the cause.</p>
+</div>
+<h2><s>the fingerprint</s>It had an ocean and it left</h2>
+<p>Hydrogen escapes a planet. Deuterium is twice the mass and escapes more slowly, so anything that loses a lot of hydrogen ends up enriched in the heavy kind. Venus&rsquo;s deuterium-to-hydrogen ratio is roughly <b>150&times;</b> Earth&rsquo;s.</p>
+<p>That is not an inference about climate, it is a measurement of what left. Water was split by ultraviolet, the hydrogen went to space, the oxygen went into the rock, and what remains in the air today is about <b>20 parts per million</b>. Earth holds 1.35 &times; 10<sup>21</sup> kg of ocean. Venus holds a haze.</p>
+<p>So there is nothing to drill for and nothing to melt, and the white paper already priced the alternative: freeing one per cent of an ocean by heating the atmosphere costs <b>6,618 K</b>, which is self-defeating on energy before any engineering question is reached. <b>Water on the deck is a closure problem.</b></p>
+<h2><s>the only number</s>Recovery ratio, and what it is worth</h2>
+<p>A crew of <b>20</b> &mdash; the two wings and the two officers &mdash; moves about <b>25 kg a head each day</b> through the loop: drinking, food preparation, hygiene, laundry. That is <b>500 kg a day</b> in circulation, and circulation is free. What is not free is the fraction the loop fails to give back.</p>
+<p>Make-up mass goes as <b>(1 &minus; r)</b>. That is a reciprocal, so the leverage all lives at the top end where it is least obvious:</p>
+<div class="scroll"><table>
+<tr><th>recovery</th><th>make-up per day</th><th>per year</th><th>per 584-day window</th><th></th></tr>
+<tr class=""><td class="d"><b>80%</b></td><td>100.0 kg</td><td>36,525 kg</td><td><b>58,392 kg</b><span class="bar"><i style="width:100%"></i></span></td><td class="d"></td></tr>
+<tr class=""><td class="d"><b>90%</b></td><td>50.0 kg</td><td>18,262 kg</td><td><b>29,196 kg</b><span class="bar"><i style="width:50%"></i></span></td><td class="d"></td></tr>
+<tr class=""><td class="d"><b>95%</b></td><td>25.0 kg</td><td>9,131 kg</td><td><b>14,598 kg</b><span class="bar"><i style="width:25%"></i></span></td><td class="d"></td></tr>
+<tr class="here"><td class="d"><b>98%</b> <span style="color:var(--faint)">&larr; the station standard</span></td><td>10.0 kg</td><td>3,653 kg</td><td><b>5,839 kg</b><span class="bar"><i style="width:10%"></i></span></td><td class="d">what flies today</td></tr>
+<tr class=""><td class="d"><b>99%</b></td><td>5.0 kg</td><td>1,826 kg</td><td><b>2,920 kg</b><span class="bar"><i style="width:5%"></i></span></td><td class="d"></td></tr>
+<tr class=""><td class="d"><b>99.5%</b></td><td>2.5 kg</td><td>913 kg</td><td><b>1,460 kg</b><span class="bar"><i style="width:3%"></i></span></td><td class="d"></td></tr>
+<tr class="best"><td class="d"><b>99.9%</b></td><td>0.5 kg</td><td>183 kg</td><td><b>292 kg</b><span class="bar"><i style="width:1%"></i></span></td><td class="d">the target</td></tr>
+<tr class=""><td class="d"><b>99.95%</b></td><td>0.2 kg</td><td>91 kg</td><td><b>146 kg</b><span class="bar"><i style="width:0%"></i></span></td><td class="d"></td></tr>
+</table></div>
+<div class="lever">
+  <div><u>at 98%</u><b>5,839 kg</b><s>shipped every window, for twenty people</s></div>
+  <div><u>at 99.9%</u><b>292 kg</b><s>same people, same window</s></div>
+  <div><u>the lever</u><b class="big">20&times;</b><s>from 1.9 percentage points of recovery</s></div>
+  <div><u>where the work is</u><b>on a bench</b><s>on Earth, before anything launches</s></div>
+</div>
+<p>Twenty times less mass, from a change of under two percentage points. Nothing available in propulsion comes close to that, and unlike propulsion it is bench work that can be done here, now, and finished before a vehicle is chosen. <b>If one number in this programme deserves a dedicated team, it is this one.</b></p>
+<h2><s>the buffer</s>What the tank actually buys</h2>
+<p>A tank is not storage. It is <b>time</b> &mdash; how long the site keeps going while somebody fixes the thing that broke, or while a missed window comes round again. A missed window costs <b>730 days</b>: 584 until the next alignment plus 146 in transit.</p>
+<div class="scroll"><table>
+<tr><th>reserve</th><th>at 95%</th><th>at 98%</th><th>at 99%</th><th>at 99.5%</th><th>at 99.9%</th><th>at 100%</th></tr>
+<tr><td class="d"><b>5,000 kg</b></td><td>200 d</td><td>500 d</td><td style="color:var(--good)">1,000 d</td><td style="color:var(--good)">2,000 d</td><td style="color:var(--good)">27.4 yr</td><td style="color:var(--good)">54.8 yr</td></tr>
+<tr><td class="d"><b>12,000 kg</b></td><td>480 d</td><td style="color:var(--good)">1,200 d</td><td style="color:var(--good)">2,400 d</td><td style="color:var(--good)">13.1 yr</td><td style="color:var(--good)">65.7 yr</td><td style="color:var(--good)">131.4 yr</td></tr>
+<tr><td class="d"><b>30,000 kg</b></td><td style="color:var(--good)">1,200 d</td><td style="color:var(--good)">3,000 d</td><td style="color:var(--good)">16.4 yr</td><td style="color:var(--good)">32.9 yr</td><td style="color:var(--good)">164.3 yr</td><td style="color:var(--good)">328.5 yr</td></tr>
+</table></div>
+<p>Green is a reserve that survives a completely missed window. Read the table the other way and it says something sharper: at 95% recovery a 30,000 kg tank &mdash; thirty tonnes, an entire shipment &mdash; buys you 1,200 days. At 99.9% a tank of 5,000 kg buys 27.4 years. <b>Recovery ratio is worth more than tankage, and it is worth more per kilogram than anything else on the manifest.</b></p>
+<h2><s>the command centre</s>What sits inside the ring</h2>
+<p>Ordered by how fast its failure kills you, because no other ordering means anything. The castle plans put the keep on the motte and everything else around it; here the loop is the keep.</p>
+<div class="ring">
+  <div class="r">
+    <div class="h"><b>The loop</b><span>reclaim, distil, polish</span></div>
+    <div class="t"><em>fails in hours</em><p>The whole site is downstream of it. Everything else on this list exists to keep it running.</p></div>
+  </div>
+  <div class="r">
+    <div class="h"><b>The tank</b><span>the reserve, and the only true buffer</span></div>
+    <div class="t"><em>fails in days to months</em><p>It is not storage, it is TIME. Its size is measured in how long it lets you fix something.</p></div>
+  </div>
+  <div class="r">
+    <div class="h"><b>Power</b><span>the loop is a pump and a still</span></div>
+    <div class="t"><em>fails in hours</em><p>A closed water loop is an energy device wearing a plumbing costume. Lose power and the loop is a tank with a lid.</p></div>
+  </div>
+  <div class="r">
+    <div class="h"><b>The assay</b><span>what is actually in the water</span></div>
+    <div class="t"><em>fails in weeks</em><p>Recovery ratio is meaningless without knowing what is being recovered. An unmeasured loop is an open loop with extra steps.</p></div>
+  </div>
+  <div class="r">
+    <div class="h"><b>Spares</b><span>membranes, seals, the parts that wear</span></div>
+    <div class="t"><em>fails in one window</em><p>The only items on the manifest whose absence is unrecoverable, because you cannot make a membrane on the deck.</p></div>
+  </div>
+  <div class="r">
+    <div class="h"><b>The register</b><span>every litre in and out, signed</span></div>
+    <div class="t"><em>fails in a career</em><p>A loop nobody audits drifts, and drift in a closed system is invisible until it is a cliff.</p></div>
+  </div>
+</div>
+<p>The ordering is the design. A curtain wall goes round the thing that cannot be lost, and on this deck that is not the people and not the seed &mdash; it is the loop, because everybody and everything else is downstream of it within hours. Build the command centre round the cistern and the rest of the plan arranges itself, which is exactly what a motte does.</p>
+<footer>
+Computed by <a href="cistern.mjs">cistern.mjs</a>. Absorbed flux from S&#8320;/(4a&sup2;)&middot;(1&minus;A) with S&#8320; = 1361 W/m&sup2;; effective temperature from Stefan&ndash;Boltzmann. Albedos and surface temperatures are published values; the D/H ratio is approximate and the literature range is wide. Closure figures are per a crew of 20 at 25 kg a head a day.<br>
+<a href="paper.html">the white paper</a> &middot; <a href="corps.html">the order of battle</a> &middot; <a href="castle.html">the plans</a> &middot; <a href="dev.html">the hub</a>
+</footer>
+</main>
+</body>
+</html>
