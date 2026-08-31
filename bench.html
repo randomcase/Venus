@@ -81,16 +81,33 @@
   reverses, and when the pot itself is put before the court she recuses for
   interest, which is the correct rule and is not in any doubt.
 
-  Sitting reads thirteen on the papers and on the record. Thirteen is odd, so
-  those eight circuits cannot tie, and all eight of them now decide. It reads
-  twelve on the pot, and both of the two remaining deadlocks are there. This
-  court can decide the case from a distance and cannot decide it with the thing
-  in front of it, because the rule that keeps the bench clean is the same rule
-  that removes its only witness. Nobody did anything wrong to arrive at that.
-  Five appointments were made to repair this court and the residue of all of
-  them is two circuits, both on the pot, and one woman in the room who is not
-  allowed to say what she saw. That is not a coincidence in the model; it is
-  the model, and it is what the model was for.
+  Sitting read thirteen on the papers and on the record. Thirteen is odd, so
+  those eight circuits could not tie, and all eight of them decided. It read
+  twelve on the pot, and both remaining deadlocks were there: the court could
+  decide the case from a distance and could not decide it with the thing in
+  front of it, because the rule that keeps the bench clean is the same rule
+  that removes its only witness.
+
+  Rowan came fifteenth, as Chief, above the bench rather than at the end of it.
+  She takes no part in either vote, so not one number moved when she arrived —
+  and she assigns every opinion, which under the old rule she could never have
+  done, because she is never in the majority. Hawthorn, Chief for the whole
+  history of this court, has not written a word of it since. No outcome
+  changed. Every word of every judgment did.
+
+  Birk came sixteenth. She votes on the result and joins no opinion. She
+  reverses, so both deadlocks on the pot are gone — decided, for the appellant.
+  On those two circuits the majority exists only because of her, and a majority
+  resting on a judge who joins no opinion is a plurality: the case is disposed
+  of, nobody has stated the law, nothing binds the next court that is asked.
+
+  Six appointments have now been made to repair this bench. At the point of
+  closest contact with the evidence — the pot on the table — the court can at
+  last produce a result, and the result carries no reasons, because the one
+  witness is recused for interest and the deciding vote will not sign. That is
+  the same document the court below issued, and the same one the pot issued
+  before that. It is not a coincidence in the model; it is the model, and it is
+  what the model was for.
 
   HOW IT IS BUILT — the same five things as every board here
     1 COUNTERS ARE ARITHMETIC    both polls counted, never declared
@@ -384,6 +401,24 @@
   .j0 .vote::after{content:"— DOES NOT VOTE —"}
   .j0 .vote{color:var(--dim);font-size:9.5px}
 
+  /* ---- SENIORITY 16 · BIRK, of the Split Ash. THE SIXTEENTH SEAT.
+     She votes on the result and joins no opinion. Concurring in the judgment
+     only is a real position and an honourable one: she agrees the appellant
+     wins and she will not put her name to anybody's reasons for it.
+     She reverses, having read the file. Her vote counts in the division like
+     any other, so both of the deadlocks on the pot are gone — decided, and
+     decided for the appellant.
+     But on those two circuits the majority exists ONLY because of her, and a
+     majority that depends on a judge who joins no opinion is not a majority
+     opinion. It is a plurality: the case is disposed of, nobody has stated the
+     law, and nothing binds the next court. The two circuits where the pot is
+     on the table can now be decided and cannot be explained — Hazel is recused
+     for interest and Birk will not sign. The court has arrived at a way of
+     answering this question that produces a winner and no holding.
+     That is the last thing this board had left to demonstrate. */
+  .j16 .vote::after{content:"REVERSE · JUDGMENT ONLY"}
+  .j16 .vote{counter-increment:rev 1 sit 1;color:var(--rev);font-size:10px}
+
   /* ------------------------------------------------------------ the tallies */
   .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
   .tally .head{background:#0b1310;border:1px solid var(--edge);border-radius:10px;
@@ -423,8 +458,8 @@
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
   .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
-  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .v-eq {display:block}
-  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-re:checked) .v-eq {display:block}
+  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .v-plu{display:block}
+  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-re:checked) .v-plu{display:block}
   .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
 
   /* ====================================== 3 · WHO WRITES IT · the assignment
@@ -453,7 +488,7 @@
   .vh{font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
     text-transform:uppercase;font-weight:700}
   .v-rev .vh,.c-grant .vh{color:var(--rev)}
-  .v-aff .vh{color:var(--aff)} .v-eq .vh{color:var(--amber)}
+  .v-aff .vh{color:var(--aff)} .v-plu .vh{color:var(--amber)}
   .vst p,.cst p{margin:8px 0 0;font-size:12.5px;max-width:84ch}
 
   /* the canopy closes over the page when the season is green */
@@ -487,8 +522,9 @@
     <h1>The Bench of Nine</h1>
     <span class="sub">Nine thousand square miles of forest — the size of England
       — and one court in it. <i>In re the Pot</i>, first case. Two votes are
-      taken here and the first one is not about the pot. There are fifteen judges,
-      never more than thirteen of them vote, and the newest one never does.
+      taken here and the first one is not about the pot. There are sixteen judges,
+      never more than fourteen of them vote, one never does, and one will not
+      sign anything.
       It is still called the Bench of Nine.</span>
     <span class="tag">no script</span>
   </header>
@@ -722,6 +758,22 @@
         witness. Nobody did anything wrong. That is the problem.</div>
       <div class="row"><span class="cert">grants: papers, record</span><span class="vote"></span></div>
     </div>
+    <div class="j cop j16">
+      <div class="who"><i>16</i><b>Birk</b><em>split ash · concurs in the judgment only</em></div>
+      <div class="prac">She votes on the result and joins no opinion, which is
+        a real position and an honourable one: she agrees the appellant wins
+        and she will not put her name to anybody&rsquo;s reasons for it. She
+        reverses, having read the file, and her vote counts in the division
+        like any other — so both deadlocks on the pot are gone, decided, and
+        decided for the appellant. But on those two circuits the majority
+        exists only because of her, and a majority that depends on a judge who
+        joins no opinion is not a majority opinion. It is a plurality: the case
+        is disposed of, nobody has stated the law, and nothing binds the next
+        court. The two circuits with the pot on the table can now be decided
+        and cannot be explained. Hazel is recused for interest and Birk will
+        not sign.</div>
+      <div class="row"><span class="cert">grants: never</span><span class="vote"></span></div>
+    </div>
   </div>
 
   <!-- ==== TOTALS AFTER. Counted from the nine cards above and nowhere else. -->
@@ -735,14 +787,16 @@
   <p class="note"><b>Four numbers and no margin.</b> A margin is a subtraction
     and this page cannot subtract, so both sides are printed and you may hold
     them against each other, which is what a bench does anyway. <code>Sitting</code> now reads
-    thirteen on the papers and on the record and twelve on the pot: the proxy
-    replaces the ninth chair rather than adding to it, and the fourteenth seat
-    recuses for interest whenever the pot is what is before the court. Thirteen
-    is odd and those eight circuits decide. Twelve is even and the two that are
-    left are both on the pot. <code>Votes to hear</code> reads four or better
-    everywhere, which it has done only since the twelfth seat.</p>
+    fourteen on the papers and on the record and thirteen on the pot: the proxy
+    replaces the ninth chair rather than adding to it, the fourteenth seat
+    recuses for interest whenever the pot is before the court, and the Chief
+    never votes at all. Nothing ties any more. Two circuits are decided by a
+    vote that joins no opinion, and those two are shown as pluralities rather
+    than as judgments, which is the honest label. <code>Votes to hear</code>
+    reads four or better everywhere, which it has done only since the twelfth
+    seat.</p>
 
-  <h2>The judgment <b>eight reverse, two affirm, two tie — all twelve heard</b></h2>
+  <h2>The judgment <b>eight reverse, two affirm, two plurality — none tie</b></h2>
 
   <div class="vst panel v-rev" style="border-color:var(--rev)">
     <div class="vh">Reversed</div>
@@ -770,25 +824,23 @@
       class="wr w-rook"><b>Rook, J.</b>, senior-most in a majority the old
       Chief was not in.</span></p>
   </div>
-  <div class="vst panel v-eq" style="border-color:var(--amber)">
-    <div class="vh">Equally divided · six to six</div>
-    <p>Twelve sitting, six each way, no opinion, no precedent, and the judgment
-      below stands by default rather than by reasoning. Two circuits end here
-      and both of them are <b>on the pot</b> — the two where the case is put to
-      the court as the thing itself rather than as papers or as a record. That
-      is not a coincidence and it is not the abstainer's doing. It is Hazel.
-      She was at the table, she is the only witness this bench has, and when
-      the pot is before the court she must recuse for interest. Thirteen sit on
-      the other eight circuits, thirteen is odd, and those eight decide. Twelve
-      sit on these two.</p>
-    <p>Five appointments have now been made to repair this bench. Yew created
-      the deadlocks, Alder resolved them for the court below, Bracken opened
-      the door, Sedge doubled them by letting an absent position be counted,
-      and Hazel has cleared eight circuits and concentrated everything left
-      onto the two where the evidence is closest. The court can decide this
-      case at a distance. It cannot decide it with the pot on the table.
-      Nobody did anything wrong to produce that, which is the part worth
-      sitting with.</p>
+  <div class="vst panel v-plu" style="border-color:var(--amber)">
+    <div class="vh">Reversed · plurality · no opinion of the court</div>
+    <p>The appellant wins and the court has held nothing. Both circuits that end
+      here are <b>on the pot</b>, and until the sixteenth seat they were the two
+      deadlocks. Birk has broken them, for the appellant, and she concurs in the
+      judgment only — she will not put her name to anybody&rsquo;s reasons. Take
+      her vote away and there is no majority at all, so the majority exists only
+      because of a judge who joins no opinion. That is a plurality: the case is
+      disposed of, nobody has stated the law, and nothing here binds the next
+      court that is asked.</p>
+    <p>So on the two circuits where the pot is actually on the table, this bench
+      can now decide and cannot explain. Hazel was at the table and must recuse
+      for interest. Birk will not sign. Six appointments were made to repair
+      this court, and what they have produced, at the point of closest contact
+      with the evidence, is a result with no reasons attached to it — which is
+      the same document the court below issued, and the same one the pot issued
+      before that.</p>
   </div>
 
   <h2>Fern's table <b>§3 · two keys, one answer</b></h2>
@@ -835,15 +887,15 @@
   <div class="panel">
     <script type="application/json" id="doc">
 { "manifest": "venus.yard/1", "board": "bench", "case": "In re the Pot",
-  "court": { "seats": 15, "vote_on_any_day": "12 on the pot, 13 otherwise",
+  "court": { "seats": 16, "vote_on_any_day": "13 on the pot, 14 otherwise",
              "known_as": "the Bench of Nine", "benches": ["canopy", "understory", "root"],
              "jurisdiction_sq_mi": 9000, "hears_per_year": 80 },
   "rules": { "cert": 4, "decides": "a majority of those sitting",
              "tie": "affirmed by an equally divided court",
              "assignment": "the Chief, who does not vote",
              "assignment_until_the_fifteenth_seat": "chief if in majority, else senior-most in majority" },
-  "circuits": 12, "reversed_on": 8, "affirmed_on": 2, "divided_on": 2,
-  "divided_circuits_are_all": "on the pot",
+  "circuits": 12, "reversed_on": 8, "affirmed_on": 2, "divided_on": 0,
+  "plurality_on": 2, "plurality_circuits_are_all": "on the pot",
   "cert_denied_on": 0,
   "added_seats": [
     { "seniority": 10, "added_to_end": "deadlock", "grants": false, "ended_it": false, "moved_it": true },
@@ -854,7 +906,9 @@
     { "seniority": 14, "was_at": "the pot", "grants": ["papers", "record"],
       "recuses_for_interest_on": "the pot", "cleared": 8, "left": 2 },
     { "seniority": 0, "chief": true, "grants": false, "votes": false,
-      "outcomes_changed": 0, "opinions_reassigned": 10 }
+      "outcomes_changed": 0, "opinions_reassigned": 10 },
+    { "seniority": 16, "joins_no_opinion": true, "grants": false,
+      "ended_the_deadlocks": true, "produced_instead": "a plurality" }
   ],
   "seats_that_grant": 12,
   "$note": "the docket entry. The ninth chair has been empty for fifteen years." }
@@ -876,12 +930,12 @@
     either way now, because the twelfth seat opened one and the thirteenth
     holds the other's proxy. Then put the case up <b>on the pot</b>, both
     seasons, and watch the only two deadlocks left on the board appear. Five
-    appointments were made to fix this court. What is left of all of them is two
-    circuits where the pot is on the table and the one witness may not speak.
-    Then look at the line under whichever judgment you are shown, and note that
-    the sixth appointment changed no outcome on any circuit and took every
-    opinion on the board. Decide for yourself which of the six fixed anything,
-    and then read the last paragraph of the source comment.</p>
+    appointments were made to fix this court. Put the case up <b>on the pot</b>,
+    both seasons, and read what comes back: a result, for the appellant, with
+    no opinion of the court attached to it. Then look at the line under any of
+    the other judgments and note who signs them now. Six appointments. Decide
+    for yourself which of them fixed anything, and then read the last paragraph
+    of the source comment.</p>
   <p class="note">Next: <a href="chamber.html">the Writing Chamber</a>, where
     the opinion is minted and priced · <a href="exhibit.html">Exhibit A</a>,
     the record · <a href="pulse.html">the Pulse</a>, where the same
