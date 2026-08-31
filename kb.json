@@ -465,7 +465,8 @@
         "the-attribution-gap",
         "fungibility",
         "the-retainer",
-        "the-ledger"
+        "the-ledger",
+        "the-prior-condition"
       ]
     },
     {
@@ -574,7 +575,49 @@
       "see": [
         "fungibility",
         "the-retainer",
-        "smart-contracts"
+        "smart-contracts",
+        "the-prior-condition"
+      ]
+    },
+    {
+      "id": "the-prior-condition",
+      "term": "The prior condition",
+      "class": "concept",
+      "settled": "working",
+      "short": "A syndicate does not recruit. It selects for a condition that was already there — and what it sells is not money, it is predictability.",
+      "body": [
+        "Every model in this base so far has described a syndicate structurally: funds matriculate upward, promotion happens within, the commons gets renamed, the retainer buys a full mouth. All of that is about the machinery. None of it explains why anybody is standing next to the machinery in the first place, and the missing variable is not greed.",
+        "WHAT A SYNDICATE ACTUALLY SUPPLIES IS LEGIBILITY. A clear hierarchy. Rules that hold. A place where you can tell what happens next, and where what happens next is the same thing that happened last time. That is worth very little to somebody whose baseline was already stable and it is worth almost anything to somebody whose baseline was not. The match is between a supply and a lack. It is not persuasion, it is not a moral failure, and treating it as either is how the model gets the mechanism wrong.",
+        "THE PRECISE MECHANISM IS A RECALIBRATED BASELINE, and it is the same one as the rename. Nobody can calibrate what ordinary terms look like from a sample of one. If the available sample was coercive, then every later offer is being scored against a comparison set that was never representative — and terms that a stable baseline reads as extractive get read as normal, or as generous. The offer did not change. What it is being measured against did. That is de-fungibilisation performed on a person's reference set rather than on a noun, and it costs the syndicate nothing because somebody else already did it.",
+        "AND THE OPERATIONAL HALF IS UGLIER THAN THE RECRUITMENT HALF. Somebody conditioned to read a room for threat is genuinely, measurably good at reading a room. They notice the shift in tone, they anticipate the ask, they comply before being told, they know who is about to be a problem. That is a real competence, it was acquired at enormous cost, and it is precisely the skill set the structure needs. A syndicate is not exploiting a weakness here. It is employing an expensive capability, and paying under the market rate for it, because the person holding it has no way to price it.",
+        "SO THE EXIT COST IS NOT FINANCIAL, and modelling it as financial is why the obvious counter fails. Leaving means going back to unstructured, and unstructured is the thing that was dangerous. A better-paying offer competes on an axis nobody was buying on. Every anti-syndicate design in this yard up to now removes the money, and removing the money is necessary and does not touch this.",
+        "THE USEFUL HALF: if the product is legibility, then anything that supplies legibility WITHOUT extraction competes with it directly, and nothing else does. Fixed rules, published in advance, that do not change with who is asking. States with names you can type. A counter that only ever counts up. A stop that resets nothing. Those are not stylistic choices in this yard, and this entry is the reason they are load-bearing.",
+        "AND THE FAILURE MODE TO AVOID IS TRUST AT THE DOOR. Any system that requires being vouched for, known, or introduced will systematically exclude exactly the people most exposed to the alternative, and it will do it invisibly, and it will look like a security feature the whole time. That is why a WALLET is the right minimum identity — an address, a balance, the capability to sign, and nobody has to decide what you are before you can participate. For somebody who cannot safely extend trust, that is not an abstraction and it is not a philosophical preference. It is the whole difference between a door that opens and one that does not."
+      ],
+      "test": "Ask what the structure supplies that the alternative does not. If the answer is money, the exit is priceable and people leave when a better offer arrives. If the answer is predictability, the exit is not priceable, better offers do nothing, and any counter that competes only on money will fail — because it is not competing on the thing being bought. Then check your own door: count the steps between arriving and participating that require somebody to vouch for you.",
+      "evidence": [
+        {
+          "page": "syndicate.html",
+          "what": "six indicators, each a structural fact you can check on paper — the machinery this entry sits underneath"
+        },
+        {
+          "page": "chamber.html",
+          "what": "the ninth wallet: fifteen years without trading, and she mints when bound in — not because she was persuaded but because being bound is the first time anybody put the question to her"
+        },
+        {
+          "page": "buddha.html",
+          "what": "the retainer, which buys a capacity rather than an act, and survives an audit because it contains no false statement"
+        },
+        {
+          "page": "persist.html",
+          "what": "every state has a name you can type — legibility with nothing extracted for it"
+        }
+      ],
+      "see": [
+        "the-rename",
+        "the-wallet",
+        "the-retainer",
+        "fungibility"
       ]
     },
     {
@@ -606,7 +649,8 @@
       "see": [
         "the-attribution-gap",
         "the-rename",
-        "the-constant-judge"
+        "the-constant-judge",
+        "the-prior-condition"
       ]
     },
     {
