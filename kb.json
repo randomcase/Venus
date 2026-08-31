@@ -453,7 +453,51 @@
       "see": [
         "the-wallet",
         "the-rename",
-        "fungibility"
+        "fungibility",
+        "the-harvest-guarantee"
+      ]
+    },
+    {
+      "id": "the-harvest-guarantee",
+      "class": "mechanism",
+      "settled": "working",
+      "term": "The harvest guarantee",
+      "short": "A guild is a bank to an amateur and an amateur farm to a journeyman. The one term that breaks it says the contributor keeps harvesting what they brought.",
+      "body": [
+        "A GUILD IS TWO INSTRUMENTS WEARING ONE NAME, and which one you are holding depends entirely on where you stand in it.",
+        "TO AN AMATEUR IT IS A BANK. You arrive with no tools, no customers, no standing and no way to get any of the three, and the guild fronts you all of it against output you have not produced yet. That is credit, it is genuinely useful, and pretending otherwise is how critiques of these structures get dismissed by the people inside them — because the people inside them are correct that they were helped.",
+        "TO A JOURNEYMAN THE SAME INSTITUTION IS AN AMATEUR FARM. Once you have the skill, what the guild supplies is no longer capital, it is a standing crop of people who have to work under somebody and it may as well be you. The word for managing a living thing for yield is HUSBANDRY, and it is the same word for caring for it. That is not a coincidence of English and it is the entire ambiguity: the man husbanding the crop is not lying when he says he looks after it.",
+        "WHICH IS WHY THE SHAPE IS STABLE, AND THIS IS THE PART THE REST OF THIS BASE COULD NOT EXPLAIN. Both positions profit. The amateur needs the bank and will defend it. The journeyman needs the farm and will defend it. Nobody inside has an incentive to break it, so it does not need enforcement, secrecy or bad faith to persist for centuries — and it explains why spotting a syndicate from the inside is so hard. The people being farmed are being banked at the same moment by the same institution, and both halves are true, and the true half is the one they will cite.",
+        "THE TERM THAT BREAKS IT IS NARROW. Not ownership of the commons, not a vote, not a share of the whole: a guaranteed claim on the stream produced by what YOU brought, which cannot be voted away, diluted, reassigned on somebody's promotion, or made to lapse by leaving. You continue to harvest your own contribution for as long as it produces.",
+        "AND IT IS THE RIGHT USE OF A SMART CONTRACT, precisely because it stays inside the scope rule this base already keeps: it is a wallet transaction. It decides no membership, no governance and no dispute. It says one thing — this address receives this stream, and no majority reassigns it — which is the one kind of statement code can actually enforce without becoming a bench that cannot be appealed.",
+        "WHAT IT REMOVES IS THE FARM AND NOT THE BANK. The journeyman's return stops arriving from the amateur's contribution and starts arriving from their own, so the crop is gone; but the amateur still gets the tools, the standing and the customers, because that half was never the extraction. A structure that keeps the credit and loses the harvest is a guild that has stopped being a syndicate without anybody having to be expelled from it.",
+        "THE HONEST LIMIT: IT DOES NOT STOP THE RENAME. Somebody can still redefine what counts as 'what you brought' — reclassify the contribution, split it, call it a work for hire, call it derivative. The contract enforces the transfer and not the definition, the definition sits upstream of the contract, and that is the contested entry arriving again in a different coat. Close the discretionary path and the semantic one is still open."
+      ],
+      "test": "Follow one unit of a newcomer's output for five years. If any part of it is still reaching somebody who did not contribute to it, and reaching them by virtue of RANK rather than by a term the newcomer agreed to, the guarantee is not in force whatever the documents say. Then ask the harder question, because it is where this will actually be attacked: who defines what the newcomer brought? The contract enforces the transfer and not the definition, and a guarantee over a category somebody else controls is a guarantee over nothing.",
+      "evidence": [
+        {
+          "page": "chamber.html",
+          "what": "the exchange, the bundle of sticks, and the ninth wallet who does not trade until she is bound in"
+        },
+        {
+          "page": "syndicate.html",
+          "what": "six structural indicators, each checkable on paper"
+        },
+        {
+          "page": "bench.html",
+          "what": "forty disposals, twelve opinions, and no drafter named — the harvest already happening with nobody breaking a rule"
+        },
+        {
+          "page": "baseline.html",
+          "what": "the door that admits one of four, and the exit no money offer can buy"
+        }
+      ],
+      "see": [
+        "smart-contracts",
+        "the-prior-condition",
+        "the-attribution-gap",
+        "the-wallet",
+        "the-rename"
       ]
     },
     {
@@ -651,7 +695,8 @@
         "the-rename",
         "the-wallet",
         "the-retainer",
-        "fungibility"
+        "fungibility",
+        "the-harvest-guarantee"
       ],
       "game": {
         "unlock": "Switch base template — the same board, read against a different roster."
@@ -716,7 +761,8 @@
         "the-retainer",
         "the-constant-judge",
         "the-zero-counter",
-        "the-exchange"
+        "the-exchange",
+        "the-harvest-guarantee"
       ]
     },
     {
