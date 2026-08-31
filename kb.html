@@ -1,7 +1,7 @@
 <title>The Venus Knowledge Base</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
-  THE VENUS KNOWLEDGE BASE — 18 entries, generated from kb.json by kb.mjs.
+  THE VENUS KNOWLEDGE BASE — 20 entries, generated from kb.json by kb.mjs.
 
   Every entry carries a TEST: the thing you could do that would show it false.
   An entry without one is an opinion with a heading on it, and this base does
@@ -9,7 +9,7 @@
   the board is cited by filename and the generator has checked that the file
   exists — 25 distinct pages cited, 0 broken.
 
-  0 of the 18 entries are asserted and not
+  0 of the 20 entries are asserted and not
   demonstrated anywhere. They are named at the foot of the page. A base that
   hides its own soft spots is a brochure.
 
@@ -428,9 +428,9 @@
       <div class="fg">
         <h4>by kind</h4>
         <div class="row">
-          <input type="radio" name="cls" id="f-all" checked><label for="f-all">all 18</label>
+          <input type="radio" name="cls" id="f-all" checked><label for="f-all">all 20</label>
           <input type="radio" name="cls" id="f-concept"><label for="f-concept" title="a claim about how things work">concept 5</label>
-          <input type="radio" name="cls" id="f-mechanism"><label for="f-mechanism" title="a technique, and what it costs">mechanism 7</label>
+          <input type="radio" name="cls" id="f-mechanism"><label for="f-mechanism" title="a technique, and what it costs">mechanism 9</label>
           <input type="radio" name="cls" id="f-figure"><label for="f-figure" title="a person or a posture, and what it does">figure 3</label>
           <input type="radio" name="cls" id="f-number"><label for="f-number" title="a measured or computed quantity">number 3</label>
         </div>
@@ -439,7 +439,7 @@
         <h4>by how sure</h4>
         <div class="row">
           <input type="radio" name="conf" id="g-all" checked><label for="g-all">all</label>
-          <input type="radio" name="conf" id="g-settled"><label for="g-settled" title="demonstrated on a board you can open, and the demonstration is checkable">settled 15</label>
+          <input type="radio" name="conf" id="g-settled"><label for="g-settled" title="demonstrated on a board you can open, and the demonstration is checkable">settled 17</label>
           <input type="radio" name="conf" id="g-working"><label for="g-working" title="used throughout, argued for, not independently verified">working 2</label>
           <input type="radio" name="conf" id="g-contested"><label for="g-contested" title="the yard has said two things about it and has not reconciled them">contested 1</label>
           <input type="radio" name="conf" id="g-open"><label for="g-open" title="stated, not demonstrated anywhere yet">open 0</label>
@@ -556,6 +556,7 @@
         <a href="#the-loss-condition">The loss condition</a>
         <s>cited by</s>
         <a class="in" href="#the-wallet">The wallet</a>
+        <a class="in" href="#the-gas">The gas</a>
         <a class="in" href="#the-rename">The rename</a>
       </div>
     </section>
@@ -581,9 +582,63 @@
         <a href="#the-attribution-gap">The attribution gap</a>
         <a href="#fungibility">Fungibility</a>
         <a href="#the-retainer">The retainer</a>
+        <a href="#the-ledger">The ledger</a>
         <s>cited by</s>
         <a class="in" href="#fungibility">Fungibility</a>
         <a class="in" href="#smart-contracts">Smart contracts</a>
+        <a class="in" href="#the-ledger">The ledger</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-ledger">
+      <h3><a href="#the-ledger">The ledger</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">Its guarantee is agreement about <em>ORDER</em>, not about truth. It is complete about what was submitted and silent about what was not.</p>
+      <p class="b">A wallet holds and signs. A ledger is the record, and the two are constantly confused because they arrive in the same box. The ledger's actual promise is narrower than either its defenders or its critics usually state: these events happened in this sequence, and everyone reading sees the same sequence. Consensus is a mechanism for agreeing on <em>ORDER</em>. It was never a mechanism for agreeing on whether anything in the order was true.</p>
+      <p class="b"><em>APPEND</em>-<em>ONLY MEANS AN ERROR CANNOT BE CORRECTED</em>, <em>ONLY SUPERSEDED</em>. The mistake stays; the correction is a second entry; and from then on both are in the record permanently and every reader has to know which one governs. That is the integrity guarantee and the liability in one property — immutability is exactly what makes a record trustworthy and exactly what makes a single bad entry load-bearing forever.</p>
+      <p class="b">The second property is the one nobody draws. A ledger is complete about what was <em>SUBMITTED</em> to it and knows nothing about what was not, and <em>THERE IS NO ENTRY REPRESENTING THE GAP</em>. An event that never reached it leaves no hole, no null, no marker — the record simply reads as though the world contained only what was written down. This is the same shape as the bench's <code>named</code> counter reading zero, except worse in one specific way: <code>named</code> is at least printed. The ledger's absences are not.</p>
+      <p class="b">Which is why this yard's ledger is built to carry the thing a chain does not. bank.html holds no key and no balance and every figure is arithmetic summed from what you select — but every line says <em>WHICH BOARD AUTHORED IT</em>. Provenance is not part of what a ledger guarantees, and it is the first thing anybody actually wants from one.</p>
+      <p class="b">exhibit.html is the same principle in a court record and states it better than an argument could: the transcript is entered verbatim and nothing is corrected — not the spelling, not the half-sentences, not the lines that turned out to be the holding. A transcript that has been tidied is a summary, and a summary is the other side's argument wearing the record's clothes.</p>
+      <div class="test"><span>the test</span><p>Name a class of events that could never have reached it — off-ledger settlement, a handshake, a decision taken before anything was submitted. If you cannot name one, you have not found its boundary yet. Then look for anything in the record that represents that boundary. There will not be anything, and that absence is the whole of what a ledger cannot do for you.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="bank.html"><b>bank.html</b>a ledger view and not a wallet — and every line says which board authored the figure, which is the property a chain does not carry</a>
+        <a href="exhibit.html"><b>exhibit.html</b>the record entered verbatim, nothing corrected, and the reason stated: a tidied transcript is a summary</a>
+        <a href="persist.html"><b>persist.html</b>the fragment as the only durable store, where Back steps through the history of states and every state has a name you can type</a>
+        <a href="chain.html"><b>chain.html</b>B2 / P2P / 2B — three legs, each able to say less than the one before it</a>
+      </div>
+      <div class="rel">
+        <a href="#the-wallet">The wallet</a>
+        <a href="#the-gas">The gas</a>
+        <a href="#the-attribution-gap">The attribution gap</a>
+        <a href="#the-zero-counter">The counter that prints zero</a>
+        <s>cited by</s>
+        <a class="in" href="#the-wallet">The wallet</a>
+        <a class="in" href="#the-gas">The gas</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-gas">
+      <h3><a href="#the-gas">The gas</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">The price of a check. Its point is not revenue — it is that an unpaid check and a passed check look identical from outside.</p>
+      <p class="b">A form is not complete when its boxes are full. It is complete when every check it carries has actually been performed, and checking costs something. Naming that cost is the entire contribution: once verification is metered, &quot;we checked and it was fine&quot; and &quot;we did not check&quot; stop being indistinguishable, which is the state they are in everywhere the cost is unnamed.</p>
+      <p class="b">The rule in this yard has three arms. Gas within budget: complete, the checks were affordable and were done. Gas over budget but a higher budget exists: return it, escalate to a desk that can pay. Gas over <em>EVERY</em> budget: BURN — refuse it, and forfeit what was already spent.</p>
+      <p class="b">The burn is the part that matters and it is not vindictive. A partially checked form that gets accepted becomes evidence that it was checked, and that is strictly worse than a refusal: a refusal leaves a gap where the truth is, and a rubber stamp fills the gap with a lie. The gap is recoverable. The lie is not.</p>
+      <p class="b"><em>AND THE ATTACK RUNS THE OTHER WAY FROM WHERE PEOPLE LOOK FOR IT</em>. Nobody is collecting this gas. The syndicate's move is not to charge for verification, it is to <em>RAISE</em> the cost of it — the syndicate profile in that board is heavy on purpose, because the shape's whole method is to make checking cost more than waving it through. A document nobody can afford to verify gets waved through by an honest desk with a full budget, and no bribe was needed anywhere in that sentence.</p>
+      <p class="b"><em>THIS ENTRY SUPPLIES A QUALIFIER THE BASE WAS MISSING</em>. Elsewhere here: a loss condition is a scarcity, and a scarcity is a rent. Gas is a scarcity by construction — a budget that can run out is a last unit — so on that rule gas ought to carry a rent, and it does not. The missing clause is that <em>A SCARCITY CARRIES A RENT ONLY WHEN SOMEBODY COLLECTS AT EXHAUSTION</em>. The burn is precisely the design that makes exhaustion pay nobody: what was spent is forfeit rather than transferred, so running out enriches no one and there is nothing for a market in continuation to attach to. That is not an exception to the rule. It is the rule stated properly, and this board had it before the rule did.</p>
+      <div class="test"><span>the test</span><p>Find who receives what is spent when the budget runs out. If it is transferred to anybody, the scarcity carries a rent and you have found the beneficiary. If it is forfeit, it does not. Then ask the other question, which is the one people skip: who benefits from the cost being HIGH? That party never appears in the fee flow at all.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="contract.html"><b>contract.html</b>gas ≤ budget, escalate, or burn — fifteen cells, five profiles by three budgets, each worked out by hand</a>
+        <a href="syndicate.html"><b>syndicate.html</b>six structural indicators, and the profile that is heavy on purpose</a>
+        <a href="bench.html"><b>bench.html</b>the Master's fee, paid per disposal — the same instrument metering the wrong quantity</a>
+        <a href="vault.html"><b>vault.html</b>dual control: two hands to sear, because the cost of a check is a design parameter and not an accident</a>
+      </div>
+      <div class="rel">
+        <a href="#the-loss-condition">The loss condition</a>
+        <a href="#smart-contracts">Smart contracts</a>
+        <a href="#the-ledger">The ledger</a>
+        <a href="#the-constant-judge">The constant judge</a>
+        <s>cited by</s>
+        <a class="in" href="#the-ledger">The ledger</a>
+        <a class="in" href="#the-loss-condition">The loss condition</a>
       </div>
     </section>
     <section class="e c-concept s-working" id="the-loss-condition">
@@ -593,6 +648,7 @@
       <p class="b">A loss condition says: there exists a state from which you cannot continue. That statement creates a last unit — the last life, the last turn, the last chance — and a last unit is by construction scarce. Scarcity is not a feeling about a resource; it is the existence of a final one.</p>
       <p class="b">Once a final unit exists, somebody can sell it, and everything downstream follows without anyone intending it: a market in continuation, a price for not-ending, and an incentive to arrange more near-endings. Nobody has to be corrupt for this. The instrument does it.</p>
       <p class="b">The corollary is the useful half. Anything genuinely endless cannot be sold by the unit. A quiet storm set has no last record; a superrotation has no last lap; the automat has no last beat. None of them were designed to resist a rent — they simply came out that way, and the resistance is a side-effect of having no final unit to price.</p>
+      <p class="b"><em>A QUALIFIER THIS RULE NEEDED AND DID NOT HAVE</em>, supplied later by the gas entry: a scarcity carries a rent only when <em>SOMEBODY COLLECTS AT EXHAUSTION</em>. Gas is a scarcity by construction — a budget that can run out is a last unit — and it carries no rent, because contract.html's burn forfeits what was spent rather than transferring it. Running out enriches nobody, so there is nothing for a market in continuation to attach to. Check for the beneficiary before calling a scarcity a rent; a real cost with no collector is not the same object as a manufactured one with a desk behind it.</p>
       <div class="test"><span>the test</span><p>Find the last unit. If you can name it — last life, last turn, last block, last lap — ask who would sell it and at what price. If you cannot name one, there is nothing there to rent.</p></div>
       <div class="ev"><span>demonstrated on</span>
         <a href="theory.md"><b>theory.md</b>the three notes compiled: a loss condition is a scare factor, compared to something that is and is not at the same time</a>
@@ -603,10 +659,12 @@
         <a href="#fungibility">Fungibility</a>
         <a href="#the-retainer">The retainer</a>
         <a href="#caught-up">Caught up</a>
+        <a href="#the-gas">The gas</a>
         <s>cited by</s>
         <a class="in" href="#fungibility">Fungibility</a>
         <a class="in" href="#the-minimum-cycle">What it takes to start something</a>
         <a class="in" href="#smart-contracts">Smart contracts</a>
+        <a class="in" href="#the-gas">The gas</a>
         <a class="in" href="#the-rename">The rename</a>
         <a class="in" href="#caught-up">Caught up</a>
         <a class="in" href="#the-orbit">The orbit</a>
@@ -679,6 +737,7 @@
         <a href="#the-zero-counter">The counter that prints zero</a>
         <s>cited by</s>
         <a class="in" href="#the-wallet">The wallet</a>
+        <a class="in" href="#the-ledger">The ledger</a>
         <a class="in" href="#the-retainer">The retainer</a>
         <a class="in" href="#the-constant-judge">The constant judge</a>
         <a class="in" href="#the-zero-counter">The counter that prints zero</a>
@@ -701,6 +760,7 @@
         <a href="#the-retainer">The retainer</a>
         <a href="#cascade-order">Cascade order settles only ties</a>
         <s>cited by</s>
+        <a class="in" href="#the-gas">The gas</a>
         <a class="in" href="#the-retainer">The retainer</a>
         <a class="in" href="#the-attribution-gap">The attribution gap</a>
       </div>
@@ -836,6 +896,7 @@
         <a href="#the-lookup-table">A lookup table is auditable</a>
         <a href="#cascade-order">Cascade order settles only ties</a>
         <s>cited by</s>
+        <a class="in" href="#the-ledger">The ledger</a>
         <a class="in" href="#the-attribution-gap">The attribution gap</a>
         <a class="in" href="#cascade-order">Cascade order settles only ties</a>
         <a class="in" href="#the-lookup-table">A lookup table is auditable</a>
@@ -886,23 +947,23 @@
       </div>
     </section>
 
-  <div class="count">of 18 entries showing. A hidden element generates
+  <div class="count">of 20 entries showing. A hidden element generates
     no box and so increments no counter &mdash; this number is not maintained by
     anything, it is what <code>display:none</code> already means. <b>Nothing
-    happens at 18.</b></div>
+    happens at 20.</b></div>
 
   <h2>What the base knows about itself <b>checked at build time, not claimed</b></h2>
   <div class="panel">
     <div class="stats">
-      <div class="st"><span>entries</span><b>18</b></div>
+      <div class="st"><span>entries</span><b>20</b></div>
       <div class="st"><span>boards cited</span><b>25</b></div>
       <div class="st ok"><span>broken citations</span><b>0</b></div>
       <div class="st ok"><span>undemonstrated</span><b>0</b></div>
     </div>
     <p class="n"><b>Most cited:</b>
-      <a href="automat.html">automat.html</a> &times;6 &middot; <a href="rapture.html">rapture.html</a> &times;5 &middot; <a href="bench.html">bench.html</a> &times;5 &middot; <a href="ecosystem.html">ecosystem.html</a> &times;4 &middot; <a href="buddha.html">buddha.html</a> &times;4.
-      <b>Most depended-on idea:</b> Fungibility, cited by
-      6 other entries. The inbound half of that graph is
+      <a href="automat.html">automat.html</a> &times;6 &middot; <a href="bench.html">bench.html</a> &times;6 &middot; <a href="rapture.html">rapture.html</a> &times;5 &middot; <a href="ecosystem.html">ecosystem.html</a> &times;4 &middot; <a href="buddha.html">buddha.html</a> &times;4.
+      <b>Most depended-on idea:</b> The loss condition, cited by
+      7 other entries. The inbound half of that graph is
       computed here rather than written in the JSON, because it is the half
       nobody maintains by hand and the half that says which ideas are actually
       load-bearing.</p>
@@ -934,7 +995,7 @@
   </div>
 
   <footer>
-    18 entries &middot; 25 boards cited &middot;
+    20 entries &middot; 25 boards cited &middot;
     0 broken &middot; 0 undemonstrated.
     Generated by <a href="kb.mjs">kb.mjs</a> from <a href="kb.json">kb.json</a>.
     <br><a href="theory.md">theory.md</a>, the argument &middot;
