@@ -260,7 +260,47 @@
         "the-window",
         "the-passage",
         "the-light-delay",
-        "the-injector"
+        "the-injector",
+        "the-baton"
+      ]
+    },
+    {
+      "id": "the-baton",
+      "term": "The baton",
+      "class": "concept",
+      "settled": "settled",
+      "short": "The only object in the system whose journey is the point. The hull is not the baton, and confusing the two is the commonest error there is.",
+      "body": [
+        "Everything else in a relay exists to move it. The runners, the stations, the schedule, the exchange zones — none of those are going anywhere in the sense that matters; they cycle, they reset, they go home. One object crosses the whole distance and it is not any of them.",
+        "MOST SYSTEMS CANNOT NAME THEIR BATON, and that is why they optimise runners. Hull utilisation, desk throughput, cases disposed, seats filled, uptime — every one of those is a measurement of a carrier, and a system can improve all of them at once while the baton sits at a station. The relay reports one thing for exactly this reason: where the baton is. Not how the hull did.",
+        "THE BATON HAS NO STATE EXCEPT POSITION. It does not accumulate merit from a clean handoff or wear from a late one. A baton that waited a full 584-day window at an exchange and a baton that went straight through are the same baton when they reach Venus, differing only in when. That is fungibility applied to cargo, and it is the whole reason a held baton is not a loss: held and handed produce an identical object at the far end.",
+        "AND IT IS THE ONE THING THAT MUST NOT BE DROPPED, which is why the exchange is the part that gets practised. The running is fitness. The handoff is skill. A relay does not fail in the middle of a leg — it fails in the two seconds where the object is in nobody's hand, and every design decision worth making is about that moment. convoy.html releases in pairs and the markup does not offer half a pair, which is a stronger guarantee than a rule saying not to.",
+        "NAMING YOURS IS A DECISION AND IT TELLS YOU WHAT TO MEASURE. In this yard the supply line's baton is hydrogen — it cannot be made at Venus at any price, so everything wet is downstream of whether it arrives. The court's baton is the opinion, not the disposal: forty disposals a day and twelve opinions, and the twelve are what binds. The ledger's baton is the record itself. Three different systems, three different objects, and in each case the metrics that felt natural were about the carriers."
+      ],
+      "test": "Name the baton, then read your own dashboard. If what it measures is carriers — utilisation, throughput, disposals, uptime — and not the baton's position, you are optimising the things that go home at the end of the shift. Ask where the baton is and how long it has been there; if nobody owns that number, nobody is watching the only journey in the system.",
+      "evidence": [
+        {
+          "page": "game.html",
+          "what": "the relay reports one thing — aboard, held at an exchange, or at Venus — and the hull cycles on its own clock"
+        },
+        {
+          "page": "convoy.html",
+          "what": "eight hulls in four pairs, and nothing on the board can release half a pair"
+        },
+        {
+          "page": "profiles/hydrogen.html",
+          "what": "the supply line's actual baton: 2.06% H in H2SO4, ~136,000 m3 of cloud per kg of water, and it cannot be made there at any price"
+        },
+        {
+          "page": "bench.html",
+          "what": "forty disposals and twelve opinions — the disposal is the runner and the opinion is what crosses"
+        }
+      ],
+      "see": [
+        "the-relay",
+        "the-injector",
+        "hydrogen",
+        "the-wallet"
       ]
     },
     {
@@ -299,7 +339,8 @@
         "the-relay",
         "the-light-delay",
         "the-gas",
-        "decentralization"
+        "decentralization",
+        "the-baton"
       ]
     },
     {
@@ -669,7 +710,8 @@
         "the-minimum-cycle",
         "fungibility",
         "the-window",
-        "the-relay"
+        "the-relay",
+        "the-baton"
       ]
     },
     {
