@@ -488,10 +488,78 @@
     border:1px solid rgba(111,192,138,.28);color:#bfe6cd}
   .k .ran b{color:#eafaf0}
   .k .ran em{font-style:normal;color:#ffe9a8}
+  /* ═══════════════════════════════════════════════════════════ THE BOOT
+     Six seconds, skippable on anything, and it has one job beyond looking
+     like a machine waking up: it hands you eighteen hundred years and then
+     tells you that none of it counts yet. That is not a flourish, it is the
+     Hub's whole premise stated before you can misread it — twenty-seven
+     entries resident, zero verified, because a download is not a
+     demonstration and the difference is the game. */
+  .boot{position:fixed;inset:0;z-index:50;background:#04050a;overflow:hidden;
+    display:grid;place-items:center;transition:opacity .7s}
+  .boot.gone{opacity:0;pointer-events:none}
+  /* the sweep: a cold start reading its own surface before it trusts it */
+  .boot .sweep{position:absolute;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,rgba(110,198,255,.85),transparent);
+    box-shadow:0 0 26px rgba(110,198,255,.6);animation:bsweep 1.6s ease-in-out 2}
+  @keyframes bsweep{from{top:-2%}to{top:102%}}
+  .boot .grid{position:absolute;inset:-20%;opacity:0;
+    background:
+      repeating-linear-gradient(0deg,rgba(110,198,255,.10) 0 1px,transparent 1px 44px),
+      repeating-linear-gradient(90deg,rgba(110,198,255,.10) 0 1px,transparent 1px 44px);
+    transform:perspective(700px) rotateX(66deg) translateY(14%);
+    animation:bgrid 5.2s ease-out forwards}
+  @keyframes bgrid{15%{opacity:0}45%{opacity:.55}100%{opacity:.12}}
+  .boot .vig{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(circle at 50% 46%,transparent 34%,rgba(4,5,10,.92) 78%)}
+
+  .bwrap{position:relative;width:min(560px,88vw);text-align:left;
+    font:11.5px/1.75 ui-monospace,SFMono-Regular,Menlo,monospace;color:#7f93a8}
+  .bline{opacity:0;animation:bin .5s ease-out forwards}
+  @keyframes bin{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+  .bline b{color:#cfe2f2;font-weight:600}
+  .bline u{text-decoration:none;color:#6ec6ff}
+  .bline em{font-style:normal;color:#ffe9a8}
+  .bhail{margin:14px 0;padding:11px 14px;border-left:2px solid #6ec6ff;
+    background:rgba(110,198,255,.06);color:#bfd6e8;font-size:12px;line-height:1.8}
+  .bhail s{display:block;text-decoration:none;font-size:9px;letter-spacing:.18em;
+    text-transform:uppercase;color:#6ec6ff;margin-bottom:6px}
+
+  /* the stream: eighteen hundred years going past faster than reading */
+  .bstream{height:96px;overflow:hidden;position:relative;margin:12px 0;
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 22%,#000 74%,transparent);
+    mask-image:linear-gradient(180deg,transparent,#000 22%,#000 74%,transparent)}
+  .bstream div{white-space:nowrap;font-size:10.5px;color:#54697e;
+    padding:1px 0;letter-spacing:.02em}
+  .bstream div span{color:#8fb4cf}
+  .bstream .roll{position:absolute;left:0;right:0;top:0;will-change:transform}
+  .bbar{height:3px;border-radius:2px;background:#16222e;overflow:hidden;margin-top:9px}
+  .bbar i{display:block;height:100%;width:0;border-radius:2px;
+    background:linear-gradient(90deg,#2f6f8f,#6ec6ff)}
+  .bcount{display:flex;gap:10px;align-items:baseline;margin-top:9px;font-size:10.5px}
+  .bcount b{color:#6ec6ff;font:14px/1 ui-monospace,monospace}
+  .bcount s{margin-left:auto;text-decoration:none;color:#54697e}
+
+  .bverdict{margin-top:16px;padding:13px 15px;border:1px solid #2a3a48;
+    border-left:3px solid #ffe9a8;border-radius:0 10px 10px 0;
+    background:rgba(255,233,168,.05);color:#cfe2f2;font-size:12px;line-height:1.8;
+    opacity:0;animation:bin .6s ease-out forwards}
+  .bverdict b{color:#ffe9a8}
+  .bskip{position:absolute;right:16px;bottom:14px;font-size:9.5px;
+    letter-spacing:.14em;text-transform:uppercase;color:#3f5061;cursor:pointer;
+    border:1px solid #22303f;border-radius:7px;padding:8px 12px}
+  .bskip:hover{color:#9fb4c6;border-color:#3a4c5e}
+  @media (prefers-reduced-motion:reduce){
+    .boot .sweep,.boot .grid{animation:none;opacity:.2}}
 </style>
 
 <canvas id="sky"></canvas>
 
+<div class="boot" id="boot">
+  <div class="grid"></div><div class="sweep"></div><div class="vig"></div>
+  <div class="bwrap" id="bwrap"></div>
+  <div class="bskip" id="bskip">skip</div>
+</div>
 <div class="phone">
   <div class="res">
     <div class="r-h2"><span>hydrogen</span><b id="v-h2">0</b><i id="d-h2">kg · ship only</i></div>
@@ -2170,6 +2238,123 @@ rlCard('The relay',
   'end. Nothing to press about it.<br><br>' +
   'Your one decision is <b>when to leave</b>. The window is 583.92 days and ' +
   'the transfer is cheapest at the top of it.');
+
+/* ══════════════════════════════════════════════════════════════ THE BOOT
+   A base-building simulator powers on. It is greeted. It is handed eighteen
+   hundred years of history in a microsecond — and the last thing it is told
+   is that none of that counts.
+
+   THE POINT OF THE SEQUENCE IS THE LAST LINE. Twenty-seven entries resident,
+   zero verified. A download is not a demonstration, and the whole Hub is
+   built on that distinction: you arrive knowing everything and having shown
+   nothing, and the only way an entry stops being a file and starts being
+   knowledge is that the board does the thing in front of you.
+
+   The voice is Remus, because the yard already built the right character for
+   greeting something that has just switched on. Romulus is one thing, a
+   wallet. Remus is everything not Romulus, and it turns out that includes
+   hospitality.
+
+   Six seconds. Skippable on any key, any click, any tap. */
+function boot() {
+  const w = $('bwrap'), b = $('boot');
+  if (!w) return;
+  let done = false;
+  const end = () => {
+    if (done) return; done = true;
+    b.classList.add('gone');
+    setTimeout(() => b.remove(), 800);
+  };
+  $('bskip').onclick = end;
+  addEventListener('keydown', end, { once: true });
+  b.addEventListener('click', end);
+
+  /* the eighteen hundred years, and every line in it is something this
+     repository worked out rather than something written for the montage */
+  const HIST = [
+    ['c. 3200 BC', 'Nisaba holds grain and writing in one hand'],
+    ['c. 3000 BC', 'the first thing anybody wrote down was a receipt'],
+    ['c. 1200 BC', 'a boy raised on a mountain is asked to judge a beauty'],
+    ['509 BC', 'SPQR — the Senate AND the People, and the conjunction does the work'],
+    ['c. 240 BC', 'Vulgar Latin leaves on the roads with the soldiers'],
+    ['1066', 'the peasant keeps the cow and the master eats the beef'],
+    ['c. 1150', 'troubadours put the love into a language named for an army'],
+    ['1610', 'the sky gets a lens and the stars get counted'],
+    ['1761', 'Lomonosov sees an arc of light and calls it an atmosphere'],
+    ['1962', 'Mariner 2 makes Venus the first planet anybody visited'],
+    ['1966', 'Venera 3 arrives, in the way things arrive at Venus'],
+    ['1975', 'a quiet storm, and the format has no last record'],
+    ['1976', 'WHUR-FM, and the rule is that nothing is announced'],
+    ['1978', 'Pioneer measures 243.02 days, backwards'],
+    ['1985', 'VeGa floats two balloons in the deck for 46 hours'],
+    ['1986', 'Rapture, Elektra — and the phrase turns out to be literal'],
+    ['2006', 'Venus Express, and the superrotation still has no agreed cause'],
+    ['today', '583.92 days between one chance and the next']
+  ];
+  const KB = (window.HUB || []).map(e => e.term);
+  const EXTRA = ['fungibility', 'decentralization', 'the minimum cycle', 'the rename',
+    'the retainer', 'the attribution gap', 'the baton', 'the exchange', 'the ledger',
+    'the gas', 'the wallet', 'smart contracts', 'the injector', 'the orbit',
+    'the window', 'the passage', 'the light delay', 'the relay', 'superrotation',
+    'hydrogen', 'cascade order', 'the lookup table', 'the zero counter',
+    'the query string', 'the prior condition', 'caught up', 'the constant judge'];
+  const NAMES = KB.length ? KB.concat(EXTRA) : EXTRA;
+
+  const say = (html, cls) => {
+    const d = document.createElement('div');
+    d.className = cls || 'bline'; d.innerHTML = html; w.appendChild(d); return d;
+  };
+  const at = (ms, fn) => setTimeout(() => { if (!done) fn(); }, ms);
+
+  at(220,  () => say('<u>&#9679;</u> cold start &middot; aerostat 55 km &middot; 0.52 bar &middot; 27&nbsp;&deg;C'));
+  at(700,  () => say('<u>&#9679;</u> base-building simulator <b>online</b>'));
+  at(1150, () => say('<u>&#9679;</u> incoming hail'));
+  at(1500, () => say(
+    '<s>Remus &middot; autonomous, and not the wallet</s>' +
+    'Welcome to Venus. You are eighteen hundred years late and exactly on time, ' +
+    'which is the only way anybody arrives here &mdash; the window does not care ' +
+    'and it does not move.<br><br>Romulus is the wallet. I am everything else, ' +
+    'including this. I am going to hand you all of it at once, and then I am ' +
+    'going to tell you what it is worth.', 'bhail'));
+
+  at(2500, () => {
+    say('<u>&#9679;</u> transferring <b>1,800 years</b> &middot; elapsed 1&thinsp;&micro;s');
+    const box = say('<div class="roll"></div>', 'bstream');
+    const roll = box.querySelector('.roll');
+    const rows = [];
+    for (let i = 0; i < 46; i++) {
+      const h = HIST[i % HIST.length], n = NAMES[i % NAMES.length];
+      rows.push('<div><span>' + h[0] + '</span> &nbsp; ' + h[1] + '</div>');
+      rows.push('<div>&nbsp;&nbsp;&nbsp;&nbsp; &middot; ' + n + '</div>');
+    }
+    roll.innerHTML = rows.join('');
+    const bar = say('<div class="bbar"><i></i></div>', 'bline').querySelector('i');
+    const cnt = say('<b>0</b> entries resident <s>verified 0</s>', 'bcount');
+    const num = cnt.querySelector('b');
+    const total = 27; let t0 = null;
+    const run = (ts) => {
+      if (done) return;
+      if (t0 === null) t0 = ts;
+      const k = Math.min(1, (ts - t0) / 1900);
+      roll.style.transform = 'translateY(' + (-k * (roll.scrollHeight - 96)) + 'px)';
+      bar.style.width = (k * 100) + '%';
+      num.textContent = Math.round(k * total);
+      if (k < 1) requestAnimationFrame(run);
+    };
+    requestAnimationFrame(run);
+  });
+
+  at(4700, () => say(
+    '<b>27 entries resident. 0 verified.</b><br>' +
+    'You have the history and you have demonstrated none of it. Every one of ' +
+    'those carries a test &mdash; the thing you could do that would show it ' +
+    'false &mdash; and a file is not a finding until the board in front of you ' +
+    'does the thing.<br><br>There is no score here, nothing to lose, and no ' +
+    'ending. <b>Build something. The window is 584 days.</b>', 'bverdict'));
+
+  at(6400, end);
+}
+boot();
 
 function frame(now) {
   const dt = Math.min(now - last, 200); last = now;
