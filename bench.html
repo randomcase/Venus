@@ -32,10 +32,19 @@
   identical but identitarianly aligned has no step at which anybody is asked,
   and calling the pot a vote is how it avoids ever adding one. Abstention is
   not consent. Fifteen years of abstention is not fifteen years of consent; it
-  is fifteen years of a question nobody put. The court reverses on eight of the
-  twelve circuits you can put it through, and the two circuits where it splits
-  four to four both happen for the same reason: the abstainer was not asked to
-  sit. That is not a coincidence in the model. It is the model.
+  is fifteen years of a question nobody put. The court reverses on six of the
+  twelve circuits you can put it through, denies cert on four, and splits five
+  to five on two.
+
+  THE TENTH SEAT
+  There are ten judges on this bench and it is still called the Bench of Nine.
+  Yew was seated to stop the court deadlocking, which is why a tenth seat has
+  ever been added to any bench anywhere, and ten is an even number. Before her
+  the two deadlocks were the circuits where the ninth chair was empty. Those
+  two now affirm — the packing worked, and it worked for the court below. What
+  deadlocks now are the two circuits where the abstainer came and voted. The
+  deadlock did not end. It was moved onto her. That is not a coincidence in
+  the model; it is the model, and it is what the model was for.
 
   HOW IT IS BUILT — the same five things as every board here
     1 COUNTERS ARE ARITHMETIC    both polls counted, never declared
@@ -45,8 +54,8 @@
     5 A GET FORM IS TRANSPORT    the judgment goes to the bridge
     6 application/json IS DATA   the docket entry
 
-  Companion board: pulse.html, where the same argument is put to a chamber that
-  actually votes. No script here either.
+  Companions: pulse.html puts the same argument to a chamber that votes,
+  chamber.html prices the opinion, exhibit.html is the record. No script here.
 -->
 <style>
   :root{
@@ -111,6 +120,9 @@
   .j.can{border-left:3px solid var(--moss)}
   .j.und{border-left:3px solid var(--amber)}
   .j.roo{border-left:3px solid var(--violet)}
+  .j.cop{border-left:3px solid var(--bone);grid-column:1/-1;
+    background:linear-gradient(180deg,#0d1712,#0b1310)}
+  .j.cop .prac{min-height:0}
   .j .prac{color:var(--dim);font-size:10.5px;line-height:1.6;margin:7px 0 9px;
     min-height:5.2em}
   .j .row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;
@@ -218,6 +230,21 @@
   .ct:has(#n-se:checked) .j9 .cert{counter-increment:grantv 1;color:var(--bone)}
   .ct:has(#n-re:checked) .j9{opacity:.62}
 
+  /* ---- SENIORITY 10 · YEW, Coppice. THE TENTH SEAT.
+     Added to the bench to stop it deadlocking, which is the reason a tenth
+     seat has ever been added to any bench anywhere. Ten is an even number.
+     She votes with the ninth chair and only ever joins a majority that
+     already exists: seated, Wren has company and Yew reverses; recused, Wren
+     is absent and Yew affirms the court below. She grants nothing — she was
+     seated to decide, not to select, which means the rule of four is the one
+     vote on this board she has no part in. Compare the two four-four splits
+     before she arrived with the two five-five splits after, and note that
+     they are different circuits. */
+  .ct:has(#n-se:checked) .j10 .vote::after{content:"REVERSE"}
+  .ct:has(#n-re:checked) .j10 .vote::after{content:"AFFIRM"}
+  .ct:has(#n-se:checked) .j10 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#n-re:checked) .j10 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+
   /* ------------------------------------------------------------ the tallies */
   .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
   .tally .head{background:#0b1310;border:1px solid var(--edge);border-radius:10px;
@@ -249,16 +276,16 @@
      comparison was not faked: it was done once by hand per circuit, and the
      four numbers above are what let you audit it. */
   .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
-  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .v-aff{display:block}
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .v-eq {display:block}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
-  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .v-eq {display:block}
+  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
   .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-se:checked) .v-rev{display:block}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
   .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
-  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .v-aff{display:block}
-  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-re:checked) .v-eq {display:block}
+  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .v-eq {display:block}
+  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-re:checked) .v-aff{display:block}
   .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
 
   /* ====================================== 3 · WHO WRITES IT · the assignment
@@ -270,12 +297,11 @@
      set it did not build. It was worked out by hand and it is checkable
      against the nine cards above, which is the deal. */
   .wr{display:none}
-  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .w-rook{display:inline}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
+  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .w-rook{display:inline}
   .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
-  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
   .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .w-rook{display:inline}
 
   .vst.panel,.cst.panel{margin-top:2px}
@@ -315,7 +341,8 @@
     <h1>The Bench of Nine</h1>
     <span class="sub">Nine thousand square miles of forest — the size of England
       — and one court in it. <i>In re the Pot</i>, first case. Two votes are
-      taken here and the first one is not about the pot.</span>
+      taken here and the first one is not about the pot. There are ten judges.
+      It is still called the Bench of Nine.</span>
     <span class="tag">no script</span>
   </header>
 
@@ -393,7 +420,7 @@
     </div>
   </div>
 
-  <h2>The bench <b>three benches of three · seniority in the corner</b></h2>
+  <h2>The bench <b>three benches of three, and then a tenth</b></h2>
   <div class="bench">
     <div class="j can j1">
       <div class="who"><i>1</i><b>Hawthorn</b><em>chief · canopy</em></div>
@@ -459,6 +486,19 @@
         nothing — this page will not do to her what the judgment did.</div>
       <div class="row"><span class="cert">grants on: when seated</span><span class="vote"></span></div>
     </div>
+    <div class="j cop j10">
+      <div class="who"><i>10</i><b>Yew</b><em>coppice · the tenth seat</em></div>
+      <div class="prac">Seated on this bench to stop it deadlocking, which is
+        the reason a tenth seat has ever been added to any bench anywhere. Ten
+        is an even number. She votes with the ninth chair and never against a
+        majority that already exists — seated, Wren has company and Yew
+        reverses; recused, Wren is absent and Yew affirms the court below. She
+        grants nothing: seated to decide, not to select, so the rule of four is
+        the one vote here she takes no part in. The two four-four splits are
+        gone. There are two five-five splits now, and they are not the same
+        circuits.</div>
+      <div class="row"><span class="cert">grants on: never</span><span class="vote"></span></div>
+    </div>
   </div>
 
   <!-- ==== TOTALS AFTER. Counted from the nine cards above and nowhere else. -->
@@ -471,11 +511,12 @@
   </div>
   <p class="note"><b>Four numbers and no margin.</b> A margin is a subtraction
     and this page cannot subtract, so both sides are printed and you may hold
-    them against each other, which is what a bench does anyway. When the ninth
-    chair is recused, <code>Sitting</code> reads eight, and an eight-judge court
-    is a court that can tie.</p>
+    them against each other, which is what a bench does anyway. With the tenth seat
+    filled, <code>Sitting</code> reads ten when the ninth chair is taken and
+    nine when it is not — so this court can only tie on the circuits where the
+    abstainer actually turned up, which is a sentence worth reading twice.</p>
 
-  <h2>The judgment <b>eight of twelve circuits reverse</b></h2>
+  <h2>The judgment <b>six of twelve circuits reverse</b></h2>
 
   <div class="vst panel v-rev" style="border-color:var(--rev)">
     <div class="vh">Reversed</div>
@@ -502,13 +543,16 @@
       is not in.</span></p>
   </div>
   <div class="vst panel v-eq" style="border-color:var(--amber)">
-    <div class="vh">Equally divided · four to four</div>
-    <p>Eight sitting, four each way, no opinion, no precedent, and the judgment
-      below stands by default rather than by reasoning. Look at which chair is
-      empty. Both of the circuits on this board that end four to four end that
-      way because the abstainer was not asked to sit, and a court that cannot
-      break a tie without her is a court that was always deciding her case
-      without her in it.</p>
+    <div class="vh">Equally divided · five to five</div>
+    <p>Ten sitting, five each way, no opinion, no precedent, and the judgment
+      below stands by default rather than by reasoning. A tenth seat was added
+      to this bench to stop exactly this, and it did stop it — on the two
+      circuits where it used to happen, both of which had the ninth chair
+      empty. Those two now affirm. What deadlocks instead are two circuits
+      where the abstainer came, sat and voted. Read that as court-packing
+      working exactly as designed and delivering exactly nothing, or read it as
+      arithmetic: an even bench ties, and ten is even. They are the same
+      reading.</p>
   </div>
 
   <h2>Fern's table <b>§3 · two keys, one answer</b></h2>
@@ -553,11 +597,12 @@
   <div class="panel">
     <script type="application/json" id="doc">
 { "manifest": "venus.yard/1", "board": "bench", "case": "In re the Pot",
-  "court": { "seats": 9, "benches": ["canopy", "understory", "root"],
+  "court": { "seats": 10, "known_as": "the Bench of Nine", "benches": ["canopy", "understory", "root"],
              "jurisdiction_sq_mi": 9000, "hears_per_year": 80 },
   "rules": { "cert": 4, "decides": 5, "tie": "affirmed by an equally divided court",
              "assignment": "chief if in majority, else senior-most in majority" },
   "circuits": 12, "reversed_on": 6, "affirmed_on": 4, "divided_on": 2,
+  "tenth_seat": { "added_to_end": "deadlock", "ended_it": false, "moved_it": true },
   "$note": "the docket entry. The ninth chair has been empty for fifteen years." }
     </script>
     <button type="submit" form="vy" style="font:inherit;font-size:13px;
@@ -573,9 +618,10 @@
   <h2>Where to start</h2>
   <p class="note">The board opens <b>on the papers · in leaf · recused</b>,
     which is three votes to hear and therefore no case at all. Seat the ninth
-    chair and the door opens on every grant. Then find the two circuits that
-    end four to four, and notice what they have in common before the page tells
-    you again.</p>
+    chair and the door opens on every grant — the tenth judge cannot help you
+    here, because she grants nothing. Then find the two circuits that end five
+    to five, and notice that they are the ones where the abstainer showed up.
+    The tenth seat was added to end the deadlock. It moved it onto her.</p>
   <p class="note">Next: <a href="chamber.html">the Writing Chamber</a>, where
     the opinion is minted and priced · <a href="exhibit.html">Exhibit A</a>,
     the record · <a href="pulse.html">the Pulse</a>, where the same
