@@ -51,15 +51,21 @@ function scan(path) {
   const bytes = statSync(path).size;
 
   /* what it does, counted rather than claimed */
+  const buttons = grab(/<button/g);
   const computes = counters + has + targets;
-  const controls = radios.size + boxes;
-  const automated = /automat|\?run|setInterval|requestAnimationFrame/.test(s);
+  const controls = radios.size + boxes + buttons;
+  const automated = /setInterval|requestAnimationFrame|automat|\?run/.test(s);
+  /* a board can decide things in script instead of in the stylesheet. That is
+     a different claim, not a lesser one, and filing an idle game under
+     documents because its arithmetic is not in CSS was simply wrong. */
+  const runs = automated && (buttons > 0 || inlineJs);
 
   return {
     f: path, title, bytes,
     radios: radios.size, boxes, counters, has, targets, canvas, svg,
-    scripts, inlineJs, computes, controls, automated,
+    scripts, inlineJs, computes, controls, automated, buttons, runs,
     kind: computes > 0 && controls > 0 ? 'plays'
+        : runs ? 'runs'
         : controls > 0 ? 'presses'
         : canvas || svg > 2 ? 'draws'
         : 'reads'
@@ -83,13 +89,16 @@ const allBoards = rootBoards.concat(...WINGS.map((w) => w.list));
 /* A game is a board you can press that then computes an outcome. Sorted by
    how much of the deciding happens in the stylesheet, which is the yard's
    whole claim and therefore the number worth leading with. */
-const games = rootBoards
-  .filter((b) => b.controls > 0 && b.computes > 0)
-  .sort((a, b) => b.computes - a.computes);
-
-const toys = rootBoards.filter((b) => b.controls > 0 && b.computes === 0);
-const drawn = rootBoards.filter((b) => b.controls === 0 && (b.canvas || b.svg > 2));
-const docs = rootBoards.filter((b) => b.controls === 0 && !b.canvas && b.svg <= 2);
+/* one classification, used everywhere. The hub used to compute `kind` and
+   then re-derive the categories from raw counts a second time, which is how
+   an idle game that decides in script got filed under documents. */
+const games = rootBoards.filter((b) => b.kind === 'plays')
+  .sort((x, y) => y.computes - x.computes);
+const selfRun = rootBoards.filter((b) => b.kind === 'runs')
+  .sort((x, y) => y.bytes - x.bytes);
+const toys = rootBoards.filter((b) => b.kind === 'presses');
+const drawn = rootBoards.filter((b) => b.kind === 'draws');
+const docs = rootBoards.filter((b) => b.kind === 'reads');
 
 /* ═══ 3 · the generators ═══════════════════════════════════════════════ */
 const gens = readdirSync('.').filter((f) => f.endsWith('.mjs')).sort().map((f) => {
@@ -285,6 +294,13 @@ games.map(boardRow).join('\n') + '\n</table></div>\n' +
   '<tr><th>board</th><th>controls</th><th>decides</th><th></th><th>how</th><th>size</th></tr>\n' +
   toys.map(boardRow).join('\n') + '\n</table></div>\n' : '') +
 
+(selfRun.length ? '<h2><s>these run on their own</s>Runs itself <em>' +
+  selfRun.length + '</em></h2>\n' +
+  '<p class="say">These decide in script rather than in the stylesheet, and they keep going with nothing pressed. A different claim from the boards above, not a lesser one &mdash; the idle board accrues while the page is shut and credits the whole absence when you come back.</p>\n' +
+  '<div class="scroll"><table>\n' +
+  '<tr><th>board</th><th>controls</th><th>decides</th><th></th><th>how</th><th>size</th></tr>\n' +
+  selfRun.map(boardRow).join('\n') + '\n</table></div>\n' : '') +
+
 '<h2><s>look at these</s>Drawn <em>' + drawn.length + '</em></h2>\n' +
 '<div class="scroll"><table>\n' +
 '<tr><th>board</th><th>controls</th><th>decides</th><th></th><th>how</th><th>size</th></tr>\n' +
@@ -365,6 +381,7 @@ writeFileSync('dev.html', html);
 console.log('dev.html');
 console.log('  games      ' + String(games.length).padStart(3) + '  (controls AND compute)');
 console.log('  fiddlers   ' + String(toys.length).padStart(3) + '  (controls, no compute)');
+console.log('  runs itself' + String(selfRun.length).padStart(3) + '  (decides in script, keeps going unpressed)');
 console.log('  drawn      ' + String(drawn.length).padStart(3));
 console.log('  documents  ' + String(docs.length).padStart(3));
 WINGS.forEach((w) => console.log('  ' + (w.dir + '/').padEnd(11) +
