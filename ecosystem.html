@@ -1,0 +1,418 @@
+<title>The Ecosystem · five orders, and what the forest can do without them</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  THE ECOSYSTEM — the forest that terraforms this planet, as a dependency graph.
+
+  Nine thousand square miles of forest, the size of England, and it is not
+  scenery. It is the machine that makes the planet habitable, and like every
+  machine it is a set of parts with jobs. Five orders live in it. Each one does
+  something the others cannot, none of them is decoration, and the page's whole
+  purpose is to let you take one out and see precisely what stops working.
+
+    FIREFLIES   keep time      distributed clock, no leader, phase coupling
+    OWLS        decide         quorum, the rule of four, the decisive set
+    WOLVES      move           speed, coordination, and the pressure that
+                               makes an audit worth having
+    PEACOCKS    prove          costly signalling: a claim that cannot be faked
+                               because affording it IS the evidence
+    FLAMINGOS   show           they are made of what passes through them, so
+                               their colour is a reading nobody can forge
+
+  WHAT HAPPENS WHEN THE CLOCK GOES
+  Not everything. That was the first version of this page and it was wrong.
+
+  Take the fireflies out and the wolves still move, and if the peacocks and owls
+  are both standing then claims can still be proved. What stops is everything
+  that needed agreement: nothing can be scheduled, no quorum can be called, and
+  the flamingos become a colour rather than a reading. A wood that can still act
+  and can no longer decide is a worse condition than one that has stopped, and
+  it looks a good deal healthier from outside.
+
+  The first version enforced the stronger claim with a blanket rule at the
+  bottom of the stylesheet, and that rule lost — silently — to every capability
+  that named two orders, because those selectors carry more specificity and
+  cascade order only settles ties. It worked on exactly the cases you would test
+  first. The arithmetic is kept at the foot of the stylesheet rather than
+  deleted, because the useful part is not that the rule was broken; it is that
+  the claim was wrong before the rule was, and making it enforceable would only
+  have made a false statement harder to notice.
+
+  HOW IT IS BUILT
+  Five checkboxes. Six capability panels, each gated by a compound :has() on
+  the orders it actually requires. The capability count is a CSS counter that
+  increments on an element inside each panel — and an element inside a
+  display:none panel does not increment anything, which is how the number
+  counts itself instead of being declared. Companion boards: pulse.html for the
+  clock, bench.html and the wolves-and-owls curriculum for the decision, and
+  lessons/ for the fireflies as a game.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#060a08; --card:#0f1714; --card2:#141d19; --edge:#26332c;
+    --ink:#e8f0ea; --dim:#87998e; --bone:#e6dcc4;
+    --fly:#f0c66a; --owl:#a9b7c9; --wolf:#c9857a;
+    --peac:#4fb3a6; --flam:#e58aa0; --leaf:#6fc08a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.65 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 16% -6%,rgba(240,198,106,.10),transparent 44%),
+      radial-gradient(circle at 88% 94%,rgba(229,138,160,.09),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:22px;letter-spacing:-.015em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--leaf);border:1px solid var(--leaf);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:26px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  p{max-width:82ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.7;margin:10px 0 0;max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#0a110d;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--fly)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+
+  /* ------------------------------------------------------------ the orders */
+  .orders{display:grid;gap:10px;grid-template-columns:repeat(5,1fr);margin-top:12px}
+  @media (max-width:960px){.orders{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:620px){.orders{grid-template-columns:1fr}}
+  .orders input{position:absolute;opacity:0;width:0;height:0}
+  .orders label{display:block;cursor:pointer;background:#0c1410;
+    border:1px solid var(--edge);border-radius:11px;padding:12px 13px;
+    transition:border-color .15s,background .15s}
+  .orders label:hover{border-color:var(--bone)}
+  .orders input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+  .orders label .nm{display:flex;align-items:baseline;gap:8px}
+  .orders label b{font-size:14px;color:var(--dim)}
+  .orders label .job{margin-left:auto;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:#4e6157}
+  .orders label .d{font-size:10.5px;line-height:1.55;color:var(--dim);margin-top:8px}
+  .orders label .st{margin-top:9px;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:#4e6157}
+  .orders label .st::after{content:"absent"}
+  .orders input:checked+label .st::after{content:"present"}
+
+  #fly:checked+label{border-color:var(--fly);background:rgba(240,198,106,.10)}
+  #fly:checked+label b,#fly:checked+label .st{color:var(--fly)}
+  #owl:checked+label{border-color:var(--owl);background:rgba(169,183,201,.10)}
+  #owl:checked+label b,#owl:checked+label .st{color:var(--owl)}
+  #wolf:checked+label{border-color:var(--wolf);background:rgba(201,133,122,.10)}
+  #wolf:checked+label b,#wolf:checked+label .st{color:var(--wolf)}
+  #peac:checked+label{border-color:var(--peac);background:rgba(79,179,166,.10)}
+  #peac:checked+label b,#peac:checked+label .st{color:var(--peac)}
+  #flam:checked+label{border-color:var(--flam);background:rgba(229,138,160,.10)}
+  #flam:checked+label b,#flam:checked+label .st{color:var(--flam)}
+
+  /* ==================================== 1 · COUNTERS ARE ARITHMETIC
+     Two counters. `orders` increments on the checked label, the ordinary way.
+     `can` increments on a marker INSIDE each capability panel — and a marker
+     inside a display:none panel increments nothing, because a box that is not
+     generated cannot carry a counter. So the number of things this forest can
+     do is counted by the capabilities that are actually showing, rather than
+     declared by anybody. It is the only honest way to print that number in a
+     language with no way to ask how many rules matched. */
+  body{counter-reset:orders 0 can 0}
+  #fly:checked+label{counter-increment:orders 1}
+  #owl:checked+label{counter-increment:orders 1}
+  #wolf:checked+label{counter-increment:orders 1}
+  #peac:checked+label{counter-increment:orders 1}
+  #flam:checked+label{counter-increment:orders 1}
+  .cap .mk{counter-increment:can 1}
+  .n-orders::after{content:counter(orders)}
+  .n-can::after{content:counter(can)}
+
+  /* ============================================= 2 · WHAT THE FOREST CAN DO
+     One rule per capability, each naming exactly what it needs. Six rules, not
+     thirty-two: a capability is a conjunction of orders, so it is one selector
+     with one :has() per requirement, and adding a sixth animal costs you as
+     many rules as it has jobs rather than doubling a table. */
+  .cap{display:none}
+  .eco:has(#fly:checked) .c-time{display:block}
+  .eco:has(#owl:checked):has(#fly:checked) .c-decide{display:block}
+  .eco:has(#wolf:checked) .c-move{display:block}
+  .eco:has(#peac:checked):has(#owl:checked) .c-prove{display:block}
+  .eco:has(#flam:checked):has(#fly:checked) .c-see{display:block}
+  .eco:has(#fly:checked):has(#owl:checked):has(#wolf:checked):has(#peac:checked):has(#flam:checked)
+    .c-terraform{display:block}
+
+  .cap.panel{margin-top:10px}
+  .cap .ch{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:8px;margin-bottom:10px}
+  .cap .ch b{font-size:14px;color:var(--bone)}
+  .cap .ch .req{margin-left:auto;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+  .cap p{margin:0;font-size:12.5px}
+  .cap p+p{margin-top:9px}
+  .c-time{border-color:rgba(240,198,106,.45)}
+  .c-decide{border-color:rgba(169,183,201,.45)}
+  .c-move{border-color:rgba(201,133,122,.45)}
+  .c-prove{border-color:rgba(79,179,166,.45)}
+  .c-see{border-color:rgba(229,138,160,.45)}
+  .c-terraform{border-color:var(--leaf)}
+
+  .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .head{background:#0c1410;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:5px}
+  .head.g b{color:var(--leaf)}
+  @media (max-width:560px){.heads{grid-template-columns:repeat(2,1fr)}}
+
+  /* the dark state: nothing at all is present */
+  .empty{display:none}
+  .eco:not(:has(input:checked)) .empty{display:block}
+
+  /* ============================================ 4 · WHAT A STOP RULE COSTS
+     NOTHING BELOW THIS LINE.
+
+     There was a blanket stop rule here. It said: take the fireflies out and
+     every capability goes dark, whatever else is standing. It was written last,
+     it looked authoritative, and it did not work — and it is worth leaving the
+     wreck described in place rather than quietly deleting it.
+
+         .eco:not(:has(#fly:checked)) .cap        is (1,3,0)
+         .eco:has(#peac:checked):has(#owl:checked) .c-prove   is (2,4,0)
+
+     Cascade order only settles ties. A rule with more :has() in it has more
+     specificity, so every capability that named two or more orders beat the
+     stop outright, and the page showed a forest proving things with no clock
+     while the stop rule sat at the bottom of the file looking like it was in
+     charge. Only the single-requirement capabilities were ever actually
+     stopped, which is the worst possible outcome: it worked in half the cases
+     you would test first.
+
+     The fix is not to force it through with !important or a specificity hack.
+     The fix is that the claim was false. Move needs wolves and nothing else —
+     a wolf does not consult a calendar. Prove needs a costly signal and
+     somebody to read it. Both genuinely survive the loss of the clock, and the
+     capability rules above already say so correctly, one requirement at a time.
+
+     What is left below is one rule to show the no-clock panel, and one to hide
+     it on bare rock. Both are specific enough to win on their own terms rather
+     than on their position, which is what a rule should be when what it is
+     saying is true. */
+  .eco:not(:has(#fly:checked)) .c-noclock{display:block}
+  .eco:not(:has(#fly:checked)):not(:has(input:checked)) .c-noclock{display:none}
+</style>
+
+<div class="eco wrap">
+  <header>
+    <span class="tag">no script</span>
+    <h1>The Ecosystem</h1>
+    <p class="sub">Nine thousand square miles of forest, the size of England,
+      and it is not scenery — it is the machine that makes this planet
+      habitable. Five orders live in it. Take one out and see exactly what
+      stops working.</p>
+  </header>
+
+  <h2>The five orders <b>each one has a job, none of them is decoration</b></h2>
+  <div class="orders">
+    <input type="checkbox" id="fly" checked>
+    <label for="fly">
+      <span class="nm"><b>Fireflies</b><span class="job">time</span></span>
+      <span class="d">A clock with nobody holding it. Each one runs its own
+        cycle and shifts it a little towards whatever it just saw flash. Within
+        a few hundred cycles a wood full of separate lights is beating together,
+        and there was never a leader to lose.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="owl" checked>
+    <label for="owl">
+      <span class="nm"><b>Owls</b><span class="job">decide</span></span>
+      <span class="d">Nine of them, and a quorum. Slow, procedural, forever
+        arguing — and the only order in the wood that can turn a disagreement
+        into a decision that binds anybody. Their weakness is the same as their
+        method: they abstain, and silence is counted as nothing.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="wolf" checked>
+    <label for="wolf">
+      <span class="nm"><b>Wolves</b><span class="job">move</span></span>
+      <span class="d">Two, coordinated, no overhead, no debate. Everything the
+        owls cannot do. They are not the villains of this wood — they are its
+        velocity, and the reason the owls' procedure has to be good rather than
+        merely well-meant.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="peac" checked>
+    <label for="peac">
+      <span class="nm"><b>Peacocks</b><span class="job">prove</span></span>
+      <span class="d">The train is enormous, useless and expensive, and that is
+        precisely the point: it cannot be faked, because affording it <i>is</i>
+        the evidence. A signal that costs nothing proves nothing. This is the
+        wood's only mechanism for a claim you can check without trusting
+        anybody.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="flam" checked>
+    <label for="flam">
+      <span class="nm"><b>Flamingos</b><span class="job">show</span></span>
+      <span class="d">They take their colour from what they eat. A pale
+        flamingo is not an unwell flamingo, it is a thin food chain, reported
+        honestly by something that could not lie about it if it wanted to —
+        because it is made of the thing it is measuring.</span>
+      <span class="st"></span>
+    </label>
+  </div>
+  <p class="note"><b>Untick one and watch.</b> The capabilities below are not a
+    list of features, they are conjunctions: each one names the orders it
+    actually requires, and it disappears when any of them leaves. Six rules for
+    six capabilities — adding a sixth animal costs as many rules as it has jobs,
+    not a doubled table.</p>
+
+  <h2>What the forest can do <b>counted from the panels, not declared</b></h2>
+
+  <div class="cap panel c-time">
+    <span class="mk"></span>
+    <div class="ch"><b>Keep time</b><span class="req">needs fireflies</span></div>
+    <p>There is a calendar. Everything else in this wood can be scheduled,
+      compared, replayed and argued about, because there is an agreed answer to
+      <i>when</i>. It cost one signal per flash and no memory of anybody else.</p>
+    <p class="note" style="margin-top:9px">The clock is the cheapest thing in the
+      forest and the only one nothing else can substitute for. See
+      <a href="pulse.html">the Pulse</a> for how it settles, and
+      <a href="lessons/index.html">the lessons</a> for how to build one.</p>
+  </div>
+
+  <div class="cap panel c-decide">
+    <span class="mk"></span>
+    <div class="ch"><b>Decide</b><span class="req">needs owls · fireflies</span></div>
+    <p>A quorum can be called, a question can be put, and the answer binds. Note
+      what it requires: not just the owls but the clock, because a vote with no
+      agreed <i>when</i> is nine opinions in a wood rather than a decision.</p>
+    <p class="note" style="margin-top:9px">See <a href="bench.html">the Bench of
+      Nine</a> for what happens when you keep adding judges to fix it, and
+      <a href="pulse.html">the Pulse</a> for a chamber that votes on a circuit.</p>
+  </div>
+
+  <div class="cap panel c-move">
+    <span class="mk"></span>
+    <div class="ch"><b>Move</b><span class="req">needs wolves</span></div>
+    <p>Something in this wood can act inside a day. It needs no clock and no
+      quorum, which is exactly why it is dangerous and exactly why it is
+      indispensable — an ecosystem of nothing but deliberators does not get
+      slower, it stops.</p>
+  </div>
+
+  <div class="cap panel c-prove">
+    <span class="mk"></span>
+    <div class="ch"><b>Prove</b><span class="req">needs peacocks · owls</span></div>
+    <p>A claim can be made in a form that costs the claimant something, and
+      there is somebody whose job is to read it. Both halves are required. A
+      costly signal with nobody assessing it is just an expensive animal, and an
+      assessor with no costly signal to read is taking everybody's word.</p>
+  </div>
+
+  <div class="cap panel c-see">
+    <span class="mk"></span>
+    <div class="ch"><b>See the flow</b><span class="req">needs flamingos · fireflies</span></div>
+    <p>The wood has an instrument. You can tell what is moving through it by
+      looking at what the flamingos are made of — and it needs the clock,
+      because a reading with no timestamp is a colour rather than a measurement.</p>
+  </div>
+
+  <div class="cap panel c-terraform">
+    <span class="mk"></span>
+    <div class="ch"><b>Terraform</b><span class="req">needs all five</span></div>
+    <p>The full machine. It keeps time, decides, acts, proves what it did and
+      shows what passed through it — which between them is the whole of what
+      making a planet habitable actually consists of, and none of it is the
+      dramatic part.</p>
+    <p>Nine thousand square miles and five orders, and the one that has to be
+      present for any of the others to count is the smallest animal in the wood.</p>
+  </div>
+
+  <!-- no inline display here: an inline style beats a stylesheet rule, and the
+       stop rule at the bottom of the file is the thing that must win. It is
+       hidden by .cap{display:none} like every other capability panel. -->
+  <div class="cap panel c-noclock" style="border-color:var(--wolf)">
+    <div class="ch"><b>The clock is gone</b><span class="req">no fireflies</span></div>
+    <p>Look at what is still lit above, because it is not nothing and that is
+      the whole point. <b>The wolves still move.</b> If the peacocks and owls
+      are both here, <b>claims can still be proved.</b> What has stopped is
+      everything that required agreement: nothing can be scheduled, the quorum
+      cannot be called, and the flamingos are a colour rather than a reading.</p>
+    <p>So losing the clock does not stop the forest. It stops the deliberate
+      half and leaves the fast half running — a wood that can still act and can
+      no longer decide, still signal and no longer schedule. That is a worse
+      condition than a wood that has stopped, and it looks considerably
+      healthier from outside.</p>
+    <p class="note" style="margin-top:9px">This page originally claimed that
+      losing the fireflies darkened <i>everything</i>, and enforced it with a
+      blanket rule at the bottom of the stylesheet. The rule lost, silently, to
+      every capability that named two orders — because those selectors carry
+      more specificity and cascade order only settles ties. The comment at the
+      foot of the stylesheet keeps the arithmetic. The claim was wrong before
+      the rule was; fixing the rule would only have made a false statement
+      enforceable.</p>
+  </div>
+
+  <div class="empty panel" style="border-color:var(--edge);margin-top:10px">
+    <div class="ch" style="display:flex;align-items:baseline;gap:10px;
+      border-bottom:1px solid var(--edge);padding-bottom:8px;margin-bottom:10px">
+      <b style="font-size:14px;color:var(--bone)">Bare rock</b>
+      <span style="margin-left:auto;font:9px/1 ui-monospace,monospace;
+        letter-spacing:.13em;text-transform:uppercase;color:var(--dim)">nothing present</span></div>
+    <p style="margin:0;font-size:12.5px">No orders at all. This is what the
+      planet was before the forest, and it is the state the page opens into if
+      you clear every box — designed for deliberately rather than fallen into,
+      because a system with nothing sensible to say about being empty is not
+      finished.</p>
+  </div>
+
+  <h2>The tally <b>counted, not declared</b></h2>
+  <div class="heads">
+    <div class="head"><span>Orders present</span><b class="n-orders"></b></div>
+    <div class="head"><span>Of</span><b>5</b></div>
+    <div class="head g"><span>Capabilities</span><b class="n-can"></b></div>
+    <div class="head"><span>Of</span><b>6</b></div>
+  </div>
+  <p class="note"><b>The capability count counts itself.</b> Each panel carries
+    a marker that increments a CSS counter — and a marker inside a hidden panel
+    increments nothing, because a box that was never generated cannot carry a
+    counter. So that number is the number of panels actually showing. It is not
+    a figure anybody typed, and it cannot drift away from what is on the screen,
+    which is the only reason it is allowed to be printed at all.</p>
+
+  <h2>Why these five <b>and not five nicer ones</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">Every animal here does a real job that
+      the others cannot, and each job is a real mechanism rather than a mood.
+      Fireflies genuinely synchronise by pulse coupling and it genuinely needs
+      no leader. Owls are a committee and committees genuinely fail by
+      abstention. A peacock's train is the standard example of costly
+      signalling, and the reason it works is that it is wasteful — the waste is
+      load-bearing. A flamingo really is pink because of what it eats, which
+      makes it the rarest thing in any system: an instrument that cannot be
+      configured to say something convenient.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">Wolves are two. They were always
+      two. They are not here to be defeated; they are here because a wood with
+      no velocity in it is a wood that deliberates its way to a stop, and
+      because an audit that has never been tested against anybody quick is not
+      an audit, it is a habit.</p>
+  </div>
+
+  <p class="note" style="margin-top:22px">Also in this forest:
+    <a href="pulse.html">the Pulse</a> ·
+    <a href="bench.html">the Bench of Nine</a> ·
+    <a href="lessons/index.html">Four Lanterns</a> ·
+    <a href="school.html">the school</a> ·
+    <a href="grades.html">twelve grades</a> ·
+    <a href="index.html">the yard</a></p>
+</div>
