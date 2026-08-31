@@ -46,15 +46,26 @@
   two new deadlocks appeared, on the circuits where the abstainer actually came
   and voted. The deadlock did not end. It moved onto her.
 
-  Alder went on eleventh. Eleven is odd and nothing ties any more, so the
+  Alder went on eleventh. Eleven is odd and nothing tied any more, so the
   packing worked on the second attempt — and both of the splits it resolved
-  resolved for the court below. Six circuits reverse now and six affirm, where
-  before it was six, four and two.
+  resolved for the court below.
 
-  Neither of them grants. Two judges have been added to this court to repair it
-  and neither has any say in whether it hears anything, so the rule of four is
-  exactly where it was on the day the case was filed. That is not a coincidence
-  in the model; it is the model, and it is what the model was for.
+  Bracken went on twelfth, and she is the first seat ever added to this bench
+  that votes on whether there is a case. The first two repairs were barred from
+  the certiorari vote, which is exactly why neither of them moved the door: for
+  two whole appointments the composition of this court changed and the set of
+  cases it would hear did not. Bracken grants always. The count clears four on
+  all twelve circuits now and there is no circuit left where the case is not
+  heard — and the stop rule that used to hide a verdict when there was no case
+  has been removed from the bottom of the stylesheet, conspicuously, because it
+  had nothing left to stop.
+
+  Twelve is even. The ties are back, on exactly the two circuits they were on
+  when there were ten. Three seats have been added to repair this court, the
+  deadlock is where it started, and the only appointment that changed anything
+  outside the model's own arithmetic was the one allowed to vote on whether
+  there was a case at all. That is not a coincidence in the model; it is the
+  model, and it is what the model was for.
 
   HOW IT IS BUILT — the same five things as every board here
     1 COUNTERS ARE ARITHMETIC    both polls counted, never declared
@@ -268,6 +279,21 @@
   .ct:has(#s-gr:checked) .j11 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
   .ct:has(#s-ba:checked) .j11 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
 
+  /* ---- SENIORITY 12 · BRACKEN, of the Rolls. THE TWELFTH SEAT — and the
+     first added seat that votes on whether there is a case at all.
+     Every judge put on this bench to repair it has been barred from the
+     certiorari vote, which is why nine boards' worth of repairs never moved
+     the door an inch. Bracken grants. She grants always, on the ground that a
+     court which hears eighty things a year in a jurisdiction the size of
+     England should be embarrassed by the number and not comforted by it. With
+     her vote the count clears four on all twelve circuits and there is no
+     longer a circuit on this board where the case is not heard.
+     She reverses on the merits, having read the file, which is her job.
+     Twelve is even. The ties are back, on the same two circuits as before. */
+  .j12 .vote::after{content:"REVERSE"}
+  .j12 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .j12 .cert{counter-increment:grantv 1;color:var(--bone)}
+
   /* ------------------------------------------------------------ the tallies */
   .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
   .tally .head{background:#0b1310;border:1px solid var(--edge);border-radius:10px;
@@ -287,11 +313,11 @@
      can be checked rather than believed — which is the only reason a page is
      allowed to enumerate anything. */
   .cst,.vst{display:none}
-  .ct:has(#g-pa:checked):has(#n-re:checked) .c-deny{display:block}
+  .ct:has(#g-pa:checked):has(#n-re:checked) .c-grant{display:block}
   .ct:has(#g-pa:checked):has(#n-se:checked) .c-grant{display:block}
   .ct:has(#g-re:checked):has(#n-re:checked) .c-grant{display:block}
   .ct:has(#g-re:checked):has(#n-se:checked) .c-grant{display:block}
-  .ct:has(#g-po:checked):has(#n-re:checked) .c-deny{display:block}
+  .ct:has(#g-po:checked):has(#n-re:checked) .c-grant{display:block}
   .ct:has(#g-po:checked):has(#n-se:checked) .c-grant{display:block}
 
   /* ================================================= 2 · THE MERITS · twelve
@@ -299,7 +325,7 @@
      comparison was not faked: it was done once by hand per circuit, and the
      four numbers above are what let you audit it. */
   .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
-  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .v-aff{display:block}
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .v-eq {display:block}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
   .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
@@ -307,7 +333,7 @@
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
   .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
-  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .v-aff{display:block}
+  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .v-eq {display:block}
   .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-re:checked) .v-aff{display:block}
   .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
 
@@ -320,20 +346,22 @@
      set it did not build. It was worked out by hand and it is checkable
      against the nine cards above, which is the deal. */
   .wr{display:none}
-  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .w-rook{display:inline}
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-re:checked) .w-rook{display:inline}
+  .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .w-rook{display:inline}
   .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
-  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
+  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-re:checked) .w-haw {display:inline}
+  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
   .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .w-rook{display:inline}
 
   .vst.panel,.cst.panel{margin-top:2px}
   .vh{font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
     text-transform:uppercase;font-weight:700}
   .v-rev .vh,.c-grant .vh{color:var(--rev)}
-  .v-aff .vh{color:var(--aff)} .c-deny .vh{color:var(--amber)}
+  .v-aff .vh{color:var(--aff)} .v-eq .vh{color:var(--amber)}
   .vst p,.cst p{margin:8px 0 0;font-size:12.5px;max-width:84ch}
 
   /* the canopy closes over the page when the season is green */
@@ -344,16 +372,17 @@
   .ct:has(#s-gr:checked) .canopy::after{transform:scaleX(1)}
 
   /* ======================================= 4 · CASCADE ORDER IS AUTHORITY
-     NOTHING BELOW THIS LINE. If the court did not take the case, the court did
-     not decide the case, and no merits panel above may say otherwise — not
-     even the one the twelve rules just chose. Same specificity as those rules;
-     it wins because it is last. The tally stays on the page on purpose. The
-     votes were real. They were simply never taken, and a court that shows you
-     the poll it never held is being more honest than one that hides it. */
-  .ct:has(#g-pa:checked):has(#n-re:checked) .vst{display:none}
-  .ct:has(#g-po:checked):has(#n-re:checked) .vst{display:none}
-  .ct:has(#g-pa:checked):has(#n-re:checked) .wr{display:none}
-  .ct:has(#g-po:checked):has(#n-re:checked) .wr{display:none}
+     There were four rules here, written last, and they were the strongest
+     thing on the page: if the court did not take the case, no merits panel
+     was allowed to say otherwise, whatever the twelve rules above had chosen.
+     They are gone, and they are recorded here rather than deleted quietly,
+     because what removed them was not a change of mind about cascade order.
+     It was the twelfth seat. There is no longer a circuit on this board where
+     the case is not heard, so there is nothing left for that stop to stop.
+     A stop rule that has become unreachable should be taken out and its
+     removal should be conspicuous; leaving it in to look careful is how a
+     page starts lying about what is enforcing what.
+     Section 4 is still demonstrated above, by the Chair's silence. */
 </style>
 
 <!-- 5 · A GET FORM IS TRANSPORT -->
@@ -366,7 +395,7 @@
     <h1>The Bench of Nine</h1>
     <span class="sub">Nine thousand square miles of forest — the size of England
       — and one court in it. <i>In re the Pot</i>, first case. Two votes are
-      taken here and the first one is not about the pot. There are eleven judges.
+      taken here and the first one is not about the pot. There are twelve judges.
       It is still called the Bench of Nine.</span>
     <span class="tag">no script</span>
   </header>
@@ -428,20 +457,22 @@
       </div>
       <div class="cst panel c-grant" style="border-color:var(--rev);margin-top:10px">
         <div class="vh">Certiorari granted</div>
-        <p>Four or more. The forest is nine thousand square miles and this court
-          hears eighty things a year; getting through that door is most of what
-          winning is, and the appellant has just done the hard part.</p>
+        <p>Four or more, on every one of the twelve circuits. The forest is nine
+          thousand square miles and this court hears eighty things a year;
+          getting through that door is most of what winning is, and on this
+          board it is no longer possible to fail at it.</p>
       </div>
-      <div class="cst panel c-deny" style="border-color:var(--amber);margin-top:10px">
-        <div class="vh">Certiorari denied</div>
-        <p>Three or fewer. The judgment below stands, unreviewed and unreasoned,
-          and the pot remains a vote in every county of a jurisdiction the size
-          of England — not because a court held that it was, but because no
-          court held anything. Seat the ninth chair and count again.</p>
-      </div>
-      <p class="note">Denial is not disagreement and it is not a small thing.
-        Nothing on this page is more consequential than that first number, and
-        it is the number the fewest people ever look at.</p>
+      <p class="note"><b>It was possible until the twelfth seat.</b> Four
+        circuits used to end here — papers or the pot, with the ninth chair
+        empty — and on those four the judgment below stood unreviewed and
+        unreasoned, and the pot remained a vote in every county of a
+        jurisdiction the size of England, not because a court held that it was
+        but because no court held anything. Three seats were added to repair
+        this bench. The first two were barred from this vote and changed
+        nothing about it. The third was not, and it changed everything about
+        it, immediately, on her first sitting. Denial is not disagreement and
+        it was never a small thing; it was simply the number the fewest people
+        ever looked at.</p>
     </div>
   </div>
 
@@ -536,6 +567,19 @@
         and it was not the appellant's way.</div>
       <div class="row"><span class="cert">grants on: never</span><span class="vote"></span></div>
     </div>
+    <div class="j cop j12">
+      <div class="who"><i>12</i><b>Bracken</b><em>the rolls · the twelfth seat</em></div>
+      <div class="prac">The first seat ever added to this bench that votes on
+        whether there is a case. Every previous repair was barred from the
+        certiorari vote, which is why none of them moved the door an inch. She
+        grants always — a court that hears eighty things a year in a
+        jurisdiction the size of England should be embarrassed by that number
+        and not comforted by it — and the count now clears four on all twelve
+        circuits. She reverses on the merits, having read the file, which is
+        her job. Twelve is even, so the ties are back, on exactly the two
+        circuits they were on before. This time they are heard.</div>
+      <div class="row"><span class="cert">grants on: always</span><span class="vote"></span></div>
+    </div>
   </div>
 
   <!-- ==== TOTALS AFTER. Counted from the nine cards above and nowhere else. -->
@@ -548,14 +592,15 @@
   </div>
   <p class="note"><b>Four numbers and no margin.</b> A margin is a subtraction
     and this page cannot subtract, so both sides are printed and you may hold
-    them against each other, which is what a bench does anyway. With eleven seats
-    filled, <code>Sitting</code> reads eleven when the ninth chair is taken and
-    ten when it is not, and an odd bench does not tie. There is no equally
-    divided panel on this page any more. There were two, they were the two
-    circuits where the abstainer came and voted, and the eleventh seat resolved
-    both of them against her.</p>
+    them against each other, which is what a bench does anyway. With twelve seats
+    filled, <code>Sitting</code> reads twelve when the ninth chair is taken and
+    eleven when it is not, and an even bench ties. It ties on the two circuits
+    where the abstainer came and voted — the same two it tied on at ten,
+    resolved against her at eleven, and restored at twelve. <code>Votes to
+    hear</code> now reads four or better everywhere, which it has never done
+    before on this board.</p>
 
-  <h2>The judgment <b>six reverse, six affirm, none tie</b></h2>
+  <h2>The judgment <b>six reverse, four affirm, two tie — all twelve heard</b></h2>
 
   <div class="vst panel v-rev" style="border-color:var(--rev)">
     <div class="vh">Reversed</div>
@@ -580,6 +625,19 @@
       the Chief is in the majority and assigns to herself.</span><span class="wr
       w-rook"><b>Rook, J.</b> — the most senior justice in a majority the Chief
       is not in.</span></p>
+  </div>
+  <div class="vst panel v-eq" style="border-color:var(--amber)">
+    <div class="vh">Equally divided · six to six</div>
+    <p>Twelve sitting, six each way, no opinion, no precedent, and the judgment
+      below stands by default rather than by reasoning. These are the same two
+      circuits that tied when there were ten judges — the two where the
+      abstainer came, sat and voted. Yew created them, Alder resolved them for
+      the court below, Bracken has restored them, and the only thing that has
+      actually changed across three appointments is that this time the case is
+      heard before it deadlocks. Three seats were added to this bench to fix
+      it. The bench is now twelve, the ties are exactly where they started, and
+      the one difference any of it made was made by the judge who was allowed
+      to vote on whether there was a case.</p>
   </div>
 
   <h2>Fern's table <b>§3 · two keys, one answer</b></h2>
@@ -626,16 +684,18 @@
   <div class="panel">
     <script type="application/json" id="doc">
 { "manifest": "venus.yard/1", "board": "bench", "case": "In re the Pot",
-  "court": { "seats": 11, "known_as": "the Bench of Nine", "benches": ["canopy", "understory", "root"],
+  "court": { "seats": 12, "known_as": "the Bench of Nine", "benches": ["canopy", "understory", "root"],
              "jurisdiction_sq_mi": 9000, "hears_per_year": 80 },
   "rules": { "cert": 4, "decides": 5, "tie": "affirmed by an equally divided court",
              "assignment": "chief if in majority, else senior-most in majority" },
-  "circuits": 12, "reversed_on": 6, "affirmed_on": 6, "divided_on": 0,
+  "circuits": 12, "reversed_on": 6, "affirmed_on": 4, "divided_on": 2,
+  "cert_denied_on": 0,
   "added_seats": [
-    { "seniority": 10, "added_to_end": "deadlock", "ended_it": false, "moved_it": true },
-    { "seniority": 11, "added_to_end": "deadlock", "ended_it": true, "for_whom": "the court below" }
+    { "seniority": 10, "added_to_end": "deadlock", "grants": false, "ended_it": false, "moved_it": true },
+    { "seniority": 11, "added_to_end": "deadlock", "grants": false, "ended_it": true, "for_whom": "the court below" },
+    { "seniority": 12, "added_to_end": "deadlock", "grants": true, "ended_it": false, "opened_the_door": true }
   ],
-  "seats_that_grant": 8,
+  "seats_that_grant": 9,
   "$note": "the docket entry. The ninth chair has been empty for fifteen years." }
     </script>
     <button type="submit" form="vy" style="font:inherit;font-size:13px;
@@ -651,12 +711,13 @@
   <h2>Where to start</h2>
   <p class="note">The board opens <b>on the papers · in leaf · recused</b>,
     which is three votes to hear and therefore no case at all. Seat the ninth
-    chair and the door opens on every grant — neither of the two judges added to
-    this court can help you there, because neither of them grants anything.
-    Then compare the four circuits where the season is in leaf with the four
-    where it is bare, and note that the whole of the eleventh seat is in that
-    difference. She was appointed to end the ties. She ended both of them, and
-    both times for the court below.</p>
+    chair — though the door no longer closes on anyone, which is the twelfth
+    seat's doing and nobody else's. Then find the two circuits that end six all
+    and notice they are the ones where the abstainer showed up; they have now
+    been created, resolved against her, and restored, by three consecutive
+    appointments made to fix this court. Read the cert counter on all twelve
+    circuits before you decide which of those three appointments was the one
+    that mattered.</p>
   <p class="note">Next: <a href="chamber.html">the Writing Chamber</a>, where
     the opinion is minted and priced · <a href="exhibit.html">Exhibit A</a>,
     the record · <a href="pulse.html">the Pulse</a>, where the same
