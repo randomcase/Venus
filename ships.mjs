@@ -119,12 +119,23 @@ for (const s of doc.ships) {
 
   const form = s.stanza_form.map((l) => `      <div>${esc(l)}</div>`).join('\n');
 
-  const entries = s.entries.sort((a, b) => a.day - b.day).map((e) => `
+  /* A ship with legs is a cycler: its entries carry a leg number and the
+     elapsed day keeps running across the encounter, because the ship does not
+     stop at one. Everything else has a single passage and day 1 means day 1. */
+  const legs = s.legs || null;
+  const legOf = (e) => legs ? (e.leg || 1) : 1;
+  const elapsed = (e) => legs
+    ? legs.slice(0, legOf(e) - 1).reduce((a, l) => a + l.days, 0) + e.day
+    : e.day;
+  const legDays = (e) => legs ? legs[legOf(e) - 1].days : T;
+
+  const one = (e) => `
   <div class="entry">
     <div class="hd">
       <b>Day ${e.day}</b>
-      <span>${T - e.day} remaining</span>
-      <span>${Math.round(100 * e.day / T)}% of passage</span>
+      <span>${legDays(e) - e.day} remaining</span>
+      <span>${Math.round(100 * e.day / legDays(e))}% of leg</span>
+      ${legs ? `<span>day ${elapsed(e)} aboard</span>` : ''}
       <span class="r">light ${lightAt(e.day)} min each way</span>
     </div>
     <ol>
@@ -135,7 +146,15 @@ ${e.lines.map((l) => `      <li>${esc(l)}</li>`).join('\n')}
       <span><i>countersigned</i> bridge, same morning</span>
       <span><i>forwarded</i> operator</span>
     </div>
-  </div>`).join('\n');
+  </div>`;
+
+  const sorted = [...s.entries].sort((a, b) => elapsed(a) - elapsed(b));
+  const entries = legs
+    ? legs.map((l) => `
+  <h2 style="margin-top:26px">Leg ${l.n} <b>${esc(l.from)} to ${esc(l.to)} &middot; ${l.days} days</b></h2>
+  <p class="lede">${esc(l.note)}</p>
+${sorted.filter((e) => legOf(e) === l.n).map(one).join('\n')}`).join('\n')
+    : sorted.map(one).join('\n');
 
   const carries = profName.get(s.carries)
     ? `<a href="../profiles/${s.carries}.html">${esc(profName.get(s.carries))}</a> &mdash; ${esc(profStatus.get(s.carries))}`
@@ -161,7 +180,9 @@ ${STYLE}
     <div><span>passage</span><b>${s.chart_note ? 'hours' : T + ' d'}</b></div>
     <div><span>next window</span><b>${s.chart_note ? 'daily' : doc.passage.window_days + ' d'}</b></div>
     <div><span>entries kept</span><b>${kept}</b></div>
-    <div><span>last entry</span><b>${last ? 'day ' + last : '&mdash;'}</b></div>
+    <div><span>${s.legs ? 'legs' : 'last entry'}</span><b>${s.legs
+      ? s.legs.length + ' \u00d7 ' + s.legs[0].days + ' d'
+      : (last ? 'day ' + last : '&mdash;')}</b></div>
   </div>
   <p class="lede" style="margin-top:11px">${s.chart_note
     ? esc(s.chart_note)
@@ -173,7 +194,8 @@ ${form}
   </div>
   <p class="lede" style="margin-top:11px">${esc(doc.stanza_note)}</p>
 
-  <h2>The log <b>${kept} ${kept === 1 ? 'entry' : 'entries'}</b></h2>
+  <h2>The log <b>${kept} ${kept === 1 ? 'entry' : 'entries'}${s.legs
+    ? ' across ' + s.legs.length + ' legs, and no arrival in any of them' : ''}</b></h2>
 ${entries || `  <div class="panel"><p style="margin:0;font-size:12.5px" class="none">
     No entries. This ship has no commandant, no chart and no departure &mdash;
     and the reason is on her profile: the requirement she carries is the one
