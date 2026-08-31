@@ -1,0 +1,363 @@
+<title>Form Completion Contract · gas, and the burn</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  The rule every desk in this yard has been applying without writing down.
+
+  A form is not complete when its boxes are full. It is complete when every
+  check it carries has actually been performed — and checking costs something.
+  This page gives that cost a name (gas), gives each desk a budget, and states
+  what happens when the two do not meet.
+
+  THE RULE
+    gas ≤ budget            complete — the checks were affordable and were done
+    gas > budget, higher
+      budget exists         return — escalate it to a desk that can afford it
+    gas > every budget      BURN — refuse it, and forfeit what was spent
+
+  The burn is the part that matters and it is not vindictive. A form that
+  cannot be verified at any budget must not be accepted on partial checking,
+  because a partially checked form that is accepted becomes evidence that it
+  was checked. That is worse than a refusal: a refusal leaves a gap where the
+  truth is, and a rubber stamp fills the gap with a lie.
+
+  "Too heavy — burn it" is therefore not a temper. It is the only correct
+  disposition for a document whose verification cost exceeds what anyone can
+  pay, and the syndicate profile is heavy on purpose: the shape's whole method
+  is to make checking cost more than waving it through.
+
+  Fifteen cells — five profiles by three budgets — each one worked out and
+  written down, because CSS still cannot compare two numbers.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#0b0908; --card:#191412; --card2:#201a17; --edge:#3a2d26;
+    --ink:#f2ece6; --dim:#a5948a;
+    --gold:#d9a44e; --ember:#e8703c; --burn:#d63f2a; --green:#68c48a;
+    --amber:#e0a83c; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:14px/1.68 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 50% -4%,rgba(232,112,60,.14),transparent 46%),
+      radial-gradient(circle at 12% 92%,rgba(214,63,42,.10),transparent 44%)}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:14px;margin-bottom:8px}
+  h1{margin:0 0 5px;font-size:26px;letter-spacing:-.022em}
+  .lede{color:var(--dim);font-size:13px;max-width:76ch;margin:0}
+  .lede b{color:var(--ink)}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 12px;font-weight:600;
+    display:flex;align-items:center;gap:12px;padding-top:14px;
+    border-top:1px solid var(--edge)}
+  h2::after{content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(217,164,78,.4),transparent)}
+  .note{color:var(--dim);font-size:11.5px;line-height:1.72;margin:9px 0 0;max-width:92ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--gold);background:#120e0c;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--gold)}
+  pre{margin:10px 0 0;overflow-x:auto;font:11px/1.62 ui-monospace,Menlo,monospace;
+    background:#100c0a;border:1px solid var(--edge);border-radius:9px;
+    padding:12px 13px;color:#d8c9bd}
+  pre b{color:var(--ember);font-weight:400}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px;margin-top:12px}
+
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;min-width:158px;cursor:pointer;padding:12px 13px;
+    border-radius:10px;border:1px solid var(--edge);color:var(--dim);
+    font:11px/1.45 ui-monospace,monospace}
+  .seg label b{display:block;color:var(--ink);font-size:13px;margin-bottom:3px}
+  .seg label .g{color:var(--ember);font-weight:700}
+  .seg input:checked+label{border-color:var(--gold);background:rgba(217,164,78,.10)}
+  .seg input:checked+label b{color:var(--gold)}
+  .seg input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* the meter: gas against budget, both stated, comparison in the table below */
+  .meter{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .m{background:#120e0c;border:1px solid var(--edge);border-radius:10px;padding:11px 12px}
+  .m span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .m b{display:block;font:23px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+    margin-top:5px}
+  .m.gas b{color:var(--ember)} .m.res b{font-size:15px}
+
+  /* gas per profile, budget per desk — declared, never derived */
+  body{counter-reset:gas 0 budget 0}
+  #p-light:checked+label{counter-increment:gas 40}
+  #p-std:checked+label{counter-increment:gas 90}
+  #p-heavy:checked+label{counter-increment:gas 180}
+  #p-synd:checked+label{counter-increment:gas 420}
+  #b-routine:checked+label{counter-increment:budget 100}
+  #b-esc:checked+label{counter-increment:budget 250}
+  #b-full:checked+label{counter-increment:budget 500}
+  .n-gas::after{content:counter(gas)} .n-budget::after{content:counter(budget)}
+
+  /* the unverifiable profile has no finite gas, so it prints as such */
+  .inf{display:none} .wrap:has(#p-void:checked) .inf{display:inline}
+  .wrap:has(#p-void:checked) .n-gas{display:none}
+
+  /* fifteen cells. Five profiles by three budgets, each one written out. */
+  .res-txt::after{content:"—"}
+  .wrap:has(#p-light:checked):has(#b-routine:checked) .res-txt::after,
+  .wrap:has(#p-light:checked):has(#b-esc:checked) .res-txt::after,
+  .wrap:has(#p-light:checked):has(#b-full:checked) .res-txt::after,
+  .wrap:has(#p-std:checked):has(#b-routine:checked) .res-txt::after,
+  .wrap:has(#p-std:checked):has(#b-esc:checked) .res-txt::after,
+  .wrap:has(#p-std:checked):has(#b-full:checked) .res-txt::after,
+  .wrap:has(#p-heavy:checked):has(#b-esc:checked) .res-txt::after,
+  .wrap:has(#p-heavy:checked):has(#b-full:checked) .res-txt::after,
+  .wrap:has(#p-synd:checked):has(#b-full:checked) .res-txt::after
+    {content:"AFFORDABLE";color:var(--green)}
+  .wrap:has(#p-heavy:checked):has(#b-routine:checked) .res-txt::after,
+  .wrap:has(#p-synd:checked):has(#b-routine:checked) .res-txt::after,
+  .wrap:has(#p-synd:checked):has(#b-esc:checked) .res-txt::after
+    {content:"OVER — ESCALATE";color:var(--amber)}
+  .wrap:has(#p-void:checked) .res-txt::after
+    {content:"OVER EVERY BUDGET";color:var(--burn)}
+
+  /* --------------------------------------------------------------- verdict */
+  .verdict .seg label{min-width:130px;text-align:center}
+  #v-complete:checked+label{border-color:var(--green);background:rgba(104,196,138,.12)}
+  #v-complete:checked+label b{color:var(--green)}
+  #v-return:checked+label{border-color:var(--amber);background:rgba(224,168,60,.12)}
+  #v-return:checked+label b{color:var(--amber)}
+  #v-burn:checked+label{border-color:var(--burn);background:rgba(214,63,42,.14)}
+  #v-burn:checked+label b{color:var(--burn)}
+
+  .exec{margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .exec input{position:absolute;opacity:0;width:0;height:0}
+  .exec label{cursor:pointer;font:12.5px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700;padding:15px 30px;border-radius:9px;
+    border:2px solid var(--ember);color:var(--ember);background:#150f0c}
+  #exec:checked+label{background:linear-gradient(180deg,var(--ember),var(--burn));
+    color:#150c08;border-color:var(--burn)}
+  .exec input:focus-visible+label{outline:2px solid var(--cool);outline-offset:3px}
+  .wrap:not(:has(input[name="v"]:checked)) .exec label{opacity:.3;pointer-events:none}
+  .wrap:not(:has(input[name="v"]:checked)) #exec{visibility:hidden}
+  .exec .said{font-size:11.5px;color:var(--dim);max-width:38ch}
+
+  .after{display:none} .wrap:has(#exec:checked) .after{display:block}
+  .wrap:has(#exec:checked) .before{display:none}
+
+  .out{display:none;border-left:3px solid var(--edge);padding:2px 0 2px 15px;
+    margin-top:14px}
+  .out h3{margin:0 0 6px;font-size:16px}
+  .out p{margin:0 0 9px;font-size:12.5px;max-width:80ch}
+  .out p:last-child{margin-bottom:0}
+  /* right answer per band: affordable→complete, over→return, unverifiable→burn */
+  .wrap:has(#exec:checked):has(#v-complete:checked) .o-complete{display:block}
+  .wrap:has(#exec:checked):has(#v-return:checked)   .o-return{display:block}
+  .wrap:has(#exec:checked):has(#v-burn:checked)     .o-burn{display:block}
+  .o-complete{border-color:var(--green)} .o-return{border-color:var(--amber)}
+  .o-burn{border-color:var(--burn)}
+  /* and whether it matched the contract */
+  .judge{display:none;margin-top:12px;border-radius:10px;padding:11px 13px;
+    border:1px solid;font-size:12.5px;line-height:1.66}
+  .j-ok{border-color:var(--green);background:rgba(104,196,138,.09);color:var(--green)}
+  .j-no{border-color:var(--burn);background:rgba(214,63,42,.09);color:var(--burn)}
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-light:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-std:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-return:checked):has(#p-heavy:checked):has(#b-routine:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-return:checked):has(#p-synd:checked):has(#b-routine:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-return:checked):has(#p-synd:checked):has(#b-esc:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-heavy:checked):has(#b-esc:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-heavy:checked):has(#b-full:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-synd:checked):has(#b-full:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-burn:checked):has(#p-void:checked) .j-ok{display:block}
+  /* the mismatch note is the default once executed, and every matching
+     combination above switches it back off — written after, so it wins */
+  .wrap:has(#exec:checked) .j-no{display:block}
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-light:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-std:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-return:checked):has(#p-heavy:checked):has(#b-routine:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-return:checked):has(#p-synd:checked):has(#b-routine:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-return:checked):has(#p-synd:checked):has(#b-esc:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-heavy:checked):has(#b-esc:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-heavy:checked):has(#b-full:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-synd:checked):has(#b-full:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-burn:checked):has(#p-void:checked) .j-no{display:none}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 8px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td .q{color:var(--dim);font-size:10.5px}
+  td.ok{color:var(--green)} td.warn{color:var(--amber)} td.bad{color:var(--burn)}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Form Completion Contract</h1>
+    <p class="lede">A form is not complete when its boxes are full. It is
+      complete when every check it carries has actually been performed — and
+      checking costs something. This gives that cost a name, gives each desk a
+      budget, and states what happens when they do not meet. <b>Too heavy is a
+      disposition, not a complaint.</b></p>
+  </header>
+
+  <h2>The contract</h2>
+  <div class="panel">
+    <script type="application/json" id="completion">
+{ "manifest":"venus.yard/1", "completion":{ "unit":"gas" } }
+    </script>
+<pre>{
+  "manifest": "venus.yard/1",
+  "completion": {
+    "unit": "gas",
+    "rule": [
+      <b>"gas &lt;= budget            -> complete"</b>,
+      <b>"gas &gt; budget, higher one -> return and escalate"</b>,
+      <b>"gas &gt; every budget       -> burn"</b>
+    ],
+    "checks": {
+      "field_match":        10,
+      "cross_reference":    20,
+      "provenance":         40,
+      "recompute_ledger":   60,
+      "powers_enforcement": 30,
+      "pattern_review":    240
+    },
+    "budgets": { "routine": 100, "escalated": 250, "full_audit": 500 },
+    "burn": {
+      "meaning": "refuse, and forfeit what was spent",
+      "why": "a partially checked form that is accepted becomes evidence
+              that it was checked — worse than a refusal, which at least
+              leaves the gap where the truth is"
+    }
+  }
+}</pre>
+  </div>
+
+  <h2>The form <b></b></h2>
+  <div class="panel">
+    <div class="seg">
+      <input type="radio" name="p" id="p-light" checked><label for="p-light">
+        <b>Light</b>four field matches<br><span class="g">40 gas</span></label>
+      <input type="radio" name="p" id="p-std"><label for="p-std">
+        <b>Standard</b>fields + provenance<br><span class="g">90 gas</span></label>
+      <input type="radio" name="p" id="p-heavy"><label for="p-heavy">
+        <b>Heavy</b>+ recompute + powers<br><span class="g">180 gas</span></label>
+      <input type="radio" name="p" id="p-synd"><label for="p-synd">
+        <b>Syndicate review</b>six-indicator pattern<br><span class="g">420 gas</span></label>
+      <input type="radio" name="p" id="p-void"><label for="p-void">
+        <b>Unverifiable</b>inputs do not exist<br><span class="g">∞ gas</span></label>
+    </div>
+
+    <h2 style="margin-top:20px">The desk</h2>
+    <div class="seg">
+      <input type="radio" name="b" id="b-routine" checked><label for="b-routine">
+        <b>Routine</b>gate clerk<br><span class="g">100 budget</span></label>
+      <input type="radio" name="b" id="b-esc"><label for="b-esc">
+        <b>Escalated</b>the bridge<br><span class="g">250 budget</span></label>
+      <input type="radio" name="b" id="b-full"><label for="b-full">
+        <b>Full audit</b>the court<br><span class="g">500 budget</span></label>
+    </div>
+
+    <div class="meter">
+      <div class="m gas"><span>gas required</span>
+        <b><span class="n-gas"></span><span class="inf">∞</span></b></div>
+      <div class="m"><span>budget available</span><b class="n-budget"></b></div>
+      <div class="m res"><span>contract says</span><b class="res-txt"></b></div>
+    </div>
+    <p class="note"><b>The comparison is a lookup, not a calculation.</b> Fifteen
+      cells — five profiles by three budgets — each worked out and written down,
+      because CSS adds and cannot compare. The same discipline the rest of the
+      yard runs on: if a number could not be computed here, somebody computed it
+      somewhere you can check.</p>
+  </div>
+
+  <h2>Disposition</h2>
+  <div class="panel">
+    <div class="verdict seg">
+      <input type="radio" name="v" id="v-complete"><label for="v-complete">
+        <b>Complete</b>checks done, accept</label>
+      <input type="radio" name="v" id="v-return"><label for="v-return">
+        <b>Return</b>escalate to a desk that can afford it</label>
+      <input type="radio" name="v" id="v-burn"><label for="v-burn">
+        <b>Burn</b>refuse, forfeit the gas</label>
+    </div>
+
+    <div class="exec">
+      <input type="checkbox" id="exec"><label for="exec">Execute</label>
+      <span class="said before">No execution without a disposition. The contract
+        does not tell you the answer until you have committed to one.</span>
+      <span class="said after">Executed. Entered against the form.</span>
+    </div>
+
+    <div class="after">
+      <div class="out o-complete">
+        <h3>Complete.</h3>
+        <p>The form is accepted and the record now says its checks were
+          performed. That claim is only worth anything if the gas was actually
+          there to perform them — which is the entire reason this contract
+          bothers to count.</p>
+      </div>
+      <div class="out o-return">
+        <h3>Returned to a desk that can afford it.</h3>
+        <p>Not a rejection. The form is fine; this desk is not the one that can
+          verify it, and saying so costs a day and a signature rather than a
+          reputation.</p>
+        <p>Escalation is the answer the shape least wants, because a heavier
+          desk is one it has not already learned to pass through.</p>
+      </div>
+      <div class="out o-burn">
+        <h3>Burned.</h3>
+        <p>Refused, and the gas spent getting this far is forfeit. The form does
+          not come back corrected because it cannot be — its checks depend on
+          inputs that do not exist, and no budget buys a recomputation of
+          figures whose sources are missing.</p>
+        <p><b>Burning is the disposition, not the temper.</b> The alternative is
+          a stamp that says checked on a document nobody could check, and that
+          stamp is worth less than nothing: it converts an open question into a
+          closed lie, and the next reader has no way to tell.</p>
+      </div>
+
+      <div class="judge j-ok"><b>Matches the contract.</b> Your disposition is
+        the one the rule produces for this profile against this budget.</div>
+      <div class="judge j-no"><b>Does not match the
+        contract.</b> Read the meter again: the rule is affordable → complete,
+        over but coverable → return, over every budget → burn. A disposition
+        that departs from it is a decision you are now the author of, which the
+        contract permits and records.</div>
+    </div>
+  </div>
+
+  <h2>The fifteen cells</h2>
+  <div class="panel">
+    <table>
+      <tr><th>Form</th><th>Gas</th><th>Routine 100</th><th>Escalated 250</th>
+        <th>Full audit 500</th></tr>
+      <tr><td>Light <span class="q">· four field matches</span></td><td>40</td>
+        <td class="ok">complete</td><td class="ok">complete</td><td class="ok">complete</td></tr>
+      <tr><td>Standard <span class="q">· + provenance</span></td><td>90</td>
+        <td class="ok">complete</td><td class="ok">complete</td><td class="ok">complete</td></tr>
+      <tr><td>Heavy <span class="q">· + recompute + powers</span></td><td>180</td>
+        <td class="warn">return</td><td class="ok">complete</td><td class="ok">complete</td></tr>
+      <tr><td>Syndicate review <span class="q">· six indicators</span></td><td>420</td>
+        <td class="warn">return</td><td class="warn">return</td><td class="ok">complete</td></tr>
+      <tr><td>Unverifiable <span class="q">· inputs absent</span></td><td>∞</td>
+        <td class="bad">burn</td><td class="bad">burn</td><td class="bad">burn</td></tr>
+    </table>
+    <p class="note"><b>Read the syndicate row.</b> It is heavy on purpose and
+      that is not an accident of design — the shape's whole method is to make
+      checking cost more than waving it through. A routine desk cannot afford
+      to look at it, which is precisely why it keeps arriving at routine desks.
+      <b>The remedy is not a braver clerk. It is a budget the clerk is allowed
+      to spend by escalating.</b></p>
+    <p class="note"><b>And read the last row twice.</b> Nothing in the top four
+      rows ever burns. Burning is reserved for a document that cannot be
+      verified at any price — not one that is expensive, not one that is
+      suspicious, and not one you dislike. Widening that definition is how a
+      burn stops being a control and starts being a weapon.</p>
+    <p class="note"><a href="index.html">← the yard</a> ·
+      <a href="gate-3.html">the desk this formalises</a> ·
+      <a href="syndicate.html">why the heavy row exists</a></p>
+  </div>
+</div>
