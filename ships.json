@@ -124,9 +124,9 @@
     {
       "id": "iris",
       "name": "Iris",
-      "epithet": "who fetches the water for oaths",
+      "epithet": "who fetches the water for oaths, and comes back carrying what light cannot",
       "carries": "hydrogen",
-      "why": "She is the other messenger, and the specific errand she is sent on is to bring up water from the Styx when an oath has to be sworn on it. So she carries the hydrogen — the one element Venus cannot make, the one cargo that is genuinely cargo, and the one thing a promise about this project actually rests on.",
+      "why": "She is the other messenger, and the specific errand she is sent on is to bring up water from the Styx when an oath has to be sworn on it. So she carries the hydrogen — the one element Venus cannot make, the one cargo that is genuinely cargo, and the one thing a promise about this project actually rests on. Her return leg is the more interesting half, because it is where the fleet has to admit what a one-way scarcity does to a trade route.",
       "commandant": "the water officer",
       "chart_set": "fourteen months before departure",
       "stanza_form": [
@@ -147,7 +147,8 @@
             "All well.",
             "I have been told what this is worth in money. It is not the useful number. The useful number is that Venus would need to sweep a hundred and thirty-six thousand cubic metres of cloud to make one kilogram of the water this becomes.",
             "Yes."
-          ]
+          ],
+          "leg": 1
         },
         {
           "day": 96,
@@ -158,7 +159,73 @@
             "All well.",
             "A hydrogen molecule is small enough to leave through metal that is not leaking. There is no tank that holds it perfectly and there never will be, and the chart accounts for that and I still count it every morning.",
             "Yes."
+          ],
+          "leg": 1
+        },
+        {
+          "leg": 1,
+          "day": 146,
+          "lines": [
+            "Eleven thousand three hundred and fifty-one delivered. Forty-nine short of what we lifted, and every gram of the difference left through metal that was not leaking.",
+            "Forty-nine kilograms in a hundred and forty-six days. As charted, and I have written the number every morning so that the day it is not as charted, somebody notices in a day rather than in a month.",
+            "Eleven joints opened across the passage, all logged, all witnessed.",
+            "All well. Handover took four hours and they counted it themselves, which is correct and which I would also have done.",
+            "They asked what we are taking back. I said I would tell them tomorrow, because the answer is short and I wanted to have it right.",
+            "Yes."
           ]
+        },
+        {
+          "leg": 2,
+          "day": 1,
+          "lines": [
+            "Two hundred and eleven kilograms aboard, and none of it is the cargo. Residual hydrogen in tanks that will never be properly empty until they are cut up.",
+            "Losing at the same rate as when full, because boil-off is about the tank and not about how much is in it. An empty hydrogen tanker is a tank slowly losing the last of it, all the way home.",
+            "No joints opened.",
+            "All well. Nine aboard, four of them going back after eleven months and five who have been there four years.",
+            "Here is the answer I owed them. We carry home what light cannot: forty kilograms of surface rock off Charon's runs, two failed seals nobody can diagnose from a photograph, one culture that did something unexpected, and five people. That is the whole manifest. Everything else worth sending went by radio in nine minutes and got there before we finished loading.",
+            "Yes."
+          ]
+        },
+        {
+          "leg": 2,
+          "day": 88,
+          "lines": [
+            "Two hundred and four kilograms. Still nothing that counts as cargo.",
+            "Seven kilograms since departure. The rate is the rate.",
+            "No joints opened. Eighty-eight days of that line and it is still worth writing.",
+            "All well. The four going back have stopped talking about the far end and the five going home have not started talking about this one.",
+            "The stanza does not change and the meaning of every line has. On the way out, mass aboard was the mission. On the way back it is a leak I cannot stop in a tank I am not using. Same six lines, same order, entirely different document — which is exactly why the captain would not let us change the form.",
+            "Yes."
+          ]
+        },
+        {
+          "leg": 2,
+          "day": 146,
+          "lines": [
+            "Home. Two hundred and one kilograms of residual, forty of rock, two seals, one culture, five people.",
+            "Ten kilograms lost on a leg with nothing to lose.",
+            "No joints opened the whole return.",
+            "All well. All landed.",
+            "Two hundred and ninety-two days to move eleven thousand four hundred kilograms one way, and to bring back forty kilograms of stone. That ratio is not a failure of the ship and it does not improve with a better one. It is what a one-way scarcity does to a trade route, and anybody costing this project should be made to write it out longhand before they are allowed an opinion.",
+            "Yes."
+          ]
+        }
+      ],
+      "chart_note": "Charted fourteen months out, both legs together, because the return window is set by the same orbital geometry as the outbound and there is no version where you decide at Venus when to leave. A round trip is 292 days of ship-time to move 11,400 kg of hydrogen one way. That figure is the economics of the entire settlement and it does not improve with better shipbuilding.",
+      "legs": [
+        {
+          "n": 1,
+          "from": "Earth",
+          "to": "Venus",
+          "days": 146,
+          "note": "Full. Eleven thousand four hundred kilograms of the one thing that cannot be made at the far end."
+        },
+        {
+          "n": 2,
+          "from": "Venus",
+          "to": "Earth",
+          "days": 146,
+          "note": "Empty of hydrogen, and not empty. The return cargo is exactly the set of things that cannot be sent as a file — which is a shorter list than anybody expects and does not include most of what people ask her to bring."
         }
       ]
     },
