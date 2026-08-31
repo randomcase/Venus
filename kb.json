@@ -73,7 +73,6 @@
         }
       ],
       "see": [
-        "the-loss-condition",
         "the-rename",
         "decentralization",
         "the-wallet"
@@ -108,7 +107,6 @@
       ],
       "see": [
         "decentralization",
-        "the-loss-condition",
         "hydrogen"
       ]
     },
@@ -148,8 +146,7 @@
       "see": [
         "the-wallet",
         "the-rename",
-        "fungibility",
-        "the-loss-condition"
+        "fungibility"
       ]
     },
     {
@@ -243,9 +240,9 @@
         "The rule in this yard has three arms. Gas within budget: complete, the checks were affordable and were done. Gas over budget but a higher budget exists: return it, escalate to a desk that can pay. Gas over EVERY budget: BURN — refuse it, and forfeit what was already spent.",
         "The burn is the part that matters and it is not vindictive. A partially checked form that gets accepted becomes evidence that it was checked, and that is strictly worse than a refusal: a refusal leaves a gap where the truth is, and a rubber stamp fills the gap with a lie. The gap is recoverable. The lie is not.",
         "AND THE ATTACK RUNS THE OTHER WAY FROM WHERE PEOPLE LOOK FOR IT. Nobody is collecting this gas. The syndicate's move is not to charge for verification, it is to RAISE the cost of it — the syndicate profile in that board is heavy on purpose, because the shape's whole method is to make checking cost more than waving it through. A document nobody can afford to verify gets waved through by an honest desk with a full budget, and no bribe was needed anywhere in that sentence.",
-        "THIS ENTRY SUPPLIES A QUALIFIER THE BASE WAS MISSING. Elsewhere here: a loss condition is a scarcity, and a scarcity is a rent. Gas is a scarcity by construction — a budget that can run out is a last unit — so on that rule gas ought to carry a rent, and it does not. The missing clause is that A SCARCITY CARRIES A RENT ONLY WHEN SOMEBODY COLLECTS AT EXHAUSTION. The burn is precisely the design that makes exhaustion pay nobody: what was spent is forfeit rather than transferred, so running out enriches no one and there is nothing for a market in continuation to attach to. That is not an exception to the rule. It is the rule stated properly, and this board had it before the rule did."
+        "AND IT IS A SCARCITY THAT CARRIES NO RENT, which is worth stating because the reverse is assumed. A budget that can run out is a last unit, and a last unit is normally where a market in continuation appears — somebody sells you more. Not here. The burn FORFEITS what was spent rather than transferring it, so running out enriches nobody and there is nothing for a rent to attach to. The general form: a scarcity is only a rent when somebody collects at exhaustion. Find the beneficiary before calling a cost a racket; a real price with no collector is a different object from a manufactured one with a desk behind it."
       ],
-      "test": "Find who receives what is spent when the budget runs out. If it is transferred to anybody, the scarcity carries a rent and you have found the beneficiary. If it is forfeit, it does not. Then ask the other question, which is the one people skip: who benefits from the cost being HIGH? That party never appears in the fee flow at all.",
+      "test": "Find who receives what is spent when the budget runs out. If it is transferred to anybody, you have found the beneficiary and the scarcity is a rent. If it is forfeit, it is not. Then ask the question people skip: who benefits from the cost being HIGH? That party never appears in the fee flow at all.",
       "evidence": [
         {
           "page": "contract.html",
@@ -265,44 +262,9 @@
         }
       ],
       "see": [
-        "the-loss-condition",
         "smart-contracts",
         "the-ledger",
         "the-constant-judge"
-      ]
-    },
-    {
-      "id": "the-loss-condition",
-      "term": "The loss condition",
-      "class": "concept",
-      "settled": "working",
-      "short": "A scarcity wearing a rule's clothes. And a scarcity is where the rent is collected.",
-      "body": [
-        "A loss condition says: there exists a state from which you cannot continue. That statement creates a last unit — the last life, the last turn, the last chance — and a last unit is by construction scarce. Scarcity is not a feeling about a resource; it is the existence of a final one.",
-        "Once a final unit exists, somebody can sell it, and everything downstream follows without anyone intending it: a market in continuation, a price for not-ending, and an incentive to arrange more near-endings. Nobody has to be corrupt for this. The instrument does it.",
-        "The corollary is the useful half. Anything genuinely endless cannot be sold by the unit. A quiet storm set has no last record; a superrotation has no last lap; the automat has no last beat. None of them were designed to resist a rent — they simply came out that way, and the resistance is a side-effect of having no final unit to price.",
-        "A QUALIFIER THIS RULE NEEDED AND DID NOT HAVE, supplied later by the gas entry: a scarcity carries a rent only when SOMEBODY COLLECTS AT EXHAUSTION. Gas is a scarcity by construction — a budget that can run out is a last unit — and it carries no rent, because contract.html's burn forfeits what was spent rather than transferring it. Running out enriches nobody, so there is nothing for a market in continuation to attach to. Check for the beneficiary before calling a scarcity a rent; a real cost with no collector is not the same object as a manufactured one with a desk behind it."
-      ],
-      "test": "Find the last unit. If you can name it — last life, last turn, last block, last lap — ask who would sell it and at what price. If you cannot name one, there is nothing there to rent.",
-      "evidence": [
-        {
-          "page": "theory.md",
-          "what": "the three notes compiled: a loss condition is a scare factor, compared to something that is and is not at the same time"
-        },
-        {
-          "page": "rapture.html",
-          "what": "a format with no arc and a superrotation with no last lap; neither can be sold by the unit"
-        },
-        {
-          "page": "automat.html",
-          "what": "no termination test and no counter that only goes one way"
-        }
-      ],
-      "see": [
-        "fungibility",
-        "the-retainer",
-        "caught-up",
-        "the-gas"
       ]
     },
     {
@@ -334,7 +296,6 @@
       "see": [
         "fungibility",
         "the-retainer",
-        "the-loss-condition",
         "smart-contracts"
       ]
     },
@@ -447,7 +408,6 @@
       ],
       "see": [
         "superrotation",
-        "the-loss-condition",
         "the-orbit"
       ]
     },
@@ -668,7 +628,6 @@
       ],
       "see": [
         "decentralization",
-        "the-loss-condition",
         "caught-up"
       ]
     }
