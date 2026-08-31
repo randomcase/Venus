@@ -69,15 +69,28 @@
   and the deadlocks doubled — from two to four. The two circuits that used to
   affirm while the abstainer was away now tie instead.
 
-  That is the finding this board was built to reach. The deadlock was never an
+  That was the finding this board was built to reach. The deadlock was never an
   accident of attendance. The court is genuinely split down the middle on
   whether the pot was a vote, it has been the whole time, and every
-  configuration before this one was an arrangement for not finding out. Four
-  appointments were made to repair this bench. The one that changed the
-  outcomes did so by letting an absent woman's position be counted, and what it
-  revealed was that the fifteen years in which this court did not deadlock were
-  not fifteen years of agreement either. That is not a coincidence in the
-  model; it is the model, and it is what the model was for.
+  configuration before that one was an arrangement for not finding out.
+
+  Hazel went on fourteenth, and she was at the pot. She put money in and she
+  dined. She is the only person on this bench who knows at first hand whether
+  anybody was ever asked anything, and she is disqualified from saying so
+  exactly when it counts: on the papers and on the record she sits and
+  reverses, and when the pot itself is put before the court she recuses for
+  interest, which is the correct rule and is not in any doubt.
+
+  Sitting reads thirteen on the papers and on the record. Thirteen is odd, so
+  those eight circuits cannot tie, and all eight of them now decide. It reads
+  twelve on the pot, and both of the two remaining deadlocks are there. This
+  court can decide the case from a distance and cannot decide it with the thing
+  in front of it, because the rule that keeps the bench clean is the same rule
+  that removes its only witness. Nobody did anything wrong to arrive at that.
+  Five appointments were made to repair this court and the residue of all of
+  them is two circuits, both on the pot, and one woman in the room who is not
+  allowed to say what she saw. That is not a coincidence in the model; it is
+  the model, and it is what the model was for.
 
   HOW IT IS BUILT — the same five things as every board here
     1 COUNTERS ARE ARITHMETIC    both polls counted, never declared
@@ -326,6 +339,31 @@
   .ct:has(#n-re:checked) .j13 .cert{counter-increment:grantv 1;color:var(--bone)}
   .ct:has(#n-se:checked) .j13{opacity:.62}
 
+  /* ---- SENIORITY 14 · HAZEL, of the Table. THE FOURTEENTH SEAT.
+     She was at the pot. She put money in and she dined, and she is therefore
+     the only person on this bench with first-hand knowledge of whether anybody
+     was ever asked anything — and the only one disqualified from saying so
+     when it counts. On the papers and on the record she sits and reverses,
+     because she was there and nobody asked her. When the pot itself is put
+     before the court she recuses for interest, which is the correct rule and
+     is not in any doubt.
+     The consequence is the sharpest thing on the board. Sitting reads thirteen
+     on the papers and on the record — odd, so those eight circuits cannot tie,
+     and all eight now decide cleanly. It reads twelve on the pot, and both
+     remaining deadlocks are there. This court can decide the case from a
+     distance and cannot decide it with the thing in front of it, because the
+     rule that keeps the bench clean is the rule that removes its only witness.
+     Nobody did anything wrong. That is the problem. */
+  .ct:has(#g-pa:checked) .j14 .vote::after{content:"REVERSE"}
+  .ct:has(#g-re:checked) .j14 .vote::after{content:"REVERSE"}
+  .ct:has(#g-po:checked) .j14 .vote::after{content:"— RECUSED · INTEREST —"}
+  .ct:has(#g-pa:checked) .j14 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-re:checked) .j14 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-po:checked) .j14 .vote{color:var(--dim);font-size:9.5px}
+  .ct:has(#g-pa:checked) .j14 .cert{counter-increment:grantv 1;color:var(--bone)}
+  .ct:has(#g-re:checked) .j14 .cert{counter-increment:grantv 1;color:var(--bone)}
+  .ct:has(#g-po:checked) .j14{opacity:.62}
+
   /* ------------------------------------------------------------ the tallies */
   .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
   .tally .head{background:#0b1310;border:1px solid var(--edge);border-radius:10px;
@@ -357,10 +395,10 @@
      comparison was not faked: it was done once by hand per circuit, and the
      four numbers above are what let you audit it. */
   .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
-  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .v-eq {display:block}
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .v-rev{display:block}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
-  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .v-eq {display:block}
+  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .v-rev{display:block}
   .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-se:checked) .v-rev{display:block}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
@@ -379,8 +417,10 @@
      against the nine cards above, which is the deal. */
   .wr{display:none}
   .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-re:checked) .w-rook{display:inline}
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
   .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
+  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
   .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
@@ -425,8 +465,8 @@
     <h1>The Bench of Nine</h1>
     <span class="sub">Nine thousand square miles of forest — the size of England
       — and one court in it. <i>In re the Pot</i>, first case. Two votes are
-      taken here and the first one is not about the pot. There are thirteen judges
-      and twelve of them vote on any given day.
+      taken here and the first one is not about the pot. There are fourteen judges
+      and never more than thirteen of them vote.
       It is still called the Bench of Nine.</span>
     <span class="tag">no script</span>
   </header>
@@ -625,6 +665,23 @@
         and her absence is what had been keeping that off the record.</div>
       <div class="row"><span class="cert">grants: as she does</span><span class="vote"></span></div>
     </div>
+    <div class="j cop j14">
+      <div class="who"><i>14</i><b>Hazel</b><em>of the table · the fourteenth seat</em></div>
+      <div class="prac">She was at the pot. She put money in and she dined, and
+        she is the only person on this bench with first-hand knowledge of
+        whether anybody was ever asked anything — and the only one disqualified
+        from saying so when it counts. On the papers and on the record she sits
+        and reverses, because she was there and nobody asked her. When the pot
+        itself is put before the court she recuses for interest, which is the
+        correct rule and is not in any doubt. Sitting reads thirteen on the
+        papers and on the record, which is odd, so those eight circuits cannot
+        tie and all eight now decide cleanly. It reads twelve on the pot, and
+        both remaining deadlocks are there. This court can decide the case from
+        a distance and cannot decide it with the thing in front of it, because
+        the rule that keeps the bench clean is the rule that removes its only
+        witness. Nobody did anything wrong. That is the problem.</div>
+      <div class="row"><span class="cert">grants: papers, record</span><span class="vote"></span></div>
+    </div>
   </div>
 
   <!-- ==== TOTALS AFTER. Counted from the nine cards above and nowhere else. -->
@@ -637,14 +694,15 @@
   </div>
   <p class="note"><b>Four numbers and no margin.</b> A margin is a subtraction
     and this page cannot subtract, so both sides are printed and you may hold
-    them against each other, which is what a bench does anyway. With the proxy on the
-    bench, <code>Sitting</code> reads twelve on every circuit — the thirteenth
-    seat replaces the ninth chair rather than adding to it — and an even bench
-    ties. Four circuits tie now: the two the abstainer attends, and the two her
-    proxy attends for her. <code>Votes to hear</code> reads four or better
+    them against each other, which is what a bench does anyway. <code>Sitting</code> now reads
+    thirteen on the papers and on the record and twelve on the pot: the proxy
+    replaces the ninth chair rather than adding to it, and the fourteenth seat
+    recuses for interest whenever the pot is what is before the court. Thirteen
+    is odd and those eight circuits decide. Twelve is even and the two that are
+    left are both on the pot. <code>Votes to hear</code> reads four or better
     everywhere, which it has done only since the twelfth seat.</p>
 
-  <h2>The judgment <b>six reverse, two affirm, four tie — all twelve heard</b></h2>
+  <h2>The judgment <b>eight reverse, two affirm, two tie — all twelve heard</b></h2>
 
   <div class="vst panel v-rev" style="border-color:var(--rev)">
     <div class="vh">Reversed</div>
@@ -672,21 +730,23 @@
   </div>
   <div class="vst panel v-eq" style="border-color:var(--amber)">
     <div class="vh">Equally divided · six to six</div>
-    <p>Twelve sitting — twelve on every circuit now, because the proxy replaces
-      the ninth chair rather than adding to it — six each way, no opinion, no
-      precedent, and the judgment below stands by default rather than by
-      reasoning. Four of the twelve circuits end here. Two are the ones the
-      abstainer attends. Two are the ones she does not, where her proxy votes
-      her position for her and the court discovers it is split down the middle
-      after all.</p>
-    <p>Four appointments have now been made to repair this bench. Yew created
-      these deadlocks, Alder resolved them for the court below, Bracken
-      restored them and opened the door, and Sedge has doubled them by the
-      simple act of letting an absent woman's position be counted. That last
-      one is not a failure. A court that deadlocks four times out of twelve on
-      this question is a court that has finally written down what it actually
-      thinks, and the fifteen years in which it did not deadlock were not
-      fifteen years of agreement either.</p>
+    <p>Twelve sitting, six each way, no opinion, no precedent, and the judgment
+      below stands by default rather than by reasoning. Two circuits end here
+      and both of them are <b>on the pot</b> — the two where the case is put to
+      the court as the thing itself rather than as papers or as a record. That
+      is not a coincidence and it is not the abstainer's doing. It is Hazel.
+      She was at the table, she is the only witness this bench has, and when
+      the pot is before the court she must recuse for interest. Thirteen sit on
+      the other eight circuits, thirteen is odd, and those eight decide. Twelve
+      sit on these two.</p>
+    <p>Five appointments have now been made to repair this bench. Yew created
+      the deadlocks, Alder resolved them for the court below, Bracken opened
+      the door, Sedge doubled them by letting an absent position be counted,
+      and Hazel has cleared eight circuits and concentrated everything left
+      onto the two where the evidence is closest. The court can decide this
+      case at a distance. It cannot decide it with the pot on the table.
+      Nobody did anything wrong to produce that, which is the part worth
+      sitting with.</p>
   </div>
 
   <h2>Fern's table <b>§3 · two keys, one answer</b></h2>
@@ -733,20 +793,24 @@
   <div class="panel">
     <script type="application/json" id="doc">
 { "manifest": "venus.yard/1", "board": "bench", "case": "In re the Pot",
-  "court": { "seats": 13, "vote_on_any_day": 12, "known_as": "the Bench of Nine", "benches": ["canopy", "understory", "root"],
+  "court": { "seats": 14, "vote_on_any_day": "12 on the pot, 13 otherwise",
+             "known_as": "the Bench of Nine", "benches": ["canopy", "understory", "root"],
              "jurisdiction_sq_mi": 9000, "hears_per_year": 80 },
   "rules": { "cert": 4, "decides": 5, "tie": "affirmed by an equally divided court",
              "assignment": "chief if in majority, else senior-most in majority" },
-  "circuits": 12, "reversed_on": 6, "affirmed_on": 2, "divided_on": 4,
+  "circuits": 12, "reversed_on": 8, "affirmed_on": 2, "divided_on": 2,
+  "divided_circuits_are_all": "on the pot",
   "cert_denied_on": 0,
   "added_seats": [
     { "seniority": 10, "added_to_end": "deadlock", "grants": false, "ended_it": false, "moved_it": true },
     { "seniority": 11, "added_to_end": "deadlock", "grants": false, "ended_it": true, "for_whom": "the court below" },
     { "seniority": 12, "added_to_end": "deadlock", "grants": true, "ended_it": false, "opened_the_door": true },
     { "seniority": 13, "holds": "the ninth chair proxy", "grants": "as she does",
-      "ended_it": false, "doubled_it": true }
+      "ended_it": false, "doubled_it": true },
+    { "seniority": 14, "was_at": "the pot", "grants": ["papers", "record"],
+      "recuses_for_interest_on": "the pot", "cleared": 8, "left": 2 }
   ],
-  "seats_that_grant": 10,
+  "seats_that_grant": 12,
   "$note": "the docket entry. The ninth chair has been empty for fifteen years." }
     </script>
     <button type="submit" form="vy" style="font:inherit;font-size:13px;
@@ -762,13 +826,14 @@
   <h2>Where to start</h2>
   <p class="note">The board opens <b>on the papers · in leaf · recused</b>,
     which is three votes to hear and therefore no case at all. Seat the ninth
-    chair — though the door no longer closes on anyone, which is the twelfth
-    seat's doing and nobody else's, and the ninth chair now votes either way,
-    because the thirteenth seat holds its proxy. Find the four circuits that
-    end six all. Two are the ones she attends and two are the ones she does
-    not, and until the proxy was seated that second pair affirmed. Four
-    appointments were made to fix this court. Decide for yourself which of them
-    fixed anything, and then read the last paragraph of the source comment.</p>
+    chair — though the door no longer closes on anyone and the ninth chair votes
+    either way now, because the twelfth seat opened one and the thirteenth
+    holds the other's proxy. Then put the case up <b>on the pot</b>, both
+    seasons, and watch the only two deadlocks left on the board appear. Five
+    appointments were made to fix this court. What is left of all of them is
+    two circuits where the pot is on the table and the one witness may not
+    speak. Decide for yourself which appointment fixed anything, and then read
+    the last paragraph of the source comment.</p>
   <p class="note">Next: <a href="chamber.html">the Writing Chamber</a>, where
     the opinion is minted and priced · <a href="exhibit.html">Exhibit A</a>,
     the record · <a href="pulse.html">the Pulse</a>, where the same
