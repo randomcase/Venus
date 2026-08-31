@@ -880,7 +880,43 @@
         "hydrogen",
         "the-baton",
         "superrotation",
-        "the-minimum-cycle"
+        "the-minimum-cycle",
+        "the-gravity-ledger"
+      ]
+    },
+    {
+      "id": "the-gravity-ledger",
+      "class": "number",
+      "settled": "settled",
+      "term": "The gravity ledger",
+      "short": "Weight is 88.8% of home at the deck. Mass is 100%. Half the work gets easier and the half that does not is the half that hurts people.",
+      "body": [
+        "Venus surface gravity is 8.87 m/s2, and the deck is 55 km up, which costs another 1.6%: the number the work actually happens in is 8.71 m/s2, or 88.8% of Earth. Every published comparison quotes the surface figure. Nobody lives there.",
+        "AND THEN THE SPLIT, WHICH IS THE WHOLE ENTRY. Weight is mass times g and it fell by 11.2%. Mass is mass and it did not move. So the ledger has two columns and they do not agree:",
+        "WEIGHT-LIMITED, x1.126 easier — lifting, carrying, holding a posture, throwing, jumping. A person carries 12.6% more for the same fatigue, and over an eight-hour shift that is the difference that shows up in the injury log.",
+        "INERTIA-LIMITED, x1.000 IDENTICAL — starting a load moving, stopping it, catching anything, swinging a pick. A full barrow is easier to hold up and exactly as hard to get rolling and exactly as hard to stop. A load swinging on a rope has precisely the momentum it always had. This is the line that hurts: a crew that spends a fortnight finding everything lighter will misjudge the first thing that has to be STOPPED rather than held.",
+        "It also sets the excavation rate, which is why the channel arithmetic uses the Earth figure. Digging is muscle against soil; gravity carries the pick to the site and does nothing once it is in use. A cubic metre per person-day on Earth becomes 1.13 here — the carrying gain and no more — so a 45 million cubic metre channel is 109 years for a thousand people and eleven for ten thousand.",
+        "AND ONE THING IS BETTER. Stokes settling velocity is proportional to g, so silt drops out 11.2% slower and is carried about 13% further across the floodplain before it lands. Channel velocity goes as the square root of g and is therefore only 94.2%, recovered by steepening the bed 12.6%, and bed shear goes as g outright so the channel scours less and silts sooner — but the thing a flood pulse exists to do, spread nutrients away from the bank, this gravity does better than Earth's."
+      ],
+      "test": "Sort every task into weight-limited and inertia-limited before you size the crew or write the schedule. If a task involves starting, stopping, catching or striking, gravity did nothing for it, and any plan built on a single uniform percentage is wrong on exactly those tasks. Then check which figure the percentage came from: a surface number applied to work happening 55 km up is out by another 1.6% before anybody has lifted anything.",
+      "evidence": [
+        {
+          "page": "flood.html",
+          "what": "the ledger as a board — pick a task and see whether 0.888 g helps, and the excavation figures that follow from it"
+        },
+        {
+          "page": "interior.html",
+          "what": "the same slow-rotation, thick-atmosphere physics doing the other half of the work"
+        },
+        {
+          "page": "profiles/gravity.html",
+          "what": "gravity as a premium attached to a location, which cannot be cornered because it cannot change hands"
+        }
+      ],
+      "see": [
+        "the-exchange-rate",
+        "hydrogen",
+        "superrotation"
       ]
     },
     {
