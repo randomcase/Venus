@@ -1,0 +1,152 @@
+<title>TEMPLATE &middot; HEZE — the yard's unit of account</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from heze.html by templatise.mjs.
+
+     source            heze.html
+     radio groups      0
+     checkboxes        0
+     counters          none
+     :has() rules      1
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#080b0f; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --green:#78b843; --plum:#8a6ab8; --cream:#f2e9d6; --rose:#e58593;
+    --live:#65d6a8; --warn:#e0705a;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;color:var(--ink);background:var(--void);
+    font:14px/1.6 ui-rounded,system-ui,-apple-system,sans-serif;
+    display:grid;place-items:center;padding:20px;
+    background-image:
+      radial-gradient(circle at 18% 12%,rgba(120,184,67,.10),transparent 46%),
+      radial-gradient(circle at 84% 82%,rgba(138,106,184,.10),transparent 44%),
+      radial-gradient(1.2px 1.2px at 22% 34%,#fff,transparent),
+      radial-gradient(1px 1px at 72% 22%,#cfe6ff,transparent),
+      radial-gradient(1.3px 1.3px at 58% 76%,#ffe9c9,transparent);
+  }
+  .deck{width:min(940px,100%)}
+
+  /* ------------------------------------------------------------- the slides */
+  .slide{display:none;background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:14px;padding:30px 34px 22px;
+    min-height:min(620px,86vh);position:relative;
+    box-shadow:0 22px 60px rgba(0,0,0,.45)}
+  .slide:target{display:block}
+  body:not(:has(.slide:target)) #s1{display:block}
+
+  .kicker{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px;display:inline-block;margin-bottom:16px}
+  h1{margin:0 0 6px;font-size:40px;line-height:1.06;letter-spacing:-.02em}
+  h1 small{display:block;font-size:15px;font-weight:400;color:var(--dim);
+    letter-spacing:0;margin-top:10px;max-width:60ch}
+  h2{margin:0 0 4px;font-size:25px;letter-spacing:-.015em}
+  .lede{color:var(--dim);font-size:13px;margin:0 0 20px;max-width:72ch}
+  p{max-width:74ch}
+  strong{color:var(--ink)}
+  em{font-style:normal;color:var(--gold)}
+
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(3,1fr);margin:18px 0}
+  .grid.two{grid-template-columns:repeat(2,1fr)}
+  .cell{background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:13px 14px}
+  .cell b{display:block;font:26px/1.2 ui-monospace,Menlo,monospace;color:var(--gold)}
+  .cell b.sm{font-size:19px}
+  .cell span{font-size:10.5px;color:var(--dim);letter-spacing:.06em;
+    text-transform:uppercase}
+  .cell p{font-size:11.5px;color:var(--dim);margin:6px 0 0}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin:14px 0}
+  th{text-align:left;font:9.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:5px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  tr.sum td{border-top:1.5px solid var(--gold);font-weight:700;padding-top:8px}
+  tr.sum td:last-child{color:var(--gold)}
+  td .q{color:var(--dim);font-size:10.5px}
+
+  .rule{height:1px;background:var(--edge);margin:18px 0}
+  .band{display:flex;gap:0;height:9px;border-radius:5px;overflow:hidden;margin:18px 0}
+  .band i{flex:1}
+  .band .g{background:var(--green)} .band .p{background:var(--plum)}
+  .band .c{background:var(--cream)} .band .r{background:var(--rose)}
+  .band .o{background:var(--gold)}
+
+  .flag{border:1px solid var(--warn);background:rgba(224,112,90,.09);
+    border-radius:9px;padding:12px 14px;color:var(--warn);font-size:12.5px;
+    margin:16px 0}
+  .flag b{color:var(--warn)}
+  .ok{border-color:var(--live);background:rgba(101,214,168,.08);color:var(--live)}
+  .ok b{color:var(--live)}
+
+  code{font:12px ui-monospace,Menlo,monospace;color:var(--cream);
+    background:#0b1219;border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+  /* ------------------------------------------------------------ navigation */
+  .nav{position:absolute;left:34px;right:34px;bottom:20px;display:flex;
+    align-items:center;gap:10px}
+  .nav a{font:11px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;text-decoration:none;color:var(--dim);
+    border:1px solid var(--edge);border-radius:6px;padding:7px 12px}
+  .nav a:hover{color:var(--gold);border-color:var(--gold)}
+  .nav a.p{background:var(--gold);color:#12181d;border-color:var(--gold);
+    font-weight:700}
+  .nav .no{margin-left:auto;font:11px ui-monospace,monospace;color:var(--dim)}
+  .dots{display:flex;gap:6px;justify-content:center;margin-top:14px}
+  .dots a{width:9px;height:9px;border-radius:50%;background:#22303c;
+    border:1px solid var(--edge);display:block}
+  .dots a:hover{background:var(--gold)}
+
+  @media (max-width:720px){
+    .grid,.grid.two{grid-template-columns:1fr}
+    h1{font-size:30px}
+    .slide{padding:22px 18px 74px}
+    .nav{left:18px;right:18px;flex-wrap:wrap}
+  }
+  @media print{
+    .slide{display:block !important;page-break-after:always;box-shadow:none}
+    .nav,.dots{display:none}
+  }
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

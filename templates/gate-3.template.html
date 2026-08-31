@@ -1,0 +1,201 @@
+<title>TEMPLATE &middot; Gate · Case Three</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from gate-3.html by templatise.mjs.
+
+     source            gate-3.html
+     radio groups      5 (f1, f2, f3, f4, v)
+     checkboxes        1
+     counters          right, err
+     :has() rules      28, 12 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --paper:#e4e5dd; --paper2:#d6d8cc; --line:#a9ada0; --ink:#161814;
+    --dim:#5d6156; --red:#9c3529; --stamp:#83291f; --green:#3a6640;
+    --amber:#836316; --blue:#2b5068; --plum:#5b4a86;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;background:#101210;color:var(--ink);
+    font:14px/1.6 ui-serif,Georgia,'Times New Roman',serif;
+    background-image:
+      radial-gradient(circle at 50% 0%,rgba(140,160,120,.08),transparent 44%),
+      repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  .desk{max-width:1020px;margin:0 auto;display:grid;gap:14px;
+    grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:860px){.desk{grid-template-columns:1fr}}
+
+  .sheet{background:linear-gradient(180deg,var(--paper),var(--paper2));
+    border:1px solid var(--line);border-radius:3px;padding:16px 18px;
+    box-shadow:0 12px 30px rgba(0,0,0,.5)}
+  .sheet.full{grid-column:1/-1}
+  h1{margin:0 0 2px;font-size:20px;letter-spacing:.02em}
+  .sub{color:var(--dim);font-size:11.5px;margin:0 0 12px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:0 0 10px;font-weight:700;
+    border-bottom:1px solid var(--line);padding-bottom:7px}
+  h2.mt{margin-top:18px}
+  .note{font-size:11.5px;color:var(--dim);line-height:1.6;margin:10px 0 0}
+  .note b{color:var(--ink)}
+  .fine{font-size:10.5px;color:var(--dim);font-style:italic;line-height:1.6}
+  pre{margin:0;overflow-x:auto;font:11px/1.62 ui-monospace,Menlo,monospace;
+    background:#ecede5;border:1px solid var(--line);border-radius:2px;
+    padding:11px 12px;color:#22251f}
+  pre b{color:var(--stamp);font-weight:700}
+  pre i{color:var(--plum);font-style:normal}
+
+  .field{display:flex;gap:10px;padding:5px 0;border-bottom:1px dotted var(--line);
+    font:12px/1.6 ui-monospace,Menlo,monospace}
+  .field:last-child{border-bottom:0}
+  .field .k{color:var(--dim);min-width:118px}
+  .field .v{font-weight:700}
+
+  .chk{padding:9px 0;border-bottom:1px dotted var(--line)}
+  .chk:last-of-type{border-bottom:0}
+  .chk .q{font-size:12.5px;margin-bottom:6px}
+  .chk .q b{font-family:ui-monospace,monospace;font-size:11.5px}
+  .opts{display:flex;gap:6px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10px/1 ui-monospace,monospace;letter-spacing:.12em;
+    padding:8px 13px;border:1px solid var(--line);border-radius:2px;
+    color:var(--dim);background:#e9eae1}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{background:var(--ink);color:var(--paper);
+    border-color:var(--ink);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* Truth: one and two reconcile, three and four do not. */
+  body{counter-reset:right 0 err 0}
+  #f1-m:checked+label{counter-increment:right 1}  #f1-x:checked+label{counter-increment:err 1}
+  #f2-m:checked+label{counter-increment:right 1}  #f2-x:checked+label{counter-increment:err 1}
+  #f3-x:checked+label{counter-increment:right 1}  #f3-m:checked+label{counter-increment:err 1}
+  #f4-x:checked+label{counter-increment:right 1}  #f4-m:checked+label{counter-increment:err 1}
+  .n-right::after{content:counter(right)}
+  .n-err::after{content:counter(err)}
+
+  .verdict .opts label{padding:12px 18px;font-size:11.5px;letter-spacing:.14em}
+  #v-accept:checked+label{background:var(--green);border-color:var(--green);color:#eff0e6}
+  #v-return:checked+label{background:var(--amber);border-color:var(--amber);color:#f7f2e2}
+  #v-refuse:checked+label{background:var(--stamp);border-color:var(--stamp);color:#f0ece0}
+
+  .stampbox{margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .stampbox input{position:absolute;opacity:0;width:0;height:0}
+  .stampbox label{cursor:pointer;font:13px/1 ui-monospace,monospace;
+    letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+    padding:16px 32px;border:2px solid var(--ink);border-radius:3px;
+    background:#e9eae1;color:var(--ink)}
+  #stamp:checked+label{background:var(--stamp);border-color:var(--stamp);
+    color:#f4ece2;transform:rotate(-1.5deg)}
+  .stampbox input:focus-visible+label{outline:2px solid var(--blue);outline-offset:3px}
+  .desk:not(:has(input[name="v"]:checked)) .stampbox label{opacity:.34;pointer-events:none}
+  .desk:not(:has(input[name="v"]:checked)) #stamp{visibility:hidden}
+  .stampbox .hint{font-size:11.5px;color:var(--dim);max-width:34ch}
+
+  .after{display:none}
+  .desk:has(#stamp:checked) .after{display:block}
+  .desk:has(#stamp:checked) .before{display:none}
+
+  .mark{display:flex;gap:8px;padding:5px 0;font:11.5px/1.6 ui-monospace,monospace;
+    border-bottom:1px dotted var(--line)}
+  .mark .t{min-width:104px;color:var(--dim)}
+  .mark .a{font-weight:700}
+  .score{font:26px/1.2 ui-monospace,monospace;margin-top:10px}
+  .score small{display:block;font:9.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+
+  .out{display:none;border-left:3px solid var(--line);padding:2px 0 2px 14px;
+    margin-top:14px}
+  .out h3{margin:0 0 5px;font-size:15px}
+  .out p{margin:0 0 8px;font-size:12.5px;color:#282b24}
+  .out p:last-child{margin-bottom:0}
+  .desk:has(#stamp:checked):has(#v-accept:checked) .o-accept-s{display:block}
+  .desk:has(#stamp:checked):has(#v-return:checked) .o-return-s{display:block}
+  .desk:has(#stamp:checked):has(#v-refuse:checked) .o-refuse-s{display:block}
+  .desk:has(#stamp:checked):has(#v-accept:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-accept-c{display:block}
+  .desk:has(#stamp:checked):has(#v-return:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-return-c{display:block}
+  .desk:has(#stamp:checked):has(#v-refuse:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-refuse-c{display:block}
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-accept-s,
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-return-s,
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-refuse-s{display:none}
+  .o-accept-c{border-color:var(--green)} .o-return-c{border-color:var(--amber)}
+  .o-refuse-c{border-color:var(--stamp)}
+  .o-accept-s,.o-return-s,.o-refuse-s{border-color:var(--dim)}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f1" id="f1-m"><label for="f1-m">reconciles</label>
+      <input type="radio" name="f1" id="f1-x"><label for="f1-x">fault</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f2" id="f2-m"><label for="f2-m">reconciles</label>
+      <input type="radio" name="f2" id="f2-x"><label for="f2-x">fault</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f3" id="f3-m"><label for="f3-m">reconciles</label>
+      <input type="radio" name="f3" id="f3-x"><label for="f3-x">fault</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f4" id="f4-m"><label for="f4-m">reconciles</label>
+      <input type="radio" name="f4" id="f4-x"><label for="f4-x">fault</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="v" id="v-accept"><label for="v-accept">accept</label>
+      <input type="radio" name="v" id="v-return"><label for="v-return">return for correction</label>
+      <input type="radio" name="v" id="v-refuse"><label for="v-refuse">refuse</label>
+    </div>
+    <h2>TODO checkbox set <b>1</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="stamp"><label for="stamp">Stamp it</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>right</span><b class="n-right"></b></div>
+      <div class="head m"><span>err</span><b class="n-err"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

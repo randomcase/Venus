@@ -1,0 +1,131 @@
+<title>TEMPLATE &middot; Signal Code · all sixteen</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from signals.html by templatise.mjs.
+
+     source            signals.html
+     radio groups      1 (f)
+     checkboxes        0
+     counters          none
+     :has() rules      5
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --red:#e0705a; --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8;
+    --plum:#8a6ab8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.6 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 50% 0%,rgba(224,177,85,.07),transparent 46%)}
+  .wrap{max-width:1060px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:14px}
+  h1{margin:0;font-size:21px;letter-spacing:-.018em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:22px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.65;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+  /* ---------------------------------------------------------------- filter */
+  .filter{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+  .filter input{position:absolute;opacity:0;width:0;height:0}
+  .filter label{cursor:pointer;font:11px/1 ui-monospace,monospace;padding:8px 13px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim)}
+  .filter label:hover{color:var(--ink)}
+  .filter input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .filter input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+  .board:has(#f-0:checked) .s:not(.w0),
+  .board:has(#f-1:checked) .s:not(.w1),
+  .board:has(#f-2:checked) .s:not(.w2),
+  .board:has(#f-3:checked) .s:not(.w3),
+  .board:has(#f-4:checked) .s:not(.w4){display:none}
+
+  /* ----------------------------------------------------------- the states */
+  .grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(238px,1fr))}
+  .s{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:11px;padding:12px 13px}
+  .s.crit{border-color:var(--red)}
+  .s.key{border-color:var(--gold)}
+  .lamps{display:flex;gap:6px;margin-bottom:9px}
+  .lamps i{width:19px;height:19px;border-radius:50%;border:1px solid #0b1116;
+    background:#141c24;display:block}
+  .lamps i.on.r{background:var(--red);box-shadow:0 0 10px var(--red)}
+  .lamps i.on.y{background:var(--yellow);box-shadow:0 0 10px var(--yellow)}
+  .lamps i.on.b{background:var(--blue);box-shadow:0 0 10px var(--blue)}
+  .lamps i.on.g{background:var(--green);box-shadow:0 0 10px var(--green)}
+  .s .bits{margin-left:auto;font:10px/1.9 ui-monospace,monospace;color:var(--dim);
+    letter-spacing:.14em}
+  .s h3{margin:0 0 3px;font-size:14.5px;letter-spacing:-.01em}
+  .s .cat{font:8.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--plum);display:block;margin-bottom:6px}
+  .s.crit .cat{color:var(--red)}
+  .s p{margin:0;font-size:11.5px;color:var(--dim);line-height:1.55}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  tr.sum td{border-top:1.5px solid var(--gold);font-weight:700}
+  tr.sum td:last-child{color:var(--gold)}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>6 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f" id="f-all" checked><label for="f-all">All sixteen</label>
+      <input type="radio" name="f" id="f-0"><label for="f-0">None lit · 1</label>
+      <input type="radio" name="f" id="f-1"><label for="f-1">Aspects · 4</label>
+      <input type="radio" name="f" id="f-2"><label for="f-2">Transitions · 6</label>
+      <input type="radio" name="f" id="f-3"><label for="f-3">Degraded · 4</label>
+      <input type="radio" name="f" id="f-4"><label for="f-4">All lit · 1</label>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

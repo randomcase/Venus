@@ -1,0 +1,226 @@
+<title>TEMPLATE &middot; Roster · the watch bill</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from roster.html by templatise.mjs.
+
+     source            roster.html
+     radio groups      6 (p1, p2, p3, p4, p5, p6)
+     checkboxes        1
+     counters          eng, deck, sig, sick, fit
+     :has() rules      17, 4 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#0a0c10; --card:#141a22; --card2:#1a212a; --edge:#2a3340;
+    --ink:#e9eef4; --dim:#8a95a4; --gold:#e0b155;
+    --red:#e0705a; --green:#65d6a8; --blue:#6ec6ff; --plum:#8a6ab8;
+    --paper:#e6e2d6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 46px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 50% 0%,rgba(224,177,85,.06),transparent 44%)}
+  .wrap{max-width:1040px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.018em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:72ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:22px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.66;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ------------------------------------------------------------ the hands */
+  .hand{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;
+    padding:11px 0;border-bottom:1px solid var(--edge)}
+  .hand:last-of-type{border-bottom:0}
+  .hand .who .nm{font-size:14px;font-weight:650;letter-spacing:-.01em}
+  .hand .who .rt{font:8.5px/1.5 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .hand .who .rt.key{color:var(--gold)}
+  .opts{display:flex;gap:5px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10px/1 ui-monospace,monospace;padding:8px 11px;
+    border-radius:6px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* --------------------------------------------------------- the counters
+     One counter per station. The requirement is printed beside it and the
+     comparison is left to you — CSS cannot subtract and will not pretend. */
+  body{counter-reset:eng 0 deck 0 sig 0 sick 0 fit 0}
+  #p1-eng:checked+label,#p2-eng:checked+label,#p3-eng:checked+label,
+  #p4-eng:checked+label,#p5-eng:checked+label,#p6-eng:checked+label
+    {counter-increment:eng 1}
+  #p1-deck:checked+label,#p2-deck:checked+label,#p3-deck:checked+label,
+  #p4-deck:checked+label,#p5-deck:checked+label,#p6-deck:checked+label
+    {counter-increment:deck 1}
+  #p1-sig:checked+label,#p2-sig:checked+label,#p3-sig:checked+label,
+  #p4-sig:checked+label,#p5-sig:checked+label,#p6-sig:checked+label
+    {counter-increment:sig 1}
+  #p1-sick:checked+label,#p2-sick:checked+label,#p3-sick:checked+label,
+  #p4-sick:checked+label,#p5-sick:checked+label,#p6-sick:checked+label
+    {counter-increment:sick 1}
+  /* rated for the billet — Vane counts for either of hers */
+  #p1-eng:checked+label,#p1-sick:checked+label,
+  #p2-eng:checked+label,#p3-sig:checked+label,
+  #p4-deck:checked+label,#p5-deck:checked+label,#p6-deck:checked+label
+    {counter-increment:fit 1}
+  .n-eng::after{content:counter(eng)}   .n-deck::after{content:counter(deck)}
+  .n-sig::after{content:counter(sig)}   .n-sick::after{content:counter(sick)}
+  .n-fit::after{content:counter(fit)}
+
+  .stations{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  @media (max-width:720px){.stations{grid-template-columns:repeat(2,1fr)}}
+  .st{background:#0e141b;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .st span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .st b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+    margin-top:5px}
+  .st .need{font:9.5px/1 ui-monospace,monospace;color:var(--dim);margin-top:4px;
+    display:block}
+
+  /* ---------------------------------------------------------------- commit */
+  .commit{margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    border:1px solid var(--red);border-radius:12px;padding:13px 15px;
+    background:rgba(224,112,90,.05)}
+  .commit input{position:absolute;opacity:0;width:0;height:0}
+  .commit label{cursor:pointer;font:12.5px/1 ui-monospace,monospace;
+    letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+    padding:15px 30px;border:2px solid var(--red);border-radius:9px;
+    color:var(--red)}
+  #post:checked+label{background:var(--red);color:#12181d}
+  .commit input:focus-visible+label{outline:2px solid var(--blue);outline-offset:3px}
+  .commit .said{font-size:11px;color:var(--dim);max-width:44ch}
+
+  .after{display:none}
+  .wrap:has(#post:checked) .after{display:block}
+  .wrap:has(#post:checked) .before{display:none}
+
+  .out{display:none;border-left:3px solid var(--line,var(--edge));
+    padding:2px 0 2px 15px;margin-top:14px}
+  .out h3{margin:0 0 6px;font-size:16px}
+  .out p{margin:0 0 9px;font-size:12.5px;max-width:78ch}
+  .out p:last-child{margin-bottom:0}
+  .out .cost{font:10px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--red);display:block;margin-bottom:7px}
+
+  /* Four endings, on the only two questions that matter: where Vane went, and
+     whether Brannock is in the engine room with her. */
+  .wrap:has(#post:checked):has(#p1-eng:checked):has(#p2-eng:checked)   .o-a{display:block}
+  .wrap:has(#post:checked):has(#p1-sick:checked):has(#p2-eng:checked)  .o-b{display:block}
+  .wrap:has(#post:checked):has(#p1-eng:checked):not(:has(#p2-eng:checked)) .o-c{display:block}
+  .wrap:has(#post:checked):has(#p1-sick:checked):not(:has(#p2-eng:checked)) .o-d{display:block}
+  .wrap:has(#post:checked):not(:has(#p1-eng:checked)):not(:has(#p1-sick:checked))
+    .o-e{display:block}
+  .o-a{border-color:var(--gold)} .o-b{border-color:var(--blue)}
+  .o-c{border-color:var(--red)} .o-d{border-color:var(--red)}
+  .o-e{border-color:var(--red)}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="p1" id="p1-eng"><label for="p1-eng">engine</label>
+      <input type="radio" name="p1" id="p1-deck" checked><label for="p1-deck">deck</label>
+      <input type="radio" name="p1" id="p1-sig"><label for="p1-sig">signals</label>
+      <input type="radio" name="p1" id="p1-sick"><label for="p1-sick">sick berth</label>
+    </div>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="p2" id="p2-eng" checked><label for="p2-eng">engine</label>
+      <input type="radio" name="p2" id="p2-deck"><label for="p2-deck">deck</label>
+      <input type="radio" name="p2" id="p2-sig"><label for="p2-sig">signals</label>
+      <input type="radio" name="p2" id="p2-sick"><label for="p2-sick">sick berth</label>
+    </div>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="p3" id="p3-eng"><label for="p3-eng">engine</label>
+      <input type="radio" name="p3" id="p3-deck"><label for="p3-deck">deck</label>
+      <input type="radio" name="p3" id="p3-sig" checked><label for="p3-sig">signals</label>
+      <input type="radio" name="p3" id="p3-sick"><label for="p3-sick">sick berth</label>
+    </div>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="p4" id="p4-eng"><label for="p4-eng">engine</label>
+      <input type="radio" name="p4" id="p4-deck" checked><label for="p4-deck">deck</label>
+      <input type="radio" name="p4" id="p4-sig"><label for="p4-sig">signals</label>
+      <input type="radio" name="p4" id="p4-sick"><label for="p4-sick">sick berth</label>
+    </div>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="p5" id="p5-eng"><label for="p5-eng">engine</label>
+      <input type="radio" name="p5" id="p5-deck" checked><label for="p5-deck">deck</label>
+      <input type="radio" name="p5" id="p5-sig"><label for="p5-sig">signals</label>
+      <input type="radio" name="p5" id="p5-sick"><label for="p5-sick">sick berth</label>
+    </div>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="p6" id="p6-eng"><label for="p6-eng">engine</label>
+      <input type="radio" name="p6" id="p6-deck" checked><label for="p6-deck">deck</label>
+      <input type="radio" name="p6" id="p6-sig"><label for="p6-sig">signals</label>
+      <input type="radio" name="p6" id="p6-sick"><label for="p6-sick">sick berth</label>
+    </div>
+    <h2>TODO checkbox set <b>1</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="post"><label for="post">Post the bill</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>eng</span><b class="n-eng"></b></div>
+      <div class="head m"><span>deck</span><b class="n-deck"></b></div>
+      <div class="head m"><span>sig</span><b class="n-sig"></b></div>
+      <div class="head m"><span>sick</span><b class="n-sick"></b></div>
+      <div class="head m"><span>fit</span><b class="n-fit"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

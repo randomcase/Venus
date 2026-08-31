@@ -1,0 +1,161 @@
+<title>TEMPLATE &middot; Learn · HTML and CSS, from what actually went wrong</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from learn.html by templatise.mjs.
+
+     source            learn.html
+     radio groups      3 (q, s, g)
+     checkboxes        1
+     counters          d1, d2
+     :has() rules      3
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#080b0f; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --bad:#e0705a; --good:#65d6a8; --cool:#6ec6ff; --plum:#8a6ab8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:14px/1.68 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 50% 0%,rgba(224,177,85,.06),transparent 44%)}
+  .wrap{max-width:920px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:14px;margin-bottom:8px}
+  h1{margin:0 0 6px;font-size:27px;letter-spacing:-.022em}
+  .lede{color:var(--dim);font-size:13.5px;margin:0;max-width:76ch}
+  .lede b{color:var(--ink)}
+  h2{font:10px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:34px 0 12px;font-weight:600;
+    padding-top:14px;border-top:1px solid var(--edge)}
+  h3{margin:26px 0 6px;font-size:17px;letter-spacing:-.012em}
+  h3 .n{font:9px/1 ui-monospace,monospace;letter-spacing:.2em;color:var(--plum);
+    display:block;margin-bottom:5px}
+  p{max-width:78ch}
+  .dim{color:var(--dim);font-size:12.5px}
+  code{font:12px ui-monospace,Menlo,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  pre{margin:10px 0 0;overflow-x:auto;font:11.5px/1.62 ui-monospace,Menlo,monospace;
+    background:#0a1017;border:1px solid var(--edge);border-radius:9px;
+    padding:12px 13px;color:#bdd3e0}
+  pre.wrong{border-color:rgba(224,112,90,.5);background:rgba(224,112,90,.05)}
+  pre.right{border-color:rgba(101,214,168,.45);background:rgba(101,214,168,.04)}
+  pre b{color:var(--gold);font-weight:400}
+  .tag{display:inline-block;font:8.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;border-radius:4px;padding:4px 7px;margin-bottom:2px}
+  .tag.w{color:var(--bad);border:1px solid var(--bad)}
+  .tag.r{color:var(--good);border:1px solid var(--good)}
+  .sym{border-left:2px solid var(--gold);padding:2px 0 2px 13px;margin:12px 0;
+    color:var(--dim);font-size:12.5px;max-width:76ch}
+  .sym b{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px;margin-top:14px}
+
+  /* live demos */
+  .demo{background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:12px 13px;margin-top:12px}
+  .demo .row{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+  .demo input{position:absolute;opacity:0;width:0;height:0}
+  .demo label{cursor:pointer;font:11px/1 ui-monospace,monospace;padding:8px 12px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim)}
+  .demo label:hover{color:var(--ink)}
+  .demo input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .demo input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+  .out{font:22px/1.2 ui-monospace,Menlo,monospace;color:var(--gold)}
+  .out small{display:block;font:8.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+
+  /* demo 1 — counters */
+  body{counter-reset:d1 0 d2 0}
+  #q-1:checked+label{counter-increment:d1 1 d2 40}
+  #q-2:checked+label{counter-increment:d1 2 d2 80}
+  #q-3:checked+label{counter-increment:d1 4 d2 160}
+  #q-x:checked+label{counter-increment:d1 3 d2 120}
+  .n-d1::after{content:counter(d1)} .n-d2::after{content:counter(d2)}
+
+  /* demo 2 — scope */
+  .scoped:has(#s-on:checked) .lamp{background:var(--good);box-shadow:0 0 12px var(--good)}
+  .lamp{width:22px;height:22px;border-radius:50%;background:#1b242c;
+    border:1px solid #0b1116;display:inline-block;vertical-align:-5px;
+    transition:background .2s,box-shadow .2s}
+
+  /* demo 3 — cascade order */
+  .mv{width:18px;height:18px;border-radius:5px;background:var(--cool);
+    animation:sl 2.6s linear infinite alternate}
+  @keyframes sl{to{transform:translateX(150px)}}
+  .lane{border:1px solid var(--edge);border-radius:8px;background:#0a1017;
+    padding:8px;overflow:hidden;margin-top:8px}
+  .casc:has(#g-fast:checked) .mv{animation-duration:1s;background:var(--good)}
+  .casc:has(#g-stop:checked) .mv{animation-play-state:paused;background:var(--bad)}
+  @media (prefers-reduced-motion:reduce){.mv{animation:none}}
+
+  ol.ex{max-width:78ch;padding-left:20px}
+  ol.ex li{margin:9px 0;color:var(--dim);font-size:13px}
+  ol.ex li b{color:var(--ink)}
+  .check{max-width:78ch;font-size:13px;color:var(--dim);line-height:1.9}
+  .check b{color:var(--ink)}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="q" id="q-1"><label for="q-1">1 crate</label>
+      <input type="radio" name="q" id="q-2" checked><label for="q-2">2 crates</label>
+      <input type="radio" name="q" id="q-3"><label for="q-3">4 crates</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="s" id="s-on" checked><label for="s-on">On</label>
+      <input type="radio" name="s" id="s-off"><label for="s-off">Off</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="g" id="g-cruise" checked><label for="g-cruise">Cruise</label>
+      <input type="radio" name="g" id="g-fast"><label for="g-fast">Full</label>
+      <input type="radio" name="g" id="g-stop"><label for="g-stop">Stop</label>
+    </div>
+    <h2>TODO checkbox set <b>1</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="q-x"><label for="q-x">+ deck cargo</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>d1</span><b class="n-d1"></b></div>
+      <div class="head m"><span>d2</span><b class="n-d2"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

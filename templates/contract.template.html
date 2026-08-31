@@ -1,0 +1,239 @@
+<title>TEMPLATE &middot; Form Completion Contract · gas, and the burn</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from contract.html by templatise.mjs.
+
+     source            contract.html
+     radio groups      3 (p, b, v)
+     checkboxes        1
+     counters          gas, budget
+     :has() rules      104, 45 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#0b0908; --card:#191412; --card2:#201a17; --edge:#3a2d26;
+    --ink:#f2ece6; --dim:#a5948a;
+    --gold:#d9a44e; --ember:#e8703c; --burn:#d63f2a; --green:#68c48a;
+    --amber:#e0a83c; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:14px/1.68 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 50% -4%,rgba(232,112,60,.14),transparent 46%),
+      radial-gradient(circle at 12% 92%,rgba(214,63,42,.10),transparent 44%)}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:14px;margin-bottom:8px}
+  h1{margin:0 0 5px;font-size:26px;letter-spacing:-.022em}
+  .lede{color:var(--dim);font-size:13px;max-width:76ch;margin:0}
+  .lede b{color:var(--ink)}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 12px;font-weight:600;
+    display:flex;align-items:center;gap:12px;padding-top:14px;
+    border-top:1px solid var(--edge)}
+  h2::after{content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(217,164,78,.4),transparent)}
+  .note{color:var(--dim);font-size:11.5px;line-height:1.72;margin:9px 0 0;max-width:92ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--gold);background:#120e0c;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--gold)}
+  pre{margin:10px 0 0;overflow-x:auto;font:11px/1.62 ui-monospace,Menlo,monospace;
+    background:#100c0a;border:1px solid var(--edge);border-radius:9px;
+    padding:12px 13px;color:#d8c9bd}
+  pre b{color:var(--ember);font-weight:400}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px;margin-top:12px}
+
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;min-width:158px;cursor:pointer;padding:12px 13px;
+    border-radius:10px;border:1px solid var(--edge);color:var(--dim);
+    font:11px/1.45 ui-monospace,monospace}
+  .seg label b{display:block;color:var(--ink);font-size:13px;margin-bottom:3px}
+  .seg label .g{color:var(--ember);font-weight:700}
+  .seg input:checked+label{border-color:var(--gold);background:rgba(217,164,78,.10)}
+  .seg input:checked+label b{color:var(--gold)}
+  .seg input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* the meter: gas against budget, both stated, comparison in the table below */
+  .meter{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .m{background:#120e0c;border:1px solid var(--edge);border-radius:10px;padding:11px 12px}
+  .m span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .m b{display:block;font:23px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+    margin-top:5px}
+  .m.gas b{color:var(--ember)} .m.res b{font-size:15px}
+
+  /* gas per profile, budget per desk — declared, never derived */
+  body{counter-reset:gas 0 budget 0}
+  #p-light:checked+label{counter-increment:gas 40}
+  #p-std:checked+label{counter-increment:gas 90}
+  #p-heavy:checked+label{counter-increment:gas 180}
+  #p-synd:checked+label{counter-increment:gas 420}
+  #b-routine:checked+label{counter-increment:budget 100}
+  #b-esc:checked+label{counter-increment:budget 250}
+  #b-full:checked+label{counter-increment:budget 500}
+  .n-gas::after{content:counter(gas)} .n-budget::after{content:counter(budget)}
+
+  /* the unverifiable profile has no finite gas, so it prints as such */
+  .inf{display:none} .wrap:has(#p-void:checked) .inf{display:inline}
+  .wrap:has(#p-void:checked) .n-gas{display:none}
+
+  /* fifteen cells. Five profiles by three budgets, each one written out. */
+  .res-txt::after{content:"—"}
+  .wrap:has(#p-light:checked):has(#b-routine:checked) .res-txt::after,
+  .wrap:has(#p-light:checked):has(#b-esc:checked) .res-txt::after,
+  .wrap:has(#p-light:checked):has(#b-full:checked) .res-txt::after,
+  .wrap:has(#p-std:checked):has(#b-routine:checked) .res-txt::after,
+  .wrap:has(#p-std:checked):has(#b-esc:checked) .res-txt::after,
+  .wrap:has(#p-std:checked):has(#b-full:checked) .res-txt::after,
+  .wrap:has(#p-heavy:checked):has(#b-esc:checked) .res-txt::after,
+  .wrap:has(#p-heavy:checked):has(#b-full:checked) .res-txt::after,
+  .wrap:has(#p-synd:checked):has(#b-full:checked) .res-txt::after
+    {content:"AFFORDABLE";color:var(--green)}
+  .wrap:has(#p-heavy:checked):has(#b-routine:checked) .res-txt::after,
+  .wrap:has(#p-synd:checked):has(#b-routine:checked) .res-txt::after,
+  .wrap:has(#p-synd:checked):has(#b-esc:checked) .res-txt::after
+    {content:"OVER — ESCALATE";color:var(--amber)}
+  .wrap:has(#p-void:checked) .res-txt::after
+    {content:"OVER EVERY BUDGET";color:var(--burn)}
+
+  /* --------------------------------------------------------------- verdict */
+  .verdict .seg label{min-width:130px;text-align:center}
+  #v-complete:checked+label{border-color:var(--green);background:rgba(104,196,138,.12)}
+  #v-complete:checked+label b{color:var(--green)}
+  #v-return:checked+label{border-color:var(--amber);background:rgba(224,168,60,.12)}
+  #v-return:checked+label b{color:var(--amber)}
+  #v-burn:checked+label{border-color:var(--burn);background:rgba(214,63,42,.14)}
+  #v-burn:checked+label b{color:var(--burn)}
+
+  .exec{margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .exec input{position:absolute;opacity:0;width:0;height:0}
+  .exec label{cursor:pointer;font:12.5px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700;padding:15px 30px;border-radius:9px;
+    border:2px solid var(--ember);color:var(--ember);background:#150f0c}
+  #exec:checked+label{background:linear-gradient(180deg,var(--ember),var(--burn));
+    color:#150c08;border-color:var(--burn)}
+  .exec input:focus-visible+label{outline:2px solid var(--cool);outline-offset:3px}
+  .wrap:not(:has(input[name="v"]:checked)) .exec label{opacity:.3;pointer-events:none}
+  .wrap:not(:has(input[name="v"]:checked)) #exec{visibility:hidden}
+  .exec .said{font-size:11.5px;color:var(--dim);max-width:38ch}
+
+  .after{display:none} .wrap:has(#exec:checked) .after{display:block}
+  .wrap:has(#exec:checked) .before{display:none}
+
+  .out{display:none;border-left:3px solid var(--edge);padding:2px 0 2px 15px;
+    margin-top:14px}
+  .out h3{margin:0 0 6px;font-size:16px}
+  .out p{margin:0 0 9px;font-size:12.5px;max-width:80ch}
+  .out p:last-child{margin-bottom:0}
+  /* right answer per band: affordable→complete, over→return, unverifiable→burn */
+  .wrap:has(#exec:checked):has(#v-complete:checked) .o-complete{display:block}
+  .wrap:has(#exec:checked):has(#v-return:checked)   .o-return{display:block}
+  .wrap:has(#exec:checked):has(#v-burn:checked)     .o-burn{display:block}
+  .o-complete{border-color:var(--green)} .o-return{border-color:var(--amber)}
+  .o-burn{border-color:var(--burn)}
+  /* and whether it matched the contract */
+  .judge{display:none;margin-top:12px;border-radius:10px;padding:11px 13px;
+    border:1px solid;font-size:12.5px;line-height:1.66}
+  .j-ok{border-color:var(--green);background:rgba(104,196,138,.09);color:var(--green)}
+  .j-no{border-color:var(--burn);background:rgba(214,63,42,.09);color:var(--burn)}
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-light:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-std:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-return:checked):has(#p-heavy:checked):has(#b-routine:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-return:checked):has(#p-synd:checked):has(#b-routine:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-return:checked):has(#p-synd:checked):has(#b-esc:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-heavy:checked):has(#b-esc:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-heavy:checked):has(#b-full:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-synd:checked):has(#b-full:checked) .j-ok,
+  .wrap:has(#exec:checked):has(#v-burn:checked):has(#p-void:checked) .j-ok{display:block}
+  /* the mismatch note is the default once executed, and every matching
+     combination above switches it back off — written after, so it wins */
+  .wrap:has(#exec:checked) .j-no{display:block}
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-light:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-std:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-return:checked):has(#p-heavy:checked):has(#b-routine:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-return:checked):has(#p-synd:checked):has(#b-routine:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-return:checked):has(#p-synd:checked):has(#b-esc:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-heavy:checked):has(#b-esc:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-heavy:checked):has(#b-full:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-complete:checked):has(#p-synd:checked):has(#b-full:checked) .j-no,
+  .wrap:has(#exec:checked):has(#v-burn:checked):has(#p-void:checked) .j-no{display:none}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 8px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td .q{color:var(--dim);font-size:10.5px}
+  td.ok{color:var(--green)} td.warn{color:var(--amber)} td.bad{color:var(--burn)}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>5 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="p" id="p-light" checked><label for="p-light">Light four field matches 40 gas</label>
+      <input type="radio" name="p" id="p-std"><label for="p-std">Standard fields + provenance 90 gas</label>
+      <input type="radio" name="p" id="p-heavy"><label for="p-heavy">Heavy + recompute + powers 180 gas</label>
+      <input type="radio" name="p" id="p-synd"><label for="p-synd">Syndicate review six-indicator pattern 420</label>
+      <input type="radio" name="p" id="p-void"><label for="p-void">Unverifiable inputs do not exist ∞ gas</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="b" id="b-routine" checked><label for="b-routine">Routine gate clerk 100 budget</label>
+      <input type="radio" name="b" id="b-esc"><label for="b-esc">Escalated the bridge 250 budget</label>
+      <input type="radio" name="b" id="b-full"><label for="b-full">Full audit the court 500 budget</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="v" id="v-complete"><label for="v-complete">Complete checks done, accept</label>
+      <input type="radio" name="v" id="v-return"><label for="v-return">Return escalate to a desk that can afford </label>
+      <input type="radio" name="v" id="v-burn"><label for="v-burn">Burn refuse, forfeit the gas</label>
+    </div>
+    <h2>TODO checkbox set <b>1</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="exec"><label for="exec">Execute</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>gas</span><b class="n-gas"></b></div>
+      <div class="head m"><span>budget</span><b class="n-budget"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

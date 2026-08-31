@@ -1,0 +1,208 @@
+<title>TEMPLATE &middot; Spotting a Syndicate · the last form</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from syndicate.html by templatise.mjs.
+
+     source            syndicate.html
+     radio groups      7 (i1, i2, i3, i4, i5, i6, v)
+     checkboxes        1
+     counters          found, err
+     :has() rules      10, 3 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#0a0b0f; --card:#141821; --card2:#1a1f2a; --edge:#2c3340;
+    --ink:#eaeef4; --dim:#8b93a2; --gold:#d9b25c;
+    --red:#dd6a58; --green:#5fc98f; --amber:#dfa93f; --plum:#8a6ab8;
+    --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:14px/1.68 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 50% -4%,rgba(217,178,92,.10),transparent 44%),
+      radial-gradient(circle at 92% 90%,rgba(138,106,184,.12),transparent 42%)}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:14px;margin-bottom:8px}
+  h1{margin:0 0 5px;font-size:26px;letter-spacing:-.022em}
+  .lede{color:var(--dim);font-size:13px;max-width:76ch;margin:0}
+  .lede b{color:var(--ink)}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin:30px 0 12px;font-weight:600;
+    display:flex;align-items:center;gap:12px;padding-top:14px;
+    border-top:1px solid var(--edge)}
+  h2::after{content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(217,178,92,.4),transparent)}
+  h3{margin:0 0 5px;font-size:15.5px;letter-spacing:-.01em}
+  .note{color:var(--dim);font-size:11.5px;line-height:1.7;margin:9px 0 0;max-width:92ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--gold);background:#0e131b;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px;margin-top:12px}
+
+  /* ------------------------------------------------------- the indicators */
+  .ind{display:grid;grid-template-columns:34px 1fr;gap:13px;padding:13px 0;
+    border-bottom:1px solid var(--edge)}
+  .ind:last-of-type{border-bottom:0}
+  .ind .n{font:12px/1 ui-monospace,monospace;color:var(--plum);padding-top:3px}
+  .ind .evidence{margin-top:8px;border-left:2px solid var(--edge);padding-left:12px;
+    font-size:12px;color:var(--dim)}
+  .ind .evidence b{color:var(--ink)}
+  .ind .remedy{margin-top:8px;font-size:11.5px;color:var(--dim)}
+  .ind .remedy b{color:var(--green)}
+  .opts{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10px/1 ui-monospace,monospace;letter-spacing:.12em;
+    padding:8px 13px;border-radius:6px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(217,178,92,.12);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* five of the six are present in this case; number four is not */
+  body{counter-reset:found 0 err 0}
+  #i1-y:checked+label{counter-increment:found 1} #i1-n:checked+label{counter-increment:err 1}
+  #i2-y:checked+label{counter-increment:found 1} #i2-n:checked+label{counter-increment:err 1}
+  #i3-y:checked+label{counter-increment:found 1} #i3-n:checked+label{counter-increment:err 1}
+  #i4-n:checked+label{counter-increment:found 1} #i4-y:checked+label{counter-increment:err 1}
+  #i5-y:checked+label{counter-increment:found 1} #i5-n:checked+label{counter-increment:err 1}
+  #i6-y:checked+label{counter-increment:found 1} #i6-n:checked+label{counter-increment:err 1}
+  .n-found::after{content:counter(found)} .n-err::after{content:counter(err)}
+
+  .heads{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .head{background:#0e131b;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:23px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+    margin-top:5px}
+  .head.e b{color:var(--red)}
+
+  .verdict .opts label{padding:12px 18px;font-size:11.5px;letter-spacing:.14em}
+  #v-none:checked+label{border-color:var(--green);color:var(--green);
+    background:rgba(95,201,143,.12)}
+  #v-watch:checked+label{border-color:var(--amber);color:var(--amber);
+    background:rgba(223,169,63,.12)}
+  #v-report:checked+label{border-color:var(--red);color:var(--red);
+    background:rgba(221,106,88,.12)}
+
+  .file{margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .file input{position:absolute;opacity:0;width:0;height:0}
+  .file label{cursor:pointer;font:12.5px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700;padding:15px 30px;border-radius:9px;
+    border:2px solid var(--gold);color:var(--gold);background:#12161f}
+  #file:checked+label{background:var(--gold);color:#14100a}
+  .file input:focus-visible+label{outline:2px solid var(--cool);outline-offset:3px}
+  .wrap:not(:has(input[name="v"]:checked)) .file label{opacity:.32;pointer-events:none}
+  .wrap:not(:has(input[name="v"]:checked)) #file{visibility:hidden}
+  .file .said{font-size:11.5px;color:var(--dim);max-width:36ch}
+
+  .after{display:none} .wrap:has(#file:checked) .after{display:block}
+  .wrap:has(#file:checked) .before{display:none}
+
+  .out{display:none;border-left:3px solid var(--edge);padding:2px 0 2px 15px;
+    margin-top:14px}
+  .out p{margin:0 0 9px;font-size:13px;max-width:80ch}
+  .out p:last-child{margin-bottom:0}
+  .wrap:has(#file:checked):has(#v-none:checked)   .o-none{display:block}
+  .wrap:has(#file:checked):has(#v-watch:checked)  .o-watch{display:block}
+  .wrap:has(#file:checked):has(#v-report:checked) .o-report{display:block}
+  .o-report{border-color:var(--red)} .o-watch{border-color:var(--amber)}
+  .o-none{border-color:var(--green)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 8px;font-weight:600}
+  td{padding:8px 0;border-top:1px solid var(--edge);vertical-align:top}
+  td:first-child{color:var(--ink);width:34%}
+  td .q{color:var(--dim);font-size:11px;display:block;margin-top:3px}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="i1" id="i1-y"><label for="i1-y">present</label>
+      <input type="radio" name="i1" id="i1-n"><label for="i1-n">absent</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="i2" id="i2-y"><label for="i2-y">present</label>
+      <input type="radio" name="i2" id="i2-n"><label for="i2-n">absent</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="i3" id="i3-y"><label for="i3-y">present</label>
+      <input type="radio" name="i3" id="i3-n"><label for="i3-n">absent</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="i4" id="i4-y"><label for="i4-y">present</label>
+      <input type="radio" name="i4" id="i4-n"><label for="i4-n">absent</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="i5" id="i5-y"><label for="i5-y">present</label>
+      <input type="radio" name="i5" id="i5-n"><label for="i5-n">absent</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="i6" id="i6-y"><label for="i6-y">present</label>
+      <input type="radio" name="i6" id="i6-n"><label for="i6-n">absent</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="v" id="v-none"><label for="v-none">no finding</label>
+      <input type="radio" name="v" id="v-watch"><label for="v-watch">monitor</label>
+      <input type="radio" name="v" id="v-report"><label for="v-report">report and refer</label>
+    </div>
+    <h2>TODO checkbox set <b>1</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="file"><label for="file">File the report</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>found</span><b class="n-found"></b></div>
+      <div class="head m"><span>err</span><b class="n-err"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

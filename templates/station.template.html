@@ -1,0 +1,418 @@
+<title>TEMPLATE &middot; Heze Orbital Yard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from station.html by templatise.mjs.
+
+     source            station.html
+     radio groups      5 (class, slip, drive, flight, esc)
+     checkboxes        15
+     counters          heze, weeks, tons, slips, guns, esc, crew, bunks, off, rate
+     :has() rules      36
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#070a0e; --deck:#101821; --deck2:#16212c; --edge:#243444;
+    --ink:#e6eef5; --dim:#8497a8; --gold:#e0b155; --live:#65d6a8;
+    --warn:#e0705a; --cool:#6ec6ff; --hot:#ff9d5c;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;color:var(--ink);background:var(--void);
+    font:13px/1.55 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(1.4px 1.4px at 12% 22%,#fff,transparent),
+      radial-gradient(1.2px 1.2px at 68% 12%,#cfe6ff,transparent),
+      radial-gradient(1px 1px at 32% 71%,#fff,transparent),
+      radial-gradient(1.6px 1.6px at 84% 58%,#ffe9c9,transparent),
+      radial-gradient(1px 1px at 52% 41%,#fff,transparent),
+      radial-gradient(1.2px 1.2px at 8% 84%,#dff,transparent),
+      radial-gradient(1px 1px at 92% 88%,#fff,transparent),
+      radial-gradient(circle at 78% 8%,rgba(110,198,255,.10),transparent 46%),
+      radial-gradient(circle at 14% 92%,rgba(224,177,85,.09),transparent 44%);
+    background-size:cover;
+    animation:drift 160s linear infinite;
+  }
+  @keyframes drift{to{background-position:-240px 120px,0 0,180px -90px,0 0,
+    -120px 60px,0 0,90px -45px,0 0,0 0}}
+
+  a{color:var(--gold)}
+  h1{margin:0;font-size:19px;letter-spacing:-.01em}
+  h2{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--dim);margin:0 0 8px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-weight:600;letter-spacing:0;text-transform:none;
+    font-size:10.5px}
+  p.note{color:var(--dim);font-size:10.5px;line-height:1.6;margin:8px 0 0}
+
+  .app{
+    display:grid;gap:14px;padding:14px;min-height:100vh;
+    grid-template-columns:1fr 340px 300px;
+    grid-template-areas:"head head head" "berth desk docket";
+    align-items:start;
+  }
+  header{grid-area:head;display:flex;align-items:baseline;gap:12px;
+    border-bottom:1px solid var(--edge);padding-bottom:10px;flex-wrap:wrap}
+  header .sub{color:var(--dim);font-size:11px}
+  header .tag{margin-left:auto;font-size:9px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:3px 8px}
+
+  .panel{background:linear-gradient(180deg,var(--deck),var(--deck2));
+    border:1px solid var(--edge);border-radius:10px;padding:12px}
+  .berth{grid-area:berth}
+  .desk{grid-area:desk}
+  .docket{grid-area:docket;position:sticky;top:14px}
+
+  /* --------------------------------------------------------------- the view */
+  .sky{position:relative;border-radius:8px;overflow:hidden;
+    border:1px solid var(--edge);
+    background:
+      radial-gradient(circle at 26% 18%,rgba(110,198,255,.10),transparent 52%),
+      radial-gradient(circle at 78% 84%,rgba(224,177,85,.08),transparent 46%),
+      linear-gradient(180deg,#0d151d,#070b10 72%)}
+  .sky svg{display:block;width:100%;height:auto}
+
+  /* things that move */
+  .spin  {transform-box:fill-box;transform-origin:center;animation:spin 54s linear infinite}
+  .spin-r{transform-box:fill-box;transform-origin:center;animation:spin 78s linear infinite reverse}
+  .sweep {transform-box:fill-box;transform-origin:center;animation:spin 4.5s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .blink   {animation:blink 2.6s ease-in-out infinite}
+  .blink.d1{animation-delay:.7s} .blink.d2{animation-delay:1.4s}
+  .blink.d3{animation-delay:2.1s}
+  @keyframes blink{0%,42%{opacity:.12}50%,58%{opacity:1}68%,100%{opacity:.12}}
+  .burn{transform-box:fill-box;transform-origin:right center;
+    animation:burn 2.1s ease-in-out infinite}
+  @keyframes burn{50%{transform:scaleX(1.5);opacity:.85}}
+  .bob{animation:bob 9s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-4px)}}
+
+  @media (prefers-reduced-motion:reduce){
+    .spin,.spin-r,.sweep,.blink,.burn,.bob,body{animation:none}
+  }
+
+  /* which hull is in the slip */
+  .ship{opacity:0;transition:opacity .3s ease;pointer-events:none}
+  .app:has(#c-buck:checked) .s-buck,
+  .app:has(#c-cors:checked) .s-cors,
+  .app:has(#c-dd:checked)   .s-dd,
+  .app:has(#c-cl:checked)   .s-cl,
+  .app:has(#c-cv:checked)   .s-cv,
+  .app:has(#c-bb:checked)   .s-bb,
+  .app:has(#c-yam:checked)  .s-yam,
+  .app:has(#c-mer:checked)  .s-mer,
+  .app:has(#c-aux:checked)  .s-aux,
+  .app:has(#c-mon:checked)  .s-mon{opacity:1}
+
+  /* the mount band: every station is drawn, the ordered ones are lit */
+  .w{opacity:.16;transition:opacity .25s}
+  .app:has(#a-ram:checked)   .w-ram,
+  .app:has(#a-broad:checked) .w-broad,
+  .app:has(#a-ciws:checked)  .w-ciws,
+  .app:has(#a-vls:checked)   .w-vls,
+  .app:has(#a-asm:checked)   .w-asm,
+  .app:has(#a-tor:checked)   .w-tor,
+  .app:has(#a-rail:checked)  .w-rail,
+  .app:has(#a-mine:checked)  .w-mine,
+  .app:has(#a-dc:checked)    .w-dc,
+  .app:has(#a-uav:checked)   .w-uav,
+  .app:has(#a-laser:checked) .w-laser{opacity:1}
+  .wlab{font:8px/1 ui-monospace,Menlo,monospace;letter-spacing:.1em;fill:#8497a8}
+  .app:has(#a-ram:checked)   .w-ram   .wlab,
+  .app:has(#a-broad:checked) .w-broad .wlab,
+  .app:has(#a-ciws:checked)  .w-ciws  .wlab,
+  .app:has(#a-vls:checked)   .w-vls   .wlab,
+  .app:has(#a-asm:checked)   .w-asm   .wlab,
+  .app:has(#a-tor:checked)   .w-tor   .wlab,
+  .app:has(#a-rail:checked)  .w-rail  .wlab,
+  .app:has(#a-mine:checked)  .w-mine  .wlab,
+  .app:has(#a-dc:checked)    .w-dc    .wlab,
+  .app:has(#a-uav:checked)   .w-uav   .wlab,
+  .app:has(#a-laser:checked) .w-laser .wlab{fill:#e0b155}
+
+  /* order of march */
+  .march{margin-top:6px}
+  .march .rank{display:flex;gap:8px;align-items:baseline;font-size:11px;
+    padding:4px 0;border-bottom:1px solid var(--edge)}
+  .march .rank:last-child{border-bottom:0}
+  .march .rank i{width:9px;height:9px;border-radius:2px;flex:none;
+    background:var(--dim);position:relative;top:1px}
+  .march .rank.gen i{background:var(--gold)}
+  .march .rank.sgt i{background:var(--cool)}
+  .march .rank.cpl i{background:var(--live)}
+  .march .rank span{margin-left:auto;color:var(--dim);font-size:10px}
+  .gunsn::after{content:counter(guns)}
+  .escn::after{content:counter(esc)}
+  .crewn::after{content:counter(crew)}
+  .bunksn::after{content:counter(bunks)}
+  .offn::after{content:counter(off)}
+  .raten::after{content:counter(rate)}
+  /* the clamps only come out for the one that cannot leave */
+  .clamp{opacity:0;transition:opacity .3s}
+  .app:has(#c-yam:checked) .clamp{opacity:1}
+
+  .plate{font:9px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;
+    fill:#7e93a4;text-transform:uppercase}
+  .plate.g{fill:var(--gold);letter-spacing:.06em}
+
+  /* --------------------------------------------------------------- the desk */
+  fieldset{border:0;padding:0;margin:0 0 14px}
+  legend{padding:0}
+  .opt{display:block;margin:0}
+  .opt input{position:absolute;opacity:0;width:0;height:0}
+  .opt label{display:flex;gap:8px;align-items:baseline;cursor:pointer;
+    padding:5px 8px;border:1px solid transparent;border-radius:6px;
+    font-size:11.5px;transition:background .12s,border-color .12s}
+  .opt label:hover{background:rgba(110,198,255,.06)}
+  .opt label .cost{margin-left:auto;color:var(--dim);
+    font:11px/1 ui-monospace,Menlo,monospace}
+  .opt label .tick{width:11px;height:11px;border:1px solid var(--edge);
+    border-radius:50%;flex:none;position:relative;top:2px}
+  .opt input[type=checkbox]+label .tick{border-radius:3px}
+  .opt input:checked+label{background:rgba(224,177,85,.10);border-color:var(--gold)}
+  .opt input:checked+label .tick{background:var(--gold);border-color:var(--gold);
+    box-shadow:inset 0 0 0 2px var(--deck)}
+  .opt input:checked+label .cost{color:var(--gold)}
+  .opt input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* the arithmetic. every checked option adds to the counters. */
+  /* Counters carry the personnel return as well as the money. crew = off +
+     rate exactly, declared on every line, because CSS can add but it cannot
+     subtract — so anything the return states has to be stated, not derived. */
+  body{counter-reset:heze 0 weeks 0 tons 0 slips 0 guns 0 esc 0
+       crew 0 bunks 0 off 0 rate 0}
+  #c-buck:checked+label{counter-increment:heze 1000   weeks 2  tons 900
+    crew 12   bunks 16   off 2   rate 10}
+  #c-cors:checked+label{counter-increment:heze 4600   weeks 5  tons 2600
+    crew 46   bunks 54   off 5   rate 41}
+  #c-dd:checked  +label{counter-increment:heze 12400  weeks 9  tons 8300
+    crew 210  bunks 236  off 16  rate 194}
+  #c-cl:checked  +label{counter-increment:heze 28000  weeks 16 tons 14600
+    crew 560  bunks 610  off 34  rate 526}
+  #c-cv:checked  +label{counter-increment:heze 61000  weeks 27 tons 47000
+    crew 1900 bunks 2100 off 140 rate 1760}
+  #c-bb:checked  +label{counter-increment:heze 84000  weeks 34 tons 64000
+    crew 1850 bunks 1980 off 96  rate 1754}
+  #c-yam:checked +label{counter-increment:heze 150000 weeks 52 tons 72800
+    crew 2750 bunks 2900 off 148 rate 2602}
+
+  #y-cradle:checked+label{counter-increment:heze 0    weeks 0 slips 1}
+  #y-bay:checked   +label{counter-increment:heze 2400 weeks 2 slips 2}
+  #y-dock:checked  +label{counter-increment:heze 6100 weeks 4 slips 3}
+
+  #d-tug:checked  +label{counter-increment:heze 0     weeks 0}
+  #d-plate:checked+label{counter-increment:heze 800   weeks 1 tons 120
+    crew 2  rate 2}
+  #d-ion:checked  +label{counter-increment:heze 5200  weeks 3 tons 640
+    crew 8  rate 7  off 1}
+  #d-torch:checked+label{counter-increment:heze 14000 weeks 6 tons 1900
+    crew 16 rate 13 off 3}
+
+  #f-none:checked +label{counter-increment:heze 0}
+  #f-foil:checked +label{counter-increment:heze 1900 weeks 2 tons 300}
+  #f-cush:checked +label{counter-increment:heze 3300 weeks 3 tons 520}
+  #f-gas:checked  +label{counter-increment:heze 7500 weeks 5 tons 880}
+
+  #c-mer:checked +label{counter-increment:heze 2100  weeks 3  tons 9400
+    crew 22  bunks 30  off 4  rate 18}
+  #c-aux:checked +label{counter-increment:heze 3200  weeks 4  tons 6800
+    crew 180 bunks 240 off 14 rate 166}
+  #c-mon:checked +label{counter-increment:heze 47000 weeks 22 tons 26500
+    crew 340 bunks 360 off 20 rate 320}
+
+  #k-wheel:checked+label{counter-increment:heze 300  tons 4}
+  #k-lant:checked +label{counter-increment:heze 180  tons 2}
+  #k-crane:checked+label{counter-increment:heze 1400 weeks 1 tons 260}
+  #k-ice:checked  +label{counter-increment:heze 900  weeks 1 tons 410}
+
+  /* a system that is not manned is not fitted, so every mount carries its crew */
+  #a-ram:checked  +label{counter-increment:heze 2200  weeks 1 tons 340  guns 1}
+  #a-broad:checked+label{counter-increment:heze 8600  weeks 3 tons 1800 guns 1
+    crew 60 rate 60}
+  #a-ciws:checked +label{counter-increment:heze 1800  weeks 1 tons 120  guns 1
+    crew 6  rate 6}
+  #a-vls:checked  +label{counter-increment:heze 9400  weeks 4 tons 980  guns 1
+    crew 14 rate 12 off 2}
+  #a-asm:checked  +label{counter-increment:heze 6200  weeks 2 tons 540  guns 1
+    crew 10 rate 10}
+  #a-tor:checked  +label{counter-increment:heze 3100  weeks 2 tons 380  guns 1
+    crew 12 rate 12}
+  #a-rail:checked +label{counter-increment:heze 16800 weeks 6 tons 1450 guns 1
+    crew 22 rate 20 off 2}
+  #a-mine:checked +label{counter-increment:heze 1200  weeks 1 tons 220  guns 1
+    crew 8  rate 8}
+  #a-dc:checked   +label{counter-increment:heze 700   weeks 1 tons 90   guns 1
+    crew 6  rate 6}
+  #a-uav:checked  +label{counter-increment:heze 4300  weeks 2 tons 260  guns 1
+    crew 18 rate 15 off 3}
+  #a-laser:checked+label{counter-increment:heze 11500 weeks 4 tons 610  guns 1
+    crew 9  rate 8  off 1}
+
+  #e-0:checked+label{counter-increment:heze 0}
+  #e-1:checked+label{counter-increment:heze 2500 weeks 1 esc 1
+    crew 46  bunks 54  off 5  rate 41}
+  #e-2:checked+label{counter-increment:heze 5000 weeks 2 esc 2
+    crew 92  bunks 108 off 10 rate 82}
+  #e-3:checked+label{counter-increment:heze 7500 weeks 3 esc 3
+    crew 138 bunks 162 off 15 rate 123}
+
+  /* --------------------------------------------------- the Yamato exception */
+  .flight{transition:opacity .2s}
+  .app:has(#c-yam:checked) .flight{opacity:.32;pointer-events:none}
+  .app:has(#c-yam:checked) .flight label{text-decoration:line-through}
+  .grounded{display:none;margin-top:8px;padding:8px 10px;border-radius:7px;
+    border:1px solid var(--warn);background:rgba(224,112,90,.10);
+    color:var(--warn);font-size:10.5px;line-height:1.6}
+  .app:has(#c-yam:checked) .grounded{display:block}
+
+  /* ------------------------------------------------------------- the docket */
+  .tot{display:flex;justify-content:space-between;align-items:baseline;
+    padding:5px 0;border-bottom:1px solid var(--edge);font-size:11.5px}
+  .tot:last-of-type{border-bottom:0}
+  .tot b{font:13px/1 ui-monospace,Menlo,monospace}
+  .big{font:24px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+    display:block;margin:2px 0 0}
+  .price::after{content:counter(heze)}
+  .weeks::after{content:counter(weeks)}
+  .tons::after {content:counter(tons)}
+  .slipn::after{content:counter(slips)}
+
+  .addr{width:100%;margin-top:6px;font:11px ui-monospace,Menlo,monospace;
+    padding:7px 9px;border-radius:6px;border:1px solid var(--edge);
+    background:#0b1118;color:var(--ink)}
+  .addr:focus{outline:none;border-color:var(--gold)}
+  .send{display:block;margin-top:10px;text-align:center;text-decoration:none;
+    background:var(--gold);color:#12181d;font-weight:650;font-size:12px;
+    padding:9px;border-radius:7px}
+  .send:hover{filter:brightness(1.08)}
+
+  /* -------------------------------------------------------- :target receipt */
+  .receipt{position:fixed;inset:0;display:none;place-items:center;z-index:9;
+    background:rgba(4,7,10,.72);backdrop-filter:blur(3px)}
+  .receipt:target{display:grid}
+  .receipt .card{width:min(460px,92vw);background:var(--deck);
+    border:1px solid var(--gold);border-radius:12px;padding:18px}
+  .receipt h3{margin:0 0 4px;font-size:15px}
+  .receipt .close{display:inline-block;margin-top:12px;font-size:11px}
+  .stamp{font:10px/1 ui-monospace,monospace;letter-spacing:.2em;color:var(--live);
+    border:1px solid var(--live);border-radius:4px;padding:3px 7px;
+    display:inline-block;margin-bottom:8px}
+
+  @media (max-width:1020px){
+    .app{grid-template-columns:1fr;
+      grid-template-areas:"head" "berth" "desk" "docket"}
+    .docket{position:static}
+  }
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>10 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="class" id="c-buck"><label for="c-buck">Bucketeer 1,000</label>
+      <input type="radio" name="class" id="c-cors" checked><label for="c-cors">Corsair 4,600</label>
+      <input type="radio" name="class" id="c-dd"><label for="c-dd">Destroyer 12,400</label>
+      <input type="radio" name="class" id="c-cl"><label for="c-cl">Cruiser 28,000</label>
+      <input type="radio" name="class" id="c-cv"><label for="c-cv">Carrier 61,000</label>
+      <input type="radio" name="class" id="c-bb"><label for="c-bb">Battleship 84,000</label>
+      <input type="radio" name="class" id="c-yam"><label for="c-yam">Yamato 150,000</label>
+      <input type="radio" name="class" id="c-mer"><label for="c-mer">Merchant 2,100</label>
+      <input type="radio" name="class" id="c-aux"><label for="c-aux">Auxiliary 3,200</label>
+      <input type="radio" name="class" id="c-mon"><label for="c-mon">Monitor 47,000</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="slip" id="y-cradle" checked><label for="y-cradle">Open cradle 0</label>
+      <input type="radio" name="slip" id="y-bay"><label for="y-bay">Pressurised bay 2,400</label>
+      <input type="radio" name="slip" id="y-dock"><label for="y-dock">Graving dock 6,100</label>
+    </div>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="drive" id="d-tug" checked><label for="d-tug">Tug-only 0</label>
+      <input type="radio" name="drive" id="d-plate"><label for="d-plate">Sail plate 800</label>
+      <input type="radio" name="drive" id="d-ion"><label for="d-ion">Ion bank 5,200</label>
+      <input type="radio" name="drive" id="d-torch"><label for="d-torch">Torch 14,000</label>
+    </div>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="flight" id="f-none" checked><label for="f-none">None — stays wet 0</label>
+      <input type="radio" name="flight" id="f-foil"><label for="f-foil">Hydrofoil 1,900</label>
+      <input type="radio" name="flight" id="f-cush"><label for="f-cush">Air cushion 3,300</label>
+      <input type="radio" name="flight" id="f-gas"><label for="f-gas">Lift gas 7,500</label>
+    </div>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="esc" id="e-0" checked><label for="e-0">None 0</label>
+      <input type="radio" name="esc" id="e-1"><label for="e-1">One 2,500</label>
+      <input type="radio" name="esc" id="e-2"><label for="e-2">Two 5,000</label>
+      <input type="radio" name="esc" id="e-3"><label for="e-3">Three 7,500</label>
+    </div>
+    <h2>TODO checkbox set <b>15</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="k-wheel" checked><label for="k-wheel">Captain’s wheel 300</label>
+      <input type="checkbox" id="k-lant"><label for="k-lant">Lanterns 180</label>
+      <input type="checkbox" id="k-crane"><label for="k-crane">Cargo cranes 1,400</label>
+      <input type="checkbox" id="k-ice"><label for="k-ice">Ice sheathing 900</label>
+      <input type="checkbox" id="a-ram"><label for="a-ram">Ram 2,200</label>
+      <input type="checkbox" id="a-broad"><label for="a-broad">Broadside battery 8,600</label>
+      <input type="checkbox" id="a-ciws"><label for="a-ciws">Close-in gun 1,800</label>
+      <input type="checkbox" id="a-vls"><label for="a-vls">Launch cells 9,400</label>
+      <input type="checkbox" id="a-asm"><label for="a-asm">Anti-ship canisters 6,200</label>
+      <input type="checkbox" id="a-tor"><label for="a-tor">Torpedo tubes 3,100</label>
+      <input type="checkbox" id="a-rail"><label for="a-rail">Railgun 16,800</label>
+      <input type="checkbox" id="a-mine"><label for="a-mine">Mine rails 1,200</label>
+      <input type="checkbox" id="a-dc"><label for="a-dc">Depth charges 700</label>
+      <input type="checkbox" id="a-uav"><label for="a-uav">UAV flight 4,300</label>
+      <input type="checkbox" id="a-laser"><label for="a-laser">Point-defence laser 11,500</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>heze</span><b class="price"></b></div>
+      <div class="head m"><span>weeks</span><b class="weeks"></b></div>
+      <div class="head m"><span>tons</span><b class="tons"></b></div>
+      <div class="head m"><span>slips</span><b class="slipn"></b></div>
+      <div class="head m"><span>guns</span><b class="gunsn"></b></div>
+      <div class="head m"><span>esc</span><b class="escn"></b></div>
+      <div class="head m"><span>crew</span><b class="crewn"></b></div>
+      <div class="head m"><span>bunks</span><b class="bunksn"></b></div>
+      <div class="head m"><span>off</span><b class="offn"></b></div>
+      <div class="head m"><span>rate</span><b class="raten"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

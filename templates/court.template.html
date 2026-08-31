@@ -1,0 +1,227 @@
+<title>TEMPLATE &middot; The Floating Court · the matter of the sick berth</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from court.html by templatise.mjs.
+
+     source            court.html
+     radio groups      5 (f1, f2, f3, f4, j)
+     checkboxes        1
+     counters          right, err
+     :has() rules      28, 12 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --night:#0a0d14; --stone:#171d2a; --stone2:#1e2534; --edge:#33405a;
+    --ivory:#f2ebdc; --ink:#ece4d2; --dim:#9c9280;
+    --gold:#d9ac54; --gold2:#f0cd86; --lapis:#1b3a72; --lapis2:#2a55a0;
+    --turq:#2f8f8a; --turq2:#4fbdb2; --rose:#a8474a; --green:#4e8f5f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:0 0 48px;color:var(--ink);background:var(--night);
+    font:14px/1.68 ui-serif,Georgia,'Times New Roman',serif;
+    background-image:
+      radial-gradient(circle at 50% 0%,rgba(217,172,84,.10),transparent 46%),
+      radial-gradient(circle at 12% 88%,rgba(27,58,114,.30),transparent 46%),
+      radial-gradient(circle at 88% 80%,rgba(47,143,138,.16),transparent 44%)}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+
+  /* ------------------------------------------------------------ the facade */
+  .facade{position:relative;margin:0 auto;max-width:1000px}
+  .facade svg{display:block;width:100%;height:auto}
+  .turn{transform-box:fill-box;transform-origin:center;
+    animation:turn 90s linear infinite}
+  @keyframes turn{to{transform:rotate(360deg)}}
+  .glow{animation:glow 7s ease-in-out infinite}
+  @keyframes glow{50%{opacity:.55}}
+  @media (prefers-reduced-motion:reduce){.turn,.glow{animation:none}}
+
+  /* --------------------------------------------------------------- chrome */
+  h1{margin:0 0 4px;font-size:27px;letter-spacing:-.015em;font-weight:500;
+    color:var(--gold2)}
+  .sub{color:var(--dim);font-size:12px;margin:0 0 6px;font-style:italic}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--gold);margin:26px 0 12px;font-weight:600;
+    display:flex;align-items:center;gap:12px}
+  h2::after{content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(217,172,84,.55),transparent)}
+  p{max-width:74ch}
+  .note{color:var(--dim);font-size:11.5px;line-height:1.7;margin:10px 0 0;
+    max-width:88ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--gold2);background:#0e1420;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+  /* a panel, framed the way a wall panel is framed */
+  .panel{position:relative;background:
+      linear-gradient(180deg,var(--stone),var(--stone2));
+    border:1px solid var(--edge);border-radius:4px;padding:20px 22px;
+    margin-top:16px;
+    box-shadow:0 0 0 1px rgba(217,172,84,.20) inset,
+               0 0 0 5px rgba(10,13,20,.9) inset,
+               0 0 0 6px rgba(217,172,84,.30) inset,
+               0 18px 44px rgba(0,0,0,.5)}
+  .panel::before{content:"";position:absolute;inset:0;pointer-events:none;
+    border-radius:4px;opacity:.10;
+    background-image:
+      repeating-linear-gradient(45deg,var(--gold) 0 1px,transparent 1px 22px),
+      repeating-linear-gradient(-45deg,var(--gold) 0 1px,transparent 1px 22px)}
+  .panel > *{position:relative}
+
+  .bench{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+  @media (max-width:820px){.bench{grid-template-columns:1fr}}
+
+  .fact{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid rgba(217,172,84,.14);
+    font-size:12.5px}
+  .fact:last-child{border-bottom:0}
+  .fact .k{color:var(--dim);min-width:118px;font:10px/1.6 ui-monospace,monospace;
+    letter-spacing:.1em;text-transform:uppercase}
+
+  /* --------------------------------------------------------- the findings */
+  .chk{padding:11px 0;border-bottom:1px solid rgba(217,172,84,.14)}
+  .chk:last-of-type{border-bottom:0}
+  .chk .q{font-size:13px;margin-bottom:8px}
+  .opts{display:flex;gap:6px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10.5px/1 ui-monospace,monospace;letter-spacing:.1em;
+    padding:9px 14px;border:1px solid var(--edge);border-radius:3px;
+    color:var(--dim);background:#131a27}
+  .opts label:hover{color:var(--ink);border-color:rgba(217,172,84,.5)}
+  .opts input:checked+label{background:linear-gradient(180deg,var(--gold),#b98d3c);
+    color:#151009;border-color:var(--gold);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--turq2);outline-offset:2px}
+
+  /* truth: 1 yes, 2 no, 3 no, 4 yes — three and four are the decisive pair */
+  body{counter-reset:right 0 err 0}
+  #f1-y:checked+label{counter-increment:right 1} #f1-n:checked+label{counter-increment:err 1}
+  #f2-n:checked+label{counter-increment:right 1} #f2-y:checked+label{counter-increment:err 1}
+  #f3-n:checked+label{counter-increment:right 1} #f3-y:checked+label{counter-increment:err 1}
+  #f4-y:checked+label{counter-increment:right 1} #f4-n:checked+label{counter-increment:err 1}
+  .n-right::after{content:counter(right)} .n-err::after{content:counter(err)}
+
+  .verdict .opts label{padding:13px 20px;font-size:11.5px;letter-spacing:.14em}
+  #j-none:checked+label{background:linear-gradient(180deg,var(--green),#37653f);
+    border-color:var(--green);color:#eef6ef}
+  #j-desk:checked+label{background:linear-gradient(180deg,var(--rose),#7d3437);
+    border-color:var(--rose);color:#f7ecec}
+  #j-above:checked+label{background:linear-gradient(180deg,var(--lapis2),var(--lapis));
+    border-color:var(--lapis2);color:#eaf0fb}
+
+  .seal{margin-top:18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .seal input{position:absolute;opacity:0;width:0;height:0}
+  .seal label{cursor:pointer;font:12.5px/1 ui-monospace,monospace;letter-spacing:.22em;
+    text-transform:uppercase;font-weight:700;padding:16px 34px;border-radius:3px;
+    border:2px solid var(--gold);color:var(--gold);background:#121824}
+  #seal:checked+label{background:linear-gradient(180deg,var(--gold2),var(--gold));
+    color:#171009;transform:rotate(-1deg)}
+  .seal input:focus-visible+label{outline:2px solid var(--turq2);outline-offset:3px}
+  .wrap:not(:has(input[name="j"]:checked)) .seal label{opacity:.32;pointer-events:none}
+  .wrap:not(:has(input[name="j"]:checked)) #seal{visibility:hidden}
+  .seal .said{font-size:11.5px;color:var(--dim);max-width:38ch}
+
+  .after{display:none} .wrap:has(#seal:checked) .after{display:block}
+  .wrap:has(#seal:checked) .before{display:none}
+
+  .mark{display:flex;gap:10px;padding:6px 0;font-size:12px;
+    border-bottom:1px solid rgba(217,172,84,.14)}
+  .mark .t{min-width:120px;color:var(--dim);font:10px/1.7 ui-monospace,monospace;
+    letter-spacing:.1em;text-transform:uppercase}
+  .mark .a{font-weight:700;color:var(--gold2);min-width:34px}
+  .score{font:26px/1.2 ui-monospace,monospace;color:var(--gold2);margin-top:12px}
+  .score small{display:block;font:9.5px/1 ui-monospace,monospace;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+
+  .out{display:none;border-left:3px solid var(--edge);padding:2px 0 2px 16px;
+    margin-top:16px}
+  .out h3{margin:0 0 7px;font-size:17px;font-weight:500;color:var(--gold2)}
+  .out p{margin:0 0 9px;font-size:13px}
+  .out p:last-child{margin-bottom:0}
+  .wrap:has(#seal:checked):has(#j-none:checked)  .o-none-s{display:block}
+  .wrap:has(#seal:checked):has(#j-desk:checked)  .o-desk-s{display:block}
+  .wrap:has(#seal:checked):has(#j-above:checked) .o-above-s{display:block}
+  .wrap:has(#seal:checked):has(#j-none:checked):has(#f3-n:checked):has(#f4-y:checked)
+    .o-none-c{display:block}
+  .wrap:has(#seal:checked):has(#j-desk:checked):has(#f3-n:checked):has(#f4-y:checked)
+    .o-desk-c{display:block}
+  .wrap:has(#seal:checked):has(#j-above:checked):has(#f3-n:checked):has(#f4-y:checked)
+    .o-above-c{display:block}
+  .wrap:has(#f3-n:checked):has(#f4-y:checked) .o-none-s,
+  .wrap:has(#f3-n:checked):has(#f4-y:checked) .o-desk-s,
+  .wrap:has(#f3-n:checked):has(#f4-y:checked) .o-above-s{display:none}
+  .o-above-c{border-color:var(--lapis2)} .o-desk-c{border-color:var(--rose)}
+  .o-none-c{border-color:var(--green)}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f1" id="f1-y"><label for="f1-y">yes</label>
+      <input type="radio" name="f1" id="f1-n"><label for="f1-n">no</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f2" id="f2-y"><label for="f2-y">yes</label>
+      <input type="radio" name="f2" id="f2-n"><label for="f2-n">no</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f3" id="f3-y"><label for="f3-y">yes</label>
+      <input type="radio" name="f3" id="f3-n"><label for="f3-n">no</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f4" id="f4-y"><label for="f4-y">yes</label>
+      <input type="radio" name="f4" id="f4-n"><label for="f4-n">no</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="j" id="j-none"><label for="j-none">no fault</label>
+      <input type="radio" name="j" id="j-desk"><label for="j-desk">fault at the desk</label>
+      <input type="radio" name="j" id="j-above"><label for="j-above">fault above the desk</label>
+    </div>
+    <h2>TODO checkbox set <b>1</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="seal"><label for="seal">Seal the judgment</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>right</span><b class="n-right"></b></div>
+      <div class="head m"><span>err</span><b class="n-err"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

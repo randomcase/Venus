@@ -1,0 +1,207 @@
+<title>TEMPLATE &middot; Gate · Case One</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from gate.html by templatise.mjs.
+
+     source            gate.html
+     radio groups      5 (f1, f2, f3, f4, v)
+     checkboxes        1
+     counters          right, err
+     :has() rules      20, 8 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --ink0:#0d0c0a; --paper:#e8e2d2; --paper2:#dcd4c0; --line:#b9ae95;
+    --ink:#1b1815; --dim:#6b6252; --red:#a33b2e; --stamp:#8c2f24;
+    --green:#3f6b45; --blue:#2f5570; --gold:#8a6a1e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;background:#141210;color:var(--ink);
+    font:14px/1.6 ui-serif,Georgia,'Times New Roman',serif;
+    background-image:
+      radial-gradient(circle at 20% 0%,rgba(180,150,90,.10),transparent 44%),
+      repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 4px)}
+  .desk{max-width:1000px;margin:0 auto;display:grid;gap:14px;
+    grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:840px){.desk{grid-template-columns:1fr}}
+
+  .sheet{background:linear-gradient(180deg,var(--paper),var(--paper2));
+    border:1px solid var(--line);border-radius:3px;padding:16px 18px;
+    box-shadow:0 12px 30px rgba(0,0,0,.5)}
+  .sheet.full{grid-column:1/-1}
+  h1{margin:0 0 2px;font-size:20px;letter-spacing:.02em}
+  .sub{color:var(--dim);font-size:11.5px;margin:0 0 12px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:0 0 10px;font-weight:700;
+    border-bottom:1px solid var(--line);padding-bottom:7px}
+  h2.mt{margin-top:18px}
+  .mono{font:12px/1.7 ui-monospace,Menlo,monospace}
+  .field{display:flex;gap:10px;padding:5px 0;border-bottom:1px dotted var(--line);
+    font:12px/1.6 ui-monospace,Menlo,monospace}
+  .field:last-child{border-bottom:0}
+  .field .k{color:var(--dim);min-width:96px}
+  .field .v{font-weight:700}
+  .note{font-size:11.5px;color:var(--dim);line-height:1.6;margin:10px 0 0}
+  .note b{color:var(--ink)}
+  .fine{font-size:10.5px;color:var(--dim);font-style:italic}
+
+  /* the person */
+  .who{display:flex;gap:12px;align-items:flex-start}
+  .who svg{width:76px;height:92px;flex:none;border:1px solid var(--line);
+    background:#cfc6b0}
+  .who .nm{font-size:16px;font-weight:700;margin:0 0 2px}
+  .who .rk{font:10px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+  .who p{margin:0;font-size:12.5px;color:#2c2822}
+
+  /* ------------------------------------------------------------- the checks */
+  .chk{padding:9px 0;border-bottom:1px dotted var(--line)}
+  .chk:last-of-type{border-bottom:0}
+  .chk .q{font-size:12.5px;margin-bottom:6px}
+  .chk .q b{font-family:ui-monospace,monospace;font-size:11.5px}
+  .opts{display:flex;gap:6px}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10px/1 ui-monospace,monospace;letter-spacing:.12em;
+    padding:8px 13px;border:1px solid var(--line);border-radius:2px;
+    color:var(--dim);background:#e2dbc8}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{background:var(--ink);color:var(--paper);
+    border-color:var(--ink);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* the scoring. Truth lives here: fields one and two match, three and four
+     do not. A right mark scores, a wrong one is an error. */
+  body{counter-reset:right 0 err 0}
+  #f1-m:checked+label{counter-increment:right 1}  #f1-x:checked+label{counter-increment:err 1}
+  #f2-m:checked+label{counter-increment:right 1}  #f2-x:checked+label{counter-increment:err 1}
+  #f3-x:checked+label{counter-increment:right 1}  #f3-m:checked+label{counter-increment:err 1}
+  #f4-x:checked+label{counter-increment:right 1}  #f4-m:checked+label{counter-increment:err 1}
+  .n-right::after{content:counter(right)}
+  .n-err::after{content:counter(err)}
+
+  /* --------------------------------------------------------- verdict, stamp */
+  .verdict .opts label{padding:12px 22px;font-size:11.5px;letter-spacing:.16em}
+  #v-admit:checked+label{background:var(--green);border-color:var(--green);color:#f0ece0}
+  #v-deny:checked+label{background:var(--stamp);border-color:var(--stamp);color:#f0ece0}
+
+  .stampbox{margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .stampbox input{position:absolute;opacity:0;width:0;height:0}
+  .stampbox label{cursor:pointer;font:13px/1 ui-monospace,monospace;
+    letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+    padding:16px 34px;border:2px solid var(--ink);border-radius:3px;
+    background:#e2dbc8;color:var(--ink)}
+  #stamp:checked+label{background:var(--stamp);border-color:var(--stamp);
+    color:#f4ece2;transform:rotate(-1.5deg)}
+  .stampbox input:focus-visible+label{outline:2px solid var(--blue);outline-offset:3px}
+  /* no verdict, no stamp — by pointer and by keyboard both */
+  .desk:not(:has(input[name="v"]:checked)) .stampbox label{opacity:.34;
+    pointer-events:none}
+  .desk:not(:has(input[name="v"]:checked)) #stamp{visibility:hidden}
+  .stampbox .hint{font-size:11.5px;color:var(--dim);max-width:34ch}
+
+  /* -------------------------------------------------------------- outcomes */
+  .after{display:none}
+  .desk:has(#stamp:checked) .after{display:block}
+  .desk:has(#stamp:checked) .before{display:none}
+
+  .out{display:none;border-left:3px solid var(--line);padding:2px 0 2px 14px;
+    margin-top:14px}
+  .out h3{margin:0 0 5px;font-size:15px}
+  .out p{margin:0;font-size:12.5px;color:#2c2822}
+  /* four endings: verdict × whether both faults were found */
+  .desk:has(#stamp:checked):has(#v-deny:checked) .o-deny-sloppy{display:block}
+  .desk:has(#stamp:checked):has(#v-admit:checked) .o-admit-sloppy{display:block}
+  .desk:has(#stamp:checked):has(#v-deny:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-deny-clean{display:block}
+  .desk:has(#stamp:checked):has(#v-admit:checked):has(#f3-x:checked):has(#f4-x:checked)
+    .o-admit-clean{display:block}
+  /* the careful endings supersede the careless ones — written after, so they win */
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-deny-sloppy,
+  .desk:has(#f3-x:checked):has(#f4-x:checked) .o-admit-sloppy{display:none}
+  .o-deny-clean{border-color:var(--stamp)} .o-admit-clean{border-color:var(--green)}
+  .o-deny-sloppy,.o-admit-sloppy{border-color:var(--gold)}
+
+  /* the marking, revealed only after the stamp */
+  .mark{display:flex;gap:8px;padding:5px 0;font:11.5px/1.6 ui-monospace,monospace;
+    border-bottom:1px dotted var(--line)}
+  .mark .t{min-width:74px;color:var(--dim)}
+  .mark .a{font-weight:700}
+  .score{font:26px/1.2 ui-monospace,monospace;margin-top:10px}
+  .score .n-err::after{color:var(--red)}
+  .score small{display:block;font:9.5px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f1" id="f1-m"><label for="f1-m">match</label>
+      <input type="radio" name="f1" id="f1-x"><label for="f1-x">mismatch</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f2" id="f2-m"><label for="f2-m">match</label>
+      <input type="radio" name="f2" id="f2-x"><label for="f2-x">mismatch</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f3" id="f3-m"><label for="f3-m">match</label>
+      <input type="radio" name="f3" id="f3-x"><label for="f3-x">mismatch</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="f4" id="f4-m"><label for="f4-m">match</label>
+      <input type="radio" name="f4" id="f4-x"><label for="f4-x">mismatch</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="v" id="v-admit"><label for="v-admit">admit</label>
+      <input type="radio" name="v" id="v-deny"><label for="v-deny">deny</label>
+    </div>
+    <h2>TODO checkbox set <b>1</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="stamp"><label for="stamp">Stamp it</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>right</span><b class="n-right"></b></div>
+      <div class="head m"><span>err</span><b class="n-err"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

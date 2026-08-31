@@ -1,0 +1,116 @@
+<title>TEMPLATE &middot; Jakarta · the pearl station</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from jakarta.html by templatise.mjs.
+
+     source            jakarta.html
+     radio groups      0
+     checkboxes        0
+     counters          none
+     :has() rules      0
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --sea:#06131a; --deep:#0a1d26; --card:#102630; --card2:#14303c;
+    --edge:#22505f; --ink:#eaf4f4; --dim:#8fb0b4;
+    --nacre:#f2ece0; --nacre2:#dcd3c4; --rose:#e6c6c0; --lagoon:#3fb3a6;
+    --gold:#d9b25c; --sand:#c9b189; --scala:#c9463a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:0 0 48px;color:var(--ink);background:var(--sea);
+    font:14px/1.7 ui-serif,Georgia,'Times New Roman',serif;
+    background-image:
+      radial-gradient(circle at 50% -4%,rgba(63,179,166,.16),transparent 46%),
+      radial-gradient(circle at 88% 88%,rgba(217,178,92,.10),transparent 44%)}
+  .wrap{max-width:960px;margin:0 auto;padding:0 16px}
+  header{padding:22px 0 14px;border-bottom:1px solid var(--edge);margin-bottom:6px}
+  h1{margin:0 0 5px;font-size:28px;letter-spacing:-.02em;font-weight:500}
+  .lede{color:var(--dim);font-size:13px;max-width:74ch;margin:0}
+  .lede b{color:var(--ink)}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--lagoon);margin:30px 0 12px;font-weight:600;
+    display:flex;align-items:center;gap:12px;padding-top:14px;
+    border-top:1px solid var(--edge)}
+  h2::after{content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(63,179,166,.4),transparent)}
+  p{max-width:76ch}
+  .note{color:var(--dim);font-size:11.5px;line-height:1.72;margin:9px 0 0;max-width:88ch}
+  .note b{color:var(--ink)}
+  code{font:11.5px ui-monospace,Menlo,monospace;color:var(--nacre);
+    background:#0a1c24;border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  pre{margin:10px 0 0;overflow-x:auto;font:11.5px/1.62 ui-monospace,Menlo,monospace;
+    background:#08181f;border:1px solid var(--edge);border-radius:9px;
+    padding:12px 13px;color:#bfe0dd}
+  pre b{color:var(--scala);font-weight:400}
+  pre i{color:var(--gold);font-style:normal}
+  a{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 17px;margin-top:12px}
+
+  /* ------------------------------------------------------------- the island */
+  .isle{border:1px solid var(--edge);border-radius:12px;overflow:hidden;
+    margin-top:14px;background:#061219}
+  .isle svg{display:block;width:100%;height:auto}
+  .swell{animation:swell 11s ease-in-out infinite}
+  @keyframes swell{50%{transform:translateY(-5px)}}
+  .swell.b{animation-delay:-3.5s} .swell.c{animation-delay:-7s}
+  .shimmer{animation:shim 9s ease-in-out infinite}
+  @keyframes shim{50%{opacity:.55}}
+  @media (prefers-reduced-motion:reduce){.swell,.shimmer{animation:none}}
+
+  /* ------------------------------------------------------------- the pearl */
+  .layers{display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:center}
+  @media (max-width:760px){.layers{grid-template-columns:1fr}}
+  .layer{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--edge);
+    font-size:12.5px}
+  .layer:last-child{border-bottom:0}
+  .layer .n{font:10px/1.6 ui-monospace,monospace;color:var(--lagoon);min-width:58px;
+    letter-spacing:.1em}
+  .layer b{color:var(--ink)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 8px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td .q{color:var(--dim);font-size:10.5px}
+  tr.sum td{border-top:1.5px solid var(--gold);font-weight:700}
+  tr.sum td:last-child{color:var(--gold)}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

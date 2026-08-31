@@ -1,0 +1,208 @@
+<title>TEMPLATE &middot; The Vault · dual control and a time lock</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from vault.html by templatise.mjs.
+
+     source            vault.html
+     radio groups      1 (t)
+     checkboxes        3
+     counters          none
+     :has() rules      89, 32 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --dark:#08090c; --steel:#1a1f27; --steel2:#232a34; --edge:#39424f;
+    --ink:#eceff3; --dim:#8e97a4; --brass:#c9a24a; --brass2:#e8cd8a;
+    --lapis:#26467f; --lapis2:#3a67b4; --slime:#9ed45c;
+    --red:#d9604f; --green:#5fc98f; --amber:#dfa93f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--dark);
+    font:14px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 50% -6%,rgba(201,162,74,.14),transparent 46%),
+      radial-gradient(circle at 8% 96%,rgba(38,70,127,.22),transparent 44%)}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0;font-size:22px;letter-spacing:-.02em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--brass);border:1px solid var(--brass);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 11px;font-weight:600;
+    display:flex;align-items:center;gap:12px}
+  h2::after{content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(201,162,74,.4),transparent)}
+  .note{color:var(--dim);font-size:11px;line-height:1.7;margin:10px 0 0;max-width:94ch}
+  .note b{color:var(--ink)}
+  code{font:11px ui-monospace,monospace;color:var(--brass2);background:#0d1118;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--steel),var(--steel2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+
+  .hall{display:grid;gap:16px;grid-template-columns:420px 1fr;align-items:start}
+  @media (max-width:900px){.hall{grid-template-columns:1fr}}
+
+  /* ---------------------------------------------------------------- the door */
+  .door{background:radial-gradient(circle at 40% 30%,#222a35,#0d1117 70%);
+    border:1px solid var(--edge);border-radius:12px;padding:14px}
+  .door svg{display:block;width:100%;height:auto}
+  .bolt{transition:transform .7s cubic-bezier(.6,0,.2,1)}
+  .dial{transform-box:fill-box;transform-origin:center;
+    transition:transform 1.1s cubic-bezier(.5,0,.2,1)}
+  .leaf{transition:transform 1s cubic-bezier(.5,0,.2,1);transform-box:fill-box;
+    transform-origin:14% 50%}
+  .lamp{transition:fill .3s,filter .3s}
+
+  /* quorum — any two of three. Three pairs, written out. */
+  .v:has(#k-a:checked):has(#k-b:checked) .q-lamp,
+  .v:has(#k-a:checked):has(#k-c:checked) .q-lamp,
+  .v:has(#k-b:checked):has(#k-c:checked) .q-lamp
+    {fill:var(--amber);filter:drop-shadow(0 0 7px var(--amber))}
+  /* time lock */
+  .v:has(#t-open:checked) .t-lamp{fill:var(--green);
+    filter:drop-shadow(0 0 7px var(--green))}
+  /* open — quorum AND the window. Both, or nothing moves. */
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked) .bolt,
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-c:checked) .bolt,
+  .v:has(#t-open:checked):has(#k-b:checked):has(#k-c:checked) .bolt
+    {transform:translateX(-30px)}
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked) .dial,
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-c:checked) .dial,
+  .v:has(#t-open:checked):has(#k-b:checked):has(#k-c:checked) .dial
+    {transform:rotate(214deg)}
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked) .leaf,
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-c:checked) .leaf,
+  .v:has(#t-open:checked):has(#k-b:checked):has(#k-c:checked) .leaf
+    {transform:perspective(900px) rotateY(-32deg)}
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked) .o-lamp,
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-c:checked) .o-lamp,
+  .v:has(#t-open:checked):has(#k-b:checked):has(#k-c:checked) .o-lamp
+    {fill:var(--green);filter:drop-shadow(0 0 9px var(--green))}
+
+  /* --------------------------------------------------------------- the keys */
+  .officer{display:flex;align-items:center;gap:12px;padding:11px 0;
+    border-bottom:1px solid var(--edge)}
+  .officer:last-of-type{border-bottom:0}
+  .officer input{position:absolute;opacity:0;width:0;height:0}
+  .officer .nm{font-size:13.5px;font-weight:650}
+  .officer .rl{font:8.5px/1.5 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .officer label{margin-left:auto;cursor:pointer;display:flex;align-items:center;
+    gap:9px;font:10px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);border:1px solid var(--edge);
+    border-radius:8px;padding:10px 14px}
+  .officer label .kb{width:15px;height:15px;border-radius:50%;flex:none;
+    border:1px solid var(--edge);background:#10151d;transition:.2s}
+  .officer input:checked+label{color:var(--brass2);border-color:var(--brass)}
+  .officer input:checked+label .kb{background:var(--brass);
+    border-color:var(--brass);box-shadow:0 0 9px rgba(201,162,74,.6)}
+  .officer input:focus-visible+label{outline:2px solid var(--lapis2);outline-offset:2px}
+
+  .seg{display:flex;gap:6px;margin-top:4px}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;text-align:center;cursor:pointer;padding:11px 12px;
+    border-radius:9px;border:1px solid var(--edge);color:var(--dim);
+    font:10.5px/1.4 ui-monospace,monospace}
+  .seg label b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:2px}
+  #t-open:checked+label{border-color:var(--green);background:rgba(95,201,143,.10)}
+  #t-open:checked+label b{color:var(--green)}
+  #t-shut:checked+label{border-color:var(--red);background:rgba(217,96,79,.10)}
+  #t-shut:checked+label b{color:var(--red)}
+  .seg input:focus-visible+label{outline:2px solid var(--lapis2);outline-offset:2px}
+
+  /* ------------------------------------------------------------- the state */
+  .state{display:none;border-radius:10px;padding:12px 14px;margin-top:14px;
+    border:1px solid;font-size:12.5px;line-height:1.66}
+  .state b{color:inherit}
+  /* sealed: fewer than two keys */
+  .s-sealed{border-color:var(--edge);background:#10151d;color:var(--dim)}
+  .v .s-sealed{display:block}
+  .v:has(#k-a:checked):has(#k-b:checked) .s-sealed,
+  .v:has(#k-a:checked):has(#k-c:checked) .s-sealed,
+  .v:has(#k-b:checked):has(#k-c:checked) .s-sealed{display:none}
+  /* quorum met but the window is shut */
+  .s-held{border-color:var(--amber);background:rgba(223,169,63,.09);color:var(--amber)}
+  .v:has(#t-shut:checked):has(#k-a:checked):has(#k-b:checked) .s-held,
+  .v:has(#t-shut:checked):has(#k-a:checked):has(#k-c:checked) .s-held,
+  .v:has(#t-shut:checked):has(#k-b:checked):has(#k-c:checked) .s-held{display:block}
+  /* open */
+  .s-open{border-color:var(--green);background:rgba(95,201,143,.09);color:var(--green)}
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked) .s-open,
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-c:checked) .s-open,
+  .v:has(#t-open:checked):has(#k-b:checked):has(#k-c:checked) .s-open{display:block}
+
+  /* the register line, written only when it actually opens */
+  .reg{display:none;margin-top:12px;font:11px/1.8 ui-monospace,Menlo,monospace;
+    background:#0c1017;border:1px solid var(--edge);border-radius:9px;
+    padding:11px 13px;color:#bcd0c4}
+  .reg .who{color:var(--brass2)}
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked) .r-ab,
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-c:checked) .r-ac,
+  .v:has(#t-open:checked):has(#k-b:checked):has(#k-c:checked) .r-bc{display:block}
+  /* all three turned: the pair rules would all fire, so name it properly */
+  .v:has(#k-a:checked):has(#k-b:checked):has(#k-c:checked) .r-ab,
+  .v:has(#k-a:checked):has(#k-b:checked):has(#k-c:checked) .r-ac,
+  .v:has(#k-a:checked):has(#k-b:checked):has(#k-c:checked) .r-bc{display:none}
+  .v:has(#t-open:checked):has(#k-a:checked):has(#k-b:checked):has(#k-c:checked)
+    .r-all{display:block}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td .q{color:var(--dim);font-size:10.5px}
+  tr.sum td{border-top:1.5px solid var(--brass);font-weight:700}
+  tr.sum td:last-child{color:var(--brass2)}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="t" id="t-open" checked><label for="t-open">Open 04:00–16:00 · the working day</label>
+      <input type="radio" name="t" id="t-shut"><label for="t-shut">Shut outside hours · the lock does not car</label>
+    </div>
+    <h2>TODO checkbox set <b>3</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="k-a"><label for="k-a">turn</label>
+      <input type="checkbox" id="k-b"><label for="k-b">turn</label>
+      <input type="checkbox" id="k-c"><label for="k-c">turn</label>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

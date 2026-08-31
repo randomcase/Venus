@@ -1,0 +1,194 @@
+<title>TEMPLATE &middot; TEMPLATE · a board</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from template.html by templatise.mjs.
+
+     source            template.html
+     radio groups      2 (o, s)
+     checkboxes        3
+     counters          units, mass, crew
+     :has() rules      18, 6 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  /* ============================================================ 0 · PALETTE
+     Replace these five and the board is re-themed. Everything below refers to
+     them and nothing hard-codes a colour. */
+  :root{
+    --void:#080b0f;   /* page ground        */
+    --card:#111a22;   /* panel, top of gradient */
+    --card2:#16212b;  /* panel, bottom      */
+    --edge:#26333f;   /* every border       */
+    --ink:#e9f0f5;    /* body text          */
+    --dim:#8a9aa8;    /* secondary text     */
+    --gold:#e0b155;   /* the accent — selection, totals, the one bright thing */
+    --good:#65d6a8; --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 40px;color:var(--ink);background:var(--void);
+    font:13.5px/1.6 ui-rounded,system-ui,-apple-system,sans-serif}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:20px;letter-spacing:-.015em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:72ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:22px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.65;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ---- controls. One look for radios, one for checkboxes. Reuse, don't invent. */
+  .opts{display:flex;gap:6px;flex-wrap:wrap}
+  .opts input,.stack input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;padding:10px 14px;
+    border-radius:8px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .stack label{display:flex;align-items:baseline;gap:11px;cursor:pointer;
+    padding:11px 13px;border-radius:10px;border:1px solid var(--edge);font-size:13px}
+  .stack label .tick{width:15px;height:15px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);position:relative;top:2px}
+  .stack label .amt{margin-left:auto;font:12px/1 ui-monospace,monospace;color:var(--dim)}
+  .stack input:checked+label{border-color:var(--gold);background:rgba(224,177,85,.08)}
+  .stack input:checked+label .tick{background:var(--gold);border-color:var(--gold);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--gold)}
+  /* keyboard users exist. Do not delete this. */
+  .opts input:focus-visible+label,.stack input:focus-visible+label
+    {outline:2px solid var(--cool);outline-offset:2px}
+
+  /* ============================================ 1 · COUNTERS ARE ARITHMETIC
+     Declare every counter on body, increment on the LABEL next to the checked
+     input, print with ::after. The label must be the input's next sibling. */
+  body{counter-reset:units 0 mass 0 crew 0}
+
+  /* TODO: one line per option. The numbers here are the whole model. */
+  #o-a:checked+label{counter-increment:units 1 mass 40}
+  #o-b:checked+label{counter-increment:units 2 mass 80}
+  #o-c:checked+label{counter-increment:units 4 mass 160}
+  #k-1:checked+label{counter-increment:mass 26 crew 12}
+  #k-2:checked+label{counter-increment:mass 14 crew 4}
+  #k-3:checked+label{counter-increment:mass 31 crew 9}
+
+  .n-units::after{content:counter(units)}
+  .n-mass::after {content:counter(mass)}
+  .n-crew::after {content:counter(crew)}
+
+  /* ==================================================== 2 · :has() IS STATE
+     Scope from the nearest ancestor that contains BOTH the switch and the
+     thing it drives. Getting this wrong is the most common bug: a rule scoped
+     to the row will never reach an element in a different subtree. */
+  .state{display:none}
+  .board:has(#s-on:checked)  .st-on {display:block}
+  .board:has(#s-off:checked) .st-off{display:block}
+
+  /* ============================================ 3 · COMPOUND :has() IS LOOKUP
+     Two keys, one answer. Neither input can state the value alone, so the PAIR
+     states it. This is how you get multiplication out of a language that has
+     none: write the products. n options × m options = n×m rules, and there is
+     no shortcut — but the table is visible and every cell was written by
+     someone who can be asked about it. */
+  .board:has(#o-a:checked):has(#s-on:checked)  .look::after{content:"40"}
+  .board:has(#o-b:checked):has(#s-on:checked)  .look::after{content:"80"}
+  .board:has(#o-c:checked):has(#s-on:checked)  .look::after{content:"160"}
+  .board:has(#o-a:checked):has(#s-off:checked) .look::after{content:"0"}
+  .board:has(#o-b:checked):has(#s-off:checked) .look::after{content:"0"}
+  .board:has(#o-c:checked):has(#s-off:checked) .look::after{content:"0"}
+
+  /* ======================================= 4 · CASCADE ORDER IS AUTHORITY
+     Rules written later win over equally specific rules above them. So the
+     thing that must not be overridden goes LAST. Below: a hold that beats
+     every speed rule, no matter what is selected. Move it above them and it
+     silently stops working — which is worth trying once, on purpose. */
+  .mover{width:20px;height:20px;border-radius:6px;background:var(--cool);
+    animation:slide 3s linear infinite alternate}
+  @keyframes slide{to{transform:translateX(160px)}}
+  .board:has(#s-on:checked)  .mover{animation-duration:1.4s}
+  .board:has(#s-off:checked) .mover{animation-play-state:paused;background:var(--warn)}
+  .track{border:1px solid var(--edge);border-radius:8px;padding:9px;
+    background:#0a1017;overflow:hidden;margin-top:9px}
+  @media (prefers-reduced-motion:reduce){.mover{animation:none}}
+
+  .heads{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .head{background:#0d151c;border:1px solid var(--edge);border-radius:9px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:820px){.two{grid-template-columns:1fr}
+    .heads{grid-template-columns:1fr 1fr}}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="o" id="o-a"><label for="o-a">Option A</label>
+      <input type="radio" name="o" id="o-b" checked><label for="o-b">Option B</label>
+      <input type="radio" name="o" id="o-c"><label for="o-c">Option C</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="s" id="s-on" checked><label for="s-on">On</label>
+      <input type="radio" name="s" id="s-off"><label for="s-off">Off</label>
+    </div>
+    <h2>TODO checkbox set <b>3</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="k-1" checked><label for="k-1">First addition 26</label>
+      <input type="checkbox" id="k-2"><label for="k-2">Second addition 14</label>
+      <input type="checkbox" id="k-3"><label for="k-3">Third addition 31</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>units</span><b class="n-units"></b></div>
+      <div class="head m"><span>mass</span><b class="n-mass"></b></div>
+      <div class="head m"><span>crew</span><b class="n-crew"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

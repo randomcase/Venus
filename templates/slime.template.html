@@ -1,0 +1,206 @@
+<title>TEMPLATE &middot; SLIME · the wallet that funds the yard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from slime.html by templatise.mjs.
+
+     source            slime.html
+     radio groups      2 (c, b)
+     checkboxes        9
+     counters          draw, lines
+     :has() rules      22, 11 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#070b08; --card:#111a14; --card2:#16211a; --edge:#26332b;
+    --ink:#e9f5ec; --dim:#8aa894; --slime:#9ed45c; --deep:#42802c;
+    --gold:#e0b155; --bad:#e0705a; --good:#65d6a8; --cool:#6ec6ff; --plum:#8a6ab8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 16% 4%,rgba(158,212,92,.12),transparent 44%),
+      radial-gradient(circle at 86% 92%,rgba(66,128,44,.14),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:22px;letter-spacing:-.02em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--slime);border:1px solid var(--slime);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--slime);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.66;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b120d;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ------------------------------------------------------------ the wallet */
+  .wallet{background:linear-gradient(150deg,#1b2c18,#0e1710 60%,#111a14);
+    border:1px solid var(--edge);border-radius:16px;padding:17px 18px 16px;
+    position:relative;overflow:hidden}
+  .wallet::after{content:"";position:absolute;right:-50px;top:-60px;width:200px;
+    height:200px;border-radius:50%;
+    background:radial-gradient(circle,rgba(158,212,92,.2),transparent 68%)}
+  .wallet .who{font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim)}
+  .wallet .big{font:40px/1.06 ui-monospace,Menlo,monospace;color:var(--slime);
+    margin:9px 0 3px;letter-spacing:-.025em}
+  .wallet .big::after{content:" SLIME";font-size:14px;color:var(--dim);
+    letter-spacing:.12em}
+  .wallet .cap{font-size:12px;color:var(--dim)}
+  .wallet .cap b{color:var(--ink)}
+
+  .seg{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;min-width:132px;cursor:pointer;padding:11px 13px;
+    border-radius:10px;border:1px solid var(--edge);color:var(--dim);
+    font:11.5px/1.4 ui-monospace,monospace}
+  .seg label b{display:block;color:var(--ink);font-size:14px;margin-bottom:2px}
+  .seg input:checked+label{border-color:var(--slime);background:rgba(158,212,92,.10)}
+  .seg input:checked+label b{color:var(--slime)}
+  .seg input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .stack input{position:absolute;opacity:0;width:0;height:0}
+  .stack label{display:flex;align-items:baseline;gap:11px;cursor:pointer;
+    padding:11px 13px;border-radius:10px;border:1px solid var(--edge);font-size:13px}
+  .stack label .tick{width:15px;height:15px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);position:relative;top:2px}
+  .stack label .src{font:8.5px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim);display:block;margin-top:4px}
+  .stack label .amt{margin-left:auto;font:12.5px/1 ui-monospace,monospace;
+    color:var(--dim);align-self:center}
+  .stack input:checked+label{border-color:var(--slime);background:rgba(158,212,92,.08)}
+  .stack input:checked+label .tick{background:var(--slime);border-color:var(--slime);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--slime)}
+  .stack input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* ------------------------------------------------------------ the counters */
+  body{counter-reset:draw 0 lines 0}
+  #f-forge:checked +label{counter-increment:draw 4600  lines 1}
+  #f-yard:checked  +label{counter-increment:draw 2800  lines 1}
+  #f-train:checked +label{counter-increment:draw 9400  lines 1}
+  #f-crew:checked  +label{counter-increment:draw 6200  lines 1}
+  #f-run:checked   +label{counter-increment:draw 3100  lines 1}
+  #f-bridge:checked+label{counter-increment:draw 900   lines 1}
+  #f-paris:checked +label{counter-increment:draw 12500 lines 1}
+  #f-supply:checked+label{counter-increment:draw 8700  lines 1}
+  #f-keep:checked  +label{counter-increment:draw 400   lines 1}
+  .n-draw::after{content:counter(draw)}
+  .n-lines::after{content:counter(lines)}
+
+  /* capacity × bundle — nine cells, each worked out and written down.
+     This is the only honest way to print a difference here. */
+  .board:has(#c-seed:checked):has(#b-skel:checked) .left::after{content:"12,500"}
+  .board:has(#c-seed:checked):has(#b-work:checked) .left::after{content:"2,000"}
+  .board:has(#c-seed:checked):has(#b-full:checked) .left::after{content:"−28,600"}
+  .board:has(#c-work:checked):has(#b-skel:checked) .left::after{content:"42,500"}
+  .board:has(#c-work:checked):has(#b-work:checked) .left::after{content:"32,000"}
+  .board:has(#c-work:checked):has(#b-full:checked) .left::after{content:"1,400"}
+  .board:has(#c-fund:checked):has(#b-skel:checked) .left::after{content:"82,500"}
+  .board:has(#c-fund:checked):has(#b-work:checked) .left::after{content:"72,000"}
+  .board:has(#c-fund:checked):has(#b-full:checked) .left::after{content:"41,400"}
+  /* the one cell that does not balance */
+  .board:has(#c-seed:checked):has(#b-full:checked) .left{color:var(--bad)}
+  .over{display:none}
+  .board:has(#c-seed:checked):has(#b-full:checked) .over{display:block}
+
+  .heads{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .head{background:#0d140f;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--slime);margin-top:5px}
+
+  .warn{border:1px solid var(--bad);background:rgba(224,112,90,.09);
+    color:var(--bad);border-radius:10px;padding:11px 13px;margin-top:11px;
+    font-size:12px;line-height:1.6}
+  .warn b{color:var(--bad)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td .q{color:var(--dim);font-size:10.5px}
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:880px){.two{grid-template-columns:1fr}
+    .heads{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="c" id="c-seed"><label for="c-seed">20,000 seed</label>
+      <input type="radio" name="c" id="c-work" checked><label for="c-work">50,000 working</label>
+      <input type="radio" name="c" id="c-fund"><label for="c-fund">90,000 funded</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="b" id="b-skel"><label for="b-skel">7,500 skeleton — crew, bridge, upkeep</label>
+      <input type="radio" name="b" id="b-work" checked><label for="b-work">18,000 working — plus forge, yard, lane</label>
+      <input type="radio" name="b" id="b-full"><label for="b-full">48,600 everything</label>
+    </div>
+    <h2>TODO checkbox set <b>9</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="f-crew" checked><label for="f-crew">Complement and wages personnel.html 6,200</label>
+      <input type="checkbox" id="f-bridge" checked><label for="f-bridge">Contract and audit bridge.html 900</label>
+      <input type="checkbox" id="f-keep" checked><label for="f-keep">Board upkeep the arcade 400</label>
+      <input type="checkbox" id="f-forge"><label for="f-forge">Hull programme ship-forge.html 4,600</label>
+      <input type="checkbox" id="f-yard"><label for="f-yard">Slip 4 order desk station.html 2,800</label>
+      <input type="checkbox" id="f-run"><label for="f-run">Lane franchise and tariffs cruise-control.</label>
+      <input type="checkbox" id="f-train"><label for="f-train">The fleet train auxiliaries.html 9,400</label>
+      <input type="checkbox" id="f-supply"><label for="f-supply">Two supply paths, one cycle supply.html 8,</label>
+      <input type="checkbox" id="f-paris"><label for="f-paris">New Paris — lift and stores new-paris.html</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>draw</span><b class="n-draw"></b></div>
+      <div class="head m"><span>lines</span><b class="n-lines"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

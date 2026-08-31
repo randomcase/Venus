@@ -1,0 +1,189 @@
+<title>TEMPLATE &middot; The Fleet Train</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from auxiliaries.html by templatise.mjs.
+
+     source            auxiliaries.html
+     radio groups      1 (fil)
+     checkboxes        12
+     counters          n, tons, crew, lift, berth, days
+     :has() rules      4
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#080b0f; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --green:#78b843; --plum:#8a6ab8; --cream:#f2e9d6; --rose:#e58593;
+    --live:#65d6a8; --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--ink);background:var(--void);padding:16px;
+    font:13px/1.55 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 14% 8%,rgba(120,184,67,.07),transparent 44%),
+      radial-gradient(circle at 88% 92%,rgba(138,106,184,.07),transparent 42%)}
+
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:14px}
+  h1{margin:0;font-size:20px;letter-spacing:-.015em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:64ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--dim);margin:20px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px}
+  p.note{color:var(--dim);font-size:10.5px;line-height:1.62;margin:10px 0 0;
+    max-width:96ch}
+
+  /* ---------------------------------------------------------------- filter */
+  .filter{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
+  .filter input{position:absolute;opacity:0;width:0;height:0}
+  .filter label{font-size:11px;padding:5px 11px;border-radius:6px;cursor:pointer;
+    border:1px solid var(--edge);background:var(--card);color:var(--dim)}
+  .filter label:hover{color:var(--ink)}
+  .filter input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.10)}
+  .filter input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  .fleet{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+  .card{position:relative;transition:opacity .22s}
+  .card input{position:absolute;opacity:0;width:0;height:0}
+  .card label{display:block;cursor:pointer;height:100%;
+    background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:11px;padding:11px 12px 12px}
+  .card label:hover{border-color:#33465a}
+  .card input:checked+label{border-color:var(--gold);
+    box-shadow:0 0 0 1px rgba(224,177,85,.35)}
+  .card input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  .card .top{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+  .card .code{font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    color:var(--plum);border:1px solid var(--edge);border-radius:4px;padding:3px 6px}
+  .card h3{margin:0;font-size:14.5px;letter-spacing:-.01em}
+  .card .role{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .card input:checked+label .role{color:var(--gold)}
+  .card svg{display:block;width:100%;height:auto;margin:2px 0 8px}
+  .card p{margin:0 0 8px;font-size:11.5px;color:var(--dim);line-height:1.55}
+  .card dl{display:grid;grid-template-columns:1fr auto;gap:2px 10px;margin:0;
+    font-size:11px;font-variant-numeric:tabular-nums}
+  .card dt{color:var(--dim)}
+  .card dd{margin:0;text-align:right}
+  .card .cap{color:var(--gold)}
+
+  /* filtering: dim everything the chosen function does not cover */
+  .fleet:has(#f-sus:checked) .card:not(.g-sus),
+  .fleet:has(#f-eng:checked) .card:not(.g-eng),
+  .fleet:has(#f-ppl:checked) .card:not(.g-ppl),
+  .fleet:has(#f-nav:checked) .card:not(.g-nav){opacity:.2}
+
+  /* ---------------------------------------------------------------- totals */
+  body{counter-reset:n 0 tons 0 crew 0 lift 0 berth 0 days 0}
+  #a-oil:checked+label{counter-increment:n 1 tons 24600 crew 210 lift 16000 days 12}
+  #a-sto:checked+label{counter-increment:n 1 tons 12400 crew 148 lift 6800  days 21}
+  #a-amm:checked+label{counter-increment:n 1 tons 14800 crew 172 lift 7200  days 9}
+  #a-wat:checked+label{counter-increment:n 1 tons 9200  crew 96  lift 5400  days 14}
+  #a-rep:checked+label{counter-increment:n 1 tons 16200 crew 620 lift 1900  days 0}
+  #a-hos:checked+label{counter-increment:n 1 tons 11900 crew 340 lift 900   berth 480}
+  #a-tug:checked+label{counter-increment:n 1 tons 3100  crew 62  lift 400   days 0}
+  #a-frt:checked+label{counter-increment:n 1 tons 9400  crew 22  lift 6200  days 0}
+  #a-trp:checked+label{counter-increment:n 1 tons 18600 crew 260 lift 3400  berth 2400}
+  #a-sur:checked+label{counter-increment:n 1 tons 4800  crew 88  lift 600   days 0}
+  #a-cbl:checked+label{counter-increment:n 1 tons 7600  crew 104 lift 1800  days 0}
+  #a-dep:checked+label{counter-increment:n 1 tons 21400 crew 410 lift 4600  berth 900}
+
+  .totals{margin-top:16px;background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:11px;padding:13px 14px}
+  .heads{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+  .head{background:#0d151c;border:1px solid var(--edge);border-radius:9px;padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+    margin-top:5px}
+  .n-n::after{content:counter(n)}        .n-tons::after{content:counter(tons)}
+  .n-crew::after{content:counter(crew)}  .n-lift::after{content:counter(lift)}
+  .n-berth::after{content:counter(berth)}.n-days::after{content:counter(days)}
+
+  .march{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:8px;margin-top:14px}
+  .st{background:#0d151c;border:1px solid var(--edge);border-radius:9px;padding:9px 10px}
+  .st b{display:block;font-size:11.5px}
+  .st span{font:9px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .st.rear{border-color:var(--live)} .st.rear b{color:var(--live)}
+  .st.perp{border-color:var(--rose)} .st.perp b{color:var(--rose)}
+
+  @media (max-width:900px){.heads{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>5 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="fil" id="f-all" checked><label for="f-all">All twelve</label>
+      <input type="radio" name="fil" id="f-sus"><label for="f-sus">Sustainment</label>
+      <input type="radio" name="fil" id="f-eng"><label for="f-eng">Engineering</label>
+      <input type="radio" name="fil" id="f-ppl"><label for="f-ppl">People</label>
+      <input type="radio" name="fil" id="f-nav"><label for="f-nav">Navigation &amp;amp; signals</label>
+    </div>
+    <h2>TODO checkbox set <b>12</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="a-oil" checked><label for="a-oil">AO Cistern fuel Passes fuel to a hull unde</label>
+      <input type="checkbox" id="a-sto" checked><label for="a-sto">AF Granary victual Dry provisions, frozen </label>
+      <input type="checkbox" id="a-amm"><label for="a-amm">AE Magazine ordnance Conventional ordnance</label>
+      <input type="checkbox" id="a-wat"><label for="a-wat">AW Wellhead water Distils and carries. Twe</label>
+      <input type="checkbox" id="a-rep" checked><label for="a-rep">AR Anvil engineering Machine shop, foundry</label>
+      <input type="checkbox" id="a-hos"><label for="a-hos">AH Lantern medical Four hundred and eighty</label>
+      <input type="checkbox" id="a-tug" checked><label for="a-tug">ATS Bight towage Pulls hulls off ground, o</label>
+      <input type="checkbox" id="a-frt" checked><label for="a-frt">AK Threadneedle freight The peer interface</label>
+      <input type="checkbox" id="a-trp"><label for="a-trp">AP Cohort troops Twenty-four hundred berth</label>
+      <input type="checkbox" id="a-sur"><label for="a-sur">AGS Lodestone survey Finds the water befor</label>
+      <input type="checkbox" id="a-cbl"><label for="a-cbl">ARC Longwire signals Lays and lifts the li</label>
+      <input type="checkbox" id="a-dep"><label for="a-dep">AD Cold Harbour depot A base that arrived </label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>n</span><b class="n-n"></b></div>
+      <div class="head m"><span>tons</span><b class="n-tons"></b></div>
+      <div class="head m"><span>crew</span><b class="n-crew"></b></div>
+      <div class="head m"><span>lift</span><b class="n-lift"></b></div>
+      <div class="head m"><span>berth</span><b class="n-berth"></b></div>
+      <div class="head m"><span>days</span><b class="n-days"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

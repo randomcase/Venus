@@ -1,0 +1,215 @@
+<title>TEMPLATE &middot; New Paris · an outpost on Venus</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from new-paris.html by templatise.mjs.
+
+     source            new-paris.html
+     radio groups      2 (a, e)
+     checkboxes        8
+     counters          lift, mass, crew, vol
+     :has() rules      24, 9 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#0a0806; --card:#1a1410; --card2:#211a14; --edge:#3a2c22;
+    --ink:#f4ece2; --dim:#b09a86; --gold:#e0b155; --amber:#e8a34a;
+    --acid:#cbd36a; --sky:#e8c77a; --deep:#7a4a2c;
+    --green:#65d6a8; --red:#e0705a; --blue:#5b9ed6; --plum:#8a6ab8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.6 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 20% 4%,rgba(232,199,122,.10),transparent 44%),
+      radial-gradient(circle at 84% 92%,rgba(122,74,44,.14),transparent 46%)}
+  .wrap{max-width:1020px;margin:0 auto}
+
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:23px;letter-spacing:-.02em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:22px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.65;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--sky);background:#140f0b;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ------------------------------------------------------------- the view */
+  .view{position:relative;height:290px;border-radius:13px;overflow:hidden;
+    border:1px solid var(--edge)}
+  .view svg{display:block;width:100%;height:100%}
+  .drift{animation:drift 26s ease-in-out infinite}
+  @keyframes drift{50%{transform:translate(-16px,-9px)}}
+  .drift2{animation:drift 34s ease-in-out infinite reverse}
+  .bob{animation:bob 13s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-11px)}}
+  .blink{animation:bl 3.4s ease-in-out infinite}
+  .blink.d{animation-delay:1.7s}
+  @keyframes bl{0%,44%{opacity:.2}52%,62%{opacity:1}70%,100%{opacity:.2}}
+  @media (prefers-reduced-motion:reduce){.drift,.drift2,.bob,.blink{animation:none}}
+
+  /* the station rides at the altitude you choose */
+  .rig{transition:transform .6s cubic-bezier(.4,0,.2,1)}
+  .board:has(#a-50:checked) .rig{transform:translateY(52px)}
+  .board:has(#a-53:checked) .rig{transform:translateY(16px)}
+  .board:has(#a-56:checked) .rig{transform:translateY(-22px)}
+
+  /* ------------------------------------------------------------- controls */
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;min-width:120px;cursor:pointer;padding:11px 12px;
+    border-radius:10px;border:1px solid var(--edge);color:var(--dim);
+    font:11.5px/1.35 ui-monospace,monospace}
+  .seg label b{display:block;color:var(--ink);font-size:13px;margin-bottom:3px}
+  .seg input:checked+label{border-color:var(--gold);background:rgba(224,177,85,.10)}
+  .seg input:checked+label b{color:var(--gold)}
+  .seg input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .stack input{position:absolute;opacity:0;width:0;height:0}
+  .stack label{display:flex;align-items:baseline;gap:11px;cursor:pointer;
+    padding:11px 13px;border-radius:10px;border:1px solid var(--edge);font-size:13px}
+  .stack label .tick{width:15px;height:15px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);position:relative;top:2px}
+  .stack label .amt{margin-left:auto;font:12px/1 ui-monospace,monospace;color:var(--dim)}
+  .stack input:checked+label{border-color:var(--gold);background:rgba(224,177,85,.08)}
+  .stack input:checked+label .tick{background:var(--gold);border-color:var(--gold);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--gold)}
+  .stack input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* --------------------------------------------------------- the arithmetic
+     Lift is density difference times volume. CSS cannot multiply, so the nine
+     products — three altitudes by three envelopes — are written out and the
+     pair of choices selects one. The same trick the personnel board uses. */
+  body{counter-reset:lift 0 mass 0 crew 0 vol 0}
+  .board:has(#a-50:checked):has(#e-1:checked) .x{counter-increment:lift 56  vol 100}
+  .board:has(#a-50:checked):has(#e-2:checked) .x{counter-increment:lift 140 vol 250}
+  .board:has(#a-50:checked):has(#e-3:checked) .x{counter-increment:lift 280 vol 500}
+  .board:has(#a-53:checked):has(#e-1:checked) .x{counter-increment:lift 42  vol 100}
+  .board:has(#a-53:checked):has(#e-2:checked) .x{counter-increment:lift 105 vol 250}
+  .board:has(#a-53:checked):has(#e-3:checked) .x{counter-increment:lift 210 vol 500}
+  .board:has(#a-56:checked):has(#e-1:checked) .x{counter-increment:lift 28  vol 100}
+  .board:has(#a-56:checked):has(#e-2:checked) .x{counter-increment:lift 70  vol 250}
+  .board:has(#a-56:checked):has(#e-3:checked) .x{counter-increment:lift 140 vol 500}
+
+  /* what you are asking it to hold up */
+  #m-env:checked  +label{counter-increment:mass 18}
+  #m-deck:checked +label{counter-increment:mass 26}
+  #m-life:checked +label{counter-increment:mass 14}
+  #m-power:checked+label{counter-increment:mass 9}
+  #m-dock:checked +label{counter-increment:mass 22 }
+  #m-farm:checked +label{counter-increment:mass 31}
+  #m-crew:checked +label{counter-increment:mass 12 crew 40}
+  #m-lab:checked  +label{counter-increment:mass 8  crew 12}
+  .x{display:inline;font-size:0}
+  .n-lift::after{content:counter(lift)}  .n-mass::after{content:counter(mass)}
+  .n-crew::after{content:counter(crew)}  .n-vol::after{content:counter(vol)}
+
+  .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .head{background:#140f0b;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:23px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  .head.m b{color:var(--amber)}
+
+  /* conditions at the chosen altitude */
+  .cond{display:none;margin-top:11px;border-radius:10px;padding:11px 13px;
+    border:1px solid var(--edge);background:#140f0b;font-size:12px;line-height:1.62}
+  .board:has(#a-50:checked) .c50,
+  .board:has(#a-53:checked) .c53,
+  .board:has(#a-56:checked) .c56{display:block}
+  .cond b{color:var(--sky)}
+  .cond .warm{color:var(--red)} .cond .good{color:var(--green)}
+
+  table{width:100%;border-collapse:collapse;font-size:12px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:5px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td .q{color:var(--dim);font-size:10.5px}
+
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:880px){.two{grid-template-columns:1fr}
+    .heads{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="a" id="a-50"><label for="a-50">50 km 1.07 bar · 75 °C lift 0.56 kg/m³</label>
+      <input type="radio" name="a" id="a-53" checked><label for="a-53">53 km 0.76 bar · 50 °C lift 0.42 kg/m³</label>
+      <input type="radio" name="a" id="a-56"><label for="a-56">56 km 0.45 bar · 20 °C lift 0.28 kg/m³</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="e" id="e-1"><label for="e-1">100,000 m³ a quarter</label>
+      <input type="radio" name="e" id="e-2" checked><label for="e-2">250,000 m³ the arrondissement</label>
+      <input type="radio" name="e" id="e-3"><label for="e-3">500,000 m³ greater New Paris</label>
+    </div>
+    <h2>TODO checkbox set <b>8</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="m-env" checked><label for="m-env">Envelope and rigging 18 t</label>
+      <input type="checkbox" id="m-deck" checked><label for="m-deck">Habitat decks 26 t</label>
+      <input type="checkbox" id="m-life" checked><label for="m-life">Life support and scrubbers 14 t</label>
+      <input type="checkbox" id="m-power" checked><label for="m-power">Solar array and cells 9 t</label>
+      <input type="checkbox" id="m-dock"><label for="m-dock">Docking gantry 22 t</label>
+      <input type="checkbox" id="m-farm"><label for="m-farm">Growing decks 31 t</label>
+      <input type="checkbox" id="m-crew" checked><label for="m-crew">Complement, forty 12 t</label>
+      <input type="checkbox" id="m-lab"><label for="m-lab">Atmospheric laboratory 8 t</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>lift</span><b class="n-lift"></b></div>
+      <div class="head m"><span>mass</span><b class="n-mass"></b></div>
+      <div class="head m"><span>crew</span><b class="n-crew"></b></div>
+      <div class="head m"><span>vol</span><b class="n-vol"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

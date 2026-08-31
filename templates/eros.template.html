@@ -1,0 +1,164 @@
+<title>TEMPLATE &middot; The Parable of Eros and Psyche</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from eros.html by templatise.mjs.
+
+     source            eros.html
+     radio groups      1 (l)
+     checkboxes        0
+     counters          none
+     :has() rules      10
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --night:#0a0a10; --deep:#12121c; --edge:#2a2636; --ink:#f0ece6;
+    --dim:#9a92a8; --lamp:#f0b95c; --flame:#ffd98a; --ash:#5c5468;
+    --rose:#d98a94; --gold:#e0b155;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;color:var(--ink);background:var(--night);
+    font:15px/1.72 ui-serif,Georgia,'Times New Roman',serif;
+    display:grid;place-items:center;padding:22px 18px 40px;
+    background-image:
+      radial-gradient(circle at 50% 8%,rgba(240,185,92,.10),transparent 46%),
+      radial-gradient(circle at 82% 88%,rgba(217,138,148,.07),transparent 44%)}
+  .deck{width:min(760px,100%)}
+
+  /* --------------------------------------------------------------- panels */
+  .p{display:none;background:linear-gradient(180deg,var(--deep),#0d0d15);
+    border:1px solid var(--edge);border-radius:14px;padding:30px 32px 22px;
+    min-height:min(600px,84vh);position:relative;
+    box-shadow:0 24px 64px rgba(0,0,0,.6)}
+  .p:target{display:block}
+  body:not(:has(.p:target)) #p1{display:block}
+
+  .kicker{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--lamp);display:block;margin-bottom:16px}
+  h1{margin:0 0 10px;font-size:38px;line-height:1.1;letter-spacing:-.02em;
+    font-weight:500}
+  h2{margin:0 0 10px;font-size:25px;line-height:1.2;letter-spacing:-.015em;
+    font-weight:500}
+  p{max-width:62ch;color:#ded8e4}
+  p.dim{color:var(--dim);font-size:13.5px}
+  .lede{font-size:17px;color:var(--dim);max-width:58ch}
+  em{font-style:italic;color:var(--lamp)}
+  b{font-weight:600;color:#fff}
+
+  /* the myth, and the reading, are visibly different objects */
+  .myth{border-left:2px solid var(--ash);padding:2px 0 2px 16px;margin:18px 0;
+    color:#cfc8d8;font-size:14px;max-width:62ch}
+  .myth .t{font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--ash);display:block;margin-bottom:7px}
+  .read{border-left:2px solid var(--lamp);padding:2px 0 2px 16px;margin:18px 0;
+    color:#f2e6d2;font-size:14px;max-width:62ch}
+  .read .t{font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--lamp);display:block;margin-bottom:7px}
+
+  /* ------------------------------------------------------------ the switch
+     One control, and it is the whole argument. Thrown, he is Himeros and she
+     is unloved; released, he is Eros and she holds the goddess's place. */
+  .look{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;
+    flex-wrap:wrap;background:rgba(10,10,16,.86);backdrop-filter:blur(6px);
+    border:1px solid var(--edge);border-radius:12px;padding:11px 14px;
+    margin-bottom:14px}
+  .look input{position:absolute;opacity:0;width:0;height:0}
+  .look label{cursor:pointer;font:11px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;padding:11px 20px;border-radius:9px;
+    border:1px solid var(--edge);color:var(--dim)}
+  #look-off:checked+label{border-color:var(--lamp);color:var(--lamp);
+    background:rgba(240,185,92,.12)}
+  #look-on:checked+label{border-color:var(--rose);color:var(--rose);
+    background:rgba(217,138,148,.12)}
+  .look input:focus-visible+label{outline:2px solid var(--gold);outline-offset:3px}
+  .look .say{font-size:12px;color:var(--dim);max-width:40ch}
+
+  /* the two names, swapped by the switch */
+  .him,.her{font-style:normal;font-weight:600}
+  .deck:has(#look-off:checked) .him::after{content:"Eros";color:var(--lamp)}
+  .deck:has(#look-on:checked)  .him::after{content:"Himeros";color:var(--rose)}
+  .deck:has(#look-off:checked) .her::after{content:"Aphrodite";color:var(--lamp)}
+  .deck:has(#look-on:checked)  .her::after{content:"Psyche, unloved";color:var(--rose)}
+  .when-off{display:none} .when-on{display:none}
+  .deck:has(#look-off:checked) .when-off{display:block}
+  .deck:has(#look-on:checked)  .when-on{display:block}
+
+  /* the lamp goes out when you look — which is what happens in the story */
+  .flame{transform-origin:50% 100%;animation:flick 2.6s ease-in-out infinite}
+  @keyframes flick{
+    0%,100%{transform:scale(1) translateX(0);opacity:.95}
+    35%{transform:scale(1.08,.94) translateX(.6px);opacity:1}
+    70%{transform:scale(.94,1.06) translateX(-.6px);opacity:.85}}
+  .deck:has(#look-on:checked) .flame{animation:none;opacity:0}
+  .deck:has(#look-on:checked) .halo{opacity:0}
+  .deck:has(#look-on:checked) .smoke{opacity:.7}
+  .smoke{opacity:0;transition:opacity .6s}
+  .halo{transition:opacity .5s}
+  @media (prefers-reduced-motion:reduce){.flame{animation:none}}
+
+  figure{margin:20px 0 0;text-align:center}
+  figure svg{width:100%;max-width:400px;height:auto}
+  figcaption{font:10px/1.6 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ash);margin-top:9px}
+
+  /* ---------------------------------------------------------- navigation */
+  .nav{position:absolute;left:32px;right:32px;bottom:20px;display:flex;
+    align-items:center;gap:10px}
+  .nav a{font:10.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;text-decoration:none;color:var(--dim);
+    border:1px solid var(--edge);border-radius:7px;padding:8px 14px}
+  .nav a:hover{color:var(--lamp);border-color:var(--lamp)}
+  .nav a.p1{background:var(--lamp);color:#14121a;border-color:var(--lamp);
+    font-weight:700}
+  .nav .no{margin-left:auto;font:10.5px ui-monospace,monospace;color:var(--ash)}
+  .dots{display:flex;gap:7px;justify-content:center;margin-top:14px}
+  .dots a{width:9px;height:9px;border-radius:50%;background:#241f30;
+    border:1px solid var(--edge);display:block}
+  .dots a:hover{background:var(--lamp)}
+
+  @media (max-width:640px){
+    h1{font-size:29px} .p{padding:22px 18px 78px;min-height:0}
+    .nav{left:18px;right:18px;flex-wrap:wrap}
+  }
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="l" id="look-off" checked><label for="look-off">Look away</label>
+      <input type="radio" name="l" id="look-on"><label for="look-on">Look at her</label>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

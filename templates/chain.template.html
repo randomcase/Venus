@@ -1,0 +1,192 @@
+<title>TEMPLATE &middot; The Chain · B2 · P2P · 2B</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from chain.html by templatise.mjs.
+
+     source            chain.html
+     radio groups      3 (a, b, c)
+     checkboxes        0
+     counters          none
+     :has() rules      15
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --red:#e0705a; --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8;
+    --plum:#8a6ab8; --earth:#5b9ed6; --venus:#e8a34a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 46px;color:var(--ink);background:var(--void);
+    font:13.5px/1.64 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 10% 4%,rgba(91,158,214,.10),transparent 42%),
+      radial-gradient(circle at 90% 92%,rgba(232,163,74,.10),transparent 42%)}
+  .wrap{max-width:1040px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.018em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.66;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+  /* ------------------------------------------------------------- the legs */
+  .legs{display:grid;gap:12px;grid-template-columns:repeat(3,1fr)}
+  @media (max-width:860px){.legs{grid-template-columns:1fr}}
+  .leg{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px;
+    position:relative}
+  .leg .code{font:9px/1 ui-monospace,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--plum)}
+  .leg h3{margin:5px 0 2px;font-size:17px;letter-spacing:-.012em}
+  .leg .where{font-size:11px;color:var(--dim);margin-bottom:11px}
+  .leg.b2{border-color:rgba(91,158,214,.5)}
+  .leg.b2 .code{color:var(--earth)}
+  .leg.p2p{border-color:rgba(138,106,184,.5)}
+  .leg.b2b{border-color:rgba(232,163,74,.5)}
+  .leg.b2b .code{color:var(--venus)}
+
+  .rack{display:flex;gap:7px;margin-bottom:11px}
+  .rack i{width:24px;height:24px;border-radius:50%;border:1px solid #0b1116;
+    background:#141c24;display:block;transition:background .2s,box-shadow .2s}
+  .rack i.absent{background:#0c1116;border-style:dashed;border-color:#22303c;
+    position:relative}
+  .rack i.absent::after{content:"";position:absolute;inset:5px 4px;
+    border-top:1px solid #33414e;transform:rotate(-45deg)}
+
+  .opts{display:flex;gap:5px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:10.5px/1 ui-monospace,monospace;padding:9px 12px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+  #a-stop:checked+label{border-color:var(--red);color:var(--red);
+    background:rgba(224,112,90,.14);font-weight:700}
+  #a-slow:checked+label,#b-slow:checked+label{border-color:var(--yellow);
+    color:var(--yellow);background:rgba(232,194,92,.12);font-weight:700}
+  #a-cruise:checked+label,#b-cruise:checked+label,#c-cruise:checked+label{
+    border-color:var(--blue);color:var(--blue);
+    background:rgba(91,158,214,.14);font-weight:700}
+  #a-full:checked+label,#b-full:checked+label,#c-full:checked+label{
+    border-color:var(--green);color:var(--green);
+    background:rgba(101,214,168,.14);font-weight:700}
+
+  /* lamps follow the selection, per leg */
+  .board:has(#a-stop:checked)   .b2 .l-r{background:var(--red);box-shadow:0 0 11px var(--red)}
+  .board:has(#a-slow:checked)   .b2 .l-y{background:var(--yellow);box-shadow:0 0 11px var(--yellow)}
+  .board:has(#a-cruise:checked) .b2 .l-b{background:var(--blue);box-shadow:0 0 11px var(--blue)}
+  .board:has(#a-full:checked)   .b2 .l-g{background:var(--green);box-shadow:0 0 11px var(--green)}
+  .board:has(#b-slow:checked)   .p2p .l-y{background:var(--yellow);box-shadow:0 0 11px var(--yellow)}
+  .board:has(#b-cruise:checked) .p2p .l-b{background:var(--blue);box-shadow:0 0 11px var(--blue)}
+  .board:has(#b-full:checked)   .p2p .l-g{background:var(--green);box-shadow:0 0 11px var(--green)}
+  .board:has(#c-cruise:checked) .b2b .l-b{background:var(--blue);box-shadow:0 0 11px var(--blue)}
+  .board:has(#c-full:checked)   .b2b .l-g{background:var(--green);box-shadow:0 0 11px var(--green)}
+
+  /* what each leg cannot say */
+  .cant{margin-top:11px;border-top:1px solid var(--edge);padding-top:9px;
+    font-size:11px;color:var(--dim);line-height:1.6}
+  .cant b{color:var(--red)}
+
+  /* stop at B2 empties the legs downstream — nothing is in transit to pace */
+  .idle{display:none;position:absolute;inset:auto 15px 15px;font:9px/1.6
+    ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--red);border:1px dashed rgba(224,112,90,.5);border-radius:7px;
+    padding:8px 10px;background:rgba(224,112,90,.07)}
+  .board:has(#a-stop:checked) .p2p .idle,
+  .board:has(#a-stop:checked) .b2b .idle{display:block}
+  .board:has(#a-stop:checked) .p2p .opts,
+  .board:has(#a-stop:checked) .b2b .opts{opacity:.28;pointer-events:none}
+  .board:has(#a-stop:checked) .p2p .rack i,
+  .board:has(#a-stop:checked) .b2b .rack i{background:#141c24;box-shadow:none}
+
+  /* ---------------------------------------------------------------- tiers */
+  .tiers{display:grid;gap:10px;grid-template-columns:repeat(4,1fr);margin-top:12px}
+  @media (max-width:760px){.tiers{grid-template-columns:repeat(2,1fr)}}
+  .tier{background:#0d151c;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .tier span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .tier b{display:block;font:23px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  .tier.t1 b{color:var(--earth)} .tier.t2 b{color:var(--plum)}
+  .tier.t3 b{color:var(--venus)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td.no{color:var(--red)}
+  tr.sum td{border-top:1.5px solid var(--gold);font-weight:700}
+  tr.sum td:last-child{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px;margin-top:14px}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="a" id="a-stop"><label for="a-stop">stop</label>
+      <input type="radio" name="a" id="a-slow"><label for="a-slow">slow</label>
+      <input type="radio" name="a" id="a-cruise" checked><label for="a-cruise">cruise</label>
+      <input type="radio" name="a" id="a-full"><label for="a-full">full</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="b" id="b-slow"><label for="b-slow">slow</label>
+      <input type="radio" name="b" id="b-cruise" checked><label for="b-cruise">cruise</label>
+      <input type="radio" name="b" id="b-full"><label for="b-full">full</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="c" id="c-cruise" checked><label for="c-cruise">cruise</label>
+      <input type="radio" name="c" id="c-full"><label for="c-full">full</label>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

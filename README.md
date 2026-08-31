@@ -125,6 +125,18 @@ node generate.mjs                 # the three authored boards in boards/
 node generate.mjs --count 1000    # 1000 procedural boards, deterministic
 ```
 
+Every authored page also has a template extracted from it:
+
+```bash
+node templatise.mjs               # writes templates/ — 33 of them
+```
+
+These are not husks. Each keeps its source page's entire stylesheet and every
+input id, so it works the moment you open it — the counters count and the
+`:has()` rules fire before you change anything. What was stripped is the prose.
+Do not rename the ids: every rule points at them by name, and a renamed id fails
+silently.
+
 And the one piece that is not HTML at all:
 
 ```bash

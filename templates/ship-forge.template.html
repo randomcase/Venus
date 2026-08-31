@@ -1,0 +1,159 @@
+<title>TEMPLATE &middot; Ship Forge</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from ship-forge.html by templatise.mjs.
+
+     source            ship-forge.html
+     radio groups      0
+     checkboxes        0
+     counters          none
+     :has() rules      0
+     script            YES — the source page runs script; this template does not carry it
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --ground:#0c0f12; --panel:#141a1f; --panel2:#1a222a; --edge:#26313a;
+    --ink:#e8eef2; --dim:#8797a3; --gold:#d0a445; --live:#6fbf9b;
+    --warn:#d4614c; --cool:#4fa8ff;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#f1f0eb; --panel:#fff; --panel2:#f7f6f1; --edge:#dcd7cd;
+      --ink:#151a1e; --dim:#67717b; --gold:#8a6a1e; --live:#2c7a5c;
+      --warn:#9a3f30; --cool:#2f6f9e;
+    }
+  }
+  :root[data-theme="light"]{
+    --ground:#f1f0eb; --panel:#fff; --panel2:#f7f6f1; --edge:#dcd7cd;
+    --ink:#151a1e; --dim:#67717b; --gold:#8a6a1e; --live:#2c7a5c;
+    --warn:#9a3f30; --cool:#2f6f9e;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--ground);color:var(--ink);overflow:hidden;
+    font:13px/1.5 ui-rounded,system-ui,-apple-system,sans-serif}
+  .app{display:grid;grid-template-columns:272px 1fr 308px;height:100vh;gap:1px;
+    background:var(--edge)}
+  .col{background:var(--ground);overflow:auto;padding:12px}
+  .stage{background:var(--ground);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden}
+  canvas{max-width:100%;max-height:62vh}
+
+  h1{margin:0 0 2px;font-size:17px;letter-spacing:-.01em}
+  .sub{color:var(--dim);font-size:11px;margin:0 0 12px}
+  h3{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+    margin:16px 0 7px;font-weight:600;display:flex;justify-content:space-between}
+  h3:first-of-type{margin-top:0}
+  h3 span{color:var(--gold);letter-spacing:0;text-transform:none;font-size:10.5px}
+
+  .slot{margin-bottom:9px}
+  .slot .lbl{font-size:10.5px;color:var(--dim);margin-bottom:3px;display:flex;
+    justify-content:space-between}
+  .slot .lbl b{color:var(--ink);font-weight:600}
+  .opts{display:flex;flex-wrap:wrap;gap:3px}
+  .opts button{font:inherit;font-size:10.5px;background:var(--panel);color:var(--ink);
+    border:1px solid var(--edge);border-radius:5px;padding:3px 8px;cursor:pointer}
+  .opts button.on{border-color:var(--gold);color:var(--gold);background:var(--panel2)}
+
+  .sw{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+  .sw button{width:26px;height:26px;border-radius:5px;border:2px solid transparent;
+    cursor:pointer;padding:0}
+  .sw button.on{border-color:var(--ink)}
+  .rowlbl{font-size:10.5px;color:var(--dim);margin-bottom:3px}
+
+  input[type=range]{width:100%;accent-color:var(--gold)}
+  input.t{width:100%;font:inherit;font-size:11px;padding:6px 8px;border-radius:6px;
+    border:1px solid var(--edge);background:var(--panel);color:var(--ink)}
+  input.w{font-family:ui-monospace,Menlo,monospace}
+  #wout{margin-top:5px;font:10px/1.55 ui-monospace,monospace;color:var(--dim);
+    word-break:break-all}
+
+  .stat{display:flex;justify-content:space-between;align-items:baseline;
+    font-size:11.5px;padding:3px 0;border-bottom:1px solid var(--edge)}
+  .stat:last-child{border-bottom:0}
+  .stat b{font-variant-numeric:tabular-nums}
+  .stat.good b{color:var(--live)} .stat.bad b{color:var(--warn)}
+  .meter{height:3px;background:var(--panel2);border-radius:2px;margin:3px 0 6px;overflow:hidden}
+  .meter i{display:block;height:100%;background:var(--gold)}
+  .meter.over i{background:var(--warn)}
+
+  table.bom{width:100%;border-collapse:collapse;font-size:11px;
+    font-variant-numeric:tabular-nums}
+  table.bom td{padding:2.5px 0;border-bottom:1px solid var(--edge)}
+  table.bom td:last-child{text-align:right;color:var(--dim)}
+  table.bom tr.tot td{border-bottom:0;border-top:1px solid var(--edge);
+    padding-top:5px;font-weight:700}
+  table.bom tr.tot td:last-child{color:var(--gold)}
+
+  .bar{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;padding:0 12px}
+  .bar button{font:inherit;font-size:11.5px;background:var(--panel);color:var(--ink);
+    border:1px solid var(--edge);border-radius:6px;padding:6px 12px;cursor:pointer}
+  .bar button.p{background:var(--gold);color:#141a1e;border-color:var(--gold);font-weight:650}
+  .bar button.on{border-color:var(--gold);color:var(--gold)}
+
+  .fleet{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;padding:0 12px 12px;
+    max-width:840px}
+  .fleet button{font:inherit;font-size:10px;background:var(--panel);color:var(--dim);
+    border:1px solid var(--edge);border-radius:5px;padding:4px 7px;cursor:pointer;
+    text-align:left;line-height:1.35;min-width:76px}
+  .fleet button.full{color:var(--ink)}
+  .fleet button i{display:block;font-style:normal;font-size:8.5px;color:var(--gold);
+    letter-spacing:.08em;text-transform:uppercase}
+
+  .rates{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+  .rates label{font-size:9.5px;color:var(--dim);display:block}
+  input.n{margin-top:2px;font-variant-numeric:tabular-nums}
+  #fleetval{font-size:10.5px;color:var(--dim);margin-top:7px;line-height:1.6}
+  #fleetval b{color:var(--ink);font-variant-numeric:tabular-nums}
+  #fleetval em{font-style:normal;color:var(--gold)}
+
+  .name{font-size:15px;font-weight:650;text-align:center}
+  .name span{color:var(--dim);font-weight:400;font-size:11px}
+  .say{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-size:11.5px;
+    background:var(--panel);border:1px solid var(--edge);border-radius:7px;padding:5px 13px;
+    opacity:0;transition:opacity .2s;pointer-events:none;z-index:3}
+  .say.on{opacity:1}
+  .tiny{font-size:10px;color:var(--dim);line-height:1.55;margin-top:8px}
+  .exc{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);
+    border:1px solid var(--gold);border-radius:4px;padding:2px 6px;display:inline-block;
+    margin-bottom:6px}
+  @media (max-width:1080px){
+    .app{grid-template-columns:1fr;grid-template-rows:auto 56vh auto;height:auto}
+    body{overflow:auto}
+  }
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

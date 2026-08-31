@@ -1,0 +1,172 @@
+<title>TEMPLATE &middot; Convoy · two at a time</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from convoy.html by templatise.mjs.
+
+     source            convoy.html
+     radio groups      1 (o)
+     checkboxes        4
+     counters          pairs, hulls, units
+     :has() rules      27, 12 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --green:#65d6a8; --red:#e0705a; --blue:#5b9ed6; --yellow:#e8c25c;
+    --plum:#8a6ab8; --cream:#f2e9d6; --hull:#78b843;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 40px;color:var(--ink);background:var(--void);
+    font:13.5px/1.6 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 12% 8%,rgba(120,184,67,.08),transparent 44%),
+      radial-gradient(circle at 88% 92%,rgba(138,106,184,.09),transparent 42%)}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:20px;letter-spacing:-.015em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:72ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:20px 0 9px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.64;margin:10px 0 0;
+    max-width:98ch}
+  code{font:10.5px ui-monospace,monospace;color:var(--cream);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+  /* ---------------------------------------------------------------- the sea */
+  .sea{position:relative;height:210px;border-radius:12px;overflow:hidden;
+    border:1px solid var(--edge);
+    background:linear-gradient(180deg,#0c1620,#081018 60%,#060c12)}
+  .lane{position:absolute;left:0;right:0;height:46px}
+  .lane.l1{top:6px} .lane.l2{top:56px} .lane.l3{top:106px} .lane.l4{top:156px}
+  .lane::before{content:"";position:absolute;left:2%;right:2%;top:50%;height:1px;
+    background:repeating-linear-gradient(90deg,#22303d 0 10px,transparent 10px 22px)}
+  .pair{position:absolute;left:0;top:4px;display:flex;gap:12px;
+    opacity:.16;transition:opacity .3s;
+    animation:sail 17s linear infinite}
+  .pair.p2{animation-delay:-4.25s} .pair.p3{animation-delay:-8.5s}
+  .pair.p4{animation-delay:-12.75s}
+  @keyframes sail{from{left:-150px}to{left:100%}}
+  .pair svg{display:block;width:64px;height:24px}
+  .tag2{position:absolute;left:8px;top:4px;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--dim);z-index:2}
+  @media (prefers-reduced-motion:reduce){.pair{animation:none;left:24%}}
+
+  /* ------------------------------------------------------- the rank chain */
+  .spqr{border:1px solid var(--plum);border-radius:13px;padding:13px 14px;
+    margin-top:16px}
+  .sgt{border:1px solid var(--blue);border-radius:11px;padding:12px 13px;
+    margin-top:12px}
+  .cpl{border:1px solid var(--green);border-radius:10px;padding:12px 13px;
+    margin-top:12px}
+  .rk{font:9px/1 ui-monospace,monospace;letter-spacing:.2em;text-transform:uppercase;
+    display:flex;justify-content:space-between;margin-bottom:8px}
+  .spqr>.rk{color:var(--plum)} .sgt>.rk{color:var(--blue)} .cpl>.rk{color:var(--green)}
+  .rk em{font-style:normal;color:var(--dim)}
+  .row{display:flex;gap:6px;flex-wrap:wrap}
+  .row input{position:absolute;opacity:0;width:0;height:0}
+  .row label{cursor:pointer;font:11px/1 ui-monospace,monospace;padding:9px 14px;
+    border-radius:8px;border:1px solid var(--edge);color:var(--dim)}
+  .row label:hover{color:var(--ink)}
+  .row input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .row input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+  .row input:disabled+label{opacity:.3;cursor:not-allowed}
+
+  /* Which pairs are lit. Every rule names the standing order first and the
+     release second — a release with no standing order above it matches
+     nothing, so it cannot light anything. */
+  .board:has(#o-2:checked):has(#r-a:checked) .g1,
+  .board:has(#o-4:checked):has(#r-a:checked) .g1,
+  .board:has(#o-2:checked):has(#r-b:checked) .g2,
+  .board:has(#o-4:checked):has(#r-b:checked) .g2,
+  .board:has(#o-4:checked):has(#r-c:checked) .g3,
+  .board:has(#o-4:checked):has(#r-d:checked) .g4{opacity:1}
+
+  /* the standing order also caps what the sergeant may even ask for */
+  .board:has(#o-0:checked) .sgt .row label{opacity:.3;pointer-events:none}
+  .board:has(#o-2:checked) .rel-c label,
+  .board:has(#o-2:checked) .rel-d label{opacity:.3;pointer-events:none}
+
+  /* the corporal's return */
+  body{counter-reset:pairs 0 hulls 0 units 0}
+  .board:has(#o-2:checked):has(#r-a:checked) .c1,
+  .board:has(#o-4:checked):has(#r-a:checked) .c1,
+  .board:has(#o-2:checked):has(#r-b:checked) .c2,
+  .board:has(#o-4:checked):has(#r-b:checked) .c2,
+  .board:has(#o-4:checked):has(#r-c:checked) .c3,
+  .board:has(#o-4:checked):has(#r-d:checked) .c4
+    {counter-increment:pairs 1 hulls 2 units 4}
+  .c{display:inline;font-size:0}
+  .n-pairs::after{content:counter(pairs)}
+  .n-hulls::after{content:counter(hulls)}
+  .n-units::after{content:counter(units)}
+
+  .heads{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+  .head{background:#0d151c;border:1px solid var(--edge);border-radius:9px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  @media (max-width:640px){.heads{grid-template-columns:1fr 1fr}}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="o" id="o-0"><label for="o-0">No sailings</label>
+      <input type="radio" name="o" id="o-2" checked><label for="o-2">Two pairs may sail</label>
+      <input type="radio" name="o" id="o-4"><label for="o-4">Four pairs may sail</label>
+    </div>
+    <h2>TODO checkbox set <b>4</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="r-a" checked><label for="r-a">Release pair one</label>
+      <input type="checkbox" id="r-b"><label for="r-b">Release pair two</label>
+      <input type="checkbox" id="r-c"><label for="r-c">Release pair three</label>
+      <input type="checkbox" id="r-d"><label for="r-d">Release pair four</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>pairs</span><b class="n-pairs"></b></div>
+      <div class="head m"><span>hulls</span><b class="n-hulls"></b></div>
+      <div class="head m"><span>units</span><b class="n-units"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

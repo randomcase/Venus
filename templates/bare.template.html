@@ -1,0 +1,120 @@
+<title>TEMPLATE &middot; Bare</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from bare.html by templatise.mjs.
+
+     source            bare.html
+     radio groups      3 (n, s, g)
+     checkboxes        1
+     counters          total
+     :has() rules      5
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  /* Three colours and a font. That is the entire design system. */
+  :root{ --bg:#0d1117; --ink:#e6edf3; --dim:#8b949e; --hit:#e0b155 }
+  body{ margin:0; padding:24px; background:var(--bg); color:var(--ink);
+        font:15px/1.6 system-ui, sans-serif; max-width:44rem }
+  h1{ font-size:20px; margin:0 0 4px }
+  p{ color:var(--dim); max-width:60ch }
+  hr{ border:0; border-top:1px solid #30363d; margin:24px 0 }
+
+  /* Hide the real inputs, style their labels. The input still works —
+     it is just invisible. This is the whole trick behind every control. */
+  input{ position:absolute; opacity:0 }
+  label{ display:inline-block; cursor:pointer; padding:8px 14px; margin:2px;
+         border:1px solid #30363d; border-radius:6px; color:var(--dim) }
+  input:checked + label{ border-color:var(--hit); color:var(--hit) }
+  /* Keyboard users need to see where they are. Never delete this. */
+  input:focus-visible + label{ outline:2px solid #6ec6ff; outline-offset:2px }
+
+  /* 1 — COUNTING.
+     Declare the counter once. Each checked option adds to it. Print it with
+     ::after. The catch: a counter can only be printed AFTER the things that
+     increment it, so inputs go first in the HTML and totals go last. */
+  body{ counter-reset:total 0 }
+  #a:checked + label{ counter-increment:total 1 }
+  #b:checked + label{ counter-increment:total 2 }
+  #c:checked + label{ counter-increment:total 4 }
+  #extra:checked + label{ counter-increment:total 10 }
+  .total::after{ content:counter(total); color:var(--hit); font-size:28px }
+
+  /* 2 — STATE.
+     :has() lets an ancestor react to what is inside it. So a hidden radio can
+     change anything else on the page. Scope from an element that contains BOTH
+     the input and the thing you are changing — here, body. */
+  .off{ display:none }
+  body:has(#no:checked) .on{ display:none }
+  body:has(#no:checked) .off{ display:block }
+
+  /* 3 — ORDER IS AUTHORITY.
+     Equally specific rules resolve by which came last. So the rule that must
+     win goes at the bottom. Swap these two lines and the stop stops working. */
+  .dot{ width:20px; height:20px; border-radius:4px; background:#6ec6ff;
+        animation:slide 2s linear infinite alternate }
+  @keyframes slide{ to{ transform:translateX(180px) } }
+  body:has(#fast:checked) .dot{ animation-duration:.6s }
+  body:has(#stop:checked) .dot{ animation-play-state:paused; background:#e0705a }
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="n" id="a"><label for="a">1</label>
+      <input type="radio" name="n" id="b" checked><label for="b">2</label>
+      <input type="radio" name="n" id="c"><label for="c">4</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="s" id="yes" checked><label for="yes">On</label>
+      <input type="radio" name="s" id="no"><label for="no">Off</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="g" id="go" checked><label for="go">Go</label>
+      <input type="radio" name="g" id="fast"><label for="fast">Fast</label>
+      <input type="radio" name="g" id="stop"><label for="stop">Stop</label>
+    </div>
+    <h2>TODO checkbox set <b>1</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="extra"><label for="extra">+10</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>total</span><b>&mdash; not printed by this page</b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

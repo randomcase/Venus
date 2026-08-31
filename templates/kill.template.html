@@ -1,0 +1,195 @@
+<title>TEMPLATE &middot; Kill Switch · and the fourth lamp</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from kill.html by templatise.mjs.
+
+     source            kill.html
+     radio groups      2 (a, x)
+     checkboxes        2
+     counters          none
+     :has() rules      22, 3 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --red:#e0705a; --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8;
+    --plum:#8a6ab8; --cyan:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.6 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:radial-gradient(circle at 50% 0%,rgba(224,112,90,.07),transparent 46%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.018em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:72ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:22px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.65;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ------------------------------------------------------------- the lane */
+  .lane{position:relative;height:120px;border-radius:12px;overflow:hidden;
+    border:1px solid var(--edge);
+    background:linear-gradient(90deg,#0d1a16,#0b1119 30%,#0b1119 70%,#141020)}
+  .lane::before{content:"";position:absolute;left:3%;right:3%;top:50%;height:1px;
+    background:repeating-linear-gradient(90deg,#22303d 0 10px,transparent 10px 22px)}
+  .ship{position:absolute;top:50%;margin-top:-12px;left:0;width:64px;
+    animation:run 15s linear infinite}
+  .ship svg{display:block;width:64px;height:24px}
+  .ship.s2{animation-delay:-5s} .ship.s3{animation-delay:-10s}
+  @keyframes run{from{left:-70px}to{left:100%}}
+  .board:has(#k-arm:checked):has(#k-throw:checked) .ship
+    {animation-play-state:paused;filter:grayscale(1)}
+  @media (prefers-reduced-motion:reduce){.ship{animation:none}}
+
+  /* --------------------------------------------------------------- lamps */
+  .rack{display:flex;gap:9px;align-items:center;margin:12px 0 4px}
+  .rack i{width:26px;height:26px;border-radius:50%;border:1px solid #0b1116;
+    background:#141c24;display:block;transition:background .2s,box-shadow .2s}
+  .rack .lbl{font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-left:6px}
+  /* aspects light the first three */
+  .board:has(#a-slow:checked)   .l-y{background:var(--yellow);box-shadow:0 0 12px var(--yellow)}
+  .board:has(#a-cruise:checked) .l-b{background:var(--blue);box-shadow:0 0 12px var(--blue)}
+  .board:has(#a-full:checked)   .l-g{background:var(--green);box-shadow:0 0 12px var(--green)}
+  /* the fourth lamp takes the colour of whatever it is being used for */
+  .board:has(#x-tow:checked)  .l-x{background:var(--gold);box-shadow:0 0 12px var(--gold)}
+  .board:has(#x-pow:checked)  .l-x{background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+  .board:has(#x-med:checked)  .l-x{background:#f2f2f2;box-shadow:0 0 12px #fff}
+  .board:has(#x-cut:checked)  .l-x{background:var(--red);box-shadow:0 0 12px var(--red)}
+  /* thrown, it overrides whatever the fourth lamp was doing — written last */
+  .board:has(#k-arm:checked):has(#k-throw:checked) .l-x{background:var(--red);
+    box-shadow:0 0 18px var(--red);animation:flash 1s steps(1) infinite}
+  @keyframes flash{50%{background:#3a1a16;box-shadow:none}}
+
+  /* ------------------------------------------------------------ controls */
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;min-width:104px;text-align:center;cursor:pointer;
+    padding:11px 10px;border-radius:9px;border:1px solid var(--edge);
+    color:var(--dim);font:11.5px/1 ui-monospace,monospace}
+  .seg input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .seg input:focus-visible+label{outline:2px solid var(--cyan);outline-offset:2px}
+
+  /* the cut: two actions, and the second is only reachable after the first */
+  .cut{border:1px solid var(--red);border-radius:12px;padding:14px 15px;
+    background:rgba(224,112,90,.05);margin-top:14px}
+  .cut input{position:absolute;opacity:0;width:0;height:0}
+  .cut .arm,.cut .throw{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .cut .throw{margin-top:11px}
+  .cut label{cursor:pointer;font:12px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;padding:13px 24px;border-radius:9px;
+    border:1px solid var(--edge);color:var(--dim)}
+  .cut label.big{font-size:14px;font-weight:700;padding:16px 34px}
+  #k-arm:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.14)}
+  #k-throw:checked+label{border-color:var(--red);background:var(--red);color:#12181d}
+  .cut input:focus-visible+label{outline:2px solid var(--cyan);outline-offset:3px}
+  /* the interlock. Unarmed, the throw is not clickable — and it is written
+     after the styles above so it wins whatever else is set. */
+  /* Unarmed, the throw is out of reach by BOTH routes: pointer-events stops a
+     mouse, and visibility:hidden on the input takes it out of the tab order —
+     because an interlock a keyboard can walk around is decoration. Every
+     consequence of the cut also names the arm, so even a restored form state
+     cannot produce a cut that was never armed. */
+  .board:not(:has(#k-arm:checked)) .throw label{opacity:.32;pointer-events:none}
+  .board:not(:has(#k-arm:checked)) #k-throw{visibility:hidden}
+  .cut .said{font-size:11.5px;color:var(--dim);max-width:52ch}
+
+  .state{display:none;border-radius:10px;padding:11px 13px;margin-top:12px;
+    border:1px solid;font-size:12px;line-height:1.6}
+  .board:not(:has(#k-arm:checked)) .st-safe{display:block}
+  .board:has(#k-arm:checked):not(:has(#k-throw:checked)) .st-armed{display:block}
+  .board:has(#k-arm:checked):has(#k-throw:checked) .st-cut{display:block}
+  .st-safe{border-color:var(--green);background:rgba(101,214,168,.07);color:var(--green)}
+  .st-armed{border-color:var(--gold);background:rgba(224,177,85,.08);color:var(--gold)}
+  .st-cut{border-color:var(--red);background:rgba(224,112,90,.10);color:var(--red)}
+  .state b{color:inherit}
+
+  /* the fourth lamp's four jobs, one at a time */
+  .job{display:none;margin-top:11px;font-size:12px;color:var(--dim);line-height:1.6}
+  .board:has(#x-tow:checked) .j-tow,
+  .board:has(#x-pow:checked) .j-pow,
+  .board:has(#x-med:checked) .j-med,
+  .board:has(#x-cut:checked) .j-cut{display:block}
+  .job b{color:var(--ink)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px;
+    font-variant-numeric:tabular-nums}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 7px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:860px){.two{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="a" id="a-slow"><label for="a-slow">Slow</label>
+      <input type="radio" name="a" id="a-cruise" checked><label for="a-cruise">Cruise</label>
+      <input type="radio" name="a" id="a-full"><label for="a-full">Full</label>
+    </div>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="x" id="x-tow" checked><label for="x-tow">Tow</label>
+      <input type="radio" name="x" id="x-pow"><label for="x-pow">Power</label>
+      <input type="radio" name="x" id="x-med"><label for="x-med">Medical</label>
+      <input type="radio" name="x" id="x-cut"><label for="x-cut">Cut standing by</label>
+    </div>
+    <h2>TODO checkbox set <b>2</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="k-arm"><label for="k-arm">1 · Arm</label>
+      <input type="checkbox" id="k-throw"><label for="k-throw">2 · Throw the cut</label>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

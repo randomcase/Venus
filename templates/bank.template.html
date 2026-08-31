@@ -1,0 +1,206 @@
+<title>TEMPLATE &middot; Mobile Bank · the syndicate's ledger</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from bank.html by templatise.mjs.
+
+     source            bank.html
+     radio groups      1 (v)
+     checkboxes        4
+     counters          cr, dr, lane, wage, fuel, berth, fee
+     :has() rules      2
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --green:#65d6a8; --red:#e0705a; --blue:#5b9ed6; --yellow:#e8c25c;
+    --plum:#8a6ab8; --cream:#f2e9d6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:0 0 96px;color:var(--ink);background:var(--void);
+    font:15px/1.55 ui-rounded,system-ui,-apple-system,sans-serif;
+    -webkit-text-size-adjust:100%;
+    background-image:
+      radial-gradient(circle at 18% 4%,rgba(224,177,85,.10),transparent 42%),
+      radial-gradient(circle at 88% 96%,rgba(138,106,184,.10),transparent 40%)}
+  .app{max-width:460px;margin:0 auto;padding:16px 14px 0}
+
+  header{display:flex;align-items:center;gap:10px;padding-bottom:12px;
+    border-bottom:1px solid var(--edge);margin-bottom:14px}
+  .mark{width:34px;height:34px;border-radius:10px;flex:none;
+    background:linear-gradient(150deg,var(--green),#1c3d18);
+    border:1px solid #0b1116;display:grid;place-items:center;
+    font:13px/1 ui-monospace,monospace;color:#0b1116;font-weight:700}
+  h1{margin:0;font-size:17px;letter-spacing:-.015em}
+  header .sub{font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-top:3px;display:block}
+  header .tag{margin-left:auto;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--green);
+    border:1px solid var(--green);border-radius:4px;padding:4px 7px}
+
+  h2{font:9px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:20px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10px}
+  .note{color:var(--dim);font-size:11px;line-height:1.62;margin:10px 0 0}
+  code{font:10.5px ui-monospace,monospace;color:var(--cream);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+  /* ------------------------------------------------------------ the balance */
+  .bal{background:linear-gradient(160deg,#16283a,#0e1a24 62%,#111a22);
+    border:1px solid var(--edge);border-radius:16px;padding:16px 17px 15px;
+    position:relative;overflow:hidden}
+  .bal::after{content:"";position:absolute;right:-40px;top:-40px;width:150px;
+    height:150px;border-radius:50%;background:radial-gradient(circle,
+      rgba(224,177,85,.16),transparent 70%)}
+  .bal .who{font:9px/1 ui-monospace,monospace;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--dim)}
+  .bal .big{font:38px/1.1 ui-monospace,Menlo,monospace;color:var(--gold);
+    margin:8px 0 2px;letter-spacing:-.02em}
+  .bal .big::after{content:" HEZE";font-size:14px;color:var(--dim);
+    letter-spacing:.12em}
+  .bal .sub2{font-size:11.5px;color:var(--dim)}
+  .bal .sub2 b{color:var(--ink)}
+
+  .rows{margin-top:12px}
+  .r{display:flex;align-items:baseline;gap:10px;padding:11px 0;
+    border-bottom:1px solid var(--edge);font-size:14px}
+  .r:last-child{border-bottom:0}
+  .r i{width:9px;height:9px;border-radius:3px;flex:none;position:relative;top:1px}
+  .r .src{display:block;font:8.5px/1 ui-monospace,monospace;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--dim);margin-top:4px}
+  .r b{margin-left:auto;font:15px/1 ui-monospace,Menlo,monospace;
+    font-variant-numeric:tabular-nums}
+  .r.cr b{color:var(--green)} .r.dr b{color:var(--red)}
+
+  /* --------------------------------------------------------------- controls */
+  .seg{display:flex;gap:6px;margin-bottom:4px}
+  .seg input{position:absolute;opacity:0;width:0;height:0}
+  .seg label{flex:1;text-align:center;cursor:pointer;padding:13px 6px;
+    border-radius:11px;border:1px solid var(--edge);color:var(--dim);
+    font:12px/1 ui-monospace,monospace;letter-spacing:.06em;
+    -webkit-tap-highlight-color:transparent}
+  .seg input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .seg input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+  .seg.four label{font-size:11px;padding:12px 4px}
+
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .stack input{position:absolute;opacity:0;width:0;height:0}
+  .stack label{display:flex;align-items:center;gap:11px;cursor:pointer;
+    padding:13px 14px;border-radius:12px;border:1px solid var(--edge);
+    font-size:14px;-webkit-tap-highlight-color:transparent}
+  .stack label .tick{width:18px;height:18px;border-radius:6px;flex:none;
+    border:1px solid var(--edge)}
+  .stack label .amt{margin-left:auto;font:13px/1 ui-monospace,monospace;
+    color:var(--dim)}
+  .stack input:checked+label{border-color:var(--gold);
+    background:rgba(224,177,85,.09)}
+  .stack input:checked+label .tick{background:var(--gold);border-color:var(--gold);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--gold)}
+  .stack input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* ------------------------------------------------------------- the ledger */
+  body{counter-reset:cr 0 dr 0 lane 0 wage 0 fuel 0 berth 0 fee 0}
+  /* lane revenue: hulls on the run × what each pass earns */
+  #v-1:checked+label{counter-increment:cr 920   lane 920}
+  #v-2:checked+label{counter-increment:cr 1840 lane 1840}
+  #v-4:checked+label{counter-increment:cr 3680 lane 3680}
+  #v-8:checked+label{counter-increment:cr 7360 lane 7360}
+  /* outgoings — each one is a debit, and each says who it is owed to */
+  #o-wage:checked +label{counter-increment:dr 2400 wage 2400}
+  #o-fuel:checked +label{counter-increment:dr 1600 fuel 1600}
+  #o-berth:checked+label{counter-increment:dr 900  berth 900}
+  #o-fee:checked  +label{counter-increment:dr 340  fee 340}
+  .n-cr::after{content:counter(cr)}     .n-dr::after{content:counter(dr)}
+  .n-lane::after{content:counter(lane)}
+  .n-wage::after{content:counter(wage)} .n-fuel::after{content:counter(fuel)}
+  .n-berth::after{content:counter(berth)} .n-fee::after{content:counter(fee)}
+
+  /* the clause reads the same numbers the ledger does */
+  .app:has(#v-8:checked) .over{display:block}
+  .app:has(#v-8:checked) .under{display:none}
+  .over{display:none}
+  .clause{border-radius:12px;padding:12px 13px;font-size:12px;line-height:1.6;
+    border:1px solid}
+  .under{border-color:var(--green);background:rgba(101,214,168,.07);color:var(--green)}
+  .over{border-color:var(--red);background:rgba(224,112,90,.08);color:var(--red)}
+  .clause b{color:inherit}
+
+  /* --------------------------------------------------------- the thumb bar */
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:5;
+    background:linear-gradient(180deg,rgba(7,10,14,.4),var(--void) 34%);
+    padding:12px 14px 16px;border-top:1px solid var(--edge)}
+  .bar .in{max-width:460px;margin:0 auto;display:flex;align-items:center;gap:12px}
+  .bar .fig{font:20px/1 ui-monospace,Menlo,monospace;color:var(--gold)}
+  .bar .fig small{display:block;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+    margin-bottom:5px;font-family:ui-monospace,monospace}
+  .bar a{margin-left:auto;text-decoration:none;font-size:14px;font-weight:650;
+    background:var(--gold);color:#12181d;border-radius:12px;padding:14px 22px}
+  .bar a:hover{filter:brightness(1.07)}
+
+  @media (min-width:520px){ .app{padding-top:22px} }
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="v" id="v-1"><label for="v-1">1</label>
+      <input type="radio" name="v" id="v-2" checked><label for="v-2">2</label>
+      <input type="radio" name="v" id="v-4"><label for="v-4">4</label>
+      <input type="radio" name="v" id="v-8"><label for="v-8">8</label>
+    </div>
+    <h2>TODO checkbox set <b>4</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="o-wage" checked><label for="o-wage">Wages, ship's company 2,400</label>
+      <input type="checkbox" id="o-fuel" checked><label for="o-fuel">Fuel, passed at two light years 1,600</label>
+      <input type="checkbox" id="o-berth"><label for="o-berth">Berth, land two 900</label>
+      <input type="checkbox" id="o-fee"><label for="o-fee">Yard fee, slip 4 340</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>cr</span><b class="n-cr"></b></div>
+      <div class="head m"><span>dr</span><b class="n-dr"></b></div>
+      <div class="head m"><span>lane</span><b class="n-lane"></b></div>
+      <div class="head m"><span>wage</span><b class="n-wage"></b></div>
+      <div class="head m"><span>fuel</span><b class="n-fuel"></b></div>
+      <div class="head m"><span>berth</span><b class="n-berth"></b></div>
+      <div class="head m"><span>fee</span><b class="n-fee"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

@@ -1,0 +1,347 @@
+<title>TEMPLATE &middot; Cruiser Run · One Lane</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from cruise-control.html by templatise.mjs.
+
+     source            cruise-control.html
+     radio groups      6 (asp, x, g1, g2, g3, g4)
+     checkboxes        2
+     counters          oil, wat, rep, sto, take
+     :has() rules      42, 6 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#070a0e; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --yellow:#e8c25c; --blue:#5b9ed6; --green:#65d6a8; --red-c:#e0705a;
+    --plum:#8a6ab8; --cream:#f2e9d6; --hull:#78b843;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:16px;color:var(--ink);background:var(--void);
+    font:13px/1.55 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(1.2px 1.2px at 14% 22%,#fff,transparent),
+      radial-gradient(1px 1px at 62% 12%,#cfe6ff,transparent),
+      radial-gradient(1.3px 1.3px at 84% 68%,#ffe9c9,transparent),
+      radial-gradient(1px 1px at 34% 78%,#fff,transparent),
+      radial-gradient(circle at 8% 10%,rgba(91,158,214,.08),transparent 42%),
+      radial-gradient(circle at 92% 90%,rgba(138,106,184,.08),transparent 42%)}
+
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:14px}
+  h1{margin:0;font-size:20px;letter-spacing:-.015em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--dim);margin:18px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px}
+  p.note{color:var(--dim);font-size:10.5px;line-height:1.62;margin:10px 0 0;
+    max-width:100ch}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:11px;padding:13px 14px}
+
+  /* ------------------------------------------------------------- the lane */
+  .lane{position:relative;overflow:hidden;border-radius:11px;
+    border:1px solid var(--edge);padding:16px 0 10px;
+    background:linear-gradient(90deg,#0e1a16,#0b1119 22%,#0b1119 78%,#141020)}
+  .land{position:absolute;top:0;bottom:0;width:112px;padding:14px 11px;
+    display:flex;flex-direction:column;gap:5px;justify-content:center;
+    background:rgba(9,14,19,.88);z-index:3}
+  .land.a{left:0;border-right:1px solid var(--edge)}
+  .land.b{right:0;border-left:1px solid var(--edge);text-align:right}
+  .land h3{margin:0;font-size:13.5px}
+  .land span{font:9px/1.5 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .land em{font-style:normal;color:var(--gold);font-size:11px}
+
+  /* one track. every hull is on it. */
+  .track{position:relative;height:120px;margin:0 112px}
+  .track::before{content:"";position:absolute;left:0;right:0;top:50%;height:2px;
+    background:linear-gradient(90deg,transparent,#2a3a48 8%,#2a3a48 92%,transparent)}
+  .ly{margin:0 112px;display:flex;justify-content:space-between;
+    font:9px/1 ui-monospace,monospace;letter-spacing:.14em;color:var(--dim);
+    padding:7px 2px 0;border-top:1px solid var(--edge)}
+
+  /* The file. One animation, one duration, eight delays — they run nose to
+     tail because they are the same run started at different points in it. */
+  .ship{position:absolute;top:50%;margin-top:-11px;left:0;width:64px;
+    animation:run 38s linear infinite}
+  .ship svg{display:block;width:64px;height:22px}
+  @keyframes run{
+    0%  {left:0;                 transform:scaleX(1)}
+    49% {left:calc(100% - 64px); transform:scaleX(1)}
+    50% {left:calc(100% - 64px); transform:scaleX(-1)}
+    99% {left:0;                 transform:scaleX(-1)}
+    100%{left:0;                 transform:scaleX(1)}
+  }
+  .sh1{animation-delay:0s}     .sh2{animation-delay:-4.75s}
+  .sh3{animation-delay:-9.5s}  .sh4{animation-delay:-14.25s}
+  .sh5{animation-delay:-19s}   .sh6{animation-delay:-23.75s}
+  .sh7{animation-delay:-28.5s} .sh8{animation-delay:-33.25s}
+
+  /* One control governs the file. There is no per-hull aspect and no hold. */
+  .board:has(#a-slow:checked)   .ship{animation-duration:68s}
+  .board:has(#a-cruise:checked) .ship{animation-duration:38s}
+  .board:has(#a-full:checked)   .ship{animation-duration:18s}
+  .board:has(#a-slow:checked)   .hull{fill:var(--yellow)}
+  .board:has(#a-cruise:checked) .hull{fill:var(--blue)}
+  .board:has(#a-full:checked)   .hull{fill:var(--green)}
+  @media (prefers-reduced-motion:reduce){.ship{animation:none}}
+
+  /* ================================================================ the cut
+     A stop returns to this lane — but not as a fourth aspect. It is wired
+     apart from the speeds and behind two actions, because the reason red came
+     off in the first place was that it was overloaded: a signal, an order and
+     a brake in the same control, so removing it took all three at once.
+
+     Every consequence below names BOTH the arm and the throw. A cut that was
+     never armed cannot exist, whatever the form state says. */
+  .cut{border:1px solid var(--red-c);border-radius:12px;padding:13px 14px;
+    background:rgba(224,112,90,.05);margin-top:12px}
+  .cut input{position:absolute;opacity:0;width:0;height:0}
+  .cut .arm,.cut .throw{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .cut .throw{margin-top:10px}
+  .cut label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;padding:12px 22px;border-radius:9px;
+    border:1px solid var(--edge);color:var(--dim)}
+  .cut label.big{font-size:13.5px;font-weight:700;padding:15px 30px}
+  #k-arm:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.14)}
+  #k-throw:checked+label{border-color:var(--red-c);background:var(--red-c);color:#12181d}
+  .cut input:focus-visible+label{outline:2px solid var(--blue);outline-offset:3px}
+  .cut .said{font-size:10.5px;color:var(--dim);max-width:56ch}
+  /* Unarmed, the throw is out of reach by both routes — pointer-events stops a
+     mouse, visibility:hidden takes the input out of the tab order. An interlock
+     a keyboard can walk around is decoration. */
+  .board:not(:has(#k-arm:checked)) .throw label{opacity:.32;pointer-events:none}
+  .board:not(:has(#k-arm:checked)) #k-throw{visibility:hidden}
+
+  .cstate{display:none;border-radius:10px;padding:10px 12px;margin-top:11px;
+    border:1px solid;font-size:11.5px;line-height:1.6}
+  .board:not(:has(#k-arm:checked)) .cs-safe{display:block}
+  .board:has(#k-arm:checked):not(:has(#k-throw:checked)) .cs-armed{display:block}
+  .board:has(#k-arm:checked):has(#k-throw:checked) .cs-cut{display:block}
+  .cs-safe{border-color:var(--green);background:rgba(101,214,168,.07);color:var(--green)}
+  .cs-armed{border-color:var(--gold);background:rgba(224,177,85,.08);color:var(--gold)}
+  .cs-cut{border-color:var(--red-c);background:rgba(224,112,90,.10);color:var(--red-c)}
+  .cstate b{color:inherit}
+
+  /* --------------------------------------------------------- the lamp rack */
+  .rack{display:flex;gap:9px;align-items:center;margin-top:12px}
+  .rack i{width:22px;height:22px;border-radius:50%;border:1px solid #0b1116;
+    background:#141c24;display:block;transition:background .2s,box-shadow .2s}
+  .rack .lbl{font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);margin-left:6px}
+  .board:has(#a-slow:checked)   .l-y{background:var(--yellow);box-shadow:0 0 11px var(--yellow)}
+  .board:has(#a-cruise:checked) .l-b{background:var(--blue);box-shadow:0 0 11px var(--blue)}
+  .board:has(#a-full:checked)   .l-g{background:var(--green);box-shadow:0 0 11px var(--green)}
+  /* the fourth lamp: one job at a time, in the colour of that job */
+  .board:has(#x-tow:checked) .l-x{background:var(--gold);box-shadow:0 0 11px var(--gold)}
+  .board:has(#x-pow:checked) .l-x{background:#6ec6ff;box-shadow:0 0 11px #6ec6ff}
+  .board:has(#x-med:checked) .l-x{background:#f2f2f2;box-shadow:0 0 11px #fff}
+  .board:has(#x-std:checked) .l-x{background:var(--red-c);box-shadow:0 0 11px var(--red-c)}
+
+  .aux{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+  .aux input{position:absolute;opacity:0;width:0;height:0}
+  .aux label{cursor:pointer;font:10.5px/1 ui-monospace,monospace;padding:8px 13px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim)}
+  .aux input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .aux input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* ============ WRITTEN LAST, SO IT BEATS EVERY ASPECT RULE ABOVE IT ========
+     The cut is not a speed and does not argue with one. Whatever aspect is
+     selected, a thrown cut stops the file where it stands. */
+  .board:has(#k-arm:checked):has(#k-throw:checked) .ship
+    {animation-play-state:paused;filter:grayscale(1) brightness(.8)}
+  .board:has(#k-arm:checked):has(#k-throw:checked) .l-x{background:var(--red-c);
+    box-shadow:0 0 16px var(--red-c);animation:flash 1s steps(1) infinite}
+  .board:has(#k-arm:checked):has(#k-throw:checked) .l-y,
+  .board:has(#k-arm:checked):has(#k-throw:checked) .l-b,
+  .board:has(#k-arm:checked):has(#k-throw:checked) .l-g
+    {background:#141c24;box-shadow:none}
+  @keyframes flash{50%{background:#3a1a16;box-shadow:none}}
+
+  /* stages */
+  .stages{position:absolute;left:112px;right:112px;top:0;bottom:0;
+    pointer-events:none;z-index:1}
+  .stage{position:absolute;top:0;bottom:26px;width:1px;
+    background:repeating-linear-gradient(180deg,#33485a 0 5px,transparent 5px 11px)}
+  .stage b{position:absolute;top:3px;left:6px;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+  .stage b i{font-style:normal;color:var(--gold)}
+  .stage.g1{left:20%} .stage.g2{left:44%} .stage.g3{left:68%} .stage.g4{left:90%}
+
+  /* ---------------------------------------------------------- the control */
+  .focus{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px;
+    border:1px solid var(--edge);border-radius:11px;padding:12px 14px;background:#0d151c}
+  .focus input{position:absolute;opacity:0;width:0;height:0}
+  .focus label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;padding:11px 22px;border-radius:8px;
+    border:1px solid var(--edge);color:var(--dim);position:relative}
+  .focus label::before{content:"";display:inline-block;width:9px;height:9px;
+    border-radius:50%;background:var(--c);opacity:.3;margin-right:8px;
+    vertical-align:-1px}
+  .focus .l-slow{--c:var(--yellow)} .focus .l-cruise{--c:var(--blue)}
+  .focus .l-full{--c:var(--green)}
+  .focus label:hover{color:var(--ink)}
+  .focus input:checked+label{border-color:var(--c);color:var(--c);font-weight:700;
+    background:color-mix(in srgb,var(--c) 12%,transparent)}
+  .focus input:checked+label::before{opacity:1;box-shadow:0 0 9px var(--c)}
+  .focus input:focus-visible+label{outline:2px solid var(--c);outline-offset:3px}
+  .focus p{margin:0;font-size:10.5px;color:var(--dim);max-width:52ch}
+
+  /* ---------------------------------------------------------- the counters */
+  body{counter-reset:oil 0 wat 0 rep 0 sto 0 take 0}
+  .s{display:inline;font-size:0}
+  .board:has(#g1-a:checked) .s-oil{counter-increment:oil 220 take 220}
+  .board:has(#g1-b:checked) .s-oil{counter-increment:oil 320 take 320}
+  .board:has(#g1-c:checked) .s-oil{counter-increment:oil 480 take 480}
+  .board:has(#g2-a:checked) .s-wat{counter-increment:wat 60  take 60}
+  .board:has(#g2-b:checked) .s-wat{counter-increment:wat 90  take 90}
+  .board:has(#g2-c:checked) .s-wat{counter-increment:wat 140 take 140}
+  .board:has(#g3-a:checked) .s-rep{counter-increment:rep 120 take 120}
+  .board:has(#g3-b:checked) .s-rep{counter-increment:rep 180 take 180}
+  .board:has(#g3-c:checked) .s-rep{counter-increment:rep 280 take 280}
+  .board:has(#g4-a:checked) .s-sto{counter-increment:sto 95  take 95}
+  .board:has(#g4-b:checked) .s-sto{counter-increment:sto 140 take 140}
+  .board:has(#g4-c:checked) .s-sto{counter-increment:sto 210 take 210}
+  .n-oil::after{content:counter(oil)}   .n-wat::after{content:counter(wat)}
+  .n-rep::after{content:counter(rep)}   .n-sto::after{content:counter(sto)}
+  .n-take::after{content:counter(take)}
+
+  /* the tariff desk */
+  .tariffs{display:grid;gap:10px;grid-template-columns:repeat(4,1fr);margin-top:10px}
+  .tar{background:#0d151c;border:1px solid var(--edge);border-radius:9px;padding:9px 10px}
+  .tar h4{margin:0 0 1px;font-size:12px}
+  .tar h4[contenteditable]{outline:none;border-bottom:1px dashed transparent}
+  .tar h4[contenteditable]:hover,.tar h4[contenteditable]:focus
+    {border-bottom-color:var(--gold)}
+  .tar .at{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);display:block;margin-bottom:7px}
+  .tar .bands{display:flex;gap:3px}
+  .tar input{position:absolute;opacity:0;width:0;height:0}
+  .tar label{flex:1;text-align:center;cursor:pointer;font:10.5px/1 ui-monospace,monospace;
+    padding:6px 2px;border-radius:5px;border:1px solid var(--edge);color:var(--dim)}
+  .tar label:hover{color:var(--ink)}
+  .tar input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .tar input:focus-visible+label{outline:2px solid var(--gold);outline-offset:2px}
+
+  .ledger{width:100%;border-collapse:collapse;font-size:12px;
+    font-variant-numeric:tabular-nums;margin-top:4px}
+  .ledger th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 6px;font-weight:600}
+  .ledger td{padding:5px 0;border-top:1px solid var(--edge)}
+  .ledger td:last-child,.ledger th:last-child{text-align:right}
+  .ledger td .q{color:var(--dim);font-size:10.5px}
+  .ledger tr.sum td{border-top:1.5px solid var(--gold);font-weight:700}
+  .ledger tr.sum td:last-child{color:var(--gold)}
+
+  .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .head{background:#0d151c;border:1px solid var(--edge);border-radius:9px;padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;color:var(--gold);
+    margin-top:5px}
+
+  @media (max-width:900px){.tariffs,.heads{grid-template-columns:repeat(2,1fr)}
+    .land{width:84px} .track,.ly,.stages{margin:0 84px}
+    .stages{left:84px;right:84px}}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="asp" id="a-slow"><label for="a-slow">Slow</label>
+      <input type="radio" name="asp" id="a-cruise" checked><label for="a-cruise">Cruise</label>
+      <input type="radio" name="asp" id="a-full"><label for="a-full">Full</label>
+    </div>
+
+    <h2>TODO group name <b>4 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="x" id="x-tow" checked><label for="x-tow">Tow</label>
+      <input type="radio" name="x" id="x-pow"><label for="x-pow">Power</label>
+      <input type="radio" name="x" id="x-med"><label for="x-med">Medical</label>
+      <input type="radio" name="x" id="x-std"><label for="x-std">Cut standing by</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="g1" id="g1-a"><label for="g1-a">220</label>
+      <input type="radio" name="g1" id="g1-b" checked><label for="g1-b">320</label>
+      <input type="radio" name="g1" id="g1-c"><label for="g1-c">480</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="g2" id="g2-a"><label for="g2-a">60</label>
+      <input type="radio" name="g2" id="g2-b" checked><label for="g2-b">90</label>
+      <input type="radio" name="g2" id="g2-c"><label for="g2-c">140</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="g3" id="g3-a"><label for="g3-a">120</label>
+      <input type="radio" name="g3" id="g3-b" checked><label for="g3-b">180</label>
+      <input type="radio" name="g3" id="g3-c"><label for="g3-c">280</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="g4" id="g4-a"><label for="g4-a">95</label>
+      <input type="radio" name="g4" id="g4-b" checked><label for="g4-b">140</label>
+      <input type="radio" name="g4" id="g4-c"><label for="g4-c">210</label>
+    </div>
+    <h2>TODO checkbox set <b>2</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="k-arm"><label for="k-arm">1 · Arm</label>
+      <input type="checkbox" id="k-throw"><label for="k-throw">2 · Throw the cut</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>oil</span><b class="n-oil"></b></div>
+      <div class="head m"><span>wat</span><b class="n-wat"></b></div>
+      <div class="head m"><span>rep</span><b class="n-rep"></b></div>
+      <div class="head m"><span>sto</span><b class="n-sto"></b></div>
+      <div class="head m"><span>take</span><b class="n-take"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

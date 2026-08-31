@@ -1,0 +1,324 @@
+<title>TEMPLATE &middot; Syndicate Personnel Board</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from personnel.html by templatise.mjs.
+
+     source            personnel.html
+     radio groups      3 (hull, draft, cyc)
+     checkboxes        8
+     counters          est, onb, shrt, off, rate, dep, rat, wat, fue, amm, spa, runr, runw
+     :has() rules      93, 40 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#080b0f; --card:#111a22; --card2:#16212b; --edge:#26333f;
+    --ink:#e9f0f5; --dim:#8a9aa8; --gold:#e0b155;
+    --green:#78b843; --plum:#8a6ab8; --cream:#f2e9d6; --rose:#e58593;
+    --live:#65d6a8; --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;color:var(--ink);background:var(--void);
+    font:13px/1.55 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 16% 10%,rgba(120,184,67,.08),transparent 46%),
+      radial-gradient(circle at 86% 88%,rgba(138,106,184,.08),transparent 44%)}
+
+  .board{display:grid;gap:14px;padding:14px;min-height:100vh;
+    grid-template-columns:300px 1fr 320px;
+    grid-template-areas:"head head head" "est ret sig";align-items:start}
+  header{grid-area:head;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:10px}
+  header h1{margin:0;font-size:19px;letter-spacing:-.01em}
+  header .sub{color:var(--dim);font-size:11px}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:10px;padding:12px}
+  .est{grid-area:est} .ret{grid-area:ret} .sig{grid-area:sig;position:sticky;top:14px}
+
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--dim);margin:0 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px}
+  h2:not(:first-of-type){margin-top:17px}
+  p.note{color:var(--dim);font-size:10.5px;line-height:1.6;margin:9px 0 0}
+
+  fieldset{border:0;padding:0;margin:0}
+  .opt input{position:absolute;opacity:0;width:0;height:0}
+  .opt label{display:flex;gap:8px;align-items:baseline;cursor:pointer;
+    padding:5px 8px;border:1px solid transparent;border-radius:6px;font-size:11.5px}
+  .opt label:hover{background:rgba(110,198,255,.06)}
+  .opt label .q{margin-left:auto;color:var(--dim);font:10.5px/1 ui-monospace,monospace}
+  .opt label .tick{width:11px;height:11px;border:1px solid var(--edge);
+    border-radius:50%;flex:none;position:relative;top:2px}
+  .opt input[type=checkbox]+label .tick{border-radius:3px}
+  .opt input:checked+label{background:rgba(224,177,85,.10);border-color:var(--gold)}
+  .opt input:checked+label .tick{background:var(--gold);border-color:var(--gold);
+    box-shadow:inset 0 0 0 2px var(--card)}
+  .opt input:checked+label .q{color:var(--gold)}
+  .opt input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* ------------------------------------------------------------- the totals */
+  .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .head{background:#0d151c;border:1px solid var(--edge);border-radius:9px;padding:11px 12px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:23px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  .head.short b{color:var(--warn)}
+  .head.rdy b{font-size:17px;color:var(--live)}
+
+  table{width:100%;border-collapse:collapse;font-size:12px;
+    font-variant-numeric:tabular-nums}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 6px;font-weight:600}
+  td{padding:4.5px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td .q{color:var(--dim);font-size:10.5px}
+  tr.sum td{border-top:1.5px solid var(--gold);font-weight:700}
+  tr.sum td:last-child{color:var(--gold)}
+
+  /* readiness state, chosen by the draft */
+  .state{display:none;font-size:11.5px;line-height:1.6;border-radius:8px;
+    padding:10px 12px;margin-top:11px;border:1px solid}
+  .board:has(#dr-full:checked) .st1,
+  .board:has(#dr-red:checked)  .st2,
+  .board:has(#dr-skel:checked) .st3{display:block}
+  .st1{border-color:var(--live);background:rgba(101,214,168,.08);color:var(--live)}
+  .st2{border-color:var(--gold);background:rgba(224,177,85,.08);color:var(--gold)}
+  .st3{border-color:var(--warn);background:rgba(224,112,90,.09);color:var(--warn)}
+  .state b{color:inherit}
+
+  /* the reporting line */
+  .rank{display:flex;gap:8px;align-items:baseline;font-size:11.5px;padding:5px 0;
+    border-bottom:1px solid var(--edge)}
+  .rank:last-of-type{border-bottom:0}
+  .rank i{width:9px;height:9px;border-radius:2px;flex:none;background:var(--dim);
+    position:relative;top:1px}
+  .rank.syn i{background:var(--plum)} .rank.gen i{background:var(--gold)}
+  .rank.sgt i{background:var(--cool)} .rank.cpl i{background:var(--live)}
+  .rank.cmd i{background:var(--rose)}
+  .rank span{margin-left:auto;color:var(--dim);font-size:10px;text-align:right}
+
+  /* automated channels */
+  .chan{display:flex;align-items:center;gap:8px;font-size:11.5px;padding:5px 0;
+    border-bottom:1px solid var(--edge)}
+  .chan:last-of-type{border-bottom:0}
+  .chan i{width:7px;height:7px;border-radius:50%;background:var(--live);flex:none;
+    animation:pulse 2.4s ease-in-out infinite}
+  .chan.d1 i{animation-delay:.5s} .chan.d2 i{animation-delay:1s}
+  .chan.d3 i{animation-delay:1.5s} .chan.d4 i{animation-delay:2s}
+  .chan em{margin-left:auto;font:9.5px/1 ui-monospace,monospace;color:var(--dim);
+    font-style:normal;letter-spacing:.1em;text-transform:uppercase}
+  @keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.chan i{animation:none;opacity:.9}}
+
+  /* -------------------------------------------------------------- counters */
+  body{counter-reset:est 0 onb 0 shrt 0 off 0 rate 0 dep 0
+       rat 0 wat 0 fue 0 amm 0 spa 0 runr 0 runw 0}
+
+  /* hull: establishment, officers, ratings, and its daily supply draw */
+  #c-buck:checked+label{counter-increment:est 12   off 2   rate 10
+    rat 36   wat 144   fue 40    amm 0    spa 8}
+  #c-mer:checked +label{counter-increment:est 22   off 4   rate 18
+    rat 66   wat 264   fue 320   amm 0    spa 14}
+  #c-cors:checked+label{counter-increment:est 46   off 5   rate 41
+    rat 138  wat 552   fue 180   amm 24   spa 22}
+  #c-aux:checked +label{counter-increment:est 180  off 14  rate 166
+    rat 540  wat 2160  fue 2600  amm 60   spa 400}
+  #c-dd:checked  +label{counter-increment:est 210  off 16  rate 194
+    rat 630  wat 2520  fue 900   amm 210  spa 96}
+  #c-mon:checked +label{counter-increment:est 340  off 20  rate 320
+    rat 1020 wat 4080  fue 700   amm 900  spa 150}
+  #c-cl:checked  +label{counter-increment:est 560  off 34  rate 526
+    rat 1680 wat 6720  fue 2400  amm 640  spa 240}
+  #c-bb:checked  +label{counter-increment:est 1850 off 96  rate 1754
+    rat 5550 wat 22200 fue 8600  amm 2300 spa 760}
+  #c-cv:checked  +label{counter-increment:est 1900 off 140 rate 1760
+    rat 5700 wat 22800 fue 7800  amm 1450 spa 820}
+  #c-yam:checked +label{counter-increment:est 2750 off 148 rate 2602
+    rat 8250 wat 33000 fue 12400 amm 3600 spa 1150}
+
+  /* hull × draft — onboard strength and the shortfall it carries.
+     Neither input can state these alone, so the pair states them. */
+  .board:has(#c-buck:checked):has(#dr-full:checked) .x{counter-increment:onb 12}
+  .board:has(#c-buck:checked):has(#dr-red:checked)  .x{counter-increment:onb 10   shrt 2}
+  .board:has(#c-buck:checked):has(#dr-skel:checked) .x{counter-increment:onb 7    shrt 5}
+  .board:has(#c-mer:checked):has(#dr-full:checked)  .x{counter-increment:onb 22}
+  .board:has(#c-mer:checked):has(#dr-red:checked)   .x{counter-increment:onb 18   shrt 4}
+  .board:has(#c-mer:checked):has(#dr-skel:checked)  .x{counter-increment:onb 12   shrt 10}
+  .board:has(#c-cors:checked):has(#dr-full:checked) .x{counter-increment:onb 46}
+  .board:has(#c-cors:checked):has(#dr-red:checked)  .x{counter-increment:onb 37   shrt 9}
+  .board:has(#c-cors:checked):has(#dr-skel:checked) .x{counter-increment:onb 25   shrt 21}
+  .board:has(#c-aux:checked):has(#dr-full:checked)  .x{counter-increment:onb 180}
+  .board:has(#c-aux:checked):has(#dr-red:checked)   .x{counter-increment:onb 144  shrt 36}
+  .board:has(#c-aux:checked):has(#dr-skel:checked)  .x{counter-increment:onb 99   shrt 81}
+  .board:has(#c-dd:checked):has(#dr-full:checked)   .x{counter-increment:onb 210}
+  .board:has(#c-dd:checked):has(#dr-red:checked)    .x{counter-increment:onb 168  shrt 42}
+  .board:has(#c-dd:checked):has(#dr-skel:checked)   .x{counter-increment:onb 116  shrt 94}
+  .board:has(#c-mon:checked):has(#dr-full:checked)  .x{counter-increment:onb 340}
+  .board:has(#c-mon:checked):has(#dr-red:checked)   .x{counter-increment:onb 272  shrt 68}
+  .board:has(#c-mon:checked):has(#dr-skel:checked)  .x{counter-increment:onb 187  shrt 153}
+  .board:has(#c-cl:checked):has(#dr-full:checked)   .x{counter-increment:onb 560}
+  .board:has(#c-cl:checked):has(#dr-red:checked)    .x{counter-increment:onb 448  shrt 112}
+  .board:has(#c-cl:checked):has(#dr-skel:checked)   .x{counter-increment:onb 308  shrt 252}
+  .board:has(#c-bb:checked):has(#dr-full:checked)   .x{counter-increment:onb 1850}
+  .board:has(#c-bb:checked):has(#dr-red:checked)    .x{counter-increment:onb 1480 shrt 370}
+  .board:has(#c-bb:checked):has(#dr-skel:checked)   .x{counter-increment:onb 1018 shrt 832}
+  .board:has(#c-cv:checked):has(#dr-full:checked)   .x{counter-increment:onb 1900}
+  .board:has(#c-cv:checked):has(#dr-red:checked)    .x{counter-increment:onb 1520 shrt 380}
+  .board:has(#c-cv:checked):has(#dr-skel:checked)   .x{counter-increment:onb 1045 shrt 855}
+  .board:has(#c-yam:checked):has(#dr-full:checked)  .x{counter-increment:onb 2750}
+  .board:has(#c-yam:checked):has(#dr-red:checked)   .x{counter-increment:onb 2200 shrt 550}
+  .board:has(#c-yam:checked):has(#dr-skel:checked)  .x{counter-increment:onb 1513 shrt 1237}
+
+  /* hull × cycle — what the auxiliary passes across on one run.
+     .r takes the three-day figure; .r6 takes it a second time on a six-day
+     cycle, so the run total doubles without anything multiplying. */
+  .board:has(#c-buck:checked) .r,.board:has(#c-buck:checked):has(#rc-6:checked) .r6
+    {counter-increment:runr 108   runw 432}
+  .board:has(#c-mer:checked) .r, .board:has(#c-mer:checked):has(#rc-6:checked) .r6
+    {counter-increment:runr 198   runw 792}
+  .board:has(#c-cors:checked) .r,.board:has(#c-cors:checked):has(#rc-6:checked) .r6
+    {counter-increment:runr 414   runw 1656}
+  .board:has(#c-aux:checked) .r, .board:has(#c-aux:checked):has(#rc-6:checked) .r6
+    {counter-increment:runr 1620  runw 6480}
+  .board:has(#c-dd:checked) .r,  .board:has(#c-dd:checked):has(#rc-6:checked) .r6
+    {counter-increment:runr 1890  runw 7560}
+  .board:has(#c-mon:checked) .r, .board:has(#c-mon:checked):has(#rc-6:checked) .r6
+    {counter-increment:runr 3060  runw 12240}
+  .board:has(#c-cl:checked) .r,  .board:has(#c-cl:checked):has(#rc-6:checked) .r6
+    {counter-increment:runr 5040  runw 20160}
+  .board:has(#c-bb:checked) .r,  .board:has(#c-bb:checked):has(#rc-6:checked) .r6
+    {counter-increment:runr 16650 runw 66600}
+  .board:has(#c-cv:checked) .r,  .board:has(#c-cv:checked):has(#rc-6:checked) .r6
+    {counter-increment:runr 17100 runw 68400}
+  .board:has(#c-yam:checked) .r, .board:has(#c-yam:checked):has(#rc-6:checked) .r6
+    {counter-increment:runr 24750 runw 99000}
+
+  /* detachments: they arrive at full strength, so they add to both sides */
+  #p-ord:checked+label{counter-increment:est 34 onb 34 off 2 rate 32 dep 1
+    rat 102 wat 408 amm 180 spa 40}
+  #p-eng:checked+label{counter-increment:est 46 onb 46 off 3 rate 43 dep 1
+    rat 138 wat 552 fue 60 spa 110}
+  #p-sup:checked+label{counter-increment:est 18 onb 18 off 1 rate 17 dep 1
+    rat 54  wat 216 spa 260}
+  #p-med:checked+label{counter-increment:est 9  onb 9  off 2 rate 7  dep 1
+    rat 27  wat 108 spa 70}
+  #p-sig:checked+label{counter-increment:est 14 onb 14 off 2 rate 12 dep 1
+    rat 42  wat 168 spa 34}
+  #p-air:checked+label{counter-increment:est 62 onb 62 off 8 rate 54 dep 1
+    rat 186 wat 744 fue 340 amm 96 spa 190}
+  #p-brd:checked+label{counter-increment:est 28 onb 28 off 1 rate 27 dep 1
+    rat 84  wat 336 amm 40 spa 26}
+  #p-dc:checked +label{counter-increment:est 24 onb 24 off 1 rate 23 dep 1
+    rat 72  wat 288 spa 120}
+
+  .n-est::after{content:counter(est)}     .n-onb::after{content:counter(onb)}
+  .n-shrt::after{content:counter(shrt)}   .n-off::after{content:counter(off)}
+  .n-rate::after{content:counter(rate)}   .n-dep::after{content:counter(dep)}
+  .n-rat::after{content:counter(rat)}     .n-wat::after{content:counter(wat)}
+  .n-fue::after{content:counter(fue)}     .n-amm::after{content:counter(amm)}
+  .n-spa::after{content:counter(spa)}
+  .n-runr::after{content:counter(runr)}   .n-runw::after{content:counter(runw)}
+  .x,.r,.r6{display:inline}
+
+  @media (max-width:1120px){
+    .board{grid-template-columns:1fr;grid-template-areas:"head" "est" "ret" "sig"}
+    .sig{position:static}
+    .heads{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>10 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="hull" id="c-buck"><label for="c-buck">Bucketeer 12</label>
+      <input type="radio" name="hull" id="c-mer"><label for="c-mer">Merchant 22</label>
+      <input type="radio" name="hull" id="c-cors"><label for="c-cors">Corsair 46</label>
+      <input type="radio" name="hull" id="c-aux" checked><label for="c-aux">Auxiliary 180</label>
+      <input type="radio" name="hull" id="c-dd"><label for="c-dd">Destroyer 210</label>
+      <input type="radio" name="hull" id="c-mon"><label for="c-mon">Monitor 340</label>
+      <input type="radio" name="hull" id="c-cl"><label for="c-cl">Cruiser 560</label>
+      <input type="radio" name="hull" id="c-bb"><label for="c-bb">Battleship 1,850</label>
+      <input type="radio" name="hull" id="c-cv"><label for="c-cv">Carrier 1,900</label>
+      <input type="radio" name="hull" id="c-yam"><label for="c-yam">Yamato 2,750</label>
+    </div>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="draft" id="dr-full" checked><label for="dr-full">Full establishment 100%</label>
+      <input type="radio" name="draft" id="dr-red"><label for="dr-red">Reduced complement 80%</label>
+      <input type="radio" name="draft" id="dr-skel"><label for="dr-skel">Skeleton crew 55%</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="cyc" id="rc-3" checked><label for="rc-3">Three days astern min</label>
+      <input type="radio" name="cyc" id="rc-6"><label for="rc-6">Six days astern max</label>
+    </div>
+    <h2>TODO checkbox set <b>8</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="p-ord"><label for="p-ord">Ordnance party 34</label>
+      <input type="checkbox" id="p-eng" checked><label for="p-eng">Engineering watch 46</label>
+      <input type="checkbox" id="p-sup" checked><label for="p-sup">Supply &amp;amp; victualling 18</label>
+      <input type="checkbox" id="p-med"><label for="p-med">Medical 9</label>
+      <input type="checkbox" id="p-sig"><label for="p-sig">Signals 14</label>
+      <input type="checkbox" id="p-air"><label for="p-air">Air detachment 62</label>
+      <input type="checkbox" id="p-brd"><label for="p-brd">Boarding party 28</label>
+      <input type="checkbox" id="p-dc"><label for="p-dc">Damage control 24</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>est</span><b class="n-est"></b></div>
+      <div class="head m"><span>onb</span><b class="n-onb"></b></div>
+      <div class="head m"><span>shrt</span><b class="n-shrt"></b></div>
+      <div class="head m"><span>off</span><b class="n-off"></b></div>
+      <div class="head m"><span>rate</span><b class="n-rate"></b></div>
+      <div class="head m"><span>dep</span><b class="n-dep"></b></div>
+      <div class="head m"><span>rat</span><b class="n-rat"></b></div>
+      <div class="head m"><span>wat</span><b class="n-wat"></b></div>
+      <div class="head m"><span>fue</span><b class="n-fue"></b></div>
+      <div class="head m"><span>amm</span><b class="n-amm"></b></div>
+      <div class="head m"><span>spa</span><b class="n-spa"></b></div>
+      <div class="head m"><span>runr</span><b class="n-runr"></b></div>
+      <div class="head m"><span>runw</span><b class="n-runw"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>
