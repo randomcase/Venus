@@ -1,0 +1,260 @@
+<title>TEMPLATE &middot; Twelve Grades · the academy, preschool up</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from grades.html by templatise.mjs.
+
+     source            grades.html
+     radio groups      0
+     checkboxes        12
+     counters          cleared, offscreen
+     stored states     12 — #g0, #g1, #g2, #g3, #g4, #g5, #g6, #g7, #g8, #g9, #g10, #g11
+     :has() rules      51, 6 of them compound
+     script            none
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#090c11; --card:#131923; --card2:#19202c; --edge:#2a3341;
+    --ink:#eaeef4; --dim:#8b96a6; --chalk:#eae3ce;
+    --early:#e8b45f; --mid:#7fc2a0; --late:#7fa8e0; --warn:#e0705a;
+    --done:#6fcf97; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 10% -6%,rgba(232,180,95,.11),transparent 42%),
+      radial-gradient(circle at 92% 96%,rgba(127,168,224,.11),transparent 42%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.015em;color:var(--chalk)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--mid);border:1px solid var(--mid);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--chalk);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.68;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--chalk);background:#0c1119;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--late)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+
+  /* ============================================= THE STORE — which level
+     Twelve anchors, first in the document, offset off-screen so a link does
+     not throw the page down. The level you are on lives in the URL. */
+  .store{position:relative;height:0;overflow:visible}
+  .store i{position:absolute;top:-70px;width:1px;height:1px;display:block}
+
+  .rail{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:12px}
+  @media (max-width:900px){.rail{grid-template-columns:repeat(4,1fr)}}
+  @media (max-width:520px){.rail{grid-template-columns:repeat(2,1fr)}}
+  .rail a{display:block;text-decoration:none;background:#0d131b;
+    border:1px solid var(--edge);border-radius:9px;padding:9px 10px;
+    font:9.5px/1.4 ui-monospace,monospace;color:var(--dim)}
+  .rail a:hover{color:var(--ink);border-color:rgba(127,168,224,.55)}
+  .rail a:focus-visible{outline:2px solid var(--cool);outline-offset:2px}
+  .rail a b{display:block;font-size:14px;color:var(--chalk);margin-bottom:3px}
+  .rail a.e{border-left:3px solid var(--early)}
+  .rail a.m{border-left:3px solid var(--mid)}
+  .rail a.l{border-left:3px solid var(--late)}
+
+  .g:has(#g0:target) .q0, .g:has(#g1:target) .q1, .g:has(#g2:target) .q2,
+  .g:has(#g3:target) .q3, .g:has(#g4:target) .q4, .g:has(#g5:target) .q5,
+  .g:has(#g6:target) .q6, .g:has(#g7:target) .q7, .g:has(#g8:target) .q8,
+  .g:has(#g9:target) .q9, .g:has(#g10:target) .q10, .g:has(#g11:target) .q11{
+    background:rgba(127,168,224,.16);color:var(--ink)}
+  .g:has(#g0:target) .q0 b, .g:has(#g1:target) .q1 b, .g:has(#g2:target) .q2 b,
+  .g:has(#g3:target) .q3 b, .g:has(#g4:target) .q4 b, .g:has(#g5:target) .q5 b,
+  .g:has(#g6:target) .q6 b, .g:has(#g7:target) .q7 b, .g:has(#g8:target) .q8 b,
+  .g:has(#g9:target) .q9 b, .g:has(#g10:target) .q10 b, .g:has(#g11:target) .q11 b{
+    color:var(--late)}
+
+  /* ===================================================== :has() IS STATE */
+  .lv{display:none}
+  .g:has(#g0:target) .v0, .g:has(#g1:target) .v1, .g:has(#g2:target) .v2,
+  .g:has(#g3:target) .v3, .g:has(#g4:target) .v4, .g:has(#g5:target) .v5,
+  .g:has(#g6:target) .v6, .g:has(#g7:target) .v7, .g:has(#g8:target) .v8,
+  .g:has(#g9:target) .v9, .g:has(#g10:target) .v10, .g:has(#g11:target) .v11{
+    display:block}
+  .g:not(:has(:target)) .v-cold{display:block}
+
+  .lv .lh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:9px;margin-bottom:11px}
+  .lv .lh i{font:9.5px/1 ui-monospace,monospace;font-style:normal;
+    letter-spacing:.16em;text-transform:uppercase;border-radius:4px;padding:4px 7px}
+  .lv .lh i.e{color:var(--early);border:1px solid var(--early)}
+  .lv .lh i.m{color:var(--mid);border:1px solid var(--mid)}
+  .lv .lh i.l{color:var(--late);border:1px solid var(--late)}
+  .lv .lh b{font-size:16px;color:var(--chalk)}
+  .lv .lh s{margin-left:auto;text-decoration:none;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .lv p{margin:0 0 10px;font-size:12.5px;max-width:84ch}
+  .cols{display:grid;gap:12px;grid-template-columns:1fr 1fr;margin-top:12px}
+  @media (max-width:820px){.cols{grid-template-columns:1fr}}
+  .box{background:#0d131b;border:1px solid var(--edge);border-radius:10px;
+    padding:11px 12px}
+  .box h3{margin:0 0 7px;font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);font-weight:600}
+  .box p{margin:0;font-size:12px} .box p+p{margin-top:7px}
+  .box.mk{border-color:rgba(232,180,95,.42)} .box.mk h3{color:var(--early)}
+  .box.ts{border-color:rgba(111,207,151,.45)} .box.ts h3{color:var(--done)}
+  .acad{margin-top:12px;background:#0c1119;border:1px solid var(--edge);
+    border-radius:10px;padding:11px 12px}
+  .acad h3{margin:0 0 8px;font:9px/1 ui-monospace,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dim);font-weight:600}
+  .acad .p{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  @media (max-width:760px){.acad .p{grid-template-columns:1fr}}
+  .acad .p div{font-size:12px}
+  .acad .p b{display:block;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;margin-bottom:5px}
+  .acad .bb b{color:var(--mid)} .acad .ss b{color:var(--warn)}
+  .acad .pt{margin:9px 0 0;font-size:11.5px;color:var(--dim);
+    border-top:1px solid var(--edge);padding-top:8px}
+  .acad .pt em{color:var(--chalk);font-style:normal}
+
+  /* ============================================== COUNTERS ARE ARITHMETIC */
+  body{counter-reset:cleared 0 offscreen 0}
+  #c0:checked+label{counter-increment:cleared 1 offscreen 1}
+  #c1:checked+label{counter-increment:cleared 1 offscreen 1}
+  #c2:checked+label{counter-increment:cleared 1 offscreen 1}
+  #c3:checked+label{counter-increment:cleared 1 offscreen 1}
+  #c4:checked+label{counter-increment:cleared 1 offscreen 1}
+  #c5:checked+label{counter-increment:cleared 1 offscreen 1}
+  #c6:checked+label{counter-increment:cleared 1}
+  #c7:checked+label{counter-increment:cleared 1}
+  #c8:checked+label{counter-increment:cleared 1}
+  #c9:checked+label{counter-increment:cleared 1}
+  #c10:checked+label{counter-increment:cleared 1}
+  #c11:checked+label{counter-increment:cleared 1}
+  .n-cleared::after{content:counter(cleared)}
+  .n-offscreen::after{content:counter(offscreen)}
+
+  .stack{display:flex;flex-direction:column;gap:5px}
+  .stack input{position:absolute;opacity:0;width:0;height:0}
+  .stack label{display:flex;align-items:baseline;gap:11px;cursor:pointer;
+    padding:9px 12px;border-radius:9px;border:1px solid var(--edge);
+    font-size:12.5px;color:var(--dim)}
+  .stack label .tick{width:14px;height:14px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);position:relative;top:2px}
+  .stack label .amt{margin-left:auto;font:9.5px/1 ui-monospace,monospace;
+    letter-spacing:.1em;text-transform:uppercase;padding-left:10px}
+  .stack input:checked+label{border-color:var(--done);color:var(--ink);
+    background:rgba(111,207,151,.09)}
+  .stack input:checked+label .tick{background:var(--done);border-color:var(--done);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--done)}
+  .stack input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .head{background:#0d131b;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--chalk);margin-top:5px}
+  .head.g b{color:var(--done)}
+  @media (max-width:560px){.heads{grid-template-columns:repeat(2,1fr)}}
+
+  /* ======================================== CASCADE ORDER IS AUTHORITY
+     NOTHING BELOW THIS LINE. Twelve :has() in one selector, written last. */
+  .cert{display:none}
+  .g:has(#c0:checked):has(#c1:checked):has(#c2:checked):has(#c3:checked):has(#c4:checked):has(#c5:checked):has(#c6:checked):has(#c7:checked):has(#c8:checked):has(#c9:checked):has(#c10:checked):has(#c11:checked)
+    .cert{display:block}
+</style>
+
+  <div class="store">
+    <i id="g0"></i>
+    <i id="g1"></i>
+    <i id="g2"></i>
+    <i id="g3"></i>
+    <i id="g4"></i>
+    <i id="g5"></i>
+    <i id="g6"></i>
+    <i id="g7"></i>
+    <i id="g8"></i>
+    <i id="g9"></i>
+    <i id="g10"></i>
+    <i id="g11"></i>
+  </div>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO checkbox set <b>12</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="c0"><label for="c0">Preschool · groups no computer</label>
+      <input type="checkbox" id="c1"><label for="c1">Kindergarten · counting on no computer</label>
+      <input type="checkbox" id="c2"><label for="c2">Grade 1 · labels no computer</label>
+      <input type="checkbox" id="c3"><label for="c3">Grade 2 · rules that do not change no comp</label>
+      <input type="checkbox" id="c4"><label for="c4">Grade 3 · tables, two keys no computer</label>
+      <input type="checkbox" id="c5"><label for="c5">Grade 4 · order no computer</label>
+      <input type="checkbox" id="c6"><label for="c6">Grade 5 · a page is a file html</label>
+      <input type="checkbox" id="c7"><label for="c7">Grade 6 · the cascade css</label>
+      <input type="checkbox" id="c8"><label for="c8">Grade 7 · state without programming :has()</label>
+      <input type="checkbox" id="c9"><label for="c9">Grade 8 · counting in the page counters</label>
+      <input type="checkbox" id="c10"><label for="c10">Grade 9 · two keys and their price lookups</label>
+      <input type="checkbox" id="c11"><label for="c11">Grade 10 · the whole board, and the ethic </label>
+    </div>
+    <h2>Stored states <b>12 &middot; the URL is the state</b></h2>
+    <div class="grid opts">
+      <a href="#g0"><b>P Preschool</b><s>#g0</s></a>
+      <a href="#g1"><b>K Kindergarten</b><s>#g1</s></a>
+      <a href="#g2"><b>1 Labels</b><s>#g2</s></a>
+      <a href="#g3"><b>2 Rules</b><s>#g3</s></a>
+      <a href="#g4"><b>3 Tables</b><s>#g4</s></a>
+      <a href="#g5"><b>4 Order</b><s>#g5</s></a>
+      <a href="#g6"><b>5 A file</b><s>#g6</s></a>
+      <a href="#g7"><b>6 Cascade</b><s>#g7</s></a>
+      <a href="#g8"><b>7 State</b><s>#g8</s></a>
+      <a href="#g9"><b>8 Counting</b><s>#g9</s></a>
+      <a href="#g10"><b>9 Two keys</b><s>#g10</s></a>
+      <a href="#g11"><b>10 The board</b><s>#g11</s></a>
+    </div>
+    <p class="note">TODO name these. Each link writes one whole state into the
+      address bar; <code>:target</code> reads it back and the rules above act on
+      it. A document has one target at a time, so every link names a complete
+      combination and there is no partial update &mdash; add an axis and you
+      write the products out, exactly as with compound <code>:has()</code>.</p>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>cleared</span><b class="n-cleared"></b></div>
+      <div class="head m"><span>offscreen</span><b class="n-offscreen"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>
