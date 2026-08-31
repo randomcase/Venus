@@ -1,0 +1,316 @@
+<title>Jakarta · the pearl station</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Jakarta. A small island station, and the one page in this yard that faces the
+  other half of the repository.
+
+  THREE THINGS THE NAME IS DOING AT ONCE
+    · Jakarta is on Java, and the JVM world took the name for itself when the
+      javax.* namespace became jakarta.*. A page named Jakarta, standing for
+      the Scala side of a repo, is the joke telling itself.
+    · Indonesia is where the cultured pearl actually comes from — Pinctada
+      maxima, the South Sea oyster, farmed off Lombok, Sumbawa and Papua.
+    · A cultured pearl is a seeded thing. Somebody inserts a nucleus on
+      purpose and the animal lays nacre around it in layers for years. That is
+      not a lesser pearl. It is the same material, deposited the same way,
+      around a beginning that was chosen.
+
+  WHAT IS ON THIS PAGE THAT IS TRUE
+  The Scala figures are counted from this repository, not invented: 46 files,
+  4,738 lines, and the venus-core package is exactly the three files the
+  ledger-queue book documents. The type names, the sealed trait and the two
+  case classes are read out of LedgerQueueScala.scala as it stands.
+
+  No script.
+-->
+<style>
+  :root{
+    --sea:#06131a; --deep:#0a1d26; --card:#102630; --card2:#14303c;
+    --edge:#22505f; --ink:#eaf4f4; --dim:#8fb0b4;
+    --nacre:#f2ece0; --nacre2:#dcd3c4; --rose:#e6c6c0; --lagoon:#3fb3a6;
+    --gold:#d9b25c; --sand:#c9b189; --scala:#c9463a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:0 0 48px;color:var(--ink);background:var(--sea);
+    font:14px/1.7 ui-serif,Georgia,'Times New Roman',serif;
+    background-image:
+      radial-gradient(circle at 50% -4%,rgba(63,179,166,.16),transparent 46%),
+      radial-gradient(circle at 88% 88%,rgba(217,178,92,.10),transparent 44%)}
+  .wrap{max-width:960px;margin:0 auto;padding:0 16px}
+  header{padding:22px 0 14px;border-bottom:1px solid var(--edge);margin-bottom:6px}
+  h1{margin:0 0 5px;font-size:28px;letter-spacing:-.02em;font-weight:500}
+  .lede{color:var(--dim);font-size:13px;max-width:74ch;margin:0}
+  .lede b{color:var(--ink)}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--lagoon);margin:30px 0 12px;font-weight:600;
+    display:flex;align-items:center;gap:12px;padding-top:14px;
+    border-top:1px solid var(--edge)}
+  h2::after{content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(63,179,166,.4),transparent)}
+  p{max-width:76ch}
+  .note{color:var(--dim);font-size:11.5px;line-height:1.72;margin:9px 0 0;max-width:88ch}
+  .note b{color:var(--ink)}
+  code{font:11.5px ui-monospace,Menlo,monospace;color:var(--nacre);
+    background:#0a1c24;border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  pre{margin:10px 0 0;overflow-x:auto;font:11.5px/1.62 ui-monospace,Menlo,monospace;
+    background:#08181f;border:1px solid var(--edge);border-radius:9px;
+    padding:12px 13px;color:#bfe0dd}
+  pre b{color:var(--scala);font-weight:400}
+  pre i{color:var(--gold);font-style:normal}
+  a{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 17px;margin-top:12px}
+
+  /* ------------------------------------------------------------- the island */
+  .isle{border:1px solid var(--edge);border-radius:12px;overflow:hidden;
+    margin-top:14px;background:#061219}
+  .isle svg{display:block;width:100%;height:auto}
+  .swell{animation:swell 11s ease-in-out infinite}
+  @keyframes swell{50%{transform:translateY(-5px)}}
+  .swell.b{animation-delay:-3.5s} .swell.c{animation-delay:-7s}
+  .shimmer{animation:shim 9s ease-in-out infinite}
+  @keyframes shim{50%{opacity:.55}}
+  @media (prefers-reduced-motion:reduce){.swell,.shimmer{animation:none}}
+
+  /* ------------------------------------------------------------- the pearl */
+  .layers{display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:center}
+  @media (max-width:760px){.layers{grid-template-columns:1fr}}
+  .layer{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--edge);
+    font-size:12.5px}
+  .layer:last-child{border-bottom:0}
+  .layer .n{font:10px/1.6 ui-monospace,monospace;color:var(--lagoon);min-width:58px;
+    letter-spacing:.1em}
+  .layer b{color:var(--ink)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  th{text-align:left;font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:0 0 8px;font-weight:600}
+  td{padding:6px 0;border-top:1px solid var(--edge)}
+  td:last-child,th:last-child{text-align:right}
+  td .q{color:var(--dim);font-size:10.5px}
+  tr.sum td{border-top:1.5px solid var(--gold);font-weight:700}
+  tr.sum td:last-child{color:var(--gold)}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Jakarta</h1>
+    <p class="lede">A small station on one of her islands, and the only page in
+      this yard that faces the other half of the repository — <b>the Scala
+      side</b>. Forty-six files and four thousand seven hundred and thirty-eight
+      lines of it, sitting quietly one directory up.</p>
+  </header>
+
+  <div class="isle">
+    <svg viewBox="0 0 960 300" role="img"
+         aria-label="A small island station at dusk: stilt houses over a lagoon, pearl rafts moored in lines, a reef beyond.">
+      <defs>
+        <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#123a46"/><stop offset=".55" stop-color="#1d5560"/>
+          <stop offset="1" stop-color="#3c7d78"/></linearGradient>
+        <linearGradient id="lag" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2f8d86"/><stop offset="1" stop-color="#06222a"/>
+        </linearGradient>
+        <radialGradient id="sun2"><stop offset="0" stop-color="#ffe9c0"/>
+          <stop offset=".45" stop-color="#f0c184" stop-opacity=".55"/>
+          <stop offset="1" stop-color="#f0c184" stop-opacity="0"/></radialGradient>
+        <linearGradient id="nac" x1=".2" y1=".1" x2=".8" y2=".9">
+          <stop offset="0" stop-color="#ffffff"/><stop offset=".35" stop-color="#f2ece0"/>
+          <stop offset=".7" stop-color="#e6c6c0"/><stop offset="1" stop-color="#bcc8c6"/>
+        </linearGradient>
+      </defs>
+
+      <rect width="960" height="300" fill="url(#dusk)"/>
+      <circle class="shimmer" cx="760" cy="96" r="90" fill="url(#sun2)"/>
+      <circle cx="760" cy="96" r="26" fill="#ffe9c0" opacity=".85"/>
+
+      <!-- reef line -->
+      <path d="M0 176q120-16 240 0t240 0 240 0 240 0v10H0z" fill="#0d3b42"
+            opacity=".7"/>
+
+      <!-- the island: low, palms, a hut on the point -->
+      <g transform="translate(96,110)">
+        <path d="M0 66q54-40 130-40t130 40z" fill="#14424a"/>
+        <path d="M12 66q50-30 118-30t118 30z" fill="#1b5a56"/>
+        <g stroke="#0e3038" stroke-width="3" fill="none">
+          <path d="M84 36v-26M84 12q-16-9-26-2M84 12q16-9 26-2M84 12q-12-14-2-22
+                   M84 12q12-14 2-22"/>
+          <path d="M176 40V16M176 18q-14-8-23-2M176 18q14-8 23-2M176 18q-10-12-2-19"/>
+        </g>
+        <path d="M116 66V44h44v22z" fill="#0f363d" stroke="#0a262c"/>
+        <path d="M110 46l28-16 28 16z" fill="#2a6a63" stroke="#0a262c"/>
+      </g>
+
+      <!-- lagoon -->
+      <rect y="176" width="960" height="124" fill="url(#lag)"/>
+      <g stroke="#7fd6cc" stroke-opacity=".22" fill="none">
+        <path class="swell"   d="M0 198q80-9 160 0t160 0 160 0 160 0 160 0 160 0"/>
+        <path class="swell b" d="M0 224q80 9 160 0t160 0 160 0 160 0 160 0 160 0"/>
+        <path class="swell c" d="M0 252q80-8 160 0t160 0 160 0 160 0 160 0 160 0"/>
+      </g>
+
+      <!-- pearl rafts: lines of floats, which is what a farm actually looks like -->
+      <g>
+        <g class="swell">
+          <path d="M300 206h220" stroke="#8a6a3e" stroke-width="2.5"/>
+          <g fill="#e8dcc4"><circle cx="312" cy="206" r="5"/><circle cx="356" cy="206" r="5"/>
+            <circle cx="400" cy="206" r="5"/><circle cx="444" cy="206" r="5"/>
+            <circle cx="488" cy="206" r="5"/></g>
+          <g stroke="#5f8f88" stroke-width="1.2">
+            <path d="M312 211v18M356 211v18M400 211v18M444 211v18M488 211v18"/></g>
+        </g>
+        <g class="swell b">
+          <path d="M560 236h250" stroke="#8a6a3e" stroke-width="2.5"/>
+          <g fill="#e8dcc4"><circle cx="574" cy="236" r="5"/><circle cx="622" cy="236" r="5"/>
+            <circle cx="670" cy="236" r="5"/><circle cx="718" cy="236" r="5"/>
+            <circle cx="766" cy="236" r="5"/></g>
+          <g stroke="#5f8f88" stroke-width="1.2">
+            <path d="M574 241v18M622 241v18M670 241v18M718 241v18M766 241v18"/></g>
+        </g>
+      </g>
+
+      <!-- the station on stilts -->
+      <g transform="translate(96,168)">
+        <g stroke="#3a2a1c" stroke-width="4">
+          <path d="M20 26v46M52 26v46M84 26v46M116 26v46"/></g>
+        <rect x="4" y="0" width="128" height="28" fill="#17444a" stroke="#0a262c"/>
+        <path d="M-4 0l70-22 70 22z" fill="#2a6a63" stroke="#0a262c"/>
+        <g fill="#ffd79a" opacity=".9">
+          <rect x="22" y="10" width="10" height="8"/><rect x="46" y="10" width="10" height="8"/>
+          <rect x="70" y="10" width="10" height="8"/><rect x="94" y="10" width="10" height="8"/></g>
+        <path d="M132 14h44" stroke="#3a2a1c" stroke-width="3"/>
+      </g>
+
+      <!-- one pearl, held up, out of scale on purpose -->
+      <g transform="translate(700,214)">
+        <circle r="30" fill="url(#nac)"/>
+        <circle r="30" fill="none" stroke="#ffffff" stroke-opacity=".5"/>
+        <ellipse cx="-10" cy="-11" rx="9" ry="6" fill="#fff" opacity=".8"/>
+        <circle r="7" fill="none" stroke="#c9b189" stroke-opacity=".5"/>
+        <text y="52" text-anchor="middle" fill="#8fb0b4"
+              style="font:9px ui-monospace,monospace;letter-spacing:.24em">CULTURED</text>
+      </g>
+    </svg>
+  </div>
+
+  <h2>Why a cultured pearl</h2>
+  <div class="panel">
+    <div class="layers">
+      <div>
+        <svg viewBox="0 0 200 200" role="img" aria-label="A pearl in cross-section: a seeded nucleus with nacre laid around it in layers.">
+          <circle cx="100" cy="100" r="92" fill="url(#nac)" opacity=".18"/>
+          <circle cx="100" cy="100" r="92" fill="none" stroke="#3fb3a6" stroke-opacity=".4"/>
+          <circle cx="100" cy="100" r="74" fill="none" stroke="#3fb3a6" stroke-opacity=".34"/>
+          <circle cx="100" cy="100" r="58" fill="none" stroke="#3fb3a6" stroke-opacity=".3"/>
+          <circle cx="100" cy="100" r="42" fill="none" stroke="#3fb3a6" stroke-opacity=".26"/>
+          <circle cx="100" cy="100" r="27" fill="none" stroke="#d9b25c" stroke-opacity=".7"/>
+          <circle cx="100" cy="100" r="15" fill="#d9b25c" fill-opacity=".55"
+                  stroke="#d9b25c"/>
+          <text x="100" y="104" text-anchor="middle" fill="#0a1c24"
+                style="font:9px ui-monospace,monospace;letter-spacing:.1em">SEED</text>
+        </svg>
+      </div>
+      <div>
+        <div class="layer"><span class="n">nucleus</span>
+          <span>A bead is <b>put in on purpose</b>. Nothing about a cultured
+            pearl is accidental at the centre — somebody chose the beginning and
+            the size of it.</span></div>
+        <div class="layer"><span class="n">nacre</span>
+          <span>The animal then lays aragonite and conchiolin around it in
+            microscopic layers, for two to four years, at its own rate. The
+            material is identical to a wild pearl's. <b>The only difference is
+            that the middle was intended.</b></span></div>
+        <div class="layer"><span class="n">the point</span>
+          <span>Which is exactly what a codebase is. Somebody inserted a small
+            deliberate thing — a data model, three files, a package name — and
+            everything since has been laid down around it in layers by
+            whoever showed up. <b>Seeded, not grown wild, and none the worse
+            for it.</b></span></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>The seed <b></b></h2>
+  <div class="panel">
+    <p style="margin-top:0">One directory up from this page there is a Scala
+      package, <code>io.cityoflight.virgo.scala</code>, and it holds three
+      files. The nucleus of the whole thing is one sealed trait — the same idea
+      the yard has been running on all along: <b>a ledger, a queue, and a
+      record that knows what it is.</b></p>
+<pre><b>sealed trait</b> LedgerQueueItem {
+  <b>def</b> id: String
+  <b>def</b> starTag: String
+  <b>def</b> planetaryTag: String
+  <b>def</b> targetArtifact: String
+  <b>def</b> description: String
+  <b>def</b> scoreTag: String
+  <b>def</b> status: String
+  <b>def</b> timestamp: String
+  <b>def</b> isHighPriority: Boolean = <i>false</i>
+}</pre>
+    <p class="note"><b>Sealed</b> means every implementation must live in that
+      one file, so the compiler can check a pattern match is exhaustive. There
+      are two: <code>StandardLedgerRecord</code>, and
+      <code>HighPriorityLedgerRecord</code>, which adds a
+      <code>priorityReason</code> and overrides the flag to true. A record that
+      claims priority has to say why — which is the same rule the powers block
+      applies to a clause, arrived at independently, in another language, by
+      whoever wrote this first.</p>
+    <p class="note">The service around it is <code>GeminiScalaLedgerQueueService</code>
+      with <code>enqueueItem</code> and <code>dequeueItem</code> — a queue, and
+      the ledger the yard's boards have been imitating in CSS counters this
+      whole time. <a href="docs/scala-ledger-queue-book.md">the ledger-queue
+      book</a> walks all three files.</p>
+  </div>
+
+  <h2>The nacre <b>what has been laid around it</b></h2>
+  <div class="panel">
+    <table>
+      <tr><th>Layer</th><th>Where</th><th>Files</th></tr>
+      <tr><td>The seed <span class="q">· ledger queue, Spring service, ATM demo</span></td>
+          <td class="q">venus-core/…/virgo/scala</td><td>3</td></tr>
+      <tr><td>Webhooks <span class="q">· the largest single deposit</span></td>
+          <td class="q">webhook + webhook-engine-service</td><td>19</td></tr>
+      <tr><td>Chess <span class="q">· bitboards, alpha–beta, positions</span></td>
+          <td class="q">scalachess-microservice</td><td>5</td></tr>
+      <tr><td>Game engine <span class="q">· evaluator, engine, REST, suite</span></td>
+          <td class="q">game-engine-microservice</td><td>4</td></tr>
+      <tr><td>Agent registry <span class="q">· hierarchy, scanner, service</span></td>
+          <td class="q">agent_hierarchy_registry</td><td>4</td></tr>
+      <tr><td>Everything else <span class="q">· auth, copilot, matching,
+        observatory, custody, ZIO scraper, ledger engines</span></td>
+          <td class="q">eleven directories</td><td>11</td></tr>
+      <tr class="sum"><td>Counted in this repository</td><td class="q">4,738 lines</td>
+          <td>46</td></tr>
+    </table>
+    <p class="note"><b>These numbers were counted, not estimated</b> — 46 files
+      and 4,738 lines, tallied off the working tree at the moment this page was
+      written. They will drift, and when they do this sentence is the thing that
+      tells you they have. A figure with no note about how it was obtained is
+      the one thing this yard has refused to print anywhere.</p>
+  </div>
+
+  <h2>On the name</h2>
+  <div class="panel">
+    <p style="margin-top:0">Three things at once, and all of them meant.</p>
+    <p class="note" style="margin-top:6px"><b>Jakarta is on Java.</b> When the
+      <code>javax.*</code> namespace was handed over, the JVM world renamed it
+      <code>jakarta.*</code> — so a station called Jakarta, standing for the
+      Scala half of a repository, is a joke that tells itself. Scala is a JVM
+      language; the island is the platform.</p>
+    <p class="note"><b>Indonesia is where the pearl is actually from.</b>
+      <em>Pinctada maxima</em>, the South Sea oyster, farmed off Lombok,
+      Sumbawa and Papua — the largest cultured pearls in the world come out of
+      those waters, and the industry is a real one, not a metaphor borrowed for
+      the occasion.</p>
+    <p class="note"><b>And a cultured pearl is the honest description of a
+      codebase.</b> Not found, not wild, not grown by nature — seeded on
+      purpose and then layered by time and whoever was there. The nacre is
+      identical to the wild kind. The only difference is that someone chose the
+      middle, which is the least shameful thing about it.</p>
+    <p class="note"><a href="index.html">← the yard</a> ·
+      <a href="slime.html">the wallet</a> ·
+      <a href="syndicate.html">the last form</a></p>
+  </div>
+</div>
