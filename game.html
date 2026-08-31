@@ -73,10 +73,12 @@
   @media (min-width:860px){
     .phone{width:min(1180px,94vw);height:min(880px,94vh);
       display:grid;grid-template-columns:1fr 344px;
-      grid-template-rows:auto auto auto 1fr auto;
-      grid-template-areas:'res side' 'clock side' 'supply side' 'stage side' 'nav side'}
+      grid-template-rows:auto auto auto auto 1fr auto;
+      grid-template-areas:'res side' 'clock side' 'forest side' 'supply side'
+                          'stage side' 'nav side'}
     .res{grid-area:res} .clockbar{grid-area:clock}
     #supply{grid-area:supply;margin:9px 12px 0}
+    #forest{grid-area:forest}
     .stage{grid-area:stage} nav{grid-area:nav}
     .relay,.run{grid-area:stage}
     .side{grid-area:side;border-left:1px solid var(--edge);overflow:auto;
@@ -414,6 +416,30 @@
     font:10px/1.5 ui-monospace,monospace;color:#5fd6a4}
   .win.held{border-color:#5a4a2a;background:rgba(224,177,85,.10);color:#e0b155}
 
+  /* ══════════════════════════════════════════════════════════ THE FOREST
+     A fifth readout, and the only one denominated in the objective rather
+     than in a stock. It moves slowly on purpose — the whole finding is that
+     it does not move at all while you are shipping. */
+  .forest{display:flex;align-items:center;gap:9px;padding:7px 12px;flex:none;
+    background:#0a0f0b;border-bottom:1px solid var(--edge);
+    font:9px/1 ui-monospace,monospace;letter-spacing:.09em;color:var(--dim)}
+  .forest b{color:#6fc08a}
+  .forest .track{flex:1;height:5px;border-radius:3px;background:#16211a;
+    overflow:hidden;min-width:60px}
+  .forest .track i{display:block;height:100%;width:0;border-radius:3px;
+    background:linear-gradient(90deg,#3f7a55,#6fc08a);transition:width .4s}
+  .forest .rate{color:var(--gold2)}
+  .src{display:grid;gap:8px;margin:11px 0 4px}
+  .src .r{background:#0d141b;border:1px solid #22303f;border-radius:10px;
+    padding:10px 11px;border-left:3px solid #384a5c}
+  .src .r.on{border-left-color:#6fc08a}
+  .src .r b{display:block;font-size:12.5px;color:#e6eef7}
+  .src .r em{font-style:normal;float:right;font:12px/1 ui-monospace,monospace;
+    color:#ffe9a8}
+  .src .r i{font-style:normal;display:block;font-size:10.5px;color:#7b8b9c;
+    line-height:1.6;margin-top:5px}
+  .src .r s{display:block;text-decoration:none;font:9.5px/1.6 ui-monospace,monospace;
+    color:#5f6f80;margin-top:6px;border-top:1px solid #1b2530;padding-top:6px}
 </style>
 
 <canvas id="sky"></canvas>
@@ -590,7 +616,10 @@ const S = {
   /* the supply line. `held` is windows whose baton did not get through —
      never a loss, only later, so the next delivery carries them all. */
   held: 0, windowOpen: false, pending: 0, stock: 0, lift: 0,
-  alloc: { wa: 0, st: 0, li: 0, se: 0 },
+  alloc: { wa: 0, st: 0, li: 0, se: 0, pl: 0 },
+  /* the forest, in kilograms of hydrogen banked toward it, and the plant
+     that banks them. Ships do not appear in this line and cannot. */
+  forest: 0, skim: 0, dive: 0, plant: 0,
   yaw: -0.62, pitch: 0.92, drag: null
 };
 
@@ -941,6 +970,15 @@ function step() {
     S.h2 = Math.max(0, S.h2 - made / 9);
     S.wa += made; S.pw -= 4;
   }
+  /* THE PLANT. It banks hydrogen against the forest and it is the only thing
+     that does — no delivery, no manifest line and no sector puts a kilogram
+     into S.forest except this. */
+  const rate = forestRate();
+  if (rate) {
+    S.forest += rate;
+    S.pw -= (S.skim && S.pw >= 6 ? 6 : 0) + (S.dive && S.built.hepha && S.pw >= 24 ? 24 : 0);
+    if (S.pw < 0) S.pw = 0;
+  }
   // the commons is spent by everything that is not Artemis
   const spend = built.filter(b => b !== 'artem').length * 0.012;
   S.co = Math.max(0, S.co - spend + (S.built.artem ? 0.006 : 0));
@@ -989,7 +1027,7 @@ function baseDeliver() {
   const windows = 1 + S.held;
   S.pending = Math.round((MASS + S.lift) * windows);
   S.held = 0; S.windowOpen = false;
-  S.alloc = { wa: 0, st: 0, li: 0, se: 0 };
+  S.alloc = { wa: 0, st: 0, li: 0, se: 0, pl: 0 };
   if (S.stock) { S.pending += S.stock; S.stock = 0; }
   toast('<b>' + S.pending.toLocaleString() + ' kg</b> alongside' +
         (windows > 1 ? ' &mdash; ' + windows + ' windows at once' : '') +
@@ -1004,7 +1042,8 @@ const DEST = [
   { k:'wa', n:'Water',  i:'Cracked and banked. 1 kg of hydrogen makes about 9 of water, and water is what a build costs.' },
   { k:'st', n:'Stock',  i:'Held back for the next window. Does nothing now; arrives on top of whatever comes next.' },
   { k:'li', n:'Lift',   i:'Spent on the return mass, which buys a bigger hull. Every 1,000 kg here adds 400 kg to every delivery after this one, forever.' },
-  { k:'se', n:'Seed',   i:'Straight into the commons. The only line that puts anything back into the thing everything else is spending.' }
+  { k:'se', n:'Seed',   i:'Straight into the commons. The only line that puts anything back into the thing everything else is spending.' },
+  { k:'pl', n:'Plant',  i:'Skimming gear for the cloud deck. Every 1,000 kg is a unit doing 4,200 kg of hydrogen a day — which is 215 times what the ship that carried it does. This is the only line that touches the forest.' }
 ];
 const STEP = 500;
 
@@ -1023,9 +1062,10 @@ function mfCommit() {
   S.stock += a.st;
   S.lift  += Math.round(a.li * 0.4);
   S.co     = Math.min(100, S.co + a.se / 900);
+  S.skim  += Math.floor(a.pl / 1000);
   const rest = mfLeft();
   if (rest) S.stock += rest;                    /* unallocated is not burned */
-  S.pending = 0; S.alloc = { wa:0, st:0, li:0, se:0 };
+  S.pending = 0; S.alloc = { wa:0, st:0, li:0, se:0, pl:0 };
   closeSheet();
   toast('Manifest signed. ' + (rest ? rest.toLocaleString() +
         ' kg unallocated went to stock &mdash; nothing here is ever burned.' :
@@ -1070,6 +1110,108 @@ function commonsReading(v) {
   return ['bare', 'Bare. Nothing stops, nothing fails, and nothing is coming to take the plate away — it simply reads bare, and it will read bare until somebody spends a window on it.'];
 }
 
+/* ═══════════════════════════════════════════════════════ THE FOREST, COSTED
+   Every figure below is computed from the two lines marked ASSUMED and from
+   published Venus data. None of it is tuned for play, and the ratios are the
+   whole lesson rather than a difficulty setting.
+
+     area            90,000 sq mi = 2.331e11 m²
+                     (terraform.html's site is 9,000 — a tenth of this. The
+                     objective here is the larger figure and the smaller one
+                     is printed beside it, because they are different claims
+                     and quietly picking one would hide that.)
+     biomass         ASSUMED 200 t/ha above and below ground = 20 kg/m²
+                     -> 4,662 Mt dry, and dry biomass is ~6% hydrogen
+                        (cellulose C6H10O5 is 6.2%)          ->    280 Mt H
+     held water      ASSUMED 100 kg/m² in soil moisture and living tissue,
+                     which is conservative — a metre of soil at 30% moisture
+                     is 390 on its own
+                     -> 23,310 Mt water, 11.2% hydrogen      ->  2,608 Mt H
+                                                                ─────────
+     TOTAL                                                       2,888 Mt H
+
+   AND WHAT THE THREE SOURCES CAN DO ABOUT THAT
+
+     SHIP   11,400 kg a window, one window every 584 days = 19.5 kg/day.
+            2,888 Mt at that rate is 2.5e8 windows, or four hundred million
+            years. THE SHIPS ARE NOT A SUPPLY LINE FOR THIS AND CANNOT BE
+            MADE INTO ONE. What they carry is the plant.
+     SKIM   cloud sulphuric acid at the altitude you are already at. 2.06% H
+            by mass. The deck holds somewhere between 2,100 and 21,000 Mt of
+            hydrogen depending on droplet density (10–100 mg/m³, genuinely
+            uncertain) — so it is enough, and at the low end of that range it
+            is only enough by a factor of less than one.
+     DIVE   water vapour in the bulk atmosphere, 20–30 ppmv, which is 445,000
+            Mt of hydrogen and effectively unlimited. It is also hot, dense,
+            and down. Ten times the rate at four times the power.
+
+   The relationship between the ships and the forest is the point and it is
+   not a restriction: YOU SHIP THE THING THAT HARVESTS, NEVER THE HARVEST. */
+
+const F_AREA_MI2 = 90000, F_TARGET = 2.888e9;   /* kg of hydrogen */
+const F_SMALL    = 2.89e8;                      /* the 9,000 sq mi site */
+const SKIM_UNIT  = 4200, DIVE_UNIT = 42000;     /* kg/day per plant unit */
+const CLOUD_H    = 6.38e9;                      /* Mt->kg, 30 mg/m³ midpoint */
+
+function forestPct() { return Math.min(100, 100 * S.forest / F_TARGET); }
+function forestRate() {                          /* kg of H a day */
+  let r = 0;
+  if (S.skim && S.pw >= 6) r += S.skim * SKIM_UNIT;
+  if (S.dive && S.pw >= 24 && S.built.hepha) r += S.dive * DIVE_UNIT;
+  return r;
+}
+function fmtKg(k) {
+  if (k >= 1e9) return (k / 1e9).toFixed(2) + ' Mt';
+  if (k >= 1e6) return (k / 1e6).toFixed(1) + ' kt';
+  if (k >= 1e3) return (k / 1e3).toFixed(1) + ' t';
+  return Math.round(k) + ' kg';
+}
+function yearsAt(rate) {
+  if (!rate) return '\u221e';
+  const y = (F_TARGET - S.forest) / rate / 365.25;
+  return y >= 1e6 ? (y / 1e6).toFixed(0) + 'M yr'
+       : y >= 1e3 ? (y / 1e3).toFixed(0) + 'k yr'
+       : y.toFixed(0) + ' yr';
+}
+
+/* the sources sheet — the arithmetic, on the board, openable */
+function openSources() {
+  const shipRate = 11400 / 584;
+  const row = (on, name, rate, why, note) =>
+    '<div class="r' + (on ? ' on' : '') + '"><em>' + (rate ? fmtKg(rate) + '/d' : 'idle') +
+    '</em><b>' + name + '</b><i>' + why + '</i><s>' + note + '</s></div>';
+  $('sheetBody').innerHTML =
+    '<h3>Hydrogen</h3><p class="sub">three sources, and the ratios are the finding</p>' +
+    '<div class="why">The forest needs <b>' + fmtKg(F_TARGET) + '</b> of hydrogen for ' +
+    F_AREA_MI2.toLocaleString() + ' square miles &mdash; 4,662 Mt of biomass at 6% ' +
+    'hydrogen plus 23,310 Mt of held water at 11.2%. terraform.html&rsquo;s site is ' +
+    '9,000 sq mi and would need ' + fmtKg(F_SMALL) + '; both are printed because they ' +
+    'are different claims.</div>' +
+    '<div class="src">' +
+    row(false, 'Ship', shipRate,
+      '11,400 kg a window, one window every 584 days. Whatever else it is, it is ' +
+      '19.5 kg a day.',
+      'the forest at this rate: 400 million years &middot; the ships are not a supply ' +
+      'line for mass and cannot be made into one') +
+    row(S.skim, 'Skim &mdash; cloud acid', S.skim * SKIM_UNIT,
+      'Sulphuric acid droplets at the altitude you are already at. 2.06% hydrogen by ' +
+      'mass. Needs 6 MW and daylight.',
+      'deck reserve ' + fmtKg(CLOUD_H) + ' &middot; enough, at a droplet density ' +
+      'nobody has measured better than 10&ndash;100 mg/m³ &middot; ' + S.skim + ' units') +
+    row(S.dive, 'Dive &mdash; bulk atmosphere', S.dive * DIVE_UNIT,
+      'Water vapour at 20&ndash;30 ppmv in the deep atmosphere. 445,000 Mt of hydrogen ' +
+      'and effectively unlimited. Hot, dense, and down. Needs 24 MW and a forge.',
+      (S.built.hepha ? 'Hephaestus running' : 'needs Hephaestus') + ' &middot; ten times ' +
+      'the rate at four times the power &middot; ' + S.dive + ' units') +
+    '</div>' +
+    '<div class="why"><b>You ship the thing that harvests, never the harvest.</b> ' +
+    'Ship mass buys plant on the manifest; plant buys forest. There is no line ' +
+    'anywhere that turns a delivery into a tree.</div>' +
+    '<button class="ghost" onclick="closeSheet()">close</button>';
+  $('sheet').classList.add('up');
+}
+window.openSources = openSources;
+
 function render() {
   $('v-h2').textContent = Math.round(S.h2).toLocaleString();
   $('v-pw').textContent = Math.round(S.pw);
@@ -1080,6 +1222,22 @@ function render() {
   $('v-day').textContent = S.day;
   $('v-ship').textContent = S.windowOpen ? 'NOW' : S.shipIn;
   $('v-ship').classList.toggle('low', S.windowOpen);
+  /* the forest strip, above the plate and below the clock */
+  let fs = $('forest');
+  if (!fs) {
+    fs = document.createElement('div');
+    fs.id = 'forest'; fs.className = 'forest';
+    fs.innerHTML = '<span>forest</span><span class="track"><i></i></span>' +
+      '<b></b><span class="rate"></span>' +
+      '<a href="#" onclick="openSources();return false" style="color:#6a7e92">sources</a>';
+    $('stage').insertAdjacentElement('beforebegin', fs);
+  }
+  const rt = forestRate();
+  fs.querySelector('i').style.width = forestPct().toFixed(4) + '%';
+  fs.querySelector('b').textContent = fmtKg(S.forest) + ' / ' + fmtKg(F_TARGET);
+  fs.querySelector('.rate').textContent = rt
+    ? fmtKg(rt) + '/d \u00b7 ' + yearsAt(rt) : 'no plant \u00b7 \u221e';
+
   const ph = $('v-phase');
   const cr = commonsReading(S.co);
   ph.textContent = (S.phase === 'day' ? 'daylight' : 'night') + ' · ' + cr[0];
