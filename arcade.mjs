@@ -137,6 +137,7 @@ const SHOP_SAYS = {
   'steading.mjs':    'steading.html \u2014 the six clans build the castle, unpressed',
   'hall.mjs':        'hall.html \u2014 the entrance hall, in one-point perspective',
   'explorer.mjs':    'explorer.html \u2014 the tree, the editor, and run',
+  'viewport.mjs':    'viewport.html \u2014 a tab, and what it can honestly report',
   'venus-app.mjs':   'the app itself: serves the yard, writes notes and feedback',
   'dev.mjs':         'dev.html \u2014 the developer hub, scanned from the yard',
   'castle-rules.mjs':'the castle checks and costing, stated once for three boards',

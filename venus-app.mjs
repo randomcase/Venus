@@ -30,7 +30,7 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 import { createServer } from 'node:http';
 import { execFile } from 'node:child_process';
-import { readFile, writeFile, mkdir, readdir, stat } from 'node:fs/promises';
+import { readFile, writeFile, appendFile, mkdir, readdir, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { extname, join, normalize, sep } from 'node:path';
 
@@ -96,7 +96,8 @@ const DOCK = `
   /* the notebook is already the IDE — code forms, line numbers, syntax
      highlighting and a console that evaluates what you write. It does not
      need building again, it needs reaching from wherever you are. */
-  dock.innerHTML = '<button data-k="files">files</button>' +
+  dock.innerHTML = '<button data-k="view">view</button>' +
+                   '<button data-k="files">files</button>' +
                    '<button data-k="ide">ide</button>' +
                    '<button data-k="note">note</button>' +
                    '<button data-k="feedback">feedback</button>';
@@ -134,6 +135,7 @@ const DOCK = `
     if (!b) return;
     if (b.dataset.k === 'ide') { location.href = '/writing.html'; return; }
     if (b.dataset.k === 'files') { location.href = '/explorer.html'; return; }
+    if (b.dataset.k === 'view') { location.href = '/viewport.html'; return; }
     if (pad.classList.contains('on') && b.dataset.k === kind) pad.classList.remove('on');
     else open(b.dataset.k);
   });
@@ -173,6 +175,7 @@ const DOCK = `
     if (k === 'f') { e.preventDefault(); open('feedback'); }
     if (k === 'i') { e.preventDefault(); location.href = '/writing.html'; }
     if (k === 'e') { e.preventDefault(); location.href = '/explorer.html'; }
+    if (k === 'v') { e.preventDefault(); location.href = '/viewport.html'; }
     if (e.key === 'Escape') pad.classList.remove('on');
   });
 })();
@@ -275,6 +278,59 @@ const server = createServer(async (req, res) => {
       return send(200, TYPES['.json'], JSON.stringify({ ok: true, file }));
     }
 
+    /* the server goes where a frame cannot. No rendering, but it can read
+       any origin and, more usefully, say whether that origin will consent to
+       being framed at all — which is the question the viewport actually
+       needs answered. */
+    if (url.pathname === '/api/probe') {
+      const target = url.searchParams.get('u') || '';
+      if (!/^https?:\/\//i.test(target))
+        return send(400, TYPES['.json'], JSON.stringify({ error: 'needs http or https' }));
+      try {
+        const ctl = new AbortController();
+        const timer = setTimeout(() => ctl.abort(), 12000);
+        const r = await fetch(target, { redirect: 'follow', signal: ctl.signal,
+          headers: { 'user-agent': 'venus-yard/1 (local viewport probe)' } });
+        clearTimeout(timer);
+        const body = await r.text();
+        const h = (k) => r.headers.get(k) || '';
+        const xfo = h('x-frame-options');
+        const csp = h('content-security-policy');
+        const anc = (csp.match(/frame-ancestors([^;]*)/i) || [])[1] || '';
+        const framable = !xfo && !/frame-ancestors/i.test(csp);
+        return send(200, TYPES['.json'], JSON.stringify({
+          ok: true, status: r.status, url: r.url,
+          title: ((body.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1] || '')
+            .replace(/\s+/g, ' ').trim().slice(0, 200),
+          type: h('content-type'), bytes: body.length,
+          framable,
+          refusedBy: xfo ? 'X-Frame-Options: ' + xfo
+            : anc ? 'CSP frame-ancestors:' + anc.trim() : null
+        }));
+      } catch (e) {
+        return send(200, TYPES['.json'],
+          JSON.stringify({ ok: false, error: e.name === 'AbortError'
+            ? 'timed out after 12 s' : e.message }));
+      }
+    }
+
+    /* what a framed board says to the applet, written down. Same-origin
+       only, because that is the only case where a frame can speak at all. */
+    if (req.method === 'POST' && url.pathname === '/api/signal') {
+      const d = await collect(req);
+      await mkdir(NOTES, { recursive: true });
+      const file = join(NOTES, 'signals.log');
+      const line = JSON.stringify({
+        at: new Date().toISOString(),
+        from: String(d.from || '?').slice(0, 300),
+        kind: String(d.kind || 'message').slice(0, 60),
+        data: d.data
+      }) + '\n';
+      await appendFile(file, line, 'utf8');
+      console.log('  signal from ' + (d.from || '?') + ': ' + (d.kind || 'message'));
+      return send(200, TYPES['.json'], JSON.stringify({ ok: true, file: 'notes/signals.log' }));
+    }
+
     if (url.pathname === '/api/tree')
       return send(200, TYPES['.json'], JSON.stringify(await tree()));
 
@@ -352,6 +408,7 @@ server.listen(PORT, '127.0.0.1', async () => {
   console.log('    ctrl+shift+F   feedback    -> feedback/    (' + f + ' there now)');
   console.log('    ctrl+shift+I   the notebook, which is the IDE');
   console.log('    ctrl+shift+E   the explorer: read, edit and run any file here');
+  console.log('    ctrl+shift+V   the viewport: frame a page, and probe any URL');
   console.log('');
   console.log('  Both write real markdown files into this repository. That is the');
   console.log('  point: I cannot run inside the app, but I read those folders at');
