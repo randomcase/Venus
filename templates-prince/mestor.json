@@ -1,0 +1,18 @@
+{
+ "id": "mestor",
+ "order": 11,
+ "name": "Mestor",
+ "kind": "stone-thrower",
+ "glyph": "▣",
+ "colour": "#a08060",
+ "cost": 24000,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 150,
+  "damage": 14,
+  "rate": 0.25,
+  "dead": false
+ },
+ "does": "Slow and enormous. Cannot drop a stone into the dead ground at the foot of the wall.",
+ "text": "Killed early in the tale; here he is the engine on the tower, and the engine cannot see straight down."
+}

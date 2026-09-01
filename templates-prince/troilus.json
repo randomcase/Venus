@@ -1,0 +1,17 @@
+{
+ "id": "troilus",
+ "order": 5,
+ "name": "Troilus",
+ "kind": "horse",
+ "glyph": "⟟",
+ "colour": "#d9b36a",
+ "cost": 7000,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 120,
+  "damage": 1.5,
+  "rate": 3.0
+ },
+ "does": "Fast and light, out on the plain. Many small hits.",
+ "text": "The youngest to ride. Achilles was waiting for him at the fountain; here he gets to shoot first."
+}

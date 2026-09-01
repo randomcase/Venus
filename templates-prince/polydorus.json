@@ -1,0 +1,17 @@
+{
+ "id": "polydorus",
+ "order": 6,
+ "name": "Polydorus",
+ "kind": "boy",
+ "glyph": "·",
+ "colour": "#e8d9a0",
+ "cost": 3000,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 60,
+  "damage": 1,
+  "rate": 1.0
+ },
+ "does": "Should not be on the wall. Cheap, and he will run at the first hollow.",
+ "text": "The last-born. Priam sent him away with gold; the gold is what you are spending."
+}

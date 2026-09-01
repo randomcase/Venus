@@ -1,0 +1,19 @@
+{
+ "id": "hector",
+ "order": 1,
+ "name": "Hector",
+ "kind": "the gate",
+ "glyph": "⌂",
+ "colour": "#c9583a",
+ "cost": 22000,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 70,
+  "damage": 9,
+  "rate": 0.9,
+  "dead": true,
+  "taunt": true
+ },
+ "does": "Holds the gate. Short reach, heavy hand, and the hollows walk to him instead of past him.",
+ "text": "The eldest. Everything on the wall is measured against where he stands."
+}

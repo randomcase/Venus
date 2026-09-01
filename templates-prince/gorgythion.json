@@ -1,0 +1,18 @@
+{
+ "id": "gorgythion",
+ "order": 13,
+ "name": "Gorgythion",
+ "kind": "the quiet one",
+ "glyph": "⟡",
+ "colour": "#c8b8ff",
+ "cost": 20000,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 260,
+  "damage": 8,
+  "rate": 0.35,
+  "dead": false
+ },
+ "does": "The longest bow on the wall, and the slowest. Cannot see the dead ground either.",
+ "text": "Teucer's arrow found him instead of Hector and the poppy bowed its head. Here he is the one aiming."
+}

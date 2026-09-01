@@ -1,0 +1,18 @@
+{
+ "id": "helenus",
+ "order": 4,
+ "name": "Helenus, the seer",
+ "kind": "seer",
+ "glyph": "◎",
+ "colour": "#8f5fb5",
+ "cost": 14000,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 0,
+  "damage": 0,
+  "rate": 0,
+  "reveal": true
+ },
+ "does": "No arrows. He reads the next wave before it lands and the suitors before the veil comes off.",
+ "text": "The seer. With him on the wall the blind auction is not blind, and the AI's next shape is named."
+}
