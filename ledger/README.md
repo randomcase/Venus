@@ -40,6 +40,34 @@ node report.mjs bank                          # Markdown; --html report.html; --
 (`init` registers the writer key only if it exists first; run `keygen bank
 lights` before `init`, or add it later with an `amend`.)
 
+## The explorer, and the b2p2p2b test run by the machine
+
+```bash
+node serve.mjs bank 7332      # then open http://127.0.0.1:7332
+node audit.mjs bank           # the same audit as JSON
+```
+
+The explorer shows the overview, the tranches against their schedule, the
+accounts and statements, every event with its hashes and signatures, the
+checkpoints, the switches, and a place to ask. It verifies twice: the server
+from the file, and the page itself by re-hashing every event with WebCrypto
+and re-linking the chain, so the badge is earned in front of you.
+
+The **b2p2p2b** view is the first lesson's test, automated over the real
+ledger. Accounts carry a role (`issuer`, `peer`, `redeemer`; `redeem` events
+burn units at a redeemer). The audit builds the flow graph from the recorded
+hops and reports: whether issuance reaches redemption; whether both ends are
+plural; the single parties whose removal cuts the flow (`chokes`); the
+minimal pairs that single deletion cannot see (`pairs`), and for each pair how
+often its members act on the same day, which is the only record-based hint
+about moving together; the fungibility verdict (this ledger stores the
+tranche of every unit, so units are distinguishable, and it says so); the
+reads verdict (a transfer needs a replay, so by the third lesson it is a
+ledger coin, not a decentralised one); and what the quorum vote is in these
+terms: any n−m+1 custodians refusing together is a minimal cutting set of the
+issuance hop by construction, softened only because issuance already follows
+a schedule, and removed only by making issuance fully automatic.
+
 ## Keeping it for 200 years
 
 The file is the product; the hosting is replaceable. Keep it in several

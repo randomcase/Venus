@@ -4,8 +4,24 @@
     {
       "name": "yard",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8777", "--bind", "127.0.0.1"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8777",
+        "--bind",
+        "127.0.0.1"
+      ],
       "port": 8777
+    },
+    {
+      "name": "ledger",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "ledger/serve.mjs",
+        "ledger/bank",
+        "7332"
+      ],
+      "port": 7332
     }
   ]
 }

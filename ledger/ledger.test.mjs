@@ -86,3 +86,26 @@ test('the lights write every flick to the ledger, refuse the garage door, and ra
   assert.equal(new Lights(dir).list().find(s => s.id === 'switch.porch').on, true);
   L.reg.rateLimitPerMinute = 2; await L.set('switch.hall', true); await assert.rejects(() => L.set('switch.hall', false), /rate limit/);
 });
+import { chokes, pairs, reaches, audit } from './audit.mjs';
+test('chokes and pairs: the lesson\'s own cases', () => {
+  const g = (edges) => ({ nodes: [...new Set(edges.flat())], edges });
+  assert.deepEqual(chokes(g([['issuer', 'mid'], ['mid', 'shop']]), 'issuer', 'shop'), ['mid'], 'a single middleman is found');
+  assert.deepEqual(chokes(g([['issuer', 'p1'], ['issuer', 'p2'], ['p1', 'shop'], ['p2', 'shop']]), 'issuer', 'shop'), [], 'two independent peers leave no choke point');
+  assert.deepEqual(chokes(g([['issuer', 'a'], ['a', 'b'], ['b', 'shop']]), 'issuer', 'shop'), ['a', 'b'], 'a chain of two names both');
+  assert.equal(reaches(g([['issuer', 'mid'], ['mid', 'shop']]), 'issuer', 'shop'), true); assert.equal(reaches(g([['issuer', 'mid'], ['lonely', 'shop']]), 'issuer', 'shop'), false);
+  assert.deepEqual(pairs(g([['issuer', 'p1'], ['issuer', 'p2'], ['p1', 'shop'], ['p2', 'shop']]), 'issuer', 'shop'), [['p1', 'p2']], 'the pair that chokes cannot see');
+  assert.deepEqual(pairs(g([['issuer', 'p1'], ['issuer', 'p2'], ['issuer', 'p3'], ['p1', 'shop'], ['p2', 'shop'], ['p3', 'shop']]), 'issuer', 'shop'), [], 'three routes cannot be cut by any pair');
+  assert.deepEqual(pairs(g([['issuer', 'gate'], ['gate', 'p1'], ['gate', 'p2'], ['p1', 'shop'], ['p2', 'shop']]), 'issuer', 'shop'), [['p1', 'p2']], 'a pair containing a party that already cuts alone is not minimal');
+});
+test('the audit over a bank: singular ends, a pair the single test cannot see, redeem, and the vote', () => {
+  const { dir, l, k } = bank(); const ok = keygen(dir, 'owner-shop'), oq = keygen(dir, 'owner-q');
+  l.append('account', { id: 'shop', name: 'The shop', owner: { name: 'owner-shop', id: ok.id, pub: ok.pub }, role: 'redeemer' }, [k('alice')]);
+  l.append('account', { id: 'q', name: 'Peer Q', owner: { name: 'owner-q', id: oq.id, pub: oq.pub } }, [k('alice')]);
+  l.append('issue', { tranche: 1, to: 'a', amount: 1000 }, [k('alice'), k('bob')]); l.append('issue', { tranche: 1, to: 'b', amount: 1000 }, [k('alice'), k('bob')]);
+  l.append('transfer', { from: 'a', to: 'q', tranche: 1, amount: 100 }, [k('owner-a')]); l.append('transfer', { from: 'b', to: 'q', tranche: 1, amount: 100 }, [k('owner-b')]);
+  l.append('redeem', { from: 'q', to: 'shop', tranche: 1, amount: 50 }, [k('owner-q')]);
+  assert.throws(() => l.append('redeem', { from: 'a', to: 'b', tranche: 1, amount: 1 }, [k('owner-a')]), /not a redeemer/);
+  const A = audit(l); assert.equal(A.model.connected, true); assert.deepEqual(A.chokes.nodes, ['q', 'shop']); assert.equal(A.ends.redeemersPlural, false);
+  assert.equal(l.replay().accounts.q.balances[1], 150); assert.equal(l.replay().redeemed, 50); assert.equal(l.verify().ok, true);
+  assert.deepEqual(A.voting.cuttingSets, [['alice', 'bob'], ['alice', 'carol'], ['bob', 'carol']]); assert.equal(A.fungible.distinguishable, true);
+});

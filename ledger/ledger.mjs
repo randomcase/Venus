@@ -52,11 +52,13 @@ export const listKeys = dir => existsSync(join(dir, 'keys')) ? readdirSync(join(
 export class Ledger {
   constructor(dir) { this.dir = dir; this.file = join(dir, 'ledger.jsonl'); this.events = existsSync(this.file) ? readFileSync(this.file, 'utf8').split('\n').filter(Boolean).map(l => JSON.parse(l)) : []; }
 
-  static init(dir, { name = 'the bank', tranches = 21, cap = 21000000, divisible = 100, years = 200, authority = [], quorum = 2, writers = [], start = new Date().toISOString() } = {}) {
+  static init(dir, { name = 'the bank', tranches = 21, cap = 21000000, divisible = 100, years = 200, authority = [], quorum = 2, writers = [], start = new Date().toISOString(), intervalDays = 182.5 } = {}) {
     mkdirSync(dir, { recursive: true }); if (existsSync(join(dir, 'ledger.jsonl'))) throw new Error('already initialised');
     if (authority.length < quorum) throw new Error('quorum larger than the number of authority keys');
     const l = new Ledger(dir);
-    const rules = { schema: SCHEMA, name, tranches, cap: cap * divisible, divisible, schedule: { start, years, note: 'cumulative issuance per tranche may not exceed cap × (years elapsed + 1) / years' }, quorum: { m: quorum, keys: authority }, writers, note: 'Rules change only by an amend event signed by the quorum. Nothing in this file issues past the cap.' };
+    const rules = { schema: SCHEMA, name, tranches, cap: cap * divisible, divisible, schedule: { start, years, note: 'cumulative issuance per tranche may not exceed cap × (years elapsed + 1) / years' }, quorum: { m: quorum, keys: authority }, writers,
+      interval: { days: intervalDays, note: 'a checkpoint is due every interval: the block that crosses between worlds when the window opens. Between windows the file is the truth on each side; at the window the roots are compared.' },
+      note: 'Rules change only by an amend event signed by the quorum. Nothing in this file issues past the cap.' };
     l._append('genesis', rules, [], { skipRules: true }); return l;
   }
   get head() { return this.events.length ? this.events[this.events.length - 1] : null; }
@@ -69,9 +71,10 @@ export class Ledger {
       const b = e.body;
       if (e.type === 'genesis') { st.rules = { ...b }; for (const k of b.quorum.keys) st.keys[k.id] = { ...k, role: 'authority' }; for (const k of b.writers || []) st.keys[k.id] = { ...k, role: 'writer' }; }
       else if (e.type === 'amend') { st.rules = { ...st.rules, ...b.rules }; if (b.rules.quorum) for (const k of b.rules.quorum.keys) st.keys[k.id] = { ...k, role: 'authority' }; if (b.rules.writers) for (const k of b.rules.writers) st.keys[k.id] = { ...k, role: 'writer' }; }
-      else if (e.type === 'account') { st.accounts[b.id] = { id: b.id, name: b.name, owner: b.owner, balances: {}, opened: e.time }; st.keys[b.owner.id] = { ...b.owner, role: 'owner', account: b.id }; }
+      else if (e.type === 'account') { st.accounts[b.id] = { id: b.id, name: b.name, owner: b.owner, role: b.role || 'peer', balances: {}, redeemed: 0, opened: e.time }; st.keys[b.owner.id] = { ...b.owner, role: 'owner', account: b.id }; }
       else if (e.type === 'issue') { st.issued[b.tranche] = (st.issued[b.tranche] || 0) + b.amount; const a = st.accounts[b.to]; a.balances[b.tranche] = (a.balances[b.tranche] || 0) + b.amount; }
       else if (e.type === 'transfer') { const f = st.accounts[b.from], t = st.accounts[b.to]; f.balances[b.tranche] -= b.amount; t.balances[b.tranche] = (t.balances[b.tranche] || 0) + b.amount; }
+      else if (e.type === 'redeem') { const f = st.accounts[b.from], t = st.accounts[b.to]; f.balances[b.tranche] -= b.amount; t.redeemed += b.amount; st.redeemed = (st.redeemed || 0) + b.amount; }
       else if (e.type === 'rotate-key') { const k = st.keys[b.old]; if (k) { delete st.keys[b.old]; st.keys[b.new.id] = { ...b.new, role: k.role, account: k.account }; if (k.account) st.accounts[k.account].owner = b.new; } }
       else if (e.type === 'note') st.notes++;
       else if (e.type === 'checkpoint') st.checkpoints++;
@@ -93,6 +96,8 @@ export class Ledger {
         const after = (st.issued[b.tranche] || 0) + b.amount, allowed = this.allowedIssuance(e.time); if (after > r.cap) throw new Error('past the cap'); if (after > allowed) throw new Error(`past the schedule: ${allowed} allowed for tranche ${b.tranche} by ${e.time.slice(0, 10)}`); break; }
       case 'transfer': { int(b.amount, 'amount'); const f = st.accounts[b.from], t = st.accounts[b.to]; if (!f || !t) throw new Error('no such account'); if (b.from === b.to) throw new Error('to itself');
         if (!sigIds.includes(f.owner.id)) throw new Error('transfer needs the owner\'s signature'); if ((f.balances[b.tranche] || 0) < b.amount) throw new Error('insufficient balance'); break; }
+      case 'redeem': { int(b.amount, 'amount'); const f = st.accounts[b.from], t = st.accounts[b.to]; if (!f || !t) throw new Error('no such account'); if (t.role !== 'redeemer') throw new Error(`${b.to} is not a redeemer; only the last b takes units back`);
+        if (!sigIds.includes(f.owner.id)) throw new Error('redeem needs the owner\'s signature'); if ((f.balances[b.tranche] || 0) < b.amount) throw new Error('insufficient balance'); break; }
       case 'rotate-key': { const k = st.keys[b.old]; if (!k) throw new Error('unknown key'); if (k.role === 'authority' ? !hasQuorum() : !sigIds.includes(b.old) && !hasQuorum()) throw new Error('rotation needs the old key or the quorum'); break; }
       case 'note': if (!sigIds.some(id => st.keys[id])) throw new Error('a note needs a signature from a registered key'); break;
       default: throw new Error('unknown event type ' + e.type);
@@ -145,7 +150,8 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, '
       const writers = (flags.writer || ['lights'])[0].split(',').filter(n => n && existsSync(join(dir, 'keys', n + '.pub'))).map(n => { const pub = readFileSync(join(dir, 'keys', n + '.pub'), 'utf8').trim(); return { name: n, id: keyId(pub), pub }; });
       const l = Ledger.init(dir, { name: (flags.name || ['the bank'])[0], authority, writers, quorum: +(flags.quorum || [2])[0], tranches: +(flags.tranches || [21])[0], cap: +(flags.cap || [21000000])[0], years: +(flags.years || [200])[0] }); out({ genesis: l.head.hash.sha256, authority: authority.map(a => a.name), writers: writers.map(w => w.name) }); }
     else { const l = new Ledger(dir);
-      if (cmd === 'account') { const owner = listKeys(dir).find(k => k.name === args[2]) || (() => { throw new Error('no key named ' + args[2]); })(); out(l.append('account', { id: args[0], name: args[1], owner: { name: owner.name, id: owner.id, pub: owner.pub } }, signers)); }
+      if (cmd === 'account') { const owner = listKeys(dir).find(k => k.name === args[2]) || (() => { throw new Error('no key named ' + args[2]); })(); out(l.append('account', { id: args[0], name: args[1], owner: { name: owner.name, id: owner.id, pub: owner.pub }, role: (flags.role || ['peer'])[0] }, signers)); }
+      else if (cmd === 'redeem') out(l.append('redeem', { from: args[0], to: args[1], tranche: +args[2], amount: +args[3], memo: (flags.memo || [''])[0] }, signers));
       else if (cmd === 'issue') out(l.append('issue', { tranche: +args[0], to: args[1], amount: +args[2], memo: (flags.memo || [''])[0] }, signers));
       else if (cmd === 'transfer') out(l.append('transfer', { from: args[0], to: args[1], tranche: +args[2], amount: +args[3], memo: (flags.memo || [''])[0] }, signers));
       else if (cmd === 'note') out(l.append('note', JSON.parse(args[0]), signers));

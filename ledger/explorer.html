@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The ledger · explorer</title>
+<!--
+  THE EXPLORER — the ledger in a browser.
+
+  Overview, the 21 tranches against their 200-year schedule, accounts and
+  statements, every event with its hashes and signatures, the checkpoints, the
+  light switches, and a place to ask. Verification runs twice: the server's
+  full check from the file, and this page's own check of the chain and the
+  SHA-256 hashes with WebCrypto, so the badge at the top is earned in front of
+  you and not taken on trust. Served by serve.mjs; reads /api/*.
+-->
+<style>
+  :root{--void:#0b0d12;--panel:#151922;--panel2:#1c2230;--edge:#2b3445;--ink:#efe9dc;--dim:#95a0b3;--gold:#f2c98a;--venus:#f0a83c;--ok:#6fd4a8;--bad:#e06f5a;--tide:#3f8fbf;--mono:ui-monospace,Consolas,"SF Mono",Menlo,monospace}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--void);color:var(--ink);font:14px/1.5 ui-rounded,system-ui,-apple-system,sans-serif}
+  header{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--edge);flex-wrap:wrap;position:sticky;top:0;background:rgba(11,13,18,.92);backdrop-filter:blur(6px);z-index:5}
+  header h1{margin:0;font-size:18px;color:var(--gold);font-weight:600}
+  header .sp{flex:1}
+  .badge{display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--edge);border-radius:999px;padding:3px 10px;font-size:12px;color:var(--dim)}
+  .badge.ok{border-color:var(--ok);color:var(--ok)}.badge.bad{border-color:var(--bad);color:var(--bad)}.badge.hot{border-color:var(--venus);color:var(--venus)}
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+  nav{display:flex;gap:4px;padding:8px 14px;overflow-x:auto;border-bottom:1px solid var(--edge)}
+  nav button{white-space:nowrap;background:transparent;border:1px solid transparent;color:var(--dim);border-radius:8px;padding:6px 12px;font:inherit;cursor:pointer}
+  nav button.on{background:var(--panel2);border-color:var(--edge);color:var(--ink)}
+  main{padding:14px 18px 40px;max-width:1240px;margin:0 auto}
+  .view{display:none}.view.on{display:block}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:12px}
+  .stat{background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:10px 12px}
+  .stat b{display:block;font-size:11px;color:var(--dim);font-weight:500;text-transform:uppercase;letter-spacing:.06em}
+  .stat span{font-size:20px;font-variant-numeric:tabular-nums}
+  .stat i{font-style:normal;color:var(--dim);font-size:11px;display:block}
+  section{background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:12px;margin:10px 0}
+  section h2{margin:0 0 8px;font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+  section h2 i{font-style:normal;text-transform:none;letter-spacing:0;font-weight:400;margin-left:6px}
+  canvas{display:block;width:100%;background:#0e1118;border-radius:8px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;color:var(--dim);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:6px 8px;border-bottom:1px solid var(--edge)}
+  td{padding:6px 8px;border-bottom:1px solid #1d2532;font-variant-numeric:tabular-nums;vertical-align:top}
+  tr.row:hover td{background:var(--panel2);cursor:pointer}
+  .mono{font-family:var(--mono);font-size:12px}
+  .hash{font-family:var(--mono);font-size:11px;color:var(--tide)}
+  .type{display:inline-block;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:600;letter-spacing:.03em}
+  .t-redeem{background:#3a2430;color:#f0a0c0}.t-genesis{background:#3a2a4a;color:#d9c2f0}.t-issue{background:#2a3a2a;color:#9ad36a}.t-transfer{background:#1f3140;color:#7fc5e8}.t-note{background:#3a3020;color:#f2c98a}.t-checkpoint{background:#402a1f;color:#f0a83c}.t-account{background:#233a3a;color:#8fd3c8}.t-rotate-key{background:#3a2a2a;color:#e0a0a0}.t-amend{background:#3a2a4a;color:#d9c2f0}
+  .bar{height:6px;background:var(--panel2);border-radius:3px;overflow:hidden;margin-top:6px}
+  .bar div{height:100%;background:var(--tide)}
+  .bar div.sched{background:rgba(242,201,138,.35)}
+  .tranche{background:var(--panel2);border:1px solid var(--edge);border-radius:10px;padding:8px 10px}
+  .tranche b{font-size:15px}.tranche small{color:var(--dim);display:block}
+  .filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+  input,select,textarea,button.act{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--edge);border-radius:8px;padding:6px 10px}
+  input:focus,textarea:focus{outline:none;border-color:var(--tide)}
+  button.act{cursor:pointer}button.act:hover:not(:disabled){border-color:var(--gold)}button.act:disabled{opacity:.45;cursor:not-allowed}
+  button.primary{background:#2a2036;border-color:var(--venus)}
+  pre{background:#0e1118;border:1px solid var(--edge);border-radius:8px;padding:10px;overflow:auto;font:12px/1.45 var(--mono);color:#c9d4e0;margin:6px 0 0}
+  .detail{background:#0e1118;border-left:3px solid var(--tide)}
+  .sig{display:flex;gap:8px;align-items:center;font-size:12px;margin:2px 0}
+  .switch{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--panel2);border:1px solid var(--edge);border-radius:10px;padding:10px 12px}
+  .switch.on{border-color:var(--gold)}.switch.no{opacity:.55}
+  .toggle{width:44px;height:24px;border-radius:12px;background:#2b3445;position:relative;border:0;cursor:pointer}
+  .toggle::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#95a0b3;transition:left .15s}
+  .toggle.on{background:var(--gold)}.toggle.on::after{left:23px;background:#0b0d12}
+  .toggle:disabled{cursor:not-allowed}
+  .chat{display:flex;flex-direction:column;gap:8px}
+  .msg{background:var(--panel2);border:1px solid var(--edge);border-radius:10px;padding:8px 12px;max-width:80%}
+  .msg.me{align-self:flex-end;border-color:var(--tide)}
+  .msg small{display:block;color:var(--dim);margin-top:4px}
+  .empty{color:var(--dim);padding:10px}
+  footer{color:var(--dim);font-size:12px;padding:10px 18px 24px;max-width:1240px;margin:0 auto}
+  @media (max-width:700px){.msg{max-width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="name">The ledger</h1>
+  <span class="badge" id="b-server"><span class="dot"></span>server: …</span>
+  <span class="badge" id="b-browser"><span class="dot"></span>this browser: …</span>
+  <span class="badge" id="b-head">head …</span>
+  <span class="sp"></span>
+  <input id="search" placeholder="seq, hash prefix, account, memo…" style="min-width:240px">
+</header>
+<nav id="nav"></nav>
+<main>
+  <div class="view" id="v-overview">
+    <div class="grid" id="stats"></div>
+    <section><h2>Issuance against the schedule<i>per month, minor units ÷ 100; the pale line is what the schedule allows per tranche</i></h2><canvas id="c-months" height="180"></canvas></section>
+    <section><h2>Latest events</h2><table><thead><tr><th>#</th><th>when</th><th>type</th><th>what</th><th>hash</th></tr></thead><tbody id="latest"></tbody></table></section>
+  </div>
+  <div class="view" id="v-tranches"><section><h2>Twenty-one tranches<i>each capped at its own 21,000,000; the schedule lets each issue 1/200 of that per year</i></h2><div class="grid" id="tranches"></div></section></div>
+  <div class="view" id="v-accounts">
+    <section><h2>Accounts</h2><table><thead><tr><th>account</th><th>name</th><th>opened</th><th>balance</th><th>by tranche</th></tr></thead><tbody id="accounts"></tbody></table></section>
+    <section id="stmt" style="display:none"><h2>Statement <i id="stmt-title"></i></h2><table><thead><tr><th>#</th><th>when</th><th>type</th><th>tranche</th><th>amount</th><th>counterparty</th><th>memo</th></tr></thead><tbody id="stmt-lines"></tbody></table></section>
+  </div>
+  <div class="view" id="v-events">
+    <section><h2>Every event<i>newest first; click one for its hashes, signatures and the link to the one before</i></h2>
+      <div class="filters"><select id="f-type"><option value="">all types</option></select><input id="f-account" placeholder="account"><input id="f-tranche" placeholder="tranche" style="width:90px"><button class="act" id="f-go">Filter</button><span class="badge" id="f-count"></span></div>
+      <table><thead><tr><th>#</th><th>when</th><th>type</th><th>what</th><th>signed by</th><th>hash</th></tr></thead><tbody id="events"></tbody></table>
+      <div class="filters" style="margin-top:8px"><button class="act" id="more">More</button></div></section>
+  </div>
+  <div class="view" id="v-checkpoints"><section><h2>Checkpoints<i>each carries the Merkle root of everything before it; the page recomputes the root from the events it fetched</i></h2><div id="checkpoints"></div></section></div>
+  <div class="view" id="v-audit">
+    <section><h2>The b2p2p2b test, run by the machine<i>issuers at one end, redeemers at the other, peers in the middle; who can stop the flow alone, and who could together</i></h2><div id="audit" class="empty">Loading…</div></section>
+  </div>
+  <div class="view" id="v-lights">
+    <section><h2>The switches<i>every change is a signed note on the ledger; greyed switches are not on the allow list</i></h2><div class="grid" id="switches"></div></section>
+    <section><h2>Say it<i>the assistant drives the switches through three tools and asks when it is unsure</i></h2><div class="filters"><input id="say" placeholder="Everything in the kitchen off, please." style="flex:1"><button class="act primary" id="say-go">Do it</button></div><pre id="say-out" style="display:none"></pre></section>
+    <section><h2>Recent flicks</h2><table><thead><tr><th>#</th><th>when</th><th>switch</th><th>state</th><th>by</th><th>reason</th></tr></thead><tbody id="flicks"></tbody></table></section>
+  </div>
+  <div class="view" id="v-ask">
+    <section><h2>Ask the ledger<i>read-only; every number in the answer is checked against the data and the verdict is written down</i></h2>
+      <div class="chat" id="chat"></div>
+      <div class="filters" style="margin-top:8px"><input id="q" placeholder="How much has tranche 1 issued, and who holds it?" style="flex:1"><button class="act primary" id="q-go">Ask</button><button class="act" id="health">Run the health probes</button></div></section>
+  </div>
+</main>
+<footer>Amounts are shown in whole tokens (minor units ÷ 100). The server verifies from the file; this page re-hashes what it fetched with WebCrypto and checks each link to the event before. Signatures are checked by the server only, because the keys are there.</footer>
+<script>
+(async function () {
+  const $ = s => document.querySelector(s), el = (t, a = {}, ...k) => { const e = document.createElement(t); for (const [n, v] of Object.entries(a)) { if (v == null) continue; n === 'html' ? e.innerHTML = v : n.startsWith('on') ? e[n] = v : e.setAttribute(n, v); } k.forEach(x => e.append(x)); return e; };
+  const api = async (p, opts) => { const r = await fetch(p, opts && { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(opts) }); const j = await r.json(); if (!r.ok) throw new Error(j.error || r.statusText); return j; };
+  const money = n => (n / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const when = t => new Date(t).toLocaleString();
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const short = h => h ? h.slice(0, 10) + '…' : '';
+  const what = e => { const b = e.body; return e.type === 'issue' ? `${money(b.amount)} of tranche ${b.tranche} → ${b.to}${b.memo ? ' · ' + esc(b.memo) : ''}` : e.type === 'transfer' ? `${money(b.amount)} of tranche ${b.tranche}: ${b.from} → ${b.to}${b.memo ? ' · ' + esc(b.memo) : ''}` : e.type === 'redeem' ? `${money(b.amount)} of tranche ${b.tranche} redeemed: ${b.from} → ${b.to}` : e.type === 'account' ? `${b.id} “${esc(b.name)}” opened` : e.type === 'note' ? (b.system === 'lights' ? `${esc(b.name || b.switch)} ${b.on ? 'on' : 'off'} (${esc(b.by || '')})` : b.system === 'llm-health' ? `assistant health ${b.score}/${b.of}` : b.system === 'assistant' ? `asked: ${esc(b.question || '')} · ${b.grounded ? 'grounded' : 'ungrounded'}` : esc(JSON.stringify(b)).slice(0, 80)) : e.type === 'checkpoint' ? `root ${short(b.root)} over ${b.events} events` : e.type === 'genesis' ? `${esc(b.name)}: ${b.tranches} × ${money(b.cap)}, quorum ${b.quorum.m} of ${b.quorum.keys.length}` : esc(JSON.stringify(b)).slice(0, 80); };
+  const typeTag = t => `<span class="type t-${t}">${t}</span>`;
+
+  /* ---------------------------------------------------------------- views */
+  const VIEWS = [['overview', 'Overview'], ['tranches', 'Tranches'], ['accounts', 'Accounts'], ['events', 'Events'], ['checkpoints', 'Checkpoints'], ['audit', 'b2p2p2b'], ['lights', 'Lights'], ['ask', 'Ask']];
+  for (const [id, name] of VIEWS) $('#nav').append(el('button', { onclick: () => show(id) }, name));
+  let view = location.hash.slice(1) || 'overview';
+  function show(id) { view = id; location.hash = id; [...$('#nav').children].forEach((b, i) => b.classList.toggle('on', VIEWS[i][0] === id)); document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.id === 'v-' + id)); if (id === 'lights') loadLights(); if (id === 'checkpoints') loadCheckpoints(); if (id === 'audit') loadAudit(); }
+  async function loadAudit() { const a = await api('/api/audit'); const box = $('#audit'); box.className = ''; box.innerHTML = '';
+    const row = (title, verdict, ok, extra) => box.append(el('section', {}, el('h2', {}, title), el('p', { style: 'margin:0' }, el('span', { class: 'badge ' + (ok === null ? '' : ok ? 'ok' : 'bad') }, ok === null ? 'note' : ok ? 'passes' : 'fails'), ' ', verdict), extra || ''));
+    row('The path', a.model.note, a.model.connected, el('p', { style: 'color:var(--dim);margin:6px 0 0' }, `issuers: ${a.model.issuers.join(', ') || 'none'} · peers: ${a.model.peers.join(', ') || 'none'} · redeemers: ${a.model.redeemers.join(', ') || 'none'}`));
+    row('The ends are plural', a.ends.verdict, a.ends.issuersPlural && a.ends.redeemersPlural);
+    row('No single party can stop it', a.chokes.verdict, a.model.connected ? a.chokes.nodes.length === 0 : null);
+    row('No pair can stop it', a.pairs.verdict, a.model.connected ? a.pairs.list.length === 0 : null, a.pairs.list.length ? el('table', { html: '<thead><tr><th>pair</th><th>days either acted</th><th>days both acted</th><th>in step</th></tr></thead>' + a.pairs.list.map(x => `<tr><td class="mono">${x.pair.join(' + ')}</td><td>${x.days}</td><td>${x.together}</td><td>${x.ratio}</td></tr>`).join('') }) : '');
+    row('Fungible', a.fungible.verdict, !a.fungible.distinguishable);
+    row('No reads', a.reads.verdict, false);
+    row('Syndicated between worlds', a.syndication.verdict, a.syndication.onTime, el('p', { style: 'color:var(--dim);margin:6px 0 0' }, `next window in ${a.syndication.nextInDays} days`));
+    row('The vote', a.voting.verdict, null, el('p', { style: 'color:var(--dim);margin:6px 0 0' }, `sets that can refuse together: ${a.voting.cuttingSets.map(s => s.join(' + ')).join('; ')}`)); }
+
+  /* -------------------------------------------------------------- summary */
+  let S = null, keys = {};
+  async function load() { S = await api('/api/summary'); $('#name').textContent = S.name;
+    const bs = $('#b-server'); bs.className = 'badge ' + (S.verified ? 'ok' : 'bad'); bs.innerHTML = `<span class="dot"></span>server: ${S.verified ? 'verified' : 'NOT verified'} · ${S.events} events`;
+    $('#b-head').textContent = 'head ' + short(S.head); $('#b-head').title = S.head;
+    const st = $('#stats'); st.innerHTML = '';
+    const card = (b, v, i) => st.append(el('div', { class: 'stat' }, el('b', {}, b), el('span', {}, v), el('i', {}, i)));
+    card('issued in all', S.supply.totalIssuedText, `of ${S.supply.totalCapText} across ${S.supply.tranches} tranches`);
+    card('in circulation', money(S.supply.inCirculation), `${S.accounts.length} accounts`);
+    card('schedule', `year ${Math.floor(S.schedule.elapsedYears) + 1} of ${S.schedule.years}`, `each tranche may have issued ${S.schedule.allowedText} by now`);
+    card('custody', `${S.quorum.m} of ${S.quorum.n}`, `${S.quorum.keys.join(', ')} · writers: ${S.writers.join(', ') || 'none'}`);
+    card('checkpoints', S.checkpoints, S.lastCheckpoint ? `last #${S.lastCheckpoint.seq}, ${S.lastCheckpoint.time.slice(0, 10)}` : 'none yet');
+    card('notes', S.notes, 'lights, questions, health');
+    drawMonths(); renderTranches(); renderAccounts();
+    const latest = await api('/api/events?limit=8'); $('#latest').innerHTML = latest.events.map(e => `<tr class="row" onclick="location.hash='events';document.querySelector('#search').value='${e.seq}';document.querySelector('#search').dispatchEvent(new Event('input'))"><td>${e.seq}</td><td>${when(e.time)}</td><td>${typeTag(e.type)}</td><td>${what(e)}</td><td class="hash">${short(e.hash.sha256)}</td></tr>`).join('');
+    browserVerify(); }
+  function drawMonths() { const cv = $('#c-months'), g = cv.getContext('2d'); const W = cv.width = cv.clientWidth, H = cv.height; g.clearRect(0, 0, W, H);
+    const months = Object.entries(S.byMonth); if (!months.length) return; const max = Math.max(1, ...months.map(([, m]) => m.issued + m.transferred)); const bw = Math.min(60, (W - 60) / months.length - 6);
+    g.font = '11px system-ui'; g.textAlign = 'center';
+    months.forEach(([m, x], i) => { const x0 = 40 + i * ((W - 60) / months.length) + 3; const hi = (x.issued / max) * (H - 40), ht = (x.transferred / max) * (H - 40);
+      g.fillStyle = '#9ad36a'; g.fillRect(x0, H - 24 - hi, bw / 2 - 1, hi); g.fillStyle = '#7fc5e8'; g.fillRect(x0 + bw / 2, H - 24 - ht, bw / 2 - 1, ht);
+      g.fillStyle = '#95a0b3'; g.fillText(m, x0 + bw / 2, H - 8); });
+    const allowedY = H - 24 - Math.min(H - 40, (S.schedule.allowedPerTrancheNow / max) * (H - 40)); g.strokeStyle = 'rgba(242,201,138,.5)'; g.setLineDash([4, 4]); g.beginPath(); g.moveTo(36, allowedY); g.lineTo(W - 10, allowedY); g.stroke(); g.setLineDash([]);
+    g.fillStyle = '#9ad36a'; g.fillRect(10, 10, 10, 10); g.fillStyle = '#95a0b3'; g.textAlign = 'left'; g.fillText('issued', 24, 19); g.fillStyle = '#7fc5e8'; g.fillRect(80, 10, 10, 10); g.fillStyle = '#95a0b3'; g.fillText('transferred', 94, 19); }
+  function renderTranches() { const box = $('#tranches'); box.innerHTML = ''; for (const t of S.tranches) { const pctSched = 100 * t.allowedNow / t.cap, pct = t.pctOfCap;
+      box.append(el('div', { class: 'tranche', onclick: () => { $('#f-tranche').value = t.tranche; show('events'); loadEvents(true); } }, el('b', {}, `Tranche ${t.tranche}`), el('span', { class: 'mono' }, t.issuedText), el('small', {}, `${t.pctOfCap}% of cap · headroom now ${money(t.headroom)}`), el('div', { class: 'bar' }, el('div', { class: 'sched', style: `width:${pctSched}%` })), el('div', { class: 'bar', style: 'margin-top:2px' }, el('div', { style: `width:${pct}%` })))); } }
+  function renderAccounts() { $('#accounts').innerHTML = S.accounts.map(a => `<tr class="row" data-a="${a.id}"><td class="mono">${a.id}</td><td>${esc(a.name)}</td><td>${a.opened.slice(0, 10)}</td><td>${a.totalText}</td><td>${Object.entries(a.balances).map(([t, v]) => `${t}: ${money(v)}`).join(', ') || '—'}</td></tr>`).join('') || '<tr><td colspan="5" class="empty">No accounts yet.</td></tr>';
+    $('#accounts').querySelectorAll('tr.row').forEach(tr => tr.onclick = async () => { const s = await api('/api/statement/' + tr.dataset.a); $('#stmt').style.display = ''; $('#stmt-title').textContent = `${s.name} · ${s.account}`; $('#stmt-lines').innerHTML = s.lines.slice().reverse().map(x => `<tr><td>${x.seq}</td><td>${when(x.time)}</td><td>${typeTag(x.type)}</td><td>${x.tranche}</td><td style="color:${x.amount < 0 ? 'var(--bad)' : 'var(--ok)'}">${x.amount < 0 ? '−' : '+'}${money(Math.abs(x.amount))}</td><td class="mono">${esc(x.counterparty)}</td><td>${esc(x.memo)}</td></tr>`).join('') || '<tr><td colspan="7" class="empty">Nothing yet.</td></tr>'; $('#stmt').scrollIntoView({ behavior: 'smooth' }); }); }
+
+  /* --------------------------------------------------------------- events */
+  let from = 0, lastFilter = ''; for (const t of ['genesis', 'account', 'issue', 'transfer', 'redeem', 'note', 'checkpoint', 'rotate-key', 'amend']) $('#f-type').append(new Option(t, t));
+  const filterQS = () => `type=${encodeURIComponent($('#f-type').value)}&account=${encodeURIComponent($('#f-account').value.trim())}&tranche=${encodeURIComponent($('#f-tranche').value.trim())}&q=${encodeURIComponent($('#search').value.trim())}`;
+  async function loadEvents(reset) { if (reset) { from = 0; $('#events').innerHTML = ''; } const qs = filterQS(); lastFilter = qs; const r = await api(`/api/events?${qs}&from=${from}&limit=60`); from += r.events.length; $('#f-count').textContent = `${r.total} match${r.total === 1 ? '' : 'es'}`; $('#more').disabled = from >= r.total;
+    for (const e of r.events) { const tr = el('tr', { class: 'row', html: `<td>${e.seq}</td><td>${when(e.time)}</td><td>${typeTag(e.type)}</td><td>${what(e)}</td><td class="mono">${e.sigs.map(s => keys[s.key] || s.key.slice(0, 6)).join(', ') || '—'}</td><td class="hash">${short(e.hash.sha256)}</td>` });
+      tr.onclick = () => { const next = tr.nextElementSibling; if (next && next.classList.contains('detail')) return next.remove(); const d = el('tr', { class: 'detail' }); const td = el('td', { colspan: '6' });
+        td.append(el('div', { class: 'sig' }, el('span', { class: 'badge' }, 'sha256'), el('span', { class: 'hash' }, e.hash.sha256)), el('div', { class: 'sig' }, el('span', { class: 'badge' }, 'sha3'), el('span', { class: 'hash' }, e.hash.sha3)), el('div', { class: 'sig' }, el('span', { class: 'badge' }, 'prev'), el('span', { class: 'hash' }, e.prev || 'none: genesis')));
+        for (const s of e.sigs) td.append(el('div', { class: 'sig' }, el('span', { class: 'badge ok' }, s.alg), el('span', {}, keys[s.key] || 'key ' + s.key), el('span', { class: 'hash' }, s.sig.slice(0, 24) + '…')));
+        const chk = el('span', { class: 'badge' }, 'checking this hash in your browser…'); td.append(chk); rehash(e).then(ok => { chk.className = 'badge ' + (ok ? 'ok' : 'bad'); chk.textContent = ok ? 'sha256 recomputed here: matches' : 'sha256 recomputed here: DOES NOT MATCH'; });
+        td.append(el('pre', {}, JSON.stringify(e.body, null, 1))); d.append(td); tr.after(d); };
+      $('#events').append(tr); }
+    if (!r.total) $('#events').innerHTML = '<tr><td colspan="6" class="empty">Nothing matches.</td></tr>'; }
+  $('#f-go').onclick = () => loadEvents(true); $('#more').onclick = () => loadEvents(false);
+  let st; $('#search').oninput = () => { clearTimeout(st); st = setTimeout(() => { show('events'); loadEvents(true); }, 250); };
+
+  /* -------------------------------------------- verification in the browser
+     Canonical JSON (sorted keys) of the event without hash and sigs, SHA-256
+     via WebCrypto, compared with what the file says; then each prev link. */
+  const canon = v => Array.isArray(v) ? '[' + v.map(canon).join(',') + ']' : v && typeof v === 'object' ? '{' + Object.keys(v).sort().map(k => JSON.stringify(k) + ':' + canon(v[k])).join(',') + '}' : JSON.stringify(v);
+  const sha = async s => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))].map(b => b.toString(16).padStart(2, '0')).join('');
+  async function rehash(e) { const { hash, sigs, ...rest } = e; return (await sha(canon(rest))) === hash.sha256; }
+  let allEvents = null;
+  async function fetchAll() { if (allEvents) return allEvents; const out = []; let f = 0; for (;;) { const r = await api(`/api/events?from=${f}&limit=500`); out.push(...r.events); f += r.events.length; if (f >= r.total || !r.events.length) break; } return allEvents = out.sort((a, b) => a.seq - b.seq); }
+  async function browserVerify() { const b = $('#b-browser'); b.className = 'badge'; b.innerHTML = '<span class="dot"></span>this browser: checking…'; try { const ev = await fetchAll(); let bad = 0, prev = null;
+      for (const e of ev) { if (!(await rehash(e))) bad++; if ((prev ? prev.hash.sha256 : null) !== e.prev) bad++; prev = e; }
+      b.className = 'badge ' + (bad ? 'bad' : 'ok'); b.innerHTML = `<span class="dot"></span>this browser: ${bad ? bad + ' problems' : 'chain and hashes hold'} · ${ev.length} events`;
+      for (const e of ev) { if (e.type === 'genesis') for (const k of [...e.body.quorum.keys, ...(e.body.writers || [])]) keys[k.id] = k.name; if (e.type === 'account') keys[e.body.owner.id] = e.body.owner.name; if (e.type === 'rotate-key') keys[e.body.new.id] = e.body.new.name; }
+    } catch (err) { b.className = 'badge bad'; b.innerHTML = '<span class="dot"></span>this browser: ' + err.message; } }
+  async function loadCheckpoints() { const ev = await fetchAll(); const box = $('#checkpoints'); box.innerHTML = ''; const cps = ev.filter(e => e.type === 'checkpoint'); if (!cps.length) return box.append(el('p', { class: 'empty' }, 'No checkpoint yet. One is made with two custodians\' keys and carries the Merkle root of everything before it.'));
+    for (const c of cps) { const card = el('section', {}, el('h2', {}, `Checkpoint #${c.seq}`, el('i', {}, when(c.time))), el('div', { class: 'sig' }, el('span', { class: 'badge' }, 'root'), el('span', { class: 'hash' }, c.body.root)), el('div', { class: 'sig' }, el('span', { class: 'badge' }, 'over'), el('span', {}, `${c.body.events} events (#0 to #${c.body.upto - 1})`)), el('div', { class: 'sig' }, el('span', { class: 'badge' }, 'signed by'), el('span', {}, c.sigs.map(s => keys[s.key] || s.key).join(', '))));
+      const chk = el('span', { class: 'badge' }, 'recomputing the root here…'); card.append(chk); box.append(card);
+      (async () => { let layer = ev.slice(0, c.body.upto).map(e => e.hash.sha256); while (layer.length > 1) { const next = []; for (let i = 0; i < layer.length; i += 2) next.push(await sha(layer[i] + (layer[i + 1] || layer[i]))); layer = next; } const ok = layer[0] === c.body.root; chk.className = 'badge ' + (ok ? 'ok' : 'bad'); chk.textContent = ok ? 'root recomputed in this browser: matches' : 'root recomputed here: DOES NOT MATCH'; })(); } }
+
+  /* --------------------------------------------------------------- lights */
+  async function loadLights() { const sw = await api('/api/lights'); const box = $('#switches'); box.innerHTML = '';
+    for (const s of sw) { const t = el('button', { class: 'toggle' + (s.on ? ' on' : ''), disabled: s.allow ? null : 'true', title: s.allow ? '' : (s.why || 'not on the allow list'), onclick: async () => { t.disabled = true; try { await api('/api/lights', { id: s.id, on: !s.on, reason: 'from the explorer' }); await loadLights(); allEvents = null; load(); } catch (e) { alert(e.message); t.disabled = false; } } });
+      box.append(el('div', { class: 'switch' + (s.on ? ' on' : '') + (s.allow ? '' : ' no') }, el('div', {}, el('b', {}, s.name), el('small', { style: 'display:block;color:var(--dim)' }, `${s.room} · ${s.id}${s.allow ? '' : ' · ' + (s.why || 'not automated')}`)), t)); }
+    const notes = (await api('/api/events?type=note&limit=200')).events.filter(e => e.body.system === 'lights'); $('#flicks').innerHTML = notes.slice(0, 30).map(e => `<tr><td>${e.seq}</td><td>${when(e.time)}</td><td>${esc(e.body.name || e.body.switch)}</td><td>${e.body.on ? 'on' : 'off'}</td><td>${esc(e.body.by || '')}</td><td>${esc(e.body.reason || '')}</td></tr>`).join('') || '<tr><td colspan="6" class="empty">No flicks yet.</td></tr>'; }
+  $('#say-go').onclick = async () => { const out = $('#say-out'); out.style.display = ''; out.textContent = 'asking…'; $('#say-go').disabled = true; try { const r = await api('/api/lights/say', { instruction: $('#say').value }); out.textContent = (r.refused ? 'The model declined (' + r.category + ').' : r.text) + '\n\n' + r.calls.map(c => `${c.ok ? '✓' : '✗'} ${c.tool} ${JSON.stringify(c.input)}${c.error ? ' — ' + c.error : ''}`).join('\n'); await loadLights(); allEvents = null; load(); } catch (e) { out.textContent = 'no: ' + e.message; } $('#say-go').disabled = false; };
+
+  /* ------------------------------------------------------------------ ask */
+  const say = (t, me, small) => { const m = el('div', { class: 'msg' + (me ? ' me' : '') }, t); if (small) m.append(el('small', {}, small)); $('#chat').append(m); m.scrollIntoView({ behavior: 'smooth' }); return m; };
+  $('#q-go').onclick = async () => { const q = $('#q').value.trim(); if (!q) return; say(q, true); $('#q').value = ''; const m = say('…'); try { const r = await api('/api/ask', { question: q }); m.textContent = r.refused ? `The model declined (${r.category}).` : r.answer; m.append(el('small', {}, r.refused ? '' : (r.grounded ? 'every number checked against the ledger' : 'ungrounded: ' + r.stray.join(', ') + ' not in the data') + ' · ' + r.model)); allEvents = null; load(); } catch (e) { m.textContent = 'no: ' + e.message; } };
+  $('#q').onkeydown = e => { if (e.key === 'Enter') $('#q-go').click(); };
+  $('#health').onclick = async () => { const m = say('Running the six probes…'); try { const r = await api('/api/health', {}); m.textContent = `${r.healthy ? 'Healthy' : 'Not healthy'}: ${r.score} of ${r.of}.`; m.append(el('pre', {}, r.results.map(x => `${x.pass ? '✓' : '✗'} ${x.probe}${x.error ? ' — ' + x.error : ''} (${x.ms} ms)`).join('\n'))); allEvents = null; load(); } catch (e) { m.textContent = 'no: ' + e.message; } };
+
+  addEventListener('hashchange', () => { const id = location.hash.slice(1); if (VIEWS.some(v => v[0] === id) && id !== view) show(id); });
+  show(view); await load(); if (view === 'events') loadEvents(true);
+})();
+</script>
+</body>
+</html>
