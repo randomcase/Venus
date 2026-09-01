@@ -96,7 +96,8 @@ const DOCK = `
   /* the notebook is already the IDE — code forms, line numbers, syntax
      highlighting and a console that evaluates what you write. It does not
      need building again, it needs reaching from wherever you are. */
-  dock.innerHTML = '<button data-k="view">view</button>' +
+  dock.innerHTML = '<button data-k="board">board</button>' +
+                   '<button data-k="view">view</button>' +
                    '<button data-k="files">files</button>' +
                    '<button data-k="ide">ide</button>' +
                    '<button data-k="note">note</button>' +
@@ -136,6 +137,7 @@ const DOCK = `
     if (b.dataset.k === 'ide') { location.href = '/writing.html'; return; }
     if (b.dataset.k === 'files') { location.href = '/explorer.html'; return; }
     if (b.dataset.k === 'view') { location.href = '/viewport.html'; return; }
+    if (b.dataset.k === 'board') { location.href = '/whiteboard.html'; return; }
     if (pad.classList.contains('on') && b.dataset.k === kind) pad.classList.remove('on');
     else open(b.dataset.k);
   });
@@ -176,6 +178,7 @@ const DOCK = `
     if (k === 'i') { e.preventDefault(); location.href = '/writing.html'; }
     if (k === 'e') { e.preventDefault(); location.href = '/explorer.html'; }
     if (k === 'v') { e.preventDefault(); location.href = '/viewport.html'; }
+    if (k === 'b') { e.preventDefault(); location.href = '/whiteboard.html'; }
     if (e.key === 'Escape') pad.classList.remove('on');
   });
 })();

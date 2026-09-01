@@ -1,0 +1,370 @@
+#!/usr/bin/env node
+/* ═══════════════════════════════════════════════════════════════════════════
+   whiteboard.mjs — builds whiteboard.html: a surface on its own, and a
+   notebook of the pages you fill.
+
+   The drawing layer in the hall was stuck to a picture. It could only ever be
+   marks ON something, which is the wrong shape for thinking — you cannot start
+   a thought on a wall that already has a room painted on it. So this is the
+   same tool with nothing underneath it.
+
+   ── the notebook is the point, not the surface ──────────────────────────
+   A whiteboard you can only wipe is a whiteboard that punishes you for filling
+   it, so people stop filling it. Every page here is kept: new page, previous,
+   next, and the whole book listed down the side. Nothing is ever wiped without
+   being asked twice, and every page saves to notes/ as an SVG through the app
+   — which means the pages are files in the repository, and files in the
+   repository are what I read next session.
+
+   ── what it refuses to do ───────────────────────────────────────────────
+   No shapes, no fill, no text tool, no templates. Six colours, four widths, an
+   eraser and undo. Every drawing tool that has ever been added past that point
+   has made people draw less, because the moment there is a rectangle tool the
+   question stops being what do I think and becomes which tool is this. A
+   whiteboard is fast or it is nothing.
+
+   Paper is a grid, dots or plain, because those three cover what people
+   actually rule paper for and a fourth would be a preference rather than a
+   use.
+
+       node whiteboard.mjs
+   ═══════════════════════════════════════════════════════════════════════════ */
+import { writeFileSync } from 'node:fs';
+
+const INKS = [
+  ['#1d2530', 'ink'], ['#b4453a', 'red'], ['#2f6ea8', 'blue'],
+  ['#3f7d4a', 'green'], ['#c08a1e', 'amber'], ['#7a4f96', 'violet']
+];
+const WIDTHS = [2, 4, 8, 18];
+const PAPERS = [
+  ['grid', 'Grid', 'For anything with a shape to it.'],
+  ['dots', 'Dots', 'Structure without lines through the drawing.'],
+  ['plain', 'Plain', 'Nothing in the way.']
+];
+
+const html = '<!doctype html>\n<html lang="en">\n<head>\n' +
+'<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
+'<title>The whiteboard &middot; a surface, and the book of what was on it</title>\n' +
+'<!-- No off-origin requests. Pages save through venus-app.mjs when it runs. -->\n' +
+'<style>\n' +
+`  :root{
+    --shell:#151a20; --panel:#1b222a; --edge:#28323d; --edge2:#3a4757;
+    --ink:#dfe5ec; --dim:#8b96a4; --faint:#5a6673;
+    --board:#f7f5ef; --rule:#d9d5c9;
+    --amber:#c9a227; --moss:#7d9d6a; --rust:#c4674f;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--shell);color:var(--ink);overflow:hidden;
+    font:13px/1.5 var(--mono);display:grid;grid-template-rows:auto minmax(0,1fr);
+    height:100vh}
+
+  header{display:flex;align-items:center;gap:14px;padding:8px 13px;
+    background:var(--panel);border-bottom:1px solid var(--edge);flex-wrap:wrap}
+  header h1{margin:0;font:500 15px/1.15 var(--serif);letter-spacing:.03em;flex:none}
+  header h1 s{text-decoration:none;display:block;color:var(--amber);
+    font:400 7.5px/1 var(--mono);letter-spacing:.24em;text-transform:uppercase;margin-top:3px}
+  .grp{display:flex;gap:5px;align-items:center;padding-left:12px;
+    border-left:1px solid var(--edge)}
+  .grp:first-of-type{border-left:none;padding-left:0}
+  .grp em{font-style:normal;color:var(--faint);font-size:8px;letter-spacing:.14em;
+    text-transform:uppercase;margin-right:3px}
+  .ink{width:24px;height:24px;border:2px solid transparent;cursor:pointer;
+    padding:0;border-radius:50%}
+  .ink.on{border-color:#fff}
+  .wid{width:26px;height:24px;background:#232c36;border:1px solid var(--edge2);
+    cursor:pointer;position:relative;padding:0}
+  .wid.on{border-color:var(--amber)}
+  .wid i{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    background:var(--ink);border-radius:99px;display:block}
+  button.t{background:#232c36;border:1px solid var(--edge2);color:var(--ink);
+    padding:6px 11px;cursor:pointer;font:400 9.5px/1 var(--mono);letter-spacing:.08em}
+  button.t:hover{border-color:var(--amber);color:var(--amber)}
+  button.t.on{border-color:var(--rust);color:var(--rust)}
+  header .sp{margin-left:auto;color:var(--faint);font-size:10px}
+  header .sp b{color:var(--moss);font-weight:400}
+  header .sp i{font-style:normal;color:var(--rust)}
+
+  main{display:grid;grid-template-columns:minmax(0,1fr) 210px;min-height:0}
+  @media (max-width:820px){ main{grid-template-columns:1fr} #book{display:none} }
+  #stage{position:relative;background:#0f1318;min-height:0;overflow:hidden}
+  #paper{position:absolute;inset:14px;background:var(--board);
+    box-shadow:0 10px 40px -8px rgba(0,0,0,.7)}
+  canvas{position:absolute;inset:0;width:100%;height:100%;
+    cursor:crosshair;touch-action:none;display:block}
+
+  #book{background:var(--panel);border-left:1px solid var(--edge);
+    display:flex;flex-direction:column;min-height:0}
+  #book h4{margin:0;padding:10px 12px;border-bottom:1px solid var(--edge);
+    font:400 8px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;
+    color:var(--amber);display:flex}
+  #book h4 span{margin-left:auto;color:var(--faint)}
+  #pages{flex:1;overflow-y:auto;padding:8px}
+  .pg{border:1px solid var(--edge);background:#141a21;margin-bottom:6px;
+    cursor:pointer;padding:7px 9px}
+  .pg:hover{border-color:var(--edge2)}
+  .pg.on{border-color:var(--amber);background:#1d242d}
+  .pg b{display:block;font:400 11px/1.3 var(--mono);color:var(--ink);font-weight:400}
+  .pg s{display:block;text-decoration:none;margin-top:3px;
+    font:400 9px/1.3 var(--mono);color:var(--faint)}
+  #book footer{padding:9px 12px;border-top:1px solid var(--edge);
+    display:flex;flex-direction:column;gap:6px}
+  #book footer button{width:100%;background:#232c36;border:1px solid var(--edge2);
+    color:var(--ink);padding:8px;cursor:pointer;font:400 9.5px/1 var(--mono);
+    letter-spacing:.1em}
+  #book footer button:hover{border-color:var(--amber);color:var(--amber)}
+  #book footer p{margin:4px 0 0;font:400 9px/1.55 var(--serif);color:var(--faint)}
+</style>\n</head>\n<body>\n` +
+
+'<header>\n' +
+'  <h1>The whiteboard<s>and the book of what was on it</s></h1>\n' +
+'  <div class="grp"><em>ink</em><span id="inks"></span></div>\n' +
+'  <div class="grp"><em>width</em><span id="wids"></span></div>\n' +
+'  <div class="grp">\n' +
+'    <button class="t" id="erase">eraser</button>\n' +
+'    <button class="t" id="undo">undo</button>\n' +
+'    <button class="t" id="wipe">wipe</button>\n' +
+'  </div>\n' +
+'  <div class="grp"><em>paper</em><span id="papers"></span></div>\n' +
+'  <div class="sp" id="msg"></div>\n' +
+'</header>\n' +
+'<main>\n' +
+'  <div id="stage"><div id="paper"><canvas id="c"></canvas></div></div>\n' +
+'  <aside id="book">\n' +
+'    <h4>the book<span id="count"></span></h4>\n' +
+'    <div id="pages"></div>\n' +
+'    <footer>\n' +
+'      <button id="new">+ new page</button>\n' +
+'      <button id="save">save this page</button>\n' +
+'      <button id="saveall">save the book</button>\n' +
+'      <p>Pages are kept in this browser. Saving writes them to notes/ as SVG ' +
+'through the app, which is how they survive and how they are read.</p>\n' +
+'    </footer>\n' +
+'  </aside>\n' +
+'</main>\n\n' +
+
+'<script>\n' +
+'const INKS = ' + JSON.stringify(INKS) + ';\n' +
+'const WIDTHS = ' + JSON.stringify(WIDTHS) + ';\n' +
+'const PAPERS = ' + JSON.stringify(PAPERS) + ';\n' +
+`
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const KEY = 'venus.whiteboard.v1';
+
+/* ── the book. Every page kept, because a surface you can only wipe is one
+   people stop filling. ─────────────────────────────────────────────── */
+function blank() {
+  return { id: 'p' + Date.now().toString(36) + Math.floor(Math.random() * 1e5).toString(36),
+           made: new Date().toISOString(), paper: 'grid', strokes: [] };
+}
+function load() {
+  try { const b = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (b && Array.isArray(b.pages) && b.pages.length) return b; } catch (e) {}
+  return { pages: [blank()], at: 0 };
+}
+let book = load();
+const keep = () => { try { localStorage.setItem(KEY, JSON.stringify(book)); } catch (e) {} };
+const page = () => book.pages[book.at];
+
+let ink = INKS[0][0], width = WIDTHS[1], erasing = false;
+let drawing = false, now = null;
+
+/* ── the surface ───────────────────────────────────────────────────── */
+const cv = $('#c'), ctx = cv.getContext('2d');
+let W = 0, H = 0;
+function size() {
+  const r = $('#paper').getBoundingClientRect();
+  W = Math.max(320, Math.round(r.width));
+  H = Math.max(240, Math.round(r.height));
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  cv.width = W * dpr; cv.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  repaint();
+}
+addEventListener('resize', size);
+
+function rule() {
+  const p = page().paper;
+  ctx.clearRect(0, 0, W, H);
+  if (p === 'plain') return;
+  ctx.save();
+  if (p === 'grid') {
+    ctx.strokeStyle = '#d9d5c9'; ctx.lineWidth = 1;
+    for (let x = 32; x < W; x += 32) { ctx.beginPath(); ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, H); ctx.stroke(); }
+    for (let y = 32; y < H; y += 32) { ctx.beginPath(); ctx.moveTo(0, y + .5); ctx.lineTo(W, y + .5); ctx.stroke(); }
+  } else {
+    ctx.fillStyle = '#cfcabb';
+    for (let x = 32; x < W; x += 32) for (let y = 32; y < H; y += 32) {
+      ctx.beginPath(); ctx.arc(x, y, 1.4, 0, 7); ctx.fill();
+    }
+  }
+  ctx.restore();
+}
+function repaint() {
+  rule();
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  for (const st of page().strokes) {
+    ctx.globalCompositeOperation = st.e ? 'destination-out' : 'source-over';
+    ctx.strokeStyle = st.c; ctx.lineWidth = st.w;
+    ctx.beginPath();
+    st.p.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]));
+    if (st.p.length === 1) { ctx.lineTo(st.p[0][0] + 0.1, st.p[0][1]); }
+    ctx.stroke();
+  }
+  ctx.globalCompositeOperation = 'source-over';
+}
+
+const at = (e) => {
+  const r = cv.getBoundingClientRect();
+  return [(e.clientX - r.left) / r.width * W, (e.clientY - r.top) / r.height * H];
+};
+cv.addEventListener('pointerdown', (e) => {
+  drawing = true; cv.setPointerCapture(e.pointerId);
+  now = { c: ink, w: erasing ? width * 3 : width, e: erasing, p: [at(e)] };
+  page().strokes.push(now); repaint();
+});
+cv.addEventListener('pointermove', (e) => {
+  if (!drawing) return; now.p.push(at(e)); repaint();
+});
+addEventListener('pointerup', () => {
+  if (!drawing) return;
+  drawing = false; now = null; keep(); pages();
+});
+
+/* ── the tools, and the ones deliberately absent ───────────────────── */
+$('#inks').innerHTML = INKS.map(([c, n], i) =>
+  '<button class="ink' + (i === 0 ? ' on' : '') + '" data-c="' + c +
+  '" title="' + n + '" style="background:' + c + '"></button>').join('');
+$('#inks').onclick = (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  ink = b.dataset.c; erasing = false;
+  $('#erase').classList.remove('on');
+  document.querySelectorAll('#inks .ink').forEach((x) => x.classList.toggle('on', x === b));
+};
+$('#wids').innerHTML = WIDTHS.map((w, i) =>
+  '<button class="wid' + (i === 1 ? ' on' : '') + '" data-w="' + w +
+  '"><i style="width:' + Math.min(16, w + 2) + 'px;height:' +
+  Math.min(16, w + 2) + 'px"></i></button>').join('');
+$('#wids').onclick = (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  width = +b.dataset.w;
+  document.querySelectorAll('#wids .wid').forEach((x) => x.classList.toggle('on', x === b));
+};
+$('#papers').innerHTML = PAPERS.map(([id, n, why]) =>
+  '<button class="t' + (id === 'grid' ? ' on' : '') + '" data-p="' + id +
+  '" title="' + why + '">' + n + '</button>').join('');
+$('#papers').onclick = (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  page().paper = b.dataset.p; keep(); repaint();
+  document.querySelectorAll('#papers .t').forEach((x) => x.classList.toggle('on', x === b));
+};
+$('#erase').onclick = () => {
+  erasing = !erasing;
+  $('#erase').classList.toggle('on', erasing);
+};
+$('#undo').onclick = () => { page().strokes.pop(); keep(); repaint(); pages(); };
+$('#wipe').onclick = () => {
+  if (!page().strokes.length) return;
+  /* asked twice, because the whole design is that filling a page is not
+     punished and a wipe is the one thing that cannot be undone */
+  if (!confirm('Wipe this page? ' + page().strokes.length +
+      ' strokes, and undo will not bring them back.')) return;
+  page().strokes = []; keep(); repaint(); pages();
+};
+
+/* ── the pages ─────────────────────────────────────────────────────── */
+function pages() {
+  $('#count').textContent = book.pages.length + ' page' + (book.pages.length === 1 ? '' : 's');
+  $('#pages').innerHTML = book.pages.map((p, i) =>
+    '<div class="pg' + (i === book.at ? ' on' : '') + '" data-i="' + i + '">' +
+    '<b>page ' + (i + 1) + '</b><s>' + p.strokes.length + ' strokes \\u00b7 ' +
+    p.made.slice(5, 10) + ' \\u00b7 ' + esc(p.paper) + '</s></div>').join('');
+  $('#pages').onclick = (e) => {
+    const d = e.target.closest('.pg'); if (!d) return;
+    book.at = +d.dataset.i; keep(); repaint(); pages(); syncPaper();
+  };
+}
+function syncPaper() {
+  document.querySelectorAll('#papers .t').forEach((x) =>
+    x.classList.toggle('on', x.dataset.p === page().paper));
+}
+$('#new').onclick = () => {
+  book.pages.push(blank()); book.at = book.pages.length - 1;
+  keep(); repaint(); pages(); syncPaper();
+  say('page ' + book.pages.length);
+};
+
+/* ── saving, which is what makes it a notebook rather than a surface ── */
+function toSVG(p, n) {
+  const paper = p.paper === 'plain' ? '' :
+    p.paper === 'grid'
+      ? '  <defs><pattern id="g" width="32" height="32" patternUnits="userSpaceOnUse">' +
+        '<path d="M32 0H0V32" fill="none" stroke="#d9d5c9" stroke-width="1"/></pattern></defs>\\n' +
+        '  <rect width="' + W + '" height="' + H + '" fill="url(#g)"/>\\n'
+      : '  <defs><pattern id="d" width="32" height="32" patternUnits="userSpaceOnUse">' +
+        '<circle cx="32" cy="32" r="1.4" fill="#cfcabb"/></pattern></defs>\\n' +
+        '  <rect width="' + W + '" height="' + H + '" fill="url(#d)"/>\\n';
+  const marks = p.strokes.filter((st) => !st.e).map((st) =>
+    '  <path fill="none" stroke="' + st.c + '" stroke-width="' + st.w +
+    '" stroke-linecap="round" stroke-linejoin="round" d="M' +
+    st.p.map((q) => q[0].toFixed(1) + ' ' + q[1].toFixed(1)).join(' L') + '"/>').join('\\n');
+  /* an erased stroke is absent from the file rather than painted over: the
+     SVG is what was left, not a record of the argument */
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H +
+    '">\\n  <rect width="' + W + '" height="' + H + '" fill="#f7f5ef"/>\\n' +
+    paper + marks + '\\n</svg>\\n';
+}
+function say(t, bad) {
+  $('#msg').innerHTML = bad ? '<i>' + esc(t) + '</i>' : '<b>' + esc(t) + '</b>';
+}
+async function put(name, body) {
+  const r = await fetch('/api/save', { method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ path: name, body: body }) });
+  const j = await r.json();
+  if (!r.ok) throw new Error(j.error || 'refused');
+  return j.path;
+}
+const stamp = () => new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+
+$('#save').onclick = async () => {
+  const p = page();
+  if (!p.strokes.length) return say('nothing on this page', true);
+  try {
+    const f = await put('notes/board-' + stamp() + '-p' + (book.at + 1) + '.svg', toSVG(p));
+    say('saved ' + f);
+  } catch (e) { say('needs venus-app.mjs running', true); }
+};
+$('#saveall').onclick = async () => {
+  const filled = book.pages.filter((p) => p.strokes.length);
+  if (!filled.length) return say('the book is empty', true);
+  const when = stamp();
+  try {
+    for (let i = 0; i < filled.length; i++)
+      await put('notes/book-' + when + '-p' + (i + 1) + '.svg', toSVG(filled[i]));
+    say('saved ' + filled.length + ' page' + (filled.length === 1 ? '' : 's'));
+  } catch (e) { say('needs venus-app.mjs running', true); }
+};
+
+addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); $('#undo').click(); }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); $('#save').click(); }
+  if (e.key === 'e' && !e.ctrlKey && !e.metaKey && document.activeElement === document.body)
+    $('#erase').click();
+});
+
+pages(); syncPaper(); size();
+say(book.pages.length + ' page' + (book.pages.length === 1 ? '' : 's') + ' in the book');
+<\/script>\n</body>\n</html>\n`;
+
+writeFileSync('whiteboard.html', html);
+console.log('whiteboard.html · a surface on its own, and a book of the pages');
+console.log('  ' + INKS.length + ' inks, ' + WIDTHS.length + ' widths, an eraser, undo');
+console.log('  and deliberately no shapes, no fill, no text tool, no templates —');
+console.log('  every one of those has ever made people draw less');
+console.log('  ' + PAPERS.length + ' papers: ' + PAPERS.map((p) => p[1].toLowerCase()).join(', '));
+console.log('  pages are kept, never wiped without being asked twice, and save to');
+console.log('  notes/ as SVG through the app');

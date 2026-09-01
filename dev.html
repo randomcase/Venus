@@ -97,17 +97,17 @@
 <div class="top"><h1>The developer hub</h1><span>Venus yard</span></div>
 <p class="intro">One door to everything, and not a line of it typed by hand. Every list, count and link below was read off the filesystem when this page was built &mdash; because a hand-kept index of a yard this size is a lie with a date on it, which is exactly what the arcade&rsquo;s own index turned out to be before it was made to scan its directories.</p>
 <div class="tot">
-  <div class="hi"><u>154</u><b>boards</b></div>
+  <div class="hi"><u>155</u><b>boards</b></div>
   <div class="hi"><u>55</u><b>with no script at all</b></div>
   <div><u>990</u><b>counter ops</b></div>
   <div><u>3,610</u><b>:has() tests</b></div>
   <div><u>207</u><b>radio groups</b></div>
   <div><u>321</u><b>checkboxes</b></div>
-  <div><u>34</u><b>generators</b></div>
+  <div><u>35</u><b>generators</b></div>
   <div><u>75</u><b>data files</b></div>
   <div><u>33</u><b>kb entries</b></div>
   <div class="hi"><u>54</u><b>lesson checks</b></div>
-  <div><u>6043k</u><b>of board</b></div>
+  <div><u>6058k</u><b>of board</b></div>
 </div>
 <h2><s>press these</s>The games <em>52</em></h2>
 <p class="say">A board is a game here when you can press it <b>and</b> it then decides something. Both halves are counted off the file: controls are radio groups and checkboxes, and the deciding is counter arithmetic, <code>:has()</code> state and fragment gates. Sorted by how much of the deciding happens in the stylesheet, since that is the whole claim.</p>
@@ -166,7 +166,7 @@
 <tr><td class="nm"><a href="signals.html">Signal Code</a><s>signals.html</s></td><td class="n">1</td><td class="n">5</td><td class="g"><div class="bar"><i style="width:2%"></i></div></td><td class="t"><b class="auto">runs itself</b></td><td class="n d">37k</td></tr>
 <tr><td class="nm"><a href="signals-3.html">Signal Code</a><s>signals-3.html</s></td><td class="n">1</td><td class="n">4</td><td class="g"><div class="bar"><i style="width:2%"></i></div></td><td class="t"><b class="auto">runs itself</b></td><td class="n d">35k</td></tr>
 </table></div>
-<h2><s>press these too</s>Things you can work but that keep no state <em>4</em></h2>
+<h2><s>press these too</s>Things you can work but that keep no state <em>5</em></h2>
 <p class="say">Controls, but nothing in the stylesheet computing an outcome from them. Listed apart rather than counted as games.</p>
 <div class="scroll"><table>
 <tr><th>board</th><th>controls</th><th>decides</th><th></th><th>how</th><th>size</th></tr>
@@ -174,6 +174,7 @@
 <tr><td class="nm"><a href="explorer.html">The explorer &amp;middot; the yard, edited from in</a><s>explorer.html</s></td><td class="n">3</td><td class="n"></td><td class="g"><div class="bar"><i style="width:2%"></i></div></td><td class="t"><b class="js">script</b></td><td class="n d">14k</td></tr>
 <tr><td class="nm"><a href="hall.html">The entrance hall &amp;middot; one-point perspecti</a><s>hall.html</s></td><td class="n">5</td><td class="n"></td><td class="g"><div class="bar"><i style="width:2%"></i></div></td><td class="t"><b class="js">script</b></td><td class="n d">50k</td></tr>
 <tr><td class="nm"><a href="keep.html">The bench &amp;middot; build your own keep</a><s>keep.html</s></td><td class="n">5</td><td class="n"></td><td class="g"><div class="bar"><i style="width:2%"></i></div></td><td class="t"><b class="js">script</b></td><td class="n d">37k</td></tr>
+<tr><td class="nm"><a href="whiteboard.html">The whiteboard &amp;middot; a surface, and the boo</a><s>whiteboard.html</s></td><td class="n">9</td><td class="n"></td><td class="g"><div class="bar"><i style="width:2%"></i></div></td><td class="t"><b class="js">script</b></td><td class="n d">15k</td></tr>
 </table></div>
 <h2><s>these run on their own</s>Runs itself <em>7</em></h2>
 <p class="say">These decide in script rather than in the stylesheet, and they keep going with nothing pressed. A different claim from the boards above, not a lesser one &mdash; the idle board accrues while the page is shut and credits the whole absence when you come back.</p>
@@ -303,7 +304,7 @@
 <tr><td class="nm"><a href="templates\water.template.html">TEMPLATE &amp;middot; The Waterway</a><s>templates\water.template.html</s></td><td class="n">6</td><td class="n">35</td><td class="g"><div class="bar"><i style="width:13%"></i></div></td><td class="t"><b class="pure">no script</b></td><td class="n d">30k</td></tr>
 <tr><td class="nm"><a href="templates\whale.template.html">TEMPLATE &amp;middot; The Whale</a><s>templates\whale.template.html</s></td><td class="n">7</td><td class="n">25</td><td class="g"><div class="bar"><i style="width:9%"></i></div></td><td class="t"><b class="pure">no script</b></td><td class="n d">31k</td></tr>
 </table></div>
-<h2><s>build with these</s>The generators <em>34</em></h2>
+<h2><s>build with these</s>The generators <em>35</em></h2>
 <p class="say">Nothing here is maintained by hand that could be counted instead. Each of these rereads the directory it owns, and most of them exist to <b>refuse</b> something &mdash; the refusal count is how many distinct ways each one can decline to emit.</p>
 <div class="grid">
   <article class="cell gen">
@@ -472,6 +473,11 @@
     <s>reads <b>the directory</b><br>emits <b>viewport.html</b></s>
   </article>
   <article class="cell gen">
+    <h4><a href="whiteboard.mjs">whiteboard.mjs</a><i>0</i></h4>
+    <p>whiteboard.mjs — builds whiteboard.</p>
+    <s>reads <b>the directory</b><br>emits <b>whiteboard.html</b></s>
+  </article>
+  <article class="cell gen">
     <h4><a href="writing.mjs">writing.mjs</a><i>40</i></h4>
     <p>a generator</p>
     <s>reads <b>kb.json</b><br>emits <b>writing.html</b></s>
@@ -535,10 +541,10 @@
 <div class="note">
   <h4>how the grade column works</h4>
   <p>Two things are counted and nothing is judged. <b>Controls</b> is radio groups plus checkboxes &mdash; how much of the board you can actually operate. <b>Decides</b> is counter operations plus <code>:has()</code> tests plus <code>:target</code> gates &mdash; how much of the outcome the stylesheet works out on its own.</p>
-  <p>A board that scores on both is a game. One that scores only on controls is something you can fiddle with. One that scores on neither is a document, and it is listed as a document rather than flattered into a category it did not earn. <b>55 of the 154</b> carry no script whatsoever.</p>
+  <p>A board that scores on both is a game. One that scores only on controls is something you can fiddle with. One that scores on neither is a document, and it is listed as a document rather than flattered into a category it did not earn. <b>55 of the 155</b> carry no script whatsoever.</p>
 </div>
 <footer>
-Built by <a href="dev.mjs">dev.mjs</a> from the directory. 154 boards, 34 generators, 9 data layers holding 75 files, 33 knowledge-base entries and 54 lesson checks. Totals are sums over the files, not figures anybody typed. Re-run it and every number on this page moves on its own.<br>
+Built by <a href="dev.mjs">dev.mjs</a> from the directory. 155 boards, 35 generators, 9 data layers holding 75 files, 33 knowledge-base entries and 54 lesson checks. Totals are sums over the files, not figures anybody typed. Re-run it and every number on this page moves on its own.<br>
 <a href="arcade.html">the arcade</a> &middot; <a href="writing.html">the notebook</a> &middot; <a href="corps.html">the order of battle</a> &middot; <a href="kb.html">the knowledge base</a>
 </footer>
 </main>
