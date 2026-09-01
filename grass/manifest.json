@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "The First Blade",
+  "version": "1.0.0",
+  "description": "An idle game with the Tao in mind. One blade of grass grows by itself; acting costs stillness. Edit the rules in the Workshop and export the game as one HTML file.",
+  "action": { "default_title": "The First Blade" },
+  "side_panel": { "default_path": "play.html" },
+  "background": { "service_worker": "sw.js" },
+  "permissions": ["storage", "sidePanel", "downloads", "notifications"],
+  "icons": { "128": "icon.png" }
+}

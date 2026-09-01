@@ -1,0 +1,23 @@
+[
+  {
+    "id": "n0",
+    "name": "The first blade (n0)",
+    "file": "n0.json",
+    "status": "saved",
+    "desc": "The game before the layer that does not end. Kept as it was."
+  },
+  {
+    "id": "n1",
+    "name": "The transformation of things (n1)",
+    "file": "n1.json",
+    "status": "default",
+    "desc": "n0 plus the three tracks that do not end: forms and rings (the flower becomes the acorn), the forest that every ring plants and nothing takes away, and the mycelium under it all, fed by rot and tribute, a thousandfold deeper each step."
+  },
+  {
+    "id": "n5",
+    "name": "The ten thousand things (n5)",
+    "file": "n5.json",
+    "status": "maybe",
+    "desc": "A candidate. Seeds, mist, clay, resin, jade, honey and moss on top of the n0 chains; seasons; water that must be held; seed that rots; 24 chapters; 36 sayings with two paths that exclude each other; 8 guests; 7 things to keep at the root. Heavier by five turns of the screw. On the maybe list until it has been played."
+  }
+]
