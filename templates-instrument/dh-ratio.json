@@ -1,0 +1,16 @@
+{
+ "id": "dh-ratio",
+ "order": 8,
+ "quantity": "Deuterium to hydrogen, Venus against Earth",
+ "value": 150,
+ "unit": "times",
+ "uncertainty": 50,
+ "kind": "measured",
+ "method": "Mass spectrometry from atmospheric probes. The published range is wide and the figure is usually quoted as an order of magnitude.",
+ "used_for": "The claim that Venus had an ocean and lost it.",
+ "boards": [
+  "cistern.html",
+  "paper.html"
+ ],
+ "wrong_if": "Nothing that changes the conclusion. Anything from 100 to 200 carries the same argument, which is why the wide bar does not matter here and would matter enormously if the argument were quantitative rather than directional."
+}

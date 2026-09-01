@@ -63,7 +63,7 @@ const RIVER_KG = 4.5e10;
 const RIVER_K = RIVER_KG / KG_PER_K;
 
 /* Rossby: below this scale rotation does not organise a storm */
-const ROSSBY_KM = 2363;
+const ROSSBY_KM = 2400;   /* +/-400 owns the hundreds; 2363 claimed four figures on one */
 const VORTEX_KM = 2000;
 
 /* residence time: how much of the site's phosphorus is available at once */

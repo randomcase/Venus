@@ -21,7 +21,10 @@ export const DECK = {
   km: 55,
   g: 8.71,                 /* m/s² at 55 km */
   g_earth: 9.80665,
-  shield: 574,             /* g/cm² of atmosphere overhead */
+  /* 570 and not 574: the column mass carries a bar of about +/-25, which
+     owns the tens digit, so the units digit was never ours to write. The
+     instrument layer refused the old figure on its first run and was right. */
+  shield: 570,             /* g/cm2 of atmosphere overhead */
   shield_earth: 1033,      /* g/cm² at sea level */
   lapse: 9.5,              /* K/km */
   nitrogen_ratio: 4.3      /* Venus's atmospheric N against Earth's */

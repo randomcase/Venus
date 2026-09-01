@@ -1,0 +1,15 @@
+{
+ "id": "spica-latitude",
+ "order": 4,
+ "quantity": "Spica, ecliptic latitude",
+ "value": 2.05,
+ "unit": "degrees",
+ "uncertainty": 0.01,
+ "kind": "computed",
+ "method": "beta = asin(sin d cos e - cos d sin e sin a), from the J2000 catalogue position and the obliquity. Computed in the generator rather than looked up.",
+ "used_for": "Why Venus and Spica keep meeting, on the notebook cover.",
+ "boards": [
+  "writing.html"
+ ],
+ "wrong_if": "Nothing plausible. This is arithmetic on published constants and the only way it moves is if the catalogue position is wrong, which it is not."
+}

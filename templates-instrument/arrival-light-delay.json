@@ -1,0 +1,16 @@
+{
+ "id": "arrival-light-delay",
+ "order": 3,
+ "quantity": "Light delay at arrival",
+ "value": 4.94,
+ "unit": "minutes",
+ "uncertainty": 0.02,
+ "kind": "computed",
+ "method": "Range between the two planets at the arrival geometry, divided by c. Recomputed per frame in game.html against a Kepler solve rather than taken from a table.",
+ "used_for": "The relay, the corps autonomy window, and the whole argument that nothing on the deck can be run in real time from Earth.",
+ "boards": [
+  "paper.html",
+  "corps.html"
+ ],
+ "wrong_if": "The arrival geometry is not the one assumed. This is a figure for one moment in one trajectory, not a constant, and quoting it as though it were a property of Venus is the mistake to watch for."
+}
