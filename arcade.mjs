@@ -120,6 +120,7 @@ const SHOP = [
   ['missouri.mjs',   'missouri.html — ten river sites, and the cube on velocity'],
   ['cistern.mjs',    'cistern.html — the command centre round the water'],
   ['keep.mjs',       'keep.html — the bench: build your own, judged live'],
+  ['steading.mjs',   'steading.html — the six clans build the castle, unpressed'],
   ['castle-rules.mjs','the rules and the costing, stated once for all three'],
   ['writing.mjs',    'writing.html — the notebook, and the forms it holds you to'],
   ['profiles.mjs',   'profiles/ — fourteen requirement pages'],
