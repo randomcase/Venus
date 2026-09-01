@@ -46,6 +46,7 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { checkPlan } from './castle-rules.mjs';
 
 const esc = (s) => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -57,39 +58,9 @@ let fatal = 0;
 
 for (const file of readdirSync(DIR).filter((f) => f.endsWith('.json')).sort()) {
   const c = JSON.parse(readFileSync(join(DIR, file), 'utf8'));
-  const errs = [];
-
-  for (const k of ['id', 'name', 'kind', 'era', 'ground', 'wards', 'axis', 'lesson'])
-    if (c[k] === undefined) errs.push('missing ' + k);
-
-  for (const w of c.wards || []) {
-    if (!w.w || !w.d) errs.push('ward "' + w.id + '" has no dimensions');
-    if (w.wall === undefined) errs.push('ward "' + w.id + '" does not say whether it is walled');
-  }
-
-  /* a mound you can see over is a step */
-  if (c.motte) {
-    const tallestWall = Math.max(0, ...(c.wards || []).map((w) => w.wall || 0));
-    if (c.motte.height < tallestWall)
-      errs.push('the motte is ' + c.motte.height + ' m and the wall is ' + tallestWall +
-        ' m — a mound you can see over is not a mound');
-  }
-
-  /* a curtain wall with an undefended corner is a wall with a door in it */
-  const walled = (c.wards || []).filter((w) => w.wall > 0);
-  if (c.towers > 0 && c.towers < walled.length * 4)
-    errs.push(c.towers + ' towers for ' + walled.length + ' walled ward(s) — that is ' +
-      (walled.length * 4 - c.towers) + ' corner(s) with nothing on them');
-
-  if (c.gallery) {
-    const g = c.gallery;
-    if (g.mirrors % g.bays !== 0)
-      errs.push(g.mirrors + ' mirrors across ' + g.bays + ' bays leaves ' +
-        (g.mirrors % g.bays) + ' over — somebody ran out of wall');
-    if (g.windows !== g.bays)
-      errs.push(g.windows + ' windows facing ' + g.bays + ' bays; the whole device ' +
-        'is that they answer one another');
-  }
+  /* one validator, shared with estate.mjs and with the bench in
+     keep.html, which embeds this module's source verbatim */
+  const errs = checkPlan(c);
 
   console.log((errs.length ? 'REFUSED' : 'ok     ') + ' ' + (c.id || file).padEnd(12) +
     (c.kind || '?').padEnd(10) + (c.wards || []).length + ' wards · ' +

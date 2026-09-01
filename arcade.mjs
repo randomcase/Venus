@@ -119,6 +119,8 @@ const SHOP = [
   ['estate.mjs',     'estate.html — what the upkeep actually costs'],
   ['missouri.mjs',   'missouri.html — ten river sites, and the cube on velocity'],
   ['cistern.mjs',    'cistern.html — the command centre round the water'],
+  ['keep.mjs',       'keep.html — the bench: build your own, judged live'],
+  ['castle-rules.mjs','the rules and the costing, stated once for all three'],
   ['writing.mjs',    'writing.html — the notebook, and the forms it holds you to'],
   ['profiles.mjs',   'profiles/ — fourteen requirement pages'],
   ['ships.mjs',      'ships/ — seven logs and their charts'],

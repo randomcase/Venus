@@ -1,0 +1,59 @@
+{
+ "id": "theodosian",
+ "order": 8,
+ "name": "The Theodosian Walls",
+ "era": "408 to 1453",
+ "kind": "triple-line",
+ "ground": "The landward neck of a peninsula, which is the only side that can be walked to. Six and a half kilometres of it, and the sea does the rest.",
+ "motte": null,
+ "keep": {
+  "name": "The city",
+  "diameter": 0,
+  "height": 14,
+  "shape": "block",
+  "note": "There is no keep. The city is what the wall is for."
+ },
+ "wards": [
+  {
+   "id": "outer",
+   "name": "Outer wall and terrace",
+   "w": 6500,
+   "d": 20,
+   "wall": 9,
+   "note": "The first line, and the one meant to be taken — losing it puts an attacker in a terrace overlooked from above."
+  },
+  {
+   "id": "inner",
+   "name": "Inner wall",
+   "w": 6500,
+   "d": 15,
+   "wall": 12,
+   "note": "Five metres thick at the base. Ninety-six towers, none of them more than a bowshot from the next."
+  }
+ ],
+ "towers": 96,
+ "axis": {
+  "name": "The moat",
+  "length_m": 6500,
+  "note": "Twenty metres wide and fed from cisterns, so the ground in front of the outer wall could be flooded on demand."
+ },
+ "figures": [
+  {
+   "what": "built",
+   "value": "408 to 413, under Theodosius II, in five years"
+  },
+  {
+   "what": "the three lines",
+   "value": "moat, outer wall, inner wall — an attacker fights the same battle three times"
+  },
+  {
+   "what": "towers",
+   "value": "96 on the inner line, spaced within bowshot"
+  },
+  {
+   "what": "held",
+   "value": "1,040 years"
+  }
+ ],
+ "lesson": "Krak was never breached and fell to a forged letter. This was never breached by assault in a thousand years and fell to artillery — to a gun that made thickness irrelevant rather than to anybody getting over it. Put the two together and you have the whole of it: the best wall ever built lost twice, once to authority and once to a change in what a wall was up against, and neither time to the thing it was designed to stop. Design for the assault you can imagine and you will be defeated by the one you cannot."
+}

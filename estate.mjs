@@ -46,6 +46,7 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { RATE, upkeep } from './castle-rules.mjs';
 
 const esc = (s) => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -53,18 +54,10 @@ const money = (n) => n >= 1e6 ? '$' + (n / 1e6).toFixed(1) + 'M'
   : '$' + Math.round(n / 1000) + 'k';
 const num = (n) => Math.round(n).toLocaleString();
 
-/* ═══ 1 · the assumptions, in one place, all arguable ══════════════════ */
-const RATE = {
-  repoint_m2: 300,        /* lime mortar, specialist rate, per m² of wall face */
-  repoint_years: 90,      /* the cycle it comes round on */
-  roof_m2: 420,           /* lead or slate, per m² */
-  roof_years: 80,
-  heat_m2_yr: 26,         /* per m² of heated floor, thick stone, poor envelope */
-  reinstate_m2: 4200,     /* like-for-like heritage rebuild, per m² of floor */
-  insure_pc: 0.0035,      /* premium as a share of reinstatement cost */
-  warden_yr: 62000,       /* one full-time custodian, all-in */
-  wardens_per_ha: 0.9     /* how many the acreage needs */
-};
+/* ═══ 1 · the assumptions ══════════════════════════════════════════════
+   RATE and the fabric arithmetic come from castle-rules.mjs, which
+   castle.mjs validates against and keep.html embeds verbatim. Stated
+   once, used three times. */
 
 const MODEL = {
   hire:   { name: 'Exclusive hire', unit: 'night',  rate: 3000,
@@ -108,33 +101,10 @@ const ACCESS = {
 };
 
 const rows = plans.map((p) => {
-  /* fabric, from what the plan declares */
-  const wards = p.wards || [];
-  const footprint = wards.reduce((a, w) => a + w.w * w.d, 0);            /* m² */
-  const walled = wards.filter((w) => w.wall > 0);
-  const wallRun = walled.reduce((a, w) => a + 2 * (w.w + w.d), 0);       /* m */
-  const wallFace = walled.reduce((a, w) => a + 2 * (w.w + w.d) * w.wall * 2, 0);
-  /* ×2 because a wall has two faces and both are pointed */
-
-  /* roofed floor: the ranges of building, not the open ward. A rough share of
-     the enclosed area, plus the keep. */
-  const keepH = p.keep ? p.keep.height : 0;
-  const keepFloor = p.keep && p.keep.diameter
-    ? Math.PI * (p.keep.diameter / 2) ** 2 * Math.max(1, Math.round(keepH / 4))
-    : (p.keep ? 900 * Math.max(1, Math.round(keepH / 4)) : 0);
-  const rangeFloor = footprint * 0.34;
-  const floor = rangeFloor + keepFloor;
-  const roofArea = floor * 0.42;
-
-  /* annual outflow */
-  const repoint = wallFace / RATE.repoint_years * RATE.repoint_m2;
-  const roof = roofArea / RATE.roof_years * RATE.roof_m2;
-  const heat = floor * 0.55 * RATE.heat_m2_yr;      /* not all of it is heated */
-  const reinstate = floor * RATE.reinstate_m2;
-  const insure = reinstate * RATE.insure_pc;
-  const ha = footprint / 10000;
-  const staff = Math.ceil(ha * RATE.wardens_per_ha) * RATE.warden_yr;
-  const outflow = repoint + roof + heat + insure + staff;
+  /* every quantity below is computed by the shared module */
+  const u = upkeep(p);
+  const { footprint, ha, wallRun, wallFace, floor, roofArea,
+          repoint, roof, heat, reinstate, insure, staff, outflow } = u;
 
   /* what the rule of thumb implies about value, at 2% */
   const impliedValue = outflow / 0.02;
