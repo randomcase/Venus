@@ -17,81 +17,36 @@
        node paper.mjs
    ═══════════════════════════════════════════════════════════════════════════ */
 import { writeFileSync } from 'node:fs';
+import {
+  DECK, WEIGHT, SETTLE, CARRY, CLOCK,
+  VENUS, EARTH, fluxRatio, absorbedRatio, greenhouseRatio,
+  DH_RATIO, WATER_PPM, EARTH_OCEAN_KG, KG_PER_K, ONE_PC_OCEAN_K,
+  CREW, DAILY_KG, LADDER, CLOSURE_LEVER, MISSED_WINDOW_D,
+  transfer, HOHMANN, AU, MU_SUN
+} from './venus-facts.mjs';
 
 const esc = (s) => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const f = (n, d = 2) => Number(n).toLocaleString('en-US',
   { minimumFractionDigits: d, maximumFractionDigits: d });
 
-/* ═══ constants ════════════════════════════════════════════════════════ */
-const AU = 1.495978707e11;              /* m */
-const MU = 1.32712440018e20;            /* m^3/s^2, the Sun */
-const R_E = 1.0 * AU, R_V = 0.7233 * AU;
-const DAY = 86400;
+/* ═══ the numbers ══════════════════════════════════════════════════════
+   Every constant and both derivations come from venus-facts.mjs, which
+   cistern.mjs also imports. Two boards that lead with the same arithmetic
+   should not each own a copy of it. */
 
-/* ═══ 1 · transit: how much does going faster cost? ════════════════════
-   The Hohmann transfer is the cheapest and the slowest. Drop the transfer
-   orbit's perihelion below Venus and you arrive earlier and faster, and you
-   pay for both. This computes the whole curve rather than quoting one point,
-   because "way shorter than six months" is a budget question and the budget
-   is the thing that has a number. */
-function transfer(qAU) {
-  const q = qAU * AU;
-  const a = (R_E + q) / 2;
-  const e = (R_E - q) / (R_E + q);
-  const n = Math.sqrt(MU / (a * a * a));
-
-  /* true anomaly where the transfer orbit crosses Venus's radius */
-  const cosNu = (a * (1 - e * e) / R_V - 1) / e;
-  if (cosNu < -1 || cosNu > 1) return null;      /* never reaches it */
-  const nu = Math.acos(Math.max(-1, Math.min(1, cosNu)));
-
-  /* aphelion is departure. Travel inward: nu runs from pi down to nu. */
-  const E = Math.acos(Math.max(-1, Math.min(1, (e + Math.cos(nu)) / (1 + e * Math.cos(nu)))));
-  const M = E - e * Math.sin(E);
-  const days = (Math.PI - M) / n / DAY;
-
-  /* what you burn at Earth. Speed at the transfer orbit's aphelion against
-     Earth's own circular speed; coplanar and tangential, so the difference
-     IS the hyperbolic excess. */
-  const vAp = Math.sqrt(MU * (2 / R_E - 1 / a));
-  const vE = Math.sqrt(MU / R_E);
-  const vInf = Math.abs(vE - vAp);
-  const c3 = (vInf / 1000) ** 2;                 /* km^2/s^2 */
-
-  /* and what you arrive with, relative to Venus, which an atmosphere that
-     thick can take out of you for free */
-  const vPer = Math.sqrt(MU * (2 / R_V - 1 / a));
-  const vTan = Math.sqrt(MU * a * (1 - e * e)) / R_V;
-  const vRad = Math.sqrt(Math.max(0, vPer * vPer - vTan * vTan));
-  const vVen = Math.sqrt(MU / R_V);
-  const vArr = Math.sqrt((vTan - vVen) ** 2 + vRad * vRad);
-
-  return { q: qAU, days, c3, vInf: vInf / 1000, vArr: vArr / 1000, e };
-}
-
-const hohmann = transfer(R_V / AU);
+const hohmann = HOHMANN;
 const curve = [0.7233, 0.62, 0.52, 0.42, 0.34, 0.28, 0.22]
   .map(transfer).filter(Boolean);
 const under100 = curve.find((t) => t.days < 100);
 const fastest = curve[curve.length - 1];
 
-/* ═══ 2 · the deck ═════════════════════════════════════════════════════ */
-const DECK_KM = 55;
-const G_VENUS = 8.87, G_EARTH = 9.80665;        /* m/s^2 at the surface */
-const G_DECK = 8.71;                             /* at 55 km */
-const WEIGHT = G_DECK / G_EARTH;
-const SHIELD = 574;                              /* g/cm^2 above 55 km */
-const SHIELD_EARTH = 1033;                       /* g/cm^2 at sea level */
-const LAPSE = 9.5;                               /* K/km */
-const SOL_D = 116.75, SIDEREAL_D = 243.02, SYNODIC_D = 583.92;
-const LIGHT_MIN = 4.94;
-
-/* settling: Stokes velocity goes as g, and inertia does not change at all.
-   So a grain falls 11.2 per cent slower and is carried that much further by
-   the same current. */
-const SETTLE = 1 - WEIGHT;
-const CARRY = (1 / WEIGHT - 1);
+/* ── the deck, from the shared table ─────────────────────────────────── */
+const DECK_KM = DECK.km, G_DECK = DECK.g, SHIELD = DECK.shield;
+const SHIELD_EARTH = DECK.shield_earth, LAPSE = DECK.lapse;
+const SOL_D = CLOCK.solar_d, SIDEREAL_D = CLOCK.sidereal_d;
+const SYNODIC_D = CLOCK.synodic_d, LIGHT_MIN = CLOCK.light_min;
+const N_RATIO = DECK.nitrogen_ratio;
 
 /* ═══ 3 · what fails, in numbers ═══════════════════════════════════════ */
 /* a forest, from hydrogen you would have to bring */
@@ -99,10 +54,9 @@ const FOREST_MT_H = 2888;                        /* megatonnes */
 const SHIP_T_PER_YR = 7.2;                       /* generous: tonnes/yr sustained */
 const SHIP_YEARS = FOREST_MT_H * 1e6 / SHIP_T_PER_YR / 1e6;   /* million years */
 
-/* water by heating: every kelvin of atmospheric heating liberates this much */
-const KG_PER_K = 2.04e15;
-const OCEAN_KG = 1.35e21;
-const ONE_PC_K = (OCEAN_KG * 0.01) / KG_PER_K;
+/* water by heating, from the shared table */
+const OCEAN_KG = EARTH_OCEAN_KG;
+const ONE_PC_K = ONE_PC_OCEAN_K;
 
 /* a river is a different order of thing entirely */
 const RIVER_KG = 4.5e10;
@@ -115,9 +69,6 @@ const VORTEX_KM = 2000;
 /* residence time: how much of the site's phosphorus is available at once */
 const P_AVAILABLE = 1.2;                          /* per cent */
 
-/* nitrogen: Venus has more of it than Earth does, and it is the one thing a
-   sealed deck cannot make */
-const N_RATIO = 4.3;
 
 /* ═══ 4 · the page ═════════════════════════════════════════════════════ */
 const html = '<!doctype html>\n<html lang="en">\n<head>\n' +
@@ -261,6 +212,40 @@ SOL_D + ' Earth days</b> against a sidereal ' + SIDEREAL_D + '. Nothing that ' +
 '</div>\n' +
 
 /* ── what fails ──────────────────────────────────────────────────────── */
+'<h2><s>first, correctly</s>Venus absorbs less sunlight than Earth</h2>\n' +
+'<p class="lead">The usual framing is that Venus is the twin that went wrong ' +
+'because it sits nearer the fire. It receives <b>' + f(fluxRatio, 2) + '&times;</b> ' +
+'the flux, and almost every account stops there.</p>\n' +
+'<p>But Venus is the most reflective body in the inner system &mdash; a Bond ' +
+'albedo of <b>' + VENUS.albedo + '</b> against Earth&rsquo;s <b>' + EARTH.albedo +
+'</b> &mdash; and what sets a temperature is what is <em>absorbed</em>, not what ' +
+'arrives. Venus absorbs <b>' + f(VENUS.absorbed, 0) + ' W/m&sup2;</b>. Earth ' +
+'absorbs <b>' + f(EARTH.absorbed, 0) + '</b>. Venus takes in <b>' +
+Math.round(absorbedRatio * 100) + '%</b> of what Earth does, despite being ' +
+'closer, because the clouds send most of it straight back.</p>\n' +
+'<div class="fig">\n' +
+'  <h4>the inversion</h4>\n' +
+'  <p class="big">' + f(VENUS.teff, 0) + ' K against ' + f(EARTH.teff, 0) + ' K</p>\n' +
+'  <p>Strip both atmospheres and <b>Venus is the colder of the two</b>. Not one ' +
+'kelvin of that 737 K surface is a sunlight story. The entire difference is ' +
+'greenhouse: <b>+' + f(EARTH.greenhouse, 0) + ' K</b> on Earth against <b>+' +
+f(VENUS.greenhouse, 0) + ' K</b> on Venus, a factor of <b>' +
+f(greenhouseRatio, 0) + '</b>.</p>\n' +
+'  <p class="calc">V: ' + f(VENUS.flux, 0) + '/4 &times; (1 &minus; ' + VENUS.albedo +
+') = ' + f(VENUS.absorbed, 0) + ' W/m&sup2; &rarr; (' + f(VENUS.absorbed, 0) +
+'/&sigma;)^&frac14; = ' + f(VENUS.teff, 0) + ' K<br>E: ' + f(EARTH.flux, 0) +
+'/4 &times; (1 &minus; ' + EARTH.albedo + ') = ' + f(EARTH.absorbed, 0) +
+' W/m&sup2; &rarr; ' + f(EARTH.teff, 0) + ' K</p>\n' +
+'</div>\n' +
+'<p>This matters to an investor for one reason. The two planets did not diverge ' +
+'because of where they are. One of them lost control of its own atmosphere, and ' +
+'the deuterium-to-hydrogen ratio &mdash; roughly <b>' + DH_RATIO + '&times;</b> ' +
+'Earth&rsquo;s &mdash; is the receipt: hydrogen escapes, deuterium is twice as ' +
+'heavy and does not, so that enrichment is the fingerprint of an ocean split by ' +
+'ultraviolet with the light half gone to space. <b>Venus had water and lost ' +
+'it.</b> Which means the programme below is not about finding water there. It ' +
+'is about closure, and closure is the number the whole thing turns on.</p>\n' +
+
 '<h2><s>lead with these</s>Four things that do not work</h2>\n' +
 '<p>A prospectus that opens with the upside is selling. These are the four ' +
 'places the obvious plan dies, each with the arithmetic that kills it.</p>\n' +
@@ -393,6 +378,37 @@ f(under100.c3, 1) + ' against ' + f(hohmann.c3, 1) + ' &mdash; real, and ordinar
 'on Earth in real time, and nothing needs to be.</p>\n' +
 
 /* ── organisation ────────────────────────────────────────────────────── */
+'<h2><s>the highest-leverage number</s>Recovery ratio, and what it is worth</h2>\n' +
+'<p>A crew of <b>' + CREW + '</b> moves about <b>' + f(DAILY_KG, 0) + ' kg a ' +
+'day</b> through the water loop. Circulation is free. What is not free is the ' +
+'fraction the loop fails to return, and make-up mass goes as <b>(1 &minus; ' +
+'r)</b> &mdash; a reciprocal, so all the leverage sits at the top end where it ' +
+'is least visible.</p>\n' +
+'<div class="scroll"><table>\n' +
+'<tr><th>recovery</th><th>make-up per day</th><th>per ' + f(SYNODIC_D, 0) +
+'-day window</th><th></th></tr>\n' +
+LADDER.filter((x) => x.r >= 0.95).map((x) =>
+  '<tr' + (x.r === 0.98 || x.r === 0.999 ? ' class="now"' : '') + '><td>' +
+  (x.r * 100).toFixed(2).replace(/\\.?0+$/, '') + '%</td><td>' + f(x.perDay, 1) +
+  ' kg</td><td>' + f(x.perWindow, 0) + ' kg</td><td class="d">' +
+  (x.r === 0.98 ? 'the station standard' : x.r === 0.999 ? 'the target' : '') +
+  '</td></tr>').join('\n') + '\n</table></div>\n' +
+'<div class="fig good">\n' +
+'  <h4>the lever</h4>\n' +
+'  <p class="big">' + f(CLOSURE_LEVER, 0) + '&times; less mass</p>\n' +
+'  <p>From <b>1.9 percentage points</b> of recovery. Nothing available in ' +
+'propulsion comes near that, and unlike propulsion it is <b>bench work that ' +
+'can be finished on Earth before a vehicle is chosen</b>. If one number in this ' +
+'programme deserves a dedicated team, it is this one, and it is the cheapest ' +
+'thing in the document.</p>\n' +
+'  <p>The reserve tank is the same argument in reverse. A missed window costs ' +
+'<b>' + f(MISSED_WINDOW_D, 0) + ' days</b> &mdash; ' + f(SYNODIC_D, 0) + ' to the ' +
+'next alignment plus ' + f(CLOCK.passage_d, 0) + ' in transit. At 95% recovery a ' +
+'thirty-tonne tank, an entire shipment, buys about 1,200 days. At 99.9% a ' +
+'five-tonne tank buys twenty-seven years. <b>Recovery ratio is worth more per ' +
+'kilogram than anything else on the manifest.</b></p>\n' +
+'</div>\n' +
+
 '<h2><s>who does it</s>Nine, and one button</h2>\n' +
 '<p>The unit is a <b>core of nine</b>: one sergeant, two corporals, six auxiliary ' +
 'with communications among them rather than beside them. A core that carries its ' +
@@ -466,9 +482,14 @@ f(under100.c3, 1) + ' against ' + f(hohmann.c3, 1) + ' &mdash; real, and ordinar
 /* ── the ask ─────────────────────────────────────────────────────────── */
 '<div class="ask">\n' +
 '  <h4>what is actually being asked for</h4>\n' +
-'  <p>Not a rocket. The programme&rsquo;s first decade needs four things and none ' +
+'  <p>Not a rocket. The programme&rsquo;s first decade needs five things and none ' +
 'of them leaves the ground:</p>\n' +
 '  <ol>\n' +
+'    <li><b>A closed water loop pushed from 98% to 99.9% recovery.</b> On a ' +
+'bench, here, for years, with the assay running the whole time. It is the ' +
+'highest-leverage number in the programme by a factor of ' + f(CLOSURE_LEVER, 0) +
+' and the cheapest thing on this list, and no launch has to happen for it to ' +
+'be worth doing.</li>\n' +
 '    <li><b>A ' + f(WEIGHT * 100, 1) + '% gravity sediment column.</b> Centrifuge, ' +
 'on Earth, running for years. Settling and transport at this exact fraction, ' +
 'measured rather than modelled. This is the cheapest experiment in the document ' +
@@ -506,7 +527,7 @@ f(under100.c3, 1) + ' against ' + f(hohmann.c3, 1) + ' &mdash; real, and ordinar
 '<footer>\n' +
 'Computed by <a href="paper.mjs">paper.mjs</a>. Transit figures from the vis-viva ' +
 'equation and Kepler&rsquo;s equation over transfer ellipses with aphelion at 1 AU; ' +
-'&mu;<sub>&#9737;</sub> = ' + MU.toExponential(5) + ' m&sup3;/s&sup2;, Venus at ' +
+'&mu;<sub>&#9737;</sub> = ' + MU_SUN.toExponential(5) + ' m&sup3;/s&sup2;, Venus at ' +
 '0.7233 AU. Hohmann case reproduces ' + f(hohmann.days, 1) + ' d.<br>\n' +
 'Deck figures: ' + DECK_KM + ' km, ' + G_DECK + ' m/s&sup2;, ' + SHIELD +
 ' g/cm&sup2;, lapse ' + LAPSE + ' K/km, solar day ' + SOL_D + ' d, sidereal ' +
