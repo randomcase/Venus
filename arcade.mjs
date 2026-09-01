@@ -135,6 +135,8 @@ const SHOP_SAYS = {
   'paper.mjs':       'paper.html \u2014 the white paper, leading with what fails',
   'keep.mjs':        'keep.html \u2014 the bench: build your own, judged live',
   'steading.mjs':    'steading.html \u2014 the six clans build the castle, unpressed',
+  'explorer.mjs':    'explorer.html \u2014 the tree, the editor, and run',
+  'venus-app.mjs':   'the app itself: serves the yard, writes notes and feedback',
   'dev.mjs':         'dev.html \u2014 the developer hub, scanned from the yard',
   'castle-rules.mjs':'the castle checks and costing, stated once for three boards',
   'venus-facts.mjs': 'the constants and derivations two boards both lead with',

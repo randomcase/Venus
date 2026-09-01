@@ -29,7 +29,8 @@
        Venus.cmd                     does both, full screen, no browser chrome
    ═══════════════════════════════════════════════════════════════════════════ */
 import { createServer } from 'node:http';
-import { readFile, writeFile, mkdir, readdir } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { readFile, writeFile, mkdir, readdir, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { extname, join, normalize, sep } from 'node:path';
 
@@ -95,7 +96,8 @@ const DOCK = `
   /* the notebook is already the IDE — code forms, line numbers, syntax
      highlighting and a console that evaluates what you write. It does not
      need building again, it needs reaching from wherever you are. */
-  dock.innerHTML = '<button data-k="ide">ide</button>' +
+  dock.innerHTML = '<button data-k="files">files</button>' +
+                   '<button data-k="ide">ide</button>' +
                    '<button data-k="note">note</button>' +
                    '<button data-k="feedback">feedback</button>';
   const pad = document.createElement('div');
@@ -131,6 +133,7 @@ const DOCK = `
     const b = e.target.closest('button');
     if (!b) return;
     if (b.dataset.k === 'ide') { location.href = '/writing.html'; return; }
+    if (b.dataset.k === 'files') { location.href = '/explorer.html'; return; }
     if (pad.classList.contains('on') && b.dataset.k === kind) pad.classList.remove('on');
     else open(b.dataset.k);
   });
@@ -169,6 +172,7 @@ const DOCK = `
     if (k === 'n') { e.preventDefault(); open('note'); }
     if (k === 'f') { e.preventDefault(); open('feedback'); }
     if (k === 'i') { e.preventDefault(); location.href = '/writing.html'; }
+    if (k === 'e') { e.preventDefault(); location.href = '/explorer.html'; }
     if (e.key === 'Escape') pad.classList.remove('on');
   });
 })();
@@ -201,6 +205,59 @@ async function saveNote(kind, d) {
   return (kind === 'feedback' ? 'feedback/' : 'notes/') + name;
 }
 
+/* ── what may be touched ──────────────────────────────────────────────
+   One decision about what is inside the yard, used by every handler. A
+   second way of answering that question is a second way of being wrong. */
+const TEXTY = new Set(['.html', '.mjs', '.js', '.json', '.css', '.md', '.txt',
+                       '.svg', '.cmd', '.py', '.scala', '.xml', '.yml', '.yaml']);
+const HIDDEN = /(^|[\\/])(\.git|node_modules|\.worktrees)([\\/]|$)/;
+
+function inside(rel) {
+  const path = normalize(join(ROOT, rel));
+  if (!path.startsWith(ROOT + sep) && path !== ROOT) return null;
+  if (HIDDEN.test(path.slice(ROOT.length))) return null;
+  return path;
+}
+
+/* the tree, one level of directories deep, text files only */
+async function tree() {
+  const out = [];
+  async function walk(rel, depth) {
+    const dir = inside(rel || '.');
+    if (!dir) return;
+    let names;
+    try { names = await readdir(dir, { withFileTypes: true }); } catch (e) { return; }
+    for (const d of names.sort((a, b) => a.name.localeCompare(b.name))) {
+      const r = rel ? rel + '/' + d.name : d.name;
+      if (HIDDEN.test(sep + r.split('/').join(sep))) continue;
+      if (d.isDirectory()) {
+        if (depth < 2) { out.push({ dir: true, path: r }); await walk(r, depth + 1); }
+      } else if (TEXTY.has(extname(d.name).toLowerCase())) {
+        let size = 0;
+        try { size = (await stat(join(ROOT, r))).size; } catch (e) {}
+        out.push({ dir: false, path: r, size });
+      }
+    }
+  }
+  await walk('', 0);
+  return out;
+}
+
+/* run a generator and hand back everything it said */
+function run(rel) {
+  return new Promise((resolve) => {
+    const path = inside(rel);
+    if (!path || extname(path) !== '.mjs')
+      return resolve({ ok: false, out: 'only a .mjs inside the yard can be run' });
+    execFile(process.execPath, [path], { cwd: ROOT, timeout: 60000, maxBuffer: 4e6 },
+      (err, stdout, stderr) => resolve({
+        ok: !err,
+        out: (stdout || '') + (stderr ? '\n' + stderr : '') ||
+             (err ? String(err.message) : '(said nothing)')
+      }));
+  });
+}
+
 /* ── the server ───────────────────────────────────────────────────────── */
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, 'http://x');
@@ -216,6 +273,39 @@ const server = createServer(async (req, res) => {
       const file = await saveNote(kind, await collect(req));
       console.log('  wrote ' + file);
       return send(200, TYPES['.json'], JSON.stringify({ ok: true, file }));
+    }
+
+    if (url.pathname === '/api/tree')
+      return send(200, TYPES['.json'], JSON.stringify(await tree()));
+
+    if (url.pathname === '/api/read') {
+      const path = inside(url.searchParams.get('f') || '');
+      if (!path || !existsSync(path)) return send(404, TYPES['.json'],
+        JSON.stringify({ error: 'not in the yard' }));
+      return send(200, TYPES['.json'], JSON.stringify({
+        path: url.searchParams.get('f'),
+        body: (await readFile(path)).toString('utf8')
+      }));
+    }
+
+    if (req.method === 'POST' && url.pathname === '/api/save') {
+      const d = await collect(req);
+      const path = inside(d.path || '');
+      if (!path) return send(403, TYPES['.json'],
+        JSON.stringify({ error: 'outside the yard, or hidden' }));
+      if (!TEXTY.has(extname(path).toLowerCase())) return send(403, TYPES['.json'],
+        JSON.stringify({ error: 'not a text file this editor will write' }));
+      await writeFile(path, String(d.body), 'utf8');
+      console.log('  saved ' + d.path + '  (' + String(d.body).length + ' bytes)');
+      return send(200, TYPES['.json'], JSON.stringify({ ok: true, path: d.path,
+        bytes: String(d.body).length }));
+    }
+
+    if (req.method === 'POST' && url.pathname === '/api/run') {
+      const d = await collect(req);
+      console.log('  running ' + d.path);
+      const r = await run(d.path || '');
+      return send(200, TYPES['.json'], JSON.stringify(r));
     }
 
     if (url.pathname === '/api/notes') {
@@ -261,10 +351,14 @@ server.listen(PORT, '127.0.0.1', async () => {
   console.log('    ctrl+shift+N   a note      -> notes/       (' + n + ' there now)');
   console.log('    ctrl+shift+F   feedback    -> feedback/    (' + f + ' there now)');
   console.log('    ctrl+shift+I   the notebook, which is the IDE');
+  console.log('    ctrl+shift+E   the explorer: read, edit and run any file here');
   console.log('');
   console.log('  Both write real markdown files into this repository. That is the');
   console.log('  point: I cannot run inside the app, but I read those folders at');
   console.log('  the start of the next session without you retyping anything.');
+  console.log('');
+  console.log('  The explorer WRITES TO DISK. It is fenced to this folder, and');
+  console.log('  refuses .git, node_modules and anything that is not text.');
   console.log('');
   console.log('  ctrl+C to stop.');
 });
