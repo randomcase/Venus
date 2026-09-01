@@ -28,6 +28,20 @@
    ]
   },
   {
+   "heading": "What the routine cannot see",
+   "body": [
+    "Run chokes() on the arrangement below and it comes back empty. Two peers, either one removable, the path survives. By the test you have just written, that is a clean bill.",
+    "Now remove BOTH. The path is cut. There was never a single party who could stop it and there was always a pair who could, and the routine you built cannot see that, because it only ever deletes one thing at a time.",
+    "This is not a bug in the routine, it is the definition of a different object. One party who can stop everything is a monopoly. Two or more who individually cannot and jointly can — and who move together — are a syndicate. Every single-deletion test in existence returns clean on one, which is most of why they are hard to find and all of why they are comfortable to be in.",
+    "And the search does not scale. Four parties give you four things to delete and six pairs. Ten give you ten and forty-five. The number of combinations outruns the number of parties immediately, so nobody checks, so the arrangement that would fail a pair test never gets one.",
+    "Which leaves a second question after the shape, and it is not a graph question: do the members of that pair actually MOVE TOGETHER? A minimal cutting pair who price and refuse independently is thin redundancy, and thin redundancy is fine. The same pair moving in step is the other thing. No member of it has to know."
+   ],
+   "show": {
+    "lang": "js",
+    "code": "const TWO_PEERS = {\n  issuer: ['a', 'b'],\n  a:      ['issuer', 'shop'],\n  b:      ['issuer', 'shop'],\n  shop:   ['a', 'b']\n};\n\nchokes(TWO_PEERS, 'issuer', 'shop')   // []      <- a clean bill\npairs(TWO_PEERS,  'issuer', 'shop')   // [['a','b']]\n\n// neither alone. both together. the routine above only deletes one."
+   }
+  },
+  {
    "heading": "And the ends",
    "body": [
     "The middle can be perfectly peer to peer and the model still fails, because a token nobody will redeem is a token that stops moving. If the redeeming b is a single party, the freedom of the middle is bounded by that party's willingness, and it has simply moved the choke point to the end where it is harder to see.",
@@ -37,8 +51,8 @@
  ],
  "practice": {
   "form": "code-js",
-  "brief": "Write chokes(graph, from, to) — the sorted list of nodes whose removal disconnects from and to. If it returns an empty list the middle is genuinely peer to peer. The graph is an object mapping a node to an array of neighbours, undirected. Then type check.",
-  "starter": "/* Given the hop graph, find every party who could stop it alone.\n   Brute force is the right answer here: remove each node, see\n   whether the two ends are still connected. */\n\nfunction reaches(graph, from, to, without) {\n  // breadth first, skipping the removed node\n  return null;   // <- your answer here\n}\n\nfunction chokes(graph, from, to) {\n  // every node that is not an end and whose removal cuts the path\n  return null;   // <- your answer here\n}\n\n/* the shapes worth trying */\nconst ONE_MIDDLEMAN = { issuer:['g'], g:['issuer','shop'], shop:['g'] };\nconst MANY_PEERS = { issuer:['a','b'], a:['issuer','shop'],\n                     b:['issuer','shop'], shop:['a','b'] };\n",
+  "brief": "Write chokes(graph, from, to) — the sorted list of nodes whose removal disconnects from and to. Then write pairs(graph, from, to): the MINIMAL cutting pairs, which is the thing chokes cannot see. Minimal means neither member is already a choke point on its own. Then type check.",
+  "starter": "/* Given the hop graph, find every party who could stop it alone.\n   Brute force is the right answer here: remove each node, see\n   whether the two ends are still connected. */\n\nfunction reaches(graph, from, to, without) {\n  // breadth first, skipping the removed node\n  return null;   // <- your answer here\n}\n\nfunction chokes(graph, from, to) {\n  // every node that is not an end and whose removal cuts the path\n  return null;   // <- your answer here\n}\n\n/* every pair that cuts, and that no single member of already cuts.\n   This is the one chokes() is blind to. */\nfunction pairs(graph, from, to) {\n  return null;   // <- your answer here\n}\n\n/* the shapes worth trying */\nconst ONE_MIDDLEMAN = { issuer:['g'], g:['issuer','shop'], shop:['g'] };\nconst MANY_PEERS = { issuer:['a','b'], a:['issuer','shop'],\n                     b:['issuer','shop'], shop:['a','b'] };\n/* chokes says MANY_PEERS is clean. pairs does not. */\n",
   "checks": [
    {
     "name": "a single middleman is found",
@@ -63,8 +77,24 @@
    {
     "name": "reaches can tell connected from disconnected",
     "test": "reaches({a:['b'],b:['a']},'a','b',null) === true && reaches({a:['b'],b:['a','c'],c:['b']},'a','c','b') === false"
+   },
+   {
+    "name": "the pair that chokes cannot see is found",
+    "test": "JSON.stringify(pairs({issuer:['a','b'],a:['issuer','shop'],b:['issuer','shop'],shop:['a','b']},'issuer','shop')) === '[[\"a\",\"b\"]]'"
+   },
+   {
+    "name": "three independent routes cannot be cut by any pair",
+    "test": "pairs({issuer:['a','b','c'],a:['issuer','shop'],b:['issuer','shop'],c:['issuer','shop'],shop:['a','b','c']},'issuer','shop').length === 0"
+   },
+   {
+    "name": "a pair containing a party that already cuts alone is not minimal",
+    "test": "pairs({issuer:['g'],g:['issuer','a','b'],a:['g','shop'],b:['g','shop'],shop:['a','b']},'issuer','shop').length === 1"
+   },
+   {
+    "name": "and the two answers disagree on the same graph, which is the lesson",
+    "test": "(() => { const G = {issuer:['a','b'],a:['issuer','shop'],b:['issuer','shop'],shop:['a','b']}; return chokes(G,'issuer','shop').length === 0 && pairs(G,'issuer','shop').length === 1; })()"
    }
   ]
  },
- "ask": "Run it on your own arrangement. If it returns a name, that name is who you are asking permission from."
+ "ask": "Run both on your own arrangement. chokes tells you who can stop you alone. pairs tells you who could stop you together — and then you have to go and find out whether they do."
 }
