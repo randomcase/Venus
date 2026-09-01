@@ -100,34 +100,49 @@ const LAYERS = [
 const KB = existsSync('kb.json')
   ? JSON.parse(readFileSync('kb.json', 'utf8')).entries.length : 0;
 
-/* the workshop: every generator, and what it makes */
-const SHOP = [
-  ['arcade.mjs',     'this page, from the directory'],
-  ['kb.mjs',         `kb.html — ${KB} entries, citations checked at build time`],
-  ['guild.mjs',      'guild.html — the ladder, the rename, the quest board'],
-  ['automat.mjs',    'automat.html — the script layer and its orbits'],
-  ['quests.mjs',     'quests.js — refuses anything that recurses'],
-  ['factions.mjs',   'factions.js — refuses anything with a gate in it'],
-  ['builds.mjs',     'builds.js — refuses a building that shrinks on promotion'],
-  ['bases.mjs',      'bases.js — refuses a roster with a cycle in it'],
-  ['challenges.mjs', 'challenges.js — refuses a rubric band carrying a number'],
-  ['hub.mjs',        'hub.js — the knowledge hub, from kb.json'],
-  ['journal.mjs',    'journal.html — the desk, and the prompts it reads'],
-  ['corps.mjs',      'corps.html — the order of battle, costed'],
-  ['clans.mjs',      'clans.html — the idle board, which runs unpressed'],
-  ['castle.mjs',     'castle.html — seven plans, drawn with lesson one'],
-  ['estate.mjs',     'estate.html — what the upkeep actually costs'],
-  ['missouri.mjs',   'missouri.html — ten river sites, and the cube on velocity'],
-  ['cistern.mjs',    'cistern.html — the command centre round the water'],
-  ['keep.mjs',       'keep.html — the bench: build your own, judged live'],
-  ['steading.mjs',   'steading.html — the six clans build the castle, unpressed'],
-  ['castle-rules.mjs','the rules and the costing, stated once for all three'],
-  ['writing.mjs',    'writing.html — the notebook, and the forms it holds you to'],
-  ['profiles.mjs',   'profiles/ — fourteen requirement pages'],
-  ['ships.mjs',      'ships/ — seven logs and their charts'],
-  ['templatise.mjs', 'templates/ — one per authored board'],
-  ['compile.mjs',    'the pattern census across every page'],
-].filter(([f]) => existsSync(f));
+/* the workshop. SCANNED, not typed — the cabinet list used to be hand-kept
+   and this one still was, so it had gone stale by four generators. A file
+   with no line written for it below takes the first sentence of its own
+   header, which means a new generator can be described badly but cannot be
+   invisible. */
+const SHOP_SAYS = {
+  'arcade.mjs':      'this page, from the directory',
+  'kb.mjs':          `kb.html \u2014 ${KB} entries, citations checked at build time`,
+  'guild.mjs':       'guild.html \u2014 the ladder, the rename, the quest board',
+  'automat.mjs':     'automat.html \u2014 the script layer and its orbits',
+  'quests.mjs':      'quests.js \u2014 refuses anything that recurses',
+  'factions.mjs':    'factions.js \u2014 refuses anything with a gate in it',
+  'builds.mjs':      'builds.js \u2014 refuses a building that shrinks on promotion',
+  'bases.mjs':       'bases.js \u2014 refuses a roster with a cycle in it',
+  'challenges.mjs':  'challenges.js \u2014 refuses a rubric band carrying a number',
+  'hub.mjs':         'hub.js \u2014 the knowledge hub, from kb.json',
+  'journal.mjs':     'journal.html \u2014 the desk, and the prompts it reads',
+  'writing.mjs':     'writing.html \u2014 the notebook, the lessons, the mint',
+  'corps.mjs':       'corps.html \u2014 the order of battle, costed',
+  'clans.mjs':       'clans.html \u2014 the idle board, which runs unpressed',
+  'castle.mjs':      'castle.html \u2014 eight plans, drawn with lesson one',
+  'estate.mjs':      'estate.html \u2014 what the upkeep actually costs',
+  'missouri.mjs':    'missouri.html \u2014 ten river sites, and the cube on velocity',
+  'cistern.mjs':     'cistern.html \u2014 the command centre round the water',
+  'paper.mjs':       'paper.html \u2014 the white paper, leading with what fails',
+  'keep.mjs':        'keep.html \u2014 the bench: build your own, judged live',
+  'steading.mjs':    'steading.html \u2014 the six clans build the castle, unpressed',
+  'dev.mjs':         'dev.html \u2014 the developer hub, scanned from the yard',
+  'castle-rules.mjs':'the castle checks and costing, stated once for three boards',
+  'venus-facts.mjs': 'the constants and derivations two boards both lead with',
+  'profiles.mjs':    'profiles/ \u2014 fourteen requirement pages',
+  'ships.mjs':       'ships/ \u2014 seven logs and their charts',
+  'templatise.mjs':  'templates/ \u2014 one per authored board',
+  'compile.mjs':     'the pattern census across every page'
+};
+const SHOP = readdirSync('.').filter((f) => f.endsWith('.mjs')).sort()
+  .map((f) => {
+    if (SHOP_SAYS[f]) return [f, SHOP_SAYS[f]];
+    /* its own header: "name.mjs — what it does" */
+    const src = readFileSync(f, 'utf8').split('\n').slice(0, 12).join('\n');
+    const m = src.match(/\.mjs\s+\u2014\s+([^\n]+)/);
+    return [f, m ? m[1].trim().replace(/[.:]$/, '') : 'a generator, undescribed'];
+  });
 
 /* the halls. Derived from what a page IS rather than from a hand list:
    anything with controls is playable, anything that runs is a machine, the
@@ -452,7 +467,9 @@ const wingTotal = WINGS.reduce((a, w) => a + w.list.length, 0);
 console.log(`arcade.html · ${cabs.length + wingTotal} cabinets`);
 halls.forEach((h) => console.log(`  ${h.name.padEnd(20)} ${h.list.length}`));
 WINGS.forEach((w) => console.log(`  ${w.name.padEnd(20)} ${w.list.length}`));
+const byHand = SHOP.filter(([f]) => SHOP_SAYS[f]).length;
 console.log(`  ${LAYERS.length} data layers · ${LAYERS.reduce((a, L) => a + L.n, 0)} files · ` +
-  `${KB} kb entries · ${SHOP.length} generators`);
+  `${KB} kb entries · ${SHOP.length} generators (${byHand} described by hand, ` +
+  `${SHOP.length - byHand} from their own header)`);
 console.log(`  ${tot('radios')} radio groups · ${tot('boxes')} checkboxes · ` +
   `${tot('counters')} counters · ${tot('rules')} :has()`);
