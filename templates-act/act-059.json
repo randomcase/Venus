@@ -1,0 +1,16 @@
+{
+ "id": "act-059",
+ "order": 59,
+ "year": 6,
+ "day": 2089,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "stripped",
+ "object": "the arms from a body",
+ "place": "at the tomb of Ilus",
+ "side": "fleet",
+ "text": "Agamemnon stripped the arms from a body, at the tomb of Ilus, in the sixth year."
+}

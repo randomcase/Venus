@@ -1,0 +1,16 @@
+{
+ "id": "act-077",
+ "order": 77,
+ "year": 8,
+ "day": 2742,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "offered",
+ "object": "a truce that did not hold",
+ "place": "in the assembly",
+ "side": "fleet",
+ "text": "Agamemnon offered a truce that did not hold, in the assembly, in the eighth year."
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-082",
+ "order": 82,
+ "year": 9,
+ "day": 2924,
+ "parties": [
+  "hector",
+  "priam"
+ ],
+ "actor": "Hector",
+ "with": "Priam",
+ "verb": "counted",
+ "object": "the ships by contingent",
+ "place": "under the wall",
+ "side": "troy",
+ "text": "Hector and Priam counted the ships by contingent, under the wall, in the ninth year."
+}

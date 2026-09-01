@@ -1,0 +1,16 @@
+{
+ "id": "act-074",
+ "order": 74,
+ "year": 8,
+ "day": 2628,
+ "parties": [
+  "paris"
+ ],
+ "actor": "Paris",
+ "with": null,
+ "verb": "sent",
+ "object": "an embassy with gifts",
+ "place": "under the wall",
+ "side": "troy",
+ "text": "Paris sent an embassy with gifts, under the wall, in the eighth year."
+}

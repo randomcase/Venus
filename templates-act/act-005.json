@@ -1,0 +1,16 @@
+{
+ "id": "act-005",
+ "order": 5,
+ "year": 1,
+ "day": 173,
+ "parties": [
+  "ajax"
+ ],
+ "actor": "Ajax",
+ "with": null,
+ "verb": "duelled",
+ "object": "in the space between the lines",
+ "place": "at the tomb of Ilus",
+ "side": "fleet",
+ "text": "Ajax duelled in the space between the lines, at the tomb of Ilus, in the first year."
+}

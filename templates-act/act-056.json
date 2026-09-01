@@ -1,0 +1,16 @@
+{
+ "id": "act-056",
+ "order": 56,
+ "year": 6,
+ "day": 2004,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "buried",
+ "object": "a companion under a mound",
+ "place": "under the wall",
+ "side": "fleet",
+ "text": "Agamemnon buried a companion under a mound, under the wall, in the sixth year."
+}

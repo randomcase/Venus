@@ -1,0 +1,16 @@
+{
+ "id": "act-080",
+ "order": 80,
+ "year": 8,
+ "day": 2860,
+ "parties": [
+  "deiphobus"
+ ],
+ "actor": "Deiphobus",
+ "with": null,
+ "verb": "sent",
+ "object": "an embassy with gifts",
+ "place": "under the wall",
+ "side": "troy",
+ "text": "Deiphobus sent an embassy with gifts, under the wall, in the eighth year."
+}

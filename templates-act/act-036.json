@@ -1,0 +1,17 @@
+{
+ "id": "act-036",
+ "order": 36,
+ "year": 4,
+ "day": 1272,
+ "parties": [
+  "aeneas",
+  "odysseus"
+ ],
+ "actor": "Aeneas",
+ "with": "Odysseus",
+ "verb": "refused",
+ "object": "the ransom for Chryseis",
+ "place": "in Priam's hall",
+ "side": "troy",
+ "text": "Aeneas and Odysseus refused the ransom for Chryseis, in Priam's hall, in the fourth year."
+}

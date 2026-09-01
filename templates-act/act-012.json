@@ -1,0 +1,16 @@
+{
+ "id": "act-012",
+ "order": 12,
+ "year": 2,
+ "day": 401,
+ "parties": [
+  "antenor"
+ ],
+ "actor": "Antenor",
+ "with": null,
+ "verb": "drove",
+ "object": "the chariot at the wall",
+ "place": "on the plain of Scamander",
+ "side": "troy",
+ "text": "Antenor drove the chariot at the wall, on the plain of Scamander, in the second year."
+}

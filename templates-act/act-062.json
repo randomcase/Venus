@@ -1,0 +1,16 @@
+{
+ "id": "act-062",
+ "order": 62,
+ "year": 7,
+ "day": 2199,
+ "parties": [
+  "paris"
+ ],
+ "actor": "Paris",
+ "with": null,
+ "verb": "took",
+ "object": "Briseis from the tent",
+ "place": "on the mound of Aesyetes",
+ "side": "troy",
+ "text": "Paris took Briseis from the tent, on the mound of Aesyetes, in the seventh year."
+}

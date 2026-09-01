@@ -1,0 +1,16 @@
+{
+ "id": "act-057",
+ "order": 57,
+ "year": 6,
+ "day": 2038,
+ "parties": [
+  "patroclus"
+ ],
+ "actor": "Patroclus",
+ "with": null,
+ "verb": "read",
+ "object": "the birds and counselled retreat",
+ "place": "under the wall",
+ "side": "fleet",
+ "text": "Patroclus read the birds and counselled retreat, under the wall, in the sixth year."
+}

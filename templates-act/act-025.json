@@ -1,0 +1,16 @@
+{
+ "id": "act-025",
+ "order": 25,
+ "year": 3,
+ "day": 874,
+ "parties": [
+  "diomedes"
+ ],
+ "actor": "Diomedes",
+ "with": null,
+ "verb": "divided",
+ "object": "the plunder by rank",
+ "place": "in the assembly",
+ "side": "fleet",
+ "text": "Diomedes divided the plunder by rank, in the assembly, in the third year."
+}

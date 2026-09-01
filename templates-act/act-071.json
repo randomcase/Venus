@@ -1,0 +1,16 @@
+{
+ "id": "act-071",
+ "order": 71,
+ "year": 8,
+ "day": 2524,
+ "parties": [
+  "deiphobus"
+ ],
+ "actor": "Deiphobus",
+ "with": null,
+ "verb": "sacked",
+ "object": "a city on the coast",
+ "place": "in Priam's hall",
+ "side": "troy",
+ "text": "Deiphobus sacked a city on the coast, in Priam's hall, in the eighth year."
+}

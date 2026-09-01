@@ -1,0 +1,16 @@
+{
+ "id": "act-028",
+ "order": 28,
+ "year": 3,
+ "day": 998,
+ "parties": [
+  "hector"
+ ],
+ "actor": "Hector",
+ "with": null,
+ "verb": "read",
+ "object": "the birds and counselled retreat",
+ "place": "in Priam's hall",
+ "side": "troy",
+ "text": "Hector read the birds and counselled retreat, in Priam's hall, in the third year."
+}

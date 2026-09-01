@@ -1,0 +1,16 @@
+{
+ "id": "act-011",
+ "order": 11,
+ "year": 2,
+ "day": 370,
+ "parties": [
+  "patroclus"
+ ],
+ "actor": "Patroclus",
+ "with": null,
+ "verb": "buried",
+ "object": "a companion under a mound",
+ "place": "among the ships",
+ "side": "fleet",
+ "text": "Patroclus buried a companion under a mound, among the ships, in the second year."
+}

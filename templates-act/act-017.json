@@ -1,0 +1,17 @@
+{
+ "id": "act-017",
+ "order": 17,
+ "year": 2,
+ "day": 601,
+ "parties": [
+  "hector",
+  "achilles"
+ ],
+ "actor": "Hector",
+ "with": "Achilles",
+ "verb": "held",
+ "object": "the gate against the fleet",
+ "place": "on the plain of Scamander",
+ "side": "troy",
+ "text": "Hector and Achilles held the gate against the fleet, on the plain of Scamander, in the second year."
+}

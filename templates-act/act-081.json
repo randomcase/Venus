@@ -1,0 +1,16 @@
+{
+ "id": "act-081",
+ "order": 81,
+ "year": 9,
+ "day": 2897,
+ "parties": [
+  "odysseus"
+ ],
+ "actor": "Odysseus",
+ "with": null,
+ "verb": "took",
+ "object": "Briseis from the tent",
+ "place": "by the river",
+ "side": "fleet",
+ "text": "Odysseus took Briseis from the tent, by the river, in the ninth year."
+}

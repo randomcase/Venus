@@ -1,0 +1,16 @@
+{
+ "id": "act-072",
+ "order": 72,
+ "year": 8,
+ "day": 2583,
+ "parties": [
+  "menelaus"
+ ],
+ "actor": "Menelaus",
+ "with": null,
+ "verb": "called",
+ "object": "the assembly and named the cause",
+ "place": "by the river",
+ "side": "fleet",
+ "text": "Menelaus called the assembly and named the cause, by the river, in the eighth year."
+}

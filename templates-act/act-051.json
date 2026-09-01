@@ -1,0 +1,16 @@
+{
+ "id": "act-051",
+ "order": 51,
+ "year": 6,
+ "day": 1826,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "read",
+ "object": "the birds and counselled retreat",
+ "place": "among the ships",
+ "side": "fleet",
+ "text": "Achilles read the birds and counselled retreat, among the ships, in the sixth year."
+}

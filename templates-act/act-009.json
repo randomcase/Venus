@@ -1,0 +1,16 @@
+{
+ "id": "act-009",
+ "order": 9,
+ "year": 1,
+ "day": 305,
+ "parties": [
+  "hector"
+ ],
+ "actor": "Hector",
+ "with": null,
+ "verb": "called",
+ "object": "the assembly and named the cause",
+ "place": "on the plain of Scamander",
+ "side": "troy",
+ "text": "Hector called the assembly and named the cause, on the plain of Scamander, in the first year."
+}

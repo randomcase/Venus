@@ -1,0 +1,16 @@
+{
+ "id": "act-038",
+ "order": 38,
+ "year": 4,
+ "day": 1333,
+ "parties": [
+  "patroclus"
+ ],
+ "actor": "Patroclus",
+ "with": null,
+ "verb": "took",
+ "object": "Briseis from the tent",
+ "place": "by the river",
+ "side": "fleet",
+ "text": "Patroclus took Briseis from the tent, by the river, in the fourth year."
+}

@@ -1,0 +1,16 @@
+{
+ "id": "act-079",
+ "order": 79,
+ "year": 8,
+ "day": 2833,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "took",
+ "object": "Briseis from the tent",
+ "place": "at the tomb of Ilus",
+ "side": "fleet",
+ "text": "Agamemnon took Briseis from the tent, at the tomb of Ilus, in the eighth year."
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-042",
+ "order": 42,
+ "year": 5,
+ "day": 1490,
+ "parties": [
+  "sarpedon",
+  "priam"
+ ],
+ "actor": "Sarpedon",
+ "with": "Priam",
+ "verb": "ransomed",
+ "object": "a son from the ships",
+ "place": "under the wall",
+ "side": "troy",
+ "text": "Sarpedon and Priam ransomed a son from the ships, under the wall, in the fifth year."
+}

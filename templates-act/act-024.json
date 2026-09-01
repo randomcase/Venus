@@ -1,0 +1,16 @@
+{
+ "id": "act-024",
+ "order": 24,
+ "year": 3,
+ "day": 828,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "offered",
+ "object": "a truce that did not hold",
+ "place": "under the wall",
+ "side": "fleet",
+ "text": "Agamemnon offered a truce that did not hold, under the wall, in the third year."
+}

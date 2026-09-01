@@ -1,0 +1,17 @@
+{
+ "id": "act-044",
+ "order": 44,
+ "year": 5,
+ "day": 1561,
+ "parties": [
+  "hector",
+  "odysseus"
+ ],
+ "actor": "Hector",
+ "with": "Odysseus",
+ "verb": "held",
+ "object": "the gate against the fleet",
+ "place": "by the river",
+ "side": "troy",
+ "text": "Hector and Odysseus held the gate against the fleet, by the river, in the fifth year."
+}

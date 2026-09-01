@@ -1,0 +1,16 @@
+{
+ "id": "act-041",
+ "order": 41,
+ "year": 5,
+ "day": 1455,
+ "parties": [
+  "paris"
+ ],
+ "actor": "Paris",
+ "with": null,
+ "verb": "gave back",
+ "object": "a body for its weight in gold",
+ "place": "on the plain of Scamander",
+ "side": "troy",
+ "text": "Paris gave back a body for its weight in gold, on the plain of Scamander, in the fifth year."
+}

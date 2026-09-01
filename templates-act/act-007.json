@@ -1,0 +1,16 @@
+{
+ "id": "act-007",
+ "order": 7,
+ "year": 1,
+ "day": 220,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "divided",
+ "object": "the plunder by rank",
+ "place": "before the Scaean gate",
+ "side": "fleet",
+ "text": "Achilles divided the plunder by rank, before the Scaean gate, in the first year."
+}

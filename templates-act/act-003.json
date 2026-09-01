@@ -1,0 +1,16 @@
+{
+ "id": "act-003",
+ "order": 3,
+ "year": 1,
+ "day": 89,
+ "parties": [
+  "odysseus"
+ ],
+ "actor": "Odysseus",
+ "with": null,
+ "verb": "called",
+ "object": "the assembly and named the cause",
+ "place": "on the mound of Aesyetes",
+ "side": "fleet",
+ "text": "Odysseus called the assembly and named the cause, on the mound of Aesyetes, in the first year."
+}

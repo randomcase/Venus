@@ -1,0 +1,16 @@
+{
+ "id": "act-094",
+ "order": 94,
+ "year": 10,
+ "day": 3351,
+ "parties": [
+  "menelaus"
+ ],
+ "actor": "Menelaus",
+ "with": null,
+ "verb": "returned",
+ "object": "Chryseis to her father",
+ "place": "on the mound of Aesyetes",
+ "side": "fleet",
+ "text": "Menelaus returned Chryseis to her father, on the mound of Aesyetes, in the tenth year."
+}

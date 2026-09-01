@@ -1,0 +1,17 @@
+{
+ "id": "act-066",
+ "order": 66,
+ "year": 7,
+ "day": 2349,
+ "parties": [
+  "hector",
+  "achilles"
+ ],
+ "actor": "Hector",
+ "with": "Achilles",
+ "verb": "called",
+ "object": "the assembly and named the cause",
+ "place": "by the river",
+ "side": "troy",
+ "text": "Hector and Achilles called the assembly and named the cause, by the river, in the seventh year."
+}

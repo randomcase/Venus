@@ -1,0 +1,16 @@
+{
+ "id": "act-089",
+ "order": 89,
+ "year": 9,
+ "day": 3196,
+ "parties": [
+  "nestor"
+ ],
+ "actor": "Nestor",
+ "with": null,
+ "verb": "counted",
+ "object": "the ships by contingent",
+ "place": "in Priam's hall",
+ "side": "fleet",
+ "text": "Nestor counted the ships by contingent, in Priam's hall, in the ninth year."
+}

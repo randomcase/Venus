@@ -1,0 +1,16 @@
+{
+ "id": "act-093",
+ "order": 93,
+ "year": 10,
+ "day": 3323,
+ "parties": [
+  "odysseus"
+ ],
+ "actor": "Odysseus",
+ "with": null,
+ "verb": "burned",
+ "object": "the first of the ships",
+ "place": "at the fig tree",
+ "side": "fleet",
+ "text": "Odysseus burned the first of the ships, at the fig tree, in the tenth year."
+}

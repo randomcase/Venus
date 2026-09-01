@@ -1,0 +1,16 @@
+{
+ "id": "act-006",
+ "order": 6,
+ "year": 1,
+ "day": 195,
+ "parties": [
+  "menelaus"
+ ],
+ "actor": "Menelaus",
+ "with": null,
+ "verb": "withdrew",
+ "object": "from the field and sat down",
+ "place": "at the fig tree",
+ "side": "fleet",
+ "text": "Menelaus withdrew from the field and sat down, at the fig tree, in the first year."
+}

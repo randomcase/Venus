@@ -1,0 +1,16 @@
+{
+ "id": "act-020",
+ "order": 20,
+ "year": 2,
+ "day": 697,
+ "parties": [
+  "nestor"
+ ],
+ "actor": "Nestor",
+ "with": null,
+ "verb": "held",
+ "object": "the gate against the fleet",
+ "place": "by the river",
+ "side": "fleet",
+ "text": "Nestor held the gate against the fleet, by the river, in the second year."
+}

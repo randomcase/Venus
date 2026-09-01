@@ -1,0 +1,17 @@
+{
+ "id": "act-087",
+ "order": 87,
+ "year": 9,
+ "day": 3097,
+ "parties": [
+  "hector",
+  "agamemnon"
+ ],
+ "actor": "Hector",
+ "with": "Agamemnon",
+ "verb": "stripped",
+ "object": "the arms from a body",
+ "place": "by the river",
+ "side": "troy",
+ "text": "Hector and Agamemnon stripped the arms from a body, by the river, in the ninth year."
+}

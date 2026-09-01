@@ -1,0 +1,17 @@
+{
+ "id": "act-065",
+ "order": 65,
+ "year": 7,
+ "day": 2320,
+ "parties": [
+  "nestor",
+  "paris"
+ ],
+ "actor": "Nestor",
+ "with": "Paris",
+ "verb": "offered",
+ "object": "a truce that did not hold",
+ "place": "in the assembly",
+ "side": "fleet",
+ "text": "Nestor and Paris offered a truce that did not hold, in the assembly, in the seventh year."
+}

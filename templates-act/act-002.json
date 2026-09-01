@@ -1,0 +1,16 @@
+{
+ "id": "act-002",
+ "order": 2,
+ "year": 1,
+ "day": 61,
+ "parties": [
+  "nestor"
+ ],
+ "actor": "Nestor",
+ "with": null,
+ "verb": "called",
+ "object": "the assembly and named the cause",
+ "place": "at the fig tree",
+ "side": "fleet",
+ "text": "Nestor called the assembly and named the cause, at the fig tree, in the first year."
+}

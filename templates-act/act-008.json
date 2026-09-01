@@ -1,0 +1,16 @@
+{
+ "id": "act-008",
+ "order": 8,
+ "year": 1,
+ "day": 255,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "stripped",
+ "object": "the arms from a body",
+ "place": "by the river",
+ "side": "fleet",
+ "text": "Agamemnon stripped the arms from a body, by the river, in the first year."
+}

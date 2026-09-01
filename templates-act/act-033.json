@@ -1,0 +1,17 @@
+{
+ "id": "act-033",
+ "order": 33,
+ "year": 4,
+ "day": 1156,
+ "parties": [
+  "diomedes",
+  "odysseus"
+ ],
+ "actor": "Diomedes",
+ "with": "Odysseus",
+ "verb": "ransomed",
+ "object": "a son from the ships",
+ "place": "under the wall",
+ "side": "fleet",
+ "text": "Diomedes and Odysseus ransomed a son from the ships, under the wall, in the fourth year."
+}

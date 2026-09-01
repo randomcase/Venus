@@ -1,0 +1,17 @@
+{
+ "id": "act-055",
+ "order": 55,
+ "year": 6,
+ "day": 1961,
+ "parties": [
+  "sarpedon",
+  "agamemnon"
+ ],
+ "actor": "Sarpedon",
+ "with": "Agamemnon",
+ "verb": "duelled",
+ "object": "in the space between the lines",
+ "place": "at the fig tree",
+ "side": "troy",
+ "text": "Sarpedon and Agamemnon duelled in the space between the lines, at the fig tree, in the sixth year."
+}
