@@ -138,6 +138,7 @@ const SHOP_SAYS = {
   'hall.mjs':        'hall.html \u2014 the entrance hall, in one-point perspective',
   'explorer.mjs':    'explorer.html \u2014 the tree, the editor, and run',
   'viewport.mjs':    'viewport.html \u2014 a tab, and what it can honestly report',
+  'reading.mjs':     'reading.html \u2014 the base as a room, shelved by dependence',
   'venus-app.mjs':   'the app itself: serves the yard, writes notes and feedback',
   'dev.mjs':         'dev.html \u2014 the developer hub, scanned from the yard',
   'castle-rules.mjs':'the castle checks and costing, stated once for three boards',
