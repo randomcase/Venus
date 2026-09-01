@@ -37,7 +37,13 @@ const SKIP = new Set(['arcade.html']);
 
 function scan(f) {
   const s = readFileSync(f, 'utf8');
+  /* a <title> in the file already carries HTML entities. Read raw and then
+     escaped again, &middot; becomes &amp;middot; on the cabinet — so decode
+     on the way in, before esc() runs on the way out. */
   const title = (s.match(/<title>([\s\S]*?)<\/title>/) || [, f])[1]
+    .replace(/&middot;/g, '\u00b7').replace(/&mdash;/g, '\u2014')
+    .replace(/&ndash;/g, '\u2013').replace(/&rsquo;/g, '\u2019')
+    .replace(/&amp;/g, '&')
     .replace(/\s+/g, ' ').trim();
   const name = title.split(/\s+[··]\s+/)[0].trim();
   const blurb = title.slice(name.length).replace(/^\s*[··]\s*/, '').trim();
@@ -79,6 +85,8 @@ WINGS.forEach((w) => {
   w.list = readdirSync(w.dir).filter((f) => f.endsWith('.html')).sort()
     .map((f) => ({ ...scan(join(w.dir, f)), f: `${w.dir}/${f}` }));
 });
+
+const TOTAL = cabs.length + WINGS.reduce((a, w) => a + w.list.length, 0);
 
 /* the data layers. Not pages — the JSON every generator reads, counted so the
    arcade is a census of the whole yard rather than only the half that renders. */
@@ -183,7 +191,7 @@ const cabinet = (c, i) => `      <article class="cab${c.live ? ' live' : ''}">
         <p class="plate">${esc(c.blurb || c.f)}</p>
       </article>`;
 
-writeFileSync('arcade.html', `<title>The Arcade &middot; ${cabs.length} boards, all of them running</title>
+writeFileSync('arcade.html', `<title>The Arcade &middot; ${TOTAL} boards, all of them running</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
   THE ARCADE — every board in the yard, live, in a cabinet.
@@ -381,9 +389,9 @@ ${SKY}</style>
   <header>
     <h1>The Arcade</h1>
     <span class="sub">Every board in the yard, in a cabinet, running. Not
-      screenshots &mdash; ${cabs.length} live frames of the real files, counted
+      screenshots &mdash; ${TOTAL} live frames of the real files, counted
       from the directory so this page cannot go stale.</span>
-    <span class="tag">${cabs.length + WINGS.reduce((a, w) => a + w.list.length, 0)} cabinets</span>
+    <span class="tag">${TOTAL} cabinets</span>
   </header>
 
   <div class="hub">
@@ -406,7 +414,7 @@ ${SKY}</style>
     script one document cannot set state in another, so the console moves what
     is genuinely its own &mdash; the attract drift and its own cut &mdash; and
     every board keeps its own controls. That is the right answer anyway: a hub
-    that could silently drive ${cabs.length} boards is a worse design than
+    that could silently drive ${TOTAL} boards is a worse design than
     ${cabs.length} boards that each answer for themselves.</p>
 
 ${halls.map((h) => `  <h2>${esc(h.name)} <b>${h.list.length} of ${cabs.length}</b></h2>
