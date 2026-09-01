@@ -1209,6 +1209,42 @@
     "decentralization",
     "caught-up"
    ]
+  },
+  {
+   "id": "syndication",
+   "term": "Syndication",
+   "class": "concept",
+   "settled": "settled",
+   "short": "Two or more, acting as one, sitting where everything has to pass. Not one — one is a monopoly. It taxes the rate, never the stock.",
+   "body": [
+    "YOU ALONE CANNOT BE A SYNDICATE, and that is not a nicety of usage, it is the whole structure. A single party whose removal disconnects two others is a cut vertex, and a cut vertex is a monopoly or a bottleneck. A syndicate is a COMBINATION: a set of two or more whose members are individually removable and collectively not. They are a cut SET, and they behave as one.",
+    "The consequence is the useful part and it is not obvious. Remove any single member of a syndicate and nothing happens, because the others cover. Which means the standard test for centralisation — delete one component and see whether anything else moves — is STRUCTURALLY BLIND to syndication. It will return a clean result on an arrangement that is entirely captured. To find a syndicate you have to delete combinations, and combinations are where nobody looks because there are so many more of them.",
+    "So the procedure has two halves. Find the minimal sets whose removal disconnects: sets where the whole set cuts and no proper subset of it does. Then ask whether the members are CORRELATED — do they price, refuse and time together? A minimal cut set of independent parties is just thin redundancy and it is fine. The same set moving in step is a syndicate, and no member of it has to know that.",
+    "NOW THE HALF THAT IS USUALLY GOT WRONG. Syndication is a hindrance and not a loss factor. It acts on the RATE at which you gain and never on the STOCK you already hold. A toll makes the road slower and the journey dearer; it does not reach into the cart. Everything a syndicate can do sits in that sentence — slow you, lengthen your path, price your passage, refuse you a turn — and not one of those subtracts what you already brought.",
+    "Which is why a base can run on a law that nothing ever goes down and still take this seriously. The two do not conflict. Being syndicated means climbing at a worse rate than you otherwise would have, forever, and seeing it requires comparing yourself against a counterfactual rather than against yesterday. That is exactly why it is invisible from inside, and it is the second reason to trust the structural test over the felt experience.",
+    "A party that takes what you already hold is not a syndicate. That is confiscation: a different mechanism with a different remedy. You can be robbed by somebody holding no position at all, and you can be thoroughly syndicated by people who never take a thing."
+   ],
+   "test": "Three ways to break this and they are not equally easy. FIRST, the cheap one: find a genuine syndicate that is a single party. If you can, the combination requirement is wrong and the word means something closer to bottleneck. SECOND: find a minimal cut set of two or more whose members demonstrably do NOT move together — independent pricing, independent refusals, independent timing — and which everybody nonetheless agrees is a syndicate. That would mean correlation is not required and the shape alone is enough. THIRD, and this is the load-bearing one: find a case where the set removes what was already earned rather than slowing what is earned next, and show it is syndication rather than confiscation wearing its coat. If that case stands, the hindrance-not-loss claim is false, and this entry and the +1 law cannot both survive it.",
+   "evidence": [
+    {
+     "page": "syndicate.html",
+     "what": "six indicators, each a structural fact checkable on paper rather than a vibe — and none of them requires anybody to be villainous or even aware"
+    },
+    {
+     "page": "corps.html",
+     "what": "the cut-vertex routine over a command tree names 7 of 20, every node with more than one neighbour — the worked example of what syndication is NOT, since each of those is one party alone"
+    },
+    {
+     "page": "missouri.html",
+     "what": "ten sites all closing on one revenue model whose ceiling is set by the road: too much of one thing arrived at by choosing on the wrong number, with nobody combining and nobody at fault"
+    }
+   ],
+   "see": [
+    "decentralization",
+    "fungibility",
+    "the-relay",
+    "the-gas"
+   ]
   }
  ]
 }
