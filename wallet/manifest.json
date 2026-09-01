@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Venus Wallet",
+  "version": "0.1.0",
+  "description": "A self-custodial wallet for Ethereum and EVM chains, Bitcoin, Litecoin and Solana from one seed phrase. Keys are made and encrypted on this machine and never leave it. Testnet by default. Unaudited.",
+  "action": { "default_popup": "popup.html", "default_title": "Venus Wallet" },
+  "background": { "service_worker": "sw.js" },
+  "permissions": ["storage", "alarms"],
+  "icons": { "128": "icon.png" },
+  "content_security_policy": { "extension_pages": "script-src 'self'; object-src 'none'" }
+}

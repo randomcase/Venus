@@ -1,0 +1,9 @@
+{
+  "name": "venus-ledger",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "An append-only, hash-chained, quorum-signed ledger meant to outlive its custodians; reports; a read-only Claude assistant; and an audited light-switch layer.",
+  "scripts": { "test": "node --test" },
+  "dependencies": { "@anthropic-ai/sdk": "latest" }
+}

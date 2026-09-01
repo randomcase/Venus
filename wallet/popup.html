@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Venus Wallet</title>
+<style>
+  :root{--void:#0b0d12;--panel:#151922;--panel2:#1c2230;--edge:#2b3445;--ink:#efe9dc;--dim:#95a0b3;--gold:#f2c98a;--ok:#6fd4a8;--bad:#e06f5a;--tide:#3f8fbf}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--void);color:var(--ink);font:13px/1.45 ui-rounded,system-ui,-apple-system,sans-serif}
+  body{width:360px;min-height:520px;display:flex;flex-direction:column}
+  header{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--edge)}
+  header h1{margin:0;font-size:15px;color:var(--gold);font-weight:600;flex:1}
+  header select{max-width:150px}
+  main{padding:12px;flex:1;display:flex;flex-direction:column;gap:10px}
+  .screen{display:none;flex-direction:column;gap:10px}.screen.on{display:flex}
+  h2{margin:0;font-size:14px}
+  p{margin:0;color:var(--dim)}
+  .warn{background:#2a1f16;border:1px solid #6b4a2a;border-radius:10px;padding:8px 10px;color:#f2c98a;font-size:12px}
+  label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--dim)}
+  input,select,textarea,button{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--edge);border-radius:10px;padding:8px 10px}
+  input:focus,textarea:focus{outline:none;border-color:var(--tide)}
+  textarea{min-height:64px;resize:vertical}
+  button{cursor:pointer}button:hover:not(:disabled){border-color:var(--gold)}button:disabled{opacity:.45;cursor:not-allowed}
+  button.primary{background:#2a2036;border-color:var(--gold)}
+  button.danger{border-color:var(--bad);color:var(--bad)}
+  .row{display:flex;gap:6px;flex-wrap:wrap}.row>*{flex:1}
+  .phrase{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;font:12px ui-monospace,Consolas,monospace}
+  .phrase span{background:var(--panel2);border:1px solid var(--edge);border-radius:8px;padding:5px 7px}
+  .phrase span i{font-style:normal;color:var(--dim);margin-right:5px}
+  .big{font-size:26px;font-variant-numeric:tabular-nums}
+  .addr{font:11px ui-monospace,Consolas,monospace;word-break:break-all;color:var(--dim)}
+  .card{background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px}
+  nav{display:flex;gap:4px}
+  nav button{flex:1;padding:6px 4px;background:transparent;border-color:transparent;color:var(--dim)}
+  nav button.on{background:var(--panel2);border-color:var(--edge);color:var(--ink)}
+  .tab{display:none;flex-direction:column;gap:8px}.tab.on{display:flex}
+  .list{display:flex;flex-direction:column;gap:4px}
+  .item{display:flex;justify-content:space-between;gap:8px;background:var(--panel2);border:1px solid var(--edge);border-radius:10px;padding:7px 10px}
+  .item b{font-weight:600}.item small{color:var(--dim)}
+  .item a{color:var(--tide);text-decoration:none}
+  .ok{color:var(--ok)}.bad{color:var(--bad)}
+  #msg{min-height:16px;font-size:12px}
+  .qr{display:grid;place-items:center;padding:8px}
+  .qr canvas{image-rendering:pixelated;border:6px solid #fff;border-radius:6px}
+  footer{padding:6px 12px 10px;color:var(--dim);font-size:11px;border-top:1px solid var(--edge)}
+</style>
+</head>
+<body>
+<header><h1>Venus Wallet</h1><select id="network" title="network"></select></header>
+<main>
+  <section id="s-welcome" class="screen">
+    <h2>Your keys, on this machine</h2>
+    <p>Venus Wallet makes one seed phrase here, encrypts it with a password you choose, and keeps it in this browser's extension storage. The same phrase gives you Ethereum and two dozen EVM chains, Bitcoin, Litecoin and Solana. Nothing is sent anywhere except signed transactions to the network you pick. Sepolia testnet is the default.</p>
+    <div class="warn">Unaudited software. Keep real value elsewhere until you have read the code. Anyone with the phrase has the funds.</div>
+    <button class="primary" data-go="create">Create a new wallet</button>
+    <button data-go="import">Import a seed phrase</button>
+  </section>
+
+  <section id="s-create" class="screen">
+    <h2>Write these twelve words down</h2>
+    <p>In order, on paper, somewhere that is not this computer. They are the wallet. There is no reset.</p>
+    <div class="phrase" id="new-phrase"></div>
+    <label>Password (unlocks this browser's copy)<input id="c-pw" type="password" minlength="8" autocomplete="new-password"></label>
+    <label>Again<input id="c-pw2" type="password" minlength="8" autocomplete="new-password"></label>
+    <label style="flex-direction:row;align-items:center;gap:8px"><input id="c-ok" type="checkbox" style="width:auto"> I have written the words down</label>
+    <div class="row"><button data-go="welcome">Back</button><button class="primary" id="c-go" disabled>Create</button></div>
+  </section>
+
+  <section id="s-import" class="screen">
+    <h2>Import a seed phrase</h2>
+    <label>12 or 24 words<textarea id="i-phrase" autocomplete="off" spellcheck="false"></textarea></label>
+    <label>Password<input id="i-pw" type="password" minlength="8" autocomplete="new-password"></label>
+    <div class="row"><button data-go="welcome">Back</button><button class="primary" id="i-go">Import</button></div>
+  </section>
+
+  <section id="s-unlock" class="screen">
+    <h2>Locked</h2>
+    <label>Password<input id="u-pw" type="password" autocomplete="current-password"></label>
+    <button class="primary" id="u-go">Unlock</button>
+    <p id="u-msg"></p>
+  </section>
+
+  <section id="s-main" class="screen">
+    <div class="card">
+      <div class="row" style="align-items:center"><select id="account" style="flex:1"></select><button id="copy" style="flex:0" title="copy address">copy</button></div>
+      <div class="addr" id="address"></div>
+      <div class="big"><span id="balance">…</span> <span id="symbol"></span></div>
+      <p id="fiat"></p>
+    </div>
+    <nav><button data-tab="assets" class="on">Assets</button><button data-tab="send">Send</button><button data-tab="receive">Receive</button><button data-tab="activity">Activity</button><button data-tab="settings">More</button></nav>
+    <div id="t-assets" class="tab on">
+      <div class="list" id="tokens"></div>
+      <div class="row" id="tok-row"><input id="tok-addr" placeholder="ERC-20 contract address"><button id="tok-add" style="flex:0">Add</button></div>
+      <p id="no-tokens" style="display:none">Only the native coin on this chain. Tokens are an EVM thing here.</p>
+    </div>
+    <div id="t-send" class="tab">
+      <label>Asset<select id="send-asset"></select></label>
+      <label>To<input id="send-to" placeholder="0x…" autocomplete="off" spellcheck="false"></label>
+      <label>Amount<input id="send-amt" placeholder="0.0" inputmode="decimal"></label>
+      <p id="send-fee"></p>
+      <button class="primary" id="send-go">Review and send</button>
+    </div>
+    <div id="t-receive" class="tab">
+      <div class="qr" id="qr"></div>
+      <div class="addr" id="recv-addr"></div>
+      <p>Only send assets on the selected network to this address.</p>
+    </div>
+    <div id="t-activity" class="tab"><div class="list" id="txs"></div><p id="txs-empty">Nothing sent from here yet. Received transactions are not listed; the explorer has them.</p></div>
+    <div id="t-settings" class="tab">
+      <button id="add-account">Add an account</button>
+      <label>Auto-lock after (minutes)<input id="autolock" type="number" min="1" max="1440"></label>
+      <label>Custom RPC for this network (must allow CORS)<input id="rpc" placeholder="https://…"></label>
+      <button id="reveal">Reveal seed phrase…</button>
+      <div id="reveal-box" style="display:none" class="card"><label>Password<input id="r-pw" type="password"></label><button id="r-go">Show</button><div class="phrase" id="r-phrase"></div></div>
+      <button id="lock">Lock now</button>
+      <button class="danger" id="wipe">Forget this wallet on this machine…</button>
+    </div>
+  </section>
+</main>
+<footer id="msg"></footer>
+<script src="lib/ethers.umd.min.js"></script>
+<script src="lib/chains.js"></script>
+<script src="chains.js"></script>
+<script src="vault.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

@@ -360,7 +360,7 @@
 /* ui.js — the meadow's room. Reads the rules (inline or def.json), keeps the
    save, draws the meadow, and lays the engine's API out as tabs. */
 (async function () {
-  const $ = s => document.querySelector(s), el = (t, a = {}, ...kids) => { const e = document.createElement(t); for (const [k, v] of Object.entries(a)) k === 'html' ? e.innerHTML = v : k.startsWith('on') ? e[k] = v : e.setAttribute(k, v); kids.forEach(k => e.append(k)); return e; };
+  const $ = s => document.querySelector(s), el = (t, a = {}, ...kids) => { const e = document.createElement(t); for (const [k, v] of Object.entries(a)) { if (v == null) continue; k === 'html' ? e.innerHTML = v : k.startsWith('on') ? e[k] = v : e.setAttribute(k, v); }; kids.forEach(k => e.append(k)); return e; };
   const isExt = typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local;
   const store = {
     get: async k => isExt ? (await chrome.storage.local.get(k))[k] : (() => { try { return localStorage.getItem(k); } catch (e) { return null; } })(),
