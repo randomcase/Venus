@@ -121,15 +121,21 @@ const K = 62, F = 13;                      /* pixels per metre, focal distance *
 /* THE CAMERA. The first pass had it nailed to the doorway, which is why the
    drawing order worked: it was correct for exactly one position. Everything
    below is now expressed relative to wherever you are standing. */
-const CAM = { x: 0, y: 0, z: 0, back: false };
+const CAM = { x: 0, y: 0, z: 0, face: 'z' };
 
-/* camera space: where a world point sits relative to you, and which way you
-   are facing. Turning round negates x as well as z, or the room comes out
-   mirrored. */
+/* Camera space: where a world point sits relative to you, and which way you
+   are facing. Four directions, and the right-hand vector follows from the
+   forward one by the same quarter turn each time — forward +z gives right
+   +x, forward +x gives right -z. Turning round negates BOTH, or the room
+   comes out mirrored, which is the one thing that is not obvious here. */
 function cam(x, y, z) {
-  let dx = x - CAM.x, dy = y - CAM.y, dz = z - CAM.z;
-  if (CAM.back) { dx = -dx; dz = -dz; }
-  return [dx, dy, dz];
+  const ax = x - CAM.x, ay = y - CAM.y, az = z - CAM.z;
+  switch (CAM.face) {
+    case '-z': return [-ax, ay, -az];
+    case 'x':  return [-az, ay,  ax];   /* facing across the room */
+    case '-x': return [ az, ay, -ax];
+    default:   return [ ax, ay,  az];
+  }
 }
 /* clamped, because a point level with your eye is a division by zero and a
    point behind you is worse than that */
@@ -177,6 +183,12 @@ const VIEWS = [
    { x: 0.4, y: 4.5 - 1.62, z: 2.2, back: false, vx: 0.54, vy: 0.62 },
    'Over the entrance. From here you can see who has arrived before deciding ' +
    'to come down, and that is what a balcony over a door is for.'],
+  ['alcove', 'In an alcove',
+   { x: -5.35, y: -0.18, z: 6.3, face: 'x', vx: 0.5, vy: 0.52 },
+   'Sitting at one of the desks with the wall behind you and a case to either ' +
+   'side, looking out at the hall framed between them. This is the position ' +
+   'the whole stall system exists to make, and it is why the cases project ' +
+   'instead of lying flat: from here the room is somebody else’s.'],
   ['fire', 'At the fire, looking across',
    { x: -4.3, y: -0.1, z: 5.9, back: false, vx: 0.66, vy: 0.49 },
    'Where you wait. The chimneypiece is at your shoulder and the stair is ' +
@@ -185,7 +197,7 @@ const VIEWS = [
 function setView(id) {
   const v = VIEWS.find((x) => x[0] === id) || VIEWS[0];
   state.view = id;
-  CAM.x = v[2].x; CAM.y = v[2].y; CAM.z = v[2].z; CAM.back = v[2].back;
+  CAM.x = v[2].x; CAM.y = v[2].y; CAM.z = v[2].z; CAM.face = v[2].face || (v[2].back ? '-z' : 'z');
   VPX = W * v[2].vx; VPY = H * v[2].vy;
 }
 
