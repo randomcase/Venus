@@ -18,8 +18,10 @@ ledger itself uses nothing outside Node's standard library.
   most cap × (years elapsed + 1) / years), a quorum of m-of-n authority keys,
   and writer keys that may append notes and nothing else.
 - Event types: `genesis`, `account`, `issue` (quorum), `transfer` (owner's
-  key), `rotate-key`, `note` (any registered key), `checkpoint` (quorum; carries
-  the Merkle root of everything so far), `amend` (quorum; changes rules).
+  key), `rotate-key`, `key-succession` (quorum; records a confidentiality-key
+  reshare — see below), `note` (any registered key), `checkpoint` (quorum;
+  carries the Merkle root of everything so far), `amend` (quorum; changes
+  rules).
 - `verify()` recomputes every hash, checks the chain, checks every signature
   against the keys the ledger itself registered, replays every rule, and
   recomputes every checkpoint root. The tests edit an amount, drop a line, and
@@ -77,6 +79,47 @@ repository; and publish each checkpoint's root to a public timestamping
 service. Print the checkpointed file every few years. Encode custody
 succession in genesis and change it only by `amend`. The cost is negligible;
 the work is institutional.
+
+### If an event's body itself must be confidential, `keyring.mjs`
+
+A *signing* key and a *confidentiality* key fail differently, and only the
+first is handled by `rotate-key`. Losing a signer is survivable one at a
+time — the quorum still has its majority. Losing a decryption key is not
+survivable at all: there is no fallback, and the content stays provably
+intact and permanently unreadable. So a confidentiality key is never held
+whole by anyone; it is split with Shamir secret sharing (`keyring.mjs`) into
+n shares such that any m reconstruct it exactly and fewer than m reveal
+nothing whatsoever — not a hint, not a probability.
+
+```bash
+node keyring.mjs split 3 2 > split.json        # n=3 holders, threshold m=2; the DEK is printed once, then never again
+node keyring.mjs seal <base64 key> event.txt > sealed.json     # AES-256-GCM; hash the ciphertext into the chain as usual
+node keyring.mjs combine share-a.json share-b.json             # any 2 of the 3 shares recover the exact key
+node keyring.mjs reshare <newN> <newM> share-a.json share-b.json   # a custodian changed; old shares retire
+```
+
+Record a reshare on the chain with the `key-succession` event type (quorum
+signed, like `amend`): it carries the new holders' identities, a threshold,
+and a hash of each share so a holder can later prove theirs is genuine —
+never a share, never the key.
+
+**When does the key run out?** Not by brute force — AES-256's keyspace
+(2^256) dwarfs any timescale this ledger is built for. It runs out the
+moment more than `n - m` holders are lost *at once*, before the survivors
+reshare. With this project's own two-of-three, the key survives losing any
+one holder, forever, provided the other two reshare before losing a second.
+That is a calendar discipline, not a cryptographic property — Shamir shares
+carry no expiry of their own.
+
+**Why not a wider, nonstandard cipher?** There's no such thing as a "258-bit"
+AES or SHA — key and digest sizes come in 128/192/256/384/512 because those
+are the widths their round structures were designed and reviewed around.
+2^256 is already so far past brute-force feasibility that a few more bits
+buy nothing; what a nonstandard width costs is everything AES-256 earned
+from two decades of cryptanalysis and every hardware accelerator built for
+it. (Shamir sharing itself works byte-by-byte over GF(2^8) — 256 values, one
+per byte — which is a different, purely structural reason for that number to
+turn up here too.)
 
 ## The lights
 
