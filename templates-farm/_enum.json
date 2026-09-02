@@ -1,0 +1,553 @@
+{
+ "id": "enum-farm",
+ "kind": "enum",
+ "family": "farm",
+ "path": "templates-farm/_enum.json",
+ "note": "The fixed vocabulary of templates-farm/, mined from 100 of its 100 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 100,
+ "sampledFiles": 100,
+ "fields": {
+  "depth": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    1
+   ]
+  },
+  "wovenBy": {
+   "type": "string",
+   "distinct": 50,
+   "samples": 100,
+   "values": [
+    "l2-beast-1-1",
+    "l2-beast-1-2",
+    "l2-beast-2-1",
+    "l2-beast-2-2",
+    "l2-crop-1-1",
+    "l2-crop-1-2",
+    "l2-crop-2-1",
+    "l2-crop-2-2",
+    "l2-fence-1-1",
+    "l2-fence-1-2",
+    "l2-fence-2-1",
+    "l2-fence-2-2",
+    "l2-field-1-1",
+    "l2-field-1-2",
+    "l2-field-2-1",
+    "l2-field-2-2",
+    "l2-field-3-1",
+    "l2-field-3-2",
+    "l2-market-1-1",
+    "l2-market-1-2",
+    "l2-market-2-1",
+    "l2-market-2-2",
+    "l2-season-1-1",
+    "l2-season-1-2",
+    "l2-season-2-1",
+    "l2-season-2-2",
+    "l2-season-3-1",
+    "l2-season-3-2",
+    "l2-store-1-1",
+    "l2-store-1-2",
+    "l2-store-2-1",
+    "l2-store-2-2",
+    "l2-store-3-1",
+    "l2-store-3-2",
+    "l2-tool-1-1",
+    "l2-tool-1-2",
+    "l2-tool-2-1",
+    "l2-tool-2-2",
+    "l2-tool-3-1",
+    "l2-tool-3-2",
+    "l2-water-1-1",
+    "l2-water-1-2",
+    "l2-water-2-1",
+    "l2-water-2-2",
+    "l2-water-3-1",
+    "l2-water-3-2",
+    "l2-weather-1-1",
+    "l2-weather-1-2",
+    "l2-weather-2-1",
+    "l2-weather-2-2"
+   ]
+  },
+  "kind": {
+   "type": "string",
+   "distinct": 10,
+   "samples": 100,
+   "values": [
+    "beast",
+    "crop",
+    "fence",
+    "field",
+    "market",
+    "season",
+    "store",
+    "tool",
+    "water",
+    "weather"
+   ]
+  },
+  "beast": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 100,
+   "values": [
+    "a milk cow",
+    "bees"
+   ]
+  },
+  "does": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 100,
+   "values": [
+    "draws the plough",
+    "manures"
+   ]
+  },
+  "name": {
+   "type": "string",
+   "distinct": 51,
+   "samples": 100,
+   "values": [
+    "a barn holding 2000",
+    "a barn holding 500",
+    "a bronze harrow",
+    "a bronze hoe",
+    "a flint hoe",
+    "a loft holding 1000",
+    "a loft holding 2000",
+    "a milk cow, which draws the plough",
+    "a milk cow, which manures",
+    "a pond holding 100",
+    "a pond holding 500",
+    "a rick holding 500",
+    "a well holding 1000",
+    "a well holding 500",
+    "a wooden hoe",
+    "an iron hoe",
+    "barley, spring-sown, 120 days",
+    "barley, spring-sown, 40 days",
+    "barley, spring-sown, 60 days",
+    "barley, spring-sown, 90 days",
+    "bees, which draws the plough",
+    "deep winter, 30 days",
+    "deep winter, 45 days",
+    "ditch and bank that keeps the cow home",
+    "ditch and bank that keeps the deer out",
+    "fog for 3 days",
+    "fog for 5 days",
+    "hail for 13 days",
+    "hail for 5 days",
+    "harvest, 45 days",
+    "harvest, 60 days",
+    "rain barrels holding 1000",
+    "rain barrels holding 500",
+    "rye, autumn-sown, 120 days",
+    "rye, autumn-sown, 60 days",
+    "rye, summer-sown, 40 days",
+    "rye, summer-sown, 90 days",
+    "the flat sand field of 2",
+    "the flat sand field of 3",
+    "the high peat field of 1",
+    "the high peat field of 8",
+    "the high sand field of 2",
+    "the high sand field of 3",
+    "the high silt field of 8",
+    "the port, every 14 days",
+    "the port, every 30 days",
+    "the port, every 7 days",
+    "the south-facing silt field of 5",
+    "the walled peat field of 1",
+    "wattle that keeps the deer out",
+    "wattle that keeps the geese in"
+   ]
+  },
+  "cost": {
+   "type": "number",
+   "distinct": 43,
+   "samples": 100,
+   "values": [
+    150,
+    219,
+    244,
+    250,
+    254,
+    282,
+    316,
+    329,
+    364,
+    383,
+    395,
+    400,
+    416,
+    430,
+    478,
+    484,
+    500,
+    534,
+    552,
+    593,
+    613,
+    625,
+    637,
+    651,
+    700,
+    706,
+    726,
+    739,
+    750,
+    769,
+    800,
+    838,
+    900,
+    1000,
+    1013,
+    1124,
+    1200,
+    1258,
+    1325,
+    1500,
+    1649,
+    2000,
+    3200
+   ]
+  },
+  "eats": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 100,
+   "values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "mul": {
+   "type": "number",
+   "distinct": 13,
+   "samples": 100,
+   "values": [
+    0.1,
+    0.4,
+    0.95,
+    1.1,
+    1.11,
+    1.12,
+    1.1400000000000001,
+    1.15,
+    1.1600000000000001,
+    1.1800000000000002,
+    1.35,
+    1.4,
+    1.5
+   ]
+  },
+  "plant": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 100,
+   "values": [
+    "barley",
+    "rye"
+   ]
+  },
+  "season": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    "autumn",
+    "spring",
+    "summer"
+   ]
+  },
+  "days": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 100,
+   "values": [
+    40,
+    60,
+    90,
+    120
+   ]
+  },
+  "seed": {
+   "type": "number",
+   "distinct": 8,
+   "samples": 100,
+   "values": [
+    43,
+    45,
+    46,
+    50,
+    53,
+    78,
+    90,
+    97
+   ]
+  },
+  "harvest": {
+   "type": "number",
+   "distinct": 9,
+   "samples": 100,
+   "values": [
+    84,
+    130,
+    146,
+    147,
+    265,
+    281,
+    329,
+    352,
+    393
+   ]
+  },
+  "wall": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 100,
+   "values": [
+    "ditch and bank",
+    "wattle"
+   ]
+  },
+  "keeps": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    "the cow home",
+    "the deer out",
+    "the geese in"
+   ]
+  },
+  "keep": {
+   "type": "number",
+   "distinct": 9,
+   "samples": 100,
+   "values": [
+    0.86,
+    0.87,
+    0.88,
+    0.89,
+    0.9,
+    0.91,
+    0.92,
+    0.97,
+    0.99
+   ]
+  },
+  "soil": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    "peat",
+    "sand",
+    "silt"
+   ]
+  },
+  "lie": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 100,
+   "values": [
+    "flat",
+    "high",
+    "south-facing",
+    "walled"
+   ]
+  },
+  "size": {
+   "type": "number",
+   "distinct": 5,
+   "samples": 100,
+   "values": [
+    1,
+    2,
+    3,
+    5,
+    8
+   ]
+  },
+  "yield": {
+   "type": "number",
+   "distinct": 6,
+   "samples": 100,
+   "values": [
+    0.63,
+    0.7,
+    0.99,
+    1.08,
+    1.16,
+    1.44
+   ]
+  },
+  "where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    "the port"
+   ]
+  },
+  "every": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    7,
+    14,
+    30
+   ]
+  },
+  "price": {
+   "type": "number",
+   "distinct": 10,
+   "samples": 100,
+   "values": [
+    1.17,
+    1.22,
+    1.24,
+    1.26,
+    1.3,
+    1.41,
+    1.47,
+    1.55,
+    1.6,
+    1.79
+   ]
+  },
+  "turn": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 100,
+   "values": [
+    "deep winter",
+    "harvest"
+   ]
+  },
+  "length": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    30,
+    45,
+    60
+   ]
+  },
+  "roof": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    "a barn",
+    "a loft",
+    "a rick"
+   ]
+  },
+  "holds": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 100,
+   "values": [
+    100,
+    500,
+    1000,
+    2000
+   ]
+  },
+  "thing": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 100,
+   "values": [
+    "harrow",
+    "hoe"
+   ]
+  },
+  "metal": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 100,
+   "values": [
+    "bronze",
+    "flint",
+    "iron",
+    "wood"
+   ]
+  },
+  "on": {
+   "type": "string",
+   "distinct": 5,
+   "samples": 100,
+   "values": [
+    "clay",
+    "loam",
+    "peat",
+    "sand",
+    "silt"
+   ]
+  },
+  "source": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    "a pond",
+    "a well",
+    "rain barrels"
+   ]
+  },
+  "sky": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 100,
+   "values": [
+    "fog",
+    "hail"
+   ]
+  },
+  "lasts": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    3,
+    5,
+    13
+   ]
+  },
+  "p": {
+   "type": "number",
+   "distinct": 9,
+   "samples": 100,
+   "values": [
+    0.002,
+    0.0022,
+    0.003,
+    0.0033,
+    0.0039,
+    0.0042,
+    0.0043,
+    0.0044,
+    0.0047
+   ]
+  },
+  "water": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    0
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

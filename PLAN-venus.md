@@ -143,6 +143,39 @@ both wax and HEZE from the shared docket, so the coven's own economy still
 depends on the rest of the ship: a syndicate with an empty docket cannot
 build, no matter how much wax its croft has grown.
 
+## The vocabulary and the shape, solidified
+
+`digest-enums.json` was one big list of words for the digest layer alone.
+`enums.mjs` does the same thing for every `templates-` family in the yard: it
+samples what is already on disk, finds the fields that keep saying the same
+small set of things rather than something new each time, and writes that
+vocabulary next to the templates it came from, as `templates-<family>/_enum.json`.
+A field that is a paragraph of prose, or a different value in nearly every
+file, is left alone — it is data, not an enum. `enumerator.html` is the light
+way to browse all of it at once: every family, color-coded, searchable by
+field name, regenerated whenever `enums.mjs` runs again. 54 families, 645
+enum fields, 2,747 distinct values, solidified without anybody transcribing
+a word of it by hand.
+
+`entities.mjs` goes one step further, since Scala is the production language
+for Venus: for every family it infers the full shape, not just the closed
+fields, down three levels deep, and writes one Scala source file under
+`venus-core/src/main/scala/io/cityoflight/virgo/scala/templates/` — a real
+`enum`, backed by the raw string, for every closed vocabulary field; a case
+class for every nested object and every array of them; and one top case
+class that is the whole template's body. `Template.fromMap` rebuilds an
+instance exactly from its own decoded fields, so a family really can be
+recreated from the one class its own file declares, nothing borrowed from
+another family's generated code. 53 families, 109 case classes, 317 enums,
+and all of it — checked, not assumed — compiles clean under `scala-cli
+compile` on Scala 3.8.4. `venus-core/` did not exist before this; it is
+created fresh at that path because that is where `CLAUDE.md` already says
+Scala code in this repo lives.
+
+The two scripts are auto-discovered by `yard.mjs` the same as every other
+generator, by what they read and write, so rebuilding the whole yard keeps
+both layers current without anyone adding a line to a list.
+
 ## The terminal: the notebook before the automation
 
 `terminal.html` is the text layer for the whole ship: `sow 31 44`, `take

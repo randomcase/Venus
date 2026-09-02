@@ -1,0 +1,126 @@
+{
+ "id": "enum-patron",
+ "kind": "enum",
+ "family": "patron",
+ "path": "templates-patron/_enum.json",
+ "note": "The fixed vocabulary of templates-patron/, mined from 4 of its 4 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 4,
+ "sampledFiles": 4,
+ "fields": {
+  "id": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 4,
+   "values": [
+    "caio-veyron",
+    "the-mistress-of-fibre",
+    "the-warden",
+    "unsponsored"
+   ]
+  },
+  "order": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 4,
+   "values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "name": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 4,
+   "values": [
+    "Caio Veyron",
+    "Ilse Marnier",
+    "No patron",
+    "Warden Osei Adjei"
+   ]
+  },
+  "style": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 4,
+   "values": [
+    "King of the Guilds",
+    "Mistress of the Fibre Guild",
+    "the unsponsored",
+    "Warden of the Deck"
+   ]
+  },
+  "rank": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 4,
+   "values": [
+    "king",
+    "none",
+    "president",
+    "princess"
+   ]
+  },
+  "seat": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 4,
+   "values": [
+    "",
+    "the long hall, Habitation One",
+    "the mobile rear guard",
+    "the spinning floor"
+   ]
+  },
+  "handsome": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 4,
+   "values": [
+    false,
+    true
+   ]
+  },
+  "charming": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 4,
+   "values": [
+    false,
+    true
+   ]
+  },
+  "book": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 4,
+   "values": [
+    0,
+    17500,
+    22000,
+    41000
+   ]
+  },
+  "raises": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 4,
+   "values": [
+    0,
+    16100,
+    24200,
+    139400
+   ]
+  },
+  "likeness_on": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 4,
+   "values": [
+    "the mark"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

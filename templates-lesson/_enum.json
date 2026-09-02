@@ -1,0 +1,31 @@
+{
+ "id": "enum-lesson",
+ "kind": "enum",
+ "family": "lesson",
+ "path": "templates-lesson/_enum.json",
+ "note": "The fixed vocabulary of templates-lesson/, mined from 6 of its 6 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 6,
+ "sampledFiles": 6,
+ "fields": {
+  "subject": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 6,
+   "values": [
+    "economy",
+    "governance",
+    "graphics",
+    "systems"
+   ]
+  },
+  "practice.form": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 6,
+   "values": [
+    "code-js"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

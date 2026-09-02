@@ -1,0 +1,49 @@
+{
+ "id": "enum-vote",
+ "kind": "enum",
+ "family": "vote",
+ "path": "templates-vote/_enum.json",
+ "note": "The fixed vocabulary of templates-vote/, mined from 100 of its 100 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 100,
+ "sampledFiles": 100,
+ "fields": {
+  "bench": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    "troy"
+   ]
+  },
+  "judge": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    "Antenor"
+   ]
+  },
+  "finding": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 100,
+   "values": [
+    "discretion",
+    "stands",
+    "syndicate",
+    "thin"
+   ]
+  },
+  "vote": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    "against",
+    "against, and named",
+    "for"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

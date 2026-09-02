@@ -1,0 +1,21 @@
+{
+ "id": "enum-seizure",
+ "kind": "enum",
+ "family": "seizure",
+ "path": "templates-seizure/_enum.json",
+ "note": "The fixed vocabulary of templates-seizure/, mined from 7 of its 7 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 7,
+ "sampledFiles": 7,
+ "fields": {
+  "succeeded": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 7,
+   "values": [
+    false,
+    true
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

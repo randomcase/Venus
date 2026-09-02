@@ -1,0 +1,49 @@
+{
+ "id": "enum-vote-fleet",
+ "kind": "enum",
+ "family": "vote-fleet",
+ "path": "templates-vote-fleet/_enum.json",
+ "note": "The fixed vocabulary of templates-vote-fleet/, mined from 100 of its 100 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 100,
+ "sampledFiles": 100,
+ "fields": {
+  "bench": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    "fleet"
+   ]
+  },
+  "judge": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    "Nestor"
+   ]
+  },
+  "finding": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 100,
+   "values": [
+    "discretion",
+    "stands",
+    "syndicate",
+    "thin"
+   ]
+  },
+  "vote": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    "against",
+    "against, and named",
+    "for"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

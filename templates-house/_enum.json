@@ -1,0 +1,57 @@
+{
+ "id": "enum-house",
+ "kind": "enum",
+ "family": "house",
+ "path": "templates-house/_enum.json",
+ "note": "The fixed vocabulary of templates-house/, mined from 19 of its 19 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 19,
+ "sampledFiles": 19,
+ "fields": {
+  "seat": {
+   "type": "string",
+   "distinct": 15,
+   "samples": 19,
+   "values": [
+    "Antwerp / Copenhagen",
+    "Breganze",
+    "Geneva",
+    "Geneva / Le Brassus / Glashütte",
+    "Johannesburg / Lagos / Nairobi / Accra / Dakar",
+    "London",
+    "London / Paris",
+    "Milan",
+    "Milan / Naples / Florence",
+    "New York",
+    "Paris",
+    "Paris / Bologna / London / New York",
+    "Tokyo",
+    "various",
+    "Zurich / Paris / Athens / Barcelona"
+   ]
+  },
+  "roster": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 19,
+   "values": [
+    false,
+    true
+   ]
+  },
+  "formed": {
+   "type": "number",
+   "distinct": 7,
+   "samples": 19,
+   "values": [
+    1837,
+    1910,
+    1913,
+    1963,
+    1987,
+    1988,
+    2002
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

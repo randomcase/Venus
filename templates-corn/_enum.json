@@ -1,0 +1,38 @@
+{
+ "id": "enum-corn",
+ "kind": "enum",
+ "family": "corn",
+ "path": "templates-corn/_enum.json",
+ "note": "The fixed vocabulary of templates-corn/, mined from 5 of its 5 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 5,
+ "sampledFiles": 5,
+ "fields": {
+  "kind": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 5,
+   "values": [
+    "guild"
+   ]
+  },
+  "takes": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 5,
+   "values": [
+    "a bushel of corn",
+    "a bushel of corn and its stalks",
+    "a bushel of meal"
+   ]
+  },
+  "wovenBy": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 5,
+   "values": [
+    "the corn"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

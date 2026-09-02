@@ -1,0 +1,156 @@
+{
+ "id": "enum-act",
+ "kind": "enum",
+ "family": "act",
+ "path": "templates-act/_enum.json",
+ "note": "The fixed vocabulary of templates-act/, mined from 100 of its 100 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 100,
+ "sampledFiles": 100,
+ "fields": {
+  "bench": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    "troy"
+   ]
+  },
+  "year": {
+   "type": "number",
+   "distinct": 10,
+   "samples": 100,
+   "values": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ]
+  },
+  "actor": {
+   "type": "string",
+   "distinct": 16,
+   "samples": 100,
+   "values": [
+    "Achilles",
+    "Aeneas",
+    "Agamemnon",
+    "Ajax",
+    "Antenor",
+    "Deiphobus",
+    "Diomedes",
+    "Hector",
+    "Helenus",
+    "Menelaus",
+    "Nestor",
+    "Odysseus",
+    "Paris",
+    "Patroclus",
+    "Priam",
+    "Sarpedon"
+   ]
+  },
+  "verb": {
+   "type": "string",
+   "distinct": 20,
+   "samples": 100,
+   "values": [
+    "buried",
+    "burned",
+    "called",
+    "counted",
+    "divided",
+    "dragged",
+    "drove",
+    "duelled",
+    "gave back",
+    "held",
+    "offered",
+    "ransomed",
+    "read",
+    "refused",
+    "returned",
+    "sacked",
+    "sent",
+    "stripped",
+    "took",
+    "withdrew"
+   ]
+  },
+  "object": {
+   "type": "string",
+   "distinct": 20,
+   "samples": 100,
+   "values": [
+    "a body for its weight in gold",
+    "a body three times round the wall",
+    "a city on the coast",
+    "a companion under a mound",
+    "a son from the ships",
+    "a truce that did not hold",
+    "an embassy with gifts",
+    "Briseis from the tent",
+    "Chryseis to her father",
+    "from the field and sat down",
+    "in the space between the lines",
+    "the arms from a body",
+    "the assembly and named the cause",
+    "the birds and counselled retreat",
+    "the chariot at the wall",
+    "the first of the ships",
+    "the gate against the fleet",
+    "the plunder by rank",
+    "the ransom for Chryseis",
+    "the ships by contingent"
+   ]
+  },
+  "place": {
+   "type": "string",
+   "distinct": 10,
+   "samples": 100,
+   "values": [
+    "among the ships",
+    "at the fig tree",
+    "at the tomb of Ilus",
+    "before the Scaean gate",
+    "by the river",
+    "in Priam's hall",
+    "in the assembly",
+    "on the mound of Aesyetes",
+    "on the plain of Scamander",
+    "under the wall"
+   ]
+  },
+  "side": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 100,
+   "values": [
+    "fleet",
+    "troy"
+   ]
+  },
+  "with": {
+   "type": "string",
+   "distinct": 9,
+   "samples": 100,
+   "values": [
+    "Achilles",
+    "Agamemnon",
+    "Deiphobus",
+    "Diomedes",
+    "Hector",
+    "Menelaus",
+    "Odysseus",
+    "Paris",
+    "Priam"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

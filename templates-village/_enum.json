@@ -1,0 +1,254 @@
+{
+ "id": "enum-village",
+ "kind": "enum",
+ "family": "village",
+ "path": "templates-village/_enum.json",
+ "note": "The fixed vocabulary of templates-village/, mined from 100 of its 100 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 100,
+ "sampledFiles": 100,
+ "fields": {
+  "kind": {
+   "type": "string",
+   "distinct": 10,
+   "samples": 100,
+   "values": [
+    "byre",
+    "festival",
+    "hall",
+    "holding",
+    "lane",
+    "saying",
+    "square",
+    "trade",
+    "well",
+    "workshop"
+   ]
+  },
+  "name": {
+   "type": "string",
+   "distinct": 29,
+   "samples": 100,
+   "values": [
+    "a saying about fog",
+    "a saying about hail",
+    "the bakehouse",
+    "the brewhouse",
+    "the byre of a milk cow",
+    "the byre of bees",
+    "the festival of deep winter",
+    "the festival of harvest",
+    "the hall over a barn",
+    "the hall over a loft",
+    "the hall over a rick",
+    "the lane along the ditch and bank",
+    "the lane along the wattle",
+    "the smallholding on flat sand field of 2",
+    "the smallholding on flat sand field of 3",
+    "the smallholding on high peat field of 1",
+    "the smallholding on high peat field of 8",
+    "the smallholding on high sand field of 2",
+    "the smallholding on high sand field of 3",
+    "the smallholding on high silt field of 8",
+    "the smallholding on south-facing silt field of 5",
+    "the smallholding on walled peat field of 1",
+    "the smith's shop of the harrow",
+    "the smith's shop of the hoe",
+    "the square at the port",
+    "the well at a pond",
+    "the well at a well",
+    "the well at rain barrels",
+    "the wright's shop of the hoe"
+   ]
+  },
+  "good": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 100,
+   "values": [
+    "ale",
+    "dark bread",
+    "honey",
+    "milk"
+   ]
+  },
+  "feeds": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    1
+   ]
+  },
+  "cost": {
+   "type": "number",
+   "distinct": 52,
+   "samples": 100,
+   "values": [
+    100,
+    219,
+    244,
+    254,
+    282,
+    300,
+    316,
+    329,
+    364,
+    395,
+    400,
+    500,
+    534,
+    593,
+    766,
+    800,
+    832,
+    860,
+    956,
+    968,
+    1000,
+    1104,
+    1200,
+    1226,
+    1274,
+    1286,
+    1302,
+    1382,
+    1396,
+    1400,
+    1452,
+    1800,
+    1816,
+    2000,
+    2024,
+    2044,
+    2127,
+    2146,
+    2228,
+    2422,
+    2451,
+    2620,
+    2650,
+    2671,
+    2748,
+    2903,
+    2966,
+    2970,
+    3044,
+    3200,
+    3286,
+    4000
+   ]
+  },
+  "eats": {
+   "type": "number",
+   "distinct": 7,
+   "samples": 100,
+   "values": [
+    3,
+    5,
+    6,
+    11,
+    13,
+    14,
+    16
+   ]
+  },
+  "pays": {
+   "type": "number",
+   "distinct": 9,
+   "samples": 100,
+   "values": [
+    32,
+    33,
+    38,
+    44,
+    46,
+    56,
+    61,
+    63,
+    81
+   ]
+  },
+  "keep": {
+   "type": "number",
+   "distinct": 9,
+   "samples": 100,
+   "values": [
+    0.86,
+    0.87,
+    0.88,
+    0.89,
+    0.9,
+    0.91,
+    0.92,
+    0.97,
+    0.99
+   ]
+  },
+  "grows": {
+   "type": "number",
+   "distinct": 6,
+   "samples": 100,
+   "values": [
+    2,
+    3,
+    4,
+    14,
+    16,
+    17
+   ]
+  },
+  "every": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    7,
+    14,
+    30
+   ]
+  },
+  "mul": {
+   "type": "number",
+   "distinct": 15,
+   "samples": 100,
+   "values": [
+    1,
+    1.05,
+    1.07,
+    1.17,
+    1.18,
+    1.22,
+    1.24,
+    1.25,
+    1.26,
+    1.3,
+    1.41,
+    1.47,
+    1.55,
+    1.6,
+    1.79
+   ]
+  },
+  "houses": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    2,
+    4,
+    8
+   ]
+  },
+  "waters": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    2,
+    3,
+    5
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

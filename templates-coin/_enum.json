@@ -1,0 +1,80 @@
+{
+ "id": "enum-coin",
+ "kind": "enum",
+ "family": "coin",
+ "path": "templates-coin/_enum.json",
+ "note": "The fixed vocabulary of templates-coin/, mined from 6 of its 6 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 6,
+ "sampledFiles": 6,
+ "fields": {
+  "supply": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 6,
+   "values": [
+    0,
+    1000,
+    210000,
+    1000000
+   ]
+  },
+  "divisible": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 6,
+   "values": [
+    1,
+    4,
+    100
+   ]
+  },
+  "remembers": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 6,
+   "values": [
+    false,
+    true
+   ]
+  },
+  "issuers": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 6,
+   "values": [
+    "plural",
+    "single"
+   ]
+  },
+  "redeemers": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 6,
+   "values": [
+    "plural",
+    "single"
+   ]
+  },
+  "reads": {
+   "type": "number",
+   "distinct": 2,
+   "samples": 6,
+   "values": [
+    0,
+    1
+   ]
+  },
+  "gives_up": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 6,
+   "values": [
+    "a fixed supply",
+    "being money at all, fungibility included",
+    "double-spend protection",
+    "fungibility"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

@@ -1,0 +1,76 @@
+{
+ "id": "enum-enterprise",
+ "kind": "enum",
+ "family": "enterprise",
+ "path": "templates-enterprise/_enum.json",
+ "note": "The fixed vocabulary of templates-enterprise/, mined from 1 of its 1 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 1,
+ "sampledFiles": 1,
+ "fields": {
+  "id": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    "plan"
+   ]
+  },
+  "order": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    1
+   ]
+  },
+  "name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    "The consolidation plan"
+   ]
+  },
+  "destination": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    "Venus"
+   ]
+  },
+  "counts.mandatory": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    38
+   ]
+  },
+  "counts.wanted": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    30
+   ]
+  },
+  "counts.game": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    2
+   ]
+  },
+  "counts.archive": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    0
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

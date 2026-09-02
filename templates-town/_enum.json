@@ -1,0 +1,236 @@
+{
+ "id": "enum-town",
+ "kind": "enum",
+ "family": "town",
+ "path": "templates-town/_enum.json",
+ "note": "The fixed vocabulary of templates-town/, mined from 100 of its 100 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 100,
+ "sampledFiles": 100,
+ "fields": {
+  "kind": {
+   "type": "string",
+   "distinct": 10,
+   "samples": 100,
+   "values": [
+    "aqueduct",
+    "exchange",
+    "fair",
+    "guild",
+    "inscription",
+    "manufactory",
+    "road",
+    "stall",
+    "tenement",
+    "ward"
+   ]
+  },
+  "name": {
+   "type": "string",
+   "distinct": 29,
+   "samples": 100,
+   "values": [
+    "the aqueduct from a pond",
+    "the aqueduct from a well",
+    "the aqueduct from rain barrels",
+    "the exchange at the port",
+    "the fair of deep winter",
+    "the fair of harvest",
+    "the guild of ale",
+    "the guild of dark bread",
+    "the honey stall",
+    "the inscription over the gate of fog",
+    "the inscription over the gate of hail",
+    "the milk stall",
+    "the road past the ditch and bank",
+    "the road past the wattle",
+    "the smith's manufactory of the harrow",
+    "the smith's manufactory of the hoe",
+    "the tenement on flat sand field of 2",
+    "the tenement on flat sand field of 3",
+    "the tenement on high peat field of 1",
+    "the tenement on high peat field of 8",
+    "the tenement on high sand field of 2",
+    "the tenement on high sand field of 3",
+    "the tenement on high silt field of 8",
+    "the tenement on south-facing silt field of 5",
+    "the tenement on walled peat field of 1",
+    "the ward of a barn",
+    "the ward of a loft",
+    "the ward of a rick",
+    "the wright's manufactory of the hoe"
+   ]
+  },
+  "feeds": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    3
+   ]
+  },
+  "cost": {
+   "type": "number",
+   "distinct": 54,
+   "samples": 100,
+   "values": [
+    400,
+    657,
+    732,
+    762,
+    800,
+    846,
+    900,
+    948,
+    987,
+    1092,
+    1185,
+    1500,
+    1532,
+    1600,
+    1602,
+    1664,
+    1720,
+    1779,
+    1912,
+    1936,
+    2000,
+    2208,
+    2400,
+    2452,
+    2548,
+    2604,
+    2904,
+    3000,
+    3858,
+    4000,
+    4146,
+    4188,
+    4200,
+    5400,
+    5448,
+    6000,
+    6072,
+    6132,
+    6381,
+    6400,
+    6438,
+    6684,
+    7266,
+    7353,
+    7860,
+    7950,
+    8013,
+    8244,
+    8709,
+    8898,
+    8910,
+    9132,
+    9858,
+    12000
+   ]
+  },
+  "dues": {
+   "type": "number",
+   "distinct": 9,
+   "samples": 100,
+   "values": [
+    96,
+    99,
+    114,
+    132,
+    138,
+    168,
+    183,
+    189,
+    243
+   ]
+  },
+  "members": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    3
+   ]
+  },
+  "keep": {
+   "type": "number",
+   "distinct": 8,
+   "samples": 100,
+   "values": [
+    0.91,
+    0.92,
+    0.93,
+    0.94,
+    0.95,
+    0.96,
+    0.97,
+    0.99
+   ]
+  },
+  "rent": {
+   "type": "number",
+   "distinct": 6,
+   "samples": 100,
+   "values": [
+    4,
+    6,
+    8,
+    28,
+    32,
+    34
+   ]
+  },
+  "every": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    7,
+    14,
+    30
+   ]
+  },
+  "mul": {
+   "type": "number",
+   "distinct": 13,
+   "samples": 100,
+   "values": [
+    1.1,
+    1.14,
+    1.39,
+    1.4,
+    1.46,
+    1.49,
+    1.51,
+    1.56,
+    1.69,
+    1.76,
+    1.86,
+    1.92,
+    2.15
+   ]
+  },
+  "houses": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    8,
+    16,
+    32
+   ]
+  },
+  "waters": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    10,
+    15,
+    25
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

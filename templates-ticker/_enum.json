@@ -1,0 +1,93 @@
+{
+ "id": "enum-ticker",
+ "kind": "enum",
+ "family": "ticker",
+ "path": "templates-ticker/_enum.json",
+ "note": "The fixed vocabulary of templates-ticker/, mined from 781 of its 21844 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 21844,
+ "sampledFiles": 781,
+ "fields": {
+  "kind": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 781,
+   "values": [
+    "farm",
+    "tranche"
+   ]
+  },
+  "farm": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 781,
+   "values": [
+    "BED",
+    "CRK",
+    "FIX",
+    "KLN"
+   ]
+  },
+  "farmName": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 781,
+   "values": [
+    "Bed of Sigrdrifa",
+    "Cracking house of Hrafnsson",
+    "Fixing bed of Bjornsdottir",
+    "Kiln of Ulfsson"
+   ]
+  },
+  "resource": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 781,
+   "values": [
+    "biomass",
+    "hydrogen",
+    "nitrogen",
+    "silicate"
+   ]
+  },
+  "period": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 781,
+   "values": [
+    2,
+    3,
+    5,
+    7
+   ]
+  },
+  "degree": {
+   "type": "number",
+   "distinct": 7,
+   "samples": 781,
+   "values": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  "volatility": {
+   "type": "number",
+   "distinct": 7,
+   "samples": 781,
+   "values": [
+    0.04,
+    0.054,
+    0.068,
+    0.082,
+    0.096,
+    0.11,
+    0.124
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

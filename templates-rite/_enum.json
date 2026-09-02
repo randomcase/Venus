@@ -1,0 +1,80 @@
+{
+ "id": "enum-rite",
+ "kind": "enum",
+ "family": "rite",
+ "path": "templates-rite/_enum.json",
+ "note": "The fixed vocabulary of templates-rite/, mined from 18 of its 18 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 18,
+ "sampledFiles": 18,
+ "fields": {
+  "era": {
+   "type": "string",
+   "distinct": 14,
+   "samples": 18,
+   "values": [
+    "1843, and continuous",
+    "abolition",
+    "after the Black Death",
+    "all of them",
+    "Bronze Age",
+    "Iron Age",
+    "Iron Age into modern",
+    "late medieval",
+    "medieval into continuous",
+    "medieval into modern",
+    "medieval to 18th century",
+    "the Little Ice Age",
+    "under enslavement",
+    "under enslavement, and continuous"
+   ]
+  },
+  "mechanism": {
+   "type": "string",
+   "distinct": 10,
+   "samples": 18,
+   "values": [
+    "concession",
+    "disguise",
+    "noise",
+    "none",
+    "none — it is the cause",
+    "none — it was not chosen",
+    "procession",
+    "prohibition",
+    "substitution",
+    "unknown"
+   ]
+  },
+  "against": {
+   "type": "string",
+   "distinct": 13,
+   "samples": 18,
+   "values": [
+    "blight, and forgetting where the parish ends",
+    "eating the crop before it is in",
+    "hail and lightning on the standing crop",
+    "named neighbours",
+    "not applicable",
+    "not stated by anyone who performs it",
+    "nothing",
+    "nothing — that is the point",
+    "rooks and pigeons, which are not demons",
+    "the prohibition itself",
+    "unknown",
+    "whatever is abroad when the harvest is in",
+    "winter, and what comes with it"
+   ]
+  },
+  "evidence": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 18,
+   "values": [
+    "continuous",
+    "physical",
+    "textual"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

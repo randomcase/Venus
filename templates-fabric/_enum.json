@@ -1,0 +1,63 @@
+{
+ "id": "enum-fabric",
+ "kind": "enum",
+ "family": "fabric",
+ "path": "templates-fabric/_enum.json",
+ "note": "The fixed vocabulary of templates-fabric/, mined from 26 of its 26 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 26,
+ "sampledFiles": 26,
+ "fields": {
+  "kind": {
+   "type": "string",
+   "distinct": 11,
+   "samples": 26,
+   "values": [
+    "cellulose",
+    "elastomer",
+    "fluoropolymer",
+    "mineral",
+    "polyamide",
+    "polyester",
+    "polymer",
+    "polyolefin",
+    "polyurethane",
+    "protein",
+    "vinyl"
+   ]
+  },
+  "family": {
+   "type": "string",
+   "distinct": 5,
+   "samples": 26,
+   "values": [
+    "animal",
+    "mineral",
+    "plant",
+    "regenerated",
+    "synthetic"
+   ]
+  },
+  "survives": {
+   "type": "string",
+   "distinct": 5,
+   "samples": 26,
+   "values": [
+    "fair",
+    "good",
+    "inert",
+    "no",
+    "poor"
+   ]
+  },
+  "spinnable": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 26,
+   "values": [
+    false,
+    true
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

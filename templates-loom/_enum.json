@@ -1,0 +1,275 @@
+{
+ "id": "enum-loom",
+ "kind": "enum",
+ "family": "loom",
+ "path": "templates-loom/_enum.json",
+ "note": "The fixed vocabulary of templates-loom/, mined from 85 of its 85 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 85,
+ "sampledFiles": 85,
+ "fields": {
+  "depth": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 85,
+   "values": [
+    2,
+    3,
+    4
+   ]
+  },
+  "wovenBy": {
+   "type": "string",
+   "distinct": 36,
+   "samples": 85,
+   "values": [
+    "l3-beast-1",
+    "l3-beast-2",
+    "l3-crop-1",
+    "l3-crop-2",
+    "l3-fence-1",
+    "l3-fence-2",
+    "l3-field-1",
+    "l3-field-2",
+    "l3-field-3",
+    "l3-market-1",
+    "l3-market-2",
+    "l3-season-1",
+    "l3-season-2",
+    "l3-season-3",
+    "l3-store-1",
+    "l3-store-2",
+    "l3-store-3",
+    "l3-tool-1",
+    "l3-tool-2",
+    "l3-tool-3",
+    "l3-water-1",
+    "l3-water-2",
+    "l3-water-3",
+    "l3-weather-1",
+    "l3-weather-2",
+    "l4-beast",
+    "l4-crop",
+    "l4-fence",
+    "l4-field",
+    "l4-market",
+    "l4-season",
+    "l4-store",
+    "l4-tool",
+    "l4-water",
+    "l4-weather",
+    "loom.mjs"
+   ]
+  },
+  "kind": {
+   "type": "string",
+   "distinct": 10,
+   "samples": 85,
+   "values": [
+    "beast",
+    "crop",
+    "fence",
+    "field",
+    "market",
+    "season",
+    "store",
+    "tool",
+    "water",
+    "weather"
+   ]
+  },
+  "fixed.beast": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 85,
+   "values": [
+    "a milk cow",
+    "bees"
+   ]
+  },
+  "fixed.does": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 85,
+   "values": [
+    "draws the plough",
+    "manures"
+   ]
+  },
+  "fixed.plant": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 85,
+   "values": [
+    "barley",
+    "rye"
+   ]
+  },
+  "fixed.season": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 85,
+   "values": [
+    "autumn",
+    "spring",
+    "summer"
+   ]
+  },
+  "fixed.wall": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 85,
+   "values": [
+    "ditch and bank",
+    "wattle"
+   ]
+  },
+  "fixed.keeps": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 85,
+   "values": [
+    "the cow home",
+    "the deer out",
+    "the geese in"
+   ]
+  },
+  "fixed.soil": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 85,
+   "values": [
+    "peat",
+    "sand",
+    "silt"
+   ]
+  },
+  "fixed.lie": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 85,
+   "values": [
+    "flat",
+    "high",
+    "south-facing",
+    "walled"
+   ]
+  },
+  "fixed.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 85,
+   "values": [
+    "the port"
+   ]
+  },
+  "fixed.every": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 85,
+   "values": [
+    7,
+    14,
+    30
+   ]
+  },
+  "fixed.turn": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 85,
+   "values": [
+    "deep winter",
+    "harvest"
+   ]
+  },
+  "fixed.length": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 85,
+   "values": [
+    30,
+    45,
+    60
+   ]
+  },
+  "fixed.roof": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 85,
+   "values": [
+    "a barn",
+    "a loft",
+    "a rick"
+   ]
+  },
+  "fixed.holds": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 85,
+   "values": [
+    100,
+    500,
+    1000,
+    2000
+   ]
+  },
+  "fixed.thing": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 85,
+   "values": [
+    "harrow",
+    "hoe"
+   ]
+  },
+  "fixed.metal": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 85,
+   "values": [
+    "bronze",
+    "flint",
+    "iron",
+    "wood"
+   ]
+  },
+  "fixed.source": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 85,
+   "values": [
+    "a pond",
+    "a well",
+    "rain barrels"
+   ]
+  },
+  "fixed.sky": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 85,
+   "values": [
+    "fog",
+    "hail"
+   ]
+  },
+  "fixed.lasts": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 85,
+   "values": [
+    3,
+    5,
+    13
+   ]
+  },
+  "weaves": {
+   "type": "number",
+   "distinct": 2,
+   "samples": 85,
+   "values": [
+    2,
+    3
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

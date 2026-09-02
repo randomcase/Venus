@@ -1,0 +1,152 @@
+{
+ "id": "enum-agency",
+ "kind": "enum",
+ "family": "agency",
+ "path": "templates-agency/_enum.json",
+ "note": "The fixed vocabulary of templates-agency/, mined from 69 of its 69 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 69,
+ "sampledFiles": 69,
+ "fields": {
+  "where": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 69,
+   "values": [
+    "home",
+    "the aids"
+   ]
+  },
+  "files": {
+   "type": "number",
+   "distinct": 36,
+   "samples": 69,
+   "values": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    16,
+    17,
+    19,
+    22,
+    24,
+    26,
+    29,
+    33,
+    34,
+    40,
+    52,
+    56,
+    57,
+    64,
+    67,
+    108,
+    143,
+    224,
+    260,
+    272,
+    329,
+    360
+   ]
+  },
+  "pages": {
+   "type": "number",
+   "distinct": 14,
+   "samples": 69,
+   "values": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    9,
+    33,
+    34,
+    77,
+    78,
+    87
+   ]
+  },
+  "produces": {
+   "type": "string",
+   "distinct": 8,
+   "samples": 69,
+   "values": [
+    "coin",
+    "ledger",
+    "post",
+    "relay",
+    "roost",
+    "seal",
+    "sheet",
+    "signal"
+   ]
+  },
+  "feeds": {
+   "type": "string",
+   "distinct": 24,
+   "samples": 69,
+   "values": [
+    "agency",
+    "akka-scala-seed",
+    "blue-light-discovery",
+    "capricorn",
+    "claude-repository",
+    "desktop",
+    "etna-mirror-venus-mirror-1",
+    "gemini",
+    "hasans-hands-holds-1",
+    "helen",
+    "heze-coin",
+    "heze-payouts",
+    "leo",
+    "memnon-1",
+    "owl-system",
+    "philoctetes",
+    "sagittarius",
+    "scala-3-beginners",
+    "scalatest-example",
+    "spring-boot-3-spring-framework-6-cryptocurrency",
+    "telamon",
+    "the-yard",
+    "venus",
+    "workspace"
+   ]
+  },
+  "rate": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 69,
+   "values": [
+    1
+   ]
+  },
+  "period": {
+   "type": "number",
+   "distinct": 6,
+   "samples": 69,
+   "values": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

@@ -1,0 +1,107 @@
+{
+ "id": "enum-form",
+ "kind": "enum",
+ "family": "form",
+ "path": "templates-form/_enum.json",
+ "note": "The fixed vocabulary of templates-form/, mined from 15 of its 15 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 15,
+ "sampledFiles": 15,
+ "fields": {
+  "kind": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 15,
+   "values": [
+    "code",
+    "prose",
+    "verse"
+   ]
+  },
+  "meter.name": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 15,
+   "values": [
+    "iambic pentameter",
+    "syllabic"
+   ]
+  },
+  "meter.syllables": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 15,
+   "values": [
+    10
+   ]
+  },
+  "language": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 15,
+   "values": [
+    "css",
+    "html",
+    "js",
+    "scala"
+   ]
+  },
+  "runnable": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 15,
+   "values": [
+    true
+   ]
+  },
+  "lines": {
+   "type": "number",
+   "distinct": 7,
+   "samples": 15,
+   "values": [
+    3,
+    8,
+    10,
+    14,
+    16,
+    19,
+    39
+   ]
+  },
+  "radif": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 15,
+   "values": [
+    true
+   ]
+  },
+  "end_words": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 15,
+   "values": [
+    6
+   ]
+  },
+  "rhyme": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 15,
+   "values": [
+    "ABaAabAB",
+    "abaabaabaabaabaabaa",
+    "ababcdcdefefgg",
+    "abbaabbacdecde"
+   ]
+  },
+  "turn": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 15,
+   "values": [
+    9
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

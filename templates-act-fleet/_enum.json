@@ -1,0 +1,159 @@
+{
+ "id": "enum-act-fleet",
+ "kind": "enum",
+ "family": "act-fleet",
+ "path": "templates-act-fleet/_enum.json",
+ "note": "The fixed vocabulary of templates-act-fleet/, mined from 100 of its 100 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 100,
+ "sampledFiles": 100,
+ "fields": {
+  "bench": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    "fleet"
+   ]
+  },
+  "year": {
+   "type": "number",
+   "distinct": 10,
+   "samples": 100,
+   "values": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ]
+  },
+  "actor": {
+   "type": "string",
+   "distinct": 16,
+   "samples": 100,
+   "values": [
+    "Achilles",
+    "Agamemnon",
+    "Ajax",
+    "Calchas",
+    "Diomedes",
+    "Hector",
+    "Idomeneus",
+    "Menelaus",
+    "Neoptolemus",
+    "Nestor",
+    "Odysseus",
+    "Patroclus",
+    "Phoenix",
+    "Priam",
+    "Teucer",
+    "Thersites"
+   ]
+  },
+  "verb": {
+   "type": "string",
+   "distinct": 20,
+   "samples": 100,
+   "values": [
+    "beached",
+    "built",
+    "called",
+    "counted",
+    "divided",
+    "dragged",
+    "drew",
+    "gave back",
+    "held",
+    "quarrelled",
+    "read",
+    "refused",
+    "sacrificed",
+    "sent",
+    "spoke",
+    "stole",
+    "struck",
+    "tested",
+    "went out",
+    "withdrew"
+   ]
+  },
+  "object": {
+   "type": "string",
+   "distinct": 20,
+   "samples": 100,
+   "values": [
+    "a body for its weight in gold",
+    "a body three times round the wall",
+    "against the kings in the assembly",
+    "at Aulis for a wind",
+    "from the field and sat down",
+    "in borrowed armour",
+    "lots for the duel with Hector",
+    "over the arms of Achilles",
+    "the army by ordering it home",
+    "the assembly and named the cause",
+    "the embassy with gifts",
+    "the Horse",
+    "the horses of Rhesus by night",
+    "the omen of the snake and the sparrows",
+    "the one who spoke",
+    "the plunder by rank",
+    "the ransom for Chryseis",
+    "the ships against the fire",
+    "the ships and built the wall",
+    "the ships by contingent"
+   ]
+  },
+  "place": {
+   "type": "string",
+   "distinct": 10,
+   "samples": 100,
+   "values": [
+    "among the ships",
+    "at Aulis",
+    "at the pyre",
+    "at the wall round the camp",
+    "before Achilles' tent",
+    "by the river",
+    "in Agamemnon's hut",
+    "in the assembly by the ships",
+    "on the beach at dawn",
+    "on the plain"
+   ]
+  },
+  "side": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 100,
+   "values": [
+    "fleet",
+    "troy"
+   ]
+  },
+  "with": {
+   "type": "string",
+   "distinct": 12,
+   "samples": 100,
+   "values": [
+    "Achilles",
+    "Agamemnon",
+    "Ajax",
+    "Diomedes",
+    "Hector",
+    "Menelaus",
+    "Neoptolemus",
+    "Nestor",
+    "Odysseus",
+    "Priam",
+    "Teucer",
+    "Thersites"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

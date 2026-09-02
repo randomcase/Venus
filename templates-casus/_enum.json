@@ -1,0 +1,52 @@
+{
+ "id": "enum-casus",
+ "kind": "enum",
+ "family": "casus",
+ "path": "templates-casus/_enum.json",
+ "note": "The fixed vocabulary of templates-casus/, mined from 1 of its 1 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 1,
+ "sampledFiles": 1,
+ "fields": {
+  "id": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    "belli"
+   ]
+  },
+  "name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    "The judgement on Ida"
+   ]
+  },
+  "party": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    "paris"
+   ]
+  },
+  "finding": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    "discretion, once"
+   ]
+  },
+  "bench": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 1,
+   "values": [
+    "troy"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

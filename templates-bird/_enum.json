@@ -1,0 +1,63 @@
+{
+ "id": "enum-bird",
+ "kind": "enum",
+ "family": "bird",
+ "path": "templates-bird/_enum.json",
+ "note": "The fixed vocabulary of templates-bird/, mined from 32 of its 32 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 32,
+ "sampledFiles": 32,
+ "fields": {
+  "keeps": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 32,
+   "values": [
+    true
+   ]
+  },
+  "terrain": {
+   "type": "string",
+   "distinct": 10,
+   "samples": 32,
+   "values": [
+    "broken ground, shallow soil",
+    "closed cover",
+    "cold ground, held year-round",
+    "enclosed ground",
+    "high ground, open air",
+    "hot ground, no season",
+    "open plain",
+    "perimeter, dark",
+    "the drift, east to west",
+    "water margin"
+   ]
+  },
+  "is_roost": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 32,
+   "values": [
+    true
+   ]
+  },
+  "egg.mass_g": {
+   "type": "number",
+   "distinct": 2,
+   "samples": 32,
+   "values": [
+    85,
+    550
+   ]
+  },
+  "egg.shell_mm": {
+   "type": "number",
+   "distinct": 2,
+   "samples": 32,
+   "values": [
+    0.42,
+    1
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

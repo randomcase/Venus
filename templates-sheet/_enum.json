@@ -1,0 +1,274 @@
+{
+ "id": "enum-sheet",
+ "kind": "enum",
+ "family": "sheet",
+ "path": "templates-sheet/_enum.json",
+ "note": "The fixed vocabulary of templates-sheet/, mined from 3 of its 3 templates by enums.mjs. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 3,
+ "sampledFiles": 3,
+ "fields": {
+  "id": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "cargo-relay",
+    "oats-b2p2p2b",
+    "timesheet"
+   ]
+  },
+  "order": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    1,
+    2,
+    3
+   ]
+  },
+  "name": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "The cargo relay",
+    "The oats chain",
+    "The time sheet"
+   ]
+  },
+  "api.call": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    "POST /api/shipment"
+   ]
+  },
+  "api.request.crate": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    "oat-200"
+   ]
+  },
+  "api.request.oatcoins": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    200
+   ]
+  },
+  "api.request.unit_lb": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    10
+   ]
+  },
+  "api.request.gassed": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    true
+   ]
+  },
+  "api.request.liable": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    "the farm, 100%, while sealed"
+   ]
+  },
+  "api.response.accepted": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    true
+   ]
+  },
+  "api.response.transit_days": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    146
+   ]
+  },
+  "api.response.window_days": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    583.92
+   ]
+  },
+  "api.response.covers_fraction_of_window": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    0.123
+   ]
+  },
+  "api.response.verdict": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    "partial"
+   ]
+  },
+  "api.crates_for_full_window": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    9
+   ]
+  },
+  "shape": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    "b2p2p2b"
+   ]
+  },
+  "unit.bag_lb": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    10
+   ]
+  },
+  "unit.farm_lb": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    20
+   ]
+  },
+  "unit.person_days_per_bag": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    7.2
+   ]
+  },
+  "reorder.in_use": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    1
+   ]
+  },
+  "reorder.in_store": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    1
+   ]
+  },
+  "reorder.on_hand": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    2
+   ]
+  },
+  "reorder.want": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    2
+   ]
+  },
+  "reorder.whole": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    4
+   ]
+  },
+  "aspects.id": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    "oats"
+   ]
+  },
+  "aspects.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    "The oats"
+   ]
+  },
+  "aspects.green": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    "oats here"
+   ]
+  },
+  "aspects.yellow": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    "oats soon"
+   ]
+  },
+  "aspects.red": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    "OATS NOW"
+   ]
+  },
+  "aspects.blue": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    "oats held"
+   ]
+  },
+  "quorum": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    2
+   ]
+  },
+  "syndicated": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    2
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}
