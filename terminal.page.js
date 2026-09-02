@@ -29,14 +29,22 @@
     for (const c of Object.values(CMD)) html(`<span class="sea">${c.name}${c.args ? ' ' + c.args : ''}</span>  <span class="dim">${c.help}</span>`);
   });
 
+  /* the first sowable parcel of a clan that actually has enough pile to sow it, so `look`
+     never suggests a coordinate that would just fail */
+  function sowable(c) { const cost = D.rules.continent.sowCost;
+    for (let y = 0; y < D.N; y++) for (let x = 0; x < D.N; x++) { const i = y * D.N + x, cl = D.clans[+D.idx[i]];
+      if (+D.fert[i] > 0 && (c.piles[cl.resource] || 0) >= cost) return `${x} ${y}`; }
+    return null; }
+
   cmd('look', '', 'where the work is stuck, and what to do next', () => {
     const c = J('clans.v1'), ct = J('continent.v1'), v = J('village.v1'), t = J('town.v1'), cv = J('coven.v1'), d = J('descent.v1');
-    const piles = Object.values(c.piles || {}).reduce((a, b) => a + b, 0), grown = (ct.cells || []).filter(x => x === 2).length;
+    const piles = Object.values(c.piles || {}).reduce((a, b) => a + b, 0), grown = (ct.cells || []).filter(x => x === 2).length, sown = (ct.cells || []).filter(x => x === 1).length;
     say(`The Hesperus, ${J('hesperus.v1').launched ? 'under way' : 'not yet launched'}. ${fmt(d.heze || 0)} HEZE on the docket, ${fmt(d.issued || 0)} issued of 21,000,000.`);
     const L = [];
     if (!c.piles) L.push(['the clans are unmanned', 'take']);
-    else if (piles < 3) L.push([`only ${fmt(piles)} units piled, and a sowing costs ${D.rules.continent.sowCost}`, 'take']);
-    else if (!grown) L.push([`${fmt(piles)} piled and no parcel sown`, 'sow 31 31']);
+    else if (piles < D.rules.continent.sowCost) L.push([`only ${fmt(piles)} units piled, and a sowing costs ${D.rules.continent.sowCost}`, 'take']);
+    else if (!grown && !sown) { const at = sowable(c); L.push([`${fmt(piles)} piled and no parcel sown`, at ? `sow ${at}` : 'take (no pile can afford a sowing yet)']); }
+    else if (sown && !grown) L.push([`${fmt(sown)} parcel${sown === 1 ? '' : 's'} sown, none grown yet`, 'wait for the clan\'s period, or: chronicle']);
     else if (!(ct.produced > 0)) L.push([`${fmt(grown)} parcels grown, no provision made yet`, 'wait, or sow more']);
     else if ((ct.produced || 0) > (v.drawnContinent || 0) + 50) L.push([`${fmt((ct.produced || 0) - (v.drawnContinent || 0))} provision undrawn on the continent`, 'open the village']);
     else if (!(t.citizens > 0)) L.push(['the town has no citizens', 'open the town and build a guild']);
