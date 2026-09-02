@@ -75,5 +75,7 @@ of enums and seals it onto the shelf; the shelf is the syndication.
    the clans' piles, propagating on the periods, seven deep. Its provision goes
    up to the village as grain, and every ten grain in the village's store
    feeds a citizen of the town, so the chain runs clan → pile → parcel →
-   village → town on one docket. Next: the town's rent paid back down as
-   the clans' HEZE, closing the loop.
+   village → town on one docket. The town's rent is paid back down to the
+   clans, split by whose region grew the provision, and becomes stock in
+   their piles at the docket price; the loop is closed. Next: the market's
+   four farms priced from the loop's real throughput instead of a hash.

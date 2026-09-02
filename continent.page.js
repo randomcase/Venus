@@ -26,7 +26,7 @@
         else if (S.cells[i] === 2) { yielded += p.yield;
           for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const x = p.x + dx, y = p.y + dy; if (x < 0 || y < 0 || x >= N || y >= N) continue; const j = idx(x, y), q = P[j]; if (S.cells[j] === 0 && q.clan === c.id && q.fertility > 0) next.push(j); } } }
       for (const j of next) { if (S.cells[j] !== 0) continue; if ((pl[c.resource] || 0) < 1) { dry = true; break; } pl[c.resource] -= 1; dirty = true; S.cells[j] = 1; spread++; }
-      S.produced += yielded; S.spread += spread; if (!quiet && (grew || spread || dry)) note(`${c.name}, day ${d1}: ${grew ? grew + ' grew, ' : ''}${spread ? spread + ' spread, ' : ''}${yielded ? fmt(yielded) + ' provision' : ''}${dry ? ' — the ' + c.resource + ' pile is dry; the spread stopped' : ''}.`); }
+      S.produced += yielded; S.producedBy = S.producedBy || {}; S.producedBy[c.id] = (S.producedBy[c.id] || 0) + yielded; S.spread += spread; if (!quiet && (grew || spread || dry)) note(`${c.name}, day ${d1}: ${grew ? grew + ' grew, ' : ''}${spread ? spread + ' spread, ' : ''}${yielded ? fmt(yielded) + ' provision' : ''}${dry ? ' — the ' + c.resource + ' pile is dry; the spread stopped' : ''}.`); }
   }
   /* provision goes up to the village as grain; the village records what it has drawn, and the continent reads that back rather than writing anything of the village's */
   const drawnUp = () => { try { return (JSON.parse(localStorage.getItem('village.v1') || 'null') || {}).drawnContinent || 0; } catch (e) { return 0; } };
