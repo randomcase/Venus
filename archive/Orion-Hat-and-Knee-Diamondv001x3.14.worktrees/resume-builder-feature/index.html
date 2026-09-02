@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Orion Project — Hat &amp; Knee Diamond</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="app-header">
+  <h1>THE ORION PROJECT</h1>
+  <p class="subtitle">Hat &amp; Knee Diamond · telemetry-driven chronicle of the Trojan War</p>
+  <div class="header-stats">
+    <span>Packets: <strong id="stat-packets">0</strong></span>
+    <span>Stars reporting: <strong id="stat-stars">0 / 5</strong></span>
+    <span>Acts unlocked: <strong id="stat-acts">0 / 8</strong></span>
+  </div>
+</header>
+
+<main class="panels">
+
+  <!-- ============ LEFT: TELEMETRY INJECTION ============ -->
+  <section class="panel panel-telemetry" aria-label="Telemetry injection">
+    <h2>Telemetry Injection</h2>
+
+    <div class="sample-feeds">
+      <h3>Sample feeds</h3>
+      <div class="feed-buttons">
+        <button data-star="betelgeuse" class="feed-btn">Betelgeuse · Achilles</button>
+        <button data-star="rigel" class="feed-btn">Rigel · Helen</button>
+        <button data-star="bellatrix" class="feed-btn">Bellatrix · Hecuba</button>
+        <button data-star="saiph" class="feed-btn">Saiph · Paris</button>
+        <button data-star="belt" class="feed-btn">The Belt · The Gift</button>
+        <button id="full-sweep" class="feed-btn feed-btn-all">Full sweep (all stars)</button>
+      </div>
+    </div>
+
+    <div class="paste-zone">
+      <h3>Paste JSON packet</h3>
+      <textarea id="json-input" spellcheck="false" placeholder='{"feed":"orion-telemetry/v1","star":"betelgeuse","readings":{"wrath":82,"valor":91,"glory":77}}'></textarea>
+      <button id="inject-btn">Inject</button>
+    </div>
+
+    <div id="drop-zone" class="drop-zone">
+      <p>… or drop a <code>.json</code> file here</p>
+    </div>
+
+    <div class="log-wrap">
+      <h3>Telemetry log</h3>
+      <ul id="log" class="log"></ul>
+    </div>
+  </section>
+
+  <!-- ============ CENTER: STAR MAP + STORY ============ -->
+  <section class="panel panel-story" aria-label="Star map and story">
+    <h2>Star Map</h2>
+    <svg id="star-map" viewBox="0 0 340 430" role="img" aria-label="Orion constellation">
+      <!-- constellation lines -->
+      <g class="lines">
+        <line x1="170" y1="38"  x2="112" y2="82"/>
+        <line x1="170" y1="38"  x2="226" y2="92"/>
+        <line x1="112" y1="82"  x2="141" y2="221"/>
+        <line x1="226" y1="92"  x2="187" y2="241"/>
+        <line x1="141" y1="221" x2="164" y2="231"/>
+        <line x1="164" y1="231" x2="187" y2="241"/>
+        <line x1="141" y1="221" x2="136" y2="362"/>
+        <line x1="187" y1="241" x2="242" y2="372"/>
+      </g>
+      <!-- decorative hat (Meissa) -->
+      <circle class="minor-star" cx="170" cy="38" r="3"/>
+      <!-- named stars -->
+      <g id="star-betelgeuse" class="star" data-star="betelgeuse">
+        <circle class="glow" cx="112" cy="82" r="14"/>
+        <circle class="core" cx="112" cy="82" r="7"/>
+        <text x="96" y="64">Betelgeuse · Achilles</text>
+      </g>
+      <g id="star-bellatrix" class="star" data-star="bellatrix">
+        <circle class="glow" cx="226" cy="92" r="12"/>
+        <circle class="core" cx="226" cy="92" r="6"/>
+        <text x="212" y="74">Bellatrix · Hecuba</text>
+      </g>
+      <g id="star-belt" class="star" data-star="belt">
+        <circle class="glow" cx="141" cy="221" r="10"/>
+        <circle class="core" cx="141" cy="221" r="5"/>
+        <circle class="glow" cx="164" cy="231" r="10"/>
+        <circle class="core" cx="164" cy="231" r="5"/>
+        <circle class="glow" cx="187" cy="241" r="10"/>
+        <circle class="core" cx="187" cy="241" r="5"/>
+        <text x="200" y="226">The Belt · The Gift</text>
+      </g>
+      <g id="star-saiph" class="star" data-star="saiph">
+        <circle class="glow" cx="136" cy="362" r="11"/>
+        <circle class="core" cx="136" cy="362" r="5.5"/>
+        <text x="52" y="388">Saiph · Paris</text>
+      </g>
+      <g id="star-rigel" class="star" data-star="rigel">
+        <circle class="glow" cx="242" cy="372" r="13"/>
+        <circle class="core" cx="242" cy="372" r="6.5"/>
+        <text x="222" y="400">Rigel · Helen</text>
+      </g>
+    </svg>
+
+    <h2>The Chronicle — Eight Acts</h2>
+    <div id="acts" class="acts"></div>
+  </section>
+
+  <!-- ============ RIGHT: PROFILE SCALES ============ -->
+  <section class="panel panel-profiles" aria-label="Character profile scales">
+    <h2>Profile Scales</h2>
+    <div id="profiles" class="profiles"></div>
+  </section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

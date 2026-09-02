@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Scala.js 3 Reactive 3-Column Enterprise Dashboard</title>
+  <style>
+    body {
+      background: #08080c;
+      color: #e2e8f0;
+      font-family: monospace;
+      margin: 0;
+      padding: 15px;
+      box-sizing: border-box;
+      min-height: 100vh;
+    }
+    .layout-root {
+      display: grid;
+      grid-template-columns: 300px 1fr 340px;
+      gap: 15px;
+      height: calc(100vh - 30px);
+    }
+    .panel {
+      background: #111118;
+      border: 1px solid #222530;
+      border-radius: 6px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow: hidden;
+    }
+    h3 {
+      margin: 0 0 10px 0;
+      border-bottom: 1px solid #222;
+      padding-bottom: 8px;
+      font-size: 13px;
+    }
+    .file-item {
+      background: #181824;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #2a2d3d;
+      cursor: pointer;
+      font-size: 11px;
+      transition: all 0.2s;
+    }
+    .file-item:hover { border-color: #3b82f6; }
+    .meta-card {
+      background: #1e1e2f;
+      border: 1px solid #3b82f6;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .grid-258 {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 3px;
+      flex: 1;
+      overflow-y: auto;
+      background: #000005;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #222530;
+    }
+    .cell-258 {
+      font-size: 8px;
+      padding: 5px 0;
+      text-align: center;
+      border-radius: 2px;
+      font-weight: bold;
+      border: 1px solid #14141f;
+      background: rgba(255,255,255,0.02);
+      color: #334155;
+      transition: background 0.04s;
+    }
+    .log-container {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .log-row {
+      font-size: 10px;
+      padding: 6px;
+      border-radius: 4px;
+      background: #161622;
+      border-left: 3px solid #475569;
+      color: #cbd5e1;
+      word-break: break-all;
+    }
+    .log-success {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 3px solid #10b981;
+      color: #34d399;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="layout-root">
+    <!-- Left Column: File Explorer -->
+    <div class="panel">
+      <h3 style="color:#3b82f6;">📁 VAULT FILE EXPLORER</h3>
+      <div style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:6px;" id="fileList">
+        <div class="file-item" onclick="selectFile('execution_matrix_run_94820.png', 'IMAGE', '142.4 KB')">
+          <div style="font-weight:bold; color:#f1f5f9;">🖼️ execution_matrix_run_94820.png</div>
+          <div style="color:#64748b; margin-top:3px;">142.40 KB | Vault Locked</div>
+        </div>
+        <div class="file-item" onclick="selectFile('receipt_matrix_run_94820.json', 'RECEIPT', '1.02 KB')">
+          <div style="font-weight:bold; color:#f1f5f9;">📄 receipt_matrix_run_94820.json</div>
+          <div style="color:#64748b; margin-top:3px;">1.02 KB | SHA-256 Record</div>
+        </div>
+        <div class="file-item" onclick="selectFile('execution_tx_88301.png', 'IMAGE', '98.45 KB')">
+          <div style="font-weight:bold; color:#f1f5f9;">🖼️ execution_tx_88301.png</div>
+          <div style="color:#64748b; margin-top:3px;">98.45 KB | Vault Locked</div>
+        </div>
+      </div>
+      <div id="metaBox" style="display:none;" class="meta-card">
+        <div style="font-weight:bold; color:#3b82f6;">🔎 ARTIFACT PROPERTIES</div>
+        <div id="metaName"></div>
+        <div id="metaType"></div>
+        <div id="metaSize"></div>
+      </div>
+    </div>
+
+    <!-- Center Column: 258-Layer Grid -->
+    <div class="panel" style="display:flex; flex-direction:column; gap:12px;">
+      <div style="background:#0c0c12; padding:10px; border-radius:4px; border:1px solid #222530;">
+        <div style="font-size:15px; font-weight:bold; text-align:center; color:#f8fafc;" id="tickerStatus">🚀 258-CHANNEL RUNNING: matrix_run_94820</div>
+        <div style="display:flex; justify-content:space-between; font-size:11px; margin-top:6px; color:#94a3b8;">
+          <span id="activeLayerStatus">Layer: 258 / 258</span>
+          <span id="cryptoHashStatus" style="color:#10b981; font-weight:bold;">SHA-256: b3e4f71a...99210cfa</span>
+        </div>
+      </div>
+      <div class="grid-258" id="grid258"></div>
+    </div>
+
+    <!-- Right Column: Sliding History Logs -->
+    <div class="panel">
+      <h3 style="color:#10b981;">📜 CHRONOLOGICAL ACTIVITY LOG (MAX 50)</h3>
+      <div class="log-container" id="logContainer"></div>
+    </div>
+  </div>
+
+  <script>
+    const grid = document.getElementById('grid258');
+    const logContainer = document.getElementById('logContainer');
+    const logs = [];
+    const maxLogs = 50;
+
+    // Generate 258 cells
+    for (let i = 1; i <= 258; i++) {
+      const cell = document.createElement('div');
+      cell.id = `cell-${i}`;
+      cell.className = 'cell-258';
+      cell.innerText = i;
+      grid.appendChild(cell);
+    }
+
+    function addLog(text, isSuccess = false) {
+      logs.unshift({ text, isSuccess });
+      if (logs.length > maxLogs) logs.pop(); // Cap at 50 to prevent memory leaks
+
+      logContainer.innerHTML = logs.map(l => `
+        <div class="log-row ${l.isSuccess ? 'log-success' : ''}">${l.text}</div>
+      `).join('');
+    }
+
+    function selectFile(name, type, size) {
+      document.getElementById('metaBox').style.display = 'flex';
+      document.getElementById('metaName').innerText = `File: ${name}`;
+      document.getElementById('metaType').innerText = `Type: ${type}`;
+      document.getElementById('metaSize').innerText = `Size: ${size}`;
+    }
+
+    // Connect WebSocket
+    function connectWs() {
+      const ws = new WebSocket("ws://localhost:8080/v1/matrix/monitor");
+      ws.onmessage = (e) => {
+        try {
+          const d = JSON.parse(e.data);
+          if (d.activeLayer) {
+            document.getElementById('tickerStatus').innerText = `RUNNING: ${d.executionId}`;
+            document.getElementById('activeLayerStatus').innerText = `Layer: ${d.activeLayer} / 258`;
+            const cell = document.getElementById(`cell-${d.activeLayer}`);
+            if (cell) {
+              cell.style.background = d.hexColor;
+              cell.style.color = '#000';
+            }
+            addLog(`[${new Date().toLocaleTimeString()}] Triggered Layer ${d.activeLayer} (${d.hexColor})`);
+          } else if (d.status === 'LEDGER_LOCKED') {
+            document.getElementById('cryptoHashStatus').innerText = `SHA-256: ${d.sha256.substring(0, 16)}...`;
+            addLog(`✅ SUCCESS: Signature committed: ${d.sha256.substring(0, 20)}...`, true);
+          }
+        } catch(err) {}
+      };
+      ws.onclose = () => setTimeout(connectWs, 3000);
+    }
+
+    connectWs();
+    addLog(`[${new Date().toLocaleTimeString()}] Initialized Laminar 3-Column State Matrix.`);
+    addLog(`[${new Date().toLocaleTimeString()}] Subscribed to ws://localhost:8080/v1/matrix/monitor.`);
+  </script>
+</body>
+</html>

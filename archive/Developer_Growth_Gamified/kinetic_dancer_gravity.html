@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Complexity -1(n) Kinetic Gravity & Dancer Floor Recovery</title>
+  <style>
+    body {
+      background: #060911;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 24px;
+      box-sizing: border-box;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .header {
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .quote-box {
+      background: rgba(14, 165, 233, 0.1);
+      border-left: 4px solid #38bdf8;
+      padding: 12px 18px;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #7dd3fc;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 20px;
+    }
+    .stage-canvas {
+      width: 100%;
+      height: 440px;
+      background: radial-gradient(circle at 50% 10%, #1e1b4b, #02040a);
+      border: 1px solid #334155;
+      border-radius: 10px;
+      display: block;
+    }
+    .panel {
+      background: rgba(18, 26, 43, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 6px;
+    }
+    .val { font-family: monospace; font-weight: bold; color: #38bdf8; }
+    .btn-leap {
+      background: #38bdf8;
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      width: 100%;
+    }
+    .btn-leap:hover { background: #7dd3fc; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1 style="margin:0 0 4px; font-size:24px;">🪐 Complexity -1(n) Kinetic Gravity & Dancer Floor Recovery</h1>
+        <span style="color:#94a3b8; font-size:13px;">Algorithmic Gravity Vectors • Kinetic Ground Absorption • Courageous Spring Kinematics</span>
+      </div>
+      <span style="background:#8b5cf6; color:#fff; padding:6px 14px; border-radius:16px; font-weight:bold; font-size:12px;">Vector: O(-1(n))</span>
+    </div>
+
+    <div class="quote-box">
+      "Complexity -1(n) is gravity when you hit your limit, you are going down, but as a dancer, myself falling is... courageous."
+    </div>
+
+    <div class="grid">
+      <!-- Stage Simulation Canvas -->
+      <div>
+        <canvas id="stageCanvas" class="stage-canvas"></canvas>
+      </div>
+
+      <!-- Telemetry & Kinematics Panel -->
+      <div class="panel">
+        <h3 style="margin-top:0; color:#38bdf8; border-bottom:1px solid #1e293b; padding-bottom:8px;">🩰 Kinetic Telemetry</h3>
+
+        <div class="telemetry-row">
+          <span>Kinematic Phase:</span>
+          <span class="val" id="telePhase">Grounded (Poised)</span>
+        </div>
+        <div class="telemetry-row">
+          <span>Altitude $y(t)$:</span>
+          <span class="val" id="teleAlt">0.00 m</span>
+        </div>
+        <div class="telemetry-row">
+          <span>Velocity $v_y$:</span>
+          <span class="val" id="teleVel">0.00 m/s</span>
+        </div>
+        <div class="telemetry-row">
+          <span>Kinetic Energy ($E_k$):</span>
+          <span class="val" id="teleKe">0.00 J</span>
+        </div>
+        <div class="telemetry-row">
+          <span>Potential Energy ($E_p$):</span>
+          <span class="val" id="telePe">0.00 J</span>
+        </div>
+        <div class="telemetry-row">
+          <span>Courage Rebound Spring:</span>
+          <span class="val" style="color:#10b981;" id="teleCourage">100% Ready</span>
+        </div>
+
+        <p id="poeticNarrative" style="font-size:12px; color:#cbd5e1; line-height:1.4; background:#0b1120; padding:10px; border-radius:6px; border-left:3px solid #8b5cf6;">
+          Poised on the wooden stage floor. Awaiting kinetic leap command.
+        </p>
+
+        <button class="btn-leap" onclick="triggerGrandJete()">✨ Initiate Grand Jeté Leap</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('stageCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let dancer = {
+      x: 100,
+      y: 0, // Altitude above floor (0 = ground)
+      vx: 3.2,
+      vy: 0,
+      radius: 14,
+      trail: [],
+      isAirborne: false
+    };
+
+    const g = 9.81 * 35; // Visual gravity scaling
+    const elasticity = 0.76; // Courage floor restitution
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = 440;
+    }
+
+    function triggerGrandJete() {
+      dancer.x = 80;
+      dancer.y = 5;
+      dancer.vx = 4.2;
+      dancer.vy = 18.5; // Upward initial velocity
+      dancer.isAirborne = true;
+      dancer.trail = [];
+    }
+
+    let lastTime = performance.now();
+
+    function updatePhysics(dt) {
+      if (!dancer.isAirborne) return;
+
+      // Integrate Gravity O(-1(n))
+      dancer.vy -= g * dt;
+      dancer.y += dancer.vy * dt;
+      dancer.x += dancer.vx * dt;
+
+      // Trail
+      dancer.trail.push({ x: dancer.x, y: dancer.y });
+      if (dancer.trail.length > 50) dancer.trail.shift();
+
+      // Floor Collision & Courageous Fall Absorption
+      if (dancer.y <= 0) {
+        dancer.y = 0;
+        dancer.vy = -dancer.vy * elasticity; // Rebound
+
+        if (Math.abs(dancer.vy) < 2.0) {
+          dancer.vy = 0;
+          dancer.isAirborne = false;
+        }
+      }
+
+      // Loop around stage
+      if (dancer.x > canvas.width - 40) {
+        dancer.x = 80;
+        dancer.trail = [];
+      }
+
+      // Update Telemetry Display
+      const pe = (60 * 9.81 * (dancer.y / 20)).toFixed(1);
+      const ke = (0.5 * 60 * Math.pow(dancer.vy / 5, 2)).toFixed(1);
+      document.getElementById('teleAlt').innerText = `${(dancer.y / 40).toFixed(2)} m`;
+      document.getElementById('teleVel').innerText = `${(dancer.vy / 5).toFixed(2)} m/s`;
+      document.getElementById('telePe').innerText = `${pe} J`;
+      document.getElementById('teleKe').innerText = `${ke} J`;
+
+      let phase = "Grounded";
+      let narrative = "Resting on the earth.";
+      if (dancer.vy > 2.0) {
+        phase = "Leap Ascent (Rising)";
+        narrative = "Ascending toward the theoretical apex. Algorithmic energy surging.";
+      } else if (Math.abs(dancer.vy) <= 2.0 && dancer.y > 20) {
+        phase = "Apex Boundary (v=0)";
+        narrative = "Limit reached. Apex moment of weightlessness.";
+      } else if (dancer.vy < -2.0 && dancer.y > 5) {
+        phase = "Complexity -1(n) Descent";
+        narrative = "Complexity -1(n): Gravity pulls downward. Yielding with poise and deliberate balance.";
+      } else if (dancer.y <= 2 && dancer.isAirborne) {
+        phase = "Courageous Floor Rebound";
+        narrative = "Ground impact! Kinetic compression absorbed. Springing back up with resilience.";
+      }
+
+      document.getElementById('telePhase').innerText = phase;
+      document.getElementById('poeticNarrative').innerText = narrative;
+    }
+
+    function renderStage() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const floorY = canvas.height - 60;
+
+      // Draw Wooden Dance Stage Floor
+      ctx.fillStyle = "#1e293b";
+      ctx.fillRect(0, floorY, canvas.width, 60);
+      ctx.strokeStyle = "#38bdf8";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, floorY);
+      ctx.lineTo(canvas.width, floorY);
+      ctx.stroke();
+
+      // Floor plank lines
+      ctx.strokeStyle = "rgba(255,255,255,0.05)";
+      for (let i = 0; i < canvas.width; i += 40) {
+        ctx.beginPath();
+        ctx.moveTo(i, floorY);
+        ctx.lineTo(i, canvas.height);
+        ctx.stroke();
+      }
+
+      // Draw Motion Trail (Golden Arcs)
+      if (dancer.trail.length > 1) {
+        ctx.strokeStyle = "rgba(251, 191, 36, 0.4)";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        dancer.trail.forEach((p, idx) => {
+          const drawY = floorY - p.y;
+          if (idx === 0) ctx.moveTo(p.x, drawY);
+          else ctx.lineTo(p.x, drawY);
+        });
+        ctx.stroke();
+      }
+
+      // Draw Dancer Node
+      const currentY = floorY - dancer.y;
+      ctx.save();
+      ctx.shadowColor = "#38bdf8";
+      ctx.shadowBlur = 20;
+      ctx.fillStyle = "#f8fafc";
+      ctx.beginPath();
+      ctx.arc(dancer.x, currentY - dancer.radius, dancer.radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Dancer Glow Aura
+      ctx.strokeStyle = "#8b5cf6";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function loop(time) {
+      const dt = Math.min((time - lastTime) / 1000, 0.05);
+      lastTime = time;
+      updatePhysics(dt);
+      renderStage();
+      requestAnimationFrame(loop);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    window.onload = () => {
+      resizeCanvas();
+      requestAnimationFrame(loop);
+    };
+  </script>
+</body>
+</html>

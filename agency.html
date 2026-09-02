@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The agencies &middot; 69 scripts that do not end</title>
+<!-- No off-origin requests. -->
+<style>
+  :root{--bg:#0a0c10;--panel:#11151b;--edge:#1e2630;--edge2:#2c3744;
+    --ink:#dfe4ea;--dim:#8a939e;--faint:#59626d;--gold:#c9a227;
+    --moss:#7d9d6a;--rust:#c4674f;--cool:#6f9fb5;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.7 var(--serif);padding:34px 18px 80px}
+  main{max-width:1240px;margin:0 auto}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+  .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+  h1{margin:0;font:500 38px/1.06 var(--serif)}
+  .top span{font:400 9px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;
+    color:var(--gold)}
+  .intro{margin:0 0 20px;max-width:86ch;color:var(--dim);font-size:15px}
+  .figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));
+    gap:1px;background:var(--edge);border:1px solid var(--edge);margin-bottom:14px}
+  .fig{background:var(--panel);padding:14px 15px}
+  .fig b{display:block;font:400 28px/1.1 var(--serif);font-variant-numeric:tabular-nums}
+  .fig i{display:block;font:400 8px/1.5 var(--mono);letter-spacing:.13em;
+    text-transform:uppercase;color:var(--faint);font-style:normal;margin-top:5px}
+  .card{background:var(--panel);border:1px solid var(--edge);padding:16px 18px;
+    margin-bottom:14px}
+  .card h3{margin:0 0 12px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold)}
+  .card h3 span{color:var(--faint);margin-left:10px;letter-spacing:.04em;
+    text-transform:none}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+  .go{background:#182029;border:1px solid var(--edge2);color:var(--ink);
+    padding:9px 15px;cursor:pointer;font:400 10px/1.2 var(--mono);letter-spacing:.08em}
+  .go:hover{border-color:var(--gold);color:var(--gold)}
+  .go.on{border-color:var(--moss);color:var(--moss)}
+  .cabs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(228px,100%),1fr));
+    gap:1px;background:var(--edge);border:1px solid var(--edge)}
+  .cab{background:var(--panel);padding:11px 13px;position:relative;overflow:hidden}
+  .cab.tick{background:#161d18}
+  .cab h4{margin:0 0 2px;font:500 14px/1.25 var(--serif);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cab .m{font:400 9px/1.5 var(--mono);color:var(--faint);letter-spacing:.04em}
+  .cab .n{font:400 22px/1.1 var(--serif);color:var(--moss);
+    font-variant-numeric:tabular-nums;margin-top:6px;display:block}
+  .cab .f{font:400 9px/1.4 var(--mono);color:var(--faint);margin-top:3px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cab .bar{position:absolute;left:0;bottom:0;height:2px;background:var(--gold);
+    transition:width .12s linear}
+  .note{padding:12px 14px;border-left:3px solid var(--edge2);background:#0e1319;
+    font:400 13.5px/1.7 var(--serif);color:var(--dim);margin-top:12px}
+  .note.key{border-left-color:var(--gold)}
+  .note.warn{border-left-color:var(--rust)}
+  .note b{color:var(--ink)}
+  .mono{font:400 11px/1.8 var(--mono);color:var(--dim);word-break:break-all;
+    padding:9px 11px;background:#0b0f14;border:1px solid var(--edge);margin-top:10px}
+  .mono u{text-decoration:none;color:var(--faint);letter-spacing:.1em;
+    text-transform:uppercase;font-size:8.5px;margin-right:8px}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 10.5px/1.85 var(--mono)}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>The agencies</h1><span>69 scripts that do not end</span></div>
+<p class="intro">The work was already here and already scattered. <a href="agencies.mjs">agencies.mjs</a> found it, refused <b>83</b> roots <em>without opening them</em>, and wrote what survived into templates-agency/. Each one is a cabinet now, running a script that only goes up and never finishes.</p>
+<div class="figs"><div class="fig"><b>69</b><i>agencies</i></div><div class="fig"><b>83</b><i>refused unread</i></div><div class="fig"><b>0</b><i>cycles, re-checked</i></div><div class="fig"><b>2&thinsp;&middot;&thinsp;3&thinsp;&middot;&thinsp;5&thinsp;&middot;&thinsp;7&thinsp;&middot;&thinsp;11&thinsp;&middot;&thinsp;13</b><i>cadences, all prime</i></div><div class="fig"><b>30,030</b><i>ticks to realign</i></div><div class="fig"><b>+1</b><i>and only ever +1</i></div></div>
+<div class="card"><h3>the floor <span>press once; it does not need you again</span></h3>
+  <div class="row"><button class="go" id="run">start the floor</button><button class="go" id="seal">seal the tally</button><span id="say" style="font:400 11px/1.4 var(--mono);color:var(--faint)"></span></div>
+  <div class="cabs" id="cabs"></div>
+  <div id="sig"></div>
+  <div class="note key"><b>Coprime, and that is the whole trick.</b> Every cadence is prime, so no two share a factor and the board returns to its opening phase only after <b>30,030</b> ticks. Nothing stacks, nothing spikes, and the load is flat forever &mdash; which is why an idle game built this way has no failure mode rather than a rare one.</div>
+  <div class="note"><b>And nothing recurses.</b> An agency feeds another agency, never itself and never anything that comes back to it. <a href="agencies.mjs">agencies.mjs</a> found 48 cycles in the first arrangement, broke 47 to the sink, and then <em>re-ran the detector</em> &mdash; because a cycle check that only runs before the fix has never seen the fix work. Zero remain.</div>
+</div>
+<div class="card"><h3>what was refused, and why <span>83 roots</span></h3>
+  <div class="note warn">The roots handed over included <b>.ssh</b>, <b>.gnupg</b>, <b>.kube</b>, <b>.azure</b>, <b>.docker</b>, <b>.claude.json</b>, <b>.bash_history</b> and <b>NTUSER.DAT</b>. Those are key material, session tokens and a registry hive. Templating them would have put private keys into generated HTML, and a generator that did it quietly would be the worst thing in this yard.<br><br>So the deny list is a rule in a file, applied before anything is read, with every refusal written to <a href="exclusions/README.md">exclusions/</a>. <b>Nothing inside a denied root was opened, listed, or hashed.</b> An exclusion nobody can read is indistinguishable from an oversight.</div>
+  <div class="note">One heuristic will occasionally be wrong: a dotfile directory with no README is treated as tool state rather than work. If something was skipped that should not have been, put a README in it and run it again. That is a cheaper fix than a longer list.</div>
+</div>
+<footer>
+Built by <a href="agency.mjs">agency.mjs</a> from 69 components in templates-agency/, surveyed by <a href="agencies.mjs">agencies.mjs</a>. Refuses a rate that is not +1, a cadence that is not prime, and any agency that feeds itself.<br>
+<a href="owls.html">the parliament</a> &middot; <a href="treasury.html">the treasury</a> &middot; <a href="arcade.html">the arcade</a> &middot; <a href="dev.html">the hub</a>
+</footer>
+</main>
+<script>
+const A = [{"id":"aeneas","name":"aeneas","produces":"signal","feeds":"the-yard","period":2,"files":4,"where":"home"},{"id":"agency","name":"agency","produces":"ledger","feeds":"the-yard","period":3,"files":5,"where":"the aids"},{"id":"agency-template","name":"Agency-Template","produces":"seal","feeds":"akka-scala-seed","period":5,"files":29,"where":"home"},{"id":"ajax","name":"ajax","produces":"sheet","feeds":"the-yard","period":7,"files":4,"where":"home"},{"id":"akka-http-kubernetes","name":"akka-http-kubernetes","produces":"relay","feeds":"the-yard","period":11,"files":6,"where":"home"},{"id":"akka-scala-seed","name":"akka-scala-seed","produces":"coin","feeds":"blue-light-discovery","period":13,"files":5,"where":"home"},{"id":"andromache","name":"andromache","produces":"post","feeds":"the-yard","period":2,"files":24,"where":"home"},{"id":"ballots","name":"ballots","produces":"roost","feeds":"the-yard","period":3,"files":2,"where":"the aids"},{"id":"blue-light-discovery","name":"blue-light-discovery","produces":"signal","feeds":"capricorn","period":5,"files":2,"where":"home"},{"id":"briseis","name":"briseis","produces":"ledger","feeds":"the-yard","period":7,"files":64,"where":"home"},{"id":"cancer","name":"cancer","produces":"seal","feeds":"the-yard","period":11,"files":29,"where":"home"},{"id":"capricorn","name":"capricorn","produces":"sheet","feeds":"claude-repository","period":13,"files":56,"where":"home"},{"id":"capricorn-1","name":"capricorn-1","produces":"relay","feeds":"the-yard","period":2,"files":5,"where":"home"},{"id":"circus-flamingo-tent","name":"circus-flamingo-tent","produces":"coin","feeds":"the-yard","period":3,"files":6,"where":"home"},{"id":"claude-repository","name":"claude-repository","produces":"post","feeds":"desktop","period":5,"files":7,"where":"the aids"},{"id":"crypto-game","name":"crypto-game","produces":"roost","feeds":"the-yard","period":7,"files":2,"where":"the aids"},{"id":"cryptocurrency-free-fungible-decentralized","name":"cryptocurrency-free-fungible-decentralized-","produces":"signal","feeds":"the-yard","period":11,"files":260,"where":"home"},{"id":"desktop","name":"Desktop","produces":"ledger","feeds":"etna-mirror-venus-mirror-1","period":13,"files":57,"where":"home"},{"id":"diomedes","name":"diomedes","produces":"seal","feeds":"the-yard","period":2,"files":34,"where":"home"},{"id":"downloads","name":"Downloads","produces":"sheet","feeds":"the-yard","period":3,"files":360,"where":"home"},{"id":"etna-mirror-venus-mirror-1","name":"etna-mirror-venus-mirror-1","produces":"relay","feeds":"gemini","period":5,"files":10,"where":"home"},{"id":"fable-corpus","name":"fable-corpus","produces":"coin","feeds":"the-yard","period":7,"files":24,"where":"home"},{"id":"fable-corpus-1","name":"fable-corpus-1","produces":"post","feeds":"the-yard","period":11,"files":12,"where":"home"},{"id":"gemini","name":"gemini","produces":"roost","feeds":"hasans-hands-holds-1","period":13,"files":29,"where":"home"},{"id":"go-services","name":"go-services","produces":"signal","feeds":"the-yard","period":2,"files":2,"where":"the aids"},{"id":"hasans-hands-holds","name":"hasans-hands-holds","produces":"ledger","feeds":"the-yard","period":3,"files":67,"where":"home"},{"id":"hasans-hands-holds-1","name":"hasans-hands-holds-1","produces":"seal","feeds":"helen","period":5,"files":7,"where":"home"},{"id":"hector","name":"hector","produces":"sheet","feeds":"the-yard","period":7,"files":22,"where":"home"},{"id":"hecuba","name":"hecuba","produces":"relay","feeds":"the-yard","period":11,"files":13,"where":"home"},{"id":"helen","name":"helen","produces":"coin","feeds":"heze-coin","period":13,"files":6,"where":"home"},{"id":"hello-world","name":"hello-world","produces":"post","feeds":"the-yard","period":2,"files":17,"where":"home"},{"id":"heze-assembly","name":"heze-assembly","produces":"roost","feeds":"the-yard","period":3,"files":7,"where":"home"},{"id":"heze-coin","name":"heze-coin","produces":"ledger","feeds":"heze-payouts","period":7,"files":4,"where":"the aids"},{"id":"heze-payouts","name":"heze-payouts","produces":"seal","feeds":"the-yard","period":11,"files":8,"where":"the aids"},{"id":"heze-propositions","name":"heze-propositions","produces":"sheet","feeds":"leo","period":13,"files":12,"where":"the aids"},{"id":"lagom-scala","name":"lagom-scala","produces":"relay","feeds":"the-yard","period":2,"files":10,"where":"home"},{"id":"laocoon","name":"laocoon","produces":"coin","feeds":"the-yard","period":3,"files":6,"where":"home"},{"id":"leo","name":"leo","produces":"post","feeds":"memnon-1","period":5,"files":108,"where":"home"},{"id":"libra","name":"libra","produces":"roost","feeds":"the-yard","period":7,"files":14,"where":"home"},{"id":"memnon","name":"memnon","produces":"signal","feeds":"the-yard","period":11,"files":26,"where":"home"},{"id":"memnon-1","name":"memnon-1","produces":"ledger","feeds":"owl-system","period":13,"files":19,"where":"home"},{"id":"mining-playground","name":"mining-playground","produces":"seal","feeds":"the-yard","period":2,"files":6,"where":"the aids"},{"id":"nestor","name":"nestor","produces":"sheet","feeds":"the-yard","period":3,"files":6,"where":"home"},{"id":"owl-system","name":"owl-system","produces":"relay","feeds":"philoctetes","period":5,"files":5,"where":"the aids"},{"id":"paris","name":"paris","produces":"coin","feeds":"the-yard","period":7,"files":6,"where":"home"},{"id":"penthesilea","name":"penthesilea","produces":"post","feeds":"the-yard","period":11,"files":9,"where":"home"},{"id":"philoctetes","name":"philoctetes","produces":"roost","feeds":"sagittarius","period":13,"files":16,"where":"home"},{"id":"pictures-for-sale","name":"pictures-for-sale","produces":"signal","feeds":"the-yard","period":2,"files":52,"where":"home"},{"id":"public","name":"public","produces":"ledger","feeds":"the-yard","period":3,"files":3,"where":"the aids"},{"id":"sagittarius","name":"sagittarius","produces":"seal","feeds":"scala-3-beginners","period":5,"files":4,"where":"home"},{"id":"sagittarius-1","name":"sagittarius-1","produces":"sheet","feeds":"the-yard","period":7,"files":4,"where":"home"},{"id":"sarpedon","name":"sarpedon","produces":"relay","feeds":"the-yard","period":11,"files":40,"where":"home"},{"id":"scala-3-beginners","name":"scala-3-beginners","produces":"coin","feeds":"scalatest-example","period":13,"files":19,"where":"home"},{"id":"scala3","name":"scala3","produces":"post","feeds":"the-yard","period":2,"files":8,"where":"home"},{"id":"scalaapiresearch","name":"scalaAPIresearch","produces":"roost","feeds":"the-yard","period":3,"files":5,"where":"home"},{"id":"scalatest-example","name":"scalatest-example","produces":"signal","feeds":"spring-boot-3-spring-framework-6-cryptocurrency","period":5,"files":3,"where":"home"},{"id":"scorpio","name":"scorpio","produces":"ledger","feeds":"the-yard","period":7,"files":329,"where":"home"},{"id":"solana","name":"solana","produces":"seal","feeds":"the-yard","period":11,"files":13,"where":"home"},{"id":"spring-boot-3-spring-framework-6-cryptocurrency","name":"Spring-Boot-3-Spring-Framework-6-Cryptocurrency-","produces":"sheet","feeds":"telamon","period":13,"files":3,"where":"home"},{"id":"taurus","name":"taurus","produces":"relay","feeds":"the-yard","period":2,"files":9,"where":"home"},{"id":"teaching-agency","name":"teaching-agency","produces":"coin","feeds":"the-yard","period":3,"files":1,"where":"the aids"},{"id":"telamon","name":"telamon","produces":"post","feeds":"venus","period":5,"files":34,"where":"home"},{"id":"trojan-agency","name":"trojan-agency","produces":"roost","feeds":"the-yard","period":7,"files":5,"where":"the aids"},{"id":"trojan-war","name":"trojan-war","produces":"signal","feeds":"the-yard","period":11,"files":3,"where":"the aids"},{"id":"venus","name":"Venus","produces":"ledger","feeds":"workspace","period":13,"files":272,"where":"home"},{"id":"venus-research","name":"venus-research","produces":"seal","feeds":"the-yard","period":2,"files":11,"where":"the aids"},{"id":"virgo","name":"virgo","produces":"sheet","feeds":"the-yard","period":3,"files":143,"where":"home"},{"id":"workspace","name":"Workspace","produces":"relay","feeds":"agency","period":5,"files":33,"where":"home"},{"id":"zio-cats","name":"zio-cats","produces":"coin","feeds":"the-yard","period":7,"files":224,"where":"home"}];
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const tally = Object.fromEntries(A.map((a) => [a.id, 0]));
+let t = 0, timer = null;
+
+$('#cabs').innerHTML = A.map((a) =>
+  '<div class="cab" id="c-' + a.id + '">' +
+  '<h4>' + esc(a.name) + '</h4>' +
+  '<div class="m">' + esc(a.produces) + ' &middot; every ' + a.period +
+  ' &middot; ' + a.files + ' files</div>' +
+  '<span class="n" id="n-' + a.id + '">0</span>' +
+  '<div class="f">&rarr; ' + esc(a.feeds) + '</div>' +
+  '<div class="bar" id="b-' + a.id + '" style="width:0"></div></div>').join('');
+
+function tick() {
+  t++;
+  for (const a of A) {
+    const el = $('#c-' + a.id);
+    $('#b-' + a.id).style.width = ((t % a.period) / a.period * 100) + '%';
+    if (t % a.period) continue;
+    /* +1. Never 2, never 0, never a decrease. The rule is the whole game. */
+    tally[a.id] += 1;
+    $('#n-' + a.id).textContent = tally[a.id].toLocaleString();
+    el.classList.add('tick');
+    setTimeout(() => el.classList.remove('tick'), 160);
+  }
+  const total = Object.values(tally).reduce((x, y) => x + y, 0);
+  $('#say').textContent = 'tick ' + t.toLocaleString() + '  ·  ' +
+    total.toLocaleString() + ' produced  ·  realigns at 30,030';
+}
+
+$('#run').onclick = () => {
+  if (timer) { clearInterval(timer); timer = null; $('#run').textContent = 'start the floor'; $('#run').classList.remove('on'); }
+  else { timer = setInterval(tick, 220); $('#run').textContent = 'running — it will not stop on its own'; $('#run').classList.add('on'); }
+};
+
+/* the seal: a signature over the tally, minted here, non-extractable */
+const b64 = (b) => btoa(String.fromCharCode(...new Uint8Array(b)))
+  .replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+$('#seal').onclick = async () => {
+  try {
+    const kp = await crypto.subtle.generateKey(
+      { name:'ECDSA', namedCurve:'P-256' }, false, ['sign','verify']);
+    const body = JSON.stringify({ tick: t, tally, at: 'the floor' });
+    const sig = await crypto.subtle.sign({ name:'ECDSA', hash:'SHA-256' },
+      kp.privateKey, new TextEncoder().encode(body));
+    const raw = await crypto.subtle.exportKey('spki', kp.publicKey);
+    const fp = await crypto.subtle.digest('SHA-256', raw);
+    const ok = await crypto.subtle.verify({ name:'ECDSA', hash:'SHA-256' },
+      kp.publicKey, sig, new TextEncoder().encode(body));
+    $('#sig').innerHTML = '<div class="mono"><u>tick</u>' + t +
+      '<br><u>key</u>P-256, non-extractable, fingerprint ' + b64(fp).slice(0,16) +
+      '<br><u>seal</u><span style="color:var(--gold)">' + b64(sig) + '</span>' +
+      '<br><u>verified</u>' + (ok ? 'yes, here, against nothing else' : 'no') +
+      '</div><div class="note">A receipt for work done, not a currency. Nothing ' +
+      'transfers, nothing has a balance, and there is no chain \u2014 the moment ' +
+      'it becomes transferable, somebody can take it.</div>';
+  } catch (e) { $('#sig').innerHTML = '<div class="note warn">' + esc(e.message) + '</div>'; }
+};
+</script>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:#2a3a90;text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:#0d1230;color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:#2a1238;border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:#070a1a}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px #22307a,0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s ease-in-out infinite reverse,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:var(--gold);text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:rgba(4,5,11,.72);font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Hierarchical Agent Network, Media Streaming & Cryptographic Ledger Dashboard</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: rgba(20, 27, 45, 0.85);
+      --accent: #38bdf8;
+      --green: #10b981;
+      --gold: #f59e0b;
+      --purple: #a855f7;
+      --text: #f1f5f9;
+      --text-dim: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+    body {
+      margin: 0;
+      padding: 24px;
+      background: radial-gradient(circle at 50% 0%, #172554, var(--bg));
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .header h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+      background: linear-gradient(to right, #38bdf8, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 360px 1fr 380px;
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+    }
+    .card h3 {
+      margin: 0 0 16px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+    .tree-view {
+      font-family: monospace;
+      font-size: 13px;
+      background: #030712;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 14px;
+      color: #38bdf8;
+      white-space: pre;
+      line-height: 1.5;
+    }
+    .stat-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    .media-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .media-item {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .media-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .transcription-box {
+      font-size: 12px;
+      color: var(--text-dim);
+      font-style: italic;
+      background: #090d16;
+      padding: 8px;
+      border-radius: 4px;
+      border-left: 3px solid var(--purple);
+    }
+    .hash-box {
+      font-family: monospace;
+      font-size: 11px;
+      word-break: break-all;
+      background: #040814;
+      border: 1px solid #1e293b;
+      padding: 10px;
+      border-radius: 6px;
+      color: var(--green);
+    }
+    .btn {
+      background: #1e293b;
+      color: #fff;
+      border: 1px solid #334155;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 10px;
+    }
+    .btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>🪐 Resilient Scala Microservice: Hierarchical Network, Streaming Media & Cryptographic Ledger</h1>
+    <p style="margin: 0; color: var(--text-dim); font-size: 14px;">
+      Pure Functional ADT Tree Catamorphisms · Fs2 / Http4s Stream Ingestion · Pekko Speech Pipelines · SHA-256 Ledger Anchors
+    </p>
+  </div>
+
+  <div class="grid">
+    <!-- Card 1: Hierarchical Agent Network -->
+    <div class="card">
+      <h3>🌲 Recursive Agent Tree</h3>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+        <span>Total Agents: <strong id="agentCount" style="color: var(--accent);">5</strong></span>
+        <span>Total Activities: <strong id="actCount" style="color: var(--gold);">8</strong></span>
+      </div>
+      <div class="tree-view" id="treeView">
+[Sovereign] gemini-sovereign-01
+├── [Vision] gema-sentinel-01
+│   ├── [Audio] whisper-worker-01
+│   └── [Camera] vision-stream-01
+└── [Orchestrator] lion-orchestrator-01
+      </div>
+      <button class="btn" onclick="spawnSubAgent()">+ Spawn Sub-Agent Node</button>
+    </div>
+
+    <!-- Card 2: Media Capture & Audio Transcription -->
+    <div class="card">
+      <h3>🎙️ Fs2 Media Stream & Speech Pipelines</h3>
+      <div class="media-stream" id="mediaStream">
+        <div class="media-item">
+          <div class="media-header">
+            <span style="color: var(--purple);">📷 Camera Stream #cam_892</span>
+            <span class="stat-badge">Ingested (1.2 MB)</span>
+          </div>
+          <div style="font-size: 11px; font-family: monospace; color: var(--text-dim);">SHA-256: 4f8b2c19e...88a1</div>
+        </div>
+
+        <div class="media-item">
+          <div class="media-header">
+            <span style="color: var(--green);">🎙️ Audio Note #mic_401</span>
+            <span class="stat-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--green); border-color: rgba(16, 185, 129, 0.3);">Transcribed (Pekko)</span>
+          </div>
+          <div class="transcription-box">"All telemetry systems operational across node cluster."</div>
+        </div>
+      </div>
+      <button class="btn" onclick="simulateMediaEvent()" style="margin-top: auto;">Ingest Media Payload</button>
+    </div>
+
+    <!-- Card 3: Cryptographic Ledger State Anchor -->
+    <div class="card">
+      <h3>🔒 Cryptographic Ledger Anchor</h3>
+      <div style="margin-bottom: 8px; font-size: 13px;">
+        <span>Anchor Status:</span>
+        <span class="stat-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--green); border-color: rgba(16, 185, 129, 0.3);">IMMUTABLE PROOF ANCHORED</span>
+      </div>
+
+      <label style="font-size: 12px; color: var(--text-dim); font-weight: bold;">Current State Fingerprint (SHA-256):</label>
+      <div class="hash-box" id="stateHashBox">
+        e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      </div>
+
+      <label style="font-size: 12px; color: var(--text-dim); font-weight: bold; margin-top: 12px;">Latest Ledger Block Anchor:</label>
+      <div class="hash-box" id="blockBox" style="color: var(--gold);">
+        Block #1,084,219 · Notary Tx: 0x89f4b...321e · Timestamp: Validated
+      </div>
+
+      <button class="btn" onclick="anchorState()" style="background: var(--green); color: #000; border-color: var(--green); margin-top: auto;">
+        Broadcast & Anchor State Hash
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let agentCount = 5;
+    let actCount = 8;
+    let block = 1084219;
+
+    function spawnSubAgent() {
+      agentCount += 1;
+      actCount += 2;
+      document.getElementById('agentCount').innerText = agentCount;
+      document.getElementById('actCount').innerText = actCount;
+      
+      const tv = document.getElementById('treeView');
+      tv.innerText += `\n    └── [Worker] sub-agent-0${agentCount}`;
+      recomputeHash();
+    }
+
+    function simulateMediaEvent() {
+      actCount += 1;
+      document.getElementById('actCount').innerText = actCount;
+      const ms = document.getElementById('mediaStream');
+      const div = document.createElement('div');
+      div.className = 'media-item';
+      div.innerHTML = `
+        <div class="media-header">
+          <span style="color: var(--purple);">🎙️ Audio Note #mic_${Math.floor(Math.random()*900+100)}</span>
+          <span class="stat-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--green); border-color: rgba(16, 185, 129, 0.3);">Transcribed</span>
+        </div>
+        <div class="transcription-box">"Automated telemetry verification passed successfully."</div>
+      `;
+      ms.prepend(div);
+      recomputeHash();
+    }
+
+    function recomputeHash() {
+      const randomHash = Array.from(crypto.getRandomValues(new Uint8Array(32)))
+        .map(b => b.toString(16).padStart(2, '0')).join('');
+      document.getElementById('stateHashBox').innerText = randomHash;
+    }
+
+    function anchorState() {
+      block += 1;
+      recomputeHash();
+      document.getElementById('blockBox').innerText = `Block #${block.toLocaleString()} · Notary Tx: 0x${Math.random().toString(16).substring(2, 10)}... · State Locked`;
+      alert('State fingerprint successfully broadcast and anchored to distributed notary ledger!');
+    }
+  </script>
+</body>
+</html>

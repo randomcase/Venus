@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 5-Layer Visual Matrix & Animated Light Show Console</title>
+  <style>
+    body {
+      background: #000;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #fff;
+    }
+    .matrix-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 86vw;
+      max-width: 1000px;
+      height: 70vh;
+      border: 3px solid #333;
+      padding: 16px;
+      box-sizing: border-box;
+      background: #050505;
+      border-radius: 12px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8);
+    }
+    .ticker-bar {
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 2px solid #222;
+      padding-bottom: 8px;
+      font-family: monospace;
+    }
+    .layer {
+      display: flex;
+      flex: 1;
+      gap: 10px;
+      border-radius: 8px;
+      padding: 8px 16px;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: bold;
+      font-size: 15px;
+      transition: all 0.1s ease;
+    }
+    #layer-1 { background: rgba(40, 167, 69, 0.15); border: 2px solid #28a745; color: #28a745; }
+    #layer-2 { background: rgba(0, 123, 255, 0.15); border: 2px solid #007bff; color: #007bff; }
+    #layer-3 { background: rgba(255, 193, 7, 0.15); border: 2px solid #ffc107; color: #ffc107; }
+    #layer-4 { background: rgba(220, 53, 69, 0.15); border: 2px solid #dc3545; color: #dc3545; }
+    #layer-5 { background: rgba(255, 255, 255, 0.08); border: 2px solid #6c757d; color: #fff; }
+    .node-group { display: flex; gap: 8px; }
+    .node {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      opacity: 0.3;
+      transform: scale(0.9);
+      transition: all 0.08s ease;
+    }
+    .controls {
+      margin-top: 16px;
+      display: flex;
+      gap: 12px;
+    }
+    button {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="matrix-container">
+    <div class="ticker-bar">📈 SYSTEM TICKER ACTIVE: <span id="symbol-display" style="color:#38bdf8;">BTC/USD</span> @ <span id="clock" style="color:#f59e0b;">00:00:00</span></div>
+    <div class="layer" id="layer-1">
+      <span>LAYER 1: VOLATILITY MATRIX (GREEN)</span>
+      <div class="node-group">
+        <div class="node" style="background:#28a745;"></div>
+        <div class="node" style="background:#28a745;"></div>
+      </div>
+    </div>
+    <div class="layer" id="layer-2">
+      <span>LAYER 2: ASYNC SIGNAL DATA (BLUE)</span>
+      <div class="node-group">
+        <div class="node" style="background:#007bff;"></div>
+        <div class="node" style="background:#007bff;"></div>
+      </div>
+    </div>
+    <div class="layer" id="layer-3">
+      <span>LAYER 3: QUEUE ACCELERATION (YELLOW)</span>
+      <div class="node-group">
+        <div class="node" style="background:#ffc107;"></div>
+        <div class="node" style="background:#ffc107;"></div>
+      </div>
+    </div>
+    <div class="layer" id="layer-4">
+      <span>LAYER 4: ENCODER TELEMETRY (RED)</span>
+      <div class="node-group">
+        <div class="node" style="background:#dc3545;"></div>
+        <div class="node" style="background:#dc3545;"></div>
+      </div>
+    </div>
+    <div class="layer" id="layer-5">
+      <span>LAYER 5: LEDGER ANCHOR V2 (CONTROL)</span>
+      <div class="node-group">
+        <div class="node" style="background:#fff;"></div>
+        <div class="node" style="background:#fff;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button onclick="triggerIntensity(50)">Low Intensity (50)</button>
+    <button onclick="triggerIntensity(150)" style="background:#007bff;">Medium (150)</button>
+    <button onclick="triggerIntensity(195)" style="background:#dc3545;">High Overdrive (195)</button>
+  </div>
+
+  <script>
+    setInterval(() => {
+      document.getElementById('clock').innerText = new Date().toTimeString().split(' ')[0];
+    }, 500);
+
+    const colors = ['#28a745', '#007bff', '#ffc107', '#dc3545'];
+    const layers = ['layer-1', 'layer-2', 'layer-3', 'layer-4'];
+    let intervalId = null;
+
+    function triggerIntensity(intensity) {
+      if (intervalId) clearInterval(intervalId);
+      const delay = Math.max(30, 200 - intensity);
+      intervalId = setInterval(() => {
+        const targetId = layers[Math.floor(Math.random() * layers.length)];
+        const el = document.getElementById(targetId);
+        const nodes = el.getElementsByClassName('node');
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        for (let n of nodes) { n.style.opacity = "1"; n.style.transform = "scale(1.2)"; }
+        setTimeout(() => {
+          el.style.background = 'transparent';
+          for (let n of nodes) { n.style.opacity = "0.3"; n.style.transform = "scale(0.9)"; }
+        }, delay);
+      }, 120);
+    }
+
+    triggerIntensity(120);
+  </script>
+</body>
+</html>

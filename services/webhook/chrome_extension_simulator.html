@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Chrome Webhook Extension Receiver & Mutator Simulator</title>
+  <style>
+    body {
+      background: #090d16;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 24px;
+      margin: 0;
+    }
+    .container {
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+    .header {
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+    }
+    .card {
+      background: rgba(18, 26, 43, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+    input, textarea {
+      width: 100%;
+      background: #030712;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-family: monospace;
+      margin-bottom: 14px;
+    }
+    .btn {
+      background: #38bdf8;
+      color: #000;
+      border: none;
+      padding: 12px 20px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn:hover { background: #7dd3fc; }
+
+    /* Chrome Popup Simulator Frame */
+    .chrome-frame {
+      background: #000;
+      border: 2px solid #334155;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      overflow: hidden;
+    }
+    .browser-bar {
+      background: #1e293b;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .circle { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .c-red { background: #ef4444; }
+    .c-yellow { background: #f59e0b; }
+    .c-green { background: #10b981; }
+
+    .popup-body {
+      padding: 16px;
+      background: #090d16;
+    }
+    .ext-card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1 style="margin:0 0 4px; font-size:24px;">🪐 Chrome Webhook Extension & DOM Mutator Simulator</h1>
+      <span style="color:#94a3b8; font-size:13px;">Test Live Webhook Dispatches into Simulated Chrome Extension Popups</span>
+    </div>
+
+    <div class="grid">
+      <!-- Left: Webhook Dispatch Generator -->
+      <div class="card">
+        <h3 style="margin-top:0;">🚀 Send Custom Webhook Payload</h3>
+
+        <label>Stock Ticker (Symbol & Price):</label>
+        <div style="display:flex; gap:10px;">
+          <input type="text" id="symInput" value="NVDA">
+          <input type="text" id="priceInput" value="128.50">
+        </div>
+
+        <label>News Headline & Source:</label>
+        <input type="text" id="headlineInput" value="Next-Gen Quantum Chips Announced at Tech Expo">
+        <input type="text" id="sourceInput" value="Silicon Review">
+
+        <label>Graphic Sticker URL:</label>
+        <input type="text" id="stickerInput" value="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80">
+
+        <button class="btn" onclick="fireWebhookSimulation()">📡 Fan-Out Webhook to Chrome Extension</button>
+      </div>
+
+      <!-- Right: Simulated Chrome Popup Viewport -->
+      <div>
+        <div class="chrome-frame">
+          <div class="browser-bar">
+            <span class="circle c-red"></span>
+            <span class="circle c-yellow"></span>
+            <span class="circle c-green"></span>
+            <span style="font-size:11px; color:#94a3b8; margin-left:10px;">Chrome Popup: Live Webhook Anchor</span>
+          </div>
+
+          <div class="popup-body">
+            <!-- Ticker Card -->
+            <div class="ext-card">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span id="popSymbol" style="font-size:18px; font-weight:bold; color:#38bdf8;">NVDA</span>
+                <span id="popPrice" style="font-size:18px; font-weight:bold; color:#10b981;">$128.50</span>
+              </div>
+            </div>
+
+            <!-- News Card -->
+            <div class="ext-card">
+              <div id="popHeadline" style="font-size:13px; font-weight:bold; color:#fff; line-height:1.4;">
+                Next-Gen Quantum Chips Announced at Tech Expo
+              </div>
+              <div id="popSource" style="font-size:10px; color:#94a3b8; margin-top:4px;">Silicon Review • Just now</div>
+            </div>
+
+            <!-- Sticker Card -->
+            <div class="ext-card">
+              <div style="font-size:11px; font-weight:bold; color:#cbd5e1; margin-bottom:6px;">🎨 Graphic Sticker</div>
+              <img id="popSticker" style="width:100%; height:90px; object-fit:cover; border-radius:4px;" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80">
+            </div>
+
+            <div style="font-size:9px; color:#64748b; font-family:monospace; text-align:center;" id="popTime">
+              Last Sync: Live Stream Connected
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function fireWebhookSimulation() {
+      const sym = document.getElementById('symInput').value;
+      const price = document.getElementById('priceInput').value;
+      const headline = document.getElementById('headlineInput').value;
+      const source = document.getElementById('sourceInput').value;
+      const sticker = document.getElementById('stickerInput').value;
+
+      document.getElementById('popSymbol').innerText = sym;
+      document.getElementById('popPrice').innerText = `$${price}`;
+      document.getElementById('popHeadline').innerText = headline;
+      document.getElementById('popSource').innerText = `${source} • Just now`;
+      document.getElementById('popSticker').src = sticker;
+      document.getElementById('popTime').innerText = `Last Sync: ${new Date().toLocaleTimeString()}`;
+
+      alert(`Custom Webhook Fired! Broadcasted to Chrome Extension instances.`);
+    }
+  </script>
+</body>
+</html>

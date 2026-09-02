@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nickelodeon against Disney &middot; a discovery</title>
+<link rel="stylesheet" href="symbol.css">
+<!-- No off-origin requests. -->
+<style>
+  :root{--bg:#0a0c10;--panel:#11151b;--edge:#1e2630;--edge2:#2c3744;
+    --ink:#dfe4ea;--dim:#8a939e;--faint:#59626d;--gold:#c9a227;
+    --moss:#7d9d6a;--rust:#c4674f;--cool:#6f9fb5;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.7 var(--serif);padding:34px 18px 80px}
+  main{max-width:1160px;margin:0 auto}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+  .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+  h1{margin:0;font:500 38px/1.06 var(--serif)}
+  .top span{font:400 9px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;
+    color:var(--gold)}
+  .intro{margin:0 0 20px;max-width:86ch;color:var(--dim);font-size:15px}
+
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--edge);
+    border:1px solid var(--edge);margin-bottom:14px}
+  @media (max-width:860px){ .vs{grid-template-columns:1fr} }
+  .side .band{padding:24px 22px}
+  .side .band h2{margin:0;font:500 32px/1.1 var(--serif);color:#fff;
+    text-shadow:0 1px 14px rgba(0,0,0,.55)}
+  .side .band p{margin:6px 0 0;font:400 10px/1.5 var(--mono);letter-spacing:.15em;
+    text-transform:uppercase;color:rgba(255,255,255,.85)}
+  .side .in{background:var(--panel);padding:16px 20px}
+  .side h4{margin:15px 0 5px;font:400 8px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold)}
+  .side h4:first-child{margin-top:0}
+  .side p{margin:0;color:var(--dim);font-size:14px;line-height:1.65}
+
+  .hero{padding:26px;margin-bottom:14px;border:1px solid var(--edge2);
+    background:linear-gradient(135deg,#141a2c,#1b1710 65%,#11151b)}
+  .hero .y{font:400 62px/1 var(--serif);color:var(--gold);
+    font-variant-numeric:tabular-nums}
+  .hero .l{font:400 10px/1.5 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--faint);margin:8px 0 14px}
+  .hero p{margin:0 0 12px;max-width:76ch;color:#d8ccae;font-size:15.5px}
+  .hero p:last-child{margin-bottom:0}
+  .hero b{color:#fff}
+
+  .card{background:var(--panel);border:1px solid var(--edge);padding:16px 18px;
+    margin-bottom:14px}
+  .card h3{margin:0 0 12px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold)}
+  .card h3 span{color:var(--faint);margin-left:10px;letter-spacing:.04em;
+    text-transform:none}
+  .test{border-bottom:1px solid var(--edge);padding:15px 0}
+  .test:last-child{border-bottom:none}
+  .test .q{font:400 11px/1.5 var(--mono);color:var(--gold);margin-bottom:3px}
+  .test .src{font:400 9px/1.5 var(--mono);color:var(--faint);
+    letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:860px){ .two{grid-template-columns:1fr} }
+  .two>div{padding:11px 13px;background:#0e1319;border-left:2px solid var(--edge2)}
+  .two b{display:block;font:400 8.5px/1 var(--mono);letter-spacing:.14em;
+    text-transform:uppercase;margin-bottom:7px}
+  .two p{margin:0;font-size:13.5px;color:var(--dim);line-height:1.65}
+  .note{padding:12px 14px;border-left:3px solid var(--edge2);background:#0e1319;
+    font:400 13.5px/1.7 var(--serif);color:var(--dim);margin-top:12px}
+  .note.key{border-left-color:var(--gold);background:#12100c;color:#d8ccae}
+  .note.cut{border-left-color:var(--rust)}
+  .note b{color:var(--ink)}
+  /* the bar must not set the page width: two nowrap labels inside a flex row
+     push the whole body sideways on a narrow screen, which is how a diagram
+     about containment ends up uncontained. */
+  .bar{display:flex;height:34px;margin:12px 0 4px;border:1px solid var(--edge2);
+    overflow:hidden}
+  .bar div{display:flex;align-items:center;padding:0 11px;min-width:0;
+    font:400 10px/1 var(--mono);letter-spacing:.08em;color:#fff;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 10.5px/1.85 var(--mono)}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>Nickelodeon against Disney</h1><span>a discovery</span></div>
+<p class="intro">A discovery rather than an opinion for one reason: <b>the tests already existed and were built for other things.</b> The serial test came from <a href="houses.html">544 luxury houses</a>. The choke test came from <a href="writing.html">lesson two</a>. The +1 law came from <a href="arcade.html">the arcade</a>. None of them were written with a cartoon studio in mind, which is what makes their answers worth having.</p>
+<div class="vs"><div class="side"><div class="band" style="background:linear-gradient(135deg,#1b2a4a,#2f4f8f,#c9a227)"><h2>Disney</h2><p>founded 1923 &middot; Burbank</p></div><div class="in"><h4>the model</h4><p>IP first. The property is the asset and the maker is staff.</p><h4>whose name is on it</h4><p>The studio. For decades the animators on the classic features were largely uncredited on screen, and the name on the picture was Walt Disney’s.</p><h4>the term</h4><p>Copyright on a 1928 work runs 95 years, so Steamboat Willie entered the US public domain on 1 January 2024. The 1998 term extension that held it there that long is so associated with this company that it is commonly nicknamed the Mickey Mouse Protection Act.</p></div></div><div class="side"><div class="band" style="background:linear-gradient(135deg,#7a2f00,#d9541a,#f5a623)"><h2>Nickelodeon</h2><p>founded 1979 &middot; New York, then Burbank</p></div><div class="in"><h4>the model</h4><p>Creator first. The maker is the asset and the property follows them.</p><h4>whose name is on it</h4><p>The animator, by name, on screen. The 1991 Nicktoons launch — Doug, Rugrats, Ren &amp; Stimpy — handed creative control to individual creators at a point when television animation was largely anonymous studio work, and that was the deliberate difference.</p><h4>the term</h4><p>Corporately owned like everything else, and nothing here is a cooperative. The difference is not who holds the copyright. It is who the audience believes made it.</p></div></div></div>
+<div class="hero"><div class="y">2024</div><div class="l">the year Steamboat Willie stopped being property</div><p><b>The discovery is the handoff.</b> Copyright expires. Trademark does not, so long as the mark stays in use. A 1928 work carries a 95-year term, so Steamboat Willie entered the US public domain on 1 January 2024 &mdash; and on that day the <b>cartoon</b> became copyable by anybody while the <b>mouse</b> did not, because Mickey is a live trademark and trademarks renew indefinitely.</p><p>The protection was moved off the thing with a clock on it and onto the thing without one. That is not a loophole; it is two different laws doing two different jobs. But the effect is <b>a ledger that never lapses</b> &mdash; and by <a href="kb.html">lesson three</a>, a ledger that never lapses is a good that can never become fungible. Disney did not out-compete the public domain. It stepped off the axis the public domain runs on.</p><div class="bar"><div style="width:96.9%;background:linear-gradient(90deg,#2f4f8f,#1b2a4a)">copyright &mdash; 95 years, expired</div><div style="flex:1;background:linear-gradient(90deg,#c9a227,#8a6f1a)">trademark &mdash; still running</div></div></div>
+<div class="card"><h3>the three tests <span>none of them written for this</span></h3>
+<div class="test"><div class="q">Does the ledger remember? Memory is the only thing that destroys fungibility.</div><div class="src">the serial test &mdash; from houses.html</div><div class="two"><div style="border-left-color:#2f4f8f"><b style="color:#c9a227">Disney</b><p>Maximally remembered. Every character is dated, registered, defended, and its lineage is a matter of legal record. There is no such thing as a generic Disney property — that is the entire design.</p></div><div style="border-left-color:#d9541a"><b style="color:#f5a623">Nickelodeon</b><p>Weakly remembered as a catalogue and strongly remembered as a set of people. Ask who made SpongeBob and the answer is Stephen Hillenburg, a marine biologist. Ask who made Cinderella and the answer is Disney. Both are corporate properties; only one of them has a person attached in the public record.</p></div></div></div><div class="test"><div class="q">Remove one party. Does the rest disconnect?</div><div class="src">the choke test &mdash; from lesson two</div><div class="two"><div style="border-left-color:#2f4f8f"><b style="color:#c9a227">Disney</b><p>One owner for the whole catalogue. Remove the company and nothing flows, because nothing was ever anywhere else. A textbook cut vertex, and deliberately so.</p></div><div style="border-left-color:#d9541a"><b style="color:#f5a623">Nickelodeon</b><p>Structurally the same single owner — and this is where the test stops flattering the creator model. The corporate cut vertex is identical. What differs is that the CREATOR is a second node, and a second node is the difference between a monopoly and a graph.</p></div></div></div><div class="test"><div class="q">Does it ever end? Every option is +1 and nothing is retired.</div><div class="src">the +1 law &mdash; from the arcade</div><div class="two"><div style="border-left-color:#2f4f8f"><b style="color:#c9a227">Disney</b><p>The franchise never ends. Sequels, parks, remakes, a live-action pass over the animated one — every option is +1 and nothing is ever retired. The yard’s idle-game law, run as a business for a century.</p></div><div style="border-left-color:#d9541a"><b style="color:#f5a623">Nickelodeon</b><p>Also never ends, and the failure mode shows: the properties that outlived their creators kept producing, because the ownership was never really with the person whose name was on it.</p></div></div></div></div>
+<div class="card"><h3>Disney <span>what the tests actually say</span></h3>
+<div class="note key">THE DISCOVERY IS THE HANDOFF. Copyright expires; trademark does not, as long as you keep using the mark in commerce. When Steamboat Willie fell into the public domain in 2024, the 1928 CARTOON became copyable by anybody — and the MOUSE did not, because Mickey is a live trademark and trademarks renew forever.<br><br>So the protection was moved off the thing with a clock on it and onto the thing without one. That is not a loophole; it is two different laws doing two different jobs. But the effect is a ledger that never lapses, and by this yard’s own lesson three, a ledger that never lapses is a good that can never become fungible.</div>
+</div><div class="card"><h3>Nickelodeon <span>what the tests actually say</span></h3>
+<div class="note key">AND THE COUNTER-DISCOVERY. The creator model looks like decentralisation and is not. Ownership sat in the same place the whole time; what was distributed was CREDIT, which is cheap to give and does not move a single legal right.<br><br>That is worth saying plainly because it is the most common shape of fake decentralisation there is: attribution handed out generously while control stays exactly where it was. The yard’s syndication entry already names this — a lone party is a monopoly whatever it calls itself, and a second name on the poster is not a second party to the contract.</div>
+</div><div class="card"><h3>and the honest part <span>where the comparison stops flattering anybody</span></h3>
+  <div class="note cut">Run the choke test properly and <b>both come back the same</b>. One corporate owner each, one cut vertex each. The creator model distributed <em>credit</em>, which is cheap to give and moves no legal right, and this yard’s <a href="kb.html">syndication entry</a> already says what that is: a lone party is a monopoly whatever it calls itself, and a second name on the poster is not a second party to the contract.</div>
+  <div class="note">The 56 years between them are not the interesting gap either. Both never end, both are owned in one place, and both obey the +1 law. What separates them is a single legal decision about which register to keep the value in &mdash; and that decision, not the cartoons, is why one of these catalogues is worth what it is worth.</div>
+  <div class="note"><b>How to falsify the whole page.</b> Find a property whose copyright lapsed and whose commercial value did NOT move to a trademark or a later derivative. If the value simply evaporated on schedule, the handoff is not a strategy, it is an artefact of picking the most famous example. Sherlock Holmes is the interesting place to look, and it does not obviously go my way.</div>
+</div>
+<footer>
+Built by <a href="studios.mjs">studios.mjs</a> from 2 entries in templates-studio/, tested against the serial test from <a href="houses.html">the houses</a>, the choke test from <a href="writing.html">lesson two</a>, and the +1 law from <a href="arcade.html">the arcade</a>. Refuses an undated studio, a verdict on a test the yard does not run, and a finding written for only one side.<br>
+<a href="treasury.html">the treasury</a> &middot; <a href="houses.html">the houses</a> &middot; <a href="kb.html">the base</a> &middot; <a href="dev.html">the hub</a>
+</footer>
+</main>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:#2a3a90;text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:#0d1230;color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:#2a1238;border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:#070a1a}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px #22307a,0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s ease-in-out infinite reverse,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:var(--gold);text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:rgba(4,5,11,.72);font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

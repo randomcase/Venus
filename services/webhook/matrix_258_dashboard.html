@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 258-Channel High-Density Live Matrix Dashboard</title>
+  <style>
+    body {
+      background: #000;
+      color: #f8fafc;
+      font-family: monospace;
+      padding: 16px;
+      margin: 0;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #222;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      background: #dc2626;
+      font-weight: bold;
+    }
+    .badge-connected { background: #16a34a; }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 3px;
+      max-height: 60vh;
+      overflow-y: auto;
+      background: #050505;
+      padding: 8px;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+    }
+    .layer-tile {
+      border: 1px solid #222;
+      border-radius: 2px;
+      padding: 4px 2px;
+      font-size: 9px;
+      text-align: center;
+      background: rgba(255,255,255,0.02);
+      transition: background 0.04s;
+    }
+    .c-green { color: #28a745; border-color: #1e5f27; }
+    .c-blue { color: #007bff; border-color: #0b4785; }
+    .c-yellow { color: #ffc107; border-color: #8f6d0b; }
+    .c-red { color: #dc3545; border-color: #821f27; }
+
+    .active-flash {
+      box-shadow: 0 0 10px #fff;
+      transform: scale(1.08);
+      font-weight: bold;
+    }
+
+    .telemetry-feed {
+      margin-top: 14px;
+      background: #030712;
+      border: 1px solid #1e293b;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      height: 140px;
+      overflow-y: auto;
+      color: #38bdf8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <h2 style="margin:0 0 4px; font-size:16px;">🚀 258-Channel High-Density Telemetry Matrix</h2>
+      <span style="color:#64748b; font-size:11px;">WebSocket Ingestion & Real-Time Dynamic Grid Stream</span>
+    </div>
+    <span class="badge" id="connStatus">DISCONNECTED</span>
+  </div>
+
+  <div class="grid-container" id="matrixGrid"></div>
+
+  <h4 style="margin:12px 0 4px; font-size:12px; color:#94a3b8;">📡 Live Telemetry Broadcast:</h4>
+  <div class="telemetry-feed" id="logBox">Waiting for WebSocket telemetry connection...</div>
+
+  <script>
+    const grid = document.getElementById('matrixGrid');
+    const logBox = document.getElementById('logBox');
+    const connStatus = document.getElementById('connStatus');
+
+    // Build 258 Tiles
+    for (let i = 1; i <= 258; i++) {
+      const tile = document.createElement('div');
+      tile.id = `tile-${i}`;
+      tile.className = 'layer-tile';
+      const mod = i % 4;
+      if (mod === 0) { tile.classList.add('c-green'); tile.dataset.hex = '#28a745'; }
+      else if (mod === 1) { tile.classList.add('c-blue'); tile.dataset.hex = '#007bff'; }
+      else if (mod === 2) { tile.classList.add('c-yellow'); tile.dataset.hex = '#ffc107'; }
+      else { tile.classList.add('c-red'); tile.dataset.hex = '#dc3545'; }
+      tile.innerText = `L${i}`;
+      grid.appendChild(tile);
+    }
+
+    function connectWs() {
+      const ws = new WebSocket("ws://localhost:8080/v1/matrix/monitor");
+
+      ws.onopen = () => {
+        connStatus.innerText = "CONNECTED (ws://localhost:8080)";
+        connStatus.className = "badge badge-connected";
+        logBox.innerHTML += `<div>[${new Date().toLocaleTimeString()}] Connected to 258-matrix stream.</div>`;
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          logBox.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${event.data}</div>`;
+          logBox.scrollTop = logBox.scrollHeight;
+
+          if (data.activeLayer) {
+            flashLayer(data.activeLayer, data.hexColor);
+          }
+        } catch(e) {
+          logBox.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${event.data}</div>`;
+        }
+      };
+
+      ws.onclose = () => {
+        connStatus.innerText = "DISCONNECTED";
+        connStatus.className = "badge";
+        setTimeout(connectWs, 3000);
+      };
+    }
+
+    function flashLayer(idx, hex) {
+      document.querySelectorAll('.layer-tile').forEach(t => {
+        t.style.background = 'rgba(255,255,255,0.02)';
+        t.classList.remove('active-flash');
+      });
+      const cell = document.getElementById(`tile-${idx}`);
+      if (cell) {
+        cell.style.background = hex;
+        cell.classList.add('active-flash');
+      }
+    }
+
+    connectWs();
+  </script>
+</body>
+</html>

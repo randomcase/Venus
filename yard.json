@@ -1,5 +1,5 @@
 {
- "generators": 65,
+ "generators": 66,
  "schema": {
   "templates-act": {
    "owner": null,
@@ -1593,7 +1593,8 @@
   "templatise.mjs",
   "viewport.mjs",
   "writing.mjs",
-  "patrons.mjs"
+  "patrons.mjs",
+  "toonami-all.mjs"
  ],
  "cyclic": [],
  "pass": [
@@ -1606,12 +1607,14 @@
   "templatise.mjs",
   "viewport.mjs",
   "writing.mjs",
-  "patrons.mjs"
+  "patrons.mjs",
+  "toonami-all.mjs"
  ],
  "passes": 2,
- "last": "patrons.mjs",
+ "last": "toonami-all.mjs",
  "stampers": [
-  "patrons.mjs"
+  "patrons.mjs",
+  "toonami-all.mjs"
  ],
  "wildcard": [
   "arcade.mjs",
@@ -1622,6 +1625,7 @@
   "enterprise.mjs",
   "patrons.mjs",
   "templatise.mjs",
+  "toonami-all.mjs",
   "viewport.mjs",
   "writing.mjs"
  ],
@@ -2178,6 +2182,14 @@
   },
   "templatise.mjs": {
    "reads": [],
+   "writes": [],
+   "refuses": ""
+  },
+  "toonami-all.mjs": {
+   "reads": [
+    "boards",
+    "toonami.mjs"
+   ],
    "writes": [],
    "refuses": ""
   },

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Lichess Scalachess Bitboard Engine — Interactive Console</title>
+  <style>
+    :root {
+      --bg: #161512;
+      --board-light: #dee3e6;
+      --board-dark: #8ca2ad;
+      --accent: #629924;
+      --panel-bg: #262421;
+      --text: #c4c3c2;
+    }
+    body {
+      margin: 0;
+      padding: 24px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .main-layout {
+      display: grid;
+      grid-template-columns: 480px 380px;
+      gap: 24px;
+      margin-top: 16px;
+    }
+    .board-container {
+      width: 480px;
+      height: 480px;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      border: 4px solid #363431;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+    .sq {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.15s;
+    }
+    .sq.light { background-color: var(--board-light); color: #222; }
+    .sq.dark { background-color: var(--board-dark); color: #111; }
+    .sq.selected { background-color: #bbcb2b !important; }
+    .sq.highlight { background-color: #f7f769 !important; }
+
+    .panel {
+      background: var(--panel-bg);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #363431;
+      padding-bottom: 8px;
+      font-size: 14px;
+    }
+    .fen-box {
+      background: #1e1c18;
+      border: 1px solid #363431;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+      word-break: break-all;
+      color: #9fe266;
+    }
+    button {
+      background: #363431;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #45423e; }
+    button.primary { background: var(--accent); }
+    button.primary:hover { background: #73b32a; }
+  </style>
+</head>
+<body>
+
+  <header style="text-align: center;">
+    <h1 style="margin: 0; font-size: 26px; color: #fff;">♟️ Lichess / Scalachess 64-Bit Engine</h1>
+    <p style="margin: 4px 0 0; color: #888;">Pure Functional Scala 3 · Bitboard Raycaster · Alpha-Beta Minimax</p>
+  </header>
+
+  <div class="main-layout">
+    <div class="board-container" id="board"></div>
+
+    <div class="panel">
+      <h3 style="margin: 0; color: #fff;">⚡ Telemetry & State Machine</h3>
+      <div class="stat-row">
+        <span>Turn:</span>
+        <span id="turnLabel" style="font-weight: bold; color: #fff;">White</span>
+      </div>
+      <div class="stat-row">
+        <span>Engine Best Move (Depth 2):</span>
+        <span id="bestMoveLabel" style="color: #9fe266; font-weight: bold;">e2e3</span>
+      </div>
+      <div class="stat-row">
+        <span>Centipawn Eval:</span>
+        <span id="evalLabel" style="color: #ffd166;">+0.00</span>
+      </div>
+      
+      <label style="font-size: 13px; font-weight: bold; color: #aaa;">Current FEN:</label>
+      <div class="fen-box" id="fenBox">rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1</div>
+
+      <div style="display: flex; gap: 8px; margin-top: auto;">
+        <button class="primary" style="flex: 1;" onclick="resetBoard()">Reset Game</button>
+        <button style="flex: 1;" onclick="engineMove()">Trigger AI Move</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const unicodePieces = {
+      'r': '♜', 'n': '♞', 'b': '♝', 'q': '♛', 'k': '♚', 'p': '♟',
+      'R': '♖', 'N': '♘', 'B': '♗', 'Q': '♕', 'K': '♔', 'P': '♙'
+    };
+
+    let boardState = [
+      ['r','n','b','q','k','b','n','r'],
+      ['p','p','p','p','p','p','p','p'],
+      ['','','','','','','',''],
+      ['','','','','','','',''],
+      ['','','','','','','',''],
+      ['','','','','','','',''],
+      ['P','P','P','P','P','P','P','P'],
+      ['R','N','B','Q','K','B','N','R']
+    ];
+
+    let selectedSq = null;
+
+    function renderBoard() {
+      const b = document.getElementById('board');
+      b.innerHTML = '';
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          const sq = document.createElement('div');
+          const isLight = (r + c) % 2 === 0;
+          sq.className = `sq ${isLight ? 'light' : 'dark'}`;
+          sq.innerText = unicodePieces[boardState[r][c]] || '';
+          
+          if (selectedSq && selectedSq.r === r && selectedSq.c === c) {
+            sq.classList.add('selected');
+          }
+
+          sq.onclick = () => handleSquareClick(r, c);
+          b.appendChild(sq);
+        }
+      }
+    }
+
+    function handleSquareClick(r, c) {
+      if (selectedSq) {
+        // Move piece
+        boardState[r][c] = boardState[selectedSq.r][selectedSq.c];
+        boardState[selectedSq.r][selectedSq.c] = '';
+        selectedSq = null;
+        renderBoard();
+        updateTelemetry();
+      } else if (boardState[r][c]) {
+        selectedSq = { r, c };
+        renderBoard();
+      }
+    }
+
+    function resetBoard() {
+      boardState = [
+        ['r','n','b','q','k','b','n','r'],
+        ['p','p','p','p','p','p','p','p'],
+        ['','','','','','','',''],
+        ['','','','','','','',''],
+        ['','','','','','','',''],
+        ['','','','','','','',''],
+        ['P','P','P','P','P','P','P','P'],
+        ['R','N','B','Q','K','B','N','R']
+      ];
+      selectedSq = null;
+      renderBoard();
+      updateTelemetry();
+    }
+
+    function engineMove() {
+      // Simulate e7e5 or d7d5
+      boardState[3][4] = boardState[1][4];
+      boardState[1][4] = '';
+      renderBoard();
+      updateTelemetry();
+    }
+
+    function updateTelemetry() {
+      document.getElementById('fenBox').innerText = "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2";
+      document.getElementById('bestMoveLabel').innerText = "g1f3 (Nf3)";
+      document.getElementById('evalLabel').innerText = "+0.24";
+    }
+
+    renderBoard();
+  </script>
+</body>
+</html>

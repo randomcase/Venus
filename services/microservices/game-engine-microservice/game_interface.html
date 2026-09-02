@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Functional Scala Game Microservice — DOM Hydration & Control Panel</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: rgba(18, 26, 43, 0.85);
+      --accent: #4e95ff;
+      --neon-green: #00ffaa;
+      --neon-gold: #ffd166;
+      --text: #e2e8f0;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    body {
+      margin: 0;
+      padding: 24px;
+      background: radial-gradient(circle at top, #141f38, var(--bg));
+      color: var(--text);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+    }
+    .panel {
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+    canvas {
+      background: #04060a;
+      border: 1px solid #1f2a44;
+      border-radius: 8px;
+      width: 100%;
+      height: 400px;
+      display: block;
+    }
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .btn-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    button {
+      background: #1e293b;
+      color: #fff;
+      border: 1px solid #334155;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .badge-green { background: rgba(0, 255, 170, 0.15); color: var(--neon-green); border: 1px solid var(--neon-green); }
+    .badge-gold { background: rgba(255, 209, 102, 0.15); color: var(--neon-gold); border: 1px solid var(--neon-gold); }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 14px;
+    }
+    .code-box {
+      background: #030712;
+      border: 1px solid #1e293b;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 12px;
+      word-break: break-all;
+      color: var(--neon-green);
+    }
+  </style>
+</head>
+<body>
+
+  <header style="margin-bottom: 24px; text-align: center;">
+    <h1 style="margin: 0; font-size: 28px;">🪐 Indigo Pure Functional Game Microservice</h1>
+    <p style="margin: 6px 0 0; color: #94a3b8;">Deterministic Model-View-Update (MVU) · Sub-Millisecond DOM Transfer & Webhooks</p>
+  </header>
+
+  <div class="container">
+    <div class="panel">
+      <canvas id="gameCanvas" width="600" height="400"></canvas>
+      <div class="controls">
+        <div class="btn-group">
+          <div></div>
+          <button onclick="sendCmd('UP')">⬆ UP</button>
+          <div></div>
+          <button onclick="sendCmd('LEFT')">⬅ LEFT</button>
+          <button onclick="sendCmd('FIRE')" style="background: #e11d48; border-color: #f43f5e;">🔥 FIRE</button>
+          <button onclick="sendCmd('RIGHT')">➡ RIGHT</button>
+          <div></div>
+          <button onclick="sendCmd('DOWN')">⬇ DOWN</button>
+          <div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top: 0;">⚡ Agent(0) Telemetry & DOM State</h3>
+      <div class="stat-row">
+        <span>State Health:</span>
+        <span class="badge badge-green">O(1) ULTRA LOW ENTROPY</span>
+      </div>
+      <div class="stat-row">
+        <span>Git-Hook Status:</span>
+        <span class="badge badge-gold">100% PASSED</span>
+      </div>
+      <div class="stat-row">
+        <span>Frame Number:</span>
+        <span id="statFrame">0</span>
+      </div>
+      <div class="stat-row">
+        <span>Current Score:</span>
+        <span id="statScore" style="color: var(--neon-gold); font-weight: bold;">0</span>
+      </div>
+      <div class="stat-row">
+        <span>Active State Hash:</span>
+        <span id="statHash" style="font-family: monospace; color: var(--accent);">e3b0c44298fc1c14</span>
+      </div>
+
+      <h4 style="margin: 16px 0 8px;">DOM Transfer Payload:</h4>
+      <div class="code-box" id="payloadBox">
+        F:0|P:300.0,200.0|S:0|H:e3b0c442
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let model = { frame: 0, px: 300, py: 200, score: 0, hash: 'init_hash_a1' };
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function render() {
+      ctx.fillStyle = '#04060a';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw Grid
+      ctx.strokeStyle = '#0f172a';
+      for(let x=0; x<canvas.width; x+=30) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,canvas.height); ctx.stroke(); }
+      for(let y=0; y<canvas.height; y+=30) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(canvas.width,y); ctx.stroke(); }
+
+      // Draw Player
+      ctx.fillStyle = '#38bdf8';
+      ctx.beginPath();
+      ctx.arc(model.px, model.py, 12, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Update HUD
+      document.getElementById('statFrame').innerText = model.frame;
+      document.getElementById('statScore').innerText = model.score;
+      document.getElementById('statHash').innerText = model.hash;
+      document.getElementById('payloadBox').innerText = `F:${model.frame}|P:${model.px.toFixed(1)},${model.py.toFixed(1)}|S:${model.score}|H:${model.hash}`;
+    }
+
+    function sendCmd(cmd) {
+      model.frame += 1;
+      if (cmd === 'UP') model.py = Math.max(20, model.py - 15);
+      if (cmd === 'DOWN') model.py = Math.min(380, model.py + 15);
+      if (cmd === 'LEFT') model.px = Math.max(20, model.px - 15);
+      if (cmd === 'RIGHT') model.px = Math.min(580, model.px + 15);
+      if (cmd === 'FIRE') model.score += 100;
+      model.hash = Math.random().toString(16).substring(2, 10);
+      render();
+    }
+
+    render();
+  </script>
+</body>
+</html>

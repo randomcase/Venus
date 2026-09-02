@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 320px;
+      margin: 0;
+      padding: 16px;
+      background: #090d16;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      box-sizing: border-box;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .ticker-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .symbol { font-size: 16px; font-weight: bold; color: #38bdf8; }
+    .price { font-size: 16px; font-weight: bold; color: #10b981; }
+    .news-title { font-size: 12px; font-weight: bold; color: #fff; line-height: 1.4; }
+    .news-source { font-size: 10px; color: #94a3b8; margin-top: 4px; }
+    .sticker-img { width: 100%; height: 80px; object-fit: cover; border-radius: 4px; margin-top: 6px; }
+    .footer { font-size: 9px; color: #64748b; font-family: monospace; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <strong style="font-size:13px; color:#38bdf8;">⚓ Chrome Webhook Anchor</strong>
+    <span style="font-size:10px; background:#16a34a; color:#fff; padding:2px 6px; border-radius:10px;">LIVE</span>
+  </div>
+
+  <!-- Ticker Card -->
+  <div class="card" id="tickerCard">
+    <div class="ticker-row">
+      <span class="symbol" id="tickerSymbol">AAPL</span>
+      <span class="price" id="tickerPrice">$184.25</span>
+    </div>
+  </div>
+
+  <!-- News Banner Card -->
+  <div class="card" id="newsCard">
+    <div class="news-title" id="headlineText">Tech Giants Smash Earnings Projections This Quarter</div>
+    <div class="news-source" id="sourceText">Global Financial News • Just now</div>
+  </div>
+
+  <!-- Graphic Sticker Card -->
+  <div class="card" id="stickerCard">
+    <div style="font-size:11px; font-weight:bold; color:#cbd5e1;">🎨 Graphic Sticker</div>
+    <img id="stickerImg" class="sticker-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80" alt="Graphic Sticker">
+  </div>
+
+  <div class="footer" id="timestampFooter">Last Sync: Live Stream Active</div>
+
+  <script>
+    function updateUI(payload) {
+      if (payload.tickerData) {
+        document.getElementById('tickerSymbol').innerText = payload.tickerData.symbol;
+        document.getElementById('tickerPrice').innerText = `$${payload.tickerData.price}`;
+      }
+      if (payload.articleData) {
+        document.getElementById('headlineText').innerText = payload.articleData.headline;
+        document.getElementById('sourceText').innerText = `${payload.articleData.source} • Just now`;
+      }
+      if (payload.stickerData) {
+        document.getElementById('stickerImg').src = payload.stickerData.url;
+      }
+      if (payload.timestamp) {
+        document.getElementById('timestampFooter').innerText = `Last Sync: ${new Date(payload.timestamp).toLocaleTimeString()}`;
+      }
+    }
+
+    // Read stored cache
+    chrome.storage.local.get(['latestWebhookPayload'], (result) => {
+      if (result.latestWebhookPayload) updateUI(result.latestWebhookPayload);
+    });
+
+    // Listen for live runtime message broadcasts
+    chrome.runtime.onMessage.addListener((msg) => {
+      if (msg.type === "MUTATE_UI" && msg.payload) {
+        updateUI(msg.payload);
+      }
+    });
+  </script>
+</body>
+</html>

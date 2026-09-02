@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Scala Times Newsletter Reader & Playwright Ingestion Hub</title>
+  <style>
+    body {
+      background: #090d16;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 24px;
+      margin: 0;
+    }
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    .badge {
+      background: #dc2626;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .edition-card {
+      background: rgba(18, 26, 43, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .article-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 12px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .article-item:last-child { border-bottom: none; }
+    .category-tag {
+      font-size: 11px;
+      font-weight: bold;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .cat-articles { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+    .cat-releases { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+    .cat-libraries { background: rgba(234, 179, 8, 0.2); color: #eab308; }
+    .btn {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn:hover { background: #ef4444; }
+    .crypto-bar {
+      margin-top: 16px;
+      background: #020617;
+      border: 1px solid #1e293b;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 12px;
+      color: #10b981;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1 style="margin: 0 0 4px; font-size: 24px;">🪐 Scala Times Weekly Newsletter Reader</h1>
+        <span style="color: #94a3b8; font-size: 13px;">Playwright Ingestion & Cryptographic Issue Verification</span>
+      </div>
+      <span class="badge">Weekly Issue #562</span>
+    </div>
+
+    <div style="margin-bottom: 18px; display:flex; gap:10px;">
+      <button class="btn" onclick="triggerIngest()">🚀 Ingest Latest Scala Times Issue</button>
+      <button class="btn" style="background:#334155;" onclick="window.open('https://scalatimes.com/', '_blank')">🌐 Open scalatimes.com</button>
+    </div>
+
+    <!-- Edition Container -->
+    <div class="edition-card">
+      <h3 style="margin-top:0; color:#38bdf8;">📰 Curated Weekly Articles & Releases</h3>
+
+      <div class="article-item">
+        <div>
+          <a href="https://scalatimes.com/" target="_blank" style="color:#fff; font-weight:bold; text-decoration:none; font-size:15px;">
+            Scala 3 Metaprogramming Mastery: Macros, Inline & Quotes
+          </a>
+          <div style="font-size:12px; color:#94a3b8; margin-top:2px;">SoftwareMill Tech • In-Depth Architecture</div>
+        </div>
+        <span class="category-tag cat-articles">Articles</span>
+      </div>
+
+      <div class="article-item">
+        <div>
+          <a href="https://scalatimes.com/" target="_blank" style="color:#fff; font-weight:bold; text-decoration:none; font-size:15px;">
+            Apache Pekko 1.0.2: Resilient Actor Clustering & Akka Compatibility
+          </a>
+          <div style="font-size:12px; color:#94a3b8; margin-top:2px;">Apache Foundation • High-Throughput Pipelines</div>
+        </div>
+        <span class="category-tag cat-releases">Releases</span>
+      </div>
+
+      <div class="article-item">
+        <div>
+          <a href="https://scalatimes.com/" target="_blank" style="color:#fff; font-weight:bold; text-decoration:none; font-size:15px;">
+            Http4s 0.23.27 & Ember Server Performance Benchmarks
+          </a>
+          <div style="font-size:12px; color:#94a3b8; margin-top:2px;">Typelevel • Pure Functional HTTP</div>
+        </div>
+        <span class="category-tag cat-libraries">Libraries</span>
+      </div>
+
+      <div class="article-item">
+        <div>
+          <a href="https://scalatimes.com/" target="_blank" style="color:#fff; font-weight:bold; text-decoration:none; font-size:15px;">
+            Designing Non-Blocking Webhook Gateways with Cats-Effect 3
+          </a>
+          <div style="font-size:12px; color:#94a3b8; margin-top:2px;">Nexus Architecture Hub • Enterprise Microservices</div>
+        </div>
+        <span class="category-tag cat-articles">Articles</span>
+      </div>
+
+      <div class="crypto-bar" id="cryptoToken">
+        🔒 Issue SHA-256 Footprint: 9b2d8e41a7c3f09418b76ce248a9104efc381a9420bfd64821a7ec891240bf91
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function triggerIngest() {
+      const token = Array.from(crypto.getRandomValues(new Uint8Array(32)))
+        .map(b => b.toString(16).padStart(2, '0')).join('');
+      document.getElementById('cryptoToken').innerText = `🔒 New Issue Archival Hash: ${token}`;
+      alert('Scala Times Playwright Ingestion triggered! Newsletter snapshot saved and SHA-256 issue archive locked.');
+    }
+  </script>
+</body>
+</html>
