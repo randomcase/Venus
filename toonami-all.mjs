@@ -22,9 +22,10 @@ const pages = [...readdirSync('.').filter(f => f.endsWith('.html')).map(f => f),
 let stamped = 0, refreshed = 0, charset = 0;
 for (const b of pages) {
   let s = readFileSync(b, 'utf8');
-  const i = s.indexOf('<!--toonami-->'), j = s.indexOf('<!--/toonami-->');
   /* a page with no charset is decoded by guesswork, and the guess changes when its first kilobyte does; every deck says utf-8, after its title */
   if (!/<meta[^>]+charset/i.test(s)) { const t = s.indexOf('</title>'); if (t >= 0) { s = s.slice(0, t + 8) + '\n<meta charset="utf-8">' + s.slice(t + 8); charset++; } }
+  /* the markers are found AFTER any insertion above: an index taken before an edit is an index into a file that no longer exists */
+  const i = s.indexOf('<!--toonami-->'), j = s.indexOf('<!--/toonami-->');
   if (i >= 0 && j > i) { s = s.slice(0, i) + BLOCK + s.slice(j + '<!--/toonami-->'.length); refreshed++; }
   else { const k = s.lastIndexOf('</body>'); s = k >= 0 ? s.slice(0, k) + BLOCK + '\n' + s.slice(k) : s.replace(/\s*$/, '\n') + BLOCK + '\n'; stamped++; }
   writeFileSync(b, s);
