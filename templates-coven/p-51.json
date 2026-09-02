@@ -1,0 +1,31 @@
+{
+ "id": "p-51",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Pellax Rhenune",
+ "syndicate": "syn-17",
+ "tranche": 17,
+ "doors": [
+  153,
+  161
+ ],
+ "house": "the ninth arch",
+ "sigil": {
+  "ring": 1,
+  "bars": 5,
+  "chord": 3,
+  "turn": 102
+ },
+ "keeps": "the oath he is named for breaking",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Giordano Bruno",
+ "readsId": "bruno",
+ "reason": "Held that the stars were suns with worlds of their own.",
+ "spell": "Summon",
+ "spellId": "summon",
+ "glyph": "☾",
+ "share": "0e5e22",
+ "text": "Pellax rhenune of the ninth arch, carries between for the 17th tranche, doors 153 to 161. Keeps the oath he is named for breaking. Reads Giordano Bruno.",
+ "wovenBy": "bruno"
+}

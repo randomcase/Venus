@@ -1,0 +1,22 @@
+{
+ "id": "syn-10",
+ "kind": "syndicate",
+ "tranche": 10,
+ "holds": 1000000,
+ "doors": [
+  86,
+  95
+ ],
+ "doorCount": 10,
+ "custodians": [
+  "p-28",
+  "p-29",
+  "p-30"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 10th syndicate",
+ "seat": "the thin wall",
+ "text": "Holds one tranche of a million against doors 86 to 95. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

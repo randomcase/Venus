@@ -1,0 +1,31 @@
+{
+ "id": "p-33",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Morune Vessic",
+ "syndicate": "syn-11",
+ "tranche": 11,
+ "doors": [
+  96,
+  104
+ ],
+ "house": "the cold store",
+ "sigil": {
+  "ring": 1,
+  "bars": 1,
+  "chord": 5,
+  "turn": 351
+ },
+ "keeps": "the route, which is not written down",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Bodhidharma",
+ "readsId": "bodhidharma",
+ "reason": "Chan becomes Zen.",
+ "spell": "Bolt",
+ "spellId": "bolt",
+ "glyph": "⟊",
+ "share": "d96c18",
+ "text": "Morune vessic of the cold store, carries between for the 11th tranche, doors 96 to 104. Keeps the route, which is not written down. Reads Bodhidharma.",
+ "wovenBy": "bodhidharma"
+}

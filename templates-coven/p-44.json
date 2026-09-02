@@ -1,0 +1,31 @@
+{
+ "id": "p-44",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Quillor Gralor",
+ "syndicate": "syn-15",
+ "tranche": 15,
+ "doors": [
+  134,
+  142
+ ],
+ "house": "the second bell",
+ "sigil": {
+  "ring": 3,
+  "bars": 3,
+  "chord": 1,
+  "turn": 96
+ },
+ "keeps": "the replay, event by event",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Ibn Sina (Avicenna)",
+ "readsId": "ibnsina",
+ "reason": "Wrote the Canon of Medicine, which was a standard text in European universities for roughly six hundred years.",
+ "spell": "Bind",
+ "spellId": "bind",
+ "glyph": "⛓",
+ "share": "bf9ae8",
+ "text": "Quillor gralor of the second bell, keeps the book for the 15th tranche, doors 134 to 142. Keeps the replay, event by event. Reads Ibn Sina (Avicenna).",
+ "wovenBy": "ibnsina"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "p-25",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Gralor Hespic",
+ "syndicate": "syn-9",
+ "tranche": 9,
+ "doors": [
+  77,
+  85
+ ],
+ "house": "the long gallery",
+ "sigil": {
+  "ring": 2,
+  "bars": 1,
+  "chord": 1,
+  "turn": 12
+ },
+ "keeps": "the weights, and the habit of checking them",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "Major Thomas Weir",
+ "readsId": "weir",
+ "reason": "He confessed unprompted to crimes nobody had accused him of.",
+ "spell": "Unmake",
+ "spellId": "unmake",
+ "glyph": "✖",
+ "share": "b96714",
+ "text": "Gralor hespic of the long gallery, keeps a door for the 9th tranche, doors 77 to 85. Keeps the weights, and the habit of checking them. Reads Major Thomas Weir.",
+ "wovenBy": "weir"
+}

@@ -1,0 +1,22 @@
+{
+ "id": "syn-2",
+ "kind": "syndicate",
+ "tranche": 2,
+ "holds": 1000000,
+ "doors": [
+  10,
+  19
+ ],
+ "doorCount": 10,
+ "custodians": [
+  "p-4",
+  "p-5",
+  "p-6"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 2nd syndicate",
+ "seat": "the quiet lamp",
+ "text": "Holds one tranche of a million against doors 10 to 19. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

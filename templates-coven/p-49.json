@@ -1,0 +1,31 @@
+{
+ "id": "p-49",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Zephic Jossax",
+ "syndicate": "syn-17",
+ "tranche": 17,
+ "doors": [
+  153,
+  161
+ ],
+ "house": "the borrowed hour",
+ "sigil": {
+  "ring": 1,
+  "bars": 3,
+  "chord": 5,
+  "turn": 54
+ },
+ "keeps": "the weights, and the habit of checking them",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "Jabir ibn Hayyan (Geber)",
+ "readsId": "jabir",
+ "reason": "The word alchemy carries an Arabic article on the front of it because of this tradition.",
+ "spell": "Bind",
+ "spellId": "bind",
+ "glyph": "⛓",
+ "share": "0556be",
+ "text": "Zephic jossax of the borrowed hour, keeps a door for the 17th tranche, doors 153 to 161. Keeps the weights, and the habit of checking them. Reads Jabir ibn Hayyan (Geber).",
+ "wovenBy": "jabir"
+}

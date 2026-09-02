@@ -1,0 +1,31 @@
+{
+ "id": "p-21",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Rheneth Irmeth",
+ "syndicate": "syn-7",
+ "tranche": 7,
+ "doors": [
+  58,
+  66
+ ],
+ "house": "the quiet lamp",
+ "sigil": {
+  "ring": 3,
+  "bars": 1,
+  "chord": 3,
+  "turn": 223
+ },
+ "keeps": "the oath he is named for breaking",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Ge Hong",
+ "readsId": "gehong",
+ "reason": "The Baopuzi contains the earliest known description of smallpox symptoms and practical chemistry alongside the immortality material.",
+ "spell": "Bind",
+ "spellId": "bind",
+ "glyph": "⛓",
+ "share": "c8767e",
+ "text": "Rheneth irmeth of the quiet lamp, carries between for the 7th tranche, doors 58 to 66. Keeps the oath he is named for breaking. Reads Ge Hong.",
+ "wovenBy": "gehong"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "p-42",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Rhenis Gralax",
+ "syndicate": "syn-14",
+ "tranche": 14,
+ "doors": [
+  124,
+  133
+ ],
+ "house": "the open ledger",
+ "sigil": {
+  "ring": 1,
+  "bars": 2,
+  "chord": 1,
+  "turn": 1
+ },
+ "keeps": "what one world owes another and has not said",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Bodhidharma",
+ "readsId": "bodhidharma",
+ "reason": "Chan becomes Zen.",
+ "spell": "Bind",
+ "spellId": "bind",
+ "glyph": "⛓",
+ "share": "a5e8de",
+ "text": "Rhenis gralax of the open ledger, carries between for the 14th tranche, doors 124 to 133. Keeps what one world owes another and has not said. Reads Bodhidharma.",
+ "wovenBy": "bodhidharma"
+}

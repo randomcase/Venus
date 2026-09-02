@@ -101,6 +101,30 @@ The look is the one thing a browser-kept copy cannot change on its own,
 because it is stamped CSS, which is what keeps the script-free pages free of
 script.
 
+## The coven, the glossary, and the symbiosis
+
+`templates-coven/` is the starting layer of the syndication, procedurally
+generated: 21 syndicates, one per tranche of a million, three custodians each
+(a witch who keeps a door, a wizard who keeps the book, a warlock who carries
+between), 63 practitioners over 200 doors. Two of three sign or nothing moves.
+At every six-month interval the carry commits a SHA-256 checkpoint chained to
+the one before, and the far side arrives with over a million events from
+several worlds and reconciles without comment: the syndicate is multiplanetary
+and so large it does not care, which is not contempt but scale, and is also
+the safety in it, because a thing that cannot notice you cannot single you out.
+
+`glossary.html` carries two layers. The chronicle is the idle text layer: it
+watches every deck's saved state and writes a line whenever a quantity actually
+moved, keeps what it wrote, and goes on writing while you are away. The
+glossary is 216 terms gathered from the templates themselves at build, so a new
+template is a new entry without anybody writing one.
+
+The bridge carries the symbiosis: six links, each somebody's work feeding
+somebody else's, each read off the decks' own state and marked flowing,
+waiting or blocked, with one line at the top naming the earliest block. People
+on the ship should know exactly what they are doing and what is going on, and
+that panel is where it is said.
+
 ## Venus M1
 
 This build is the first mark of the ship: the loop closed, the bridge as the

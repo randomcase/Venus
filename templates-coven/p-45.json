@@ -1,0 +1,31 @@
+{
+ "id": "p-45",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Keleth Pellael",
+ "syndicate": "syn-15",
+ "tranche": 15,
+ "doors": [
+  134,
+  142
+ ],
+ "house": "the turned key",
+ "sigil": {
+  "ring": 2,
+  "bars": 4,
+  "chord": 3,
+  "turn": 155
+ },
+ "keeps": "the crossing, and the six months between",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Giles Corey",
+ "readsId": "corey",
+ "reason": "Refused to plead, so there was no conviction and no forfeiture.",
+ "spell": "Bolt",
+ "spellId": "bolt",
+ "glyph": "⟊",
+ "share": "c61389",
+ "text": "Keleth pellael of the turned key, carries between for the 15th tranche, doors 134 to 142. Keeps the crossing, and the six months between. Reads Giles Corey.",
+ "wovenBy": "corey"
+}

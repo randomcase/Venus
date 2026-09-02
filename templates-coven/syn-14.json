@@ -1,0 +1,22 @@
+{
+ "id": "syn-14",
+ "kind": "syndicate",
+ "tranche": 14,
+ "holds": 1000000,
+ "doors": [
+  124,
+  133
+ ],
+ "doorCount": 10,
+ "custodians": [
+  "p-40",
+  "p-41",
+  "p-42"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 14th syndicate",
+ "seat": "the salt stair",
+ "text": "Holds one tranche of a million against doors 124 to 133. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

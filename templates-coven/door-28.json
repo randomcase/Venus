@@ -1,0 +1,11 @@
+{
+ "id": "door-28",
+ "kind": "door",
+ "door": 28,
+ "syndicate": "syn-3",
+ "tranche": 3,
+ "keeper": "p-7",
+ "share": 111111.11,
+ "text": "Door 28 of 200. Draws on the 3rd tranche, kept by Nixeth Zephen, signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door 200.",
+ "wovenBy": "syn-3"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "p-24",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Fennael Caelael",
+ "syndicate": "syn-8",
+ "tranche": 8,
+ "doors": [
+  67,
+  76
+ ],
+ "house": "the borrowed hour",
+ "sigil": {
+  "ring": 1,
+  "bars": 4,
+  "chord": 4,
+  "turn": 307
+ },
+ "keeps": "the oath he is named for breaking",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Jabir ibn Hayyan (Geber)",
+ "readsId": "jabir",
+ "reason": "The word alchemy carries an Arabic article on the front of it because of this tradition.",
+ "spell": "Ward",
+ "spellId": "ward",
+ "glyph": "◈",
+ "share": "87c67f",
+ "text": "Fennael caelael of the borrowed hour, carries between for the 8th tranche, doors 67 to 76. Keeps the oath he is named for breaking. Reads Jabir ibn Hayyan (Geber).",
+ "wovenBy": "jabir"
+}

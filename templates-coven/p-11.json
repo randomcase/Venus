@@ -1,0 +1,31 @@
+{
+ "id": "p-11",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Bramen Moric",
+ "syndicate": "syn-4",
+ "tranche": 4,
+ "doors": [
+  29,
+  38
+ ],
+ "house": "the second bell",
+ "sigil": {
+  "ring": 1,
+  "bars": 1,
+  "chord": 0,
+  "turn": 172
+ },
+ "keeps": "the checkpoint, and what it was taken over",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Paracelsus",
+ "readsId": "paracelsus",
+ "reason": "\"The dose makes the poison\" is his, and it is the founding sentence of toxicology.",
+ "spell": "Bind",
+ "spellId": "bind",
+ "glyph": "⛓",
+ "share": "5fff34",
+ "text": "Bramen moric of the second bell, keeps the book for the 4th tranche, doors 29 to 38. Keeps the checkpoint, and what it was taken over. Reads Paracelsus.",
+ "wovenBy": "paracelsus"
+}

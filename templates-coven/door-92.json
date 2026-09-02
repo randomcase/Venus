@@ -1,0 +1,11 @@
+{
+ "id": "door-92",
+ "kind": "door",
+ "door": 92,
+ "syndicate": "syn-10",
+ "tranche": 10,
+ "keeper": "p-28",
+ "share": 100000,
+ "text": "Door 92 of 200. Draws on the 10th tranche, kept by Fennis Vessor, signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door 200.",
+ "wovenBy": "syn-10"
+}

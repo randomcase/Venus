@@ -1,0 +1,31 @@
+{
+ "id": "p-60",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Jossith Quillic",
+ "syndicate": "syn-20",
+ "tranche": 20,
+ "doors": [
+  181,
+  190
+ ],
+ "house": "the open ledger",
+ "sigil": {
+  "ring": 1,
+  "bars": 5,
+  "chord": 2,
+  "turn": 31
+ },
+ "keeps": "the route, which is not written down",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Milarepa",
+ "readsId": "milarepa",
+ "reason": "His life story opens with him using sorcery for revenge and spends the rest of itself on the consequences.",
+ "spell": "Summon",
+ "spellId": "summon",
+ "glyph": "☾",
+ "share": "060c48",
+ "text": "Jossith quillic of the open ledger, carries between for the 20th tranche, doors 181 to 190. Keeps the route, which is not written down. Reads Milarepa.",
+ "wovenBy": "milarepa"
+}

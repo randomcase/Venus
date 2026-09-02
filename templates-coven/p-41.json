@@ -1,0 +1,31 @@
+{
+ "id": "p-41",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Elnic Vesswyn",
+ "syndicate": "syn-14",
+ "tranche": 14,
+ "doors": [
+  124,
+  133
+ ],
+ "house": "the fourth watch",
+ "sigil": {
+  "ring": 2,
+  "bars": 1,
+  "chord": 5,
+  "turn": 201
+ },
+ "keeps": "the arithmetic nobody else wants to do",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "John Dee",
+ "readsId": "dee",
+ "reason": "Assembled the largest library in England and advised on navigation for the northern voyages.",
+ "spell": "Unmake",
+ "spellId": "unmake",
+ "glyph": "✖",
+ "share": "e764eb",
+ "text": "Elnic vesswyn of the fourth watch, keeps the book for the 14th tranche, doors 124 to 133. Keeps the arithmetic nobody else wants to do. Reads John Dee.",
+ "wovenBy": "dee"
+}

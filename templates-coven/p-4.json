@@ -1,0 +1,31 @@
+{
+ "id": "p-4",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Gralith Pellor",
+ "syndicate": "syn-2",
+ "tranche": 2,
+ "doors": [
+  10,
+  19
+ ],
+ "house": "the quiet lamp",
+ "sigil": {
+  "ring": 3,
+  "bars": 4,
+  "chord": 2,
+  "turn": 295
+ },
+ "keeps": "the tally at her own door",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "Jabir ibn Hayyan (Geber)",
+ "readsId": "jabir",
+ "reason": "The word alchemy carries an Arabic article on the front of it because of this tradition.",
+ "spell": "Summon",
+ "spellId": "summon",
+ "glyph": "☾",
+ "share": "fff1be",
+ "text": "Gralith pellor of the quiet lamp, keeps a door for the 2nd tranche, doors 10 to 19. Keeps the tally at her own door. Reads Jabir ibn Hayyan (Geber).",
+ "wovenBy": "jabir"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "p-55",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Jossa Pella",
+ "syndicate": "syn-19",
+ "tranche": 19,
+ "doors": [
+  172,
+  180
+ ],
+ "house": "the open ledger",
+ "sigil": {
+  "ring": 2,
+  "bars": 2,
+  "chord": 0,
+  "turn": 340
+ },
+ "keeps": "the weights, and the habit of checking them",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "François Makandal",
+ "readsId": "makandal",
+ "reason": "Organised a poisoning campaign against planters.",
+ "spell": "Bind",
+ "spellId": "bind",
+ "glyph": "⛓",
+ "share": "a9de1f",
+ "text": "Jossa pella of the open ledger, keeps a door for the 19th tranche, doors 172 to 180. Keeps the weights, and the habit of checking them. Reads François Makandal.",
+ "wovenBy": "makandal"
+}

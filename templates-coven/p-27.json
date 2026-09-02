@@ -1,0 +1,31 @@
+{
+ "id": "p-27",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Orrur Quilla",
+ "syndicate": "syn-9",
+ "tranche": 9,
+ "doors": [
+  77,
+  85
+ ],
+ "house": "the quiet lamp",
+ "sigil": {
+  "ring": 3,
+  "bars": 5,
+  "chord": 4,
+  "turn": 111
+ },
+ "keeps": "the crossing, and the six months between",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Rev. George Burroughs",
+ "readsId": "burroughs",
+ "reason": "Recited the Lord’s Prayer perfectly on the gallows, which was held to be impossible for a witch.",
+ "spell": "Bolt",
+ "spellId": "bolt",
+ "glyph": "⟊",
+ "share": "5d82e1",
+ "text": "Orrur quilla of the quiet lamp, carries between for the 9th tranche, doors 77 to 85. Keeps the crossing, and the six months between. Reads Rev. George Burroughs.",
+ "wovenBy": "burroughs"
+}

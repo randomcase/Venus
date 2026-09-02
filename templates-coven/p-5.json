@@ -1,0 +1,31 @@
+{
+ "id": "p-5",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Fennael Asha",
+ "syndicate": "syn-2",
+ "tranche": 2,
+ "doors": [
+  10,
+  19
+ ],
+ "house": "the turned key",
+ "sigil": {
+  "ring": 3,
+  "bars": 1,
+  "chord": 4,
+  "turn": 160
+ },
+ "keeps": "the two hashes, and the disagreement between them",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "François Makandal",
+ "readsId": "makandal",
+ "reason": "Organised a poisoning campaign against planters.",
+ "spell": "Shut the gate",
+ "spellId": "gate",
+ "glyph": "◫",
+ "share": "13f0df",
+ "text": "Fennael asha of the turned key, keeps the book for the 2nd tranche, doors 10 to 19. Keeps the two hashes, and the disagreement between them. Reads François Makandal.",
+ "wovenBy": "makandal"
+}

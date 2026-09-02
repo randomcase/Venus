@@ -1,0 +1,31 @@
+{
+ "id": "p-39",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Yarris Wendith",
+ "syndicate": "syn-13",
+ "tranche": 13,
+ "doors": [
+  115,
+  123
+ ],
+ "house": "the long gallery",
+ "sigil": {
+  "ring": 1,
+  "bars": 3,
+  "chord": 1,
+  "turn": 127
+ },
+ "keeps": "the oath he is named for breaking",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Major Thomas Weir",
+ "readsId": "weir",
+ "reason": "He confessed unprompted to crimes nobody had accused him of.",
+ "spell": "Summon",
+ "spellId": "summon",
+ "glyph": "☾",
+ "share": "504797",
+ "text": "Yarris wendith of the long gallery, carries between for the 13th tranche, doors 115 to 123. Keeps the oath he is named for breaking. Reads Major Thomas Weir.",
+ "wovenBy": "weir"
+}

@@ -1,5 +1,5 @@
 {
- "generators": 68,
+ "generators": 70,
  "schema": {
   "templates-act": {
    "owner": null,
@@ -326,7 +326,7 @@
    "example": "id"
   },
   "templates-corn": {
-   "owner": null,
+   "owner": "glossary.mjs",
    "declared": false,
    "count": 5,
    "required": [],
@@ -339,6 +339,24 @@
     "takes": "string",
     "gives": "string",
     "feeds": "string",
+    "text": "string",
+    "wovenBy": "string"
+   },
+   "example": "id"
+  },
+  "templates-coven": {
+   "owner": "coven.mjs",
+   "declared": false,
+   "count": 284,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "kind": "string",
+    "door": "number",
+    "syndicate": "string",
+    "tranche": "number",
+    "keeper": "string",
+    "share": "number",
     "text": "string",
     "wovenBy": "string"
    },
@@ -810,7 +828,7 @@
    "example": "id"
   },
   "templates-regime": {
-   "owner": "market.mjs",
+   "owner": "glossary.mjs",
    "declared": false,
    "count": 10,
    "required": [],
@@ -864,7 +882,7 @@
   "templates-rules": {
    "owner": "rules.mjs",
    "declared": false,
-   "count": 6,
+   "count": 7,
    "required": [],
    "shape": {
     "id": "string",
@@ -936,7 +954,7 @@
    "example": "id"
   },
   "templates-spell": {
-   "owner": "clans.mjs",
+   "owner": "glossary.mjs",
    "declared": false,
    "count": 6,
    "required": [],
@@ -1030,6 +1048,28 @@
     "record": "string",
     "instrument": "string",
     "honest": "string"
+   },
+   "example": "id"
+  },
+  "templates-theme": {
+   "owner": "glossary.mjs",
+   "declared": false,
+   "count": 3,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "kind": "string",
+    "name": "string",
+    "text": "string",
+    "palette": "object",
+    "type": "object",
+    "sky": "object",
+    "glow": "object",
+    "fireflies": "object",
+    "glass": "object",
+    "standard": "object",
+    "wovenBy": "string",
+    "note": "string"
    },
    "example": "id"
   },
@@ -1307,6 +1347,7 @@
     "arcade.mjs",
     "clans.mjs",
     "continent.mjs",
+    "glossary.mjs",
     "market.mjs",
     "steading.mjs"
    ]
@@ -1317,6 +1358,7 @@
    "read_by": [
     "arcade.mjs",
     "consistency.mjs",
+    "glossary.mjs",
     "reconcile.mjs",
     "treasury.mjs"
    ]
@@ -1331,7 +1373,17 @@
   {
    "dir": "templates-corn",
    "files": 5,
-   "read_by": []
+   "read_by": [
+    "glossary.mjs"
+   ]
+  },
+  {
+   "dir": "templates-coven",
+   "files": 284,
+   "read_by": [
+    "coven.mjs",
+    "glossary.mjs"
+   ]
   },
   {
    "dir": "templates-demon",
@@ -1365,6 +1417,7 @@
     "arcade.mjs",
     "atelier.mjs",
     "consistency.mjs",
+    "glossary.mjs",
     "quarter.mjs"
    ]
   },
@@ -1389,6 +1442,7 @@
    "files": 15,
    "read_by": [
     "arcade.mjs",
+    "glossary.mjs",
     "quarter.mjs",
     "writing.mjs"
    ]
@@ -1425,6 +1479,7 @@
    "files": 12,
    "read_by": [
     "arcade.mjs",
+    "glossary.mjs",
     "instruments.mjs",
     "quarter.mjs"
    ]
@@ -1492,6 +1547,7 @@
    "dir": "templates-regime",
    "files": 10,
    "read_by": [
+    "glossary.mjs",
     "market.mjs"
    ]
   },
@@ -1505,8 +1561,9 @@
   },
   {
    "dir": "templates-rules",
-   "files": 6,
+   "files": 7,
    "read_by": [
+    "glossary.mjs",
     "rules.mjs"
    ]
   },
@@ -1532,6 +1589,8 @@
    "read_by": [
     "arcade.mjs",
     "clans.mjs",
+    "coven.mjs",
+    "glossary.mjs",
     "siege.mjs",
     "warlock.mjs"
    ]
@@ -1550,6 +1609,13 @@
    "read_by": [
     "arcade.mjs",
     "symbols.mjs"
+   ]
+  },
+  {
+   "dir": "templates-theme",
+   "files": 3,
+   "read_by": [
+    "glossary.mjs"
    ]
   },
   {
@@ -1598,6 +1664,7 @@
    "dir": "templates-warlock",
    "files": 22,
    "read_by": [
+    "coven.mjs",
     "exchange.mjs",
     "warlocks.mjs"
    ]
@@ -1623,6 +1690,7 @@
   "gates.mjs",
   "generate.mjs",
   "github.mjs",
+  "glossary.mjs",
   "guild.mjs",
   "hall.mjs",
   "houses.mjs",
@@ -1644,6 +1712,7 @@
   "rules.mjs",
   "clans.mjs",
   "continent.mjs",
+  "coven.mjs",
   "market.mjs",
   "ships.mjs",
   "steading.mjs",
@@ -1911,6 +1980,22 @@
    ],
    "refuses": ""
   },
+  "coven.mjs": {
+   "reads": [
+    "coven.page.js",
+    "rules.mjs",
+    "templates-coven",
+    "templates-spell",
+    "templates-spell/",
+    "templates-warlock",
+    "templates-warlock/",
+    "toonami.mjs"
+   ],
+   "writes": [
+    "coven.html"
+   ],
+   "refuses": ""
+  },
   "descent.mjs": {
    "reads": [
     "descent.page.js",
@@ -2014,6 +2099,27 @@
     "templates-github/inventory.json"
    ],
    "refuses": "To print a token. Anything matching a GitHub token shape is redacted before\n   it can reach a page, and the redactor runs on every string on its way out\n   rather than at the point somebody remembered."
+  },
+  "glossary.mjs": {
+   "reads": [
+    "glossary.page.js",
+    "templates-clan",
+    "templates-coin",
+    "templates-corn",
+    "templates-coven",
+    "templates-fabric",
+    "templates-form",
+    "templates-instrument",
+    "templates-regime",
+    "templates-rules",
+    "templates-spell",
+    "templates-theme",
+    "toonami.mjs"
+   ],
+   "writes": [
+    "glossary.html"
+   ],
+   "refuses": ""
   },
   "guild.mjs": {
    "reads": [

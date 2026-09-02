@@ -1,0 +1,22 @@
+{
+ "id": "syn-4",
+ "kind": "syndicate",
+ "tranche": 4,
+ "holds": 1000000,
+ "doors": [
+  29,
+  38
+ ],
+ "doorCount": 10,
+ "custodians": [
+  "p-10",
+  "p-11",
+  "p-12"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 4th syndicate",
+ "seat": "the ninth arch",
+ "text": "Holds one tranche of a million against doors 29 to 38. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

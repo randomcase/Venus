@@ -1,0 +1,31 @@
+{
+ "id": "p-54",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Sableis Hespwyn",
+ "syndicate": "syn-18",
+ "tranche": 18,
+ "doors": [
+  162,
+  171
+ ],
+ "house": "the counted step",
+ "sigil": {
+  "ring": 1,
+  "bars": 2,
+  "chord": 1,
+  "turn": 112
+ },
+ "keeps": "the oath he is named for breaking",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Jabir ibn Hayyan (Geber)",
+ "readsId": "jabir",
+ "reason": "The word alchemy carries an Arabic article on the front of it because of this tradition.",
+ "spell": "Shut the gate",
+ "spellId": "gate",
+ "glyph": "◫",
+ "share": "3be61b",
+ "text": "Sableis hespwyn of the counted step, carries between for the 18th tranche, doors 162 to 171. Keeps the oath he is named for breaking. Reads Jabir ibn Hayyan (Geber).",
+ "wovenBy": "jabir"
+}

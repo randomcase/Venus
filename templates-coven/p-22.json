@@ -1,0 +1,31 @@
+{
+ "id": "p-22",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Caelith Keleth",
+ "syndicate": "syn-8",
+ "tranche": 8,
+ "doors": [
+  67,
+  76
+ ],
+ "house": "the long gallery",
+ "sigil": {
+  "ring": 1,
+  "bars": 1,
+  "chord": 2,
+  "turn": 90
+ },
+ "keeps": "the names of everyone who came through",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "Abe no Seimei",
+ "readsId": "seimei",
+ "reason": "A civil servant.",
+ "spell": "Shut the gate",
+ "spellId": "gate",
+ "glyph": "◫",
+ "share": "0fc590",
+ "text": "Caelith keleth of the long gallery, keeps a door for the 8th tranche, doors 67 to 76. Keeps the names of everyone who came through. Reads Abe no Seimei.",
+ "wovenBy": "seimei"
+}

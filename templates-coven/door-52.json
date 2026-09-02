@@ -1,0 +1,11 @@
+{
+ "id": "door-52",
+ "kind": "door",
+ "door": 52,
+ "syndicate": "syn-6",
+ "tranche": 6,
+ "keeper": "p-16",
+ "share": 100000,
+ "text": "Door 52 of 200. Draws on the 6th tranche, kept by Dornen Orreth, signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door 200.",
+ "wovenBy": "syn-6"
+}

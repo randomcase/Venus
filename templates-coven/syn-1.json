@@ -1,0 +1,22 @@
+{
+ "id": "syn-1",
+ "kind": "syndicate",
+ "tranche": 1,
+ "holds": 1000000,
+ "doors": [
+  1,
+  9
+ ],
+ "doorCount": 9,
+ "custodians": [
+  "p-1",
+  "p-2",
+  "p-3"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 1st syndicate",
+ "seat": "the turned key",
+ "text": "Holds one tranche of a million against doors 1 to 9. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

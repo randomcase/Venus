@@ -1,0 +1,11 @@
+{
+ "id": "door-3",
+ "kind": "door",
+ "door": 3,
+ "syndicate": "syn-1",
+ "tranche": 1,
+ "keeper": "p-1",
+ "share": 111111.11,
+ "text": "Door 3 of 200. Draws on the 1st tranche, kept by Yarra Ashen, signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door 200.",
+ "wovenBy": "syn-1"
+}

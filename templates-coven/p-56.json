@@ -1,0 +1,31 @@
+{
+ "id": "p-56",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Fennael Tarnith",
+ "syndicate": "syn-19",
+ "tranche": 19,
+ "doors": [
+  172,
+  180
+ ],
+ "house": "the open ledger",
+ "sigil": {
+  "ring": 1,
+  "bars": 3,
+  "chord": 4,
+  "turn": 89
+ },
+ "keeps": "the arithmetic nobody else wants to do",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "John Dee",
+ "readsId": "dee",
+ "reason": "Assembled the largest library in England and advised on navigation for the northern voyages.",
+ "spell": "Ward",
+ "spellId": "ward",
+ "glyph": "◈",
+ "share": "ab25c9",
+ "text": "Fennael tarnith of the open ledger, keeps the book for the 19th tranche, doors 172 to 180. Keeps the arithmetic nobody else wants to do. Reads John Dee.",
+ "wovenBy": "dee"
+}

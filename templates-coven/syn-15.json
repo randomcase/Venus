@@ -1,0 +1,22 @@
+{
+ "id": "syn-15",
+ "kind": "syndicate",
+ "tranche": 15,
+ "holds": 1000000,
+ "doors": [
+  134,
+  142
+ ],
+ "doorCount": 9,
+ "custodians": [
+  "p-43",
+  "p-44",
+  "p-45"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 15th syndicate",
+ "seat": "the salt stair",
+ "text": "Holds one tranche of a million against doors 134 to 142. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

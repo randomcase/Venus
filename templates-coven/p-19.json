@@ -1,0 +1,31 @@
+{
+ "id": "p-19",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Quillic Gralen",
+ "syndicate": "syn-7",
+ "tranche": 7,
+ "doors": [
+  58,
+  66
+ ],
+ "house": "the cold store",
+ "sigil": {
+  "ring": 1,
+  "bars": 3,
+  "chord": 5,
+  "turn": 96
+ },
+ "keeps": "what grows on her side of the wall",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "Bodhidharma",
+ "readsId": "bodhidharma",
+ "reason": "Chan becomes Zen.",
+ "spell": "Summon",
+ "spellId": "summon",
+ "glyph": "☾",
+ "share": "dc325b",
+ "text": "Quillic gralen of the cold store, keeps a door for the 7th tranche, doors 58 to 66. Keeps what grows on her side of the wall. Reads Bodhidharma.",
+ "wovenBy": "bodhidharma"
+}

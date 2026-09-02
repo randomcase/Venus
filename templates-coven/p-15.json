@@ -1,0 +1,31 @@
+{
+ "id": "p-15",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Lumeax Ashor",
+ "syndicate": "syn-5",
+ "tranche": 5,
+ "doors": [
+  39,
+  47
+ ],
+ "house": "the thin wall",
+ "sigil": {
+  "ring": 1,
+  "bars": 2,
+  "chord": 3,
+  "turn": 350
+ },
+ "keeps": "what one world owes another and has not said",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Paracelsus",
+ "readsId": "paracelsus",
+ "reason": "\"The dose makes the poison\" is his, and it is the founding sentence of toxicology.",
+ "spell": "Bolt",
+ "spellId": "bolt",
+ "glyph": "⟊",
+ "share": "aa3890",
+ "text": "Lumeax ashor of the thin wall, carries between for the 5th tranche, doors 39 to 47. Keeps what one world owes another and has not said. Reads Paracelsus.",
+ "wovenBy": "paracelsus"
+}

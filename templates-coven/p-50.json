@@ -1,0 +1,31 @@
+{
+ "id": "p-50",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Dornic Ashur",
+ "syndicate": "syn-17",
+ "tranche": 17,
+ "doors": [
+  153,
+  161
+ ],
+ "house": "the ninth arch",
+ "sigil": {
+  "ring": 3,
+  "bars": 2,
+  "chord": 5,
+  "turn": 245
+ },
+ "keeps": "the arithmetic nobody else wants to do",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Giordano Bruno",
+ "readsId": "bruno",
+ "reason": "Held that the stars were suns with worlds of their own.",
+ "spell": "Summon",
+ "spellId": "summon",
+ "glyph": "☾",
+ "share": "17e463",
+ "text": "Dornic ashur of the ninth arch, keeps the book for the 17th tranche, doors 153 to 161. Keeps the arithmetic nobody else wants to do. Reads Giordano Bruno.",
+ "wovenBy": "bruno"
+}

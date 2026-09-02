@@ -1,0 +1,31 @@
+{
+ "id": "p-14",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Kelic Caelen",
+ "syndicate": "syn-5",
+ "tranche": 5,
+ "doors": [
+  39,
+  47
+ ],
+ "house": "the borrowed hour",
+ "sigil": {
+  "ring": 2,
+  "bars": 1,
+  "chord": 5,
+  "turn": 112
+ },
+ "keeps": "the arithmetic nobody else wants to do",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Jabir ibn Hayyan (Geber)",
+ "readsId": "jabir",
+ "reason": "The word alchemy carries an Arabic article on the front of it because of this tradition.",
+ "spell": "Ward",
+ "spellId": "ward",
+ "glyph": "◈",
+ "share": "150d3b",
+ "text": "Kelic caelen of the borrowed hour, keeps the book for the 5th tranche, doors 39 to 47. Keeps the arithmetic nobody else wants to do. Reads Jabir ibn Hayyan (Geber).",
+ "wovenBy": "jabir"
+}

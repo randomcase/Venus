@@ -1,0 +1,31 @@
+{
+ "id": "p-61",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Sableen Kelwyn",
+ "syndicate": "syn-21",
+ "tranche": 21,
+ "doors": [
+  191,
+  200
+ ],
+ "house": "the counted step",
+ "sigil": {
+  "ring": 1,
+  "bars": 5,
+  "chord": 0,
+  "turn": 340
+ },
+ "keeps": "the names of everyone who came through",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "Ibn Sina (Avicenna)",
+ "readsId": "ibnsina",
+ "reason": "Wrote the Canon of Medicine, which was a standard text in European universities for roughly six hundred years.",
+ "spell": "Summon",
+ "spellId": "summon",
+ "glyph": "☾",
+ "share": "3f9509",
+ "text": "Sableen kelwyn of the counted step, keeps a door for the 21th tranche, doors 191 to 200. Keeps the names of everyone who came through. Reads Ibn Sina (Avicenna).",
+ "wovenBy": "ibnsina"
+}

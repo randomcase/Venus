@@ -1,0 +1,31 @@
+{
+ "id": "p-2",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Elnael Zepha",
+ "syndicate": "syn-1",
+ "tranche": 1,
+ "doors": [
+  1,
+  9
+ ],
+ "house": "the thin wall",
+ "sigil": {
+  "ring": 1,
+  "bars": 4,
+  "chord": 4,
+  "turn": 224
+ },
+ "keeps": "the checkpoint, and what it was taken over",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Ge Hong",
+ "readsId": "gehong",
+ "reason": "The Baopuzi contains the earliest known description of smallpox symptoms and practical chemistry alongside the immortality material.",
+ "spell": "Unmake",
+ "spellId": "unmake",
+ "glyph": "✖",
+ "share": "e2d659",
+ "text": "Elnael zepha of the thin wall, keeps the book for the 1st tranche, doors 1 to 9. Keeps the checkpoint, and what it was taken over. Reads Ge Hong.",
+ "wovenBy": "gehong"
+}

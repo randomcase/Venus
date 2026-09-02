@@ -1,0 +1,22 @@
+{
+ "id": "syn-18",
+ "kind": "syndicate",
+ "tranche": 18,
+ "holds": 1000000,
+ "doors": [
+  162,
+  171
+ ],
+ "doorCount": 10,
+ "custodians": [
+  "p-52",
+  "p-53",
+  "p-54"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 18th syndicate",
+ "seat": "the open ledger",
+ "text": "Holds one tranche of a million against doors 162 to 171. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

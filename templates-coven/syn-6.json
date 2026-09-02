@@ -1,0 +1,22 @@
+{
+ "id": "syn-6",
+ "kind": "syndicate",
+ "tranche": 6,
+ "holds": 1000000,
+ "doors": [
+  48,
+  57
+ ],
+ "doorCount": 10,
+ "custodians": [
+  "p-16",
+  "p-17",
+  "p-18"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 6th syndicate",
+ "seat": "the open ledger",
+ "text": "Holds one tranche of a million against doors 48 to 57. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

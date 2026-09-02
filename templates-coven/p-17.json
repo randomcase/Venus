@@ -1,0 +1,31 @@
+{
+ "id": "p-17",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Elnor Asha",
+ "syndicate": "syn-6",
+ "tranche": 6,
+ "doors": [
+  48,
+  57
+ ],
+ "house": "the open ledger",
+ "sigil": {
+  "ring": 3,
+  "bars": 4,
+  "chord": 1,
+  "turn": 120
+ },
+ "keeps": "the replay, event by event",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Roger Bacon",
+ "readsId": "bacon",
+ "reason": "Argued for experiment and mathematics against argument from authority.",
+ "spell": "Bind",
+ "spellId": "bind",
+ "glyph": "⛓",
+ "share": "d77a47",
+ "text": "Elnor asha of the open ledger, keeps the book for the 6th tranche, doors 48 to 57. Keeps the replay, event by event. Reads Roger Bacon.",
+ "wovenBy": "bacon"
+}

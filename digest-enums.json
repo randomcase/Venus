@@ -15,6 +15,8 @@
   "clans",
   "market",
   "continent",
+  "coven",
+  "glossary",
   "other"
  ],
  "kind": [
@@ -31,6 +33,8 @@
   "portfolio",
   "market",
   "continent",
+  "coven",
+  "glossary",
   "other"
  ],
  "mood": [
