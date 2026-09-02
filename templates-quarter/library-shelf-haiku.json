@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-haiku",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of haiku",
+ "text": "Two images and the cut between them.",
+ "wovenBy": "haiku",
+ "bay": 2
+}

@@ -1,0 +1,12 @@
+{
+ "id": "chandlers",
+ "kind": "guild",
+ "order": 5,
+ "name": "The chandlers",
+ "makes": "oil and fuel",
+ "takes": "a bushel of corn",
+ "gives": "a pint of oil and a sack of cobs",
+ "feeds": "the lanterns, and the kiln",
+ "text": "Corn into oil, pressed from the germ, for the lamps on the long walk; and cobs into fuel for the kilns. Light and heat are what is left after everything else is taken.",
+ "wovenBy": "the corn"
+}

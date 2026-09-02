@@ -1,0 +1,9 @@
+{
+ "id": "library-lantern-3",
+ "kind": "lantern",
+ "room": "library",
+ "name": "a lantern, third",
+ "text": "Lit in one of the fireflies' colours; it blinks on its own rhythm and never goes fully dark.",
+ "wovenBy": "toonami.mjs",
+ "hue": "#b6ff7a"
+}

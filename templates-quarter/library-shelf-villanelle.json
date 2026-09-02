@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-villanelle",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of villanelle",
+ "text": "Two lines said four times each.",
+ "wovenBy": "villanelle",
+ "bay": 6
+}

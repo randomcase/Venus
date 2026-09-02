@@ -1,0 +1,9 @@
+{
+ "id": "library-chair-carbon",
+ "kind": "chair",
+ "room": "library",
+ "name": "a reading chair in carbon fibre",
+ "text": "Upholstered in carbon fibre, which survives Venus well. Chemically excellent, mechanically a structure rather than a garment.",
+ "wovenBy": "carbon",
+ "seat": 10
+}

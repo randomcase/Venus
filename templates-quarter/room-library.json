@@ -1,0 +1,10 @@
+{
+ "kind": "room",
+ "id": "library",
+ "name": "The library",
+ "km2": 12000,
+ "light": "low and warm",
+ "what": "Shelves by verse form, chairs in whatever survives, lanterns. Reading is the only thing it is for.",
+ "pieces": 34,
+ "wovenBy": "the bridge"
+}

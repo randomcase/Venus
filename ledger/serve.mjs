@@ -28,7 +28,9 @@ import { Lights } from './lights.mjs';
 const here = dirname(fileURLToPath(import.meta.url));
 const dir = process.argv[2] || join(here, 'bank'), port = +(process.argv[3] || 7332);
 const page = () => readFileSync(join(here, 'explorer.html'));
-const json = (res, code, body) => { res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }); res.end(JSON.stringify(body)); };
+/* the decks are served from another port (the yard's static server), so the counsel answers across origins; localhost only, and nothing here is a secret */
+const CORS = { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'GET, POST, OPTIONS' };
+const json = (res, code, body) => { res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', ...CORS }); res.end(JSON.stringify(body)); };
 const body = req => new Promise(r => { let s = ''; req.on('data', c => s += c); req.on('end', () => { try { r(JSON.parse(s || '{}')); } catch (e) { r({}); } }); });
 let assistant = null; const loadAssistant = async () => assistant || (assistant = await import('./assistant.mjs'));
 
@@ -48,7 +50,9 @@ createServer(async (req, res) => {
     if (p === '/api/lights' && req.method === 'GET') return json(res, 200, new Lights(dir).list());
     if (p === '/api/lights' && req.method === 'POST') { const b = await body(req); return json(res, 200, await new Lights(dir).set(b.id, !!b.on, { by: 'explorer', reason: b.reason || '' })); }
     if (p === '/api/lights/say' && req.method === 'POST') { const b = await body(req); const a = await loadAssistant(); return json(res, 200, await a.lights(dir, String(b.instruction || ''))); }
+    if (req.method === 'OPTIONS') { res.writeHead(204, CORS); return res.end(); }
     if (p === '/api/ask' && req.method === 'POST') { const b = await body(req); const a = await loadAssistant(); return json(res, 200, await a.ask(dir, String(b.question || ''))); }
+    if (p === '/api/counsel' && req.method === 'POST') { const b = await body(req); const a = await loadAssistant(); return json(res, 200, await a.counsel(dir, String(b.question || ''), b.decks || {})); }
     if (p === '/api/health' && req.method === 'POST') { const a = await loadAssistant(); return json(res, 200, await a.health(dir)); }
     json(res, 404, { error: 'no such door' });
   } catch (e) { json(res, 400, { error: e.message }); }

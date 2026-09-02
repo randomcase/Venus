@@ -1,0 +1,9 @@
+{
+ "id": "dispatch-shelf-hole-d20",
+ "kind": "pigeonhole",
+ "room": "dispatch-shelf",
+ "name": "pigeonhole d20",
+ "text": "Holds Digest: town, sealed. It opens with the words it was sealed with and no others.",
+ "wovenBy": "d20",
+ "bay": 19
+}

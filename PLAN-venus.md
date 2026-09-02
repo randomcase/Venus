@@ -79,3 +79,13 @@ of enums and seals it onto the shelf; the shelf is the syndication.
    clans, split by whose region grew the provision, and becomes stock in
    their piles at the docket price; the loop is closed. Next: the market's
    four farms priced from the loop's real throughput instead of a hash.
+
+## Venus M1
+
+This build is the first mark of the ship: the loop closed, the bridge as the
+front page, the quarter furnished, the counsel aboard (through the ledger
+server, when it has a key), and the editor, which makes any template on the
+ship customizable from inside it and hands the change back as a file. M2 is
+the decks reading those customizations directly, so a change made in the
+workshop shows on every deck without a rebuild; and the corn guilds run in
+the town.

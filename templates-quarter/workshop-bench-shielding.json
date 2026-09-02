@@ -1,0 +1,9 @@
+{
+ "id": "workshop-bench-shielding",
+ "kind": "workbench",
+ "room": "workshop",
+ "name": "the atmospheric shielding above 55 km bench",
+ "text": "A bench for one figure: Atmospheric shielding above 55 km, 570 g/cm2 give or take 25. Wrong if the atmosphere model is wrong above 55 km, which it may be — the density profile there is less well constrained than lower down, and a systematic error would move all of it one way.",
+ "wovenBy": "shielding",
+ "bay": 1
+}

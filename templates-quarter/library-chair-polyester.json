@@ -1,0 +1,9 @@
+{
+ "id": "library-chair-polyester",
+ "kind": "chair",
+ "room": "library",
+ "name": "a reading chair in polyester",
+ "text": "Upholstered in polyester, which survives Venus fairly. PET resists dilute acid well and concentrated sulfuric poorly. Better than anything above it and not good enough for the deck.",
+ "wovenBy": "polyester",
+ "seat": 0
+}

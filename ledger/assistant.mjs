@@ -34,6 +34,17 @@ const text = r => r.content.filter(b => b.type === 'text').map(b => b.text).join
 const numbersIn = s => (s.match(/\d[\d,]*(?:\.\d+)?/g) || []).map(n => n.replace(/,/g, '')).filter(n => n.length > 1);
 
 /* ------------------------------------------------------------------- ask */
+/* counsel: the assistant aboard the ship, not only the ledger. The page sends what its decks saved in the browser
+   (piles, parcels, grain, citizens, holdings, the docket) and a question; the answer comes from that and nothing else. */
+export async function counsel(dir, question, decks = {}, { model = MODEL } = {}) {
+  const system = `You are the counsel aboard the Hesperus, a ship the size of Missouri that is three quarters corn and one quarter living space; the ship is a yard of web pages (decks) that share one HEZE docket. HEZE is a unit of account inside the files, never a token and never for sale. Answer from the DECKS state you are given and from nothing else; if the state does not say, say so. Be brief and plain. Never describe or draw anything with a face or eyes.`;
+  const r = await client().beta.messages.create({ model, max_tokens: 1200, betas: BETAS, fallbacks: 'default', thinking: { type: 'adaptive' }, output_config: { effort: 'medium' },
+    system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }],
+    messages: [{ role: 'user', content: `DECKS (JSON, as saved in the browser)\n${JSON.stringify(decks).slice(0, 60000)}\n\nQUESTION\n${question}` }] });
+  if (r.stop_reason === 'refusal') return { answer: null, refused: true, category: r.stop_details?.category };
+  return { answer: r.content.filter(b => b.type === 'text').map(b => b.text).join('\n'), model: r.model, usage: r.usage };
+}
+
 export async function ask(dir, question, { model = MODEL } = {}) {
   const l = new Ledger(dir), s = summary(l); const recent = l.events.slice(-40).map(e => `#${e.seq} ${e.time} ${e.type} ${JSON.stringify(e.body)}`).join('\n');
   const system = `You answer questions about one ledger from the report and the events you are given, and from nothing else. Cite event numbers like #12 when an event is the reason. Amounts in the data are whole minor units; the report's "Text" fields are already in whole tokens. If the data does not contain the answer, say so in one sentence; never estimate. Keep answers short.`;

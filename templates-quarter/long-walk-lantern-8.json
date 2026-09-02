@@ -1,0 +1,10 @@
+{
+ "id": "long-walk-lantern-8",
+ "kind": "lantern",
+ "room": "long-walk",
+ "name": "a lantern at 356 km",
+ "text": "A lantern on the walk, in one of the fireflies' colours.",
+ "wovenBy": "toonami.mjs",
+ "hue": "#ffe66b",
+ "at": 356
+}

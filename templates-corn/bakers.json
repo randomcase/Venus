@@ -1,0 +1,12 @@
+{
+ "id": "bakers",
+ "kind": "guild",
+ "order": 2,
+ "name": "The bakers",
+ "makes": "bread",
+ "takes": "a bushel of meal",
+ "gives": "forty loaves",
+ "feeds": "the town's feeding",
+ "text": "Meal into bread. Corn bread, flat bread, the hard bread that keeps on the long walk. Bread is what the town's citizens are fed on.",
+ "wovenBy": "the corn"
+}

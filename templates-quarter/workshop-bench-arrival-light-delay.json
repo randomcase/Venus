@@ -1,0 +1,9 @@
+{
+ "id": "workshop-bench-arrival-light-delay",
+ "kind": "workbench",
+ "room": "workshop",
+ "name": "the light delay at arrival bench",
+ "text": "A bench for one figure: Light delay at arrival, 4.94 minutes give or take 0.02. Wrong if the arrival geometry is not the one assumed.",
+ "wovenBy": "arrival-light-delay",
+ "bay": 2
+}

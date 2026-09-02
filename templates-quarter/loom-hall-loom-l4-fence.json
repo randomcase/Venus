@@ -1,0 +1,9 @@
+{
+ "id": "loom-hall-loom-l4-fence",
+ "kind": "loom",
+ "room": "loom-hall",
+ "name": "The fence loom",
+ "text": "One of the ten looms at the top of the chain. It weaves fences, and what it weaves weaves the rest.",
+ "wovenBy": "l4-fence",
+ "bay": 2
+}

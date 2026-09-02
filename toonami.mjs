@@ -17,7 +17,7 @@ const u = (a, b, c) => (h32(a, b, c) % 10000) / 10000;
 const HUES = [['217,255,90', '#d9ff5a'], ['255,230,107', '#ffe66b'], ['182,255,122', '#b6ff7a'], ['255,243,160', '#fff3a0'], ['200,255,74', '#c8ff4a']];
 const layer = (k, n) => Array.from({ length: n }, (_, i) => { const [rgb, hex] = HUES[h32(k, i, 1) % HUES.length], x = (u(k, i, 2) * 100).toFixed(1), y = (u(k, i, 3) * 100).toFixed(1), r = (1.2 + u(k, i, 4) * 1.4).toFixed(1); return `radial-gradient(${(+r * 7).toFixed(0)}px circle at ${x}% ${y}%, #fff 0, ${hex} ${r}px, rgba(${rgb},.28) ${(+r * 2.6).toFixed(1)}px, transparent ${(+r * 7).toFixed(0)}px)`; }).join(',');
 
-export const TOONAMI = `<!--toonami--><style>
+const STYLE = `<!--toonami--><style>
   :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
   html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
   header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
@@ -47,5 +47,14 @@ export const TOONAMI = `<!--toonami--><style>
 </style>`;
 
 /* the fireflies, the scanlines and the ship's standard: four layers of light, one of glass, and SPQR in the corner of every deck. The yard is a ship now, the Hesperus, which is the evening star's name for Venus. No script, no faces */
-export const FIREFLIES = `<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->`;
-export const BLOCK = TOONAMI + '\n' + FIREFLIES;
+const STANDARD = `<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->`;
+export const BLOCK = STYLE + '\n' + STANDARD;
+
+/* THE MARKERS WRAP THE BLOCK AND NOTHING ELSE. A generator must emit the block in one
+   piece, because toonami-all.mjs refreshes whatever lies between the start marker and the
+   end marker; when the style went after the head and the standard before the script, the
+   refresh replaced the whole body of the page between them. So the style export is empty
+   and the standard export is the entire block: a generator that writes both gets one block,
+   at the second place, and its body stays where it is. */
+export const TOONAMI = '';
+export const FIREFLIES = BLOCK;

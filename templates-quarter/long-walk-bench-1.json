@@ -1,0 +1,9 @@
+{
+ "id": "long-walk-bench-1",
+ "kind": "bench",
+ "room": "long-walk",
+ "name": "the bench at 0 km",
+ "text": "A bench on the long walk, 0 kilometres from the library door. Nothing on either side of it but the walk.",
+ "wovenBy": "the bridge",
+ "at": 0
+}

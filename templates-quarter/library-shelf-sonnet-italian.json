@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-sonnet-italian",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of sonnet, italian",
+ "text": "An octave that states and a sestet that answers, and the volta between them is structural rather than decorative — the rhyme sounds change at exactly the point the argument does.",
+ "wovenBy": "sonnet-italian",
+ "bay": 9
+}

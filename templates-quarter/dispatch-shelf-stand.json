@@ -1,0 +1,8 @@
+{
+ "id": "dispatch-shelf-stand",
+ "kind": "stand",
+ "room": "dispatch-shelf",
+ "name": "the reading stand",
+ "text": "One stand under one lamp. You bring a dispatch to it, say the words, and read.",
+ "wovenBy": "dispatch.html"
+}

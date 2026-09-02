@@ -1,0 +1,10 @@
+{
+ "kind": "room",
+ "id": "long-walk",
+ "name": "The long walk",
+ "km2": 6100,
+ "light": "fireflies only",
+ "what": "Ten kilometres wide and six hundred and ten long. Benches at intervals, lanterns, and nothing else on it.",
+ "pieces": 25,
+ "wovenBy": "the bridge"
+}

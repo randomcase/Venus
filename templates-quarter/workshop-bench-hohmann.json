@@ -1,0 +1,9 @@
+{
+ "id": "workshop-bench-hohmann",
+ "kind": "workbench",
+ "room": "workshop",
+ "name": "the minimum-energy transfer, earth to venus bench",
+ "text": "A bench for one figure: Minimum-energy transfer, Earth to Venus, 146.1 days give or take 0.5. Wrong if the orbits are treated as circular and coplanar.",
+ "wovenBy": "hohmann",
+ "bay": 4
+}

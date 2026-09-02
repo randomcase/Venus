@@ -1,0 +1,9 @@
+{
+ "id": "loom-hall-loom-l4-beast",
+ "kind": "loom",
+ "room": "loom-hall",
+ "name": "The beast loom",
+ "text": "One of the ten looms at the top of the chain. It weaves beasts, and what it weaves weaves the rest.",
+ "wovenBy": "l4-beast",
+ "bay": 0
+}

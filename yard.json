@@ -1,5 +1,5 @@
 {
- "generators": 66,
+ "generators": 67,
  "schema": {
   "templates-act": {
    "owner": null,
@@ -322,6 +322,25 @@
     "text": "string",
     "wovenBy": "string",
     "chain": "string"
+   },
+   "example": "id"
+  },
+  "templates-corn": {
+   "owner": null,
+   "declared": false,
+   "count": 5,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "kind": "string",
+    "order": "number",
+    "name": "string",
+    "makes": "string",
+    "takes": "string",
+    "gives": "string",
+    "feeds": "string",
+    "text": "string",
+    "wovenBy": "string"
    },
    "example": "id"
   },
@@ -742,6 +761,22 @@
     "stats": "object",
     "does": "string",
     "text": "string"
+   },
+   "example": "id"
+  },
+  "templates-quarter": {
+   "owner": "quarter.mjs",
+   "declared": false,
+   "count": 126,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "kind": "string",
+    "room": "string",
+    "name": "string",
+    "text": "string",
+    "wovenBy": "string",
+    "bay": "number"
    },
    "example": "id"
   },
@@ -1277,6 +1312,11 @@
    ]
   },
   {
+   "dir": "templates-corn",
+   "files": 5,
+   "read_by": []
+  },
+  {
    "dir": "templates-demon",
    "files": 5,
    "read_by": [
@@ -1307,7 +1347,8 @@
    "read_by": [
     "arcade.mjs",
     "atelier.mjs",
-    "consistency.mjs"
+    "consistency.mjs",
+    "quarter.mjs"
    ]
   },
   {
@@ -1331,6 +1372,7 @@
    "files": 15,
    "read_by": [
     "arcade.mjs",
+    "quarter.mjs",
     "writing.mjs"
    ]
   },
@@ -1366,7 +1408,8 @@
    "files": 12,
    "read_by": [
     "arcade.mjs",
-    "instruments.mjs"
+    "instruments.mjs",
+    "quarter.mjs"
    ]
   },
   {
@@ -1383,7 +1426,8 @@
    "dir": "templates-loom",
    "files": 86,
    "read_by": [
-    "loom.mjs"
+    "loom.mjs",
+    "quarter.mjs"
    ]
   },
   {
@@ -1409,6 +1453,13 @@
    "files": 14,
    "read_by": [
     "siege.mjs"
+   ]
+  },
+  {
+   "dir": "templates-quarter",
+   "files": 126,
+   "read_by": [
+    "quarter.mjs"
    ]
   },
   {
@@ -1564,6 +1615,7 @@
   "owls.mjs",
   "paper.mjs",
   "profiles.mjs",
+  "quarter.mjs",
   "quests.mjs",
   "reading.mjs",
   "reconcile.mjs",
@@ -2086,6 +2138,22 @@
     "profiles.json"
    ],
    "writes": [],
+   "refuses": ""
+  },
+  "quarter.mjs": {
+   "reads": [
+    "dispatches.jsonl",
+    "quarter.page.js",
+    "templates-fabric",
+    "templates-form",
+    "templates-instrument",
+    "templates-loom",
+    "templates-quarter",
+    "toonami.mjs"
+   ],
+   "writes": [
+    "quarter.html"
+   ],
    "refuses": ""
   },
   "quests.mjs": {

@@ -1,0 +1,9 @@
+{
+ "id": "workshop-bench-venus-greenhouse",
+ "kind": "workbench",
+ "room": "workshop",
+ "name": "the greenhouse warming at the venus surface bench",
+ "text": "A bench for one figure: Greenhouse warming at the Venus surface, 510 K give or take 8. Wrong if the albedo is wrong.",
+ "wovenBy": "venus-greenhouse",
+ "bay": 6
+}

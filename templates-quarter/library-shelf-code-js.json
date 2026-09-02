@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-code-js",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of javascript",
+ "text": "The only language on this page that can be run where it is written.",
+ "wovenBy": "code-js",
+ "bay": 11
+}

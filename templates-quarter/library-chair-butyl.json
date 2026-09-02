@@ -1,0 +1,9 @@
+{
+ "id": "library-chair-butyl",
+ "kind": "chair",
+ "room": "library",
+ "name": "a reading chair in butyl rubber",
+ "text": "Upholstered in butyl rubber, which survives Venus well. Good acid resistance and very low gas permeability. The glove material.",
+ "wovenBy": "butyl",
+ "seat": 7
+}

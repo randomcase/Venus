@@ -1,0 +1,9 @@
+{
+ "id": "workshop-bench-deck-gravity",
+ "kind": "workbench",
+ "room": "workshop",
+ "name": "the gravity at the deck bench",
+ "text": "A bench for one figure: Gravity at the deck, 8.71 m/s2 give or take 0.02. Wrong if the deck is not held at 55 km.",
+ "wovenBy": "deck-gravity",
+ "bay": 0
+}

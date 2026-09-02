@@ -1,0 +1,9 @@
+{
+ "id": "library-chair-fep",
+ "kind": "chair",
+ "room": "library",
+ "name": "a reading chair in fep and pfa",
+ "text": "Upholstered in fep and pfa, which survives Venus by not reacting to anything. Melt-processable fluoropolymers — they can be extruded as film where PTFE cannot. Inert. This is what a deck garment is laminated with.",
+ "wovenBy": "fep",
+ "seat": 4
+}

@@ -1,0 +1,9 @@
+{
+ "id": "loom-hall-loom-l4-store",
+ "kind": "loom",
+ "room": "loom-hall",
+ "name": "The store loom",
+ "text": "One of the ten looms at the top of the chain. It weaves stores, and what it weaves weaves the rest.",
+ "wovenBy": "l4-store",
+ "bay": 6
+}

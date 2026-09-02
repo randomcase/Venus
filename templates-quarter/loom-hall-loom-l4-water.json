@@ -1,0 +1,9 @@
+{
+ "id": "loom-hall-loom-l4-water",
+ "kind": "loom",
+ "room": "loom-hall",
+ "name": "The water loom",
+ "text": "One of the ten looms at the top of the chain. It weaves waters, and what it weaves weaves the rest.",
+ "wovenBy": "l4-water",
+ "bay": 8
+}

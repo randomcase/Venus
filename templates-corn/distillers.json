@@ -1,0 +1,12 @@
+{
+ "id": "distillers",
+ "kind": "guild",
+ "order": 3,
+ "name": "The distillers",
+ "makes": "spirit",
+ "takes": "a bushel of corn",
+ "gives": "two and a half gallons of spirit",
+ "feeds": "the market's tickers",
+ "text": "Corn into spirit, by mash and still. Spirit keeps, trades at the exchange, and cleans a wound. Also the cheapest way to move a bushel a long way.",
+ "wovenBy": "the corn"
+}

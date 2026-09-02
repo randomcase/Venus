@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-sonnet-english",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of sonnet, english",
+ "text": "Three quatrains that can each hold a different angle on the same thing, and a couplet that has to pay for all three.",
+ "wovenBy": "sonnet-english",
+ "bay": 8
+}

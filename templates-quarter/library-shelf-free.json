@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-free",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of free",
+ "text": "No form at all.",
+ "wovenBy": "free",
+ "bay": 0
+}
