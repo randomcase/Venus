@@ -44,9 +44,14 @@
 
   /* proposals accrue at the doors: one every few days, at a door of some syndicate */
   function step(dt, quiet) { const d0 = Math.floor(S.day); S.day += dt; const d1 = Math.floor(S.day); if (d1 === d0) return;
-    if (d1 % RULES.proposalEvery === 0) { const k = (d1 * 2654435761) >>> 0, sy = W.syndicates[k % W.syndicates.length], door = sy.doors[0] + (k >> 8) % (sy.doors[1] - sy.doors[0] + 1);
-      S.props.unshift({ id: 'e' + S.nextId++, door, syn: sy.id, why: WHY[(k >> 4) % WHY.length], amount: 100 * (1 + (k >> 12) % 40), signed: [], at: d1 }); S.props.length = Math.min(S.props.length, RULES.deskLimit);
-      if (!quiet) note(`Door ${door} proposes: ${WHY[(k >> 4) % WHY.length]}.`); }
+    /* k is built as an unsigned 32-bit value, so every shift on it must be unsigned (>>>) too: a plain
+       >> coerces to a SIGNED int32 first, and whenever k's top bit is set (roughly half the time) that
+       turns it negative, and a negative % n in JS stays negative — silently indexing WHY[-1] as
+       undefined, and worse, letting the door number and the proposal's amount go negative outright.
+       This was live and unnoticed until a real proposal actually printed "proposes: undefined." */
+    if (d1 % RULES.proposalEvery === 0) { const k = (d1 * 2654435761) >>> 0, sy = W.syndicates[k % W.syndicates.length], door = sy.doors[0] + (k >>> 8) % (sy.doors[1] - sy.doors[0] + 1);
+      S.props.unshift({ id: 'e' + S.nextId++, door, syn: sy.id, why: WHY[(k >>> 4) % WHY.length], amount: 100 * (1 + (k >>> 12) % 40), signed: [], at: d1 }); S.props.length = Math.min(S.props.length, RULES.deskLimit);
+      if (!quiet) note(`Door ${door} proposes: ${WHY[(k >>> 4) % WHY.length]}.`); }
     if (S.auto) for (const p of S.props) { if (p.signed.length >= 2) continue; const k = ((d1 + p.id.length * 7) * 40503) >>> 0; const chance = RULES.signChance * effectsFor(p.syn).signChanceMul; if (k % 100 < chance) { const o = OFFICES.find(o => !p.signed.includes(o)); if (o) { p.signed.push(o); if (!quiet && p.signed.length === 2) note(`${p.id} at door ${p.door}: two of three, and it waits for the carry.`); } } }
     /* the crofts: each grows on its own period, coprime with every other, so no two are ever due together */
     for (const c of W.crofts) if (d1 % c.period === 0) { const cap = c.cap + effectsFor(c.syndicate).waxCapAdd, had = S.wax[c.syndicate] || 0, got = Math.max(0, Math.min(c.yield, cap - had));
