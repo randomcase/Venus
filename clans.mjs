@@ -20,6 +20,7 @@
 */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from 'node:fs';
 import { TOONAMI, FIREFLIES } from './toonami.mjs';
+import { rulesFor } from './rules.mjs';
 
 export const WEAVE = `function weave(clans, seed) {
   const h32 = (a, b, c) => { let x = (Math.imul(a, 73856093) ^ Math.imul(b, 19349663) ^ Math.imul(c, 83492791)) | 0; x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return x >>> 0; };
@@ -47,7 +48,7 @@ for (const seed of [41, 1597, 8191]) for (const a of weave(clans, seed)) writeFi
 const total = readdirSync('.').filter(d => d.startsWith('templates-')).reduce((n, d) => n + readdirSync(d).filter(f => f.endsWith('.json')).length, 0);
 console.log(`assets ${assets.length} × 4 sagas from ${clans.length} clans (${assets.filter(a => a.kind === 'work').length} works, ${assets.filter(a => a.kind === 'band').length} bands, ${assets.filter(a => a.kind === 'pile').length} piles, 3 turns) · templates on disk: ${total}`);
 const spells = readdirSync('templates-spell').filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync('templates-spell/' + f, 'utf8')));
-const DEF = { clans: clans.map(c => ({ id: c.id, name: c.name, house: c.house, resource: c.resource, period: c.period, base: c.base, saga: c.saga })), assets, spells: spells.map(s => ({ id: s.id, name: s.name, glyph: s.glyph, cost: s.cost, cooldown: s.cooldown, kind: s.kind, does: s.does })), seed: 793, total };
+const DEF = { clans: clans.map(c => ({ id: c.id, name: c.name, house: c.house, resource: c.resource, period: c.period, base: c.base, saga: c.saga })), assets, spells: spells.map(s => ({ id: s.id, name: s.name, glyph: s.glyph, cost: s.cost, cooldown: s.cooldown, kind: s.kind, does: s.does })), seed: 793, total, rules: rulesFor('clans') };
 const page = readFileSync('clans.page.js', 'utf8');
 const html = `<title>War of clans &middot; a portfolio on Venus</title>
 <meta charset="utf-8">

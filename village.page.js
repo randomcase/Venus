@@ -1,9 +1,11 @@
 /* village.page.js — the script for village.html. Inlined by village.mjs at build; not loaded on its own. */
 (function () {
   const D = JSON.parse(document.getElementById('def-json').textContent);
+  /* the rules: embedded from templates-rules/village.json at build, and overridden by a rulebook kept in this browser through the editor in the quarter */
+  const RULES = (() => { let o = {}; try { o = (JSON.parse(localStorage.getItem('custom.v1') || 'null') || {})['templates-rules/village.json'] || {}; } catch (e) {} return Object.assign({}, D.rules, o.rules || o); })();
   const $ = s => document.querySelector(s), el = (t, a = {}, ...k) => { const e = document.createElement(t); for (const [n, v] of Object.entries(a)) { if (v == null) continue; n === 'html' ? e.innerHTML = v : n.startsWith('on') ? e[n] = v : e.setAttribute(n, v); } k.forEach(x => e.append(x)); return e; };
   const fmt = n => Math.round(n).toLocaleString('en-US');
-  const CAP = 21000000, DKEY = 'descent.v1', FKEY = 'farm.v1', KEY = 'village.v1';
+  const CAP = RULES.cap, DKEY = 'descent.v1', FKEY = 'farm.v1', KEY = 'village.v1';
   const read = (k, d) => { try { return Object.assign(d, JSON.parse(localStorage.getItem(k) || 'null') || {}); } catch (e) { return d; } };
   let Dk = read(DKEY, { heze: 0, issued: 0, ledger: [] });
   const saveD = () => { Dk.saved = Date.now(); localStorage.setItem(DKEY, JSON.stringify(Dk)); };
@@ -19,19 +21,19 @@
 
   function step(dt, quiet) { S.day += dt; const F = farm();
     /* the harvest comes down the lane: whatever the farm has harvested and the village has not yet drawn */
-    const fresh = Math.max(0, (F.harvested || 0) - S.drawn); if (fresh > 0) { S.grain += fresh; S.drawn += fresh; if (!quiet && fresh > 5) note(`${fmt(fresh)} came down from the farm.`); }
+    const fresh = Math.max(0, (F.harvested || 0) - S.drawn); if (fresh > 0) { S.grain += fresh; S.drawn += fresh; if (!quiet && fresh > RULES.noteThreshold) note(`${fmt(fresh)} came down from the farm.`); }
     /* and the continent's provision comes up the road: whatever Aphrodite Terra has produced and the village has not yet drawn */
-    const Cn = continent(); const up = Math.max(0, (Cn.produced || 0) - (S.drawnContinent || 0)); if (up > 0) { S.grain += up; S.drawnContinent = (S.drawnContinent || 0) + up; if (!quiet && up > 5) note(`${fmt(up)} provision came up from the continent.`); }
+    const Cn = continent(); const up = Math.max(0, (Cn.produced || 0) - (S.drawnContinent || 0)); if (up > 0) { S.grain += up; S.drawnContinent = (S.drawnContinent || 0) + up; if (!quiet && up > RULES.noteThreshold) note(`${fmt(up)} provision came up from the continent.`); }
     S.grain += built('holdings').reduce((a, h) => a + h.grows, 0) * dt;
-    const housed = built('halls').reduce((a, h) => a + h.houses, 0), watered = built('wells').reduce((a, w) => a + w.waters, 0), fedBy = built('trades').length * 2 + built('byres').reduce((a, b) => a + b.feeds, 0);
+    const housed = built('halls').reduce((a, h) => a + h.houses, 0), watered = built('wells').reduce((a, w) => a + w.waters, 0), fedBy = built('trades').length * RULES.tradeFeeds + built('byres').reduce((a, b) => a + b.feeds, 0);
     S.households = Math.min(housed, watered || 0, fedBy || 0); S.fed = Math.min(S.households, fedBy);
-    const wmul = built('workshops').reduce((a, w) => a * w.mul, 1), keep = built('lanes').length ? Math.max(...built('lanes').map(l => l.keep)) : 0.8;
+    const wmul = built('workshops').reduce((a, w) => a * w.mul, 1), keep = built('lanes').length ? Math.max(...built('lanes').map(l => l.keep)) : RULES.keepDefault;
     if ((F.season || 0) !== S.lastSeason) { S.lastSeason = F.season || 0; const turn = D.seasons[S.lastSeason % D.seasons.length]; const f = D.festivals.find(x => x.name.endsWith(turn)); S.festival = f ? { id: f.id, mul: f.mul, name: f.name } : null; if (!quiet && f) note(`${f.name}: prosperity ×${f.mul} while ${turn} lasts.`); }
-    S.prosperity = +((S.households ? 0.6 + 0.4 * (S.fed / Math.max(1, S.households)) : 0.5) * (S.festival ? S.festival.mul : 1) * (1 + 0.05 * built('squares').length)).toFixed(2);
+    S.prosperity = +((S.households ? RULES.prosperityBase + RULES.prosperityFed * (S.fed / Math.max(1, S.households)) : RULES.prosperityIdle) * (S.festival ? S.festival.mul : 1) * (1 + RULES.squareBonus * built('squares').length)).toFixed(2);
     let paid = 0; for (const t of built('trades')) { const need = t.eats * dt; if (S.grain >= need) { S.grain -= need; paid += t.pays * dt * wmul * keep * S.prosperity; } }
     for (const sq of built('squares')) if (Math.floor(S.day / sq.every) > Math.floor((S.day - dt) / sq.every)) { paid *= sq.mul; if (!quiet) note(`Market day at ${sq.name.replace('the square at ', '')}: the trades sell at ×${sq.mul}.`); }
     if (paid > 0) credit(paid, 'the trades'); S.earned = (S.earned || 0) + paid; }
-  const away = Math.min((Date.now() - S.saved) / 1000, 8 * 3600); if (away > 5) { let left = away; while (left > 0) { const d = Math.min(5, left); step(d, true); left -= d; } note(`Away ${Math.round(away / 60)} min: the village kept its hours.`); }
+  const away = Math.min((Date.now() - S.saved) / 1000, RULES.awayHours * 3600); if (away > 5) { let left = away; while (left > 0) { const d = Math.min(5, left); step(d, true); left -= d; } note(`Away ${Math.round(away / 60)} min: the village kept its hours.`); }
 
   const stats = [['heze', 'HEZE'], ['grain', 'harvest in the village'], ['households', 'households'], ['prosperity', 'prosperity'], ['day', 'the village']];
   $('#stats').append(...stats.map(([id, label]) => el('div', { class: 'stat', id: 'st-' + id }, el('b', {}, label), el('span'), el('i'))));

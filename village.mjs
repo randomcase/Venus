@@ -14,6 +14,7 @@
 */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from 'node:fs';
 import { TOONAMI, FIREFLIES } from './toonami.mjs';
+import { rulesFor } from './rules.mjs';
 const leaves = readdirSync('templates-farm').filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync('templates-farm/' + f, 'utf8')));
 rmSync('templates-village', { recursive: true, force: true }); mkdirSync('templates-village');
 const h32 = (a, b, c) => { let x = (Math.imul(a, 73856093) ^ Math.imul(b, 19349663) ^ Math.imul(c, 83492791)) | 0; x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return x >>> 0; };
@@ -32,7 +33,7 @@ for (const l of leaves) { const r = h32(21, leaves.indexOf(l), 5) % 1000 / 1000;
   else if (l.kind === 'weather') t = { kind: 'saying', name: `a saying about ${l.sky}`, text: ({ rain: 'Rain at seven, fine by eleven.', drought: 'Dry June, dear corn.', frost: 'A green winter makes a fat churchyard.', wind: 'When the wind is in the east, it is neither good for man nor beast.', haze: 'A haze on the hill, the barns will fill.', 'still heat': 'Heat that stands still is heat that is thinking.', hail: 'Hail on the barley, ale in the barrel.', fog: 'Fog on the ridge, keep to the bridge.' })[l.sky] };
   if (t) { t.id = `v-${l.id}`; t.wovenBy = l.id; t.chain = [l.id, l.wovenBy, l.wovenBy.replace(/^l2-/, 'l3-').replace(/-\d+$/, ''), `l4-${l.kind}`, 'loom.mjs']; V.push(t); writeFileSync(`templates-village/${t.id}.json`, JSON.stringify(t, null, 1)); } }
 const by = k => V.filter(v => v.kind === k);
-const DEF = { trades: by('trade'), halls: by('hall'), squares: by('square'), workshops: by('workshop'), byres: by('byre'), wells: by('well'), lanes: by('lane'), festivals: by('festival'), holdings: by('holding'), sayings: by('saying'), seasons: leaves.filter(l => l.kind === 'season').map(l => l.turn) };
+const DEF = { rules: rulesFor('village'),  trades: by('trade'), halls: by('hall'), squares: by('square'), workshops: by('workshop'), byres: by('byre'), wells: by('well'), lanes: by('lane'), festivals: by('festival'), holdings: by('holding'), sayings: by('saying'), seasons: leaves.filter(l => l.kind === 'season').map(l => l.turn) };
 console.log(`village: ${V.length} templates from ${leaves.length} leaves · ` + Object.entries(DEF).filter(([k]) => k !== 'seasons').map(([k, v]) => `${v.length} ${k}`).join(', '));
 const page = readFileSync('village.page.js', 'utf8');
 const html = `<title>The village &middot; built from the farm</title>

@@ -1,23 +1,25 @@
 /* clans.page.js — the script for clans.html. Inlined by clans.mjs after the weave function; not loaded on its own. */
 (function () {
   const D = JSON.parse(document.getElementById('def-json').textContent); let A = D.assets;
+  /* the rules: embedded from templates-rules/clans.json at build, and overridden by a rulebook kept in this browser through the editor in the quarter */
+  const RULES = (() => { let o = {}; try { o = (JSON.parse(localStorage.getItem('custom.v1') || 'null') || {})['templates-rules/clans.json'] || {}; } catch (e) {} return Object.assign({}, D.rules, o.rules || o); })();
   const $ = s => document.querySelector(s), el = (t, a = {}, ...k) => { const e = document.createElement(t); for (const [n, v] of Object.entries(a)) { if (v == null) continue; n === 'html' ? e.innerHTML = v : n.startsWith('on') ? e[n] = v : e.setAttribute(n, v); } k.forEach(x => e.append(x)); return e; };
   const fmt = n => Math.round(n).toLocaleString('en-US');
-  const CAP = 21000000, DKEY = 'descent.v1', KEY = 'clans.v1';
+  const CAP = RULES.cap, DKEY = 'descent.v1', KEY = 'clans.v1';
   const read = (k, d) => { try { return Object.assign(d, JSON.parse(localStorage.getItem(k) || 'null') || {}); } catch (e) { return d; } };
   let Dk = read(DKEY, { heze: 0, issued: 0, ledger: [] });
   const saveD = () => { Dk.saved = Date.now(); localStorage.setItem(DKEY, JSON.stringify(Dk)); };
   const credit = (amt, line) => { const a = Math.min(amt, Math.max(0, CAP - Dk.issued)); if (a <= 0) return 0; Dk.heze += a; Dk.issued += a; Dk.ledger.unshift({ t: Date.now(), line: 'Clans: ' + line, amt: a }); Dk.ledger.length = Math.min(Dk.ledger.length, 300); return a; };
   const debit = (amt, line) => { if (Dk.heze < amt) return false; Dk.heze -= amt; Dk.ledger.unshift({ t: Date.now(), line: 'Clans: ' + line, amt: -amt }); return true; };
-  const fresh = () => ({ day: 0, held: [], piles: Object.fromEntries(D.clans.map(c => [c.resource, 0])), mana: 20, cool: {}, raidsBroken: 0, raidsTaken: 0, sold: 0, rentDrawn: 0, rentByClan: {}, seed: D.seed, grant: false, log: [], saved: Date.now() });
+  const fresh = () => ({ day: 0, held: [], piles: Object.fromEntries(D.clans.map(c => [c.resource, 0])), mana: RULES.manaMax, cool: {}, raidsBroken: 0, raidsTaken: 0, sold: 0, rentDrawn: 0, rentByClan: {}, seed: D.seed, grant: false, log: [], saved: Date.now() });
   let S = read(KEY, fresh());
   const note = m => { S.log.unshift({ t: Math.floor(S.day), m }); S.log.length = Math.min(S.log.length, 60); };
   const save = () => { S.saved = Date.now(); localStorage.setItem(KEY, JSON.stringify(S)); saveD(); };
-  if (!S.grant) { S.grant = true; credit(20000, 'the jarl\'s first hoard, against the cap'); note('Six clans, six periods, none of them sharing a factor. The jarl has 20,000 HEZE and no assets. Nothing here can be maximised; it can only be composed.'); }
+  if (!S.grant) { S.grant = true; credit(RULES.grant, 'the jarl\'s first hoard, against the cap'); note('Six clans, six periods, none of them sharing a factor. The jarl has ' + fmt(RULES.grant) + ' HEZE and no assets. Nothing here can be maximised; it can only be composed.'); }
   const asset = id => A.find(a => a.id === id); const held = kind => S.held.map(asset).filter(a => a && a.kind === kind);
-  const cap = res => 100 + held('pile').filter(p => p.resource === res).reduce((a, p) => a + p.holds, 0);
+  const cap = res => RULES.pileBase + held('pile').filter(p => p.resource === res).reduce((a, p) => a + p.holds, 0);
   const turn = () => { const d = Math.floor(S.day) % 4; return d === 0 ? A.find(a => a.id === 'turn-dawn') : d === 1 ? A.find(a => a.id === 'turn-noon') : A.find(a => a.id === 'turn-night'); };
-  const price = res => ({ nitrogen: 3, hydrogen: 9, record: 12, biomass: 2, signal: 6, silicate: 4 })[res] || 3;
+  const price = res => RULES.price[res] || 3;
 
   /* the town's rent, paid back down: the town records what it sent, the continent records who grew the provision, and each clan's share becomes stock in its pile at the docket price */
   const readJ = k => { try { return JSON.parse(localStorage.getItem(k) || 'null') || {}; } catch (e) { return {}; } };
@@ -25,19 +27,19 @@
     for (const c of D.clans) { const share = tot > 0 ? (by[c.id] || 0) / tot : 1 / D.clans.length, heze = inflow * share; if (heze <= 0) continue; const units = Math.floor(heze / price(c.resource)); const room = Math.max(0, cap(c.resource) - S.piles[c.resource]); S.piles[c.resource] += Math.min(units, room); S.rentByClan[c.id] = (S.rentByClan[c.id] || 0) + heze; if (units) lines.push(`${c.name} ${fmt(heze)} → ${fmt(Math.min(units, room))} ${c.resource}${units > room ? ' (the rest had no pile)' : ''}`); }
     S.rentDrawn = sent; if (!quiet && lines.length) note(`The town's rent came down, ${fmt(inflow)} HEZE: ${lines.join('; ')}.`); }
   function step(dt, quiet) { const d0 = Math.floor(S.day); S.day += dt; const d1 = Math.floor(S.day); if (d1 === d0) return; const T = turn(); rents(quiet); const raidMul = T.id === 'turn-noon' ? 1.3 : T.id === 'turn-night' ? 0.7 : 1;
-    S.mana = Math.min(20, S.mana + 1); for (const k in S.cool) S.cool[k] = Math.max(0, S.cool[k] - 1);
+    S.mana = Math.min(RULES.manaMax, S.mana + RULES.manaPerDay); for (const k in S.cool) S.cool[k] = Math.max(0, S.cool[k] - 1);
     for (const c of D.clans) { if (d1 % c.period !== 0) continue;
       /* the clan's works fire on its period; the turn of the planet scales them */
       const got = held('work').filter(w => w.clan === c.id).reduce((a, w) => a + w.yield, 0) * (T.id === 'turn-dawn' ? 1.2 : T.id === 'turn-night' ? 0.6 : 1); if (got) { const room = cap(c.resource) - S.piles[c.resource]; const kept = Math.min(got, Math.max(0, room)); S.piles[c.resource] += kept; if (!quiet && got > kept) note(`${c.name}'s works made ${fmt(got)} ${c.resource}; ${fmt(got - kept)} had nowhere to go.`); }
       /* the clan raids on its period unless a ford is held against it; your own raiders take from the others */
-      const raiders = 4 + Math.floor(d1 / 50) * 2, wall = held('band').filter(b => !b.raids).reduce((a, b) => a + b.strength, 0) * raidMul;
+      const raiders = RULES.raidersBase + Math.floor(d1 / RULES.raidersEvery) * RULES.raidersStep, wall = held('band').filter(b => !b.raids).reduce((a, b) => a + b.strength, 0) * raidMul;
       if (!held('work').some(w => w.clan === c.id) || true) { if (wall >= raiders * raidMul) { S.raidsBroken++; if (!quiet && d1 % 20 === 0) note(`${c.name} came at the ford and broke on it.`); }
-        else { const res = D.clans[(D.clans.indexOf(c) + 1) % D.clans.length].resource; const take = Math.min(S.piles[res], Math.round(S.piles[res] * 0.15 * raidMul)); if (take > 0) { S.piles[res] -= take; S.raidsTaken++; if (!quiet) note(`${c.name} raided on day ${d1} and took ${fmt(take)} ${res}. A band at the ford would have held.`); } } }
-      const mine = held('band').filter(b => b.raids && b.clan === c.id).reduce((a, b) => a + b.strength, 0); if (mine) { const spoil = Math.round(mine * 2 * raidMul); credit(spoil * 2, `${c.name}'s raiders, spoil`); if (!quiet && d1 % 10 === 0) note(`${c.name}'s raiders came back with spoil worth ${fmt(spoil * 2)} HEZE.`); } }
+        else { const res = D.clans[(D.clans.indexOf(c) + 1) % D.clans.length].resource; const take = Math.min(S.piles[res], Math.round(S.piles[res] * RULES.raidTake * raidMul)); if (take > 0) { S.piles[res] -= take; S.raidsTaken++; if (!quiet) note(`${c.name} raided on day ${d1} and took ${fmt(take)} ${res}. A band at the ford would have held.`); } } }
+      const mine = held('band').filter(b => b.raids && b.clan === c.id).reduce((a, b) => a + b.strength, 0); if (mine) { const spoil = Math.round(mine * RULES.spoilPerStrength * raidMul); credit(spoil * RULES.spoilPrice, `${c.name}'s raiders, spoil`); if (!quiet && d1 % 10 === 0) note(`${c.name}'s raiders came back with spoil worth ${fmt(spoil * RULES.spoilPrice)} HEZE.`); } }
     for (const b of held('band')) { S.piles[b.resource] = Math.max(0, S.piles[b.resource] - b.upkeep); }
     /* bronze: silicate and hydrogen together, once a day, sold to the docket */
-    const bronze = Math.min(S.piles.silicate || 0, (S.piles.hydrogen || 0) * 3, 20); if (bronze > 0) { S.piles.silicate -= bronze; S.piles.hydrogen -= bronze / 3; credit(bronze * 8, 'bronze cast and sold'); S.sold += bronze * 8; } }
-  const away = Math.min((Date.now() - S.saved) / 1000, 8 * 3600); if (away > 5) { let left = away; while (left > 0) { const d = Math.min(1, left); step(d, true); left -= d; } note(`Away ${Math.round(away / 60)} min: every period fired, every raid came. Credited in full, and taken in full.`); }
+    const bronze = Math.min(S.piles.silicate || 0, (S.piles.hydrogen || 0) * RULES.bronzeHydrogenRatio, RULES.bronzePerDay); if (bronze > 0) { S.piles.silicate -= bronze; S.piles.hydrogen -= bronze / RULES.bronzeHydrogenRatio; credit(bronze * RULES.bronzePrice, 'bronze cast and sold'); S.sold += bronze * RULES.bronzePrice; } }
+  const away = Math.min((Date.now() - S.saved) / 1000, RULES.awayHours * 3600); if (away > 5) { let left = away; while (left > 0) { const d = Math.min(1, left); step(d, true); left -= d; } note(`Away ${Math.round(away / 60)} min: every period fired, every raid came. Credited in full, and taken in full.`); }
 
   const stats = [['heze', 'HEZE'], ['turn', 'the planet'], ['assets', 'the portfolio'], ['raids', 'raids'], ['bronze', 'bronze sold'], ['rent', 'rents from the town'], ['mana', 'the reserve']];
   $('#stats').append(...stats.map(([id, label]) => el('div', { class: 'stat', id: 'st-' + id }, el('b', {}, label), el('span'), el('i'))));
@@ -49,7 +51,7 @@
   function cast(sp) { if (S.mana < sp.cost || (S.cool[sp.id] || 0) > 0) return; S.mana -= sp.cost; S.cool[sp.id] = sp.cooldown;
     if (sp.id === 'ward' || sp.id === 'gate') { S.cool.ford = sp.cooldown; note(`${sp.name}: the ford is held by sorcery for ${sp.cooldown} days.`); } else if (sp.id === 'bolt' || sp.id === 'unmake') { const c = D.clans[Math.floor(S.day) % D.clans.length]; credit(400, `${sp.name} on ${c.name}'s raiders`); note(`${sp.name}: ${c.name}'s raiders scattered; their spoil is yours.`); } else if (sp.id === 'summon') { for (const r in S.piles) S.piles[r] = Math.min(cap(r), S.piles[r] + 10); note('Summon: a bound thing fills every pile a little.'); } else if (sp.id === 'bind') { S.cool.ford = 10; note('Bind: the next raid stands still at the ford.'); }
     save(); render(); }
-  function render() { const T = turn(); setStat('heze', fmt(Dk.heze), 'the shared docket'); setStat('turn', T.name, T.does); setStat('assets', S.held.length, `${held('work').length} works · ${held('band').length} bands · ${held('pile').length} piles`); setStat('raids', `${S.raidsBroken} / ${S.raidsTaken}`, 'broken at the ford / taken'); setStat('bronze', fmt(S.sold), 'silicate and hydrogen, cast'); setStat('mana', `${S.mana} / 20`, 'one a day'); setStat('rent', fmt(S.rentDrawn || 0), 'HEZE, turned into stock by clan');
+  function render() { const T = turn(); setStat('heze', fmt(Dk.heze), 'the shared docket'); setStat('turn', T.name, T.does); setStat('assets', S.held.length, `${held('work').length} works · ${held('band').length} bands · ${held('pile').length} piles`); setStat('raids', `${S.raidsBroken} / ${S.raidsTaken}`, 'broken at the ford / taken'); setStat('bronze', fmt(S.sold), 'silicate and hydrogen, cast'); setStat('mana', `${S.mana} / ${RULES.manaMax}`, `${RULES.manaPerDay} a day`); setStat('rent', fmt(S.rentDrawn || 0), 'HEZE, turned into stock by clan');
     $('#piles').innerHTML = D.clans.map(c => `<div class="pile"><b>${c.resource}</b><span>${fmt(S.piles[c.resource] || 0)}</span> <small style="color:var(--dim)">/ ${fmt(cap(c.resource))}</small><div class="bar"><div style="width:${Math.min(100, 100 * (S.piles[c.resource] || 0) / cap(c.resource))}%"></div></div></div>`).join('');
     buildClans(); buildSpells(); $('#log').innerHTML = S.log.map(l => `<div><b>d${l.t}</b>${l.m}</div>`).join(''); $('#clock').textContent = `day ${Math.floor(S.day)} · seed ${S.seed}`; $('#woven').textContent = `${A.length} templates woven`; }
   $('#wipe').onclick = () => { if (confirm('Start the war again? Assets and piles go; the docket stays.')) { S = fresh(); S.grant = true; save(); render(); } };
@@ -63,5 +65,5 @@
       g.fillStyle = firing ? '#f2c98a' : '#6b5a3a'; g.fillRect(x - 3, H * .6 - 60, 6, 60); for (let k = 0; k < Math.min(6, works); k++) { g.fillStyle = '#8a6a3a'; g.fillRect(x - 30 + k * 10, H * .62 + k % 2 * 8, 8, 10); } for (let k = 0; k < Math.min(6, bands); k++) { g.fillStyle = '#c9583a'; g.beginPath(); g.arc(x - 25 + k * 10, H * .78, 4, 0, 7); g.fill(); }
       g.fillStyle = 'rgba(239,233,220,.8)'; g.font = '11px system-ui'; g.textAlign = 'center'; g.fillText(`${c.name} · ${c.period}`, x, H * .6 - 66); });
     g.fillStyle = 'rgba(239,233,220,.8)'; g.font = '11px system-ui'; g.textAlign = 'left'; g.fillText(`${T.name} · day ${Math.floor(S.day)} · ${S.held.length} assets`, 10, 16); requestAnimationFrame(draw); }
-  render(); requestAnimationFrame(draw); setInterval(() => { step(1); render(); }, 1000); setInterval(save, 5000); addEventListener('beforeunload', save);
+  render(); requestAnimationFrame(draw); setInterval(() => { step(1); render(); }, RULES.secondsPerDay * 1000); setInterval(save, 5000); addEventListener('beforeunload', save);
 })();

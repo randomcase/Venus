@@ -12,6 +12,7 @@
 */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from 'node:fs';
 import { TOONAMI, FIREFLIES } from './toonami.mjs';
+import { rulesFor } from './rules.mjs';
 const V = readdirSync('templates-village').filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync('templates-village/' + f, 'utf8')));
 rmSync('templates-town', { recursive: true, force: true }); mkdirSync('templates-town');
 const T = [];
@@ -28,7 +29,7 @@ for (const v of V) { let t = null;
   else if (v.kind === 'saying') t = { kind: 'inscription', name: v.name.replace('a saying about', 'the inscription over the gate of'), text: v.text };
   if (t) { t.id = `t-${v.id}`; t.wovenBy = v.id; t.chain = [v.id, ...v.chain]; T.push(t); writeFileSync(`templates-town/${t.id}.json`, JSON.stringify(t, null, 1)); } }
 const by = k => T.filter(t => t.kind === k);
-const DEF = { guilds: by('guild'), wards: by('ward'), exchanges: by('exchange'), manufactories: by('manufactory'), stalls: by('stall'), aqueducts: by('aqueduct'), roads: by('road'), fairs: by('fair'), tenements: by('tenement'), inscriptions: by('inscription') };
+const DEF = { rules: rulesFor('town'),  guilds: by('guild'), wards: by('ward'), exchanges: by('exchange'), manufactories: by('manufactory'), stalls: by('stall'), aqueducts: by('aqueduct'), roads: by('road'), fairs: by('fair'), tenements: by('tenement'), inscriptions: by('inscription') };
 console.log(`town: ${T.length} templates from ${V.length} village templates`);
 const page = readFileSync('town.page.js', 'utf8');
 const html = `<title>The town &middot; built from the village</title>

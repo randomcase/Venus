@@ -1,5 +1,5 @@
 {
- "generators": 67,
+ "generators": 68,
  "schema": {
   "templates-act": {
    "owner": null,
@@ -861,6 +861,23 @@
    },
    "example": "id"
   },
+  "templates-rules": {
+   "owner": "rules.mjs",
+   "declared": false,
+   "count": 6,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "kind": "string",
+    "deck": "string",
+    "path": "string",
+    "rules": "object",
+    "notes": "object",
+    "text": "string",
+    "wovenBy": "string"
+   },
+   "example": "id"
+  },
   "templates-seizure": {
    "owner": "exchange.mjs",
    "declared": true,
@@ -1487,6 +1504,13 @@
    ]
   },
   {
+   "dir": "templates-rules",
+   "files": 6,
+   "read_by": [
+    "rules.mjs"
+   ]
+  },
+  {
    "dir": "templates-seizure",
    "files": 7,
    "read_by": [
@@ -1590,8 +1614,6 @@
   "castle.mjs",
   "challenges.mjs",
   "cistern.mjs",
-  "clans.mjs",
-  "continent.mjs",
   "corps.mjs",
   "descent.mjs",
   "dispatch.mjs",
@@ -1610,7 +1632,6 @@
   "kb.mjs",
   "keep.mjs",
   "loom.mjs",
-  "market.mjs",
   "missouri.mjs",
   "owls.mjs",
   "paper.mjs",
@@ -1620,6 +1641,10 @@
   "reading.mjs",
   "reconcile.mjs",
   "rites.mjs",
+  "rules.mjs",
+  "clans.mjs",
+  "continent.mjs",
+  "market.mjs",
   "ships.mjs",
   "steading.mjs",
   "studios.mjs",
@@ -1829,6 +1854,7 @@
   "clans.mjs": {
    "reads": [
     "clans.page.js",
+    "rules.mjs",
     "templates-asset",
     "templates-clan",
     "templates-clan/",
@@ -1865,6 +1891,7 @@
   "continent.mjs": {
    "reads": [
     "continent.page.js",
+    "rules.mjs",
     "templates-asset",
     "templates-asset/",
     "templates-clan",
@@ -2080,6 +2107,7 @@
   "market.mjs": {
    "reads": [
     "market.page.js",
+    "rules.mjs",
     "templates-clan",
     "templates-clan/",
     "templates-regime",
@@ -2197,6 +2225,16 @@
    ],
    "refuses": "BRONZE AGE CHOREOGRAPHY. We have figures with raised arms cut into rock and\n   lurs deposited in bogs. We do not have steps, occasions, or reasons. Any\n   entry claiming to know Bronze Age dance is refused, because filling that\n   silence is the commonest failure in this subject and it is always done\n   confidently."
   },
+  "rules.mjs": {
+   "reads": [
+    "rules.mjs",
+    "templates-rules"
+   ],
+   "writes": [
+    "templates-rules/docket.json"
+   ],
+   "refuses": ""
+  },
   "ships.mjs": {
    "reads": [
     "profiles.json",
@@ -2263,6 +2301,7 @@
   },
   "town.mjs": {
    "reads": [
+    "rules.mjs",
     "templates-town",
     "templates-village",
     "templates-village/",
@@ -2299,6 +2338,7 @@
   },
   "village.mjs": {
    "reads": [
+    "rules.mjs",
     "templates-farm",
     "templates-farm/",
     "templates-village",

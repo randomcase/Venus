@@ -1,9 +1,11 @@
 /* town.page.js — the script for town.html. Inlined by town.mjs at build; not loaded on its own. */
 (function () {
   const D = JSON.parse(document.getElementById('def-json').textContent);
+  /* the rules: embedded from templates-rules/town.json at build, and overridden by a rulebook kept in this browser through the editor in the quarter */
+  const RULES = (() => { let o = {}; try { o = (JSON.parse(localStorage.getItem('custom.v1') || 'null') || {})['templates-rules/town.json'] || {}; } catch (e) {} return Object.assign({}, D.rules, o.rules || o); })();
   const $ = s => document.querySelector(s), el = (t, a = {}, ...k) => { const e = document.createElement(t); for (const [n, v] of Object.entries(a)) { if (v == null) continue; n === 'html' ? e.innerHTML = v : n.startsWith('on') ? e[n] = v : e.setAttribute(n, v); } k.forEach(x => e.append(x)); return e; };
   const fmt = n => Math.round(n).toLocaleString('en-US');
-  const CAP = 21000000, DKEY = 'descent.v1', VKEY = 'village.v1', KEY = 'town.v1';
+  const CAP = RULES.cap, DKEY = 'descent.v1', VKEY = 'village.v1', KEY = 'town.v1';
   const read = (k, d) => { try { return Object.assign(d, JSON.parse(localStorage.getItem(k) || 'null') || {}); } catch (e) { return d; } };
   let Dk = read(DKEY, { heze: 0, issued: 0, ledger: [] });
   const saveD = () => { Dk.saved = Date.now(); localStorage.setItem(DKEY, JSON.stringify(Dk)); };
@@ -17,18 +19,18 @@
   const all = [...D.guilds, ...D.wards, ...D.exchanges, ...D.manufactories, ...D.stalls, ...D.aqueducts, ...D.roads, ...D.tenements];
   const have = id => S.built.includes(id), built = k => D[k].filter(t => have(t.id));
   function step(dt, quiet) { S.day += dt; const V = village();
-    const housed = built('wards').reduce((a, w) => a + w.houses, 0), watered = built('aqueducts').reduce((a, w) => a + w.waters, 0), fed = built('stalls').reduce((a, s) => a + s.feeds, 0) + built('guilds').length * 3 + Math.floor((V.grain || 0) / 10); /* every ten grain in the village's store feeds a citizen; that grain is the continent's provision, milled */
-    S.citizens = Math.min(V.households + housed, watered, fed); const needed = built('guilds').length * 3; const staffed = needed ? Math.min(1, S.citizens / needed) : 0;
+    const housed = built('wards').reduce((a, w) => a + w.houses, 0), watered = built('aqueducts').reduce((a, w) => a + w.waters, 0), fed = built('stalls').reduce((a, s) => a + s.feeds, 0) + built('guilds').length * RULES.guildFeeds + Math.floor((V.grain || 0) / RULES.grainPerCitizen); /* every ten grain in the village's store feeds a citizen; that grain is the continent's provision, milled */
+    S.citizens = Math.min(V.households + housed, watered, fed); const needed = built('guilds').length * RULES.guildStaff; const staffed = needed ? Math.min(1, S.citizens / needed) : 0;
     const fair = V.festival ? (D.fairs.find(f => f.name.endsWith(V.festival.name.replace('the festival of ', ''))) || {}).mul || 1 : 1;
-    S.prosperity = +((V.prosperity || 1) * fair * (1 + 0.04 * built('exchanges').length)).toFixed(2);
-    const mul = built('manufactories').reduce((a, m) => a * m.mul, 1), keep = built('roads').length ? Math.max(...built('roads').map(r => r.keep)) : 0.8;
+    S.prosperity = +((V.prosperity || 1) * fair * (1 + RULES.exchangeBonus * built('exchanges').length)).toFixed(2);
+    const mul = built('manufactories').reduce((a, m) => a * m.mul, 1), keep = built('roads').length ? Math.max(...built('roads').map(r => r.keep)) : RULES.keepDefault;
     let paid = built('guilds').reduce((a, g) => a + g.dues, 0) * staffed * mul * keep * S.prosperity * dt; const rent = built('tenements').reduce((a, t) => a + t.rent, 0) * dt;
     for (const ex of built('exchanges')) if (Math.floor(S.day / ex.every) > Math.floor((S.day - dt) / ex.every)) { paid *= ex.mul; if (!quiet) note(`Exchange day at ${ex.name.replace('the exchange at ', '')}: dues at ×${ex.mul}.`); }
     if (paid > 0) { credit(paid, 'dues'); S.earned += paid; }
     /* the rent does not stay in the town: it goes back down to the clans whose regions grew the provision, and the clans page draws it */
     if (rent > 0) S.rentSent = (S.rentSent || 0) + rent;
-    if (!S.chartered && built('guilds').length >= 5 && S.citizens >= 15) { S.chartered = true; note('Five guilds and fifteen citizens: the town takes its charter. Nobody asked the village.'); } }
-  const away = Math.min((Date.now() - S.saved) / 1000, 8 * 3600); if (away > 5) { let left = away; while (left > 0) { const d = Math.min(5, left); step(d, true); left -= d; } note(`Away ${Math.round(away / 60)} min: the town kept its hours.`); }
+    if (!S.chartered && built('guilds').length >= RULES.charterGuilds && S.citizens >= RULES.charterCitizens) { S.chartered = true; note(`${RULES.charterGuilds} guilds and ${RULES.charterCitizens} citizens: the town takes its charter. Nobody asked the village.`); } }
+  const away = Math.min((Date.now() - S.saved) / 1000, RULES.awayHours * 3600); if (away > 5) { let left = away; while (left > 0) { const d = Math.min(5, left); step(d, true); left -= d; } note(`Away ${Math.round(away / 60)} min: the town kept its hours.`); }
   const stats = [['heze', 'HEZE'], ['citizens', 'citizens'], ['prosperity', 'prosperity'], ['charter', 'the charter'], ['day', 'the town']];
   $('#stats').append(...stats.map(([id, label]) => el('div', { class: 'stat', id: 'st-' + id }, el('b', {}, label), el('span'), el('i'))));
   const setStat = (id, v, i) => { const s = $('#st-' + id); s.children[1].textContent = v; s.children[2].textContent = i || ''; };
@@ -37,7 +39,7 @@
       box.append(el('div', { class: 'card' + (got ? ' done' : ''), onclick: () => { $('#chain').innerHTML = chain(t); } }, el('b', {}, t.name), el('span', { class: 'n' }, got ? label(t) : `${fmt(t.cost)} HEZE`), el('p', {}, t.text),
         got ? '' : el('button', { disabled: Dk.heze < t.cost ? 'true' : null, onclick: ev => { ev.stopPropagation(); if (debit(t.cost, t.name)) { S.built.push(t.id); note(`Built ${t.name}.`); save(); render(); } } }, 'Build'))); } }
   function render() { const V = village();
-    setStat('heze', fmt(Dk.heze), 'the shared docket'); setStat('citizens', S.citizens, `${V.households} from the village · ${built('wards').reduce((a, w) => a + w.houses, 0)} housed here · ${built('aqueducts').reduce((a, w) => a + w.waters, 0)} watered · ${Math.floor((V.grain || 0) / 10)} fed by the village's grain`); setStat('prosperity', `×${S.prosperity}`, V.festival ? V.festival.name.replace('festival', 'fair') : 'no fair');
+    setStat('heze', fmt(Dk.heze), 'the shared docket'); setStat('citizens', S.citizens, `${V.households} from the village · ${built('wards').reduce((a, w) => a + w.houses, 0)} housed here · ${built('aqueducts').reduce((a, w) => a + w.waters, 0)} watered · ${Math.floor((V.grain || 0) / RULES.grainPerCitizen)} fed by the village's grain`); setStat('prosperity', `×${S.prosperity}`, V.festival ? V.festival.name.replace('festival', 'fair') : 'no fair');
     setStat('charter', S.chartered ? 'chartered' : `${built('guilds').length}/5 guilds`, S.chartered ? 'the town is its own' : 'five guilds and fifteen citizens'); setStat('day', `day ${Math.floor(S.day)}`, `${fmt(S.earned)} HEZE in dues · ${fmt(S.rentSent || 0)} rent sent down to the clans`);
     cards($('#guilds'), D.guilds, g => `dues ${g.dues}/day`); cards($('#civic'), [...D.wards, ...D.aqueducts, ...D.roads], t => t.houses ? `${t.houses} households` : t.waters ? `${t.waters} watered` : `keeps ×${t.keep}`); cards($('#more'), [...D.exchanges, ...D.manufactories, ...D.stalls, ...D.tenements], t => t.mul ? `×${t.mul}` : t.feeds ? 'feeds 3' : `rent ${t.rent}/day`);
     const say = D.inscriptions[Math.floor(S.day / 120) % D.inscriptions.length]; $('#saying').textContent = say.text; $('#saying-from').textContent = `${say.name}, woven from ${say.wovenBy}`;

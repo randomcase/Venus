@@ -22,6 +22,7 @@
        node continent.mjs */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from 'node:fs';
 import { TOONAMI, FIREFLIES } from './toonami.mjs';
+import { rulesFor } from './rules.mjs';
 
 export const WEAVE = `function weave(clans, piles, seed, N) {
   const h32 = (a, b, c) => { let x = (Math.imul(a, 73856093) ^ Math.imul(b, 19349663) ^ Math.imul(c, 83492791)) | 0; x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return x >>> 0; };
@@ -49,7 +50,7 @@ for (const p of parcels) writeFileSync(`templates-continent/${p.id}.json`, JSON.
 const total = readdirSync('.').filter(d => d.startsWith('templates-')).reduce((n, d) => n + readdirSync(d).filter(f => f.endsWith('.json')).length, 0);
 const byT = {}; for (const p of parcels) byT[p.terrain] = (byT[p.terrain] || 0) + 1;
 console.log(`Aphrodite Terra: ${parcels.length} parcels in ${regions.length} regions (${Object.entries(byT).map(([k, v]) => k + ' ' + v).join(', ')}) from ${piles.length} piles · templates on disk: ${total}`);
-const DEF = { clans: clans.map(c => ({ id: c.id, name: c.name, house: c.house, resource: c.resource, period: c.period })), piles, seed: SEED, N, total, hues: { hrafn: '#5aa8f0', bjorn: '#5ec8a0', ulf: '#f0a83c', sigrid: '#8fd35a', thorvald: '#d08ae0', ingrid: '#e8d9a0' } };
+const DEF = { clans: clans.map(c => ({ id: c.id, name: c.name, house: c.house, resource: c.resource, period: c.period })), piles, seed: SEED, N, total, rules: rulesFor('continent'), hues: { hrafn: '#5aa8f0', bjorn: '#5ec8a0', ulf: '#f0a83c', sigrid: '#8fd35a', thorvald: '#d08ae0', ingrid: '#e8d9a0' } };
 const page = readFileSync('continent.page.js', 'utf8');
 const html = `<title>Aphrodite Terra &middot; the continental farm</title>
 <meta charset="utf-8">

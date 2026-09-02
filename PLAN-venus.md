@@ -80,6 +80,16 @@ of enums and seals it onto the shelf; the shelf is the syndication.
    their piles at the docket price; the loop is closed. Next: the market's
    four farms priced from the loop's real throughput instead of a hash.
 
+## The rules, pulled out
+
+Every number the loop plays by is in `templates-rules/`: one rulebook per
+deck (clans, market, continent, village, town), 54 rules with a note each,
+embedded at build and read by the page. A rulebook kept in the browser
+through the editor overrides it on the deck's next load, so prices, rates,
+periods and the charter change without a rebuild. The docket's rulebook is
+separate and not editable: it is what holds from door 1 to door 200, and
+the ledger enforces it rather than any page.
+
 ## Venus M1
 
 This build is the first mark of the ship: the loop closed, the bridge as the

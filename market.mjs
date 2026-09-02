@@ -26,6 +26,7 @@
        node market.mjs */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from 'node:fs';
 import { TOONAMI, FIREFLIES } from './toonami.mjs';
+import { rulesFor } from './rules.mjs';
 
 export const SYNDICATE = `function syndicate(farms, degree, seed) {
   const h32 = (a, b, c) => { let x = (Math.imul(a, 73856093) ^ Math.imul(b, 19349663) ^ Math.imul(c, 83492791)) | 0; x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return x >>> 0; };
@@ -47,7 +48,7 @@ rmSync('templates-regime', { recursive: true, force: true }); mkdirSync('templat
 for (const r of REGIMES) writeFileSync(`templates-regime/${r.id}.json`, JSON.stringify(r, null, 1));
 const total = readdirSync('.').filter(d => d.startsWith('templates-')).reduce((n, d) => n + readdirSync(d).filter(f => f.endsWith('.json')).length, 0);
 console.log(`tickers on disk ${files.length} (4 farms, to the ${DEG}th degree) · ninth degree in the page: ${4 * 4 ** 9} · templates on disk: ${total}`);
-const DEF = { farms: FARMS, seed: SEED, total, degrees: 9, onDisk: files.length, regimes: REGIMES };
+const DEF = { farms: FARMS, seed: SEED, total, degrees: 9, onDisk: files.length, regimes: REGIMES, rules: rulesFor('market') };
 const page = readFileSync('market.page.js', 'utf8');
 const html = `<title>The market &middot; syndicated tickers</title>
 <meta charset="utf-8">
