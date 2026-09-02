@@ -155,7 +155,7 @@ const html = `<title>The coven &middot; who holds the doors</title>
   .who b{font-weight:600;display:block}.who em{font-style:normal;color:var(--sea);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
   .who p{margin:3px 0 0;color:var(--dim);font-size:11.5px}.who small{color:var(--gold)}
   button{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--edge);border-radius:9px;padding:5px 10px;cursor:pointer}button:hover:not(:disabled){border-color:var(--gold)}button:disabled{opacity:.4;cursor:not-allowed}button.primary{background:#2a2036;border-color:var(--gold)}
-  .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}input[type=number]{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--edge);border-radius:9px;padding:5px 8px;width:100px}
+  .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}[hidden]{display:none!important}input[type=number]{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--edge);border-radius:9px;padding:5px 8px;width:100px}
   .prop{border-top:1px solid var(--edge);padding:6px 0;font-size:12px;display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center}
   .prop b{font-weight:600}.prop p{margin:0;color:var(--dim);font-size:11.5px;grid-column:1}
   .sigs{display:flex;gap:3px}.sigs i{width:9px;height:9px;border-radius:50%;border:1px solid var(--edge);display:block}.sigs i.on{background:var(--ok);border-color:var(--ok)}
