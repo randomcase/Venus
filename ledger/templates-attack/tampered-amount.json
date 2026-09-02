@@ -1,0 +1,16 @@
+{
+ "id": "tampered-amount",
+ "kind": "attack",
+ "order": 1,
+ "target": "the chain",
+ "name": "A quietly larger issuance",
+ "tactic": "After an issue event is written, edit its amount in the file upward — the signature was made over the original number, but if nobody rehashes the chain, who checks?",
+ "requires": [],
+ "expect": "rejected",
+ "response": {
+  "pass": "{{ledger}} caught it: {{detail}}",
+  "fail": "{{ledger}} accepted a tampered amount without complaint: {{detail}}. This must never happen — the hash chain exists precisely to make this impossible."
+ },
+ "text": "The oldest ledger attack there is: change a number after the fact. Caught by the same mechanism as everything else here — every event hashes the one before it, so editing one line breaks every hash after it, and verify() replays from nothing rather than trusting the file's say-so.",
+ "wovenBy": "ledger.mjs"
+}

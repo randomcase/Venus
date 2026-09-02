@@ -1,0 +1,16 @@
+{
+ "id": "mismatched-epoch-shares",
+ "kind": "attack",
+ "order": 6,
+ "target": "the confidentiality key",
+ "name": "A share from before, combined with a share from after",
+ "tactic": "A custodian's share from before a reshare turns up later — a drawer, an old backup — and gets offered alongside a current share, hoping the math doesn't notice the two were never part of the same split.",
+ "requires": [],
+ "expect": "rejected",
+ "response": {
+  "pass": "{{ledger}} refused to combine them: {{detail}}",
+  "fail": "combineShares() produced a key from mismatched shares. This must never happen — a reconstructed key that is silently wrong is worse than no key at all."
+ },
+ "text": "Two failure modes matter here and this catches both: shares that plainly cannot be from the same split (different lengths) are rejected outright, and shares that coincidentally carry the same index across two different splits (splitSecret always numbers 1..n) are rejected by name rather than surfacing as a division-by-zero from the field arithmetic three layers down.",
+ "wovenBy": "keyring.mjs"
+}

@@ -1,0 +1,16 @@
+{
+ "id": "dropped-line",
+ "kind": "attack",
+ "order": 2,
+ "target": "the chain",
+ "name": "A quietly missing event",
+ "tactic": "Delete one line from the middle of the file. A transfer that never happened is easy to explain; a transfer that happened and was un-happened is easier still, if nobody notices the gap.",
+ "requires": [],
+ "expect": "rejected",
+ "response": {
+  "pass": "{{ledger}} caught it: the next surviving event still names the deleted one's hash as its predecessor, and it is no longer there to match. {{detail}}",
+  "fail": "{{ledger}} replayed straight through a missing event as if it never existed and nothing referenced it. This must never happen."
+ },
+ "text": "Every event carries the hash of the one before it, not just a sequence number, so removing a line does not renumber the chain quietly — it orphans the reference the next surviving line makes, and verify() has nothing to match it against.",
+ "wovenBy": "ledger.mjs"
+}

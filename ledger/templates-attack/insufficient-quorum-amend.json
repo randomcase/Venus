@@ -1,0 +1,16 @@
+{
+ "id": "insufficient-quorum-amend",
+ "kind": "attack",
+ "order": 4,
+ "target": "the rules",
+ "name": "One signature, standing in for the quorum",
+ "tactic": "A single custodian, acting alone, tries to amend the rules — raise the cap, add themselves as a writer, anything a quorum is supposed to gate.",
+ "requires": [],
+ "expect": "rejected",
+ "response": {
+  "pass": "{{ledger}} refused: {{detail}}",
+  "fail": "{{ledger}} let a single signature amend the rules. This must never happen — a quorum exists precisely so no one custodian can act as the whole authority."
+ },
+ "text": "amend and checkpoint both check hasQuorum() before anything else, counting only signatures from the registered authority keys against the m the genesis rules named. One honest signature from one custodian is exactly as powerful here as one dishonest one: neither is the quorum.",
+ "wovenBy": "ledger.mjs"
+}

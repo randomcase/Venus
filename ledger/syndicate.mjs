@@ -57,6 +57,27 @@ export function carry(source, target, { sourceName, targetName, targetSigners, s
 
 export function status(source, target, counterpart) { return pending(source, target, counterpart); }
 
+/* THE GAP A FORGED CROSSING LIVES IN. check() on a `syndication` event can only confirm the event's
+   OWN shape — a counterpart name, a root, a count — because the target ledger has no access to the
+   source and cannot ask it anything at replay time; that is the entire point of two sovereign chains.
+   So a target's quorum can be talked into recording a root that was never actually on the source, and
+   the target's own verify() will call that healthy forever — it is only checking that the target is
+   consistent with what the target was told, not that what it was told is true. That is TRUST, not
+   verification, and pretending otherwise is the actual vulnerability. The one way to close it is to
+   go get the source and check: given both ledgers in hand, recompute the source's root at the exact
+   sequence number the target claims and compare. This function is that check — an AUDITOR'S tool, run
+   with both chains present, not something either chain can do to itself alone. */
+export function verifyCrossing(source, target, counterpart) {
+  const st = target.replay();
+  const claims = (st.syndications || []).filter(s => s.direction === 'in' && s.counterpart === counterpart);
+  const results = claims.map(c => {
+    if (c.atSeq > source.events.length) return { ...c, ok: false, reason: `claims ${c.atSeq} events but the source only has ${source.events.length}` };
+    const actual = source.merkleRoot(c.atSeq);
+    return actual === c.root ? { ...c, ok: true } : { ...c, ok: false, reason: `recorded root does not match the source's actual root at #${c.atSeq}`, actual };
+  });
+  return { counterpart, claims: results.length, ok: results.every(r => r.ok), results };
+}
+
 /* --------------------------------------------------------------------------------------------------- cli */
 if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/').split('/').pop())) {
   const [, , cmd, sourceDir, targetDir, ...rest] = process.argv; const flags = {};
@@ -66,11 +87,12 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, '
     const source = new Ledger(sourceDir), target = new Ledger(targetDir);
     const sourceName = source.rules.name, targetName = target.rules.name;
     if (cmd === 'status') console.log(JSON.stringify({ from: sourceName, to: targetName, ...status(source, target, sourceName) }, null, 1));
+    else if (cmd === 'verify-crossing') { const r = verifyCrossing(source, target, sourceName); console.log(JSON.stringify(r, null, 1)); if (!r.ok) process.exit(1); }
     else if (cmd === 'carry') {
       const targetSigners = (flags.signer || []).map(n => loadKey(targetDir, n));
       const sourceSigners = flags.mirror ? (flags.signer2 || []).map(n => loadKey(sourceDir, n)) : null;
       const r = carry(source, target, { sourceName, targetName, targetSigners, sourceSigners, note: (flags.note || [''])[0] });
       console.log(JSON.stringify({ from: sourceName, to: targetName, ...r }, null, 1));
-    } else { console.error('commands: status <sourceDir> <targetDir> | carry <sourceDir> <targetDir> --signer <target-custodian>... [--mirror --signer2 <source-custodian>...]'); process.exit(2); }
+    } else { console.error('commands: status <sourceDir> <targetDir> | carry <sourceDir> <targetDir> --signer <target-custodian>... [--mirror --signer2 <source-custodian>...] | verify-crossing <sourceDir> <targetDir>'); process.exit(2); }
   } catch (e) { console.error('no:', e.message); process.exit(1); }
 }

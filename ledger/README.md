@@ -182,6 +182,44 @@ what's new since the last one, never the whole history again, and content
 sealed with `keyring.mjs` and merely *noted* on one side never appears in
 the other side's file — a test checks the raw JSONL for exactly that.
 
+A crossing has one real gap, by design rather than oversight: a target
+ledger's own quorum can be talked into recording a root that never actually
+existed on the source, because a target has no way to check a chain it
+cannot see. `syndicate.mjs`'s `verifyCrossing(source, target, counterpart)`
+is the one thing that catches it — an auditor's tool, run with both chains
+in hand, that recomputes the source's root at the sequence the target
+claims and compares. Nothing in either ledger alone can do this; it exists
+because the eighth attack template below found the gap.
+
+## Attacks, as templates: `templates-attack/` and `attack.mjs`
+
+Every attack this ledger is tested against is a JSON file, not a line in a
+test runner: a name, the tactic in plain language, which template's
+response fires when the defense holds and when it doesn't, and — for one
+of them — a `requires` list making it part of a small knowledge tree.
+`attack.mjs` supplies the one thing the JSON can't: the actual mechanics of
+trying each attack against real code.
+
+```bash
+node attack.mjs list      # the tree, nothing executed
+node attack.mjs run       # every template, in an order that respects requires,
+                           # each one's own pass/fail text filled from what actually happened
+```
+
+Seven of the eight are caught entirely inside one file: a tampered amount,
+a dropped line, a forged signature, a rules change or a syndication
+recorded on one signature instead of the quorum, a key reconstructed from
+shares that were never part of the same split, content opened under the
+wrong key. The eighth, `forged-root-syndication`, `requires` the first
+three by name — it is the one attack that is *not* caught by a ledger
+checking itself, and that only means something once the first three have
+established that everything happening inside one file *is* provably safe.
+Skipping straight to the eighth is how "an auditor has to check by hand"
+gets mistaken for a broken chain, when the honest reading is the opposite.
+`attack.test.mjs` runs the whole tree and asserts every declared defense
+actually holds, so the templates are the test suite, not a description of
+one — add a JSON file and a matching function in `ATTACKS` and it's in.
+
 ## Tests
 
 ```bash
