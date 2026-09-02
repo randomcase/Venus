@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-thorvald-work-4",
+ "kind": "work",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "house": "Relay mast",
+ "resource": "signal",
+ "period": 11,
+ "tier": 4,
+ "yield": 30,
+ "cost": 14400,
+ "name": "Relay mast 4 of Thorvaldsson",
+ "text": "Four, and a mast can be down without anybody noticing in time to worry. Yields 30 signal every 11 days.",
+ "wovenBy": "thorvald",
+ "saga": 1597
+}

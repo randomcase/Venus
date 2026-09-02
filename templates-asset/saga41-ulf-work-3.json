@@ -1,0 +1,16 @@
+{
+ "id": "saga41-ulf-work-3",
+ "kind": "work",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "house": "Kiln",
+ "resource": "silicate",
+ "period": 5,
+ "tier": 3,
+ "yield": 15,
+ "cost": 5400,
+ "name": "Kiln 3 of Ulfsson",
+ "text": "Banking is the technology. The kilns are just kilns. Yields 15 silicate every 5 days.",
+ "wovenBy": "ulf",
+ "saga": 41
+}

@@ -1,0 +1,15 @@
+{
+ "id": "KLN.332",
+ "kind": "tranche",
+ "farm": "KLN",
+ "farmName": "Kiln of Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "degree": 3,
+ "path": "332",
+ "weight": 0.815,
+ "price": 8.95,
+ "volatility": 0.082,
+ "text": "Tranche 3.3.2 of Kiln of Ulfsson, the third degree: a quarter of the one above, weighted 0.81.",
+ "wovenBy": "KLN.33"
+}

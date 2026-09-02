@@ -1,0 +1,16 @@
+{
+ "id": "saga41-ingrid-band-8",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "shieldwall of Ingridsdottir",
+ "strength": 16,
+ "raids": true,
+ "cost": 1936,
+ "upkeep": 4,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 16; eats 4 record a day.",
+ "wovenBy": "ingrid",
+ "saga": 41
+}

@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-ulf-work-5",
+ "kind": "work",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "house": "Kiln",
+ "resource": "silicate",
+ "period": 5,
+ "tier": 5,
+ "yield": 30,
+ "cost": 18000,
+ "name": "Kiln 5 of Ulfsson",
+ "text": "The margin is now the product. Nothing here is ever short. Yields 30 silicate every 5 days.",
+ "wovenBy": "ulf",
+ "saga": 8191
+}

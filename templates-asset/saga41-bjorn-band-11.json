@@ -1,0 +1,16 @@
+{
+ "id": "saga41-bjorn-band-11",
+ "kind": "band",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "name": "the jarl's own of Bjornsdottir",
+ "strength": 8,
+ "raids": false,
+ "cost": 803,
+ "upkeep": 2,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 8; eats 2 nitrogen a day.",
+ "wovenBy": "bjorn",
+ "saga": 41
+}

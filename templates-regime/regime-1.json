@@ -1,0 +1,13 @@
+{
+ "id": "regime-1",
+ "kind": "regime",
+ "degree": 1,
+ "tickers": 16,
+ "aFarm": 4,
+ "pxACell": 256,
+ "named": true,
+ "visual": false,
+ "name": "Degree 1, sixteen.",
+ "text": "Each farm in four tranches. Still a table.",
+ "wovenBy": "market.mjs"
+}

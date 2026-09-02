@@ -1,0 +1,13 @@
+{
+ "id": "saga1597-hrafn-pile-8",
+ "kind": "pile",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "name": "a buried hoard for hydrogen",
+ "holds": 350,
+ "cost": 420,
+ "text": "Holds 350 hydrogen. What is not piled is not yours by morning.",
+ "wovenBy": "hrafn",
+ "saga": 1597
+}

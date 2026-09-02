@@ -1,0 +1,13 @@
+{
+ "id": "saga8191-bjorn-pile-6",
+ "kind": "pile",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "name": "a stone chest for nitrogen",
+ "holds": 250,
+ "cost": 300,
+ "text": "Holds 250 nitrogen. What is not piled is not yours by morning.",
+ "wovenBy": "bjorn",
+ "saga": 8191
+}

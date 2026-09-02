@@ -1,0 +1,13 @@
+{
+ "id": "saga41-hrafn-pile-7",
+ "kind": "pile",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "name": "a tally on the mast for hydrogen",
+ "holds": 250,
+ "cost": 300,
+ "text": "Holds 250 hydrogen. What is not piled is not yours by morning.",
+ "wovenBy": "hrafn",
+ "saga": 41
+}

@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-ulf-band-4",
+ "kind": "band",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "name": "wardens of the ford of Ulfsson",
+ "strength": 6,
+ "raids": true,
+ "cost": 845,
+ "upkeep": 2,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 6; eats 2 silicate a day.",
+ "wovenBy": "ulf",
+ "saga": 1597
+}

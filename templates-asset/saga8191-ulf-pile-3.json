@@ -1,0 +1,13 @@
+{
+ "id": "saga8191-ulf-pile-3",
+ "kind": "pile",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "name": "the temple store for silicate",
+ "holds": 550,
+ "cost": 660,
+ "text": "Holds 550 silicate. What is not piled is not yours by morning.",
+ "wovenBy": "ulf",
+ "saga": 8191
+}

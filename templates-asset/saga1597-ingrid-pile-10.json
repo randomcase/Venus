@@ -1,0 +1,13 @@
+{
+ "id": "saga1597-ingrid-pile-10",
+ "kind": "pile",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "name": "a buried hoard for record",
+ "holds": 950,
+ "cost": 1140,
+ "text": "Holds 950 record. What is not piled is not yours by morning.",
+ "wovenBy": "ingrid",
+ "saga": 1597
+}

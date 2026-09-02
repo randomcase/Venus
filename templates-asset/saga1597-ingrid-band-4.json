@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-ingrid-band-4",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "housecarls of Ingridsdottir",
+ "strength": 4,
+ "raids": true,
+ "cost": 595,
+ "upkeep": 1,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 4; eats 1 record a day.",
+ "wovenBy": "ingrid",
+ "saga": 1597
+}

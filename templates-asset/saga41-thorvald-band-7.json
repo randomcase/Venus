@@ -1,0 +1,16 @@
+{
+ "id": "saga41-thorvald-band-7",
+ "kind": "band",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "period": 11,
+ "name": "skirmishers of Thorvaldsson",
+ "strength": 4,
+ "raids": false,
+ "cost": 459,
+ "upkeep": 1,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 4; eats 1 signal a day.",
+ "wovenBy": "thorvald",
+ "saga": 41
+}

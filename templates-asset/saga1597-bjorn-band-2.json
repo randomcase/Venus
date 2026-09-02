@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-bjorn-band-2",
+ "kind": "band",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "name": "bowmen of Bjornsdottir",
+ "strength": 4,
+ "raids": true,
+ "cost": 522,
+ "upkeep": 1,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 4; eats 1 nitrogen a day.",
+ "wovenBy": "bjorn",
+ "saga": 1597
+}

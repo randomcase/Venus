@@ -10,10 +10,16 @@ itself, and what 100% automated means here.*
 | the yard before this session (agencies, birds, fabrics, warlocks, houses, rites, forms, quests, lessons, spells, clans, …) | 353 | yes |
 | the tribunal, two benches (acts, votes, verdicts, causes) | 602 | yes |
 | the princes, the looms, the farm, the village, the town | 400 | yes |
-| the clans' portfolio (works, bands, piles, turns) | 165 | yes |
-| **total** | **1,500** | **yes** |
+| the clans' portfolio (works, bands, piles, turns), four sagas | 660 | yes |
+| the market: four farms syndicated to the sixth degree, and the ten regimes | 21,854 | yes |
+| **total** | **23,852** | **yes** |
 
-`node clans.mjs` prints the live total; the page header carries it.
+`node clans.mjs` and `node market.mjs` print the live total; the page
+headers carry it. The templates now outweigh the program: about 9 MB of
+JSON against about 7 MB of pages, generators and scripts, and the ratio
+is printed by the yard so it cannot drift unnoticed. That is the rule
+from here: the program should be more template than idle farm, and any
+layer that can be written to disk as files is written to disk as files.
 
 ## The base loop: a Viking war of clans, as a portfolio
 

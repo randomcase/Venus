@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-ulf-band-3",
+ "kind": "band",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "name": "housecarls of Ulfsson",
+ "strength": 4,
+ "raids": false,
+ "cost": 550,
+ "upkeep": 1,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 4; eats 1 silicate a day.",
+ "wovenBy": "ulf",
+ "saga": 8191
+}

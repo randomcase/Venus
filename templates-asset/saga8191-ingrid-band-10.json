@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-ingrid-band-10",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "night raiders of Ingridsdottir",
+ "strength": 13,
+ "raids": true,
+ "cost": 1486,
+ "upkeep": 3,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 13; eats 3 record a day.",
+ "wovenBy": "ingrid",
+ "saga": 8191
+}

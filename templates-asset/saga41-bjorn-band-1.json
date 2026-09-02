@@ -1,0 +1,16 @@
+{
+ "id": "saga41-bjorn-band-1",
+ "kind": "band",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "name": "housecarls of Bjornsdottir",
+ "strength": 10,
+ "raids": false,
+ "cost": 1389,
+ "upkeep": 3,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 10; eats 3 nitrogen a day.",
+ "wovenBy": "bjorn",
+ "saga": 41
+}

@@ -1,0 +1,16 @@
+{
+ "id": "saga41-hrafn-work-2",
+ "kind": "work",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "house": "Cracking house",
+ "resource": "hydrogen",
+ "period": 2,
+ "tier": 2,
+ "yield": 7,
+ "cost": 1680,
+ "name": "Cracking house 2 of Hrafnsson",
+ "text": "A second still, and the first one stops being the bottleneck. Yields 7 hydrogen every 2 days.",
+ "wovenBy": "hrafn",
+ "saga": 41
+}

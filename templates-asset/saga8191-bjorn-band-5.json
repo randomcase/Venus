@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-bjorn-band-5",
+ "kind": "band",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "name": "thralls with spears of Bjornsdottir",
+ "strength": 9,
+ "raids": false,
+ "cost": 1096,
+ "upkeep": 2,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 9; eats 2 nitrogen a day.",
+ "wovenBy": "bjorn",
+ "saga": 8191
+}

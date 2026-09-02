@@ -41,8 +41,10 @@ const weave = new Function(WEAVE + '; return weave;')();
 const assets = weave(clans, 793);
 rmSync('templates-asset', { recursive: true, force: true }); mkdirSync('templates-asset');
 for (const a of assets) writeFileSync(`templates-asset/${a.id}.json`, JSON.stringify(a, null, 1));
+/* three more sagas of the same six clans, other seeds: the same houses, other bands and other hoards. On disk as templates, prefixed by the saga. */
+for (const seed of [41, 1597, 8191]) for (const a of weave(clans, seed)) writeFileSync(`templates-asset/saga${seed}-${a.id}.json`, JSON.stringify({ ...a, id: `saga${seed}-${a.id}`, saga: seed }, null, 1));
 const total = readdirSync('.').filter(d => d.startsWith('templates-')).reduce((n, d) => n + readdirSync(d).filter(f => f.endsWith('.json')).length, 0);
-console.log(`assets ${assets.length} from ${clans.length} clans (${assets.filter(a => a.kind === 'work').length} works, ${assets.filter(a => a.kind === 'band').length} bands, ${assets.filter(a => a.kind === 'pile').length} piles, 3 turns) · templates on disk: ${total}`);
+console.log(`assets ${assets.length} × 4 sagas from ${clans.length} clans (${assets.filter(a => a.kind === 'work').length} works, ${assets.filter(a => a.kind === 'band').length} bands, ${assets.filter(a => a.kind === 'pile').length} piles, 3 turns) · templates on disk: ${total}`);
 const spells = readdirSync('templates-spell').filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync('templates-spell/' + f, 'utf8')));
 const DEF = { clans: clans.map(c => ({ id: c.id, name: c.name, house: c.house, resource: c.resource, period: c.period, base: c.base, saga: c.saga })), assets, spells: spells.map(s => ({ id: s.id, name: s.name, glyph: s.glyph, cost: s.cost, cooldown: s.cooldown, kind: s.kind, does: s.does })), seed: 793, total };
 const page = readFileSync('clans.page.js', 'utf8');

@@ -1,0 +1,13 @@
+{
+ "id": "saga41-ingrid-pile-10",
+ "kind": "pile",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "name": "the temple store for record",
+ "holds": 200,
+ "cost": 240,
+ "text": "Holds 200 record. What is not piled is not yours by morning.",
+ "wovenBy": "ingrid",
+ "saga": 41
+}

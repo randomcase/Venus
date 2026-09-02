@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-bjorn-work-2",
+ "kind": "work",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "house": "Fixing bed",
+ "resource": "nitrogen",
+ "period": 3,
+ "tier": 2,
+ "yield": 11,
+ "cost": 2640,
+ "name": "Fixing bed 2 of Bjornsdottir",
+ "text": "The second bed is seeded from the first, so it starts where the first finished. Yields 11 nitrogen every 3 days.",
+ "wovenBy": "bjorn",
+ "saga": 1597
+}

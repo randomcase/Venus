@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-bjorn-band-5",
+ "kind": "band",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "name": "wardens of the ford of Bjornsdottir",
+ "strength": 7,
+ "raids": false,
+ "cost": 851,
+ "upkeep": 2,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 7; eats 2 nitrogen a day.",
+ "wovenBy": "bjorn",
+ "saga": 1597
+}

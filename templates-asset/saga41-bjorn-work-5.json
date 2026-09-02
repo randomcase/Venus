@@ -1,0 +1,16 @@
+{
+ "id": "saga41-bjorn-work-5",
+ "kind": "work",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "house": "Fixing bed",
+ "resource": "nitrogen",
+ "period": 3,
+ "tier": 5,
+ "yield": 41,
+ "cost": 24600,
+ "name": "Fixing bed 5 of Bjornsdottir",
+ "text": "Five phases, and the output stops looking like a batch. Yields 41 nitrogen every 3 days.",
+ "wovenBy": "bjorn",
+ "saga": 41
+}

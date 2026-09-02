@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-ingrid-band-5",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "shieldwall of Ingridsdottir",
+ "strength": 9,
+ "raids": false,
+ "cost": 1066,
+ "upkeep": 2,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 9; eats 2 record a day.",
+ "wovenBy": "ingrid",
+ "saga": 8191
+}

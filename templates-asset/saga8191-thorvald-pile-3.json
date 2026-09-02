@@ -1,0 +1,13 @@
+{
+ "id": "saga8191-thorvald-pile-3",
+ "kind": "pile",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "name": "a buried hoard for signal",
+ "holds": 400,
+ "cost": 480,
+ "text": "Holds 400 signal. What is not piled is not yours by morning.",
+ "wovenBy": "thorvald",
+ "saga": 8191
+}

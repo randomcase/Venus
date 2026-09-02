@@ -1,0 +1,16 @@
+{
+ "id": "saga41-ulf-band-4",
+ "kind": "band",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "name": "skirmishers of Ulfsson",
+ "strength": 10,
+ "raids": true,
+ "cost": 1362,
+ "upkeep": 3,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 10; eats 3 silicate a day.",
+ "wovenBy": "ulf",
+ "saga": 41
+}

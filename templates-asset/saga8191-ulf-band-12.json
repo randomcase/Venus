@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-ulf-band-12",
+ "kind": "band",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "name": "night raiders of Ulfsson",
+ "strength": 17,
+ "raids": true,
+ "cost": 1992,
+ "upkeep": 4,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 17; eats 4 silicate a day.",
+ "wovenBy": "ulf",
+ "saga": 8191
+}

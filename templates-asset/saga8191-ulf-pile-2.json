@@ -1,0 +1,13 @@
+{
+ "id": "saga8191-ulf-pile-2",
+ "kind": "pile",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "name": "jars in the cold store for silicate",
+ "holds": 600,
+ "cost": 720,
+ "text": "Holds 600 silicate. What is not piled is not yours by morning.",
+ "wovenBy": "ulf",
+ "saga": 8191
+}

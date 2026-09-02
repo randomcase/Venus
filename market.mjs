@@ -16,9 +16,13 @@
    reading tickers and starts reading weather. The seventh is grain. At the
    ninth, on a 1024-pixel board, every ticker is exactly one pixel.
 
-   Templates on disk are the farms and their first degree (20 files); the
-   syndicate function is inlined into market.html and weaves any degree in
-   the page, handing back the files to the fourth degree (340) as a bundle.
+   Templates on disk are the farms syndicated to the SIXTH degree: 21,844
+   files, which is more bytes than every page in the yard put together, and
+   that is the point: the program should be more template than idle farm.
+   The ten regimes (what each degree looks like) are templates too, in
+   templates-regime/, and the page reads them rather than carrying them.
+   The syndicate function is inlined into market.html and weaves any degree
+   in the page, handing back the files to the fourth degree as a bundle.
        node market.mjs */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from 'node:fs';
 
@@ -34,12 +38,15 @@ export const SYNDICATE = `function syndicate(farms, degree, seed) {
 const clans = Object.fromEntries(readdirSync('templates-clan').filter(f => f.endsWith('.json')).map(f => { const c = JSON.parse(readFileSync('templates-clan/' + f, 'utf8')); return [c.resource, c]; }));
 const FARMS = [['FIX', 'nitrogen', '#5ec8a0'], ['BED', 'biomass', '#8fd35a'], ['KLN', 'silicate', '#f0a83c'], ['CRK', 'hydrogen', '#5aa8f0']].map(([ticker, resource, hue]) => { const c = clans[resource]; return { ticker, name: c.house + ' of ' + c.name, resource, period: c.period, hue, yield: c.tiers[0].yield, price: c.tiers[0].yield * 40 * { nitrogen: 3, biomass: 2, silicate: 4, hydrogen: 9 }[resource], wovenBy: c.id }; });
 const syndicate = new Function(SYNDICATE + '; return syndicate;')();
-const SEED = 1597; const files = syndicate(FARMS, 1, SEED);
+const SEED = 1597, DEG = 6; const files = syndicate(FARMS, DEG, SEED);
 rmSync('templates-ticker', { recursive: true, force: true }); mkdirSync('templates-ticker');
 for (const t of files) writeFileSync(`templates-ticker/${t.id}.json`, JSON.stringify(t, null, 1));
+const REGIMES = [['four tickers', 'Four farms, four cells, four names. A list would do.'], ['sixteen', 'Each farm in four tranches. Still a table.'], ['sixty-four', 'The board is a board now; every cell keeps its name.'], ['256', 'The last degree where a ticker carries a name. Read it while you can.'], ['1,024', 'The names are gone; the cells remain. You can still point at one and mean it.'], ['4,096. This is where complexity becomes visual', 'No cell is a thing any more; the board is a texture, and the eye stops reading tickers and starts reading weather. Everything after this is more of the same, smaller.'], ['16,384', 'Texture with grain. Farms are the only shapes left.'], ['65,536', 'Grain. Motion reads as shimmer.'], ['262,144', 'Four pixels a ticker. The syndication has out-run the screen.'], ['1,048,576', 'One ticker per pixel on a 1024-pixel board. This is the ninth degree: the board is exactly as complex as the display can be, and no more complex than it was at the fifth.']].map(([count, text], d) => ({ id: 'regime-' + d, kind: 'regime', degree: d, tickers: 4 * 4 ** d, aFarm: 4 ** d, pxACell: +(1024 / 2 ** (d + 1)).toFixed(1), named: d <= 3, visual: d >= 5, name: 'Degree ' + d + ', ' + count + '.', text, wovenBy: 'market.mjs' }));
+rmSync('templates-regime', { recursive: true, force: true }); mkdirSync('templates-regime');
+for (const r of REGIMES) writeFileSync(`templates-regime/${r.id}.json`, JSON.stringify(r, null, 1));
 const total = readdirSync('.').filter(d => d.startsWith('templates-')).reduce((n, d) => n + readdirSync(d).filter(f => f.endsWith('.json')).length, 0);
-console.log(`tickers on disk ${files.length} (4 farms, first degree) · ninth degree in the page: ${4 * 4 ** 9} · templates on disk: ${total}`);
-const DEF = { farms: FARMS, seed: SEED, total, degrees: 9 };
+console.log(`tickers on disk ${files.length} (4 farms, to the ${DEG}th degree) · ninth degree in the page: ${4 * 4 ** 9} · templates on disk: ${total}`);
+const DEF = { farms: FARMS, seed: SEED, total, degrees: 9, onDisk: files.length, regimes: REGIMES };
 const page = readFileSync('market.page.js', 'utf8');
 const html = `<title>The market &middot; syndicated tickers</title>
 <meta charset="utf-8">

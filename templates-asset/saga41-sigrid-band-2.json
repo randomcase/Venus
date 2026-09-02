@@ -1,0 +1,16 @@
+{
+ "id": "saga41-sigrid-band-2",
+ "kind": "band",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "period": 7,
+ "name": "longship crew of Sigrdrifa",
+ "strength": 7,
+ "raids": true,
+ "cost": 928,
+ "upkeep": 2,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 7; eats 2 biomass a day.",
+ "wovenBy": "sigrid",
+ "saga": 41
+}

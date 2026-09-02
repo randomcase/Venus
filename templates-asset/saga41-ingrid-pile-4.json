@@ -1,0 +1,13 @@
+{
+ "id": "saga41-ingrid-pile-4",
+ "kind": "pile",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "name": "jars in the cold store for record",
+ "holds": 850,
+ "cost": 1020,
+ "text": "Holds 850 record. What is not piled is not yours by morning.",
+ "wovenBy": "ingrid",
+ "saga": 41
+}

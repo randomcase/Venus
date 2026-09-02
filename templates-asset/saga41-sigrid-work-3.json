@@ -1,0 +1,16 @@
+{
+ "id": "saga41-sigrid-work-3",
+ "kind": "work",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "house": "Bed",
+ "resource": "biomass",
+ "period": 7,
+ "tier": 3,
+ "yield": 7,
+ "cost": 2520,
+ "name": "Bed 3 of Sigrdrifa",
+ "text": "The network under the bed is doing more than the bed is. Yields 7 biomass every 7 days.",
+ "wovenBy": "sigrid",
+ "saga": 41
+}

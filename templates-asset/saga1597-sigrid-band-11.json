@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-sigrid-band-11",
+ "kind": "band",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "period": 7,
+ "name": "the jarl's own of Sigrdrifa",
+ "strength": 8,
+ "raids": false,
+ "cost": 778,
+ "upkeep": 2,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 8; eats 2 biomass a day.",
+ "wovenBy": "sigrid",
+ "saga": 1597
+}

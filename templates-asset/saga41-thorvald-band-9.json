@@ -1,0 +1,16 @@
+{
+ "id": "saga41-thorvald-band-9",
+ "kind": "band",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "period": 11,
+ "name": "the jarl's own of Thorvaldsson",
+ "strength": 16,
+ "raids": false,
+ "cost": 1930,
+ "upkeep": 4,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 16; eats 4 signal a day.",
+ "wovenBy": "thorvald",
+ "saga": 41
+}

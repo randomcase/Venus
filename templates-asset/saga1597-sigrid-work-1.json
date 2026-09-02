@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-sigrid-work-1",
+ "kind": "work",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "house": "Bed",
+ "resource": "biomass",
+ "period": 7,
+ "tier": 1,
+ "yield": 2,
+ "cost": 240,
+ "name": "Bed 1 of Sigrdrifa",
+ "text": "A bed. Most of what is in it will not take. Yields 2 biomass every 7 days.",
+ "wovenBy": "sigrid",
+ "saga": 1597
+}

@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-ulf-work-2",
+ "kind": "work",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "house": "Kiln",
+ "resource": "silicate",
+ "period": 5,
+ "tier": 2,
+ "yield": 9,
+ "cost": 2160,
+ "name": "Kiln 2 of Ulfsson",
+ "text": "A second kiln banked against the night, which is fifty-eight days long. Yields 9 silicate every 5 days.",
+ "wovenBy": "ulf",
+ "saga": 8191
+}

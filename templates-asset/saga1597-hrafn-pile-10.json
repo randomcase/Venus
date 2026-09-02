@@ -1,0 +1,13 @@
+{
+ "id": "saga1597-hrafn-pile-10",
+ "kind": "pile",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "name": "jars in the cold store for hydrogen",
+ "holds": 600,
+ "cost": 720,
+ "text": "Holds 600 hydrogen. What is not piled is not yours by morning.",
+ "wovenBy": "hrafn",
+ "saga": 1597
+}

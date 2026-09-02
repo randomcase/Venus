@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-bjorn-band-12",
+ "kind": "band",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "name": "housecarls of Bjornsdottir",
+ "strength": 15,
+ "raids": true,
+ "cost": 1792,
+ "upkeep": 4,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 15; eats 4 nitrogen a day.",
+ "wovenBy": "bjorn",
+ "saga": 1597
+}

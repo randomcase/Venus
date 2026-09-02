@@ -1,0 +1,13 @@
+{
+ "id": "saga8191-ulf-pile-10",
+ "kind": "pile",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "name": "a sealed cistern for silicate",
+ "holds": 650,
+ "cost": 780,
+ "text": "Holds 650 silicate. What is not piled is not yours by morning.",
+ "wovenBy": "ulf",
+ "saga": 8191
+}

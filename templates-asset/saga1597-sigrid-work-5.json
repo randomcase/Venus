@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-sigrid-work-5",
+ "kind": "work",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "house": "Bed",
+ "resource": "biomass",
+ "period": 7,
+ "tier": 5,
+ "yield": 16,
+ "cost": 9600,
+ "name": "Bed 5 of Sigrdrifa",
+ "text": "It is a soil now. That word was not earned until this tier. Yields 16 biomass every 7 days.",
+ "wovenBy": "sigrid",
+ "saga": 1597
+}

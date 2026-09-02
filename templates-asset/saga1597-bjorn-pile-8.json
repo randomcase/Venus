@@ -1,0 +1,13 @@
+{
+ "id": "saga1597-bjorn-pile-8",
+ "kind": "pile",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "name": "the temple store for nitrogen",
+ "holds": 800,
+ "cost": 960,
+ "text": "Holds 800 nitrogen. What is not piled is not yours by morning.",
+ "wovenBy": "bjorn",
+ "saga": 1597
+}

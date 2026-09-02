@@ -1,0 +1,13 @@
+{
+ "id": "saga1597-thorvald-pile-5",
+ "kind": "pile",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "name": "a raft of barrels for signal",
+ "holds": 300,
+ "cost": 360,
+ "text": "Holds 300 signal. What is not piled is not yours by morning.",
+ "wovenBy": "thorvald",
+ "saga": 1597
+}

@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-thorvald-work-5",
+ "kind": "work",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "house": "Relay mast",
+ "resource": "signal",
+ "period": 11,
+ "tier": 5,
+ "yield": 40,
+ "cost": 24000,
+ "name": "Relay mast 5 of Thorvaldsson",
+ "text": "Redundancy is not a spare. It is the absence of a single answer to who carries the message. Yields 40 signal every 11 days.",
+ "wovenBy": "thorvald",
+ "saga": 8191
+}
