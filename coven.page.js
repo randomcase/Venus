@@ -176,18 +176,27 @@
      is the waystation's early carry — a syndicate with one may carry its OWN signed proposals the
      moment they are ready, without waiting for the six-month interval, and never another's. */
   async function carry(quiet, onlySyn) {
+    /* d1 is captured once, here, and reused everywhere below — never re-read after the await.
+       carry is async (the digest call yields), and the catch-up loop that replays a long
+       absence is a plain synchronous while-loop that never awaits anything itself, so it can
+       run S.day all the way to the end of the absence before this function ever gets to resume.
+       Re-reading Math.floor(S.day) after the await picked up that far-future day instead of the
+       day the carry actually happened on. Found live: catching up 200 days across the 183-day
+       interval recorded the checkpoint as day 232 while lastSync (set before the await) correctly
+       held 183 — the two disagreeing is what gave it away. */
+    const d1 = Math.floor(S.day);
     const ready = S.props.filter(p => p.signed.length >= 2 && (!onlySyn || p.syn === onlySyn));
     if (onlySyn && !ready.length) { note(`Nothing signed at ${W.syndicates.find(s => s.id === onlySyn).name} yet to carry early.`); return render(); }
-    if (!onlySyn) S.lastSync = Math.floor(S.day);
+    if (!onlySyn) S.lastSync = d1;
     const prev = S.chain.length ? S.chain[0].hash : '0'.repeat(64);
     const far = farSide(S.chain.length + 1);
-    const body = JSON.stringify({ at: Math.floor(S.day), prev, far, onlySyn: onlySyn || null, events: ready.map(p => ({ id: p.id, door: p.door, syn: p.syn, amount: p.amount, signed: p.signed })) });
+    const body = JSON.stringify({ at: d1, prev, far, onlySyn: onlySyn || null, events: ready.map(p => ({ id: p.id, door: p.door, syn: p.syn, amount: p.amount, signed: p.signed })) });
     let hash; try { const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(body)); hash = [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join(''); }
     catch (e) { hash = 'sha-256 unavailable in this context'; }
-    S.chain.unshift({ n: S.chain.length + 1, at: Math.floor(S.day), count: ready.length, amount: ready.reduce((a, p) => a + p.amount, 0), prev, hash, far, early: !!onlySyn }); S.chain.length = Math.min(S.chain.length, 40);
+    S.chain.unshift({ n: S.chain.length + 1, at: d1, count: ready.length, amount: ready.reduce((a, p) => a + p.amount, 0), prev, hash, far, early: !!onlySyn }); S.chain.length = Math.min(S.chain.length, 40);
     S.props = S.props.filter(p => !(p.signed.length >= 2 && (!onlySyn || p.syn === onlySyn))); S.carried += ready.length;
-    for (const synId of new Set(ready.map(p => p.syn))) S.lastCarriedAt[synId] = Math.floor(S.day);
-    updateStances(Math.floor(S.day), quiet);
+    for (const synId of new Set(ready.map(p => p.syn))) S.lastCarriedAt[synId] = d1;
+    updateStances(d1, quiet);
     if (!quiet) note(onlySyn ? `Early carry via the waystation at ${W.syndicates.find(s => s.id === onlySyn).name}: ${ready.length} carried, ${fmt(ready.reduce((a, p) => a + p.amount, 0))} HEZE, ahead of the interval.`
       : ready.length ? `Syndication ${S.chain.length}: ${ready.length} carried across, ${fmt(ready.reduce((a, p) => a + p.amount, 0))} HEZE, checkpoint ${hash.slice(0, 12)}.` : `Syndication ${S.chain.length}: nothing was signed, so nothing crossed. The checkpoint says so.`);
     save(); render(); }
