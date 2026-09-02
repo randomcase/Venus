@@ -1,0 +1,87 @@
+{
+ "id": "dance-101",
+ "kind": "theme",
+ "name": "Dance 101",
+ "text": "The third look, and the proof the ship can throw a party without a line of code changing: same broadcast structure as Hesperus, same wine-dark discipline of Wine-dark, but the palette turns into a dance floor at 1am — hot magenta and electric lime over near-black purple, the fireflies turned into strobing sparks instead of slow drifting fireflies, quick and bright. Nothing in it has a face, same as always; it just has better rhythm.",
+ "palette": {
+  "void": "#0a0714",
+  "panel": "#160f28",
+  "panel2": "#201638",
+  "edge": "#7a3aa0",
+  "ink": "#fdf3ff",
+  "dim": "#b79bd6",
+  "gold": "#ffe14d",
+  "venus": "#ff5fa8",
+  "ok": "#7dffb0",
+  "bad": "#ff4470",
+  "sea": "#42e8ff",
+  "magenta": "#ff3ec8"
+ },
+ "type": {
+  "serif": "\"Baloo 2\",\"Poppins\",\"Segoe UI\",system-ui,sans-serif",
+  "titleTransform": "uppercase",
+  "titleSpacing": ".12em",
+  "titleWeight": "800",
+  "titleColor": "#fff",
+  "headingSpacing": ".09em",
+  "headingSize": "14px",
+  "labelSpacing": ".14em",
+  "labelSize": "10px"
+ },
+ "sky": {
+  "top": "#3a1258",
+  "stop": "58%",
+  "width": "1400px",
+  "height": "700px"
+ },
+ "glow": {
+  "edge": "rgba(255,62,200,.1)",
+  "inner": "rgba(66,232,255,.06)",
+  "button": "rgba(66,232,255,.4)",
+  "primary": "rgba(255,62,200,.45)",
+  "title": "rgba(255,225,77,.5)",
+  "canvas": "rgba(255,62,200,.16)"
+ },
+ "fireflies": {
+  "hues": [
+   ["255,62,200", "#ff3ec8"],
+   ["66,232,255", "#42e8ff"],
+   ["255,225,77", "#ffe14d"],
+   ["125,255,176", "#7dffb0"],
+   ["255,95,168", "#ff5fa8"]
+  ],
+  "sizeMin": 1.0,
+  "sizeSpan": 1.2,
+  "halo": 9,
+  "core": 2.4,
+  "coreAlpha": ".35",
+  "spread": "-6%",
+  "layers": [
+   { "seed": 101, "count": 16, "drift": "tn-drift-a 17s", "blink": "tn-blink-a 1.9s", "delay": "0s" },
+   { "seed": 102, "count": 16, "drift": "tn-drift-b 19s", "blink": "tn-blink-b 2.3s", "delay": ".4s" },
+   { "seed": 103, "count": 14, "drift": "tn-drift-c 21s", "blink": "tn-blink-a 1.5s", "delay": ".8s" },
+   { "seed": 104, "count": 14, "drift": "tn-drift-b 15s reverse", "blink": "tn-blink-b 2.7s", "delay": ".2s" }
+  ],
+  "blinkA": "0%,20%,100%{opacity:.3}30%{opacity:1}40%{opacity:.32}",
+  "blinkB": "0%,25%,100%{opacity:.28}35%{opacity:1}45%{opacity:.3}",
+  "reducedOpacity": ".5"
+ },
+ "glass": {
+  "scanlineColor": "rgba(0,0,0,.1)",
+  "scanlineOn": "2px",
+  "scanlineOff": "5px",
+  "vignetteStart": "62%",
+  "vignetteColor": "rgba(10,7,20,.4)"
+ },
+ "standard": {
+  "text": "SPQR",
+  "sub": "the ship Hesperus &middot; the senate and the people of it",
+  "color": "#ffe14d",
+  "border": "#7a3aa0",
+  "glow": "rgba(255,62,200,.55)",
+  "corner": "left:14px;bottom:12px",
+  "spacing": ".38em"
+ },
+ "wovenBy": "the bridge",
+ "note": "Put this on the ship by writing {\"theme\":\"dance-101\"} into templates-theme/_active.json and running node toonami-all.mjs. Everybody hide your fireflies from the scarecrow — but let this one dance."
+}
