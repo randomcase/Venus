@@ -1,0 +1,15 @@
+{
+ "id": "region-ulf",
+ "kind": "region",
+ "name": "Atla Regio",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "seat": [
+  47,
+  18
+ ],
+ "parcels": 365,
+ "wovenBy": "ulf"
+}

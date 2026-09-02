@@ -1,0 +1,16 @@
+{
+ "id": "parcel-37-14",
+ "kind": "parcel",
+ "x": 37,
+ "y": 14,
+ "region": "Atla Regio",
+ "clan": "ulf",
+ "resource": "silicate",
+ "period": 5,
+ "terrain": "chasma",
+ "fertility": 0.8,
+ "yield": 1.53,
+ "text": "the floor of a chasma, sheltered, in Atla Regio, sown from a pit for silicate.",
+ "wovenBy": "ulf-pile-7",
+ "chain": "seven deep"
+}

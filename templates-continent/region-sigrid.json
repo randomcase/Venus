@@ -1,0 +1,15 @@
+{
+ "id": "region-sigrid",
+ "kind": "region",
+ "name": "Artemis Chasma",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "period": 7,
+ "seat": [
+  47,
+  24
+ ],
+ "parcels": 306,
+ "wovenBy": "sigrid"
+}

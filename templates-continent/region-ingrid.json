@@ -1,0 +1,15 @@
+{
+ "id": "region-ingrid",
+ "kind": "region",
+ "name": "Ulfrun Regio",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "seat": [
+  52,
+  21
+ ],
+ "parcels": 328,
+ "wovenBy": "ingrid"
+}

@@ -1,0 +1,16 @@
+{
+ "id": "parcel-54-0",
+ "kind": "parcel",
+ "x": 54,
+ "y": 0,
+ "region": "Atla Regio",
+ "clan": "ulf",
+ "resource": "silicate",
+ "period": 5,
+ "terrain": "tessera",
+ "fertility": 0.6,
+ "yield": 1.66,
+ "text": "tessera, folded highland that holds less, in Atla Regio, sown from jars in the cold store for silicate.",
+ "wovenBy": "ulf-pile-5",
+ "chain": "seven deep"
+}

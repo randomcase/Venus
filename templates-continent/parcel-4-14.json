@@ -1,0 +1,16 @@
+{
+ "id": "parcel-4-14",
+ "kind": "parcel",
+ "x": 4,
+ "y": 14,
+ "region": "Thetis Regio",
+ "clan": "bjorn",
+ "resource": "nitrogen",
+ "period": 3,
+ "terrain": "tessera",
+ "fertility": 0.6,
+ "yield": 1.24,
+ "text": "tessera, folded highland that holds less, in Thetis Regio, sown from a pit for nitrogen.",
+ "wovenBy": "bjorn-pile-8",
+ "chain": "seven deep"
+}

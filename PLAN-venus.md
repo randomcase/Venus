@@ -12,7 +12,8 @@ itself, and what 100% automated means here.*
 | the princes, the looms, the farm, the village, the town | 400 | yes |
 | the clans' portfolio (works, bands, piles, turns), four sagas | 660 | yes |
 | the market: four farms syndicated to the sixth degree, and the ten regimes | 21,854 | yes |
-| **total** | **23,852** | **yes** |
+| Aphrodite Terra: 4,096 parcels and 6 regions, sown from the piles | 4,102 | yes |
+| **total** | **27,954** | **yes** |
 
 `node clans.mjs` and `node market.mjs` print the live total; the page
 headers carry it. The templates now outweigh the program: about 9 MB of
@@ -70,5 +71,7 @@ of enums and seals it onto the shelf; the shelf is the syndication.
 1. Inline the looms into the farm, village and town pages (re-weave from inside).
 2. The clans' raids on each other, not only on you: a real war of clans with
    the audit's choke test run over the raid graph every season.
-3. The continental farm: the clans' piles feed the farm's fields, the farm
-   the village, the village the town; one docket, one chain, seven deep.
+3. Done: Aphrodite Terra (`continent.mjs`), the continental farm sown from
+   the clans' piles, propagating on the periods, seven deep. Next: its
+   provision as the village's grain and the town's rent, so the chain runs
+   clan → pile → parcel → village → town on one docket.

@@ -1,0 +1,16 @@
+{
+ "id": "parcel-47-33",
+ "kind": "parcel",
+ "x": 47,
+ "y": 33,
+ "region": "Artemis Chasma",
+ "clan": "sigrid",
+ "resource": "biomass",
+ "period": 7,
+ "terrain": "chasma",
+ "fertility": 0.8,
+ "yield": 1.64,
+ "text": "the floor of a chasma, sheltered, in Artemis Chasma, sown from a longhouse loft for biomass.",
+ "wovenBy": "sigrid-pile-4",
+ "chain": "seven deep"
+}

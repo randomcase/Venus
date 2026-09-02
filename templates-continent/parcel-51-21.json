@@ -1,0 +1,16 @@
+{
+ "id": "parcel-51-21",
+ "kind": "parcel",
+ "x": 51,
+ "y": 21,
+ "region": "Ulfrun Regio",
+ "clan": "ingrid",
+ "resource": "record",
+ "period": 13,
+ "terrain": "corona",
+ "fertility": 1.3,
+ "yield": 3.25,
+ "text": "the rim of a corona, rich and warm, in Ulfrun Regio, sown from a raft of barrels for record.",
+ "wovenBy": "ingrid-pile-2",
+ "chain": "seven deep"
+}

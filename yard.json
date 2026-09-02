@@ -1,5 +1,5 @@
 {
- "generators": 64,
+ "generators": 65,
  "schema": {
   "templates-act": {
    "owner": null,
@@ -299,6 +299,29 @@
     "how": "string",
     "honest": "string",
     "good_for": "string"
+   },
+   "example": "id"
+  },
+  "templates-continent": {
+   "owner": "continent.mjs",
+   "declared": false,
+   "count": 4102,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "kind": "string",
+    "x": "number",
+    "y": "number",
+    "region": "string",
+    "clan": "string",
+    "resource": "string",
+    "period": "number",
+    "terrain": "string",
+    "fertility": "number",
+    "yield": "number",
+    "text": "string",
+    "wovenBy": "string",
+    "chain": "string"
    },
    "example": "id"
   },
@@ -1162,7 +1185,8 @@
    "dir": "templates-asset",
    "files": 660,
    "read_by": [
-    "clans.mjs"
+    "clans.mjs",
+    "continent.mjs"
    ]
   },
   {
@@ -1226,6 +1250,7 @@
    "read_by": [
     "arcade.mjs",
     "clans.mjs",
+    "continent.mjs",
     "market.mjs",
     "steading.mjs"
    ]
@@ -1238,6 +1263,13 @@
     "consistency.mjs",
     "reconcile.mjs",
     "treasury.mjs"
+   ]
+  },
+  {
+   "dir": "templates-continent",
+   "files": 4102,
+   "read_by": [
+    "continent.mjs"
    ]
   },
   {
@@ -1504,6 +1536,7 @@
   "challenges.mjs",
   "cistern.mjs",
   "clans.mjs",
+  "continent.mjs",
   "corps.mjs",
   "descent.mjs",
   "dispatch.mjs",
@@ -1767,6 +1800,20 @@
     "consistency.json"
    ],
    "refuses": "Nothing, and that is deliberate. A consistency checker that halts the build\r\n   turns every disagreement into an emergency and gets switched off. It exits\r\n   0, reports everything, and separates FAULTS (something is wrong) from GAPS\r\n   (something is incomplete and known). The distinction is the whole value."
+  },
+  "continent.mjs": {
+   "reads": [
+    "continent.page.js",
+    "templates-asset",
+    "templates-asset/",
+    "templates-clan",
+    "templates-clan/",
+    "templates-continent"
+   ],
+   "writes": [
+    "continent.html"
+   ],
+   "refuses": ""
   },
   "corps.mjs": {
    "reads": [],

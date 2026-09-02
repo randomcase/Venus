@@ -14,6 +14,7 @@
   "dispatch",
   "clans",
   "market",
+  "continent",
   "other"
  ],
  "kind": [
@@ -29,6 +30,7 @@
   "shelf",
   "portfolio",
   "market",
+  "continent",
   "other"
  ],
  "mood": [

@@ -1,0 +1,16 @@
+{
+ "id": "parcel-49-23",
+ "kind": "parcel",
+ "x": 49,
+ "y": 23,
+ "region": "Artemis Chasma",
+ "clan": "sigrid",
+ "resource": "biomass",
+ "period": 7,
+ "terrain": "corona",
+ "fertility": 1.3,
+ "yield": 1.64,
+ "text": "the rim of a corona, rich and warm, in Artemis Chasma, sown from a buried hoard for biomass.",
+ "wovenBy": "sigrid-pile-8",
+ "chain": "seven deep"
+}

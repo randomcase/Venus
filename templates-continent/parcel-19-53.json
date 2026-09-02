@@ -1,0 +1,16 @@
+{
+ "id": "parcel-19-53",
+ "kind": "parcel",
+ "x": 19,
+ "y": 53,
+ "region": "Thetis Regio",
+ "clan": "bjorn",
+ "resource": "nitrogen",
+ "period": 3,
+ "terrain": "chasma",
+ "fertility": 0.8,
+ "yield": 1.63,
+ "text": "the floor of a chasma, sheltered, in Thetis Regio, sown from a tally on the mast for nitrogen.",
+ "wovenBy": "bjorn-pile-6",
+ "chain": "seven deep"
+}

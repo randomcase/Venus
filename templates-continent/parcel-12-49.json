@@ -1,0 +1,16 @@
+{
+ "id": "parcel-12-49",
+ "kind": "parcel",
+ "x": 12,
+ "y": 49,
+ "region": "Thetis Regio",
+ "clan": "bjorn",
+ "resource": "nitrogen",
+ "period": 3,
+ "terrain": "plains",
+ "fertility": 1,
+ "yield": 1.31,
+ "text": "volcanic plains, the easy ground, in Thetis Regio, sown from the temple store for nitrogen.",
+ "wovenBy": "bjorn-pile-7",
+ "chain": "seven deep"
+}

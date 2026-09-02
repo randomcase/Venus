@@ -1,0 +1,16 @@
+{
+ "id": "parcel-38-41",
+ "kind": "parcel",
+ "x": 38,
+ "y": 41,
+ "region": "Diana Chasma",
+ "clan": "thorvald",
+ "resource": "signal",
+ "period": 11,
+ "terrain": "chasma",
+ "fertility": 0.8,
+ "yield": 2.06,
+ "text": "the floor of a chasma, sheltered, in Diana Chasma, sown from a buried hoard for signal.",
+ "wovenBy": "thorvald-pile-10",
+ "chain": "seven deep"
+}

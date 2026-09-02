@@ -1,0 +1,16 @@
+{
+ "id": "parcel-59-5",
+ "kind": "parcel",
+ "x": 59,
+ "y": 5,
+ "region": "Ulfrun Regio",
+ "clan": "ingrid",
+ "resource": "record",
+ "period": 13,
+ "terrain": "plains",
+ "fertility": 1,
+ "yield": 1.4,
+ "text": "volcanic plains, the easy ground, in Ulfrun Regio, sown from jars in the cold store for record.",
+ "wovenBy": "ingrid-pile-4",
+ "chain": "seven deep"
+}
