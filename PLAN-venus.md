@@ -125,6 +125,20 @@ waiting or blocked, with one line at the top naming the earliest block. People
 on the ship should know exactly what they are doing and what is going on, and
 that panel is where it is said.
 
+## The terminal: the notebook before the automation
+
+`terminal.html` is the text layer for the whole ship: `sow 31 44`, `take
+<id>`, `sign <id> <office>`, `carry` all act on the same saved state the
+buttons act on, immediately, and say what they changed. It is the notebook
+half of "notebook, API calls, JSON, then automation": `json <path>` reads a
+template as built, `api <path>` calls the ledger server on 7332, `set <path>
+<key> <value>` changes a rule and keeps it in the browser the same way the
+quarter's editor does. Only once a sequence of commands is right by hand can
+it be `record`ed into a macro and `automate`d on an interval — nothing runs
+unattended that was not first typed by a person. `look` reads the symbiosis
+and says what to do next; `define` reads the glossary; `chronicle` reads what
+the ship already wrote about itself.
+
 ## Venus M1
 
 This build is the first mark of the ship: the loop closed, the bridge as the
