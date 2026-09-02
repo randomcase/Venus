@@ -1143,6 +1143,10 @@
    "kind": "library"
   },
   {
+   "file": "toonami.mjs",
+   "kind": "library"
+  },
+  {
    "file": "venus-app.mjs",
    "kind": "server"
   },
@@ -1773,7 +1777,8 @@
     "templates-clan",
     "templates-clan/",
     "templates-spell",
-    "templates-spell/"
+    "templates-spell/",
+    "toonami.mjs"
    ],
    "writes": [
     "clans.html"
@@ -1808,7 +1813,8 @@
     "templates-asset/",
     "templates-clan",
     "templates-clan/",
-    "templates-continent"
+    "templates-continent",
+    "toonami.mjs"
    ],
    "writes": [
     "continent.html"
@@ -2021,7 +2027,8 @@
     "templates-clan",
     "templates-clan/",
     "templates-regime",
-    "templates-ticker"
+    "templates-ticker",
+    "toonami.mjs"
    ],
    "writes": [
     "market.html"
@@ -2179,6 +2186,7 @@
     "templates-town",
     "templates-village",
     "templates-village/",
+    "toonami.mjs",
     "town.page.js"
    ],
    "writes": [
@@ -2214,6 +2222,7 @@
     "templates-farm",
     "templates-farm/",
     "templates-village",
+    "toonami.mjs",
     "village.page.js"
    ],
    "writes": [

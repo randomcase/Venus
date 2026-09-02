@@ -19,6 +19,7 @@
        node clans.mjs
 */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from 'node:fs';
+import { TOONAMI, FIREFLIES } from './toonami.mjs';
 
 export const WEAVE = `function weave(clans, seed) {
   const h32 = (a, b, c) => { let x = (Math.imul(a, 73856093) ^ Math.imul(b, 19349663) ^ Math.imul(c, 83492791)) | 0; x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return x >>> 0; };
@@ -81,6 +82,7 @@ const html = `<title>War of clans &middot; a portfolio on Venus</title>
   textarea,input[type=number]{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--edge);border-radius:9px;padding:6px 8px}
   footer{padding:10px 24px 28px;color:var(--dim);font-size:12px;max-width:1160px;margin:0 auto}footer a{color:var(--sea);text-decoration:none}
 </style>
+${TOONAMI}
 <header><h1>War of clans</h1><small>a portfolio on Venus · six clans, six coprime periods · one day a second · bronze age, sword and sorcery</small><span class="sp"></span><small id="clock"></small></header>
 <canvas id="scene" width="1160" height="240"></canvas>
 <main>
@@ -96,6 +98,7 @@ const html = `<title>War of clans &middot; a portfolio on Venus</title>
   </div>
 </main>
 <footer>Clans from <a href="clans.html">templates-clan/</a>, spells from <a href="warlock.html">the warlock</a>, the cadence from the sixth lesson in <a href="school.html">the school</a>; the docket from <a href="descent.html">the ground landing</a>. ${total} templates on disk at build. <a href="arcade.html">← the arcade</a> · <a href="index.html">the yard</a></footer>
+${FIREFLIES}
 <script id="def-json" type="application/json">${JSON.stringify(DEF).replace(/<\//g, '<\\/')}</script>
 <script>
 ${WEAVE}

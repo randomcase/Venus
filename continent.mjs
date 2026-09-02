@@ -21,6 +21,7 @@
    another seed and hand back 4,096 files. Seven deep: clan → pile → parcel.
        node continent.mjs */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from 'node:fs';
+import { TOONAMI, FIREFLIES } from './toonami.mjs';
 
 export const WEAVE = `function weave(clans, piles, seed, N) {
   const h32 = (a, b, c) => { let x = (Math.imul(a, 73856093) ^ Math.imul(b, 19349663) ^ Math.imul(c, 83492791)) | 0; x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return x >>> 0; };
@@ -78,6 +79,7 @@ const html = `<title>Aphrodite Terra &middot; the continental farm</title>
   .log{font-size:12px;color:var(--dim);max-height:180px;overflow:auto}.log div{border-bottom:1px solid var(--edge);padding:3px 0}.warn{color:var(--gold);font-size:12px;margin:0 0 8px}
   footer{padding:10px 24px 28px;color:var(--dim);font-size:12px;max-width:1200px;margin:0 auto}footer a{color:var(--sea);text-decoration:none}
 </style>
+${TOONAMI}
 <header><h1>Aphrodite Terra</h1><small>the continental farm · 4,096 parcels, six regions, one per clan · sown from the clans' piles · one day a second</small><span class="sp"></span><small id="clock"></small></header>
 <main>
   <div class="map"><canvas id="map" width="64" height="64"></canvas><div class="legend" id="legend"></div><p style="color:var(--dim);font-size:12px;margin:8px 0 0">Click a parcel to sow it from its clan's pile. Grown parcels propagate into bare neighbours of their region on the clan's period, one unit of the pile per parcel. Lava takes nothing.</p></div>
@@ -91,6 +93,7 @@ const html = `<title>Aphrodite Terra &middot; the continental farm</title>
   </div>
 </main>
 <footer>Sown from <a href="clans.html">the war of clans</a>; the regions are real features of Venus; the docket is shared with <a href="descent.html">the ground landing</a>. ${total} templates on disk at build. <a href="arcade.html">← the arcade</a> · <a href="index.html">the yard</a></footer>
+${FIREFLIES}
 <script id="def-json" type="application/json">${JSON.stringify(DEF).replace(/<\//g, '<\\/')}</script>
 <script>
 ${WEAVE}

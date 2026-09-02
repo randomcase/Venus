@@ -13,6 +13,7 @@
        node village.mjs
 */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from 'node:fs';
+import { TOONAMI, FIREFLIES } from './toonami.mjs';
 const leaves = readdirSync('templates-farm').filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync('templates-farm/' + f, 'utf8')));
 rmSync('templates-village', { recursive: true, force: true }); mkdirSync('templates-village');
 const h32 = (a, b, c) => { let x = (Math.imul(a, 73856093) ^ Math.imul(b, 19349663) ^ Math.imul(c, 83492791)) | 0; x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return x >>> 0; };
@@ -69,6 +70,7 @@ const html = `<title>The village &middot; built from the farm</title>
   .chain{font-size:11px;color:var(--dim)}.chain code{color:var(--sea)}
   footer{padding:10px 24px 28px;color:var(--dim);font-size:12px;max-width:1120px;margin:0 auto}footer a{color:var(--sea);text-decoration:none}
 </style>
+${TOONAMI}
 <header><h1>The village</h1><small>built from the farm · the chain is five deep · one day a second</small><span class="sp"></span><small id="clock"></small></header>
 <canvas id="scene" width="1120" height="260"></canvas>
 <main>
@@ -87,6 +89,7 @@ const html = `<title>The village &middot; built from the farm</title>
   </div>
 </main>
 <footer>Templates in templates-village/, each naming its leaf in templates-farm/; the harvest comes from <a href="farm.html">the farm</a>; the docket from <a href="descent.html">the ground landing</a>. Nothing here is money. <a href="arcade.html">← the arcade</a> · <a href="index.html">the yard</a></footer>
+${FIREFLIES}
 <script id="def-json" type="application/json">${JSON.stringify(DEF).replace(/<\//g, '<\\/')}</script>
 <script>
 ${page}

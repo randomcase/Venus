@@ -25,6 +25,7 @@
    in the page, handing back the files to the fourth degree as a bundle.
        node market.mjs */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from 'node:fs';
+import { TOONAMI, FIREFLIES } from './toonami.mjs';
 
 export const SYNDICATE = `function syndicate(farms, degree, seed) {
   const h32 = (a, b, c) => { let x = (Math.imul(a, 73856093) ^ Math.imul(b, 19349663) ^ Math.imul(c, 83492791)) | 0; x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return x >>> 0; };
@@ -79,6 +80,7 @@ const html = `<title>The market &middot; syndicated tickers</title>
   .log{font-size:12px;color:var(--dim);max-height:160px;overflow:auto}.log div{border-bottom:1px solid var(--edge);padding:3px 0}
   footer{padding:10px 24px 28px;color:var(--dim);font-size:12px;max-width:1200px;margin:0 auto}footer a{color:var(--sea);text-decoration:none}
 </style>
+${TOONAMI}
 <header><h1>The market</h1><small>four stock-standard farms, syndicated to the ninth degree · one day a second</small><span class="sp"></span><small id="clock"></small></header>
 <div class="tape" id="tape"></div>
 <main>
@@ -96,6 +98,7 @@ const html = `<title>The market &middot; syndicated tickers</title>
   </div>
 </main>
 <footer>The farms are four of the six clans in <a href="clans.html">the war of clans</a>; prices settle to the shared docket from <a href="descent.html">the ground landing</a>. ${total} templates on disk at build. <a href="arcade.html">← the arcade</a> · <a href="index.html">the yard</a></footer>
+${FIREFLIES}
 <script id="def-json" type="application/json">${JSON.stringify(DEF).replace(/<\//g, '<\\/')}</script>
 <script>
 ${SYNDICATE}

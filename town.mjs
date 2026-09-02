@@ -11,6 +11,7 @@
        node town.mjs
 */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from 'node:fs';
+import { TOONAMI, FIREFLIES } from './toonami.mjs';
 const V = readdirSync('templates-village').filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync('templates-village/' + f, 'utf8')));
 rmSync('templates-town', { recursive: true, force: true }); mkdirSync('templates-town');
 const T = [];
@@ -56,6 +57,7 @@ const html = `<title>The town &middot; built from the village</title>
   .saying{font:italic 15px/1.5 var(--serif);color:var(--gold);margin:0}.chain{font-size:11px;color:var(--dim)}.chain code{color:var(--sea)}
   footer{padding:10px 24px 28px;color:var(--dim);font-size:12px;max-width:1120px;margin:0 auto}footer a{color:var(--sea);text-decoration:none}
 </style>
+${TOONAMI}
 <header><h1>The town</h1><small>built from the village · the chain is six deep · one day a second</small><span class="sp"></span><small id="clock"></small></header>
 <canvas id="scene" width="1120" height="260"></canvas>
 <main>
@@ -67,6 +69,7 @@ const html = `<title>The town &middot; built from the village</title>
   </div>
 </main>
 <footer>Templates in templates-town/, each naming its village template; the citizens come from <a href="village.html">the village</a>; the docket from <a href="descent.html">the ground landing</a>. Nothing here is money. <a href="arcade.html">← the arcade</a> · <a href="index.html">the yard</a></footer>
+${FIREFLIES}
 <script id="def-json" type="application/json">${JSON.stringify(DEF).replace(/<\//g, '<\\/')}</script>
 <script>
 ${page}
