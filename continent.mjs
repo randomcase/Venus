@@ -13,8 +13,8 @@
    period, drawing one unit of the pile per new parcel. The continent greens
    outward from wherever you sow and stops exactly where the piles run dry;
    the six periods are coprime, so the six regions never advance together.
-   Grown parcels yield provision on the period; provision sells to the
-   docket. Terrain is from the planet: tessera holds less, plains more,
+   Grown parcels yield provision on the period; provision goes up to the
+   village as grain, and the village's grain feeds the town. Terrain is from the planet: tessera holds less, plains more,
    lava flows nothing.
 
    The weave function is inlined so the page can re-weave the continent from
@@ -59,7 +59,8 @@ const html = `<title>Aphrodite Terra &middot; the continental farm</title>
   piles. The page reads the piles the war of clans saved; sowing draws from them and
   writes them back. A sown parcel grows on its clan's period and then propagates into
   bare neighbours, one unit of the pile per parcel, so the continent greens outward and
-  stops where the piles run dry. Provision sells to the shared docket. Seven deep:
+  stops where the piles run dry. Provision goes up to the village as grain, and the
+  village's grain feeds the town. Seven deep:
   clan, pile, parcel. ${total} templates on disk at build. No faces. SCRIPT: yes, and marked.
 -->
 <style>
@@ -81,7 +82,7 @@ const html = `<title>Aphrodite Terra &middot; the continental farm</title>
 <main>
   <div class="map"><canvas id="map" width="64" height="64"></canvas><div class="legend" id="legend"></div><p style="color:var(--dim);font-size:12px;margin:8px 0 0">Click a parcel to sow it from its clan's pile. Grown parcels propagate into bare neighbours of their region on the clan's period, one unit of the pile per parcel. Lava takes nothing.</p></div>
   <div>
-    <section><h2>The continent</h2><div id="stats"></div></section>
+    <section><h2>The continent<i>provision goes up to <a href="village.html" style="color:var(--gold)">the village</a> as grain; the village's grain feeds <a href="town.html" style="color:var(--gold)">the town</a></i></h2><div id="stats"></div></section>
     <section><h2>The piles<i>read from the war of clans; sowing draws them down and writes them back</i></h2><p class="warn" id="warn" hidden>No piles saved. Gather and pile in <a href="clans.html" style="color:var(--gold)">the war of clans</a> first; the continent is sown from them.</p><div id="piles"></div></section>
     <section><h2>Regions</h2><div id="regions"></div></section>
     <section><h2>Parcel</h2><div id="pick"><p style="color:var(--dim);margin:0">Nothing picked.</p></div></section>

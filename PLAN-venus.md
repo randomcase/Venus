@@ -72,6 +72,8 @@ of enums and seals it onto the shelf; the shelf is the syndication.
 2. The clans' raids on each other, not only on you: a real war of clans with
    the audit's choke test run over the raid graph every season.
 3. Done: Aphrodite Terra (`continent.mjs`), the continental farm sown from
-   the clans' piles, propagating on the periods, seven deep. Next: its
-   provision as the village's grain and the town's rent, so the chain runs
-   clan → pile → parcel → village → town on one docket.
+   the clans' piles, propagating on the periods, seven deep. Its provision goes
+   up to the village as grain, and every ten grain in the village's store
+   feeds a citizen of the town, so the chain runs clan → pile → parcel →
+   village → town on one docket. Next: the town's rent paid back down as
+   the clans' HEZE, closing the loop.
