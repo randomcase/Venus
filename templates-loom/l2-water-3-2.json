@@ -1,0 +1,12 @@
+{
+ "id": "l2-water-3-2",
+ "depth": 2,
+ "wovenBy": "l3-water-3",
+ "kind": "water",
+ "name": "The water mould 3.2: a pond, 100",
+ "fixed": {
+  "source": "a pond",
+  "holds": 100
+ },
+ "open": []
+}

@@ -1,0 +1,18 @@
+{
+ "id": "act-095",
+ "bench": "fleet",
+ "order": 95,
+ "year": 10,
+ "day": 3394,
+ "parties": [
+  "achilles",
+  "nestor"
+ ],
+ "actor": "Achilles",
+ "with": "Nestor",
+ "verb": "beached",
+ "object": "the ships and built the wall",
+ "place": "in Agamemnon's hut",
+ "side": "fleet",
+ "text": "Achilles and Nestor beached the ships and built the wall, in Agamemnon's hut, in the tenth year."
+}

@@ -1,0 +1,14 @@
+{
+ "id": "l3-water-2",
+ "depth": 3,
+ "wovenBy": "l4-water",
+ "kind": "water",
+ "name": "The water pattern 2: rain barrels",
+ "fixed": {
+  "source": "rain barrels"
+ },
+ "open": [
+  "holds"
+ ],
+ "weaves": 2
+}

@@ -1,0 +1,12 @@
+{
+ "id": "beast-08",
+ "depth": 1,
+ "wovenBy": "l2-beast-2-2",
+ "kind": "beast",
+ "beast": "a milk cow",
+ "does": "manures",
+ "name": "a milk cow, which manures",
+ "cost": 552,
+ "eats": 3,
+ "mul": 1.1400000000000001
+}

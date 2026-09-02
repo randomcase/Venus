@@ -1,0 +1,29 @@
+{
+ "id": "l4-beast",
+ "depth": 4,
+ "wovenBy": "loom.mjs",
+ "kind": "beast",
+ "name": "The beast loom",
+ "slots": {
+  "beast": [
+   "bees",
+   "worms",
+   "a mule",
+   "geese",
+   "a milk cow",
+   "a sow",
+   "hens",
+   "a mole"
+  ],
+  "does": [
+   "pollinates",
+   "turns the soil",
+   "draws the plough",
+   "eats the slugs",
+   "manures",
+   "clears the stubble"
+  ]
+ },
+ "gives": "a helper with a cost in grain and no eyes drawn",
+ "weaves": 2
+}

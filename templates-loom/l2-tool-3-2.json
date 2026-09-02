@@ -1,0 +1,12 @@
+{
+ "id": "l2-tool-3-2",
+ "depth": 2,
+ "wovenBy": "l3-tool-3",
+ "kind": "tool",
+ "name": "The tool mould 3.2: hoe, bronze",
+ "fixed": {
+  "thing": "hoe",
+  "metal": "bronze"
+ },
+ "open": []
+}

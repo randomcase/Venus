@@ -1,0 +1,17 @@
+{
+ "id": "act-078",
+ "bench": "fleet",
+ "order": 78,
+ "year": 8,
+ "day": 2794,
+ "parties": [
+  "diomedes"
+ ],
+ "actor": "Diomedes",
+ "with": null,
+ "verb": "spoke",
+ "object": "against the kings in the assembly",
+ "place": "before Achilles' tent",
+ "side": "fleet",
+ "text": "Diomedes spoke against the kings in the assembly, before Achilles' tent, in the eighth year."
+}

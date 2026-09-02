@@ -1,0 +1,17 @@
+{
+ "id": "act-092",
+ "bench": "fleet",
+ "order": 92,
+ "year": 10,
+ "day": 3284,
+ "parties": [
+  "teucer"
+ ],
+ "actor": "Teucer",
+ "with": null,
+ "verb": "counted",
+ "object": "the ships by contingent",
+ "place": "on the plain",
+ "side": "fleet",
+ "text": "Teucer counted the ships by contingent, on the plain, in the tenth year."
+}

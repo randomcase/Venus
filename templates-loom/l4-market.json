@@ -1,0 +1,24 @@
+{
+ "id": "l4-market",
+ "depth": 4,
+ "wovenBy": "loom.mjs",
+ "kind": "market",
+ "name": "The market loom",
+ "slots": {
+  "where": [
+   "the village",
+   "the river town",
+   "the fair",
+   "the mill",
+   "the abbey",
+   "the port"
+  ],
+  "every": [
+   7,
+   14,
+   30
+  ]
+ },
+ "gives": "a price for the store, in HEZE, on its own days",
+ "weaves": 2
+}

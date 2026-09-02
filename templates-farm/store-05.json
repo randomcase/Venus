@@ -1,0 +1,10 @@
+{
+ "id": "store-05",
+ "depth": 1,
+ "wovenBy": "l2-store-3-1",
+ "kind": "store",
+ "roof": "a loft",
+ "holds": 1000,
+ "name": "a loft holding 1000",
+ "cost": 1000
+}

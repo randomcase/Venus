@@ -1,0 +1,11 @@
+{
+ "id": "fence-08",
+ "depth": 1,
+ "wovenBy": "l2-fence-2-2",
+ "kind": "fence",
+ "wall": "wattle",
+ "keeps": "the deer out",
+ "name": "wattle that keeps the deer out",
+ "cost": 395,
+ "keep": 0.92
+}

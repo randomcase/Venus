@@ -1,0 +1,18 @@
+{
+ "id": "act-077",
+ "bench": "fleet",
+ "order": 77,
+ "year": 8,
+ "day": 2740,
+ "parties": [
+  "ajax",
+  "diomedes"
+ ],
+ "actor": "Ajax",
+ "with": "Diomedes",
+ "verb": "went out",
+ "object": "in borrowed armour",
+ "place": "before Achilles' tent",
+ "side": "fleet",
+ "text": "Ajax and Diomedes went out in borrowed armour, before Achilles' tent, in the eighth year."
+}

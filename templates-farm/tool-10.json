@@ -1,0 +1,12 @@
+{
+ "id": "tool-10",
+ "depth": 1,
+ "wovenBy": "l2-tool-2-2",
+ "kind": "tool",
+ "thing": "hoe",
+ "metal": "flint",
+ "name": "a flint hoe",
+ "cost": 150,
+ "mul": 1.1,
+ "on": "sand"
+}

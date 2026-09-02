@@ -1,0 +1,17 @@
+{
+ "id": "act-098",
+ "bench": "fleet",
+ "order": 98,
+ "year": 10,
+ "day": 3505,
+ "parties": [
+  "idomeneus"
+ ],
+ "actor": "Idomeneus",
+ "with": null,
+ "verb": "built",
+ "object": "the Horse",
+ "place": "at the pyre",
+ "side": "fleet",
+ "text": "Idomeneus built the Horse, at the pyre, in the tenth year."
+}

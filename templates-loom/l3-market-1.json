@@ -1,0 +1,14 @@
+{
+ "id": "l3-market-1",
+ "depth": 3,
+ "wovenBy": "l4-market",
+ "kind": "market",
+ "name": "The market pattern 1: the port",
+ "fixed": {
+  "where": "the port"
+ },
+ "open": [
+  "every"
+ ],
+ "weaves": 2
+}

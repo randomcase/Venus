@@ -1,0 +1,12 @@
+{
+ "id": "tool-06",
+ "depth": 1,
+ "wovenBy": "l2-tool-3-2",
+ "kind": "tool",
+ "thing": "hoe",
+ "metal": "bronze",
+ "name": "a bronze hoe",
+ "cost": 700,
+ "mul": 1.35,
+ "on": "silt"
+}

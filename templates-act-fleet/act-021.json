@@ -1,0 +1,17 @@
+{
+ "id": "act-021",
+ "bench": "fleet",
+ "order": 21,
+ "year": 3,
+ "day": 740,
+ "parties": [
+  "priam"
+ ],
+ "actor": "Priam",
+ "with": null,
+ "verb": "divided",
+ "object": "the plunder by rank",
+ "place": "before Achilles' tent",
+ "side": "troy",
+ "text": "Priam divided the plunder by rank, before Achilles' tent, in the third year."
+}

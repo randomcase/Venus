@@ -1,0 +1,17 @@
+{
+ "id": "act-046",
+ "bench": "fleet",
+ "order": 46,
+ "year": 5,
+ "day": 1624,
+ "parties": [
+  "patroclus"
+ ],
+ "actor": "Patroclus",
+ "with": null,
+ "verb": "dragged",
+ "object": "a body three times round the wall",
+ "place": "on the plain",
+ "side": "fleet",
+ "text": "Patroclus dragged a body three times round the wall, on the plain, in the fifth year."
+}

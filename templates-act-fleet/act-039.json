@@ -1,0 +1,17 @@
+{
+ "id": "act-039",
+ "bench": "fleet",
+ "order": 39,
+ "year": 4,
+ "day": 1392,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "read",
+ "object": "the omen of the snake and the sparrows",
+ "place": "on the plain",
+ "side": "fleet",
+ "text": "Agamemnon read the omen of the snake and the sparrows, on the plain, in the fourth year."
+}

@@ -1,0 +1,12 @@
+{
+ "id": "field-02",
+ "depth": 1,
+ "wovenBy": "l2-field-1-2",
+ "kind": "field",
+ "soil": "peat",
+ "lie": "high",
+ "size": 1,
+ "name": "the high peat field of 1",
+ "cost": 400,
+ "yield": 0.99
+}

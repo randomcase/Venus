@@ -1,0 +1,12 @@
+{
+ "id": "beast-03",
+ "depth": 1,
+ "wovenBy": "l2-beast-2-1",
+ "kind": "beast",
+ "beast": "a milk cow",
+ "does": "draws the plough",
+ "name": "a milk cow, which draws the plough",
+ "cost": 383,
+ "eats": 1,
+ "mul": 1.1
+}

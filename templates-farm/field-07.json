@@ -1,0 +1,12 @@
+{
+ "id": "field-07",
+ "depth": 1,
+ "wovenBy": "l2-field-1-1",
+ "kind": "field",
+ "soil": "peat",
+ "lie": "walled",
+ "size": 1,
+ "name": "the walled peat field of 1",
+ "cost": 400,
+ "yield": 1.16
+}

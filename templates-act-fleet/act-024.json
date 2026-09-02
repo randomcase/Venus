@@ -1,0 +1,17 @@
+{
+ "id": "act-024",
+ "bench": "fleet",
+ "order": 24,
+ "year": 3,
+ "day": 852,
+ "parties": [
+  "teucer"
+ ],
+ "actor": "Teucer",
+ "with": null,
+ "verb": "dragged",
+ "object": "a body three times round the wall",
+ "place": "before Achilles' tent",
+ "side": "fleet",
+ "text": "Teucer dragged a body three times round the wall, before Achilles' tent, in the third year."
+}

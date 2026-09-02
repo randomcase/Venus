@@ -1,0 +1,12 @@
+{
+ "id": "l2-fence-2-2",
+ "depth": 2,
+ "wovenBy": "l3-fence-2",
+ "kind": "fence",
+ "name": "The fence mould 2.2: wattle, the deer out",
+ "fixed": {
+  "wall": "wattle",
+  "keeps": "the deer out"
+ },
+ "open": []
+}

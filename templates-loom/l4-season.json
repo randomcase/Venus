@@ -1,0 +1,26 @@
+{
+ "id": "l4-season",
+ "depth": 4,
+ "wovenBy": "loom.mjs",
+ "kind": "season",
+ "name": "The season loom",
+ "slots": {
+  "turn": [
+   "thaw",
+   "sowing",
+   "the long days",
+   "first cut",
+   "harvest",
+   "the fallow",
+   "frost",
+   "deep winter"
+  ],
+  "length": [
+   30,
+   45,
+   60
+  ]
+ },
+ "gives": "which crops grow, and how fast",
+ "weaves": 3
+}

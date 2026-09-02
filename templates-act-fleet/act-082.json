@@ -1,0 +1,18 @@
+{
+ "id": "act-082",
+ "bench": "fleet",
+ "order": 82,
+ "year": 9,
+ "day": 2926,
+ "parties": [
+  "idomeneus",
+  "achilles"
+ ],
+ "actor": "Idomeneus",
+ "with": "Achilles",
+ "verb": "beached",
+ "object": "the ships and built the wall",
+ "place": "among the ships",
+ "side": "fleet",
+ "text": "Idomeneus and Achilles beached the ships and built the wall, among the ships, in the ninth year."
+}

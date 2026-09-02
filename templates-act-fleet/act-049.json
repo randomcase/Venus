@@ -1,0 +1,18 @@
+{
+ "id": "act-049",
+ "bench": "fleet",
+ "order": 49,
+ "year": 5,
+ "day": 1741,
+ "parties": [
+  "priam",
+  "diomedes"
+ ],
+ "actor": "Priam",
+ "with": "Diomedes",
+ "verb": "stole",
+ "object": "the horses of Rhesus by night",
+ "place": "by the river",
+ "side": "troy",
+ "text": "Priam and Diomedes stole the horses of Rhesus by night, by the river, in the fifth year."
+}

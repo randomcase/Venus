@@ -1,0 +1,12 @@
+{
+ "id": "crop-02",
+ "depth": 1,
+ "wovenBy": "l2-crop-1-2",
+ "kind": "crop",
+ "plant": "barley",
+ "season": "spring",
+ "days": 60,
+ "name": "barley, spring-sown, 60 days",
+ "seed": 53,
+ "harvest": 146
+}

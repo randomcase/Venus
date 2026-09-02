@@ -1,0 +1,17 @@
+{
+ "id": "act-045",
+ "bench": "fleet",
+ "order": 45,
+ "year": 5,
+ "day": 1602,
+ "parties": [
+  "odysseus"
+ ],
+ "actor": "Odysseus",
+ "with": null,
+ "verb": "spoke",
+ "object": "against the kings in the assembly",
+ "place": "before Achilles' tent",
+ "side": "fleet",
+ "text": "Odysseus spoke against the kings in the assembly, before Achilles' tent, in the fifth year."
+}

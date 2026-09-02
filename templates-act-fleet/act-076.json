@@ -1,0 +1,17 @@
+{
+ "id": "act-076",
+ "bench": "fleet",
+ "order": 76,
+ "year": 8,
+ "day": 2707,
+ "parties": [
+  "ajax"
+ ],
+ "actor": "Ajax",
+ "with": null,
+ "verb": "refused",
+ "object": "the ransom for Chryseis",
+ "place": "on the beach at dawn",
+ "side": "fleet",
+ "text": "Ajax refused the ransom for Chryseis, on the beach at dawn, in the eighth year."
+}

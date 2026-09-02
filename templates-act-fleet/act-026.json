@@ -1,0 +1,17 @@
+{
+ "id": "act-026",
+ "bench": "fleet",
+ "order": 26,
+ "year": 3,
+ "day": 913,
+ "parties": [
+  "diomedes"
+ ],
+ "actor": "Diomedes",
+ "with": null,
+ "verb": "sacrificed",
+ "object": "at Aulis for a wind",
+ "place": "on the beach at dawn",
+ "side": "fleet",
+ "text": "Diomedes sacrificed at Aulis for a wind, on the beach at dawn, in the third year."
+}

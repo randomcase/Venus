@@ -1,0 +1,9 @@
+{
+ "id": "verdict-005",
+ "bench": "fleet",
+ "order": 5,
+ "act": "act-005",
+ "vote": "vote-005",
+ "verdict": "no fault",
+ "text": "No fault found in what Phoenix did. The act stands and the war goes on."
+}

@@ -1,0 +1,12 @@
+{
+ "id": "beast-02",
+ "depth": 1,
+ "wovenBy": "l2-beast-1-2",
+ "kind": "beast",
+ "beast": "bees",
+ "does": "draws the plough",
+ "name": "bees, which draws the plough",
+ "cost": 726,
+ "eats": 4,
+ "mul": 1.1800000000000002
+}

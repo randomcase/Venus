@@ -1,0 +1,11 @@
+{
+ "id": "fence-06",
+ "depth": 1,
+ "wovenBy": "l2-fence-1-2",
+ "kind": "fence",
+ "wall": "ditch and bank",
+ "keeps": "the cow home",
+ "name": "ditch and bank that keeps the cow home",
+ "cost": 244,
+ "keep": 0.87
+}

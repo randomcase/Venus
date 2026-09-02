@@ -1,0 +1,10 @@
+{
+ "id": "water-09",
+ "depth": 1,
+ "wovenBy": "l2-water-2-1",
+ "kind": "water",
+ "source": "rain barrels",
+ "holds": 1000,
+ "name": "rain barrels holding 1000",
+ "cost": 1500
+}

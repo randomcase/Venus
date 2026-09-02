@@ -1,0 +1,17 @@
+{
+ "id": "act-043",
+ "bench": "fleet",
+ "order": 43,
+ "year": 5,
+ "day": 1522,
+ "parties": [
+  "patroclus"
+ ],
+ "actor": "Patroclus",
+ "with": null,
+ "verb": "withdrew",
+ "object": "from the field and sat down",
+ "place": "in the assembly by the ships",
+ "side": "fleet",
+ "text": "Patroclus withdrew from the field and sat down, in the assembly by the ships, in the fifth year."
+}

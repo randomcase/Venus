@@ -1,0 +1,17 @@
+{
+ "id": "act-069",
+ "bench": "fleet",
+ "order": 69,
+ "year": 7,
+ "day": 2451,
+ "parties": [
+  "odysseus"
+ ],
+ "actor": "Odysseus",
+ "with": null,
+ "verb": "struck",
+ "object": "the one who spoke",
+ "place": "on the beach at dawn",
+ "side": "fleet",
+ "text": "Odysseus struck the one who spoke, on the beach at dawn, in the seventh year."
+}

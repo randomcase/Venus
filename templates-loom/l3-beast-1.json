@@ -1,0 +1,14 @@
+{
+ "id": "l3-beast-1",
+ "depth": 3,
+ "wovenBy": "l4-beast",
+ "kind": "beast",
+ "name": "The beast pattern 1: bees",
+ "fixed": {
+  "beast": "bees"
+ },
+ "open": [
+  "does"
+ ],
+ "weaves": 2
+}

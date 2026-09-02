@@ -1,0 +1,18 @@
+{
+ "id": "act-044",
+ "bench": "fleet",
+ "order": 44,
+ "year": 5,
+ "day": 1577,
+ "parties": [
+  "achilles",
+  "teucer"
+ ],
+ "actor": "Achilles",
+ "with": "Teucer",
+ "verb": "called",
+ "object": "the assembly and named the cause",
+ "place": "at Aulis",
+ "side": "fleet",
+ "text": "Achilles and Teucer called the assembly and named the cause, at Aulis, in the fifth year."
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-048",
+ "bench": "fleet",
+ "order": 48,
+ "year": 5,
+ "day": 1708,
+ "parties": [
+  "ajax"
+ ],
+ "actor": "Ajax",
+ "with": null,
+ "verb": "read",
+ "object": "the omen of the snake and the sparrows",
+ "place": "on the plain",
+ "side": "fleet",
+ "text": "Ajax read the omen of the snake and the sparrows, on the plain, in the fifth year."
+}

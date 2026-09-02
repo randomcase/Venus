@@ -1,0 +1,12 @@
+{
+ "id": "crop-04",
+ "depth": 1,
+ "wovenBy": "l2-crop-2-2",
+ "kind": "crop",
+ "plant": "rye",
+ "season": "autumn",
+ "days": 120,
+ "name": "rye, autumn-sown, 120 days",
+ "seed": 78,
+ "harvest": 393
+}

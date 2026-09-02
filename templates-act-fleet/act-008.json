@@ -1,0 +1,17 @@
+{
+ "id": "act-008",
+ "bench": "fleet",
+ "order": 8,
+ "year": 1,
+ "day": 271,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "gave back",
+ "object": "a body for its weight in gold",
+ "place": "at the wall round the camp",
+ "side": "fleet",
+ "text": "Achilles gave back a body for its weight in gold, at the wall round the camp, in the first year."
+}

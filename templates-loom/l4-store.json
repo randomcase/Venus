@@ -1,0 +1,24 @@
+{
+ "id": "l4-store",
+ "depth": 4,
+ "wovenBy": "loom.mjs",
+ "kind": "store",
+ "name": "The store loom",
+ "slots": {
+  "roof": [
+   "a barn",
+   "a granary",
+   "a rick",
+   "a cellar",
+   "a loft"
+  ],
+  "holds": [
+   200,
+   500,
+   1000,
+   2000
+  ]
+ },
+ "gives": "harvest kept for the market instead of sold at the gate",
+ "weaves": 3
+}

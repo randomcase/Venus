@@ -1,0 +1,17 @@
+{
+ "id": "act-062",
+ "bench": "fleet",
+ "order": 62,
+ "year": 7,
+ "day": 2201,
+ "parties": [
+  "nestor"
+ ],
+ "actor": "Nestor",
+ "with": null,
+ "verb": "called",
+ "object": "the assembly and named the cause",
+ "place": "at the wall round the camp",
+ "side": "fleet",
+ "text": "Nestor called the assembly and named the cause, at the wall round the camp, in the seventh year."
+}

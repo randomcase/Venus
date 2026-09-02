@@ -1,0 +1,17 @@
+{
+ "id": "act-005",
+ "bench": "fleet",
+ "order": 5,
+ "year": 1,
+ "day": 153,
+ "parties": [
+  "phoenix"
+ ],
+ "actor": "Phoenix",
+ "with": null,
+ "verb": "struck",
+ "object": "the one who spoke",
+ "place": "at Aulis",
+ "side": "fleet",
+ "text": "Phoenix struck the one who spoke, at Aulis, in the first year."
+}

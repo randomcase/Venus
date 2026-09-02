@@ -1,0 +1,17 @@
+{
+ "id": "act-032",
+ "bench": "fleet",
+ "order": 32,
+ "year": 4,
+ "day": 1127,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "held",
+ "object": "the ships against the fire",
+ "place": "at the wall round the camp",
+ "side": "fleet",
+ "text": "Agamemnon held the ships against the fire, at the wall round the camp, in the fourth year."
+}

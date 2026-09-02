@@ -1,0 +1,12 @@
+{
+ "id": "l2-store-3-1",
+ "depth": 2,
+ "wovenBy": "l3-store-3",
+ "kind": "store",
+ "name": "The store mould 3.1: a loft, 1000",
+ "fixed": {
+  "roof": "a loft",
+  "holds": 1000
+ },
+ "open": []
+}

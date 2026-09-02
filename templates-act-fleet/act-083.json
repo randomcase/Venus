@@ -1,0 +1,18 @@
+{
+ "id": "act-083",
+ "bench": "fleet",
+ "order": 83,
+ "year": 9,
+ "day": 2972,
+ "parties": [
+  "hector",
+  "neoptolemus"
+ ],
+ "actor": "Hector",
+ "with": "Neoptolemus",
+ "verb": "dragged",
+ "object": "a body three times round the wall",
+ "place": "before Achilles' tent",
+ "side": "troy",
+ "text": "Hector and Neoptolemus dragged a body three times round the wall, before Achilles' tent, in the ninth year."
+}

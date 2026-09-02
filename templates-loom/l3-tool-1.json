@@ -1,0 +1,14 @@
+{
+ "id": "l3-tool-1",
+ "depth": 3,
+ "wovenBy": "l4-tool",
+ "kind": "tool",
+ "name": "The tool pattern 1: harrow",
+ "fixed": {
+  "thing": "harrow"
+ },
+ "open": [
+  "metal"
+ ],
+ "weaves": 2
+}

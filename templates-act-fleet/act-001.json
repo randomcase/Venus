@@ -1,0 +1,17 @@
+{
+ "id": "act-001",
+ "bench": "fleet",
+ "order": 1,
+ "year": 1,
+ "day": 20,
+ "parties": [
+  "priam"
+ ],
+ "actor": "Priam",
+ "with": null,
+ "verb": "withdrew",
+ "object": "from the field and sat down",
+ "place": "in the assembly by the ships",
+ "side": "troy",
+ "text": "Priam withdrew from the field and sat down, in the assembly by the ships, in the first year."
+}

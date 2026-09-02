@@ -1,0 +1,9 @@
+{
+ "id": "verdict-010",
+ "bench": "fleet",
+ "order": 10,
+ "act": "act-010",
+ "vote": "vote-010",
+ "verdict": "no fault",
+ "text": "No fault found in what Ajax did. The act stands and the war goes on."
+}

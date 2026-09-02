@@ -1,0 +1,18 @@
+{
+ "id": "act-019",
+ "bench": "fleet",
+ "order": 19,
+ "year": 2,
+ "day": 666,
+ "parties": [
+  "ajax",
+  "odysseus"
+ ],
+ "actor": "Ajax",
+ "with": "Odysseus",
+ "verb": "dragged",
+ "object": "a body three times round the wall",
+ "place": "on the plain",
+ "side": "fleet",
+ "text": "Ajax and Odysseus dragged a body three times round the wall, on the plain, in the second year."
+}

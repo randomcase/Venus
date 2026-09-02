@@ -1,0 +1,18 @@
+{
+ "id": "act-013",
+ "bench": "fleet",
+ "order": 13,
+ "year": 2,
+ "day": 460,
+ "parties": [
+  "diomedes",
+  "odysseus"
+ ],
+ "actor": "Diomedes",
+ "with": "Odysseus",
+ "verb": "sent",
+ "object": "the embassy with gifts",
+ "place": "on the plain",
+ "side": "fleet",
+ "text": "Diomedes and Odysseus sent the embassy with gifts, on the plain, in the second year."
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-053",
+ "bench": "fleet",
+ "order": 53,
+ "year": 6,
+ "day": 1882,
+ "parties": [
+  "thersites"
+ ],
+ "actor": "Thersites",
+ "with": null,
+ "verb": "went out",
+ "object": "in borrowed armour",
+ "place": "on the plain",
+ "side": "fleet",
+ "text": "Thersites went out in borrowed armour, on the plain, in the sixth year."
+}

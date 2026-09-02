@@ -1,0 +1,17 @@
+{
+ "id": "act-099",
+ "bench": "fleet",
+ "order": 99,
+ "year": 10,
+ "day": 3541,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "built",
+ "object": "the Horse",
+ "place": "on the beach at dawn",
+ "side": "fleet",
+ "text": "Agamemnon built the Horse, on the beach at dawn, in the tenth year."
+}

@@ -1,0 +1,12 @@
+{
+ "id": "field-03",
+ "depth": 1,
+ "wovenBy": "l2-field-2-1",
+ "kind": "field",
+ "soil": "sand",
+ "lie": "flat",
+ "size": 2,
+ "name": "the flat sand field of 2",
+ "cost": 800,
+ "yield": 0.7
+}

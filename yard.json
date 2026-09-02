@@ -1,0 +1,2058 @@
+{
+ "generators": 60,
+ "schema": {
+  "templates-act": {
+   "owner": null,
+   "declared": false,
+   "count": 100,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "bench": "string",
+    "order": "number",
+    "year": "number",
+    "day": "number",
+    "parties": "array",
+    "actor": "string",
+    "with": "null",
+    "verb": "string",
+    "object": "string",
+    "place": "string",
+    "side": "string",
+    "text": "string"
+   },
+   "example": "id"
+  },
+  "templates-act-fleet": {
+   "owner": null,
+   "declared": false,
+   "count": 100,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "bench": "string",
+    "order": "number",
+    "year": "number",
+    "day": "number",
+    "parties": "array",
+    "actor": "string",
+    "with": "null",
+    "verb": "string",
+    "object": "string",
+    "place": "string",
+    "side": "string",
+    "text": "string"
+   },
+   "example": "id"
+  },
+  "templates-agency": {
+   "owner": "agency.mjs",
+   "declared": false,
+   "count": 69,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "name": "string",
+    "where": "string",
+    "marks": "array",
+    "files": "number",
+    "pages": "number",
+    "says": "string",
+    "produces": "string",
+    "feeds": "string",
+    "rate": "number",
+    "period": "number"
+   },
+   "example": "id"
+  },
+  "templates-archetype": {
+   "owner": "archetype.mjs",
+   "declared": true,
+   "count": 7,
+   "required": [
+    "id",
+    "order",
+    "term",
+    "name",
+    "aspect",
+    "verb",
+    "does",
+    "evidence",
+    "finding"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "term": "string",
+    "name": "string",
+    "aspect": "string",
+    "holds": "string",
+    "consumed": "boolean",
+    "persists": "boolean",
+    "verb": "string",
+    "does": "string",
+    "attacked_when": "string",
+    "evidence": "string",
+    "finding": "string"
+   },
+   "example": "id"
+  },
+  "templates-base": {
+   "owner": "bases.mjs",
+   "declared": false,
+   "count": 4,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "name": "string",
+    "note": "string",
+    "plate": "object",
+    "palette": "object",
+    "sectors": "array"
+   },
+   "example": "id"
+  },
+  "templates-bird": {
+   "owner": "aviary.mjs",
+   "declared": true,
+   "count": 32,
+   "required": [
+    "id",
+    "order",
+    "trait",
+    "asked_for",
+    "species",
+    "shows",
+    "figure",
+    "costs"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "trait": "string",
+    "asked_for": "string",
+    "species": "string",
+    "shows": "string",
+    "figure": "string",
+    "costs": "string",
+    "keeps": "boolean"
+   },
+   "example": "id"
+  },
+  "templates-build": {
+   "owner": "builds.mjs",
+   "declared": false,
+   "count": 13,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "grow": "array",
+    "name": "string",
+    "tiers": "array",
+    "note": "string",
+    "parts": "array"
+   },
+   "example": "id"
+  },
+  "templates-castle": {
+   "owner": "castle.mjs",
+   "declared": false,
+   "count": 8,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "era": "string",
+    "kind": "string",
+    "ground": "string",
+    "motte": "object",
+    "keep": "object",
+    "wards": "array",
+    "towers": "number",
+    "axis": "object",
+    "gallery": "object",
+    "figures": "array",
+    "lesson": "string"
+   },
+   "example": "id"
+  },
+  "templates-casus": {
+   "owner": null,
+   "declared": false,
+   "count": 1,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "name": "string",
+    "party": "string",
+    "text": "string",
+    "finding": "string",
+    "reason": "string",
+    "bench": "string"
+   },
+   "example": "id"
+  },
+  "templates-casus-fleet": {
+   "owner": null,
+   "declared": false,
+   "count": 1,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "name": "string",
+    "party": "string",
+    "text": "string",
+    "finding": "string",
+    "reason": "string",
+    "bench": "string"
+   },
+   "example": "id"
+  },
+  "templates-challenge": {
+   "owner": "challenges.mjs",
+   "declared": false,
+   "count": 9,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "type": "string",
+    "tier": "number",
+    "title": "string",
+    "unlocks": "string",
+    "ground": "string",
+    "task": "string",
+    "rubric": "array"
+   },
+   "example": "id"
+  },
+  "templates-clan": {
+   "owner": "clans.mjs",
+   "declared": true,
+   "count": 6,
+   "required": [
+    "id",
+    "name",
+    "house",
+    "resource",
+    "period",
+    "base",
+    "saga",
+    "tiers",
+    "order"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "house": "string",
+    "resource": "string",
+    "period": "number",
+    "base": "number",
+    "saga": "string",
+    "tiers": "array"
+   },
+   "example": "id"
+  },
+  "templates-coin": {
+   "owner": "treasury.mjs",
+   "declared": true,
+   "count": 6,
+   "required": [
+    "id",
+    "order",
+    "name",
+    "supply_rule",
+    "remembers",
+    "issuers",
+    "redeemers",
+    "reads",
+    "gives_up",
+    "how",
+    "honest",
+    "good_for"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "supply": "number",
+    "divisible": "number",
+    "supply_rule": "string",
+    "remembers": "boolean",
+    "issuers": "string",
+    "redeemers": "string",
+    "reads": "number",
+    "gives_up": "string",
+    "how": "string",
+    "honest": "string",
+    "good_for": "string"
+   },
+   "example": "id"
+  },
+  "templates-demon": {
+   "owner": "siege.mjs",
+   "declared": false,
+   "count": 5,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "glyph": "string",
+    "hp": "number",
+    "speed": "number",
+    "colour": "string",
+    "wave": "number",
+    "trait": "string",
+    "geometry": "string"
+   },
+   "example": "id"
+  },
+  "templates-district": {
+   "owner": "reconcile.mjs",
+   "declared": false,
+   "count": 1,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "base": "string",
+    "why_base": "string",
+    "units": "array",
+    "crew": "number",
+    "crew_year_hours": "number",
+    "in_the_book": "number",
+    "asked": "number",
+    "not_in_the_book": "array",
+    "farm_hours": "number",
+    "total": "number",
+    "over": "number",
+    "balances": "boolean",
+    "crew_actually_needed": "number",
+    "finding": "string",
+    "the_district": "string"
+   },
+   "example": "id"
+  },
+  "templates-enterprise": {
+   "owner": "enterprise.mjs",
+   "declared": false,
+   "count": 1,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "destination": "string",
+    "why": "string",
+    "tiers": "object",
+    "counts": "object",
+    "nothing_was_moved": "string",
+    "projects": "array"
+   },
+   "example": "id"
+  },
+  "templates-fabric": {
+   "owner": "atelier.mjs",
+   "declared": true,
+   "count": 26,
+   "required": [
+    "id",
+    "order",
+    "name",
+    "kind",
+    "family",
+    "survives",
+    "why",
+    "made_by"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "kind": "string",
+    "family": "string",
+    "survives": "string",
+    "spinnable": "boolean",
+    "made_by": "string",
+    "why": "string"
+   },
+   "example": "id"
+  },
+  "templates-faction": {
+   "owner": "factions.mjs",
+   "declared": true,
+   "count": 5,
+   "required": [
+    "id",
+    "name",
+    "patron",
+    "holds",
+    "because",
+    "study",
+    "stream",
+    "ends_when"
+   ],
+   "shape": {
+    "id": "string",
+    "name": "string",
+    "patron": "string",
+    "holds": "string",
+    "because": "string",
+    "produces_mostly": "string",
+    "study": "string",
+    "stream": "object",
+    "ends_when": "string",
+    "unconditional": "boolean",
+    "anchor": "string"
+   },
+   "example": "id"
+  },
+  "templates-farm": {
+   "owner": "loom.mjs",
+   "declared": false,
+   "count": 100,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "depth": "number",
+    "wovenBy": "string",
+    "kind": "string",
+    "beast": "string",
+    "does": "string",
+    "name": "string",
+    "cost": "number",
+    "eats": "number",
+    "mul": "number"
+   },
+   "example": "id"
+  },
+  "templates-form": {
+   "owner": "writing.mjs",
+   "declared": true,
+   "count": 15,
+   "required": [
+    "id",
+    "name",
+    "kind",
+    "note",
+    "ground",
+    "ask",
+    "order",
+    "title",
+    "subject",
+    "one_line",
+    "sections",
+    "practice"
+   ],
+   "shape": {
+    "id": "string",
+    "name": "string",
+    "kind": "string",
+    "order": "number",
+    "meter": "object",
+    "note": "string",
+    "ground": "string",
+    "ask": "string"
+   },
+   "example": "id"
+  },
+  "templates-gate": {
+   "owner": "gates.mjs",
+   "declared": true,
+   "count": 6,
+   "required": [
+    "id",
+    "order",
+    "name",
+    "place",
+    "era",
+    "span",
+    "device",
+    "what",
+    "finding"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "place": "string",
+    "era": "string",
+    "span": "number",
+    "lintel_d": "number",
+    "wall_above": "number",
+    "material": "string",
+    "device": "string",
+    "leaves": "number",
+    "what": "string",
+    "finding": "string",
+    "strength": "number"
+   },
+   "example": "id"
+  },
+  "templates-github": {
+   "owner": "github.mjs",
+   "declared": false,
+   "count": 2,
+   "required": [],
+   "shape": {
+    "0": "object",
+    "1": "object",
+    "2": "object",
+    "3": "object",
+    "4": "object",
+    "5": "object",
+    "6": "object",
+    "7": "object",
+    "8": "object",
+    "9": "object",
+    "10": "object",
+    "11": "object",
+    "12": "object",
+    "13": "object",
+    "14": "object",
+    "15": "object",
+    "16": "object",
+    "17": "object",
+    "18": "object",
+    "19": "object",
+    "20": "object",
+    "21": "object",
+    "22": "object",
+    "23": "null"
+   },
+   "example": "0"
+  },
+  "templates-house": {
+   "owner": "houses.mjs",
+   "declared": true,
+   "count": 20,
+   "required": [
+    "id",
+    "order",
+    "group",
+    "seat",
+    "control",
+    "note",
+    "houses"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "group": "string",
+    "full": "string",
+    "seat": "string",
+    "formed": "null",
+    "control": "string",
+    "roster": "boolean",
+    "note": "string",
+    "houses": "array"
+   },
+   "example": "id"
+  },
+  "templates-instrument": {
+   "owner": "instruments.mjs",
+   "declared": true,
+   "count": 12,
+   "required": [
+    "id",
+    "order",
+    "quantity",
+    "value",
+    "unit",
+    "method",
+    "used_for",
+    "boards",
+    "wrong_if",
+    "kind"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "quantity": "string",
+    "value": "number",
+    "unit": "string",
+    "uncertainty": "number",
+    "kind": "string",
+    "method": "string",
+    "used_for": "string",
+    "boards": "array",
+    "wrong_if": "string"
+   },
+   "example": "id"
+  },
+  "templates-lesson": {
+   "owner": "writing.mjs",
+   "declared": true,
+   "count": 6,
+   "required": [
+    "id",
+    "name",
+    "kind",
+    "note",
+    "ground",
+    "ask",
+    "order",
+    "title",
+    "subject",
+    "one_line",
+    "sections",
+    "practice"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "subject": "string",
+    "title": "string",
+    "one_line": "string",
+    "needs": "array",
+    "sections": "array",
+    "practice": "object",
+    "ask": "string"
+   },
+   "example": "id"
+  },
+  "templates-loom": {
+   "owner": "loom.mjs",
+   "declared": false,
+   "count": 86,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "depth": "number",
+    "wovenBy": "string",
+    "kind": "string",
+    "name": "string",
+    "fixed": "object",
+    "open": "array"
+   },
+   "example": "id"
+  },
+  "templates-owl": {
+   "owner": "owls.mjs",
+   "declared": true,
+   "count": 9,
+   "required": [
+    "id",
+    "order",
+    "post",
+    "species",
+    "light",
+    "watches",
+    "does",
+    "reads"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "post": "string",
+    "species": "string",
+    "light": "string",
+    "watches": "string",
+    "does": "string",
+    "reads": "string"
+   },
+   "example": "id"
+  },
+  "templates-patron": {
+   "owner": "patrons.mjs",
+   "declared": true,
+   "count": 4,
+   "required": [
+    "id",
+    "order",
+    "name",
+    "style",
+    "rank",
+    "note",
+    "test",
+    "sponsors"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "style": "string",
+    "rank": "string",
+    "seat": "string",
+    "note": "string",
+    "handsome": "boolean",
+    "charming": "boolean",
+    "book": "number",
+    "raises": "number",
+    "likeness_on": "string",
+    "handsome_says": "string",
+    "charming_says": "string",
+    "test": "string",
+    "sponsors": "array"
+   },
+   "example": "id"
+  },
+  "templates-prince": {
+   "owner": "siege.mjs",
+   "declared": false,
+   "count": 14,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "kind": "string",
+    "glyph": "string",
+    "colour": "string",
+    "cost": "number",
+    "upgradeMul": "number",
+    "stats": "object",
+    "does": "string",
+    "text": "string"
+   },
+   "example": "id"
+  },
+  "templates-quest": {
+   "owner": "quests.mjs",
+   "declared": true,
+   "count": 9,
+   "required": [
+    "giver",
+    "object",
+    "done",
+    "produces",
+    "points",
+    "score",
+    "tier",
+    "difficulty",
+    "xp",
+    "reward"
+   ],
+   "shape": {
+    "id": "string",
+    "layer": "string",
+    "entry": "string",
+    "giver": "string",
+    "object": "string",
+    "done": "string",
+    "produces": "array",
+    "requires": "array",
+    "note": "string"
+   },
+   "example": "id"
+  },
+  "templates-rite": {
+   "owner": "rites.mjs",
+   "declared": true,
+   "count": 18,
+   "required": [
+    "id",
+    "order",
+    "name",
+    "place",
+    "when",
+    "era",
+    "mechanism",
+    "evidence",
+    "what",
+    "finding"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "place": "string",
+    "when": "string",
+    "era": "string",
+    "mechanism": "string",
+    "against": "string",
+    "evidence": "string",
+    "contested": "boolean",
+    "what": "string",
+    "finding": "string"
+   },
+   "example": "id"
+  },
+  "templates-seizure": {
+   "owner": "exchange.mjs",
+   "declared": true,
+   "count": 7,
+   "required": [
+    "id",
+    "order",
+    "who",
+    "what",
+    "place",
+    "year",
+    "hours",
+    "cause",
+    "truth",
+    "column"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "who": "string",
+    "what": "string",
+    "place": "string",
+    "year": "number",
+    "period": "number",
+    "hours": "number",
+    "succeeded": "boolean",
+    "cause": "string",
+    "truth": "string",
+    "column": "string"
+   },
+   "example": "id"
+  },
+  "templates-sheet": {
+   "owner": "owls.mjs",
+   "declared": true,
+   "count": 3,
+   "required": [
+    "id",
+    "order",
+    "post",
+    "species",
+    "light",
+    "watches",
+    "does",
+    "reads"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "api": "object",
+    "legs": "array",
+    "the_finding": "string",
+    "buzz_back": "string"
+   },
+   "example": "id"
+  },
+  "templates-spell": {
+   "owner": "siege.mjs",
+   "declared": false,
+   "count": 6,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "glyph": "string",
+    "cost": "number",
+    "cooldown": "number",
+    "kind": "string",
+    "colour": "string",
+    "does": "string",
+    "costs": "string"
+   },
+   "example": "id"
+  },
+  "templates-studio": {
+   "owner": "studios.mjs",
+   "declared": true,
+   "count": 2,
+   "required": [
+    "id",
+    "order",
+    "name",
+    "founded",
+    "model",
+    "credit",
+    "term",
+    "serial",
+    "choke",
+    "plus_one",
+    "finding"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "founded": "number",
+    "full": "string",
+    "seat": "string",
+    "model": "string",
+    "gradient": "array",
+    "remembers": "boolean",
+    "ends": "boolean",
+    "credit": "string",
+    "term": "string",
+    "serial": "string",
+    "choke": "string",
+    "plus_one": "string",
+    "finding": "string"
+   },
+   "example": "id"
+  },
+  "templates-symbol": {
+   "owner": "symbols.mjs",
+   "declared": true,
+   "count": 3,
+   "required": [
+    "id",
+    "order",
+    "domain",
+    "tradition",
+    "era",
+    "seat",
+    "gradient",
+    "shape",
+    "glyph",
+    "tool",
+    "direction",
+    "what",
+    "system",
+    "record",
+    "instrument",
+    "honest"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "domain": "string",
+    "tradition": "string",
+    "era": "string",
+    "seat": "string",
+    "gradient": "array",
+    "shape": "string",
+    "glyph": "string",
+    "tool": "string",
+    "direction": "string",
+    "what": "string",
+    "system": "string",
+    "record": "string",
+    "instrument": "string",
+    "honest": "string"
+   },
+   "example": "id"
+  },
+  "templates-verdict": {
+   "owner": null,
+   "declared": false,
+   "count": 100,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "bench": "string",
+    "order": "number",
+    "act": "string",
+    "vote": "string",
+    "verdict": "string",
+    "text": "string"
+   },
+   "example": "id"
+  },
+  "templates-verdict-fleet": {
+   "owner": null,
+   "declared": false,
+   "count": 100,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "bench": "string",
+    "order": "number",
+    "act": "string",
+    "vote": "string",
+    "verdict": "string",
+    "text": "string"
+   },
+   "example": "id"
+  },
+  "templates-vote": {
+   "owner": null,
+   "declared": false,
+   "count": 100,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "bench": "string",
+    "order": "number",
+    "act": "string",
+    "judge": "string",
+    "finding": "string",
+    "vote": "string",
+    "reason": "string"
+   },
+   "example": "id"
+  },
+  "templates-vote-fleet": {
+   "owner": null,
+   "declared": false,
+   "count": 100,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "bench": "string",
+    "order": "number",
+    "act": "string",
+    "judge": "string",
+    "finding": "string",
+    "vote": "string",
+    "reason": "string"
+   },
+   "example": "id"
+  },
+  "templates-warlock": {
+   "owner": "warlocks.mjs",
+   "declared": true,
+   "count": 22,
+   "required": [
+    "id",
+    "order",
+    "name",
+    "klass",
+    "where",
+    "when",
+    "fate",
+    "was",
+    "why"
+   ],
+   "shape": {
+    "id": "string",
+    "order": "number",
+    "name": "string",
+    "klass": "string",
+    "where": "string",
+    "when": "number",
+    "fate": "string",
+    "was": "string",
+    "why": "string"
+   },
+   "example": "id"
+  }
+ },
+ "not_generators": [
+  {
+   "file": "castle-rules.mjs",
+   "kind": "library"
+  },
+  {
+   "file": "venus-app.mjs",
+   "kind": "server"
+  },
+  {
+   "file": "venus-facts.mjs",
+   "kind": "library"
+  }
+ ],
+ "layers": [
+  {
+   "dir": "templates-act",
+   "files": 100,
+   "read_by": []
+  },
+  {
+   "dir": "templates-act-fleet",
+   "files": 100,
+   "read_by": []
+  },
+  {
+   "dir": "templates-agency",
+   "files": 69,
+   "read_by": [
+    "agencies.mjs",
+    "agency.mjs",
+    "arcade.mjs",
+    "enterprise.mjs",
+    "github.mjs"
+   ]
+  },
+  {
+   "dir": "templates-archetype",
+   "files": 7,
+   "read_by": [
+    "arcade.mjs",
+    "archetype.mjs"
+   ]
+  },
+  {
+   "dir": "templates-base",
+   "files": 4,
+   "read_by": [
+    "arcade.mjs",
+    "bases.mjs",
+    "consistency.mjs"
+   ]
+  },
+  {
+   "dir": "templates-bird",
+   "files": 32,
+   "read_by": [
+    "arcade.mjs",
+    "aviary.mjs"
+   ]
+  },
+  {
+   "dir": "templates-build",
+   "files": 13,
+   "read_by": [
+    "arcade.mjs",
+    "builds.mjs"
+   ]
+  },
+  {
+   "dir": "templates-castle",
+   "files": 8,
+   "read_by": [
+    "arcade.mjs",
+    "castle.mjs",
+    "estate.mjs",
+    "keep.mjs",
+    "steading.mjs"
+   ]
+  },
+  {
+   "dir": "templates-casus",
+   "files": 1,
+   "read_by": []
+  },
+  {
+   "dir": "templates-casus-fleet",
+   "files": 1,
+   "read_by": []
+  },
+  {
+   "dir": "templates-challenge",
+   "files": 9,
+   "read_by": [
+    "arcade.mjs",
+    "challenges.mjs",
+    "journal.mjs"
+   ]
+  },
+  {
+   "dir": "templates-clan",
+   "files": 6,
+   "read_by": [
+    "arcade.mjs",
+    "clans.mjs",
+    "steading.mjs"
+   ]
+  },
+  {
+   "dir": "templates-coin",
+   "files": 6,
+   "read_by": [
+    "arcade.mjs",
+    "consistency.mjs",
+    "reconcile.mjs",
+    "treasury.mjs"
+   ]
+  },
+  {
+   "dir": "templates-demon",
+   "files": 5,
+   "read_by": [
+    "arcade.mjs",
+    "siege.mjs",
+    "warlock.mjs"
+   ]
+  },
+  {
+   "dir": "templates-district",
+   "files": 1,
+   "read_by": [
+    "arcade.mjs",
+    "reconcile.mjs"
+   ]
+  },
+  {
+   "dir": "templates-enterprise",
+   "files": 1,
+   "read_by": [
+    "arcade.mjs",
+    "enterprise.mjs"
+   ]
+  },
+  {
+   "dir": "templates-fabric",
+   "files": 26,
+   "read_by": [
+    "arcade.mjs",
+    "atelier.mjs",
+    "consistency.mjs"
+   ]
+  },
+  {
+   "dir": "templates-faction",
+   "files": 5,
+   "read_by": [
+    "arcade.mjs",
+    "factions.mjs"
+   ]
+  },
+  {
+   "dir": "templates-farm",
+   "files": 100,
+   "read_by": [
+    "loom.mjs"
+   ]
+  },
+  {
+   "dir": "templates-form",
+   "files": 15,
+   "read_by": [
+    "arcade.mjs",
+    "writing.mjs"
+   ]
+  },
+  {
+   "dir": "templates-gate",
+   "files": 6,
+   "read_by": [
+    "arcade.mjs",
+    "gates.mjs"
+   ]
+  },
+  {
+   "dir": "templates-github",
+   "files": 2,
+   "read_by": [
+    "arcade.mjs",
+    "github.mjs"
+   ]
+  },
+  {
+   "dir": "templates-house",
+   "files": 20,
+   "read_by": [
+    "arcade.mjs",
+    "atelier.mjs",
+    "consistency.mjs",
+    "houses.mjs",
+    "writing.mjs"
+   ]
+  },
+  {
+   "dir": "templates-instrument",
+   "files": 12,
+   "read_by": [
+    "arcade.mjs",
+    "instruments.mjs"
+   ]
+  },
+  {
+   "dir": "templates-lesson",
+   "files": 6,
+   "read_by": [
+    "arcade.mjs",
+    "descent.mjs",
+    "dev.mjs",
+    "writing.mjs"
+   ]
+  },
+  {
+   "dir": "templates-loom",
+   "files": 86,
+   "read_by": [
+    "loom.mjs"
+   ]
+  },
+  {
+   "dir": "templates-owl",
+   "files": 9,
+   "read_by": [
+    "arcade.mjs",
+    "owls.mjs"
+   ]
+  },
+  {
+   "dir": "templates-patron",
+   "files": 4,
+   "read_by": [
+    "arcade.mjs",
+    "consistency.mjs",
+    "patrons.mjs",
+    "reconcile.mjs"
+   ]
+  },
+  {
+   "dir": "templates-prince",
+   "files": 14,
+   "read_by": [
+    "siege.mjs"
+   ]
+  },
+  {
+   "dir": "templates-quest",
+   "files": 9,
+   "read_by": [
+    "arcade.mjs",
+    "guild.mjs",
+    "quests.mjs"
+   ]
+  },
+  {
+   "dir": "templates-rite",
+   "files": 18,
+   "read_by": [
+    "arcade.mjs",
+    "rites.mjs"
+   ]
+  },
+  {
+   "dir": "templates-seizure",
+   "files": 7,
+   "read_by": [
+    "arcade.mjs",
+    "exchange.mjs"
+   ]
+  },
+  {
+   "dir": "templates-sheet",
+   "files": 3,
+   "read_by": [
+    "arcade.mjs",
+    "owls.mjs"
+   ]
+  },
+  {
+   "dir": "templates-spell",
+   "files": 6,
+   "read_by": [
+    "arcade.mjs",
+    "siege.mjs",
+    "warlock.mjs"
+   ]
+  },
+  {
+   "dir": "templates-studio",
+   "files": 2,
+   "read_by": [
+    "arcade.mjs",
+    "studios.mjs"
+   ]
+  },
+  {
+   "dir": "templates-symbol",
+   "files": 3,
+   "read_by": [
+    "arcade.mjs",
+    "symbols.mjs"
+   ]
+  },
+  {
+   "dir": "templates-verdict",
+   "files": 100,
+   "read_by": []
+  },
+  {
+   "dir": "templates-verdict-fleet",
+   "files": 100,
+   "read_by": []
+  },
+  {
+   "dir": "templates-vote",
+   "files": 100,
+   "read_by": []
+  },
+  {
+   "dir": "templates-vote-fleet",
+   "files": 100,
+   "read_by": []
+  },
+  {
+   "dir": "templates-warlock",
+   "files": 22,
+   "read_by": [
+    "exchange.mjs",
+    "warlocks.mjs"
+   ]
+  }
+ ],
+ "order": [
+  "agencies.mjs",
+  "agency.mjs",
+  "archetype.mjs",
+  "atelier.mjs",
+  "aviary.mjs",
+  "bases.mjs",
+  "builds.mjs",
+  "castle.mjs",
+  "challenges.mjs",
+  "cistern.mjs",
+  "clans.mjs",
+  "corps.mjs",
+  "descent.mjs",
+  "estate.mjs",
+  "explorer.mjs",
+  "factions.mjs",
+  "gates.mjs",
+  "generate.mjs",
+  "github.mjs",
+  "guild.mjs",
+  "hall.mjs",
+  "houses.mjs",
+  "hub.mjs",
+  "instruments.mjs",
+  "journal.mjs",
+  "kb.mjs",
+  "keep.mjs",
+  "loom.mjs",
+  "missouri.mjs",
+  "owls.mjs",
+  "paper.mjs",
+  "profiles.mjs",
+  "quests.mjs",
+  "reading.mjs",
+  "reconcile.mjs",
+  "rites.mjs",
+  "ships.mjs",
+  "steading.mjs",
+  "studios.mjs",
+  "symbols.mjs",
+  "treasury.mjs",
+  "tribunal.mjs",
+  "warlock.mjs",
+  "siege.mjs",
+  "warlocks.mjs",
+  "whiteboard.mjs",
+  "witch.mjs",
+  "witches.mjs",
+  "exchange.mjs",
+  "yard.mjs",
+  "arcade.mjs",
+  "automat.mjs",
+  "compile.mjs",
+  "consistency.mjs",
+  "dev.mjs",
+  "enterprise.mjs",
+  "templatise.mjs",
+  "viewport.mjs",
+  "writing.mjs",
+  "patrons.mjs"
+ ],
+ "cyclic": [],
+ "pass": [
+  "arcade.mjs",
+  "automat.mjs",
+  "compile.mjs",
+  "consistency.mjs",
+  "dev.mjs",
+  "enterprise.mjs",
+  "templatise.mjs",
+  "viewport.mjs",
+  "writing.mjs",
+  "patrons.mjs"
+ ],
+ "passes": 2,
+ "last": "patrons.mjs",
+ "stampers": [
+  "patrons.mjs"
+ ],
+ "wildcard": [
+  "arcade.mjs",
+  "automat.mjs",
+  "compile.mjs",
+  "consistency.mjs",
+  "dev.mjs",
+  "enterprise.mjs",
+  "patrons.mjs",
+  "templatise.mjs",
+  "viewport.mjs",
+  "writing.mjs"
+ ],
+ "detail": {
+  "agencies.mjs": {
+   "reads": [
+    "templates-agency"
+   ],
+   "writes": [
+    "exclusions/README.md",
+    "exclusions/report.json"
+   ],
+   "refuses": ""
+  },
+  "agency.mjs": {
+   "reads": [
+    "exclusions/report.json",
+    "templates-agency"
+   ],
+   "writes": [
+    "agency.html"
+   ],
+   "refuses": ""
+  },
+  "arcade.mjs": {
+   "reads": [
+    ".sky-block.txt",
+    "kb.json",
+    "templates-agency",
+    "templates-archetype",
+    "templates-base",
+    "templates-bird",
+    "templates-build",
+    "templates-castle",
+    "templates-challenge",
+    "templates-clan",
+    "templates-coin",
+    "templates-demon",
+    "templates-district",
+    "templates-enterprise",
+    "templates-fabric",
+    "templates-faction",
+    "templates-form",
+    "templates-gate",
+    "templates-github",
+    "templates-house",
+    "templates-instrument",
+    "templates-lesson",
+    "templates-owl",
+    "templates-patron",
+    "templates-quest",
+    "templates-rite",
+    "templates-seizure",
+    "templates-sheet",
+    "templates-spell",
+    "templates-studio",
+    "templates-symbol"
+   ],
+   "writes": [
+    "arcade.html"
+   ],
+   "refuses": ""
+  },
+  "archetype.mjs": {
+   "reads": [
+    "templates-archetype"
+   ],
+   "writes": [
+    "archetype.html"
+   ],
+   "refuses": "An archetype with no aspect — is, will, becomes, takes, trades, endures.\r\n   A claim with no named person or document behind it. And any entry that\r\n   consumes its inputs while claiming to satisfy a + b = c + a + b, because\r\n   that is extraction wearing horticulture's clothes."
+  },
+  "atelier.mjs": {
+   "reads": [
+    "templates-fabric",
+    "templates-house",
+    "venus-facts.mjs"
+   ],
+   "writes": [
+    "atelier.html"
+   ],
+   "refuses": "A fabric that claims to survive without saying why. A survival rating\r\n   outside the declared scale. And the sentence \"no house makes a deck\r\n   garment\" unless it has actually cross-checked the two layers and counted —\r\n   the claim is only allowed to appear if the arithmetic produced it."
+  },
+  "automat.mjs": {
+   "reads": [
+    ".sky-block.txt",
+    "lessons"
+   ],
+   "writes": [
+    "automat.html"
+   ],
+   "refuses": ""
+  },
+  "aviary.mjs": {
+   "reads": [
+    "templates-bird",
+    "venus-facts.mjs"
+   ],
+   "writes": [
+    "aviary.html"
+   ],
+   "refuses": "A trait with no species demonstrating it. A trait with no stated cost. A\r\n   roost with no terrain. And any egg claimed as viable outside."
+  },
+  "bases.mjs": {
+   "reads": [
+    "templates-base"
+   ],
+   "writes": [
+    "bases.js"
+   ],
+   "refuses": ""
+  },
+  "builds.mjs": {
+   "reads": [
+    "templates-build"
+   ],
+   "writes": [
+    "builds.js"
+   ],
+   "refuses": ""
+  },
+  "castle.mjs": {
+   "reads": [
+    "castle-rules.mjs",
+    "templates-castle"
+   ],
+   "writes": [
+    "castle.html"
+   ],
+   "refuses": "· a ward with no dimensions\r\n     · a motte lower than the wall around it — a mound you can see over is\r\n       not a mound, it is a step\r\n     · fewer towers than the wards have corners, on a plan that has towers\r\n       at all, because a curtain wall with an undefended corner is a wall\r\n       with a door in it\r\n     · a gallery whose mirrors do not divide evenly by its bays"
+  },
+  "challenges.mjs": {
+   "reads": [
+    "kb.json",
+    "templates-challenge"
+   ],
+   "writes": [
+    "challenges.js"
+   ],
+   "refuses": ""
+  },
+  "cistern.mjs": {
+   "reads": [],
+   "writes": [
+    "cistern.html"
+   ],
+   "refuses": ""
+  },
+  "clans.mjs": {
+   "reads": [
+    "templates-clan"
+   ],
+   "writes": [
+    "clans.html"
+   ],
+   "refuses": ""
+  },
+  "compile.mjs": {
+   "reads": [],
+   "writes": [],
+   "refuses": ""
+  },
+  "consistency.mjs": {
+   "reads": [
+    "atelier.mjs",
+    "templates-base",
+    "templates-coin",
+    "templates-fabric",
+    "templates-house",
+    "templates-patron",
+    "venus-facts.mjs"
+   ],
+   "writes": [
+    "consistency.html",
+    "consistency.json"
+   ],
+   "refuses": "Nothing, and that is deliberate. A consistency checker that halts the build\r\n   turns every disagreement into an emergency and gets switched off. It exits\r\n   0, reports everything, and separates FAULTS (something is wrong) from GAPS\r\n   (something is incomplete and known). The distinction is the whole value."
+  },
+  "corps.mjs": {
+   "reads": [],
+   "writes": [
+    "corps.html"
+   ],
+   "refuses": ""
+  },
+  "descent.mjs": {
+   "reads": [
+    "descent.page.js",
+    "templates-lesson",
+    "templates-lesson/"
+   ],
+   "writes": [
+    "descent.html"
+   ],
+   "refuses": ""
+  },
+  "dev.mjs": {
+   "reads": [
+    "kb.json",
+    "templates-lesson"
+   ],
+   "writes": [
+    "dev.html"
+   ],
+   "refuses": ""
+  },
+  "enterprise.mjs": {
+   "reads": [
+    "templates-agency",
+    "templates-enterprise",
+    "templates-github/inventory.json"
+   ],
+   "writes": [
+    "enterprise.html",
+    "templates-enterprise/plan.json"
+   ],
+   "refuses": ""
+  },
+  "estate.mjs": {
+   "reads": [
+    "castle-rules.mjs",
+    "templates-castle"
+   ],
+   "writes": [
+    "estate.html"
+   ],
+   "refuses": ""
+  },
+  "exchange.mjs": {
+   "reads": [
+    "templates-seizure",
+    "templates-warlock",
+    "witches.json"
+   ],
+   "writes": [
+    "api/exchange.json",
+    "exchange.html"
+   ],
+   "refuses": ""
+  },
+  "explorer.mjs": {
+   "reads": [],
+   "writes": [
+    "explorer.html"
+   ],
+   "refuses": ""
+  },
+  "factions.mjs": {
+   "reads": [
+    "templates-faction"
+   ],
+   "writes": [
+    "factions.js"
+   ],
+   "refuses": ""
+  },
+  "gates.mjs": {
+   "reads": [
+    "templates-gate"
+   ],
+   "writes": [
+    "api/gates.json",
+    "gates.html"
+   ],
+   "refuses": "A gate whose span exceeds its own lintel limit while claiming no relieving\r\n   device — that gate would be lying on the floor. The check runs on every\r\n   entry, so a made-up gate is caught by the same arithmetic that explains\r\n   the real ones."
+  },
+  "generate.mjs": {
+   "reads": [],
+   "writes": [],
+   "refuses": ""
+  },
+  "github.mjs": {
+   "reads": [
+    "templates-agency",
+    "templates-github"
+   ],
+   "writes": [
+    "github.html",
+    "templates-github/inventory.json"
+   ],
+   "refuses": "To print a token. Anything matching a GitHub token shape is redacted before\n   it can reach a page, and the redactor runs on every string on its way out\n   rather than at the point somebody remembered."
+  },
+  "guild.mjs": {
+   "reads": [
+    ".sky-block.txt",
+    "kb.json",
+    "templates-quest"
+   ],
+   "writes": [
+    "guild.html"
+   ],
+   "refuses": ""
+  },
+  "hall.mjs": {
+   "reads": [],
+   "writes": [
+    "hall.html"
+   ],
+   "refuses": ""
+  },
+  "houses.mjs": {
+   "reads": [
+    "templates-house",
+    "templates-house/",
+    "templates-house/_scope.json"
+   ],
+   "writes": [
+    "houses.html"
+   ],
+   "refuses": "The word EXHAUSTIVE without a scope declaration. A list that calls itself\r\n   exhaustive and does not say what it leaves out has made an unfalsifiable\r\n   claim, and this yard does not print those. _scope.json must name its\r\n   exclusions, its soft spots, and the single observation that would falsify\r\n   it; without all three the board is not written."
+  },
+  "hub.mjs": {
+   "reads": [
+    "kb.json"
+   ],
+   "writes": [
+    "hub.js"
+   ],
+   "refuses": ""
+  },
+  "instruments.mjs": {
+   "reads": [
+    "templates-instrument"
+   ],
+   "writes": [
+    "instruments.html"
+   ],
+   "refuses": ""
+  },
+  "journal.mjs": {
+   "reads": [
+    "kb.json",
+    "templates-challenge"
+   ],
+   "writes": [
+    "journal.html"
+   ],
+   "refuses": ""
+  },
+  "kb.mjs": {
+   "reads": [
+    ".sky-block.txt",
+    "kb.json"
+   ],
+   "writes": [
+    "kb.html"
+   ],
+   "refuses": ""
+  },
+  "keep.mjs": {
+   "reads": [
+    "castle-rules.mjs",
+    "templates-castle"
+   ],
+   "writes": [
+    "keep.html"
+   ],
+   "refuses": ""
+  },
+  "loom.mjs": {
+   "reads": [
+    "farm.page.js",
+    "templates-farm",
+    "templates-loom"
+   ],
+   "writes": [
+    "farm.html",
+    "templates-loom/_index.json"
+   ],
+   "refuses": ""
+  },
+  "missouri.mjs": {
+   "reads": [],
+   "writes": [
+    "missouri.html"
+   ],
+   "refuses": ""
+  },
+  "owls.mjs": {
+   "reads": [
+    "templates-owl",
+    "templates-sheet",
+    "venus-facts.mjs"
+   ],
+   "writes": [
+    "api/owls.json",
+    "owls.html",
+    "templates-sheet/cargo-relay.json",
+    "templates-sheet/oats-b2p2p2b.json",
+    "templates-sheet/timesheet.json"
+   ],
+   "refuses": "An owl with no binomial. A watch not drawn from something the bird actually\n   does. A component file that is missing or is not a module — the shell will\n   not be written pointing at a script that is not there. And every form of\n   notification, because the premise is that it cannot reach you."
+  },
+  "paper.mjs": {
+   "reads": [
+    "venus-facts.mjs"
+   ],
+   "writes": [
+    "paper.html"
+   ],
+   "refuses": ""
+  },
+  "patrons.mjs": {
+   "reads": [
+    "templates-patron",
+    "venus-facts.mjs"
+   ],
+   "writes": [
+    "patron.js",
+    "patrons.html"
+   ],
+   "refuses": "A sponsorship with no stated value to the civilization. One with no ask\r\n   recorded, or funded above its ask. A charm claim with no falsification\r\n   test. And a book whose FUNDED total exceeds the crew's year."
+  },
+  "profiles.mjs": {
+   "reads": [
+    "profiles.json"
+   ],
+   "writes": [],
+   "refuses": ""
+  },
+  "quests.mjs": {
+   "reads": [
+    "kb.json",
+    "templates-quest"
+   ],
+   "writes": [
+    "quests.js"
+   ],
+   "refuses": ""
+  },
+  "reading.mjs": {
+   "reads": [
+    "kb.json"
+   ],
+   "writes": [
+    "reading.html"
+   ],
+   "refuses": ""
+  },
+  "reconcile.mjs": {
+   "reads": [
+    "templates-coin",
+    "templates-district",
+    "templates-patron",
+    "venus-facts.mjs"
+   ],
+   "writes": [
+    "reconcile.html",
+    "templates-district/reconciliation.json"
+   ],
+   "refuses": "A unit that cannot be expressed in deck hours, because a unit that cannot\r\n   be converted is a unit that cannot be audited. And a ledger that balances\r\n   only by excluding a class — it will print the imbalance rather than the\r\n   balance, every time."
+  },
+  "rites.mjs": {
+   "reads": [
+    "templates-rite"
+   ],
+   "writes": [
+    "rites.html"
+   ],
+   "refuses": "BRONZE AGE CHOREOGRAPHY. We have figures with raised arms cut into rock and\n   lurs deposited in bogs. We do not have steps, occasions, or reasons. Any\n   entry claiming to know Bronze Age dance is refused, because filling that\n   silence is the commonest failure in this subject and it is always done\n   confidently."
+  },
+  "ships.mjs": {
+   "reads": [
+    "profiles.json",
+    "ships.json"
+   ],
+   "writes": [],
+   "refuses": ""
+  },
+  "siege.mjs": {
+   "reads": [
+    "api/warlock.json",
+    "siege.page.js",
+    "templates-demon",
+    "templates-prince",
+    "templates-spell"
+   ],
+   "writes": [
+    "siege.html"
+   ],
+   "refuses": ""
+  },
+  "steading.mjs": {
+   "reads": [
+    "castle-rules.mjs",
+    "templates-castle",
+    "templates-clan"
+   ],
+   "writes": [
+    "steading.html"
+   ],
+   "refuses": ""
+  },
+  "studios.mjs": {
+   "reads": [
+    "templates-studio"
+   ],
+   "writes": [
+    "studios.html"
+   ],
+   "refuses": "A studio with no founding year. A verdict on a test that the yard does not\r\n   actually run. And a finding written only about one side — both entries carry\r\n   one, because a comparison with a conclusion on one side is an advert."
+  },
+  "symbols.mjs": {
+   "reads": [
+    "templates-symbol"
+   ],
+   "writes": [
+    "symbol.css",
+    "symbols.html"
+   ],
+   "refuses": "A tradition with no era or seat — an unplaced tradition is an aesthetic.\n   A gradient of fewer than three stops. And any entry with no `honest` field,\n   because using somebody's religion as a palette without saying so is the one\n   thing this board must not do quietly."
+  },
+  "templatise.mjs": {
+   "reads": [],
+   "writes": [],
+   "refuses": ""
+  },
+  "treasury.mjs": {
+   "reads": [
+    "templates-coin"
+   ],
+   "writes": [
+    "treasury.html"
+   ],
+   "refuses": "A coin design claiming fungibility while its own ledger remembers. A design\r\n   claiming all three of fungible, double-spend-safe and read-free, which is\r\n   the combination that does not exist. A divisibility that does not divide the\r\n   supply into whole units. And a design with a single issuer and a single\r\n   redeemer that calls itself decentralised, because that is a cut vertex at\r\n   both ends."
+  },
+  "tribunal.mjs": {
+   "reads": [],
+   "writes": [
+    "tribunal.html"
+   ],
+   "refuses": ""
+  },
+  "viewport.mjs": {
+   "reads": [],
+   "writes": [
+    "viewport.html"
+   ],
+   "refuses": ""
+  },
+  "warlock.mjs": {
+   "reads": [
+    "templates-castle/krak.json",
+    "templates-demon",
+    "templates-spell"
+   ],
+   "writes": [
+    "api/warlock.json",
+    "warlock.html"
+   ],
+   "refuses": ""
+  },
+  "warlocks.mjs": {
+   "reads": [
+    "templates-warlock"
+   ],
+   "writes": [
+    "warlocks.html"
+   ],
+   "refuses": "AN ENTRY WITH NO FATE. Every person here has an end, and where the end is\n   disputed the entry says that rather than picking one."
+  },
+  "whiteboard.mjs": {
+   "reads": [],
+   "writes": [
+    "whiteboard.html"
+   ],
+   "refuses": ""
+  },
+  "witch.mjs": {
+   "reads": [],
+   "writes": [
+    "api/witch.json",
+    "witch.html"
+   ],
+   "refuses": "To let you win. There is no verdict on this board that is both survival\r\n   and innocence, because there was not one — and any version that offers one\r\n   is telling a comfortable lie about a machine that killed people."
+  },
+  "witches.mjs": {
+   "reads": [],
+   "writes": [
+    "witches.html",
+    "witches.json"
+   ],
+   "refuses": "RETYPING THE SOURCE. The registry is parsed. If the archive changes, this\r\n   board changes, and if the parse finds fewer than 100 rows it stops rather\r\n   than publishing a short table quietly."
+  },
+  "writing.mjs": {
+   "reads": [
+    "consistency.json",
+    "kb.json",
+    "templates-form",
+    "templates-house",
+    "templates-lesson",
+    "yard.json"
+   ],
+   "writes": [
+    "writing.html"
+   ],
+   "refuses": ""
+  },
+  "yard.mjs": {
+   "reads": [],
+   "writes": [
+    "yard.json"
+   ],
+   "refuses": "bytes: s.length\r\n  };\r\n}"
+  }
+ }
+}

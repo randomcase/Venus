@@ -1,0 +1,14 @@
+{
+ "id": "l3-weather-2",
+ "depth": 3,
+ "wovenBy": "l4-weather",
+ "kind": "weather",
+ "name": "The weather pattern 2: hail",
+ "fixed": {
+  "sky": "hail"
+ },
+ "open": [
+  "lasts"
+ ],
+ "weaves": 2
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-065",
+ "bench": "fleet",
+ "order": 65,
+ "year": 7,
+ "day": 2324,
+ "parties": [
+  "odysseus"
+ ],
+ "actor": "Odysseus",
+ "with": null,
+ "verb": "went out",
+ "object": "in borrowed armour",
+ "place": "on the plain",
+ "side": "fleet",
+ "text": "Odysseus went out in borrowed armour, on the plain, in the seventh year."
+}

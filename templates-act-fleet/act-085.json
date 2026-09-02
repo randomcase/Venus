@@ -1,0 +1,17 @@
+{
+ "id": "act-085",
+ "bench": "fleet",
+ "order": 85,
+ "year": 9,
+ "day": 3030,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "spoke",
+ "object": "against the kings in the assembly",
+ "place": "in Agamemnon's hut",
+ "side": "fleet",
+ "text": "Agamemnon spoke against the kings in the assembly, in Agamemnon's hut, in the ninth year."
+}

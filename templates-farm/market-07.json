@@ -1,0 +1,11 @@
+{
+ "id": "market-07",
+ "depth": 1,
+ "wovenBy": "l2-market-2-1",
+ "kind": "market",
+ "where": "the port",
+ "every": 7,
+ "name": "the port, every 7 days",
+ "price": 1.17,
+ "cost": 625
+}

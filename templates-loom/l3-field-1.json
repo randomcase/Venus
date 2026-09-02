@@ -1,0 +1,15 @@
+{
+ "id": "l3-field-1",
+ "depth": 3,
+ "wovenBy": "l4-field",
+ "kind": "field",
+ "name": "The field pattern 1: peat",
+ "fixed": {
+  "soil": "peat"
+ },
+ "open": [
+  "lie",
+  "size"
+ ],
+ "weaves": 2
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-004",
+ "bench": "fleet",
+ "order": 4,
+ "year": 1,
+ "day": 136,
+ "parties": [
+  "neoptolemus"
+ ],
+ "actor": "Neoptolemus",
+ "with": null,
+ "verb": "sent",
+ "object": "the embassy with gifts",
+ "place": "in the assembly by the ships",
+ "side": "fleet",
+ "text": "Neoptolemus sent the embassy with gifts, in the assembly by the ships, in the first year."
+}

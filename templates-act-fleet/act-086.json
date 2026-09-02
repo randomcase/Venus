@@ -1,0 +1,17 @@
+{
+ "id": "act-086",
+ "bench": "fleet",
+ "order": 86,
+ "year": 9,
+ "day": 3088,
+ "parties": [
+  "phoenix"
+ ],
+ "actor": "Phoenix",
+ "with": null,
+ "verb": "tested",
+ "object": "the army by ordering it home",
+ "place": "in the assembly by the ships",
+ "side": "fleet",
+ "text": "Phoenix tested the army by ordering it home, in the assembly by the ships, in the ninth year."
+}

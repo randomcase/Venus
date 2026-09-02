@@ -1,0 +1,18 @@
+{
+ "id": "act-091",
+ "bench": "fleet",
+ "order": 91,
+ "year": 10,
+ "day": 3261,
+ "parties": [
+  "phoenix",
+  "diomedes"
+ ],
+ "actor": "Phoenix",
+ "with": "Diomedes",
+ "verb": "quarrelled",
+ "object": "over the arms of Achilles",
+ "place": "on the beach at dawn",
+ "side": "fleet",
+ "text": "Phoenix and Diomedes quarrelled over the arms of Achilles, on the beach at dawn, in the tenth year."
+}

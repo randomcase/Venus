@@ -1,0 +1,18 @@
+{
+ "id": "act-057",
+ "bench": "fleet",
+ "order": 57,
+ "year": 6,
+ "day": 2044,
+ "parties": [
+  "achilles",
+  "menelaus"
+ ],
+ "actor": "Achilles",
+ "with": "Menelaus",
+ "verb": "spoke",
+ "object": "against the kings in the assembly",
+ "place": "in Agamemnon's hut",
+ "side": "fleet",
+ "text": "Achilles and Menelaus spoke against the kings in the assembly, in Agamemnon's hut, in the sixth year."
+}

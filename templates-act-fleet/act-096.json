@@ -1,0 +1,17 @@
+{
+ "id": "act-096",
+ "bench": "fleet",
+ "order": 96,
+ "year": 10,
+ "day": 3441,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "sacrificed",
+ "object": "at Aulis for a wind",
+ "place": "at the pyre",
+ "side": "fleet",
+ "text": "Achilles sacrificed at Aulis for a wind, at the pyre, in the tenth year."
+}

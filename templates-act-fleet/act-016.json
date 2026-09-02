@@ -1,0 +1,17 @@
+{
+ "id": "act-016",
+ "bench": "fleet",
+ "order": 16,
+ "year": 2,
+ "day": 544,
+ "parties": [
+  "menelaus"
+ ],
+ "actor": "Menelaus",
+ "with": null,
+ "verb": "withdrew",
+ "object": "from the field and sat down",
+ "place": "in the assembly by the ships",
+ "side": "fleet",
+ "text": "Menelaus withdrew from the field and sat down, in the assembly by the ships, in the second year."
+}

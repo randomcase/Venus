@@ -1,0 +1,14 @@
+{
+ "id": "l2-field-2-2",
+ "depth": 2,
+ "wovenBy": "l3-field-2",
+ "kind": "field",
+ "name": "The field mould 2.2: sand, high",
+ "fixed": {
+  "soil": "sand",
+  "lie": "high"
+ },
+ "open": [
+  "size"
+ ]
+}

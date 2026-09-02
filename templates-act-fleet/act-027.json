@@ -1,0 +1,17 @@
+{
+ "id": "act-027",
+ "bench": "fleet",
+ "order": 27,
+ "year": 3,
+ "day": 947,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "struck",
+ "object": "the one who spoke",
+ "place": "at the pyre",
+ "side": "fleet",
+ "text": "Achilles struck the one who spoke, at the pyre, in the third year."
+}

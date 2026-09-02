@@ -1,0 +1,11 @@
+{
+ "id": "fence-05",
+ "depth": 1,
+ "wovenBy": "l2-fence-1-1",
+ "kind": "fence",
+ "wall": "ditch and bank",
+ "keeps": "the deer out",
+ "name": "ditch and bank that keeps the deer out",
+ "cost": 534,
+ "keep": 0.97
+}

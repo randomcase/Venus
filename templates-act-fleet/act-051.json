@@ -1,0 +1,17 @@
+{
+ "id": "act-051",
+ "bench": "fleet",
+ "order": 51,
+ "year": 6,
+ "day": 1800,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "divided",
+ "object": "the plunder by rank",
+ "place": "in the assembly by the ships",
+ "side": "fleet",
+ "text": "Achilles divided the plunder by rank, in the assembly by the ships, in the sixth year."
+}

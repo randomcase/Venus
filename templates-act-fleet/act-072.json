@@ -1,0 +1,17 @@
+{
+ "id": "act-072",
+ "bench": "fleet",
+ "order": 72,
+ "year": 8,
+ "day": 2573,
+ "parties": [
+  "calchas"
+ ],
+ "actor": "Calchas",
+ "with": null,
+ "verb": "gave back",
+ "object": "a body for its weight in gold",
+ "place": "at the pyre",
+ "side": "fleet",
+ "text": "Calchas gave back a body for its weight in gold, at the pyre, in the eighth year."
+}

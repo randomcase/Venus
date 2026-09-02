@@ -1,0 +1,14 @@
+{
+ "id": "season-06",
+ "depth": 1,
+ "wovenBy": "l2-season-3-2",
+ "kind": "season",
+ "turn": "harvest",
+ "length": 45,
+ "name": "harvest, 45 days",
+ "grows": [
+  "summer",
+  "autumn"
+ ],
+ "mul": 1.4
+}

@@ -1,0 +1,8 @@
+{
+ "seed": 21,
+ "looms": 10,
+ "patterns": 25,
+ "moulds": 50,
+ "leaves": 100,
+ "note": "depth 4 weaves 3, 3 weaves 2, 2 weaves 1; a leaf names its mould, a mould its pattern, a pattern its loom"
+}

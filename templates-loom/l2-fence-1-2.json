@@ -1,0 +1,12 @@
+{
+ "id": "l2-fence-1-2",
+ "depth": 2,
+ "wovenBy": "l3-fence-1",
+ "kind": "fence",
+ "name": "The fence mould 1.2: ditch and bank, the cow home",
+ "fixed": {
+  "wall": "ditch and bank",
+  "keeps": "the cow home"
+ },
+ "open": []
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-054",
+ "bench": "fleet",
+ "order": 54,
+ "year": 6,
+ "day": 1916,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "sent",
+ "object": "the embassy with gifts",
+ "place": "among the ships",
+ "side": "fleet",
+ "text": "Achilles sent the embassy with gifts, among the ships, in the sixth year."
+}

@@ -1,0 +1,18 @@
+{
+ "id": "act-075",
+ "bench": "fleet",
+ "order": 75,
+ "year": 8,
+ "day": 2680,
+ "parties": [
+  "agamemnon",
+  "hector"
+ ],
+ "actor": "Agamemnon",
+ "with": "Hector",
+ "verb": "divided",
+ "object": "the plunder by rank",
+ "place": "on the plain",
+ "side": "fleet",
+ "text": "Agamemnon and Hector divided the plunder by rank, on the plain, in the eighth year."
+}

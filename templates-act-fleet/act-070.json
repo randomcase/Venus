@@ -1,0 +1,17 @@
+{
+ "id": "act-070",
+ "bench": "fleet",
+ "order": 70,
+ "year": 7,
+ "day": 2511,
+ "parties": [
+  "nestor"
+ ],
+ "actor": "Nestor",
+ "with": null,
+ "verb": "refused",
+ "object": "the ransom for Chryseis",
+ "place": "at the wall round the camp",
+ "side": "fleet",
+ "text": "Nestor refused the ransom for Chryseis, at the wall round the camp, in the seventh year."
+}
