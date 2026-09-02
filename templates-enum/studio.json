@@ -1,0 +1,83 @@
+{
+ "id": "enum-studio",
+ "kind": "enum",
+ "family": "studio",
+ "path": "templates-enum/studio.json",
+ "note": "The fixed vocabulary of templates-studio/, mined from 2 of its 2 templates by enums.mjs. Kept in templates-enum/, never inside templates-studio/ itself, so nothing that scans templates-studio/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 2,
+ "sampledFiles": 2,
+ "fields": {
+  "id": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "disney",
+    "nickelodeon"
+   ]
+  },
+  "order": {
+   "type": "number",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    1,
+    2
+   ]
+  },
+  "name": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "Disney",
+    "Nickelodeon"
+   ]
+  },
+  "founded": {
+   "type": "number",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    1923,
+    1979
+   ]
+  },
+  "full": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "Nickelodeon, Paramount Global",
+    "The Walt Disney Company"
+   ]
+  },
+  "seat": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "Burbank",
+    "New York, then Burbank"
+   ]
+  },
+  "remembers": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    false,
+    true
+   ]
+  },
+  "ends": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    false
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

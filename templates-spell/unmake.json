@@ -1,0 +1,12 @@
+{
+ "id": "unmake",
+ "order": 6,
+ "name": "Unmake",
+ "glyph": "✖",
+ "cost": 9,
+ "cooldown": 20,
+ "kind": "attack",
+ "colour": "#a83232",
+ "does": "Removes one thing from the field completely, turned summons included. The only spell that undoes a summon.",
+ "costs": "Nine of a pool that refills slowly, and it takes ONE. It exists so that a turn is survivable, not so that summoning is safe."
+}

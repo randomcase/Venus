@@ -1,0 +1,12 @@
+{
+ "id": "bind",
+ "order": 4,
+ "name": "Bind",
+ "glyph": "⛓",
+ "cost": 4,
+ "cooldown": 10,
+ "kind": "control",
+ "colour": "#7d9d6a",
+ "does": "Holds a turned summon in place. It cannot advance and it cannot be reasoned with, but it stops.",
+ "costs": "It does not unturn anything. You are paying to keep a problem stationary, which is the honest description of most control."
+}

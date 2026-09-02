@@ -5,9 +5,17 @@
    digest-enums.json was one big list of words for the digest layer alone. This mines the
    same thing for every templates- folder in the yard: read what is already on disk, find
    the fields that repeat from a small, fixed set of values rather than saying something
-   new every time, and write that set down next to the templates it came from, as
-   templates-X/_enum.json. A field that never repeats (an id, a door number, a paragraph
-   of prose) is not an enum and is left alone.
+   new every time, and write that set down as templates-enum/X.json — its OWN folder, a
+   sibling of templates-X, never inside it. It used to write templates-X/_enum.json, next
+   to the templates it came from, until that turned out to be a real bug: a couple dozen
+   other generators scan their templates-X folder with plain readdirSync, no filter for a
+   leading underscore, so a stray _enum.json got read as if it were one more template — and
+   coven.mjs's own unsorted, unfiltered spell loader picked up the enum file as a seventh
+   "spell" and, worse, silently reassigned real spells to practitioners on every rebuild
+   even at the same seed, because a directory listing order is not a promise. Nothing here
+   is worth patching thirty call sites for; the fix is not being in their way at all.
+   A field that never repeats (an id, a door number, a paragraph of prose) is not an enum
+   and is left alone.
 
    It also builds the full SHAPE of each family — the same recursive typing entities.mjs
    uses to write Scala, expressed here as plain data — and embeds it, together with three
@@ -19,20 +27,22 @@
    travels with what it generated, so the page is not a report about the mining, it IS the
    mining, encapsulated.
 
-     node enums.mjs             mine every templates- family, write its _enum.json,
+     node enums.mjs             mine every templates- family, write templates-enum/<family>.json,
                                  and write enumerator.html, fully self-contained */
-import { readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, statSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-const CAP = 100;                 // "every template 100 enums": the ceiling on values kept in a family's _enum.json
+const CAP = 100;                 // "every template 100 enums": the ceiling on values kept in a family's enum file
 const SAMPLE = 800;               // families larger than this are sampled, not fully read — the mining stays light
 const PROSE_LEN = 40;             // a value averaging longer than this is prose, not a category
 const UNIQUE_RATIO = 0.8;         // a field this close to one-value-per-file is an identifier, not an enum
 const ENUM_CAP = 30;              // shape-level threshold: matches entities.mjs's promotion to a real Scala enum
 
 const root = process.cwd();
+const ENUM_OUT = join(root, 'templates-enum');
+mkdirSync(ENUM_OUT, { recursive: true });
 const families = readdirSync(root, { withFileTypes: true })
-  .filter(e => e.isDirectory() && e.name.startsWith('templates-'))
+  .filter(e => e.isDirectory() && e.name.startsWith('templates-') && e.name !== 'templates-enum')
   .map(e => e.name)
   .sort();
 
@@ -115,10 +125,10 @@ for (const family of families) {
   const mined = mine(family);
   if (mined.sampledFiles === 0) continue;
   const short = family.replace(/^templates-/, '');
-  const doc = { id: `enum-${short}`, kind: 'enum', family: short, path: `${family}/_enum.json`,
-    note: `The fixed vocabulary of ${family}/, mined from ${mined.sampledFiles} of its ${mined.totalFiles} templates by enums.mjs. A field with more than ${CAP} distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.`,
+  const doc = { id: `enum-${short}`, kind: 'enum', family: short, path: `templates-enum/${short}.json`,
+    note: `The fixed vocabulary of ${family}/, mined from ${mined.sampledFiles} of its ${mined.totalFiles} templates by enums.mjs. Kept in templates-enum/, never inside ${family}/ itself, so nothing that scans ${family}/ for its own templates ever trips over this file. A field with more than ${CAP} distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.`,
     totalFiles: mined.totalFiles, sampledFiles: mined.sampledFiles, fields: mined.fields, wovenBy: 'enums.mjs' };
-  writeFileSync(join(root, family, '_enum.json'), JSON.stringify(doc, null, 1));
+  writeFileSync(join(ENUM_OUT, `${short}.json`), JSON.stringify(doc, null, 1));
   index[short] = { totalFiles: mined.totalFiles, sampledFiles: mined.sampledFiles, fieldCount: Object.keys(mined.fields).length,
     fields: mined.fields, shape: mined.shape, rawSample: mined.rawSample };
 }
@@ -158,7 +168,7 @@ pre{white-space:pre-wrap;word-break:break-word;font-size:.82em;background:rgba(1
 [hidden]{display:none!important}
 </style></head><body>
 <h1>The enumerator</h1>
-<p class="top">The vocabulary AND the shape of every <code>templates-*/</code> family, mined by one function that travels with its own output: ${families.length} families, ${fieldTotal} enum-worthy fields, ${valueTotal} distinct values, ${classCount} nested shapes, ${enumCount} closed vocabularies found down to three levels deep. This page is 100% self-contained — no fetches, no server, everything below (the vocabulary, the shape, three real templates per family, and the mining function itself) is embedded in this one file. Each family also keeps its own copy at <code>templates-&lt;family&gt;/_enum.json</code>; regenerate both with <code>node enums.mjs</code>.</p>
+<p class="top">The vocabulary AND the shape of every <code>templates-*/</code> family, mined by one function that travels with its own output: ${families.length} families, ${fieldTotal} enum-worthy fields, ${valueTotal} distinct values, ${classCount} nested shapes, ${enumCount} closed vocabularies found down to three levels deep. This page is 100% self-contained — no fetches, no server, everything below (the vocabulary, the shape, three real templates per family, and the mining function itself) is embedded in this one file. Each family also keeps its own copy at <code>templates-enum/&lt;family&gt;.json</code> — its own folder, never inside the family's own, so nothing that scans a templates- folder for its own templates ever trips over one; regenerate both with <code>node enums.mjs</code>.</p>
 <input id="q" placeholder="Filter by family or field name…">
 <div id="list"></div>
 <script id="enum-data" type="application/json">${JSON.stringify(index)}</script>

@@ -149,7 +149,12 @@ build, no matter how much wax its croft has grown.
 `enums.mjs` does the same thing for every `templates-` family in the yard: it
 samples what is already on disk, finds the fields that keep saying the same
 small set of things rather than something new each time, and writes that
-vocabulary next to the templates it came from, as `templates-<family>/_enum.json`.
+vocabulary to its own folder, `templates-enum/<family>.json` — a sibling of the family's
+own folder, not inside it, after an early version that wrote `templates-<family>/_enum.json`
+turned out to be a real bug: roughly two dozen other generators scan their own templates-
+folder with no filter for a leading underscore, so the stray file got read as if it were one
+more template, and coven.mjs's own unsorted spell loader silently reassigned spells to
+practitioners on every rebuild because of it.
 A field that is a paragraph of prose, or a different value in nearly every
 file, is left alone — it is data, not an enum. `enumerator.html` is the light
 way to browse all of it at once: every family, color-coded, searchable by
@@ -191,6 +196,29 @@ discovery or staged leaves the syndicate alert for stealCooldown days, locked ag
 another attempt and forced into discovery, because now it is looking for what almost went
 missing. Effects live in the activity's own template, the same {chance, min, max} shape
 throughout, read by coven.page.js and never hard-coded there.
+
+## A second light: stance, and the two bosses who move it
+
+Activity is what a syndicate is doing to itself. `templates-stance/` is a second light for
+how it reads to everyone else, and unlike activity it is never rolled — it is derived, every
+day, from what is already true: **green** for presentDays after a carry, because presenting
+is the exact moment a syndicate is exposed and always the best target on the board; **red**
+while its own activity is discovery, or while a president or king has cast suspicion on it
+from outside, whichever the reason; **blue** while it is actually at work, planning or
+staged; **yellow** otherwise, the default. One light at a time, and it can never disagree
+with the activity underneath it, because it is read off that activity rather than guessed at
+separately.
+
+Presidents and kings are the interference, and they are not the same shape. A king works the
+ground level: one independent roll per syndicate, small and frequent, casting suspicion and
+taking a small gain of his own. A president works the eagle-eye view: one look at the whole
+board per cycle, going straight for whichever syndicate is presenting or staged — the best
+opportunity on the table — for a much larger take. Neither gain reaches the player's docket;
+both are scored separately, so "between the syndicates" is a real, readable feed of every
+stance transition across all twenty-one, not a single syndicate's private log. Green
+overrides everything else a steal would normally require, on purpose: whatever else is true
+of a syndicate, presenting is always a real, well-flagged chance to steal from it — the
+exact head to cut off, whenever one appears.
 
 ## The terminal: the notebook before the automation
 

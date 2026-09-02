@@ -1,0 +1,844 @@
+{
+ "id": "enum-github",
+ "kind": "enum",
+ "family": "github",
+ "path": "templates-enum/github.json",
+ "note": "The fixed vocabulary of templates-github/, mined from 2 of its 2 templates by enums.mjs. Kept in templates-enum/, never inside templates-github/ itself, so nothing that scans templates-github/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 2,
+ "sampledFiles": 2,
+ "fields": {
+  "0.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "agency"
+   ]
+  },
+  "0.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "0.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    14
+   ]
+  },
+  "0.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "1.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "akka-http-kubernetes"
+   ]
+  },
+  "1.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "home"
+   ]
+  },
+  "1.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    21
+   ]
+  },
+  "1.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "2.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "akka-scala-seed"
+   ]
+  },
+  "2.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "home"
+   ]
+  },
+  "2.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    8
+   ]
+  },
+  "2.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "3.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "ballots"
+   ]
+  },
+  "3.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "3.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    3
+   ]
+  },
+  "3.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "4.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "claude-repository"
+   ]
+  },
+  "4.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "4.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    12
+   ]
+  },
+  "4.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "5.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "crypto-game"
+   ]
+  },
+  "5.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "5.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    3
+   ]
+  },
+  "5.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "6.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "go-services"
+   ]
+  },
+  "6.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "6.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    5
+   ]
+  },
+  "6.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "7.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "hello-world"
+   ]
+  },
+  "7.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "home"
+   ]
+  },
+  "7.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    55
+   ]
+  },
+  "7.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "8.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "heze-coin"
+   ]
+  },
+  "8.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "8.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    10
+   ]
+  },
+  "8.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "9.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "heze-payouts"
+   ]
+  },
+  "9.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "9.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    81
+   ]
+  },
+  "9.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    2
+   ]
+  },
+  "10.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "heze-propositions"
+   ]
+  },
+  "10.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "10.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    13
+   ]
+  },
+  "10.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    1
+   ]
+  },
+  "11.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "lagom-scala"
+   ]
+  },
+  "11.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "home"
+   ]
+  },
+  "11.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    19
+   ]
+  },
+  "11.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "12.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "mining-playground"
+   ]
+  },
+  "12.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "12.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    57
+   ]
+  },
+  "12.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    1
+   ]
+  },
+  "13.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "owl-system"
+   ]
+  },
+  "13.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "13.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    16
+   ]
+  },
+  "13.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "14.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "public"
+   ]
+  },
+  "14.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "14.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    4
+   ]
+  },
+  "14.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "15.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "scala3"
+   ]
+  },
+  "15.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "home"
+   ]
+  },
+  "15.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    12
+   ]
+  },
+  "15.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "16.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "scalaAPIresearch"
+   ]
+  },
+  "16.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "home"
+   ]
+  },
+  "16.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    6
+   ]
+  },
+  "16.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "17.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "scalatest-example"
+   ]
+  },
+  "17.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "home"
+   ]
+  },
+  "17.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    5
+   ]
+  },
+  "17.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "18.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "teaching-agency"
+   ]
+  },
+  "18.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "18.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    2
+   ]
+  },
+  "18.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "19.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "trojan-agency"
+   ]
+  },
+  "19.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "19.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    10
+   ]
+  },
+  "19.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "20.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "trojan-war"
+   ]
+  },
+  "20.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "20.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    4
+   ]
+  },
+  "20.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "21.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "venus-research"
+   ]
+  },
+  "21.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the aids"
+   ]
+  },
+  "21.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    1038
+   ]
+  },
+  "21.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "22.name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "Workspace"
+   ]
+  },
+  "22.where": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "home"
+   ]
+  },
+  "22.would_commit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    74
+   ]
+  },
+  "22.flagged": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "id": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "inventory"
+   ]
+  },
+  "order": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    1
+   ]
+  },
+  "name": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "The GitHub inventory"
+   ]
+  },
+  "account_repos": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    283
+   ]
+  },
+  "local_projects": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    69
+   ]
+  },
+  "exposure.no_repo": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    25
+   ]
+  },
+  "exposure.no_remote": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    0
+   ]
+  },
+  "exposure.exposed": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    34
+   ]
+  },
+  "exposure.safe": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    6
+   ]
+  },
+  "exposure.unknown": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    4
+   ]
+  },
+  "exposure.uncommitted_files": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    30490
+   ]
+  },
+  "exposure.unpushed_commits": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    1
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

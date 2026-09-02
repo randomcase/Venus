@@ -1,0 +1,11 @@
+{
+ "id": "enum-clan",
+ "kind": "enum",
+ "family": "clan",
+ "path": "templates-enum/clan.json",
+ "note": "The fixed vocabulary of templates-clan/, mined from 6 of its 6 templates by enums.mjs. Kept in templates-enum/, never inside templates-clan/ itself, so nothing that scans templates-clan/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 6,
+ "sampledFiles": 6,
+ "fields": {},
+ "wovenBy": "enums.mjs"
+}

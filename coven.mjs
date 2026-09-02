@@ -33,7 +33,13 @@ import { FIREFLIES } from './toonami.mjs';
 import { rulesFor } from './rules.mjs';
 
 const warlocks = readdirSync('templates-warlock').filter(f => f.endsWith('.json') && !f.startsWith('_')).map(f => JSON.parse(readFileSync('templates-warlock/' + f, 'utf8'))).sort((a, b) => (a.order || 0) - (b.order || 0));
-const spells = readdirSync('templates-spell').filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync('templates-spell/' + f, 'utf8')));
+/* Sorted by its own order field, and _-prefixed files excluded on principle (enums.mjs briefly
+   wrote templates-spell/_enum.json here, and this loader read it as a seventh "spell" with no
+   filter to catch it): an unsorted readdirSync has no promised order across runs, so without the
+   sort a rebuild can reassign spells to practitioners at the same seed, which a seeded weave is
+   supposed to never do. Found live: p-2's spell changed from Unmake to Bind between two
+   otherwise-identical builds. */
+const spells = readdirSync('templates-spell').filter(f => f.endsWith('.json') && !f.startsWith('_')).map(f => JSON.parse(readFileSync('templates-spell/' + f, 'utf8'))).sort((a, b) => (a.order || 0) - (b.order || 0));
 /* Two of the twenty-two are venerated in living traditions — a canonised saint and a
    teacher millions call Guru Rinpoche. The archive is right to hold them, because the
    archive is about who got called a sorcerer and by whom. A procedurally generated
@@ -46,6 +52,9 @@ const SPELLS = spells.map(s => ({ id: s.id, name: s.name, glyph: s.glyph, kind: 
 
 export const WEAVE = `function weave(seed, PRED, SPELLS, SYNDICATES, DOORS) {
   const h32 = (a, b, c) => { let x = (Math.imul(a, 73856093) ^ Math.imul(b, 19349663) ^ Math.imul(c, 83492791)) | 0; x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return x >>> 0; };
+  /* 11th, 12th and 13th are th regardless — the rest go by the last digit. Found live: with
+     s===0/1/2/else covering only 1st/2nd/3rd/4th+, the 21st syndicate rendered as "21th". */
+  const ord = n => { const r = n % 100; if (r >= 11 && r <= 13) return n + 'th'; return n + ({ 1: 'st', 2: 'nd', 3: 'rd' }[n % 10] || 'th'); };
   const pick = (arr, k) => arr[k % arr.length];
   const HEAD = ['Ash', 'Bram', 'Cael', 'Dorn', 'Eln', 'Fenn', 'Gral', 'Hesp', 'Irm', 'Joss', 'Kel', 'Lume', 'Mor', 'Nix', 'Orr', 'Pell', 'Quill', 'Rhen', 'Sable', 'Tarn', 'Umbr', 'Vess', 'Wend', 'Yarr', 'Zeph'];
   const TAIL = ['a', 'en', 'is', 'or', 'wyn', 'ith', 'ax', 'eth', 'ur', 'ael', 'ic', 'une'];
@@ -66,15 +75,15 @@ export const WEAVE = `function weave(seed, PRED, SPELLS, SYNDICATES, DOORS) {
         keeps: pick(KEEPS[kind], h >>> 17), does: DOES[kind], office_is: OFFICE[kind],
         reads: pred.name, readsId: pred.id, reason: pred.why, spell: spell.name, spellId: spell.id, glyph: spell.glyph,
         share: (h32(seed, s * 3 + k, 23) >>> 8).toString(16).padStart(6, '0'),
-        text: name + ' of ' + pick(HOUSE, h >>> 13) + ', ' + OFFICE[kind] + ' for the ' + (s + 1) + (s === 0 ? 'st' : s === 1 ? 'nd' : s === 2 ? 'rd' : 'th') + ' tranche, doors ' + lo + ' to ' + hi + '. Keeps ' + pick(KEEPS[kind], h >>> 17) + '. Reads ' + pred.name + '.',
+        text: name + ' of ' + pick(HOUSE, h >>> 13) + ', ' + OFFICE[kind] + ' for the ' + ord(s + 1) + ' tranche, doors ' + lo + ' to ' + hi + '. Keeps ' + pick(KEEPS[kind], h >>> 17) + '. Reads ' + pred.name + '.',
         wovenBy: pred.id };
     });
     people.push(...trio);
     syndicates.push({ id: 'syn-' + (s + 1), kind: 'syndicate', tranche: s + 1, holds: 1000000, doors: [lo, hi], doorCount: hi - lo + 1, custodians: trio.map(p => p.id), quorum: 2, of: 3,
-      name: 'The ' + (s + 1) + (s === 0 ? 'st' : s === 1 ? 'nd' : s === 2 ? 'rd' : 'th') + ' syndicate', seat: trio[0].house,
+      name: 'The ' + ord(s + 1) + ' syndicate', seat: trio[0].house,
       text: 'Holds one tranche of a million against doors ' + lo + ' to ' + hi + '. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.', wovenBy: 'the docket' });
     for (let d = lo; d <= hi; d++) doors.push({ id: 'door-' + d, kind: 'door', door: d, syndicate: 'syn-' + (s + 1), tranche: s + 1, keeper: trio[0].id, share: +(1000000 / (hi - lo + 1)).toFixed(2),
-      text: 'Door ' + d + ' of ' + DOORS + '. Draws on the ' + (s + 1) + (s === 0 ? 'st' : s === 1 ? 'nd' : s === 2 ? 'rd' : 'th') + ' tranche, kept by ' + trio[0].name + ', signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door ' + DOORS + '.', wovenBy: 'syn-' + (s + 1) });
+      text: 'Door ' + d + ' of ' + DOORS + '. Draws on the ' + ord(s + 1) + ' tranche, kept by ' + trio[0].name + ', signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door ' + DOORS + '.', wovenBy: 'syn-' + (s + 1) });
   }
   /* THE CROFTS. One per syndicate, at its seat, growing the wax a proposal is sealed with. The
      period is the (s+1)th prime — 2, 3, 5, 7, ... 73 for the 21 syndicates — continuing the war of
@@ -129,6 +138,20 @@ const ACTIVITY = [
     text: 'Signed and staged, waiting on the interval to carry it across. Move first, and it never goes.' },
 ];
 
+/* THE STANCE. A second light, next to activity, for how a syndicate reads to the others rather
+   than what it is doing to itself: yellow by default, blue while it is actually at work (planning
+   or staged), green for a few days after it presents what it carried, and red when it is
+   suspect — either its own activity is discovery, auditing itself, or a president or king has
+   cast suspicion on it from outside, which is the one thing that can make an otherwise clean
+   syndicate read red. One light at a time, derived from what the syndicate is actually doing
+   rather than rolled on its own, so it never disagrees with the activity underneath it. */
+const STANCE = [
+  { id: 'yellow', kind: 'stance', label: 'Default', color: '#e6c84f', text: 'Nothing to report. Quiet, and not suspected of anything.' },
+  { id: 'blue', kind: 'stance', label: 'Working', color: '#3f8fbf', text: 'Actually at work: planning or staged, moving toward a carry.' },
+  { id: 'green', kind: 'stance', label: 'Presenting', color: '#6fd4a8', text: 'Just carried. Presenting what it signed to the wider syndication.' },
+  { id: 'red', kind: 'stance', label: 'Suspect', color: '#e06f5a', text: 'Under suspicion — auditing itself, or accused by a president or king from outside.' },
+];
+
 const SYNDICATES = 21, DOORS = 200;
 const weave = new Function(WEAVE + '; return weave;')();
 const SEED = 1621;
@@ -143,10 +166,12 @@ rmSync('templates-hold', { recursive: true, force: true }); mkdirSync('templates
 for (const h of HOLDS) writeFileSync(`templates-hold/${h.id}.json`, JSON.stringify(h, null, 1));
 rmSync('templates-activity', { recursive: true, force: true }); mkdirSync('templates-activity');
 for (const a of ACTIVITY) writeFileSync(`templates-activity/${a.id}.json`, JSON.stringify(a, null, 1));
+rmSync('templates-stance', { recursive: true, force: true }); mkdirSync('templates-stance');
+for (const s of STANCE) writeFileSync(`templates-stance/${s.id}.json`, JSON.stringify(s, null, 1));
 const total = readdirSync('.').filter(d => d.startsWith('templates-')).reduce((n, d) => n + readdirSync(d).filter(f => f.endsWith('.json')).length, 0);
-console.log(`the coven: ${people.length} practitioners (${people.filter(p => p.office === 'witch').length} witches, ${people.filter(p => p.office === 'wizard').length} wizards, ${people.filter(p => p.office === 'warlock').length} warlocks) in ${syndicates.length} syndicates over ${doors.length} doors, reading ${PRED.length} of the archive's ${warlocks.length}, holding back ${HELD_BACK.join(' and ')}; ${crofts.length} crofts, ${HOLDS.length} hold types, ${ACTIVITY.length} activity states · templates on disk: ${total}`);
+console.log(`the coven: ${people.length} practitioners (${people.filter(p => p.office === 'witch').length} witches, ${people.filter(p => p.office === 'wizard').length} wizards, ${people.filter(p => p.office === 'warlock').length} warlocks) in ${syndicates.length} syndicates over ${doors.length} doors, reading ${PRED.length} of the archive's ${warlocks.length}, holding back ${HELD_BACK.join(' and ')}; ${crofts.length} crofts, ${HOLDS.length} hold types, ${ACTIVITY.length} activity states, ${STANCE.length} stance lights · templates on disk: ${total}`);
 
-const DEF = { people, syndicates, doors, crofts, holds: HOLDS, activity: ACTIVITY, pred: PRED, spells: SPELLS, seed: SEED, syndicateCount: SYNDICATES, doorCount: DOORS, total, rules: rulesFor('coven') };
+const DEF = { people, syndicates, doors, crofts, holds: HOLDS, activity: ACTIVITY, stance: STANCE, pred: PRED, spells: SPELLS, seed: SEED, syndicateCount: SYNDICATES, doorCount: DOORS, total, rules: rulesFor('coven') };
 const page = readFileSync('coven.page.js', 'utf8');
 const html = `<title>The coven &middot; who holds the doors</title>
 <meta charset="utf-8">
@@ -207,12 +232,15 @@ const html = `<title>The coven &middot; who holds the doors</title>
   <div>
     <section><h2>The syndicates<i>one per tranche of a million; click one to read its three and its doors</i></h2>
       <div class="legend" id="legend"></div>
+      <div class="legend" id="legend2"></div>
       <div class="syns" id="syns"></div></section>
     <section><h2 id="syn-name">—</h2><div id="syn-stats"></div>
       <h2 style="margin-top:10px">Activity<i>what this syndicate is doing right now, and whether there is anything worth taking</i></h2>
       <div id="activity"></div>
       <div class="row"><button id="steal">Attempt a steal</button></div>
       <div id="steal-out"></div>
+      <h2 style="margin-top:10px">Stance<i>how this syndicate reads to the others, not to you</i></h2>
+      <div id="stance"></div>
       <div id="who"></div></section>
     <section><h2>The croft<i>sealing wax, grown on its own coprime period — never due the same day as another syndicate's</i></h2><div id="croft-stats"></div></section>
     <section><h2>Holds<i>four kinds, one favouring each office and one favouring none; wax and HEZE both, and one per syndicate</i></h2><div id="holds"></div></section>
@@ -223,6 +251,7 @@ const html = `<title>The coven &middot; who holds the doors</title>
       <div class="row"><button class="primary" id="carry">Carry now</button><button id="autosign">Let them sign</button></div>
       <div class="row" id="early-carry-wrap" hidden style="margin-top:6px"><button id="early-carry">Carry this syndicate early, via the waystation</button></div></section>
     <section><h2>The bank's health<i>read from the chain and the desk, not asserted</i></h2><div id="health"></div></section>
+    <section><h2>Between the syndicates<i>every stance transition, across all twenty-one, most recent first — where interference actually shows up</i></h2><div class="log" id="stance-log"></div></section>
     <section><h2>At the doors<i>a proposal needs two of its syndicate's three; sign for whichever office you are standing in</i></h2><div id="props"></div></section>
     <section><h2>The chain<i>SHA-256 over each syndication, chained to the one before, and what came back from the far side</i></h2><div class="chain" id="chain"></div>
       <p style="color:var(--dim);font-size:12px;margin:8px 0 0">The syndicate is multiplanetary and it is enormous, so it does not care. At every carry the other world's chain arrives with an interval's volume orders of magnitude past anything these doors did, and it never rejects, never asks and never answers. It reconciles. That is not contempt, it is scale, and it is also the safety in it: a thing that cannot notice you cannot single you out.</p></section>

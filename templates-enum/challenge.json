@@ -1,0 +1,35 @@
+{
+ "id": "enum-challenge",
+ "kind": "enum",
+ "family": "challenge",
+ "path": "templates-enum/challenge.json",
+ "note": "The fixed vocabulary of templates-challenge/, mined from 9 of its 9 templates by enums.mjs. Kept in templates-enum/, never inside templates-challenge/ itself, so nothing that scans templates-challenge/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 9,
+ "sampledFiles": 9,
+ "fields": {
+  "type": {
+   "type": "string",
+   "distinct": 5,
+   "samples": 9,
+   "values": [
+    "assess",
+    "code",
+    "math",
+    "voice",
+    "write"
+   ]
+  },
+  "tier": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 9,
+   "values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

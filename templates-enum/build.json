@@ -1,0 +1,11 @@
+{
+ "id": "enum-build",
+ "kind": "enum",
+ "family": "build",
+ "path": "templates-enum/build.json",
+ "note": "The fixed vocabulary of templates-build/, mined from 13 of its 13 templates by enums.mjs. Kept in templates-enum/, never inside templates-build/ itself, so nothing that scans templates-build/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 13,
+ "sampledFiles": 13,
+ "fields": {},
+ "wovenBy": "enums.mjs"
+}

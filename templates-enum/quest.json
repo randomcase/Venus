@@ -1,0 +1,24 @@
+{
+ "id": "enum-quest",
+ "kind": "enum",
+ "family": "quest",
+ "path": "templates-enum/quest.json",
+ "note": "The fixed vocabulary of templates-quest/, mined from 9 of its 9 templates by enums.mjs. Kept in templates-enum/, never inside templates-quest/ itself, so nothing that scans templates-quest/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 9,
+ "sampledFiles": 9,
+ "fields": {
+  "layer": {
+   "type": "string",
+   "distinct": 5,
+   "samples": 9,
+   "values": [
+    "decentralization",
+    "fungibility",
+    "mechanism",
+    "method",
+    "number"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

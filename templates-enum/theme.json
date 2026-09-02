@@ -1,0 +1,470 @@
+{
+ "id": "enum-theme",
+ "kind": "enum",
+ "family": "theme",
+ "path": "templates-enum/theme.json",
+ "note": "The fixed vocabulary of templates-theme/, mined from 2 of its 2 templates by enums.mjs. Kept in templates-enum/, never inside templates-theme/ itself, so nothing that scans templates-theme/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 2,
+ "sampledFiles": 2,
+ "fields": {
+  "id": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "hesperus",
+    "wine-dark"
+   ]
+  },
+  "kind": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "theme"
+   ]
+  },
+  "name": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "Hesperus",
+    "Wine-dark"
+   ]
+  },
+  "palette.void": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#04050b",
+    "#0b0508"
+   ]
+  },
+  "palette.panel": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#0a0d1c",
+    "#170a10"
+   ]
+  },
+  "palette.panel2": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#0f1430",
+    "#22101a"
+   ]
+  },
+  "palette.edge": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#22307a",
+    "#5a2436"
+   ]
+  },
+  "palette.ink": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#e9f1ff",
+    "#f6e8dd"
+   ]
+  },
+  "palette.dim": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#8291c9",
+    "#b08a92"
+   ]
+  },
+  "palette.gold": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#e8b45c",
+    "#ffd23f"
+   ]
+  },
+  "palette.venus": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "#ff7a1a"
+   ]
+  },
+  "palette.ok": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#7dff9a",
+    "#c8d96f"
+   ]
+  },
+  "palette.bad": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#ff4f6d",
+    "#ff6b5a"
+   ]
+  },
+  "palette.sea": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#3fd4ff",
+    "#e0916b"
+   ]
+  },
+  "palette.magenta": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#d4547e",
+    "#ff4fd8"
+   ]
+  },
+  "type.titleTransform": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "uppercase"
+   ]
+  },
+  "type.titleSpacing": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    ".14em",
+    ".1em"
+   ]
+  },
+  "type.titleWeight": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "600",
+    "700"
+   ]
+  },
+  "type.titleColor": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#f6e8dd",
+    "#fff"
+   ]
+  },
+  "type.headingSpacing": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    ".08em",
+    ".1em"
+   ]
+  },
+  "type.headingSize": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "14px"
+   ]
+  },
+  "type.labelSpacing": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    ".14em",
+    ".16em"
+   ]
+  },
+  "type.labelSize": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "10px"
+   ]
+  },
+  "sky.top": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#151b45",
+    "#3a1220"
+   ]
+  },
+  "sky.stop": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "62%",
+    "68%"
+   ]
+  },
+  "sky.width": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "1400px",
+    "1500px"
+   ]
+  },
+  "sky.height": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "700px",
+    "760px"
+   ]
+  },
+  "glow.edge": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "rgba(224,145,107,.08)",
+    "rgba(63,212,255,.07)"
+   ]
+  },
+  "glow.inner": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "rgba(224,145,107,.06)",
+    "rgba(63,212,255,.05)"
+   ]
+  },
+  "glow.button": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "rgba(232,180,92,.35)",
+    "rgba(63,212,255,.35)"
+   ]
+  },
+  "glow.primary": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "rgba(212,84,126,.35)",
+    "rgba(255,79,216,.35)"
+   ]
+  },
+  "glow.title": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "rgba(232,180,92,.4)",
+    "rgba(63,212,255,.45)"
+   ]
+  },
+  "glow.canvas": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "rgba(224,145,107,.14)",
+    "rgba(63,212,255,.12)"
+   ]
+  },
+  "fireflies.sizeMin": {
+   "type": "number",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    1.2,
+    1.4
+   ]
+  },
+  "fireflies.sizeSpan": {
+   "type": "number",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    1.4,
+    1.6
+   ]
+  },
+  "fireflies.halo": {
+   "type": "number",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    7,
+    8
+   ]
+  },
+  "fireflies.core": {
+   "type": "number",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    2.6,
+    2.8
+   ]
+  },
+  "fireflies.coreAlpha": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    ".24",
+    ".28"
+   ]
+  },
+  "fireflies.spread": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "-8%"
+   ]
+  },
+  "fireflies.reducedOpacity": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    ".45",
+    ".5"
+   ]
+  },
+  "glass.scanlineColor": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "rgba(0,0,0,.14)",
+    "rgba(0,0,0,.2)"
+   ]
+  },
+  "glass.scanlineOn": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "2px",
+    "3px"
+   ]
+  },
+  "glass.scanlineOff": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "4px",
+    "6px"
+   ]
+  },
+  "glass.vignetteStart": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "50%",
+    "55%"
+   ]
+  },
+  "glass.vignetteColor": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "rgba(0,0,0,.5)",
+    "rgba(0,0,0,.55)"
+   ]
+  },
+  "standard.text": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "SPQR"
+   ]
+  },
+  "standard.color": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#e8b45c",
+    "#ffd23f"
+   ]
+  },
+  "standard.border": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "#7a4a2e",
+    "#7a5a1e"
+   ]
+  },
+  "standard.glow": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 2,
+   "values": [
+    "rgba(232,180,92,.5)",
+    "rgba(255,210,63,.55)"
+   ]
+  },
+  "standard.corner": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "left:14px;bottom:12px"
+   ]
+  },
+  "standard.spacing": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    ".38em"
+   ]
+  },
+  "wovenBy": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 2,
+   "values": [
+    "the bridge"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

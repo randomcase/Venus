@@ -157,8 +157,11 @@ function generate(family) {
   return { short, text: decls.join('\n\n') };
 }
 
+/* templates-enum/ is enums.mjs's own output, one file per OTHER family holding that family's
+   mined vocabulary and shape as data — not a template family itself, and its per-family shapes
+   vary wildly enough that treating it as one would explode into hundreds of spurious classes. */
 const families = readdirSync(root, { withFileTypes: true })
-  .filter(e => e.isDirectory() && e.name.startsWith('templates-')).map(e => e.name).sort();
+  .filter(e => e.isDirectory() && e.name.startsWith('templates-') && e.name !== 'templates-enum').map(e => e.name).sort();
 
 let written = 0, classCount = 0, enumCount = 0;
 for (const family of families) {

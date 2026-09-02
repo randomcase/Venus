@@ -1,0 +1,165 @@
+{
+ "id": "enum-prince",
+ "kind": "enum",
+ "family": "prince",
+ "path": "templates-enum/prince.json",
+ "note": "The fixed vocabulary of templates-prince/, mined from 14 of its 14 templates by enums.mjs. Kept in templates-enum/, never inside templates-prince/ itself, so nothing that scans templates-prince/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 14,
+ "sampledFiles": 14,
+ "fields": {
+  "upgradeMul": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    1.6
+   ]
+  },
+  "stats.rate": {
+   "type": "number",
+   "distinct": 9,
+   "samples": 14,
+   "values": [
+    0,
+    0.25,
+    0.35,
+    0.7,
+    0.9,
+    1,
+    1.1,
+    1.4,
+    3
+   ]
+  },
+  "stats.poison": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    1.2
+   ]
+  },
+  "stats.poisonFor": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    4
+   ]
+  },
+  "stats.bolt": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    9
+   ]
+  },
+  "stats.boltEvery": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    6
+   ]
+  },
+  "stats.pairWith": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    "paris"
+   ]
+  },
+  "stats.pairMul": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    1.3
+   ]
+  },
+  "stats.dead": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 14,
+   "values": [
+    false,
+    true
+   ]
+  },
+  "stats.taunt": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    true
+   ]
+  },
+  "stats.reveal": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    true
+   ]
+  },
+  "stats.repair": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    0.012
+   ]
+  },
+  "stats.slow": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    0.5
+   ]
+  },
+  "stats.slowFor": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    3
+   ]
+  },
+  "stats.splash": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    40
+   ]
+  },
+  "stats.crit": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    0.1
+   ]
+  },
+  "stats.critMul": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    5
+   ]
+  },
+  "stats.buffRange": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 14,
+   "values": [
+    1.5
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

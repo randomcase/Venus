@@ -13,7 +13,13 @@
   "proposalEvery": 3,
   "signChance": 12,
   "deskLimit": 40,
-  "staleAfter": 183
+  "staleAfter": 183,
+  "activityEvery": 5,
+  "stealCooldown": 30,
+  "presentDays": 5,
+  "interferenceEvery": 6,
+  "interferenceChance": 10,
+  "suspicionDays": 14
  },
  "notes": {
   "cap": "HEZE that can ever be issued across every deck; a unit of account inside the files, never a token",
@@ -25,7 +31,13 @@
   "proposalEvery": "days between proposals arriving at the doors",
   "signChance": "chance in a hundred that a custodian signs on a given day, when they are signing on their own",
   "deskLimit": "proposals the desk holds before the oldest fall off",
-  "staleAfter": "days after which an unsigned proposal counts against the bank's health"
+  "staleAfter": "days after which an unsigned proposal counts against the bank's health",
+  "activityEvery": "days between a syndicate rolling a new activity — quiet, planning, discovery or staged",
+  "stealCooldown": "days a syndicate stays alert to a failed steal before it can be tried again",
+  "presentDays": "days a syndicate shows green after carrying, for having presented",
+  "interferenceEvery": "days between a president or king getting a chance to cast suspicion on a syndicate",
+  "interferenceChance": "chance in a hundred that the interference check actually casts one",
+  "suspicionDays": "days a suspicion cast by interference holds before it lifts on its own"
  },
  "text": "The rulebook of the coven. Keep a changed copy in the browser through the editor in the quarter and the coven plays by it on its next load; write it into the yard and it plays by it for good.",
  "wovenBy": "rules.mjs"

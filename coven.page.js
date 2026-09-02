@@ -7,8 +7,10 @@
   const KEY = 'coven.v1', DKEY = 'descent.v1';
   const read = (k, d) => { try { return Object.assign(d, JSON.parse(localStorage.getItem(k) || 'null') || {}); } catch (e) { return d; } };
   let W = { people: D.people, syndicates: D.syndicates, doors: D.doors, crofts: D.crofts };
-  let S = read(KEY, { day: 0, seed: D.seed, props: [], carried: 0, chain: [], nextId: 1, lastSync: 0, auto: false, log: [], wax: {}, built: {}, activity: {}, stealLock: {}, saved: Date.now() });
+  let S = read(KEY, { day: 0, seed: D.seed, props: [], carried: 0, chain: [], nextId: 1, lastSync: 0, auto: false, log: [], wax: {}, built: {}, activity: {}, stealLock: {}, stance: {}, suspicion: {}, lastCarriedAt: {}, stanceLog: [], bossScore: { presidents: 0, kings: 0 }, saved: Date.now() });
   S.wax = S.wax || {}; S.built = S.built || {}; S.activity = S.activity || {}; S.stealLock = S.stealLock || {};
+  S.stance = S.stance || {}; S.suspicion = S.suspicion || {}; S.lastCarriedAt = S.lastCarriedAt || {}; S.stanceLog = S.stanceLog || [];
+  S.bossScore = S.bossScore || { presidents: 0, kings: 0 };
   let Dk = read(DKEY, { heze: 0, issued: 0, ledger: [] });
   const note = m => { S.log.unshift({ t: Math.floor(S.day), m }); S.log.length = Math.min(S.log.length, 60); };
   const save = () => { S.saved = Date.now(); Dk.saved = Date.now(); localStorage.setItem(KEY, JSON.stringify(S)); localStorage.setItem(DKEY, JSON.stringify(Dk)); };
@@ -43,6 +45,7 @@
   const syn = i => W.syndicates[i], people = id => W.people.filter(p => p.syndicate === id);
   const OFFICES = ['witch', 'wizard', 'warlock'];
   const WHY = ['a door that had not moved in a season', 'a redemption asked for at the counter', 'a tranche share drawn against the next door', 'a correction the book found on replay', 'a carry the other world says it never received', 'an issuance due on the schedule and not yet taken', 'a reconciliation of two tallies that disagree by one', 'a door asking to be closed for the interval'];
+  const GREEN_STEAL = { chance: 65, min: 500, max: 1300 };
 
   /* THE ACTIVITY. Every activityEvery days a syndicate rerolls, weighted by D.activity's own
      weight field, into one of quiet/planning/discovery/staged, and picks a line from that
@@ -62,9 +65,63 @@
   const activityFor = synId => { if (!S.activity[synId]) rollActivity(synId, W.syndicates.findIndex(s => s.id === synId), Math.floor(S.day)); return S.activity[synId]; };
   const activityDef = id => D.activity.find(a => a.id === id);
 
+  /* THE STANCE. A second light, derived rather than rolled, so it never disagrees with what is
+     underneath it: green for presentDays after a carry (presenting — the exact moment it is
+     exposed, always the best target), red while its own activity is discovery or while a
+     president or king has cast suspicion on it from outside, blue while it is actually at work
+     (planning or staged), yellow otherwise. Every syndicate is checked every activityEvery days
+     and any change is written to stanceLog, so "between the syndicates" is real data, not a guess. */
+  const stanceDef = id => D.stance.find(s => s.id === id);
+  function computeStance(synId, d1) {
+    if (d1 - (S.lastCarriedAt[synId] ?? -Infinity) <= RULES.presentDays) return 'green';
+    if ((S.suspicion[synId] || 0) > d1) return 'red';
+    const act = activityFor(synId).state;
+    if (act === 'discovery') return 'red';
+    if (act === 'planning' || act === 'staged') return 'blue';
+    return 'yellow';
+  }
+  function updateStances(d1, quiet) {
+    for (const sy of W.syndicates) {
+      const was = S.stance[sy.id] || 'yellow', now = computeStance(sy.id, d1);
+      if (now !== was) {
+        S.stance[sy.id] = now;
+        S.stanceLog.unshift({ at: d1, syn: sy.id, name: sy.name, from: was, to: now, boss: now === 'red' && (S.suspicion[sy.id] || 0) > d1 });
+        S.stanceLog.length = Math.min(S.stanceLog.length, 80);
+        if (!quiet) note(`${sy.name} turns ${now}: ${stanceDef(now).text}`);
+      }
+    }
+  }
+  /* interference: presidents and kings both profit from spotting activity, and both cast
+     suspicion when they do — but not the same way. A king works the ground level: local, one
+     independent roll per syndicate, a small take each time it lands. A president works the
+     eagle-eye view: one look at the whole board per cycle, going straight for whichever
+     syndicate is presenting or staged — the best opportunity on the table — for a much larger
+     take. Both are scored, separately from anything the player takes. */
+  function rollInterference(d1, quiet) {
+    for (let i = 0; i < W.syndicates.length; i++) { const sy = W.syndicates[i];
+      if ((S.suspicion[sy.id] || 0) > d1) continue;
+      if (h32(d1, i * 31 + 3) % 100 < RULES.interferenceChance) {
+        S.suspicion[sy.id] = d1 + RULES.suspicionDays;
+        const gain = 100 + h32(d1, i * 19 + 2) % 300; S.bossScore.kings += gain;
+        if (!quiet) note(`A king, from the ground, spots ${sy.name} and takes ${fmt(gain)} HEZE of his own. Alert for ${RULES.suspicionDays} days.`);
+      }
+    }
+    if (h32(d1, 777) % 100 < RULES.interferenceChance) {
+      const targets = W.syndicates.filter(sy => (S.suspicion[sy.id] || 0) <= d1 && (S.stance[sy.id] === 'green' || (S.activity[sy.id] && S.activity[sy.id].state === 'staged')));
+      if (targets.length) { const sy = targets[h32(d1, 888) % targets.length];
+        S.suspicion[sy.id] = d1 + RULES.suspicionDays;
+        const gain = 400 + h32(d1, 999) % 800; S.bossScore.presidents += gain;
+        if (!quiet) note(`A president, from the eagle eye, spots ${sy.name} and extracts ${fmt(gain)} HEZE before anyone else can. Alert for ${RULES.suspicionDays} days.`);
+      }
+    }
+  }
+
   function steal(synId) {
-    const act = activityFor(synId), def = activityDef(act.state), sy = W.syndicates.find(s => s.id === synId);
+    const act = activityFor(synId), stance = S.stance[synId] || 'yellow', sy = W.syndicates.find(s => s.id === synId);
     const d1 = Math.floor(S.day);
+    /* presenting is the exact head to cut off: always a real, well-flagged opportunity, whatever
+       the activity underneath says — it overrides quiet's "nothing to take" on purpose */
+    const def = stance === 'green' ? { label: 'presenting', steal: GREEN_STEAL } : activityDef(act.state);
     if ((S.stealLock[synId] || 0) > d1) { $('#steal-out').innerHTML = `<span style="color:var(--bad)">${sy.name} is still alert. ${S.stealLock[synId] - d1} days left before it is worth trying again.</span>`; return; }
     if (!def.steal) { $('#steal-out').innerHTML = `<span style="color:var(--dim)">Nothing to take while ${sy.name} is ${def.label.toLowerCase()}.</span>`; return; }
     const k = h32(S.nextId++, synId.length + d1) % 100;
@@ -74,7 +131,7 @@
       note(`Stole ${fmt(amt)} HEZE from ${sy.name} while it was ${def.label.toLowerCase()}. It moves onto the docket before they ever carry it.`);
       $('#steal-out').innerHTML = `<span style="color:var(--ok)">Took ${fmt(amt)} HEZE. Onto the docket, ahead of the carry.</span>`;
     } else {
-      const cooldown = (act.state === 'staged' || act.state === 'discovery') ? RULES.stealCooldown : 0;
+      const cooldown = (act.state === 'staged' || act.state === 'discovery' || stance === 'green') ? RULES.stealCooldown : 0;
       if (cooldown) { S.stealLock[synId] = d1 + cooldown; rollActivity(synId, W.syndicates.findIndex(s => s.id === synId), d1); S.activity[synId].state = 'discovery'; S.activity[synId].looking = activityDef('discovery').lookingInto[h32(d1, synId.length) % activityDef('discovery').lookingInto.length]; }
       note(`The attempt on ${sy.name} came up empty${cooldown ? ', and now they are watching — alert for ' + cooldown + ' days.' : '.'}`);
       $('#steal-out').innerHTML = `<span style="color:var(--bad)">Nothing taken${cooldown ? '. They noticed, and are digging into it now.' : '.'}</span>`;
@@ -101,6 +158,8 @@
     if (d1 % RULES.activityEvery === 0) for (let i = 0; i < W.syndicates.length; i++) { const sy = W.syndicates[i]; if ((S.stealLock[sy.id] || 0) > d1) continue;
       const was = S.activity[sy.id] && S.activity[sy.id].state; rollActivity(sy.id, i, d1); const now = S.activity[sy.id].state;
       if (!quiet && now !== was && (now === 'staged' || now === 'discovery')) note(`${sy.name} turns ${now}: ${S.activity[sy.id].looking}.`); }
+    if (d1 % RULES.interferenceEvery === 0) rollInterference(d1, quiet);
+    updateStances(d1, quiet);
     if (d1 - S.lastSync >= RULES.intervalDays) carry(quiet); }
 
   /* THE FAR SIDE. The syndicate is multiplanetary and it is enormous, and the honest thing to
@@ -127,6 +186,8 @@
     catch (e) { hash = 'sha-256 unavailable in this context'; }
     S.chain.unshift({ n: S.chain.length + 1, at: Math.floor(S.day), count: ready.length, amount: ready.reduce((a, p) => a + p.amount, 0), prev, hash, far, early: !!onlySyn }); S.chain.length = Math.min(S.chain.length, 40);
     S.props = S.props.filter(p => !(p.signed.length >= 2 && (!onlySyn || p.syn === onlySyn))); S.carried += ready.length;
+    for (const synId of new Set(ready.map(p => p.syn))) S.lastCarriedAt[synId] = Math.floor(S.day);
+    updateStances(Math.floor(S.day), quiet);
     if (!quiet) note(onlySyn ? `Early carry via the waystation at ${W.syndicates.find(s => s.id === onlySyn).name}: ${ready.length} carried, ${fmt(ready.reduce((a, p) => a + p.amount, 0))} HEZE, ahead of the interval.`
       : ready.length ? `Syndication ${S.chain.length}: ${ready.length} carried across, ${fmt(ready.reduce((a, p) => a + p.amount, 0))} HEZE, checkpoint ${hash.slice(0, 12)}.` : `Syndication ${S.chain.length}: nothing was signed, so nothing crossed. The checkpoint says so.`);
     save(); render(); }
@@ -141,17 +202,21 @@
     if (p.sigil.chord) { g.beginPath(); for (let c = 0; c < p.sigil.chord; c++) { const a1 = c * 2 * Math.PI / p.sigil.chord, a2 = a1 + Math.PI * 2 / 3; g.moveTo(Math.cos(a1) * (R - 10), Math.sin(a1) * (R - 10)); g.lineTo(Math.cos(a2) * (R - 10), Math.sin(a2) * (R - 10)); } g.globalAlpha = .5; g.stroke(); }
     g.restore(); }
 
-  function render() { const sy = syn(cur);
+  function render() { const sy = syn(cur), d1 = Math.floor(S.day);
     $('#syns').innerHTML = W.syndicates.map((s, i) => { const open = S.props.filter(p => p.syn === s.id), ready = open.filter(p => p.signed.length >= 2).length;
-      const act = activityFor(s.id), def = activityDef(act.state);
-      return `<div class="syn ${i === cur ? 'on' : ''}" data-i="${i}"><b><span class="light ${def.steal && def.steal.chance >= 50 ? 'hot' : ''}" style="background:${def.color};color:${def.color}" title="${def.label}: ${act.looking}"></span>${s.tranche}</b><span>doors ${s.doors[0]}–${s.doors[1]}</span><br><span class="${ready ? 'q' : open.length ? 'w' : ''}">${open.length ? `${ready}/${open.length} signed` : 'quiet'}</span></div>`; }).join('');
+      const act = activityFor(s.id), def = activityDef(act.state), stDef = stanceDef(S.stance[s.id] || 'yellow');
+      return `<div class="syn ${i === cur ? 'on' : ''}" data-i="${i}"><b><span class="light ${def.steal && def.steal.chance >= 50 ? 'hot' : ''}" style="background:${def.color};color:${def.color}" title="activity — ${def.label}: ${act.looking}"></span><span class="light" style="background:${stDef.color};color:${stDef.color}" title="stance — ${stDef.label}: ${stDef.text}"></span>${s.tranche}</b><span>doors ${s.doors[0]}–${s.doors[1]}</span><br><span class="${ready ? 'q' : open.length ? 'w' : ''}">${open.length ? `${ready}/${open.length} signed` : 'quiet'}</span></div>`; }).join('');
     $('#syns').querySelectorAll('.syn').forEach(e => e.onclick = () => { cur = +e.dataset.i; $('#steal-out').innerHTML = ''; render(); });
-    if (!$('#legend').childElementCount) $('#legend').innerHTML = D.activity.map(a => `<span><span class="light" style="background:${a.color};color:${a.color}"></span>${a.label}</span>`).join('');
+    if (!$('#legend').childElementCount) $('#legend').innerHTML = 'activity: ' + D.activity.map(a => `<span><span class="light" style="background:${a.color};color:${a.color}"></span>${a.label}</span>`).join('');
+    if (!$('#legend2').childElementCount) $('#legend2').innerHTML = 'stance: ' + D.stance.map(a => `<span><span class="light" style="background:${a.color};color:${a.color}"></span>${a.label}</span>`).join('');
     $('#syn-name').innerHTML = `${sy.name}<i>${sy.text}</i>`;
     $('#syn-stats').innerHTML = [['tranche', `${sy.tranche} of ${D.syndicateCount}`], ['tranche holds', fmt(sy.holds) + ' HEZE'], ['doors', `${sy.doors[0]} to ${sy.doors[1]} (${sy.doorCount})`], ['quorum', `${sy.quorum} of ${sy.of}`], ['seat', sy.seat]].map(([k, v]) => `<div class="stat"><span>${k}</span><b>${v}</b></div>`).join('');
     { const act = activityFor(sy.id), def = activityDef(act.state), locked = (S.stealLock[sy.id] || 0) - Math.floor(S.day);
       $('#activity').innerHTML = `<div class="stat"><span>state</span><b><span class="light ${def.steal && def.steal.chance >= 50 ? 'hot' : ''}" style="background:${def.color};color:${def.color}"></span>${def.label}</b></div><div class="stat"><span>looking into</span><b>${act.looking}</b></div><p>${def.text}${locked > 0 ? ' Alert from a failed steal — ' + locked + ' day' + (locked === 1 ? '' : 's') + ' left.' : ''}</p>`;
-      $('#steal').textContent = def.steal ? `Attempt a steal — ${def.steal.chance}% chance, ${def.steal.min}–${def.steal.max} HEZE` : 'Attempt a steal'; }
+      const effSteal = S.stance[sy.id] === 'green' ? GREEN_STEAL : def.steal;
+      $('#steal').textContent = effSteal ? `Attempt a steal — ${effSteal.chance}% chance, ${effSteal.min}–${effSteal.max} HEZE` : 'Attempt a steal'; }
+    { const stDef = stanceDef(S.stance[sy.id] || 'yellow'), suspectDays = (S.suspicion[sy.id] || 0) - d1;
+      $('#stance').innerHTML = `<div class="stat"><span>reads as</span><b><span class="light" style="background:${stDef.color};color:${stDef.color}"></span>${stDef.label}</b></div><p>${stDef.text}${suspectDays > 0 ? ' Accused from outside — ' + suspectDays + ' day' + (suspectDays === 1 ? '' : 's') + ' left.' : ''}${stDef.id === 'green' ? ' The exact head to cut off, while it lasts.' : ''}</p>`; }
     $('#who').innerHTML = people(sy.id).map(p => `<div class="who"><canvas data-p="${p.id}"></canvas><div><em>${p.office} &middot; ${p.office_is}</em><b>${p.name}</b><p>${p.does}</p><p>Keeps ${p.keeps}. Holds the spell ${p.glyph} ${p.spell}. Key share <code>${p.share}</code>.</p><p><small>Reads ${p.reads}.</small> ${p.reason}</p></div><div></div></div>`).join('');
     $('#who').querySelectorAll('canvas').forEach(cv => sigil(cv, W.people.find(p => p.id === cv.dataset.p)));
     /* the croft and its holds, for the syndicate on screen */
@@ -180,6 +245,8 @@
       ['issuance', `${fmt(S.carried)} events carried, against ${fmt(RULES.cap)} of headroom`, true]];
     $('#health').innerHTML = H.map(([k, v, ok]) => `<div class="stat"><span>${k}</span><b style="color:${ok ? 'var(--ok)' : 'var(--bad)'}">${v}</b></div>`).join('')
       + `<p style="color:var(--dim);font-size:12px;margin:8px 0 0">${H.every(h => h[2]) ? 'Healthy: every door can be signed, the chain agrees with itself, and the carries are on time. A bank is healthy when nothing about it needs explaining.' : 'Not healthy yet, and the line above says which part. Nothing here is hidden by an average.'}</p>`;
+    $('#stance-log').innerHTML = (S.stanceLog.length ? `<div style="color:var(--gold);border-bottom:1px solid var(--edge);padding-bottom:4px;margin-bottom:4px">Presidents have taken ${fmt(S.bossScore.presidents)} HEZE from the eagle-eye view &middot; kings have taken ${fmt(S.bossScore.kings)} HEZE from the ground. Neither reaches your docket.</div>` : '')
+      + (S.stanceLog.length ? S.stanceLog.slice(0, 30).map(t => `<div><b>d${t.at}</b> ${t.name} turns ${t.to}${t.boss ? ' — a president or king made this one' : ''} (from ${t.from})</div>`).join('') : '<div>Nothing has changed hands yet. The first stance settles once a syndicate does something worth reading.</div>');
     $('#props').innerHTML = S.props.length ? S.props.slice(0, 12).map(p => `<div class="prop"><b>${p.id} &middot; door ${p.door}</b><div class="sigs">${OFFICES.map(o => `<i class="${p.signed.includes(o) ? 'on' : ''}" title="${o}"></i>`).join('')}</div><p>${p.why} &middot; ${fmt(p.amount)} HEZE &middot; ${p.signed.length}/2 signed${p.signed.length ? ' by the ' + p.signed.join(' and the ') : ''}</p><div class="row">${OFFICES.filter(o => !p.signed.includes(o)).map(o => `<button data-e="${p.id}" data-o="${o}">sign as ${o}</button>`).join('')}</div></div>`).join('') : '<p style="color:var(--dim);margin:0">No proposals at the doors. They come on their own.</p>';
     $('#props').querySelectorAll('button').forEach(b => b.onclick = () => { const p = S.props.find(x => x.id === b.dataset.e); if (!p || p.signed.length >= 2) return; p.signed.push(b.dataset.o);
       if (p.signed.length >= 2) note(`${p.id} at door ${p.door}: two of three. It waits for the carry.`); save(); render(); });

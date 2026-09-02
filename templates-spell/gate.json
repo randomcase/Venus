@@ -1,0 +1,12 @@
+{
+ "id": "gate",
+ "order": 5,
+ "name": "Shut the gate",
+ "glyph": "◫",
+ "cost": 6,
+ "cooldown": 14,
+ "kind": "defence",
+ "colour": "#c4674f",
+ "does": "Swings both leaves of the egg gate closed. Nothing crosses while it holds.",
+ "costs": "Nothing crosses OUTWARD either. Every summon beyond the wall is on its own, and a shut gate is the wall admitting the field is lost."
+}

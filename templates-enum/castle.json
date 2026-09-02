@@ -1,0 +1,109 @@
+{
+ "id": "enum-castle",
+ "kind": "enum",
+ "family": "castle",
+ "path": "templates-enum/castle.json",
+ "note": "The fixed vocabulary of templates-castle/, mined from 8 of its 8 templates by enums.mjs. Kept in templates-enum/, never inside templates-castle/ itself, so nothing that scans templates-castle/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 8,
+ "sampledFiles": 8,
+ "fields": {
+  "motte.diameter": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 8,
+   "values": [
+    48,
+    60,
+    90
+   ]
+  },
+  "motte.height": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 8,
+   "values": [
+    6,
+    15,
+    23
+   ]
+  },
+  "keep.diameter": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 8,
+   "values": [
+    0,
+    24,
+    30,
+    36
+   ]
+  },
+  "keep.shape": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 8,
+   "values": [
+    "block",
+    "round"
+   ]
+  },
+  "gallery.name": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 8,
+   "values": [
+    "Hall of Mirrors",
+    "The Long Gallery"
+   ]
+  },
+  "gallery.length_m": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 8,
+   "values": [
+    73
+   ]
+  },
+  "gallery.width_m": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 8,
+   "values": [
+    10.5
+   ]
+  },
+  "gallery.height_m": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 8,
+   "values": [
+    12.3
+   ]
+  },
+  "gallery.bays": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 8,
+   "values": [
+    17
+   ]
+  },
+  "gallery.mirrors": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 8,
+   "values": [
+    357
+   ]
+  },
+  "gallery.windows": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 8,
+   "values": [
+    17
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

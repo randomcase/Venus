@@ -1,0 +1,12 @@
+{
+ "id": "ward",
+ "order": 1,
+ "name": "Ward",
+ "glyph": "◈",
+ "cost": 3,
+ "cooldown": 6,
+ "kind": "defence",
+ "colour": "#6f9fb5",
+ "does": "Raises the parapet on one tower for a time, cutting the dead ground beneath it to nothing.",
+ "costs": "It is one tower. The other sixteen still have 8.3 m at their feet, and the thing you fear knows which one you warded."
+}
