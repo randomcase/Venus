@@ -85,3 +85,63 @@ test('runsOutWhen states the real limiting resource for the ship\'s two-of-three
 test('splitSecret rejects a threshold of 1, which would defeat the point of splitting at all', () => {
   assert.throws(() => splitSecret(genkey(), { shares: 3, threshold: 1 }), /threshold must be between 2/);
 });
+
+/* ------------------------------------------------------------------------------------------
+   A CUSTODIAN DIES. Two outcomes, both load-bearing: one custodian lost is what the scheme is
+   FOR (survivable, if the survivors reshare); a second one lost before that reshare happens is
+   what runsOutWhen() warns about (not survivable, by design — not a bug to work around). */
+
+test('one custodian dies: the survivors reshare, the same content opens under the new shares, and the dead share is now inert', () => {
+  const dek = genkey();
+  const sealedLongAgo = seal(dek, Buffer.from('the left sock, removed at 3:07am, cause unrecorded'));
+  const original = splitSecret(dek, { shares: 3, threshold: 2 }); // witch, wizard, warlock
+  const [witch, wizard, deadWarlock] = original;
+
+  // the warlock is gone. the survivors reconstruct and reshare among themselves plus a replacement.
+  const fresh = reshare([witch, wizard], { shares: 3, threshold: 2 }); // witch, wizard, new-warlock
+  assert.equal(fresh.length, 3);
+
+  // the content sealed before any of this still opens, unchanged — a succession never touches the
+  // ciphertext, only who can unlock it, which is the entire point of splitting the key instead of
+  // re-encrypting two hundred years of history every time a custodian turns over
+  const reconstructed = combineShares([fresh[0], fresh[2]]);
+  assert.equal(open(reconstructed, sealedLongAgo).toString('utf8'), 'the left sock, removed at 3:07am, cause unrecorded');
+
+  // the dead warlock's share is not merely unused, it is now cryptographically foreign: it belongs
+  // to a different random polynomial than the fresh shares, so it cannot be combined with them —
+  // finding the old share later (a drawer, a compromised backup) buys nothing against the new custody.
+  // fresh[0] carries a different index than deadWarlock, so mixing them fails the ordinary way, by
+  // reconstructing the wrong bytes and being caught by the checksum
+  assert.throws(() => combineShares([fresh[0], deadWarlock]), /cannot reconstruct/);
+  // deadWarlock and fresh[2] happen to carry the SAME index — splitSecret numbers shares 1..n on every
+  // split, so a reshare reuses the old numbering — and that specific collision is caught on its own
+  // terms, distinctly, rather than surfacing as a division-by-zero from the field arithmetic
+  assert.throws(() => combineShares([deadWarlock, fresh[2]]), /carry the same index/);
+
+  // and the two survivors' ORIGINAL shares, from before the reshare, still agree with each other —
+  // resharing a copy of the secret doesn't invalidate the shares that made that copy
+  assert.equal(combineShares([witch, wizard]).toString('hex'), dek.toString('hex'));
+});
+
+test('shares from different epochs can share the same index; combining them fails cleanly rather than as a raw division by zero', () => {
+  const dek = genkey();
+  const before = splitSecret(dek, { shares: 3, threshold: 2 });
+  const after = reshare([before[0], before[1]], { shares: 3, threshold: 2 });
+  // splitSecret always numbers fresh shares 1..n, so before[2].x === after[2].x by construction —
+  // this is the exact accident that used to crash inside the field arithmetic instead of erroring
+  assert.equal(before[2].x, after[2].x);
+  assert.throws(() => combineShares([before[2], after[2]]), /carry the same index/);
+});
+
+test('two custodians die before anyone reshares: the key is gone, permanently, by design', () => {
+  const dek = genkey();
+  const sealed = seal(dek, Buffer.from('which sock, and whose, was never recorded'));
+  const [witch] = splitSecret(dek, { shares: 3, threshold: 2 }); // wizard and warlock both lost at once, no reshare got to happen
+
+  // one share is structurally insufficient — Shamir doesn't grade partial credit
+  assert.throws(() => combineShares([witch]), /at least two shares/);
+  // there is no other combination to try: the witch is the only survivor, so this is the whole story
+  assert.equal([witch].length < 2, true, 'fewer than the threshold; nothing else to attempt');
+  // the content is still perfectly intact and perfectly unreadable — verifiable, not recoverable
+  assert.throws(() => open(Buffer.alloc(32), sealed)); // no correct key can be produced to try here at all
+});

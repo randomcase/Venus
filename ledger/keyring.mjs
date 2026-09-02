@@ -113,6 +113,13 @@ export function splitSecret(secret, { shares: n, threshold: m }) {
 
 export function combineShares(shares) {
   if (shares.length < 2) throw new Error('need at least two shares to attempt a reconstruction');
+  /* splitSecret numbers shares 1..n deterministically, so a reshare's fresh shares reuse the exact
+     same x-values as the split they replaced. Two shares that happen to carry the same x — one from
+     before a reshare, one from after — make the interpolation's denominator zero, which is a fact
+     about the arithmetic, not about whether the shares are right or wrong, and it deserves its own
+     clear error rather than surfacing as a division-by-zero from three layers down. */
+  const xs = shares.map(s => s.x);
+  if (new Set(xs).size !== xs.length) throw new Error('two of these shares carry the same index; that happens when a share from before a reshare is mixed with one from after it, and it can never be combined, correct or not');
   const len = Buffer.from(shares[0].y, 'base64').length;
   if (!shares.every(s => Buffer.from(s.y, 'base64').length === len)) throw new Error('shares are not from the same split');
   const recovered = Buffer.alloc(len);
