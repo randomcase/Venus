@@ -1,0 +1,15 @@
+{
+ "id": "hrafn-band-9",
+ "kind": "band",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "name": "night raiders of Hrafnsson",
+ "strength": 14,
+ "raids": false,
+ "cost": 1557,
+ "upkeep": 3,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 14; eats 3 hydrogen a day.",
+ "wovenBy": "hrafn"
+}

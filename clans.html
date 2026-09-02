@@ -1,375 +1,130 @@
-<!doctype html>
-<html lang="en">
-<head>
+<title>War of clans &middot; a portfolio on Venus</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>War of clans &middot; the longhouses</title>
-<!-- No off-origin requests. It runs with nothing pressed. -->
+<!--
+  WAR OF CLANS — the base layer. A jarl's portfolio of individual assets on a
+  Venusian continent: 165 templates woven by clans.mjs from the six clans in
+  templates-clan/, each yielding on its clan's coprime period (2, 3, 5, 7, 11, 13) so
+  nothing ever fires together and nothing can be maximised, only composed. Raids come on
+  the other clans' periods; bands hold the ford; piles keep what the night would take;
+  the warlock's spells are the sorcery. Absence is credited in full. The weave function is
+  in this page: re-weave with another seed and the game hands its own templates back.
+  1503 templates on disk at build. No faces; shields, masts, cairns.
+  SCRIPT: yes, and marked.
+-->
 <style>
-  :root{
-    --night:#0b0d10; --hall:#12161b; --edge:#1f262e; --edge2:#2c3742;
-    --ink:#e2ddd0; --dim:#8c8677; --faint:#5e5a51;
-    --fire:#c8762b; --gold:#c9a227; --ice:#6f9bb5; --moss:#7d9d6a; --blood:#9d4a3a;
-    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
-    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{margin:0;background:var(--night);color:var(--ink);overflow:hidden;
-    font:15px/1.65 var(--serif);
-    display:grid;grid-template-rows:auto 1fr auto;
-    grid-template-columns:minmax(0,1fr);height:100vh}
-
-  /* ── the ridge: the stockpile, always moving ──────────────────────── */
-  header{border-bottom:1px solid var(--edge);background:var(--hall);
-    padding:11px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-  h1{margin:0;font:500 19px/1.2 var(--serif);letter-spacing:.05em;flex:none}
-  h1 s{text-decoration:none;display:block;font:400 7.5px/1.3 var(--mono);
-    letter-spacing:.28em;text-transform:uppercase;color:var(--fire);margin-top:3px}
-  .stock{display:flex;gap:16px;flex-wrap:wrap;margin-left:auto}
-  .stock div{text-align:right;min-width:78px}
-  .stock u{display:block;text-decoration:none;font:400 17px/1.1 var(--mono);
-    font-variant-numeric:tabular-nums}
-  .stock b{display:block;font-weight:400;margin-top:3px;
-    font:400 7.5px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;
-    color:var(--faint)}
-  .stock .hydrogen u{color:var(--ice)} .stock .nitrogen u{color:var(--moss)}
-  .stock .silicate u{color:var(--dim)} .stock .biomass u{color:var(--gold)}
-  .stock .signal u{color:var(--fire)}  .stock .record u{color:var(--faint)}
-
-  main{display:grid;grid-template-columns:minmax(0,1fr) 330px;
-    min-height:0;overflow:hidden}
-  @media (max-width:980px){
-    body{overflow:auto;height:auto;display:block}
-    main{grid-template-columns:1fr}
-    #halls{max-height:none}
-  }
-
-  /* ── the halls ────────────────────────────────────────────────────── */
-  #halls{overflow-y:auto;padding:16px 18px 30px;min-height:0}
-  .clan{background:var(--hall);border:1px solid var(--edge);margin-bottom:10px;
-    display:grid;grid-template-columns:184px minmax(0,1fr) 128px;
-    align-items:stretch}
-  @media (max-width:700px){ .clan{grid-template-columns:1fr} }
-  .who{padding:13px 14px;border-right:1px solid var(--edge)}
-  .who h3{margin:0 0 1px;font:600 17px/1.2 var(--serif)}
-  .who p{margin:0;font:400 8px/1.4 var(--mono);letter-spacing:.14em;
-    text-transform:uppercase;color:var(--faint)}
-  .who em{display:block;margin-top:9px;font-style:normal;
-    font:400 10px/1 var(--mono);color:var(--dim)}
-  .who em i{font-style:normal;color:var(--fire)}
-
-  .yard{padding:13px 14px;display:flex;flex-direction:column;gap:9px;min-width:0}
-  .roof{display:flex;gap:4px;flex-wrap:wrap;min-height:26px;align-items:flex-end}
-  /* a longhouse, drawn: a ridge and a door, no images */
-  .house{width:30px;height:24px;position:relative;flex:none;
-    background:linear-gradient(180deg,#2a3038 0 46%,#1b2027 46%);
-    border:1px solid #39424e;border-radius:2px 2px 0 0}
-  .house::before{content:"";position:absolute;left:50%;top:-5px;
-    transform:translateX(-50%);border-left:16px solid transparent;
-    border-right:16px solid transparent;border-bottom:6px solid #454f5c}
-  .house::after{content:"";position:absolute;left:50%;bottom:0;width:6px;height:9px;
-    transform:translateX(-50%);background:var(--night)}
-  .house.lit{border-color:var(--fire);
-    background:linear-gradient(180deg,#3a2f24 0 46%,#241c15 46%)}
-  .house.lit::before{border-bottom-color:var(--fire)}
-  .house.lit::after{background:var(--fire);box-shadow:0 0 7px var(--fire)}
-
-  .rate{display:flex;align-items:baseline;gap:9px;
-    font:400 10.5px/1 var(--mono);color:var(--faint)}
-  .rate b{color:var(--ink);font-weight:400;font-size:14px;
-    font-variant-numeric:tabular-nums}
-  .track{height:4px;background:#171d24;border-radius:2px;overflow:hidden;flex:1}
-  .track i{display:block;height:100%;background:var(--fire);width:0}
-  .note{margin:0;font:400 12px/1.55 var(--serif);color:var(--dim)}
-
-  .act{padding:13px 12px;border-left:1px solid var(--edge);
-    display:flex;flex-direction:column;justify-content:center;gap:7px}
-  .act button{background:#1a2028;border:1px solid var(--edge2);color:var(--ink);
-    padding:9px 6px;cursor:pointer;font:400 9.5px/1.3 var(--mono);
-    letter-spacing:.08em;width:100%}
-  .act button:hover:not(:disabled){border-color:var(--fire);color:var(--fire)}
-  .act button:disabled{color:var(--faint);cursor:default;border-color:#232a33}
-  .act s{text-decoration:none;text-align:center;
-    font:400 8.5px/1.4 var(--mono);color:var(--faint)}
-  .act s b{color:var(--gold);font-weight:400}
-
-  /* ── the right column ─────────────────────────────────────────────── */
-  aside{border-left:1px solid var(--edge);background:#0e1216;overflow-y:auto;
-    padding:16px 16px 30px;min-height:0}
-  aside h4{margin:0 0 8px;font:400 8px/1 var(--mono);letter-spacing:.2em;
-    text-transform:uppercase;color:var(--fire)}
-  aside h4:not(:first-child){margin-top:26px}
-  aside p{margin:0 0 11px;font:400 12.5px/1.68 var(--serif);color:var(--dim)}
-
-  .mix{margin-bottom:6px}
-  .mix .row{display:flex;align-items:center;gap:8px;margin-bottom:5px;
-    font:400 10px/1 var(--mono)}
-  .mix .row span{width:62px;color:var(--faint)}
-  .mix .bars{flex:1;height:11px;background:#151a20;position:relative;overflow:hidden}
-  .mix .bars .have{position:absolute;left:0;top:0;bottom:0;background:#37424e}
-  .mix .bars .want{position:absolute;top:0;bottom:0;width:2px;background:var(--gold)}
-  .mix .row u{width:34px;text-align:right;text-decoration:none;color:var(--dim);
-    font-variant-numeric:tabular-nums}
-
-  .best{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--edge);
-    border:1px solid var(--edge);margin:14px 0 6px}
-  .best div{background:var(--hall);padding:11px 8px;text-align:center}
-  .best u{display:block;text-decoration:none;font:400 21px/1 var(--mono);
-    color:var(--gold);font-variant-numeric:tabular-nums}
-  .best b{display:block;font-weight:400;margin-top:5px;
-    font:400 7.5px/1.25 var(--mono);letter-spacing:.11em;text-transform:uppercase;
-    color:var(--faint)}
-
-  #saga{margin-top:8px;font:400 11px/1.62 var(--mono);color:var(--faint);
-    max-height:210px;overflow-y:auto}
-  #saga div{padding:4px 0;border-bottom:1px solid #161c22}
-  #saga b{color:var(--ink);font-weight:400}
-  #saga i{font-style:normal;color:var(--fire)}
-
-  footer{border-top:1px solid var(--edge);background:var(--hall);
-    padding:9px 18px;font:400 9.5px/1.6 var(--mono);color:var(--faint);
-    display:flex;gap:18px;flex-wrap:wrap;align-items:center}
-  footer b{color:var(--dim);font-weight:400}
-  footer a{color:var(--fire);text-decoration:none}
-  footer a:hover{text-decoration:underline}
-  footer .r{margin-left:auto}
+  :root{--void:#0b0d12;--panel:#151922;--panel2:#1c2230;--edge:#2b3445;--ink:#efe9dc;--dim:#95a0b3;--gold:#f2c98a;--venus:#f0a83c;--ok:#6fd4a8;--bad:#e06f5a;--sea:#3f8fbf;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+  *{box-sizing:border-box}html,body{margin:0;background:var(--void);color:var(--ink);font:13.5px/1.5 ui-rounded,system-ui,-apple-system,sans-serif}
+  header{padding:20px 24px 8px;max-width:1160px;margin:0 auto;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}header h1{margin:0;font:500 30px/1.1 var(--serif);color:var(--gold)}header small{color:var(--dim)}header .sp{flex:1}
+  #scene{display:block;width:100%;max-width:1160px;height:240px;margin:0 auto;border-radius:14px;background:#1a0f0a}
+  main{padding:12px 24px 40px;max-width:1160px;margin:0 auto;display:grid;gap:12px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}.stat{background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:9px 12px}.stat b{display:block;font-size:10.5px;color:var(--dim);font-weight:500;text-transform:uppercase;letter-spacing:.08em}.stat span{font:500 20px/1.2 var(--serif);font-variant-numeric:tabular-nums}.stat i{font-style:normal;color:var(--dim);font-size:11px;display:block}
+  .cols{display:grid;grid-template-columns:1.1fr 1fr;gap:12px}@media (max-width:900px){.cols{grid-template-columns:1fr}}
+  section{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:12px}section h2{margin:0 0 8px;font:500 17px/1.2 var(--serif)}section h2 i{font:400 11.5px/1.4 ui-rounded,system-ui,sans-serif;color:var(--dim);display:block;margin-top:2px}
+  .clan{border:1px solid var(--edge);border-radius:12px;padding:8px 10px;margin:6px 0;background:var(--panel2)}.clan h3{margin:0;font:500 15px/1.2 var(--serif);display:flex;justify-content:space-between;gap:8px}.clan h3 small{font:400 11px ui-rounded,system-ui,sans-serif;color:var(--dim)}.clan p{margin:2px 0 6px;color:var(--dim);font-size:11.5px}
+  .asset{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;border-top:1px solid var(--edge);padding:6px 0}.asset b{font-weight:600;font-size:12.5px}.asset p{margin:0;font-size:11.5px;color:var(--dim);grid-column:1}.asset .n{grid-row:span 2;font-size:12px;color:var(--gold);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}.asset.held b{color:var(--ok)}
+  button{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--edge);border-radius:9px;padding:5px 11px;cursor:pointer}button:hover:not(:disabled){border-color:var(--gold)}button:disabled{opacity:.4;cursor:not-allowed}button.primary{background:#2a2036;border-color:var(--venus)}
+  .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.badge{display:inline-block;background:var(--panel);border:1px solid var(--edge);border-radius:999px;padding:2px 9px;font-size:11px;color:var(--dim)}.badge.hot{border-color:var(--venus);color:var(--venus)}.badge.ok{border-color:var(--ok);color:var(--ok)}
+  .spell{display:inline-flex;flex-direction:column;align-items:center;gap:2px;min-width:70px}.spell b{font-size:18px}.spell small{color:var(--dim)}
+  .log{font-size:12px;color:var(--dim);max-height:220px;overflow:auto}.log div{border-bottom:1px solid var(--edge);padding:3px 0}.log b{color:var(--ink);font-weight:500;margin-right:6px}
+  .piles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px}.pile{background:var(--panel2);border:1px solid var(--edge);border-radius:10px;padding:8px 10px}.pile b{display:block;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}.pile span{font:500 18px/1.2 var(--serif);font-variant-numeric:tabular-nums}.bar{height:5px;background:#0e1118;border-radius:3px;margin-top:5px;overflow:hidden}.bar div{height:100%;background:var(--sea)}
+  textarea,input[type=number]{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--edge);border-radius:9px;padding:6px 8px}
+  footer{padding:10px 24px 28px;color:var(--dim);font-size:12px;max-width:1160px;margin:0 auto}footer a{color:var(--sea);text-decoration:none}
 </style>
-</head>
-<body>
-
-<header>
-  <h1>War of clans<s>nobody is fighting anybody</s></h1>
-  <div class="stock" id="stock"></div>
-</header>
-
+<header><h1>War of clans</h1><small>a portfolio on Venus · six clans, six coprime periods · one day a second · bronze age, sword and sorcery</small><span class="sp"></span><small id="clock"></small></header>
+<canvas id="scene" width="1160" height="240"></canvas>
 <main>
-  <div id="halls"></div>
-  <aside>
-    <h4>what the deck needs</h4>
-    <p>The gold mark is the share the deck actually wants, from the white paper: hydrogen is the constraint, nitrogen is nearly free, biomass is small and is the point of all of it. The bar is what you have.</p>
-    <div class="mix" id="mix"></div>
-    <div class="best">
-      <div><u id="b-fit">0%</u><b>closest ever reached</b></div>
-      <div><u id="b-now">0%</u><b>right now</b></div>
+  <div class="stats" id="stats"></div>
+  <section><h2>Stockpiles<i>what is not piled is not yours by morning</i></h2><div class="piles" id="piles"></div></section>
+  <div class="cols">
+    <div><section><h2>The portfolio<i>individual assets, one clan at a time; works yield on the period, bands raid or hold, piles keep</i></h2><div id="clans"></div></section></div>
+    <div>
+      <section><h2>Sorcery<i>the warlock's six, on a reserve of twenty</i></h2><div class="row" id="spells"></div></section>
+      <section><h2>The record</h2><div class="log" id="log"></div><div class="row" style="margin-top:8px"><button id="wipe">Start the war again</button></div></section>
+      <section><h2>Re-weave<i>the loom is in this page: another seed, another 165 templates, handed back as files</i></h2><div class="row"><input id="seed" type="number" value="793" style="width:110px"><button class="primary" id="reweave">Weave with this seed</button><button id="download">Download the templates</button><span class="badge" id="woven"></span></div><p style="color:var(--dim);font-size:12px;margin:8px 0 0">The same function that wrote templates-asset/ runs here. Weaving in the page changes the assets on offer for this browser; the download is the JSON of all of them, one file per template inside, ready to be written back into the yard.</p></section>
     </div>
-    <p>The first only rises. The second is a fact about this moment and is allowed to fall, because it is not a score and there are no scores here.</p>
-    <h4>the saga</h4>
-    <div id="saga"></div>
-  </aside>
+  </div>
 </main>
-
-<footer>
-  <span>ticks <b id="t-tick">0</b></span>
-  <span>houses <b id="t-house">0</b></span>
-  <span>per tick <b id="t-rate">0</b></span>
-  <span>the six cadences realign every <b>30,030</b> ticks</span>
-  <span class="r"><a href="dev.html">the hub</a> &middot; <a href="arcade.html">the arcade</a> &middot; <a href="clans.mjs">clans.mjs</a></span>
-</footer>
-
+<footer>Clans from <a href="clans.html">templates-clan/</a>, spells from <a href="warlock.html">the warlock</a>, the cadence from the sixth lesson in <a href="school.html">the school</a>; the docket from <a href="descent.html">the ground landing</a>. 1503 templates on disk at build. <a href="arcade.html">← the arcade</a> · <a href="index.html">the yard</a></footer>
+<script id="def-json" type="application/json">{"clans":[{"id":"hrafn","name":"Hrafnsson","house":"Cracking house","resource":"hydrogen","period":2,"base":3,"saga":"They crack hydrogen out of whatever will give it up, and there is very little on Venus that will. Four hundred million years to ship what a forest needs, so nobody ships it — the Hrafnssons exist because the constraint is real and somebody has to sit on it."},{"id":"bjorn","name":"Bjornsdottir","house":"Fixing bed","resource":"nitrogen","period":3,"base":5,"saga":"Venus holds about four and a third times Earth’s nitrogen and it is the one bulk element a sealed deck cannot manufacture. The Bjornsdottirs are the only clan whose input is genuinely free, and they are the ones who never boast about output."},{"id":"ulf","name":"Ulfsson","house":"Kiln","resource":"silicate","period":5,"base":4,"saga":"Lifting half a metre of basalt over a site costs three days of the site’s own sunlight. That is the whole substrate argument and it is why the Ulfssons are never the bottleneck and never the story: the material is under everybody’s feet and the energy is overhead."},{"id":"sigrid","name":"Sigrdrifa","house":"Bed","resource":"biomass","period":7,"base":2,"saga":"Only the living fraction has to arrive, and the living fraction is measured in kilograms. The Sigrdrifas are the smallest clan by output and the one the other five are for. Nothing they do will be legible for twenty years."},{"id":"thorvald","name":"Thorvaldsson","house":"Relay mast","resource":"signal","period":11,"base":6,"saga":"Four point nine four minutes each way at arrival, so a question and its answer is under ten. The Thorvaldssons hold the masts and are the reason a core of nine can carry its own signaller rather than borrow one — a borrowed signaller is a choke point inside the core before it leaves the ground."},{"id":"ingrid","name":"Ingridsdottir","house":"Scriptorium","resource":"record","period":13,"base":1,"saga":"They keep the register of what was looked for and not found. It is the smallest output on the board and the least negotiable line on the manifest, because a base that only counts hits quietly stops reporting misses, and the misses are most of the work."}],"assets":[{"id":"hrafn-work-1","kind":"work","clan":"hrafn","clanName":"Hrafnsson","house":"Cracking house","resource":"hydrogen","period":2,"tier":1,"yield":3,"cost":360,"name":"Cracking house 1 of Hrafnsson","text":"One house, one still, and a queue. Yields 3 hydrogen every 2 days.","wovenBy":"hrafn"},{"id":"hrafn-work-2","kind":"work","clan":"hrafn","clanName":"Hrafnsson","house":"Cracking house","resource":"hydrogen","period":2,"tier":2,"yield":7,"cost":1680,"name":"Cracking house 2 of Hrafnsson","text":"A second still, and the first one stops being the bottleneck. Yields 7 hydrogen every 2 days.","wovenBy":"hrafn"},{"id":"hrafn-work-3","kind":"work","clan":"hrafn","clanName":"Hrafnsson","house":"Cracking house","resource":"hydrogen","period":2,"tier":3,"yield":12,"cost":4320,"name":"Cracking house 3 of Hrafnsson","text":"Waste heat from the second feeds the first. Nothing is added; something is stopped from being wasted. Yields 12 hydrogen every 2 days.","wovenBy":"hrafn"},{"id":"hrafn-work-4","kind":"work","clan":"hrafn","clanName":"Hrafnsson","house":"Cracking house","resource":"hydrogen","period":2,"tier":4,"yield":18,"cost":8640,"name":"Cracking house 4 of Hrafnsson","text":"Four houses. The queue is now the storage and not the cracking. Yields 18 hydrogen every 2 days.","wovenBy":"hrafn"},{"id":"hrafn-work-5","kind":"work","clan":"hrafn","clanName":"Hrafnsson","house":"Cracking house","resource":"hydrogen","period":2,"tier":5,"yield":25,"cost":15000,"name":"Cracking house 5 of Hrafnsson","text":"The bottleneck has moved off this clan entirely, which is the only real completion there is. Yields 25 hydrogen every 2 days.","wovenBy":"hrafn"},{"id":"hrafn-band-1","kind":"band","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","period":2,"name":"sworn men of Hrafnsson","strength":12,"raids":false,"cost":1630,"upkeep":3,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 12; eats 3 hydrogen a day.","wovenBy":"hrafn"},{"id":"hrafn-band-2","kind":"band","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","period":2,"name":"shieldwall of Hrafnsson","strength":6,"raids":true,"cost":778,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 6; eats 2 hydrogen a day.","wovenBy":"hrafn"},{"id":"hrafn-band-3","kind":"band","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","period":2,"name":"night raiders of Hrafnsson","strength":5,"raids":false,"cost":699,"upkeep":2,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 5; eats 2 hydrogen a day.","wovenBy":"hrafn"},{"id":"hrafn-band-4","kind":"band","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","period":2,"name":"thralls with spears of Hrafnsson","strength":13,"raids":true,"cost":1774,"upkeep":4,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 13; eats 4 hydrogen a day.","wovenBy":"hrafn"},{"id":"hrafn-band-5","kind":"band","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","period":2,"name":"shieldwall of Hrafnsson","strength":10,"raids":false,"cost":1226,"upkeep":3,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 10; eats 3 hydrogen a day.","wovenBy":"hrafn"},{"id":"hrafn-band-6","kind":"band","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","period":2,"name":"sworn men of Hrafnsson","strength":14,"raids":true,"cost":1758,"upkeep":4,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 14; eats 4 hydrogen a day.","wovenBy":"hrafn"},{"id":"hrafn-band-7","kind":"band","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","period":2,"name":"skirmishers of Hrafnsson","strength":5,"raids":false,"cost":574,"upkeep":1,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 5; eats 1 hydrogen a day.","wovenBy":"hrafn"},{"id":"hrafn-band-8","kind":"band","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","period":2,"name":"bowmen of Hrafnsson","strength":9,"raids":true,"cost":1072,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 9; eats 2 hydrogen a day.","wovenBy":"hrafn"},{"id":"hrafn-band-9","kind":"band","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","period":2,"name":"night raiders of Hrafnsson","strength":14,"raids":false,"cost":1557,"upkeep":3,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 14; eats 3 hydrogen a day.","wovenBy":"hrafn"},{"id":"hrafn-band-10","kind":"band","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","period":2,"name":"berserks of Hrafnsson","strength":6,"raids":true,"cost":565,"upkeep":1,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 6; eats 1 hydrogen a day.","wovenBy":"hrafn"},{"id":"hrafn-band-11","kind":"band","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","period":2,"name":"bowmen of Hrafnsson","strength":16,"raids":false,"cost":1834,"upkeep":4,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 16; eats 4 hydrogen a day.","wovenBy":"hrafn"},{"id":"hrafn-band-12","kind":"band","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","period":2,"name":"longship crew of Hrafnsson","strength":9,"raids":true,"cost":973,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 9; eats 2 hydrogen a day.","wovenBy":"hrafn"},{"id":"hrafn-pile-1","kind":"pile","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","name":"a tally on the mast for hydrogen","holds":250,"cost":300,"text":"Holds 250 hydrogen. What is not piled is not yours by morning.","wovenBy":"hrafn"},{"id":"hrafn-pile-2","kind":"pile","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","name":"the temple store for hydrogen","holds":900,"cost":1080,"text":"Holds 900 hydrogen. What is not piled is not yours by morning.","wovenBy":"hrafn"},{"id":"hrafn-pile-3","kind":"pile","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","name":"a pit for hydrogen","holds":150,"cost":180,"text":"Holds 150 hydrogen. What is not piled is not yours by morning.","wovenBy":"hrafn"},{"id":"hrafn-pile-4","kind":"pile","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","name":"the temple store for hydrogen","holds":100,"cost":120,"text":"Holds 100 hydrogen. What is not piled is not yours by morning.","wovenBy":"hrafn"},{"id":"hrafn-pile-5","kind":"pile","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","name":"a sealed cistern for hydrogen","holds":750,"cost":900,"text":"Holds 750 hydrogen. What is not piled is not yours by morning.","wovenBy":"hrafn"},{"id":"hrafn-pile-6","kind":"pile","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","name":"a cairn for hydrogen","holds":650,"cost":780,"text":"Holds 650 hydrogen. What is not piled is not yours by morning.","wovenBy":"hrafn"},{"id":"hrafn-pile-7","kind":"pile","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","name":"a sealed cistern for hydrogen","holds":700,"cost":840,"text":"Holds 700 hydrogen. What is not piled is not yours by morning.","wovenBy":"hrafn"},{"id":"hrafn-pile-8","kind":"pile","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","name":"a sealed cistern for hydrogen","holds":600,"cost":720,"text":"Holds 600 hydrogen. What is not piled is not yours by morning.","wovenBy":"hrafn"},{"id":"hrafn-pile-9","kind":"pile","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","name":"a cairn for hydrogen","holds":200,"cost":240,"text":"Holds 200 hydrogen. What is not piled is not yours by morning.","wovenBy":"hrafn"},{"id":"hrafn-pile-10","kind":"pile","clan":"hrafn","clanName":"Hrafnsson","resource":"hydrogen","name":"a pit for hydrogen","holds":300,"cost":360,"text":"Holds 300 hydrogen. What is not piled is not yours by morning.","wovenBy":"hrafn"},{"id":"bjorn-work-1","kind":"work","clan":"bjorn","clanName":"Bjornsdottir","house":"Fixing bed","resource":"nitrogen","period":3,"tier":1,"yield":5,"cost":600,"name":"Fixing bed 1 of Bjornsdottir","text":"A bed, an inoculum, and a long wait. Yields 5 nitrogen every 3 days.","wovenBy":"bjorn"},{"id":"bjorn-work-2","kind":"work","clan":"bjorn","clanName":"Bjornsdottir","house":"Fixing bed","resource":"nitrogen","period":3,"tier":2,"yield":11,"cost":2640,"name":"Fixing bed 2 of Bjornsdottir","text":"The second bed is seeded from the first, so it starts where the first finished. Yields 11 nitrogen every 3 days.","wovenBy":"bjorn"},{"id":"bjorn-work-3","kind":"work","clan":"bjorn","clanName":"Bjornsdottir","house":"Fixing bed","resource":"nitrogen","period":3,"tier":3,"yield":19,"cost":6840,"name":"Fixing bed 3 of Bjornsdottir","text":"Three beds on rotation. None of them is ever idle and none is ever finished. Yields 19 nitrogen every 3 days.","wovenBy":"bjorn"},{"id":"bjorn-work-4","kind":"work","clan":"bjorn","clanName":"Bjornsdottir","house":"Fixing bed","resource":"nitrogen","period":3,"tier":4,"yield":29,"cost":13920,"name":"Fixing bed 4 of Bjornsdottir","text":"The rotation is what produces, not the beds. Adding a bed adds a phase. Yields 29 nitrogen every 3 days.","wovenBy":"bjorn"},{"id":"bjorn-work-5","kind":"work","clan":"bjorn","clanName":"Bjornsdottir","house":"Fixing bed","resource":"nitrogen","period":3,"tier":5,"yield":41,"cost":24600,"name":"Fixing bed 5 of Bjornsdottir","text":"Five phases, and the output stops looking like a batch. Yields 41 nitrogen every 3 days.","wovenBy":"bjorn"},{"id":"bjorn-band-1","kind":"band","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","period":3,"name":"wardens of the ford of Bjornsdottir","strength":12,"raids":false,"cost":1664,"upkeep":3,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 12; eats 3 nitrogen a day.","wovenBy":"bjorn"},{"id":"bjorn-band-2","kind":"band","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","period":3,"name":"berserks of Bjornsdottir","strength":15,"raids":true,"cost":1998,"upkeep":4,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 15; eats 4 nitrogen a day.","wovenBy":"bjorn"},{"id":"bjorn-band-3","kind":"band","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","period":3,"name":"night raiders of Bjornsdottir","strength":15,"raids":false,"cost":1934,"upkeep":4,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 15; eats 4 nitrogen a day.","wovenBy":"bjorn"},{"id":"bjorn-band-4","kind":"band","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","period":3,"name":"wardens of the ford of Bjornsdottir","strength":8,"raids":true,"cost":1082,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 8; eats 2 nitrogen a day.","wovenBy":"bjorn"},{"id":"bjorn-band-5","kind":"band","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","period":3,"name":"scouts of Bjornsdottir","strength":12,"raids":false,"cost":1528,"upkeep":3,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 12; eats 3 nitrogen a day.","wovenBy":"bjorn"},{"id":"bjorn-band-6","kind":"band","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","period":3,"name":"sworn men of Bjornsdottir","strength":9,"raids":true,"cost":1080,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 9; eats 2 nitrogen a day.","wovenBy":"bjorn"},{"id":"bjorn-band-7","kind":"band","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","period":3,"name":"longship crew of Bjornsdottir","strength":5,"raids":false,"cost":582,"upkeep":1,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 5; eats 1 nitrogen a day.","wovenBy":"bjorn"},{"id":"bjorn-band-8","kind":"band","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","period":3,"name":"berserks of Bjornsdottir","strength":13,"raids":true,"cost":1563,"upkeep":3,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 13; eats 3 nitrogen a day.","wovenBy":"bjorn"},{"id":"bjorn-band-9","kind":"band","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","period":3,"name":"thralls with spears of Bjornsdottir","strength":17,"raids":false,"cost":1941,"upkeep":4,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 17; eats 4 nitrogen a day.","wovenBy":"bjorn"},{"id":"bjorn-band-10","kind":"band","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","period":3,"name":"housecarls of Bjornsdottir","strength":17,"raids":true,"cost":1978,"upkeep":4,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 17; eats 4 nitrogen a day.","wovenBy":"bjorn"},{"id":"bjorn-band-11","kind":"band","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","period":3,"name":"the jarl's own of Bjornsdottir","strength":7,"raids":false,"cost":733,"upkeep":2,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 7; eats 2 nitrogen a day.","wovenBy":"bjorn"},{"id":"bjorn-band-12","kind":"band","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","period":3,"name":"skirmishers of Bjornsdottir","strength":9,"raids":true,"cost":946,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 9; eats 2 nitrogen a day.","wovenBy":"bjorn"},{"id":"bjorn-pile-1","kind":"pile","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","name":"a sealed cistern for nitrogen","holds":150,"cost":180,"text":"Holds 150 nitrogen. What is not piled is not yours by morning.","wovenBy":"bjorn"},{"id":"bjorn-pile-2","kind":"pile","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","name":"a cairn for nitrogen","holds":450,"cost":540,"text":"Holds 450 nitrogen. What is not piled is not yours by morning.","wovenBy":"bjorn"},{"id":"bjorn-pile-3","kind":"pile","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","name":"the temple store for nitrogen","holds":150,"cost":180,"text":"Holds 150 nitrogen. What is not piled is not yours by morning.","wovenBy":"bjorn"},{"id":"bjorn-pile-4","kind":"pile","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","name":"a sealed cistern for nitrogen","holds":250,"cost":300,"text":"Holds 250 nitrogen. What is not piled is not yours by morning.","wovenBy":"bjorn"},{"id":"bjorn-pile-5","kind":"pile","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","name":"a cairn for nitrogen","holds":850,"cost":1020,"text":"Holds 850 nitrogen. What is not piled is not yours by morning.","wovenBy":"bjorn"},{"id":"bjorn-pile-6","kind":"pile","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","name":"a tally on the mast for nitrogen","holds":250,"cost":300,"text":"Holds 250 nitrogen. What is not piled is not yours by morning.","wovenBy":"bjorn"},{"id":"bjorn-pile-7","kind":"pile","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","name":"the temple store for nitrogen","holds":1000,"cost":1200,"text":"Holds 1000 nitrogen. What is not piled is not yours by morning.","wovenBy":"bjorn"},{"id":"bjorn-pile-8","kind":"pile","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","name":"a pit for nitrogen","holds":850,"cost":1020,"text":"Holds 850 nitrogen. What is not piled is not yours by morning.","wovenBy":"bjorn"},{"id":"bjorn-pile-9","kind":"pile","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","name":"a buried hoard for nitrogen","holds":450,"cost":540,"text":"Holds 450 nitrogen. What is not piled is not yours by morning.","wovenBy":"bjorn"},{"id":"bjorn-pile-10","kind":"pile","clan":"bjorn","clanName":"Bjornsdottir","resource":"nitrogen","name":"a sealed cistern for nitrogen","holds":650,"cost":780,"text":"Holds 650 nitrogen. What is not piled is not yours by morning.","wovenBy":"bjorn"},{"id":"ulf-work-1","kind":"work","clan":"ulf","clanName":"Ulfsson","house":"Kiln","resource":"silicate","period":5,"tier":1,"yield":4,"cost":480,"name":"Kiln 1 of Ulfsson","text":"One kiln, fired on daylight. Yields 4 silicate every 5 days.","wovenBy":"ulf"},{"id":"ulf-work-2","kind":"work","clan":"ulf","clanName":"Ulfsson","house":"Kiln","resource":"silicate","period":5,"tier":2,"yield":9,"cost":2160,"name":"Kiln 2 of Ulfsson","text":"A second kiln banked against the night, which is fifty-eight days long. Yields 9 silicate every 5 days.","wovenBy":"ulf"},{"id":"ulf-work-3","kind":"work","clan":"ulf","clanName":"Ulfsson","house":"Kiln","resource":"silicate","period":5,"tier":3,"yield":15,"cost":5400,"name":"Kiln 3 of Ulfsson","text":"Banking is the technology. The kilns are just kilns. Yields 15 silicate every 5 days.","wovenBy":"ulf"},{"id":"ulf-work-4","kind":"work","clan":"ulf","clanName":"Ulfsson","house":"Kiln","resource":"silicate","period":5,"tier":4,"yield":22,"cost":10560,"name":"Kiln 4 of Ulfsson","text":"Four, and the bank outlasts the night with margin. Yields 22 silicate every 5 days.","wovenBy":"ulf"},{"id":"ulf-work-5","kind":"work","clan":"ulf","clanName":"Ulfsson","house":"Kiln","resource":"silicate","period":5,"tier":5,"yield":30,"cost":18000,"name":"Kiln 5 of Ulfsson","text":"The margin is now the product. Nothing here is ever short. Yields 30 silicate every 5 days.","wovenBy":"ulf"},{"id":"ulf-band-1","kind":"band","clan":"ulf","clanName":"Ulfsson","resource":"silicate","period":5,"name":"thralls with spears of Ulfsson","strength":8,"raids":false,"cost":1064,"upkeep":2,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 8; eats 2 silicate a day.","wovenBy":"ulf"},{"id":"ulf-band-2","kind":"band","clan":"ulf","clanName":"Ulfsson","resource":"silicate","period":5,"name":"thralls with spears of Ulfsson","strength":15,"raids":true,"cost":1954,"upkeep":4,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 15; eats 4 silicate a day.","wovenBy":"ulf"},{"id":"ulf-band-3","kind":"band","clan":"ulf","clanName":"Ulfsson","resource":"silicate","period":5,"name":"the jarl's own of Ulfsson","strength":10,"raids":false,"cost":1354,"upkeep":3,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 10; eats 3 silicate a day.","wovenBy":"ulf"},{"id":"ulf-band-4","kind":"band","clan":"ulf","clanName":"Ulfsson","resource":"silicate","period":5,"name":"skirmishers of Ulfsson","strength":15,"raids":true,"cost":1944,"upkeep":4,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 15; eats 4 silicate a day.","wovenBy":"ulf"},{"id":"ulf-band-5","kind":"band","clan":"ulf","clanName":"Ulfsson","resource":"silicate","period":5,"name":"scouts of Ulfsson","strength":6,"raids":false,"cost":677,"upkeep":2,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 6; eats 2 silicate a day.","wovenBy":"ulf"},{"id":"ulf-band-6","kind":"band","clan":"ulf","clanName":"Ulfsson","resource":"silicate","period":5,"name":"bowmen of Ulfsson","strength":6,"raids":true,"cost":669,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 6; eats 2 silicate a day.","wovenBy":"ulf"},{"id":"ulf-band-7","kind":"band","clan":"ulf","clanName":"Ulfsson","resource":"silicate","period":5,"name":"longship crew of Ulfsson","strength":15,"raids":false,"cost":1894,"upkeep":4,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 15; eats 4 silicate a day.","wovenBy":"ulf"},{"id":"ulf-band-8","kind":"band","clan":"ulf","clanName":"Ulfsson","resource":"silicate","period":5,"name":"berserks of Ulfsson","strength":13,"raids":true,"cost":1589,"upkeep":3,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 13; eats 3 silicate a day.","wovenBy":"ulf"},{"id":"ulf-band-9","kind":"band","clan":"ulf","clanName":"Ulfsson","resource":"silicate","period":5,"name":"shieldwall of Ulfsson","strength":13,"raids":false,"cost":1424,"upkeep":3,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 13; eats 3 silicate a day.","wovenBy":"ulf"},{"id":"ulf-band-10","kind":"band","clan":"ulf","clanName":"Ulfsson","resource":"silicate","period":5,"name":"berserks of Ulfsson","strength":10,"raids":true,"cost":1000,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 10; eats 2 silicate a day.","wovenBy":"ulf"},{"id":"ulf-band-11","kind":"band","clan":"ulf","clanName":"Ulfsson","resource":"silicate","period":5,"name":"shieldwall of Ulfsson","strength":8,"raids":false,"cost":861,"upkeep":2,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 8; eats 2 silicate a day.","wovenBy":"ulf"},{"id":"ulf-band-12","kind":"band","clan":"ulf","clanName":"Ulfsson","resource":"silicate","period":5,"name":"sworn men of Ulfsson","strength":15,"raids":true,"cost":1758,"upkeep":4,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 15; eats 4 silicate a day.","wovenBy":"ulf"},{"id":"ulf-pile-1","kind":"pile","clan":"ulf","clanName":"Ulfsson","resource":"silicate","name":"a longhouse loft for silicate","holds":750,"cost":900,"text":"Holds 750 silicate. What is not piled is not yours by morning.","wovenBy":"ulf"},{"id":"ulf-pile-2","kind":"pile","clan":"ulf","clanName":"Ulfsson","resource":"silicate","name":"a stone chest for silicate","holds":800,"cost":960,"text":"Holds 800 silicate. What is not piled is not yours by morning.","wovenBy":"ulf"},{"id":"ulf-pile-3","kind":"pile","clan":"ulf","clanName":"Ulfsson","resource":"silicate","name":"a sealed cistern for silicate","holds":950,"cost":1140,"text":"Holds 950 silicate. What is not piled is not yours by morning.","wovenBy":"ulf"},{"id":"ulf-pile-4","kind":"pile","clan":"ulf","clanName":"Ulfsson","resource":"silicate","name":"a buried hoard for silicate","holds":100,"cost":120,"text":"Holds 100 silicate. What is not piled is not yours by morning.","wovenBy":"ulf"},{"id":"ulf-pile-5","kind":"pile","clan":"ulf","clanName":"Ulfsson","resource":"silicate","name":"jars in the cold store for silicate","holds":100,"cost":120,"text":"Holds 100 silicate. What is not piled is not yours by morning.","wovenBy":"ulf"},{"id":"ulf-pile-6","kind":"pile","clan":"ulf","clanName":"Ulfsson","resource":"silicate","name":"a stone chest for silicate","holds":400,"cost":480,"text":"Holds 400 silicate. What is not piled is not yours by morning.","wovenBy":"ulf"},{"id":"ulf-pile-7","kind":"pile","clan":"ulf","clanName":"Ulfsson","resource":"silicate","name":"a pit for silicate","holds":700,"cost":840,"text":"Holds 700 silicate. What is not piled is not yours by morning.","wovenBy":"ulf"},{"id":"ulf-pile-8","kind":"pile","clan":"ulf","clanName":"Ulfsson","resource":"silicate","name":"a tally on the mast for silicate","holds":950,"cost":1140,"text":"Holds 950 silicate. What is not piled is not yours by morning.","wovenBy":"ulf"},{"id":"ulf-pile-9","kind":"pile","clan":"ulf","clanName":"Ulfsson","resource":"silicate","name":"a raft of barrels for silicate","holds":950,"cost":1140,"text":"Holds 950 silicate. What is not piled is not yours by morning.","wovenBy":"ulf"},{"id":"ulf-pile-10","kind":"pile","clan":"ulf","clanName":"Ulfsson","resource":"silicate","name":"a tally on the mast for silicate","holds":800,"cost":960,"text":"Holds 800 silicate. What is not piled is not yours by morning.","wovenBy":"ulf"},{"id":"sigrid-work-1","kind":"work","clan":"sigrid","clanName":"Sigrdrifa","house":"Bed","resource":"biomass","period":7,"tier":1,"yield":2,"cost":240,"name":"Bed 1 of Sigrdrifa","text":"A bed. Most of what is in it will not take. Yields 2 biomass every 7 days.","wovenBy":"sigrid"},{"id":"sigrid-work-2","kind":"work","clan":"sigrid","clanName":"Sigrdrifa","house":"Bed","resource":"biomass","period":7,"tier":2,"yield":4,"cost":960,"name":"Bed 2 of Sigrdrifa","text":"Something took. Nobody knows yet which thing. Yields 4 biomass every 7 days.","wovenBy":"sigrid"},{"id":"sigrid-work-3","kind":"work","clan":"sigrid","clanName":"Sigrdrifa","house":"Bed","resource":"biomass","period":7,"tier":3,"yield":7,"cost":2520,"name":"Bed 3 of Sigrdrifa","text":"The network under the bed is doing more than the bed is. Yields 7 biomass every 7 days.","wovenBy":"sigrid"},{"id":"sigrid-work-4","kind":"work","clan":"sigrid","clanName":"Sigrdrifa","house":"Bed","resource":"biomass","period":7,"tier":4,"yield":11,"cost":5280,"name":"Bed 4 of Sigrdrifa","text":"Four beds, and the third one was seeded from the second’s failure. Yields 11 biomass every 7 days.","wovenBy":"sigrid"},{"id":"sigrid-work-5","kind":"work","clan":"sigrid","clanName":"Sigrdrifa","house":"Bed","resource":"biomass","period":7,"tier":5,"yield":16,"cost":9600,"name":"Bed 5 of Sigrdrifa","text":"It is a soil now. That word was not earned until this tier. Yields 16 biomass every 7 days.","wovenBy":"sigrid"},{"id":"sigrid-band-1","kind":"band","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","period":7,"name":"night raiders of Sigrdrifa","strength":10,"raids":false,"cost":1371,"upkeep":3,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 10; eats 3 biomass a day.","wovenBy":"sigrid"},{"id":"sigrid-band-2","kind":"band","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","period":7,"name":"housecarls of Sigrdrifa","strength":11,"raids":true,"cost":1523,"upkeep":3,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 11; eats 3 biomass a day.","wovenBy":"sigrid"},{"id":"sigrid-band-3","kind":"band","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","period":7,"name":"sworn men of Sigrdrifa","strength":6,"raids":false,"cost":754,"upkeep":2,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 6; eats 2 biomass a day.","wovenBy":"sigrid"},{"id":"sigrid-band-4","kind":"band","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","period":7,"name":"scouts of Sigrdrifa","strength":3,"raids":true,"cost":453,"upkeep":1,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 3; eats 1 biomass a day.","wovenBy":"sigrid"},{"id":"sigrid-band-5","kind":"band","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","period":7,"name":"longship crew of Sigrdrifa","strength":8,"raids":false,"cost":902,"upkeep":2,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 8; eats 2 biomass a day.","wovenBy":"sigrid"},{"id":"sigrid-band-6","kind":"band","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","period":7,"name":"scouts of Sigrdrifa","strength":8,"raids":true,"cost":978,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 8; eats 2 biomass a day.","wovenBy":"sigrid"},{"id":"sigrid-band-7","kind":"band","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","period":7,"name":"housecarls of Sigrdrifa","strength":11,"raids":false,"cost":1376,"upkeep":3,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 11; eats 3 biomass a day.","wovenBy":"sigrid"},{"id":"sigrid-band-8","kind":"band","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","period":7,"name":"berserks of Sigrdrifa","strength":6,"raids":true,"cost":654,"upkeep":1,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 6; eats 1 biomass a day.","wovenBy":"sigrid"},{"id":"sigrid-band-9","kind":"band","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","period":7,"name":"skirmishers of Sigrdrifa","strength":7,"raids":false,"cost":677,"upkeep":2,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 7; eats 2 biomass a day.","wovenBy":"sigrid"},{"id":"sigrid-band-10","kind":"band","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","period":7,"name":"the jarl's own of Sigrdrifa","strength":12,"raids":true,"cost":1392,"upkeep":3,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 12; eats 3 biomass a day.","wovenBy":"sigrid"},{"id":"sigrid-band-11","kind":"band","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","period":7,"name":"night raiders of Sigrdrifa","strength":6,"raids":false,"cost":514,"upkeep":1,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 6; eats 1 biomass a day.","wovenBy":"sigrid"},{"id":"sigrid-band-12","kind":"band","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","period":7,"name":"sworn men of Sigrdrifa","strength":7,"raids":true,"cost":728,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 7; eats 2 biomass a day.","wovenBy":"sigrid"},{"id":"sigrid-pile-1","kind":"pile","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","name":"a sealed cistern for biomass","holds":300,"cost":360,"text":"Holds 300 biomass. What is not piled is not yours by morning.","wovenBy":"sigrid"},{"id":"sigrid-pile-2","kind":"pile","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","name":"the temple store for biomass","holds":950,"cost":1140,"text":"Holds 950 biomass. What is not piled is not yours by morning.","wovenBy":"sigrid"},{"id":"sigrid-pile-3","kind":"pile","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","name":"a longhouse loft for biomass","holds":950,"cost":1140,"text":"Holds 950 biomass. What is not piled is not yours by morning.","wovenBy":"sigrid"},{"id":"sigrid-pile-4","kind":"pile","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","name":"a longhouse loft for biomass","holds":650,"cost":780,"text":"Holds 650 biomass. What is not piled is not yours by morning.","wovenBy":"sigrid"},{"id":"sigrid-pile-5","kind":"pile","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","name":"a cairn for biomass","holds":500,"cost":600,"text":"Holds 500 biomass. What is not piled is not yours by morning.","wovenBy":"sigrid"},{"id":"sigrid-pile-6","kind":"pile","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","name":"a tally on the mast for biomass","holds":1000,"cost":1200,"text":"Holds 1000 biomass. What is not piled is not yours by morning.","wovenBy":"sigrid"},{"id":"sigrid-pile-7","kind":"pile","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","name":"a tally on the mast for biomass","holds":800,"cost":960,"text":"Holds 800 biomass. What is not piled is not yours by morning.","wovenBy":"sigrid"},{"id":"sigrid-pile-8","kind":"pile","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","name":"a buried hoard for biomass","holds":150,"cost":180,"text":"Holds 150 biomass. What is not piled is not yours by morning.","wovenBy":"sigrid"},{"id":"sigrid-pile-9","kind":"pile","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","name":"the temple store for biomass","holds":250,"cost":300,"text":"Holds 250 biomass. What is not piled is not yours by morning.","wovenBy":"sigrid"},{"id":"sigrid-pile-10","kind":"pile","clan":"sigrid","clanName":"Sigrdrifa","resource":"biomass","name":"jars in the cold store for biomass","holds":250,"cost":300,"text":"Holds 250 biomass. What is not piled is not yours by morning.","wovenBy":"sigrid"},{"id":"thorvald-work-1","kind":"work","clan":"thorvald","clanName":"Thorvaldsson","house":"Relay mast","resource":"signal","period":11,"tier":1,"yield":6,"cost":720,"name":"Relay mast 1 of Thorvaldsson","text":"One mast. Everything routes through it, which is the problem. Yields 6 signal every 11 days.","wovenBy":"thorvald"},{"id":"thorvald-work-2","kind":"work","clan":"thorvald","clanName":"Thorvaldsson","house":"Relay mast","resource":"signal","period":11,"tier":2,"yield":13,"cost":3120,"name":"Relay mast 2 of Thorvaldsson","text":"Two masts, and now nothing routes through either one alone. Yields 13 signal every 11 days.","wovenBy":"thorvald"},{"id":"thorvald-work-3","kind":"work","clan":"thorvald","clanName":"Thorvaldsson","house":"Relay mast","resource":"signal","period":11,"tier":3,"yield":21,"cost":7560,"name":"Relay mast 3 of Thorvaldsson","text":"Three. The graph stops having a cut vertex in it. Yields 21 signal every 11 days.","wovenBy":"thorvald"},{"id":"thorvald-work-4","kind":"work","clan":"thorvald","clanName":"Thorvaldsson","house":"Relay mast","resource":"signal","period":11,"tier":4,"yield":30,"cost":14400,"name":"Relay mast 4 of Thorvaldsson","text":"Four, and a mast can be down without anybody noticing in time to worry. Yields 30 signal every 11 days.","wovenBy":"thorvald"},{"id":"thorvald-work-5","kind":"work","clan":"thorvald","clanName":"Thorvaldsson","house":"Relay mast","resource":"signal","period":11,"tier":5,"yield":40,"cost":24000,"name":"Relay mast 5 of Thorvaldsson","text":"Redundancy is not a spare. It is the absence of a single answer to who carries the message. Yields 40 signal every 11 days.","wovenBy":"thorvald"},{"id":"thorvald-band-1","kind":"band","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","period":11,"name":"bowmen of Thorvaldsson","strength":14,"raids":false,"cost":1891,"upkeep":4,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 14; eats 4 signal a day.","wovenBy":"thorvald"},{"id":"thorvald-band-2","kind":"band","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","period":11,"name":"shieldwall of Thorvaldsson","strength":12,"raids":true,"cost":1590,"upkeep":3,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 12; eats 3 signal a day.","wovenBy":"thorvald"},{"id":"thorvald-band-3","kind":"band","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","period":11,"name":"the jarl's own of Thorvaldsson","strength":5,"raids":false,"cost":688,"upkeep":2,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 5; eats 2 signal a day.","wovenBy":"thorvald"},{"id":"thorvald-band-4","kind":"band","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","period":11,"name":"skirmishers of Thorvaldsson","strength":11,"raids":true,"cost":1432,"upkeep":3,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 11; eats 3 signal a day.","wovenBy":"thorvald"},{"id":"thorvald-band-5","kind":"band","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","period":11,"name":"thralls with spears of Thorvaldsson","strength":8,"raids":false,"cost":917,"upkeep":2,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 8; eats 2 signal a day.","wovenBy":"thorvald"},{"id":"thorvald-band-6","kind":"band","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","period":11,"name":"wardens of the ford of Thorvaldsson","strength":13,"raids":true,"cost":1600,"upkeep":3,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 13; eats 3 signal a day.","wovenBy":"thorvald"},{"id":"thorvald-band-7","kind":"band","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","period":11,"name":"skirmishers of Thorvaldsson","strength":11,"raids":false,"cost":1285,"upkeep":3,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 11; eats 3 signal a day.","wovenBy":"thorvald"},{"id":"thorvald-band-8","kind":"band","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","period":11,"name":"night raiders of Thorvaldsson","strength":13,"raids":true,"cost":1563,"upkeep":3,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 13; eats 3 signal a day.","wovenBy":"thorvald"},{"id":"thorvald-band-9","kind":"band","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","period":11,"name":"shieldwall of Thorvaldsson","strength":16,"raids":false,"cost":1898,"upkeep":4,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 16; eats 4 signal a day.","wovenBy":"thorvald"},{"id":"thorvald-band-10","kind":"band","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","period":11,"name":"scouts of Thorvaldsson","strength":9,"raids":true,"cost":958,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 9; eats 2 signal a day.","wovenBy":"thorvald"},{"id":"thorvald-band-11","kind":"band","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","period":11,"name":"night raiders of Thorvaldsson","strength":16,"raids":false,"cost":1928,"upkeep":4,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 16; eats 4 signal a day.","wovenBy":"thorvald"},{"id":"thorvald-band-12","kind":"band","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","period":11,"name":"wardens of the ford of Thorvaldsson","strength":16,"raids":true,"cost":1824,"upkeep":4,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 16; eats 4 signal a day.","wovenBy":"thorvald"},{"id":"thorvald-pile-1","kind":"pile","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","name":"a buried hoard for signal","holds":550,"cost":660,"text":"Holds 550 signal. What is not piled is not yours by morning.","wovenBy":"thorvald"},{"id":"thorvald-pile-2","kind":"pile","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","name":"a tally on the mast for signal","holds":450,"cost":540,"text":"Holds 450 signal. What is not piled is not yours by morning.","wovenBy":"thorvald"},{"id":"thorvald-pile-3","kind":"pile","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","name":"a longhouse loft for signal","holds":550,"cost":660,"text":"Holds 550 signal. What is not piled is not yours by morning.","wovenBy":"thorvald"},{"id":"thorvald-pile-4","kind":"pile","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","name":"a longhouse loft for signal","holds":400,"cost":480,"text":"Holds 400 signal. What is not piled is not yours by morning.","wovenBy":"thorvald"},{"id":"thorvald-pile-5","kind":"pile","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","name":"a tally on the mast for signal","holds":900,"cost":1080,"text":"Holds 900 signal. What is not piled is not yours by morning.","wovenBy":"thorvald"},{"id":"thorvald-pile-6","kind":"pile","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","name":"jars in the cold store for signal","holds":100,"cost":120,"text":"Holds 100 signal. What is not piled is not yours by morning.","wovenBy":"thorvald"},{"id":"thorvald-pile-7","kind":"pile","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","name":"a cairn for signal","holds":200,"cost":240,"text":"Holds 200 signal. What is not piled is not yours by morning.","wovenBy":"thorvald"},{"id":"thorvald-pile-8","kind":"pile","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","name":"a stone chest for signal","holds":400,"cost":480,"text":"Holds 400 signal. What is not piled is not yours by morning.","wovenBy":"thorvald"},{"id":"thorvald-pile-9","kind":"pile","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","name":"the temple store for signal","holds":150,"cost":180,"text":"Holds 150 signal. What is not piled is not yours by morning.","wovenBy":"thorvald"},{"id":"thorvald-pile-10","kind":"pile","clan":"thorvald","clanName":"Thorvaldsson","resource":"signal","name":"a buried hoard for signal","holds":700,"cost":840,"text":"Holds 700 signal. What is not piled is not yours by morning.","wovenBy":"thorvald"},{"id":"ingrid-work-1","kind":"work","clan":"ingrid","clanName":"Ingridsdottir","house":"Scriptorium","resource":"record","period":13,"tier":1,"yield":1,"cost":120,"name":"Scriptorium 1 of Ingridsdottir","text":"One scribe. One book. Mostly blank, on purpose. Yields 1 record every 13 days.","wovenBy":"ingrid"},{"id":"ingrid-work-2","kind":"work","clan":"ingrid","clanName":"Ingridsdottir","house":"Scriptorium","resource":"record","period":13,"tier":2,"yield":2,"cost":480,"name":"Scriptorium 2 of Ingridsdottir","text":"A second book, for the things the first one refused. Yields 2 record every 13 days.","wovenBy":"ingrid"},{"id":"ingrid-work-3","kind":"work","clan":"ingrid","clanName":"Ingridsdottir","house":"Scriptorium","resource":"record","period":13,"tier":3,"yield":4,"cost":1440,"name":"Scriptorium 3 of Ingridsdottir","text":"Somebody reads back three years and does not repeat a search. Yields 4 record every 13 days.","wovenBy":"ingrid"},{"id":"ingrid-work-4","kind":"work","clan":"ingrid","clanName":"Ingridsdottir","house":"Scriptorium","resource":"record","period":13,"tier":4,"yield":6,"cost":2880,"name":"Scriptorium 4 of Ingridsdottir","text":"The register is now cheaper than the searching it prevents. Yields 6 record every 13 days.","wovenBy":"ingrid"},{"id":"ingrid-work-5","kind":"work","clan":"ingrid","clanName":"Ingridsdottir","house":"Scriptorium","resource":"record","period":13,"tier":5,"yield":9,"cost":5400,"name":"Scriptorium 5 of Ingridsdottir","text":"Nine books. Nobody has ever thanked them and the ledger is still the reason. Yields 9 record every 13 days.","wovenBy":"ingrid"},{"id":"ingrid-band-1","kind":"band","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","period":13,"name":"shieldwall of Ingridsdottir","strength":4,"raids":false,"cost":592,"upkeep":1,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 4; eats 1 record a day.","wovenBy":"ingrid"},{"id":"ingrid-band-2","kind":"band","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","period":13,"name":"bowmen of Ingridsdottir","strength":4,"raids":true,"cost":592,"upkeep":1,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 4; eats 1 record a day.","wovenBy":"ingrid"},{"id":"ingrid-band-3","kind":"band","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","period":13,"name":"night raiders of Ingridsdottir","strength":13,"raids":false,"cost":1774,"upkeep":4,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 13; eats 4 record a day.","wovenBy":"ingrid"},{"id":"ingrid-band-4","kind":"band","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","period":13,"name":"scouts of Ingridsdottir","strength":6,"raids":true,"cost":811,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 6; eats 2 record a day.","wovenBy":"ingrid"},{"id":"ingrid-band-5","kind":"band","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","period":13,"name":"longship crew of Ingridsdottir","strength":8,"raids":false,"cost":877,"upkeep":2,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 8; eats 2 record a day.","wovenBy":"ingrid"},{"id":"ingrid-band-6","kind":"band","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","period":13,"name":"berserks of Ingridsdottir","strength":15,"raids":true,"cost":1915,"upkeep":4,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 15; eats 4 record a day.","wovenBy":"ingrid"},{"id":"ingrid-band-7","kind":"band","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","period":13,"name":"scouts of Ingridsdottir","strength":5,"raids":false,"cost":530,"upkeep":1,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 5; eats 1 record a day.","wovenBy":"ingrid"},{"id":"ingrid-band-8","kind":"band","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","period":13,"name":"bowmen of Ingridsdottir","strength":8,"raids":true,"cost":918,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 8; eats 2 record a day.","wovenBy":"ingrid"},{"id":"ingrid-band-9","kind":"band","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","period":13,"name":"thralls with spears of Ingridsdottir","strength":16,"raids":false,"cost":1896,"upkeep":4,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 16; eats 4 record a day.","wovenBy":"ingrid"},{"id":"ingrid-band-10","kind":"band","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","period":13,"name":"scouts of Ingridsdottir","strength":8,"raids":true,"cost":766,"upkeep":2,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 8; eats 2 record a day.","wovenBy":"ingrid"},{"id":"ingrid-band-11","kind":"band","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","period":13,"name":"wardens of the ford of Ingridsdottir","strength":6,"raids":false,"cost":550,"upkeep":1,"text":"Holds the ford on the clan's period; raids against you break on it. Strength 6; eats 1 record a day.","wovenBy":"ingrid"},{"id":"ingrid-band-12","kind":"band","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","period":13,"name":"wardens of the ford of Ingridsdottir","strength":6,"raids":true,"cost":570,"upkeep":1,"text":"Raids on the clan's period, taking a share of what the others have piled. Strength 6; eats 1 record a day.","wovenBy":"ingrid"},{"id":"ingrid-pile-1","kind":"pile","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","name":"jars in the cold store for record","holds":900,"cost":1080,"text":"Holds 900 record. What is not piled is not yours by morning.","wovenBy":"ingrid"},{"id":"ingrid-pile-2","kind":"pile","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","name":"a raft of barrels for record","holds":650,"cost":780,"text":"Holds 650 record. What is not piled is not yours by morning.","wovenBy":"ingrid"},{"id":"ingrid-pile-3","kind":"pile","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","name":"a longhouse loft for record","holds":50,"cost":60,"text":"Holds 50 record. What is not piled is not yours by morning.","wovenBy":"ingrid"},{"id":"ingrid-pile-4","kind":"pile","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","name":"jars in the cold store for record","holds":200,"cost":240,"text":"Holds 200 record. What is not piled is not yours by morning.","wovenBy":"ingrid"},{"id":"ingrid-pile-5","kind":"pile","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","name":"a stone chest for record","holds":650,"cost":780,"text":"Holds 650 record. What is not piled is not yours by morning.","wovenBy":"ingrid"},{"id":"ingrid-pile-6","kind":"pile","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","name":"a cairn for record","holds":700,"cost":840,"text":"Holds 700 record. What is not piled is not yours by morning.","wovenBy":"ingrid"},{"id":"ingrid-pile-7","kind":"pile","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","name":"a sealed cistern for record","holds":600,"cost":720,"text":"Holds 600 record. What is not piled is not yours by morning.","wovenBy":"ingrid"},{"id":"ingrid-pile-8","kind":"pile","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","name":"a stone chest for record","holds":50,"cost":60,"text":"Holds 50 record. What is not piled is not yours by morning.","wovenBy":"ingrid"},{"id":"ingrid-pile-9","kind":"pile","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","name":"a cairn for record","holds":350,"cost":420,"text":"Holds 350 record. What is not piled is not yours by morning.","wovenBy":"ingrid"},{"id":"ingrid-pile-10","kind":"pile","clan":"ingrid","clanName":"Ingridsdottir","resource":"record","name":"jars in the cold store for record","holds":450,"cost":540,"text":"Holds 450 record. What is not piled is not yours by morning.","wovenBy":"ingrid"},{"id":"turn-dawn","kind":"turn","name":"the long dawn","does":"works ×1.2","mul":1.2,"days":1,"text":"Venus turns once in four days; the long dawn is a day of it. works ×1.2.","wovenBy":"the planet"},{"id":"turn-noon","kind":"turn","name":"the two-day noon","does":"raids ×1.3","mul":1.3,"days":2,"text":"Venus turns once in four days; the two-day noon is a two days of it. raids ×1.3.","wovenBy":"the planet"},{"id":"turn-night","kind":"turn","name":"the two-day night","does":"works ×0.6, raids ×0.7","mul":0.6,"days":2,"text":"Venus turns once in four days; the two-day night is a two days of it. works ×0.6, raids ×0.7.","wovenBy":"the planet"}],"spells":[{"id":"bind","name":"Bind","glyph":"⛓","cost":4,"cooldown":10,"kind":"control","does":"Holds a turned summon in place. It cannot advance and it cannot be reasoned with, but it stops."},{"id":"bolt","name":"Bolt","glyph":"⟊","cost":2,"cooldown":2,"kind":"attack","does":"A single shot that ignores range and lands anywhere on the field, including the dead ground."},{"id":"gate","name":"Shut the gate","glyph":"◫","cost":6,"cooldown":14,"kind":"defence","does":"Swings both leaves of the egg gate closed. Nothing crosses while it holds."},{"id":"summon","name":"Summon","glyph":"☾","cost":5,"cooldown":8,"kind":"summon","does":"Binds a demon to a tower. It fights what comes and it fights well, because it is the same kind of thing."},{"id":"unmake","name":"Unmake","glyph":"✖","cost":9,"cooldown":20,"kind":"attack","does":"Removes one thing from the field completely, turned summons included. The only spell that undoes a summon."},{"id":"ward","name":"Ward","glyph":"◈","cost":3,"cooldown":6,"kind":"defence","does":"Raises the parapet on one tower for a time, cutting the dead ground beneath it to nothing."}],"seed":793,"total":1503}</script>
 <script>
-const CLANS = [{"id":"hrafn","order":1,"name":"Hrafnsson","house":"Cracking house","resource":"hydrogen","period":2,"base":3,"saga":"They crack hydrogen out of whatever will give it up, and there is very little on Venus that will. Four hundred million years to ship what a forest needs, so nobody ships it — the Hrafnssons exist because the constraint is real and somebody has to sit on it.","tiers":[{"n":1,"houses":1,"note":"One house, one still, and a queue.","yield":3},{"n":2,"houses":2,"note":"A second still, and the first one stops being the bottleneck.","yield":7},{"n":3,"houses":3,"note":"Waste heat from the second feeds the first. Nothing is added; something is stopped from being wasted.","yield":12},{"n":4,"houses":4,"note":"Four houses. The queue is now the storage and not the cracking.","yield":18},{"n":5,"houses":5,"note":"The bottleneck has moved off this clan entirely, which is the only real completion there is.","yield":25}]},{"id":"bjorn","order":2,"name":"Bjornsdottir","house":"Fixing bed","resource":"nitrogen","period":3,"base":5,"saga":"Venus holds about four and a third times Earth’s nitrogen and it is the one bulk element a sealed deck cannot manufacture. The Bjornsdottirs are the only clan whose input is genuinely free, and they are the ones who never boast about output.","tiers":[{"n":1,"houses":1,"note":"A bed, an inoculum, and a long wait.","yield":5},{"n":2,"houses":2,"note":"The second bed is seeded from the first, so it starts where the first finished.","yield":11},{"n":3,"houses":3,"note":"Three beds on rotation. None of them is ever idle and none is ever finished.","yield":19},{"n":4,"houses":4,"note":"The rotation is what produces, not the beds. Adding a bed adds a phase.","yield":29},{"n":5,"houses":5,"note":"Five phases, and the output stops looking like a batch.","yield":41}]},{"id":"ulf","order":3,"name":"Ulfsson","house":"Kiln","resource":"silicate","period":5,"base":4,"saga":"Lifting half a metre of basalt over a site costs three days of the site’s own sunlight. That is the whole substrate argument and it is why the Ulfssons are never the bottleneck and never the story: the material is under everybody’s feet and the energy is overhead.","tiers":[{"n":1,"houses":1,"note":"One kiln, fired on daylight.","yield":4},{"n":2,"houses":2,"note":"A second kiln banked against the night, which is fifty-eight days long.","yield":9},{"n":3,"houses":3,"note":"Banking is the technology. The kilns are just kilns.","yield":15},{"n":4,"houses":4,"note":"Four, and the bank outlasts the night with margin.","yield":22},{"n":5,"houses":5,"note":"The margin is now the product. Nothing here is ever short.","yield":30}]},{"id":"sigrid","order":4,"name":"Sigrdrifa","house":"Bed","resource":"biomass","period":7,"base":2,"saga":"Only the living fraction has to arrive, and the living fraction is measured in kilograms. The Sigrdrifas are the smallest clan by output and the one the other five are for. Nothing they do will be legible for twenty years.","tiers":[{"n":1,"houses":1,"note":"A bed. Most of what is in it will not take.","yield":2},{"n":2,"houses":2,"note":"Something took. Nobody knows yet which thing.","yield":4},{"n":3,"houses":3,"note":"The network under the bed is doing more than the bed is.","yield":7},{"n":4,"houses":4,"note":"Four beds, and the third one was seeded from the second’s failure.","yield":11},{"n":5,"houses":5,"note":"It is a soil now. That word was not earned until this tier.","yield":16}]},{"id":"thorvald","order":5,"name":"Thorvaldsson","house":"Relay mast","resource":"signal","period":11,"base":6,"saga":"Four point nine four minutes each way at arrival, so a question and its answer is under ten. The Thorvaldssons hold the masts and are the reason a core of nine can carry its own signaller rather than borrow one — a borrowed signaller is a choke point inside the core before it leaves the ground.","tiers":[{"n":1,"houses":1,"note":"One mast. Everything routes through it, which is the problem.","yield":6},{"n":2,"houses":2,"note":"Two masts, and now nothing routes through either one alone.","yield":13},{"n":3,"houses":3,"note":"Three. The graph stops having a cut vertex in it.","yield":21},{"n":4,"houses":4,"note":"Four, and a mast can be down without anybody noticing in time to worry.","yield":30},{"n":5,"houses":5,"note":"Redundancy is not a spare. It is the absence of a single answer to who carries the message.","yield":40}]},{"id":"ingrid","order":6,"name":"Ingridsdottir","house":"Scriptorium","resource":"record","period":13,"base":1,"saga":"They keep the register of what was looked for and not found. It is the smallest output on the board and the least negotiable line on the manifest, because a base that only counts hits quietly stops reporting misses, and the misses are most of the work.","tiers":[{"n":1,"houses":1,"note":"One scribe. One book. Mostly blank, on purpose.","yield":1},{"n":2,"houses":2,"note":"A second book, for the things the first one refused.","yield":2},{"n":3,"houses":3,"note":"Somebody reads back three years and does not repeat a search.","yield":4},{"n":4,"houses":4,"note":"The register is now cheaper than the searching it prevents.","yield":6},{"n":5,"houses":5,"note":"Nine books. Nobody has ever thanked them and the ledger is still the reason.","yield":9}]}];
-const NEED = {"hydrogen":38,"nitrogen":6,"silicate":24,"biomass":18,"signal":9,"record":5};
-const LATTICE = 30030;
-
-/* ══ the board ═════════════════════════════════════════════════════════
-   It runs with nothing pressed. Every clan ticks on its own prime cadence,
-   the stock accrues, and closing the page does not stop it — the elapsed
-   time is credited in full when you come back. Pressing never raises output.
-   It only chooses which clan gets the next house, and every choice is +1. */
-
-const KEY = 'venus.clans.v1';
-const $ = (s) => document.querySelector(s);
-const TICK_MS = 900;
-const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
-
-function fresh() {
-  const s = { t: 0, stock: {}, tier: {}, bestFit: 0, saga: [], seen: Date.now() };
-  CLANS.forEach((c) => { s.stock[c.resource] = 0; s.tier[c.id] = 1; });
-  return s;
-}
-function load() {
-  try {
-    const g = JSON.parse(localStorage.getItem(KEY) || 'null');
-    if (g && g.stock && g.tier) return g;
-  } catch (e) { /* private window, cleared data */ }
-  return null;
-}
-let G = load() || fresh();
-CLANS.forEach((c) => {
-  if (G.stock[c.resource] === undefined) G.stock[c.resource] = 0;
-  if (!G.tier[c.id]) G.tier[c.id] = 1;
-});
-function save() { try { localStorage.setItem(KEY, JSON.stringify(G)); } catch (e) {} }
-
-const tierOf = (c) => c.tiers[Math.min(G.tier[c.id], c.tiers.length) - 1];
-const nextTier = (c) => c.tiers[G.tier[c.id]];       /* undefined at the top */
-
-/* the cost of the next house. It rises, so the board slows down — but the
-   stock never falls, so there is no state you can be sent back to. */
-const costOf = (c) => {
-  const n = nextTier(c);
-  if (!n) return null;
-  return Math.round(n.yield * n.houses * 14);
-};
-
-/* how much a clan puts out per tick, averaged over its own cadence */
-const rateOf = (c) => tierOf(c).yield / c.period;
-const totalRate = () => CLANS.reduce((a, c) => a + rateOf(c), 0);
-const houses = () => CLANS.reduce((a, c) => a + tierOf(c).houses, 0);
-
-/* ── one tick. A clan produces only on ticks its own period divides, which
-   is why the six of them never fall into step. ─────────────────────────── */
-function tick(n) {
-  for (let i = 0; i < n; i++) {
-    G.t++;
-    for (const c of CLANS)
-      if (G.t % c.period === 0) G.stock[c.resource] += tierOf(c).yield;
-  }
-}
-
-/* ── the composition. Reported, never scored. ──────────────────────────── */
-function fit() {
-  const tot = Object.values(G.stock).reduce((a, b) => a + b, 0);
-  if (!tot) return 0;
-  const wantTot = Object.values(NEED).reduce((a, b) => a + b, 0);
-  /* one minus half the total absolute difference between the two
-     distributions: 100 per cent when they match exactly, 0 when disjoint */
-  let diff = 0;
-  for (const k of Object.keys(NEED))
-    diff += Math.abs((G.stock[k] || 0) / tot - NEED[k] / wantTot);
-  return Math.max(0, Math.round((1 - diff / 2) * 100));
-}
-
-function log(text, kind) {
-  G.saga.unshift({ t: G.t, text, kind });
-  G.saga = G.saga.slice(0, 60);
-}
-
-/* ── drawing ───────────────────────────────────────────────────────────── */
-const num = (n) => n >= 1e6 ? (n / 1e6).toFixed(2) + 'M'
-  : n >= 1e4 ? Math.round(n / 1e3) + 'k' : Math.round(n).toLocaleString();
-
-function drawStock() {
-  $('#stock').innerHTML = CLANS.map((c) =>
-    '<div class="' + c.resource + '"><u>' + num(G.stock[c.resource]) + '</u><b>' +
-    c.resource + '</b></div>').join('');
-}
-
-function drawHalls() {
-  $('#halls').innerHTML = CLANS.map((c) => {
-    const t = tierOf(c), nx = nextTier(c), cost = costOf(c);
-    const can = nx && G.stock[c.resource] >= cost;
-    const roof = Array.from({ length: t.houses }, (_, i) =>
-      '<div class="house' + (G.t % c.period === 0 ? ' lit' : '') + '"></div>').join('');
-    return '<article class="clan" data-c="' + c.id + '">' +
-      '<div class="who"><h3>' + esc(c.name) + '</h3><p>' + esc(c.house) + '</p>' +
-        '<em>every <i>' + c.period + '</i> ticks &middot; tier ' + G.tier[c.id] +
-        ' of ' + c.tiers.length + '</em></div>' +
-      '<div class="yard">' +
-        '<div class="roof">' + roof + '</div>' +
-        '<div class="rate"><b>' + t.yield + '</b> ' + esc(c.resource) +
-          ' each firing <div class="track"><i style="width:' +
-          Math.round((G.t % c.period) / c.period * 100) + '%"></i></div>' +
-          num(rateOf(c) * 100 / 100) + '/tick</div>' +
-        '<p class="note">' + esc(t.note) + '</p>' +
-      '</div>' +
-      '<div class="act">' +
-        (nx
-          ? '<button ' + (can ? '' : 'disabled ') + 'data-raise="' + c.id + '">' +
-            'raise the roof</button><s>' + num(cost) + ' ' + esc(c.resource) +
-            '<br>&rarr; <b>' + nx.yield + '</b> a firing</s>'
-          : '<s>every house built.<br>the bottleneck has<br>moved off this clan</s>') +
-      '</div></article>';
-  }).join('');
-
-  document.querySelectorAll('[data-raise]').forEach((b) => {
-    b.onclick = () => raise(b.dataset.raise);
+function weave(clans, seed) {
+  const h32 = (a, b, c) => { let x = (Math.imul(a, 73856093) ^ Math.imul(b, 19349663) ^ Math.imul(c, 83492791)) | 0; x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return x >>> 0; };
+  const pick = (arr, k) => arr[k % arr.length]; const out = [];
+  const BANDS = ['shieldwall', 'skirmishers', 'longship crew', 'berserks', 'bowmen', 'scouts', 'housecarls', 'thralls with spears', 'the jarl\'s own', 'sworn men', 'wardens of the ford', 'night raiders'];
+  const PILES = ['a pit', 'jars in the cold store', 'a cairn', 'a sealed cistern', 'a longhouse loft', 'a stone chest', 'a buried hoard', 'a tally on the mast', 'a raft of barrels', 'the temple store'];
+  clans.forEach((c, ci) => {
+    c.tiers.forEach((t, ti) => out.push({ id: c.id + '-work-' + t.n, kind: 'work', clan: c.id, clanName: c.name, house: c.house, resource: c.resource, period: c.period, tier: t.n, yield: t.yield, cost: Math.round(t.yield * 120 * (1 + ti)), name: c.house + ' ' + t.n + ' of ' + c.name, text: t.note + ' Yields ' + t.yield + ' ' + c.resource + ' every ' + c.period + ' days.', wovenBy: c.id }));
+    for (let i = 0; i < 12; i++) { const h = h32(seed, ci * 100 + i, 1), r = h % 1000 / 1000; const raids = i % 2 === 1;
+      out.push({ id: c.id + '-band-' + (i + 1), kind: 'band', clan: c.id, clanName: c.name, resource: c.resource, period: c.period, name: pick(BANDS, h) + ' of ' + c.name, strength: 3 + Math.round(r * 12) + ti(i), raids, cost: 400 + Math.round(r * 1600), upkeep: 1 + Math.round(r * 3), text: (raids ? 'Raids on the clan\'s period, taking a share of what the others have piled. ' : 'Holds the ford on the clan\'s period; raids against you break on it. ') + 'Strength ' + (3 + Math.round(r * 12) + ti(i)) + '; eats ' + (1 + Math.round(r * 3)) + ' ' + c.resource + ' a day.', wovenBy: c.id }); }
+    for (let i = 0; i < 10; i++) { const h = h32(seed, ci * 100 + 50 + i, 2), r = h % 1000 / 1000;
+      out.push({ id: c.id + '-pile-' + (i + 1), kind: 'pile', clan: c.id, clanName: c.name, resource: c.resource, name: pick(PILES, h) + ' for ' + c.resource, holds: 50 * (1 + Math.round(r * 19)), cost: 60 * (1 + Math.round(r * 19)), text: 'Holds ' + (50 * (1 + Math.round(r * 19))) + ' ' + c.resource + '. What is not piled is not yours by morning.', wovenBy: c.id }); }
   });
+  [['dawn', 'the long dawn', 'works ×1.2', 1.2], ['noon', 'the two-day noon', 'raids ×1.3', 1.3], ['night', 'the two-day night', 'works ×0.6, raids ×0.7', 0.6]].forEach(([id, name, does, mul], i) => out.push({ id: 'turn-' + id, kind: 'turn', name, does, mul, days: i === 0 ? 1 : 2, text: 'Venus turns once in four days; ' + name + ' is a ' + (i === 0 ? 'day' : 'two days') + ' of it. ' + does + '.', wovenBy: 'the planet' }));
+  function ti(i) { return Math.floor(i / 4); }
+  return out;
 }
+/* clans.page.js — the script for clans.html. Inlined by clans.mjs after the weave function; not loaded on its own. */
+(function () {
+  const D = JSON.parse(document.getElementById('def-json').textContent); let A = D.assets;
+  const $ = s => document.querySelector(s), el = (t, a = {}, ...k) => { const e = document.createElement(t); for (const [n, v] of Object.entries(a)) { if (v == null) continue; n === 'html' ? e.innerHTML = v : n.startsWith('on') ? e[n] = v : e.setAttribute(n, v); } k.forEach(x => e.append(x)); return e; };
+  const fmt = n => Math.round(n).toLocaleString('en-US');
+  const CAP = 21000000, DKEY = 'descent.v1', KEY = 'clans.v1';
+  const read = (k, d) => { try { return Object.assign(d, JSON.parse(localStorage.getItem(k) || 'null') || {}); } catch (e) { return d; } };
+  let Dk = read(DKEY, { heze: 0, issued: 0, ledger: [] });
+  const saveD = () => { Dk.saved = Date.now(); localStorage.setItem(DKEY, JSON.stringify(Dk)); };
+  const credit = (amt, line) => { const a = Math.min(amt, Math.max(0, CAP - Dk.issued)); if (a <= 0) return 0; Dk.heze += a; Dk.issued += a; Dk.ledger.unshift({ t: Date.now(), line: 'Clans: ' + line, amt: a }); Dk.ledger.length = Math.min(Dk.ledger.length, 300); return a; };
+  const debit = (amt, line) => { if (Dk.heze < amt) return false; Dk.heze -= amt; Dk.ledger.unshift({ t: Date.now(), line: 'Clans: ' + line, amt: -amt }); return true; };
+  const fresh = () => ({ day: 0, held: [], piles: Object.fromEntries(D.clans.map(c => [c.resource, 0])), mana: 20, cool: {}, raidsBroken: 0, raidsTaken: 0, sold: 0, seed: D.seed, grant: false, log: [], saved: Date.now() });
+  let S = read(KEY, fresh());
+  const note = m => { S.log.unshift({ t: Math.floor(S.day), m }); S.log.length = Math.min(S.log.length, 60); };
+  const save = () => { S.saved = Date.now(); localStorage.setItem(KEY, JSON.stringify(S)); saveD(); };
+  if (!S.grant) { S.grant = true; credit(20000, 'the jarl\'s first hoard, against the cap'); note('Six clans, six periods, none of them sharing a factor. The jarl has 20,000 HEZE and no assets. Nothing here can be maximised; it can only be composed.'); }
+  const asset = id => A.find(a => a.id === id); const held = kind => S.held.map(asset).filter(a => a && a.kind === kind);
+  const cap = res => 100 + held('pile').filter(p => p.resource === res).reduce((a, p) => a + p.holds, 0);
+  const turn = () => { const d = Math.floor(S.day) % 4; return d === 0 ? A.find(a => a.id === 'turn-dawn') : d === 1 ? A.find(a => a.id === 'turn-noon') : A.find(a => a.id === 'turn-night'); };
+  const price = res => ({ nitrogen: 3, hydrogen: 9, record: 12, biomass: 2, signal: 6, silicate: 4 })[res] || 3;
 
-function drawMix() {
-  const tot = Object.values(G.stock).reduce((a, b) => a + b, 0) || 1;
-  const wantTot = Object.values(NEED).reduce((a, b) => a + b, 0);
-  $('#mix').innerHTML = CLANS.map((c) => {
-    const have = (G.stock[c.resource] || 0) / tot * 100;
-    const want = NEED[c.resource] / wantTot * 100;
-    return '<div class="row"><span>' + esc(c.resource) + '</span>' +
-      '<div class="bars"><div class="have" style="width:' + have.toFixed(1) + '%"></div>' +
-      '<div class="want" style="left:' + want.toFixed(1) + '%"></div></div>' +
-      '<u>' + have.toFixed(0) + '%</u></div>';
-  }).join('');
-  const now = fit();
-  if (now > G.bestFit) G.bestFit = now;
-  $('#b-fit').textContent = G.bestFit + '%';
-  $('#b-now').textContent = now + '%';
-}
+  function step(dt, quiet) { const d0 = Math.floor(S.day); S.day += dt; const d1 = Math.floor(S.day); if (d1 === d0) return; const T = turn(); const raidMul = T.id === 'turn-noon' ? 1.3 : T.id === 'turn-night' ? 0.7 : 1;
+    S.mana = Math.min(20, S.mana + 1); for (const k in S.cool) S.cool[k] = Math.max(0, S.cool[k] - 1);
+    for (const c of D.clans) { if (d1 % c.period !== 0) continue;
+      /* the clan's works fire on its period; the turn of the planet scales them */
+      const got = held('work').filter(w => w.clan === c.id).reduce((a, w) => a + w.yield, 0) * (T.id === 'turn-dawn' ? 1.2 : T.id === 'turn-night' ? 0.6 : 1); if (got) { const room = cap(c.resource) - S.piles[c.resource]; const kept = Math.min(got, Math.max(0, room)); S.piles[c.resource] += kept; if (!quiet && got > kept) note(`${c.name}'s works made ${fmt(got)} ${c.resource}; ${fmt(got - kept)} had nowhere to go.`); }
+      /* the clan raids on its period unless a ford is held against it; your own raiders take from the others */
+      const raiders = 4 + Math.floor(d1 / 50) * 2, wall = held('band').filter(b => !b.raids).reduce((a, b) => a + b.strength, 0) * raidMul;
+      if (!held('work').some(w => w.clan === c.id) || true) { if (wall >= raiders * raidMul) { S.raidsBroken++; if (!quiet && d1 % 20 === 0) note(`${c.name} came at the ford and broke on it.`); }
+        else { const res = D.clans[(D.clans.indexOf(c) + 1) % D.clans.length].resource; const take = Math.min(S.piles[res], Math.round(S.piles[res] * 0.15 * raidMul)); if (take > 0) { S.piles[res] -= take; S.raidsTaken++; if (!quiet) note(`${c.name} raided on day ${d1} and took ${fmt(take)} ${res}. A band at the ford would have held.`); } } }
+      const mine = held('band').filter(b => b.raids && b.clan === c.id).reduce((a, b) => a + b.strength, 0); if (mine) { const spoil = Math.round(mine * 2 * raidMul); credit(spoil * 2, `${c.name}'s raiders, spoil`); if (!quiet && d1 % 10 === 0) note(`${c.name}'s raiders came back with spoil worth ${fmt(spoil * 2)} HEZE.`); } }
+    for (const b of held('band')) { S.piles[b.resource] = Math.max(0, S.piles[b.resource] - b.upkeep); }
+    /* bronze: silicate and hydrogen together, once a day, sold to the docket */
+    const bronze = Math.min(S.piles.silicate || 0, (S.piles.hydrogen || 0) * 3, 20); if (bronze > 0) { S.piles.silicate -= bronze; S.piles.hydrogen -= bronze / 3; credit(bronze * 8, 'bronze cast and sold'); S.sold += bronze * 8; } }
+  const away = Math.min((Date.now() - S.saved) / 1000, 8 * 3600); if (away > 5) { let left = away; while (left > 0) { const d = Math.min(1, left); step(d, true); left -= d; } note(`Away ${Math.round(away / 60)} min: every period fired, every raid came. Credited in full, and taken in full.`); }
 
-function drawSaga() {
-  $('#saga').innerHTML = G.saga.map((s) =>
-    '<div><i>' + s.t + '</i>  ' + esc(s.text) + '</div>').join('') ||
-    '<div>Nothing has happened yet. It will anyway.</div>';
-}
-
-function drawFoot() {
-  $('#t-tick').textContent = G.t.toLocaleString();
-  $('#t-house').textContent = houses();
-  $('#t-rate').textContent = totalRate().toFixed(2);
-}
-
-function drawAll() { drawStock(); drawHalls(); drawMix(); drawSaga(); drawFoot(); }
-
-/* ── raising a roof. The only thing a press does, and it is always +1. ─── */
-function raise(id) {
-  const c = CLANS.find((x) => x.id === id);
-  const nx = nextTier(c), cost = costOf(c);
-  if (!nx || G.stock[c.resource] < cost) return;
-  G.stock[c.resource] -= cost;
-  G.tier[c.id]++;
-  const t = tierOf(c);
-  log(c.name + ' raise a ' + c.house.toLowerCase() + '. ' + t.note);
-  save(); drawAll();
-}
-
-/* ── idle. This is the part that matters. ──────────────────────────────
-   The board does not need you. On load it works out how long the page was
-   shut and credits every tick of it — no cap, no penalty, no bonus for
-   having been here. Being present is not rewarded, because rewarding
-   presence is how an idle game turns into a job. */
-(function creditTheAbsence() {
-  const gap = Date.now() - (G.seen || Date.now());
-  const missed = Math.floor(gap / TICK_MS);
-  if (missed > 1) {
-    const before = Object.values(G.stock).reduce((a, b) => a + b, 0);
-    tick(missed);
-    const after = Object.values(G.stock).reduce((a, b) => a + b, 0);
-    const mins = Math.round(gap / 60000);
-    log('The halls worked ' + missed.toLocaleString() + ' firings while nobody ' +
-        'watched' + (mins > 1 ? ' — about ' + mins.toLocaleString() + ' minutes' : '') +
-        ', and brought in ' + Math.round(after - before).toLocaleString() + '.');
-  }
-  G.seen = Date.now();
+  const stats = [['heze', 'HEZE'], ['turn', 'the planet'], ['assets', 'the portfolio'], ['raids', 'raids'], ['bronze', 'bronze sold'], ['mana', 'the reserve']];
+  $('#stats').append(...stats.map(([id, label]) => el('div', { class: 'stat', id: 'st-' + id }, el('b', {}, label), el('span'), el('i'))));
+  const setStat = (id, v, i) => { const s = $('#st-' + id); s.children[1].textContent = v; s.children[2].textContent = i || ''; };
+  function buildClans() { const box = $('#clans'); box.innerHTML = ''; for (const c of D.clans) { const sec = el('div', { class: 'clan' }, el('h3', {}, `${c.name} · ${c.house}`, el('small', {}, `${c.resource} every ${c.period} days · next on day ${Math.ceil((Math.floor(S.day) + 1) / c.period) * c.period}`)), el('p', {}, c.saga.slice(0, 160) + (c.saga.length > 160 ? '…' : '')));
+      for (const a of A.filter(x => x.clan === c.id)) { const got = S.held.includes(a.id); sec.append(el('div', { class: 'asset' + (got ? ' held' : '') }, el('b', {}, `${a.kind === 'work' ? '⌂' : a.kind === 'band' ? (a.raids ? '⚔' : '⛨') : '▤'} ${a.name}`), el('span', { class: 'n' }, got ? 'held' : `${fmt(a.cost)} HEZE`), el('p', {}, a.text), got ? '' : el('button', { disabled: Dk.heze < a.cost ? 'true' : null, onclick: () => { if (debit(a.cost, a.name)) { S.held.push(a.id); note(`Took ${a.name}.`); save(); render(); } } }, 'Take'))); }
+      box.append(sec); } }
+  function buildSpells() { const box = $('#spells'); box.innerHTML = ''; for (const sp of D.spells) { const cd = S.cool[sp.id] || 0; box.append(el('div', { class: 'spell' }, el('button', { disabled: (cd > 0 || S.mana < sp.cost) ? 'true' : null, onclick: () => cast(sp), title: sp.does }, el('b', {}, sp.glyph), ` ${sp.name}`), el('small', {}, cd > 0 ? `${cd}d` : `${sp.cost} · ${sp.cooldown}d`))); } }
+  function cast(sp) { if (S.mana < sp.cost || (S.cool[sp.id] || 0) > 0) return; S.mana -= sp.cost; S.cool[sp.id] = sp.cooldown;
+    if (sp.id === 'ward' || sp.id === 'gate') { S.cool.ford = sp.cooldown; note(`${sp.name}: the ford is held by sorcery for ${sp.cooldown} days.`); } else if (sp.id === 'bolt' || sp.id === 'unmake') { const c = D.clans[Math.floor(S.day) % D.clans.length]; credit(400, `${sp.name} on ${c.name}'s raiders`); note(`${sp.name}: ${c.name}'s raiders scattered; their spoil is yours.`); } else if (sp.id === 'summon') { for (const r in S.piles) S.piles[r] = Math.min(cap(r), S.piles[r] + 10); note('Summon: a bound thing fills every pile a little.'); } else if (sp.id === 'bind') { S.cool.ford = 10; note('Bind: the next raid stands still at the ford.'); }
+    save(); render(); }
+  function render() { const T = turn(); setStat('heze', fmt(Dk.heze), 'the shared docket'); setStat('turn', T.name, T.does); setStat('assets', S.held.length, `${held('work').length} works · ${held('band').length} bands · ${held('pile').length} piles`); setStat('raids', `${S.raidsBroken} / ${S.raidsTaken}`, 'broken at the ford / taken'); setStat('bronze', fmt(S.sold), 'silicate and hydrogen, cast'); setStat('mana', `${S.mana} / 20`, 'one a day');
+    $('#piles').innerHTML = D.clans.map(c => `<div class="pile"><b>${c.resource}</b><span>${fmt(S.piles[c.resource] || 0)}</span> <small style="color:var(--dim)">/ ${fmt(cap(c.resource))}</small><div class="bar"><div style="width:${Math.min(100, 100 * (S.piles[c.resource] || 0) / cap(c.resource))}%"></div></div></div>`).join('');
+    buildClans(); buildSpells(); $('#log').innerHTML = S.log.map(l => `<div><b>d${l.t}</b>${l.m}</div>`).join(''); $('#clock').textContent = `day ${Math.floor(S.day)} · seed ${S.seed}`; $('#woven').textContent = `${A.length} templates woven`; }
+  $('#wipe').onclick = () => { if (confirm('Start the war again? Assets and piles go; the docket stays.')) { S = fresh(); S.grant = true; save(); render(); } };
+  $('#reweave').onclick = () => { const seed = +$('#seed').value || 793; A = weave(D.clans.map(c => ({ ...c, tiers: D.assets.filter(a => a.kind === 'work' && a.clan === c.id).map(w => ({ n: w.tier, yield: w.yield, note: w.text.split(' Yields')[0] })) })), seed); S.seed = seed; S.held = S.held.filter(id => A.some(a => a.id === id)); note(`Re-woven with seed ${seed}: ${A.length} templates, in this page.`); save(); render(); };
+  $('#download').onclick = () => { const bundle = { seed: S.seed, wovenBy: 'clans.html', count: A.length, files: Object.fromEntries(A.map(a => ['templates-asset/' + a.id + '.json', a])) }; const a = el('a', { href: URL.createObjectURL(new Blob([JSON.stringify(bundle, null, 1)], { type: 'application/json' })), download: `templates-asset-seed-${S.seed}.json` }); document.body.append(a); a.click(); a.remove(); };
+  const cv = $('#scene'), g = cv.getContext('2d');
+  function draw(t) { const W = cv.width = cv.clientWidth, H = cv.height; const T = turn(); const sky = g.createLinearGradient(0, 0, 0, H); sky.addColorStop(0, T.id === 'turn-night' ? '#0a0806' : '#3a1a10'); sky.addColorStop(1, T.id === 'turn-night' ? '#2a1a12' : '#c86a2a'); g.fillStyle = sky; g.fillRect(0, 0, W, H);
+    g.fillStyle = 'rgba(240,200,150,.12)'; for (let i = 0; i < 5; i++) { g.beginPath(); g.ellipse((i * 233 + t / 30) % (W + 200) - 100, 40 + i * 14, 160, 10, 0, 0, 7); g.fill(); }
+    g.fillStyle = '#3a2a1a'; g.beginPath(); g.moveTo(0, H); g.lineTo(0, H * .6); for (let x = 0; x <= W; x += 24) g.lineTo(x, H * .6 + Math.sin(x / 70) * 10 + Math.sin(x / 23) * 3); g.lineTo(W, H); g.fill();
+    D.clans.forEach((c, i) => { const x = 60 + i * ((W - 120) / 5), works = held('work').filter(w => w.clan === c.id).length, bands = held('band').filter(b => b.clan === c.id).length, firing = Math.floor(S.day) % c.period === 0;
+      g.fillStyle = firing ? '#f2c98a' : '#6b5a3a'; g.fillRect(x - 3, H * .6 - 60, 6, 60); for (let k = 0; k < Math.min(6, works); k++) { g.fillStyle = '#8a6a3a'; g.fillRect(x - 30 + k * 10, H * .62 + k % 2 * 8, 8, 10); } for (let k = 0; k < Math.min(6, bands); k++) { g.fillStyle = '#c9583a'; g.beginPath(); g.arc(x - 25 + k * 10, H * .78, 4, 0, 7); g.fill(); }
+      g.fillStyle = 'rgba(239,233,220,.8)'; g.font = '11px system-ui'; g.textAlign = 'center'; g.fillText(`${c.name} · ${c.period}`, x, H * .6 - 66); });
+    g.fillStyle = 'rgba(239,233,220,.8)'; g.font = '11px system-ui'; g.textAlign = 'left'; g.fillText(`${T.name} · day ${Math.floor(S.day)} · ${S.held.length} assets`, 10, 16); requestAnimationFrame(draw); }
+  render(); requestAnimationFrame(draw); setInterval(() => { step(1); render(); }, 1000); setInterval(save, 5000); addEventListener('beforeunload', save);
 })();
 
-if (!G.saga.length)
-  log('Six halls, six cadences, none of them the same. They have started.');
-
-drawAll();
-
-/* the clock. Nothing here waits to be pressed. */
-setInterval(() => {
-  tick(1);
-  G.seen = Date.now();
-  if (G.t % 20 === 0) save();
-  drawStock(); drawMix(); drawFoot();
-  /* only redraw the halls on a firing, so the lit doors mean something */
-  if (CLANS.some((c) => G.t % c.period === 0)) drawHalls();
-  if (G.t % LATTICE === 0)
-    log('All six cadences have come back into line. That is ' +
-        LATTICE.toLocaleString() + ' firings and it will not happen again soon.');
-}, TICK_MS);
-
-addEventListener('beforeunload', () => { G.seen = Date.now(); save(); });
 </script>
-</body>
-</html>

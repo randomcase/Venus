@@ -1,0 +1,12 @@
+{
+ "id": "hrafn-pile-4",
+ "kind": "pile",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "name": "the temple store for hydrogen",
+ "holds": 100,
+ "cost": 120,
+ "text": "Holds 100 hydrogen. What is not piled is not yours by morning.",
+ "wovenBy": "hrafn"
+}

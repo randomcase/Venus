@@ -1,0 +1,15 @@
+{
+ "id": "ulf-band-2",
+ "kind": "band",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "name": "thralls with spears of Ulfsson",
+ "strength": 15,
+ "raids": true,
+ "cost": 1954,
+ "upkeep": 4,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 15; eats 4 silicate a day.",
+ "wovenBy": "ulf"
+}

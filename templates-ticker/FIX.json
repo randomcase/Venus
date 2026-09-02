@@ -1,0 +1,15 @@
+{
+ "id": "FIX",
+ "kind": "farm",
+ "farm": "FIX",
+ "farmName": "Fixing bed of Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "degree": 0,
+ "path": "",
+ "weight": 1,
+ "price": 600,
+ "volatility": 0.04,
+ "text": "Fixing bed of Bjornsdottir, the whole farm: nitrogen every 3 days.",
+ "wovenBy": "bjorn"
+}

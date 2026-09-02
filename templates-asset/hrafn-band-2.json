@@ -1,0 +1,15 @@
+{
+ "id": "hrafn-band-2",
+ "kind": "band",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "name": "shieldwall of Hrafnsson",
+ "strength": 6,
+ "raids": true,
+ "cost": 778,
+ "upkeep": 2,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 6; eats 2 hydrogen a day.",
+ "wovenBy": "hrafn"
+}

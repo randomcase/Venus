@@ -1,0 +1,15 @@
+{
+ "id": "ingrid-band-12",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "wardens of the ford of Ingridsdottir",
+ "strength": 6,
+ "raids": true,
+ "cost": 570,
+ "upkeep": 1,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 6; eats 1 record a day.",
+ "wovenBy": "ingrid"
+}

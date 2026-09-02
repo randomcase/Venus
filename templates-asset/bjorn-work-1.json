@@ -1,0 +1,15 @@
+{
+ "id": "bjorn-work-1",
+ "kind": "work",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "house": "Fixing bed",
+ "resource": "nitrogen",
+ "period": 3,
+ "tier": 1,
+ "yield": 5,
+ "cost": 600,
+ "name": "Fixing bed 1 of Bjornsdottir",
+ "text": "A bed, an inoculum, and a long wait. Yields 5 nitrogen every 3 days.",
+ "wovenBy": "bjorn"
+}

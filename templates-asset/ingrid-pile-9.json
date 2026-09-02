@@ -1,0 +1,12 @@
+{
+ "id": "ingrid-pile-9",
+ "kind": "pile",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "name": "a cairn for record",
+ "holds": 350,
+ "cost": 420,
+ "text": "Holds 350 record. What is not piled is not yours by morning.",
+ "wovenBy": "ingrid"
+}

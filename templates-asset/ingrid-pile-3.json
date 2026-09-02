@@ -1,0 +1,12 @@
+{
+ "id": "ingrid-pile-3",
+ "kind": "pile",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "name": "a longhouse loft for record",
+ "holds": 50,
+ "cost": 60,
+ "text": "Holds 50 record. What is not piled is not yours by morning.",
+ "wovenBy": "ingrid"
+}

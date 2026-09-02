@@ -1,0 +1,12 @@
+{
+ "id": "thorvald-pile-6",
+ "kind": "pile",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "name": "jars in the cold store for signal",
+ "holds": 100,
+ "cost": 120,
+ "text": "Holds 100 signal. What is not piled is not yours by morning.",
+ "wovenBy": "thorvald"
+}

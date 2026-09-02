@@ -1,0 +1,15 @@
+{
+ "id": "ingrid-work-5",
+ "kind": "work",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "house": "Scriptorium",
+ "resource": "record",
+ "period": 13,
+ "tier": 5,
+ "yield": 9,
+ "cost": 5400,
+ "name": "Scriptorium 5 of Ingridsdottir",
+ "text": "Nine books. Nobody has ever thanked them and the ledger is still the reason. Yields 9 record every 13 days.",
+ "wovenBy": "ingrid"
+}

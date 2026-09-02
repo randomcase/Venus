@@ -1,0 +1,15 @@
+{
+ "id": "hrafn-band-11",
+ "kind": "band",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "name": "bowmen of Hrafnsson",
+ "strength": 16,
+ "raids": false,
+ "cost": 1834,
+ "upkeep": 4,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 16; eats 4 hydrogen a day.",
+ "wovenBy": "hrafn"
+}

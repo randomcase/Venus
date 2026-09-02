@@ -1,513 +1,103 @@
 #!/usr/bin/env node
-/* ═══════════════════════════════════════════════════════════════════════════
-   clans.mjs — builds clans.html: the war of clans, which is not a war.
+/* clans.mjs — the base layer: a Viking war of clans on Venus, as a portfolio.
 
-   IT RUNS WITH NOTHING PRESSED. Open it and the six longhouses tick on their
-   own; close it and they keep accruing; come back and the elapsed time is
-   credited in full. Pressing does not raise output — it never can — it only
-   changes which clan the next house is built for. You cannot optimise the
-   total. You can only choose the composition, and every choice is +1.
+   Not one farm that pays a single enormous number. A jarl holds individual
+   assets, each a template, each yielding its clan's resource on its clan's
+   own period, and the six periods are coprime (2, 3, 5, 7, 11, 13) so no
+   two ever fire together, which is what the idle board lesson is about. The
+   assets are woven from the six clans in templates-clan/ (Venus houses:
+   fixing bed, cracking house, scriptorium, bed, relay mast, kiln) into
+   templates-asset/: works that yield, stockpiles that hold, bands that raid
+   or hold the ford, and three turns of the Venusian day. Bronze age, sword
+   and sorcery: the warlock's spells are the sorcery and bronze is what the
+   kiln's silicate and the cracking house's hydrogen make together.
 
-   That is the whole design and it is deliberate. A game whose output you can
-   maximise is a game that can be played wrong, and a game that can be played
-   wrong has somebody in it who is behind. Nobody here is behind.
-
-   ── the war part ────────────────────────────────────────────────────────
-   The clans do not fight each other. They raid the same problem, which is the
-   deck, and this file REFUSES a clan file that encodes a loss of any kind:
-
-     · any field naming casualties, defeat, destruction or ruin
-     · any field ranking one clan against another
-     · a tier whose houses or yield falls below the tier before it — the +1
-       law as a table a machine can check, the same rule builds.mjs enforces
-     · a period that is not prime, or that another clan already took
-
-   The prime periods are not decoration. Six coprime cadences make the board
-   walk its whole lattice rather than its diagonal: the pattern of which
-   longhouses fire together does not repeat until the product of the six,
-   which this file computes rather than my asserting it.
-
-   ── what is monotone, and what is only reported ─────────────────────────
-   Stock, houses, tiers and the best composition ever reached only ever rise.
-   Current composition is reported and is allowed to move in both directions,
-   because it is a fact about right now and not a score. The distinction is
-   the honest one: a number that can fall is a grade, and there are no grades
-   here.
-
+   The weave is one function, `weave(clans, seed)`, and the same function is
+   inlined into clans.html, so the game can re-weave its own templates from
+   inside the game and hand them back as files. That is the seed of the
+   thing you asked for: a game that can recreate itself.
        node clans.mjs
-   ═══════════════════════════════════════════════════════════════════════════ */
-import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+*/
+import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from 'node:fs';
 
-const esc = (s) => String(s)
-  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-/* ═══ 1 · read the clans, and refuse the bad ones ══════════════════════ */
-const DIR = 'templates-clan';
-const LOSS = ['casualties', 'casualty', 'losses', 'lost', 'dead', 'killed',
-              'defeat', 'defeated', 'destroy', 'destroyed', 'ruin', 'razed',
-              'defeats', 'beats', 'rank', 'ranking', 'score', 'wins', 'winner',
-              'loser', 'versus', 'against'];
-
-const isPrime = (n) => {
-  if (n < 2) return false;
-  for (let i = 2; i * i <= n; i++) if (n % i === 0) return false;
-  return true;
-};
-
-const clans = [];
-const periods = new Map();
-const orders = new Map();
-let fatal = 0;
-
-for (const file of readdirSync(DIR).filter((f) => f.endsWith('.json')).sort()) {
-  const c = JSON.parse(readFileSync(join(DIR, file), 'utf8'));
-  const errs = [];
-
-  for (const k of ['id', 'name', 'house', 'resource', 'period', 'base', 'saga', 'tiers', 'order'])
-    if (c[k] === undefined) errs.push('missing ' + k);
-
-  /* nothing here may encode a loss */
-  for (const k of Object.keys(c))
-    if (LOSS.includes(k.toLowerCase()))
-      errs.push('carries "' + k + '" — nothing on this board loses anything');
-
-  if (!isPrime(c.period))
-    errs.push('period ' + c.period + ' is not prime, so this clan will fall into ' +
-      'step with another and the board walks its diagonal');
-  if (periods.has(c.period))
-    errs.push('period ' + c.period + ' is already ' + periods.get(c.period));
-  periods.set(c.period, c.id);
-
-  if (orders.has(c.order)) errs.push('order ' + c.order + ' is already ' + orders.get(c.order));
-  orders.set(c.order, c.id);
-
-  /* the +1 law, as a table */
-  let lastH = 0, lastY = 0;
-  for (const t of c.tiers || []) {
-    if (t.houses < lastH)
-      errs.push('tier ' + t.n + ' has ' + t.houses + ' houses, fewer than tier ' +
-        (t.n - 1) + ' had — a promotion that takes something away is not one');
-    if (t.yield < lastY)
-      errs.push('tier ' + t.n + ' yields ' + t.yield + ', less than tier ' +
-        (t.n - 1) + ' — nothing on this board goes down');
-    if (!t.note) errs.push('tier ' + t.n + ' says nothing about what changed');
-    lastH = t.houses; lastY = t.yield;
-  }
-
-  console.log((errs.length ? 'REFUSED' : 'ok     ') + ' ' + (c.id || file).padEnd(10) +
-    (c.resource || '?').padEnd(9) + 'period ' + String(c.period).padStart(2) +
-    ' · ' + (c.tiers || []).length + ' tiers · ' +
-    (c.tiers || []).map((t) => t.yield).join(' '));
-  errs.forEach((e) => console.log('        x ' + e));
-  if (errs.length) { fatal++; continue; }
-  clans.push(c);
-}
-
-clans.sort((a, b) => a.order - b.order);
-
-if (fatal) {
-  console.log('\n' + fatal + ' refused. clans.html not written.');
-  process.exit(1);
-}
-
-/* the lattice: how long before the six cadences line up the same way again */
-const LATTICE = clans.reduce((a, c) => a * c.period, 1);
-
-/* what the deck actually needs, in the proportions the white paper argues
-   for: hydrogen is the constraint so it dominates the requirement, nitrogen
-   is free so almost none has to be produced, biomass is small and is the
-   point of the whole thing. These are the target shares. */
-const NEED = { hydrogen: 38, nitrogen: 6, silicate: 24, biomass: 18, signal: 9, record: 5 };
-const needTotal = Object.values(NEED).reduce((a, b) => a + b, 0);
-
-/* the doubling time of the board at tier 1, computed: total yield per tick
-   against the cost of the next house. This is the number an idle game is
-   actually about and it is nearly always hidden. */
-const tick1 = clans.reduce((a, c) => a + c.tiers[0].yield / c.period, 0);
-const tickMax = clans.reduce((a, c) => a + c.tiers[c.tiers.length - 1].yield / c.period, 0);
-
-/* ═══ 2 · the page ═════════════════════════════════════════════════════ */
-const html = '<!doctype html>\n<html lang="en">\n<head>\n' +
-'<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
-'<title>War of clans &middot; the longhouses</title>\n' +
-'<!-- No off-origin requests. It runs with nothing pressed. -->\n' +
-'<style>\n' +
-`  :root{
-    --night:#0b0d10; --hall:#12161b; --edge:#1f262e; --edge2:#2c3742;
-    --ink:#e2ddd0; --dim:#8c8677; --faint:#5e5a51;
-    --fire:#c8762b; --gold:#c9a227; --ice:#6f9bb5; --moss:#7d9d6a; --blood:#9d4a3a;
-    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
-    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{margin:0;background:var(--night);color:var(--ink);overflow:hidden;
-    font:15px/1.65 var(--serif);
-    display:grid;grid-template-rows:auto 1fr auto;
-    grid-template-columns:minmax(0,1fr);height:100vh}
-
-  /* ── the ridge: the stockpile, always moving ──────────────────────── */
-  header{border-bottom:1px solid var(--edge);background:var(--hall);
-    padding:11px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-  h1{margin:0;font:500 19px/1.2 var(--serif);letter-spacing:.05em;flex:none}
-  h1 s{text-decoration:none;display:block;font:400 7.5px/1.3 var(--mono);
-    letter-spacing:.28em;text-transform:uppercase;color:var(--fire);margin-top:3px}
-  .stock{display:flex;gap:16px;flex-wrap:wrap;margin-left:auto}
-  .stock div{text-align:right;min-width:78px}
-  .stock u{display:block;text-decoration:none;font:400 17px/1.1 var(--mono);
-    font-variant-numeric:tabular-nums}
-  .stock b{display:block;font-weight:400;margin-top:3px;
-    font:400 7.5px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;
-    color:var(--faint)}
-  .stock .hydrogen u{color:var(--ice)} .stock .nitrogen u{color:var(--moss)}
-  .stock .silicate u{color:var(--dim)} .stock .biomass u{color:var(--gold)}
-  .stock .signal u{color:var(--fire)}  .stock .record u{color:var(--faint)}
-
-  main{display:grid;grid-template-columns:minmax(0,1fr) 330px;
-    min-height:0;overflow:hidden}
-  @media (max-width:980px){
-    body{overflow:auto;height:auto;display:block}
-    main{grid-template-columns:1fr}
-    #halls{max-height:none}
-  }
-
-  /* ── the halls ────────────────────────────────────────────────────── */
-  #halls{overflow-y:auto;padding:16px 18px 30px;min-height:0}
-  .clan{background:var(--hall);border:1px solid var(--edge);margin-bottom:10px;
-    display:grid;grid-template-columns:184px minmax(0,1fr) 128px;
-    align-items:stretch}
-  @media (max-width:700px){ .clan{grid-template-columns:1fr} }
-  .who{padding:13px 14px;border-right:1px solid var(--edge)}
-  .who h3{margin:0 0 1px;font:600 17px/1.2 var(--serif)}
-  .who p{margin:0;font:400 8px/1.4 var(--mono);letter-spacing:.14em;
-    text-transform:uppercase;color:var(--faint)}
-  .who em{display:block;margin-top:9px;font-style:normal;
-    font:400 10px/1 var(--mono);color:var(--dim)}
-  .who em i{font-style:normal;color:var(--fire)}
-
-  .yard{padding:13px 14px;display:flex;flex-direction:column;gap:9px;min-width:0}
-  .roof{display:flex;gap:4px;flex-wrap:wrap;min-height:26px;align-items:flex-end}
-  /* a longhouse, drawn: a ridge and a door, no images */
-  .house{width:30px;height:24px;position:relative;flex:none;
-    background:linear-gradient(180deg,#2a3038 0 46%,#1b2027 46%);
-    border:1px solid #39424e;border-radius:2px 2px 0 0}
-  .house::before{content:"";position:absolute;left:50%;top:-5px;
-    transform:translateX(-50%);border-left:16px solid transparent;
-    border-right:16px solid transparent;border-bottom:6px solid #454f5c}
-  .house::after{content:"";position:absolute;left:50%;bottom:0;width:6px;height:9px;
-    transform:translateX(-50%);background:var(--night)}
-  .house.lit{border-color:var(--fire);
-    background:linear-gradient(180deg,#3a2f24 0 46%,#241c15 46%)}
-  .house.lit::before{border-bottom-color:var(--fire)}
-  .house.lit::after{background:var(--fire);box-shadow:0 0 7px var(--fire)}
-
-  .rate{display:flex;align-items:baseline;gap:9px;
-    font:400 10.5px/1 var(--mono);color:var(--faint)}
-  .rate b{color:var(--ink);font-weight:400;font-size:14px;
-    font-variant-numeric:tabular-nums}
-  .track{height:4px;background:#171d24;border-radius:2px;overflow:hidden;flex:1}
-  .track i{display:block;height:100%;background:var(--fire);width:0}
-  .note{margin:0;font:400 12px/1.55 var(--serif);color:var(--dim)}
-
-  .act{padding:13px 12px;border-left:1px solid var(--edge);
-    display:flex;flex-direction:column;justify-content:center;gap:7px}
-  .act button{background:#1a2028;border:1px solid var(--edge2);color:var(--ink);
-    padding:9px 6px;cursor:pointer;font:400 9.5px/1.3 var(--mono);
-    letter-spacing:.08em;width:100%}
-  .act button:hover:not(:disabled){border-color:var(--fire);color:var(--fire)}
-  .act button:disabled{color:var(--faint);cursor:default;border-color:#232a33}
-  .act s{text-decoration:none;text-align:center;
-    font:400 8.5px/1.4 var(--mono);color:var(--faint)}
-  .act s b{color:var(--gold);font-weight:400}
-
-  /* ── the right column ─────────────────────────────────────────────── */
-  aside{border-left:1px solid var(--edge);background:#0e1216;overflow-y:auto;
-    padding:16px 16px 30px;min-height:0}
-  aside h4{margin:0 0 8px;font:400 8px/1 var(--mono);letter-spacing:.2em;
-    text-transform:uppercase;color:var(--fire)}
-  aside h4:not(:first-child){margin-top:26px}
-  aside p{margin:0 0 11px;font:400 12.5px/1.68 var(--serif);color:var(--dim)}
-
-  .mix{margin-bottom:6px}
-  .mix .row{display:flex;align-items:center;gap:8px;margin-bottom:5px;
-    font:400 10px/1 var(--mono)}
-  .mix .row span{width:62px;color:var(--faint)}
-  .mix .bars{flex:1;height:11px;background:#151a20;position:relative;overflow:hidden}
-  .mix .bars .have{position:absolute;left:0;top:0;bottom:0;background:#37424e}
-  .mix .bars .want{position:absolute;top:0;bottom:0;width:2px;background:var(--gold)}
-  .mix .row u{width:34px;text-align:right;text-decoration:none;color:var(--dim);
-    font-variant-numeric:tabular-nums}
-
-  .best{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--edge);
-    border:1px solid var(--edge);margin:14px 0 6px}
-  .best div{background:var(--hall);padding:11px 8px;text-align:center}
-  .best u{display:block;text-decoration:none;font:400 21px/1 var(--mono);
-    color:var(--gold);font-variant-numeric:tabular-nums}
-  .best b{display:block;font-weight:400;margin-top:5px;
-    font:400 7.5px/1.25 var(--mono);letter-spacing:.11em;text-transform:uppercase;
-    color:var(--faint)}
-
-  #saga{margin-top:8px;font:400 11px/1.62 var(--mono);color:var(--faint);
-    max-height:210px;overflow-y:auto}
-  #saga div{padding:4px 0;border-bottom:1px solid #161c22}
-  #saga b{color:var(--ink);font-weight:400}
-  #saga i{font-style:normal;color:var(--fire)}
-
-  footer{border-top:1px solid var(--edge);background:var(--hall);
-    padding:9px 18px;font:400 9.5px/1.6 var(--mono);color:var(--faint);
-    display:flex;gap:18px;flex-wrap:wrap;align-items:center}
-  footer b{color:var(--dim);font-weight:400}
-  footer a{color:var(--fire);text-decoration:none}
-  footer a:hover{text-decoration:underline}
-  footer .r{margin-left:auto}
-</style>\n</head>\n<body>\n\n` +
-
-'<header>\n' +
-'  <h1>War of clans<s>nobody is fighting anybody</s></h1>\n' +
-'  <div class="stock" id="stock"></div>\n' +
-'</header>\n\n' +
-'<main>\n  <div id="halls"></div>\n' +
-'  <aside>\n' +
-'    <h4>what the deck needs</h4>\n' +
-'    <p>The gold mark is the share the deck actually wants, from the white ' +
-'paper: hydrogen is the constraint, nitrogen is nearly free, biomass is small ' +
-'and is the point of all of it. The bar is what you have.</p>\n' +
-'    <div class="mix" id="mix"></div>\n' +
-'    <div class="best">\n' +
-'      <div><u id="b-fit">0%</u><b>closest ever reached</b></div>\n' +
-'      <div><u id="b-now">0%</u><b>right now</b></div>\n' +
-'    </div>\n' +
-'    <p>The first only rises. The second is a fact about this moment and is ' +
-'allowed to fall, because it is not a score and there are no scores here.</p>\n' +
-'    <h4>the saga</h4>\n' +
-'    <div id="saga"></div>\n' +
-'  </aside>\n</main>\n\n' +
-'<footer>\n' +
-'  <span>ticks <b id="t-tick">0</b></span>\n' +
-'  <span>houses <b id="t-house">0</b></span>\n' +
-'  <span>per tick <b id="t-rate">0</b></span>\n' +
-'  <span>the six cadences realign every <b>' + LATTICE.toLocaleString() + '</b> ticks</span>\n' +
-'  <span class="r"><a href="dev.html">the hub</a> &middot; ' +
-'<a href="arcade.html">the arcade</a> &middot; <a href="clans.mjs">clans.mjs</a></span>\n' +
-'</footer>\n\n' +
-
-'<script>\n' +
-'const CLANS = ' + JSON.stringify(clans) + ';\n' +
-'const NEED = ' + JSON.stringify(NEED) + ';\n' +
-'const LATTICE = ' + LATTICE + ';\n' +
-`
-/* ══ the board ═════════════════════════════════════════════════════════
-   It runs with nothing pressed. Every clan ticks on its own prime cadence,
-   the stock accrues, and closing the page does not stop it — the elapsed
-   time is credited in full when you come back. Pressing never raises output.
-   It only chooses which clan gets the next house, and every choice is +1. */
-
-const KEY = 'venus.clans.v1';
-const $ = (s) => document.querySelector(s);
-const TICK_MS = 900;
-const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
-
-function fresh() {
-  const s = { t: 0, stock: {}, tier: {}, bestFit: 0, saga: [], seen: Date.now() };
-  CLANS.forEach((c) => { s.stock[c.resource] = 0; s.tier[c.id] = 1; });
-  return s;
-}
-function load() {
-  try {
-    const g = JSON.parse(localStorage.getItem(KEY) || 'null');
-    if (g && g.stock && g.tier) return g;
-  } catch (e) { /* private window, cleared data */ }
-  return null;
-}
-let G = load() || fresh();
-CLANS.forEach((c) => {
-  if (G.stock[c.resource] === undefined) G.stock[c.resource] = 0;
-  if (!G.tier[c.id]) G.tier[c.id] = 1;
-});
-function save() { try { localStorage.setItem(KEY, JSON.stringify(G)); } catch (e) {} }
-
-const tierOf = (c) => c.tiers[Math.min(G.tier[c.id], c.tiers.length) - 1];
-const nextTier = (c) => c.tiers[G.tier[c.id]];       /* undefined at the top */
-
-/* the cost of the next house. It rises, so the board slows down — but the
-   stock never falls, so there is no state you can be sent back to. */
-const costOf = (c) => {
-  const n = nextTier(c);
-  if (!n) return null;
-  return Math.round(n.yield * n.houses * 14);
-};
-
-/* how much a clan puts out per tick, averaged over its own cadence */
-const rateOf = (c) => tierOf(c).yield / c.period;
-const totalRate = () => CLANS.reduce((a, c) => a + rateOf(c), 0);
-const houses = () => CLANS.reduce((a, c) => a + tierOf(c).houses, 0);
-
-/* ── one tick. A clan produces only on ticks its own period divides, which
-   is why the six of them never fall into step. ─────────────────────────── */
-function tick(n) {
-  for (let i = 0; i < n; i++) {
-    G.t++;
-    for (const c of CLANS)
-      if (G.t % c.period === 0) G.stock[c.resource] += tierOf(c).yield;
-  }
-}
-
-/* ── the composition. Reported, never scored. ──────────────────────────── */
-function fit() {
-  const tot = Object.values(G.stock).reduce((a, b) => a + b, 0);
-  if (!tot) return 0;
-  const wantTot = Object.values(NEED).reduce((a, b) => a + b, 0);
-  /* one minus half the total absolute difference between the two
-     distributions: 100 per cent when they match exactly, 0 when disjoint */
-  let diff = 0;
-  for (const k of Object.keys(NEED))
-    diff += Math.abs((G.stock[k] || 0) / tot - NEED[k] / wantTot);
-  return Math.max(0, Math.round((1 - diff / 2) * 100));
-}
-
-function log(text, kind) {
-  G.saga.unshift({ t: G.t, text, kind });
-  G.saga = G.saga.slice(0, 60);
-}
-
-/* ── drawing ───────────────────────────────────────────────────────────── */
-const num = (n) => n >= 1e6 ? (n / 1e6).toFixed(2) + 'M'
-  : n >= 1e4 ? Math.round(n / 1e3) + 'k' : Math.round(n).toLocaleString();
-
-function drawStock() {
-  $('#stock').innerHTML = CLANS.map((c) =>
-    '<div class="' + c.resource + '"><u>' + num(G.stock[c.resource]) + '</u><b>' +
-    c.resource + '</b></div>').join('');
-}
-
-function drawHalls() {
-  $('#halls').innerHTML = CLANS.map((c) => {
-    const t = tierOf(c), nx = nextTier(c), cost = costOf(c);
-    const can = nx && G.stock[c.resource] >= cost;
-    const roof = Array.from({ length: t.houses }, (_, i) =>
-      '<div class="house' + (G.t % c.period === 0 ? ' lit' : '') + '"></div>').join('');
-    return '<article class="clan" data-c="' + c.id + '">' +
-      '<div class="who"><h3>' + esc(c.name) + '</h3><p>' + esc(c.house) + '</p>' +
-        '<em>every <i>' + c.period + '</i> ticks &middot; tier ' + G.tier[c.id] +
-        ' of ' + c.tiers.length + '</em></div>' +
-      '<div class="yard">' +
-        '<div class="roof">' + roof + '</div>' +
-        '<div class="rate"><b>' + t.yield + '</b> ' + esc(c.resource) +
-          ' each firing <div class="track"><i style="width:' +
-          Math.round((G.t % c.period) / c.period * 100) + '%"></i></div>' +
-          num(rateOf(c) * 100 / 100) + '/tick</div>' +
-        '<p class="note">' + esc(t.note) + '</p>' +
-      '</div>' +
-      '<div class="act">' +
-        (nx
-          ? '<button ' + (can ? '' : 'disabled ') + 'data-raise="' + c.id + '">' +
-            'raise the roof</button><s>' + num(cost) + ' ' + esc(c.resource) +
-            '<br>&rarr; <b>' + nx.yield + '</b> a firing</s>'
-          : '<s>every house built.<br>the bottleneck has<br>moved off this clan</s>') +
-      '</div></article>';
-  }).join('');
-
-  document.querySelectorAll('[data-raise]').forEach((b) => {
-    b.onclick = () => raise(b.dataset.raise);
+export const WEAVE = `function weave(clans, seed) {
+  const h32 = (a, b, c) => { let x = (Math.imul(a, 73856093) ^ Math.imul(b, 19349663) ^ Math.imul(c, 83492791)) | 0; x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return x >>> 0; };
+  const pick = (arr, k) => arr[k % arr.length]; const out = [];
+  const BANDS = ['shieldwall', 'skirmishers', 'longship crew', 'berserks', 'bowmen', 'scouts', 'housecarls', 'thralls with spears', 'the jarl\\'s own', 'sworn men', 'wardens of the ford', 'night raiders'];
+  const PILES = ['a pit', 'jars in the cold store', 'a cairn', 'a sealed cistern', 'a longhouse loft', 'a stone chest', 'a buried hoard', 'a tally on the mast', 'a raft of barrels', 'the temple store'];
+  clans.forEach((c, ci) => {
+    c.tiers.forEach((t, ti) => out.push({ id: c.id + '-work-' + t.n, kind: 'work', clan: c.id, clanName: c.name, house: c.house, resource: c.resource, period: c.period, tier: t.n, yield: t.yield, cost: Math.round(t.yield * 120 * (1 + ti)), name: c.house + ' ' + t.n + ' of ' + c.name, text: t.note + ' Yields ' + t.yield + ' ' + c.resource + ' every ' + c.period + ' days.', wovenBy: c.id }));
+    for (let i = 0; i < 12; i++) { const h = h32(seed, ci * 100 + i, 1), r = h % 1000 / 1000; const raids = i % 2 === 1;
+      out.push({ id: c.id + '-band-' + (i + 1), kind: 'band', clan: c.id, clanName: c.name, resource: c.resource, period: c.period, name: pick(BANDS, h) + ' of ' + c.name, strength: 3 + Math.round(r * 12) + ti(i), raids, cost: 400 + Math.round(r * 1600), upkeep: 1 + Math.round(r * 3), text: (raids ? 'Raids on the clan\\'s period, taking a share of what the others have piled. ' : 'Holds the ford on the clan\\'s period; raids against you break on it. ') + 'Strength ' + (3 + Math.round(r * 12) + ti(i)) + '; eats ' + (1 + Math.round(r * 3)) + ' ' + c.resource + ' a day.', wovenBy: c.id }); }
+    for (let i = 0; i < 10; i++) { const h = h32(seed, ci * 100 + 50 + i, 2), r = h % 1000 / 1000;
+      out.push({ id: c.id + '-pile-' + (i + 1), kind: 'pile', clan: c.id, clanName: c.name, resource: c.resource, name: pick(PILES, h) + ' for ' + c.resource, holds: 50 * (1 + Math.round(r * 19)), cost: 60 * (1 + Math.round(r * 19)), text: 'Holds ' + (50 * (1 + Math.round(r * 19))) + ' ' + c.resource + '. What is not piled is not yours by morning.', wovenBy: c.id }); }
   });
-}
-
-function drawMix() {
-  const tot = Object.values(G.stock).reduce((a, b) => a + b, 0) || 1;
-  const wantTot = Object.values(NEED).reduce((a, b) => a + b, 0);
-  $('#mix').innerHTML = CLANS.map((c) => {
-    const have = (G.stock[c.resource] || 0) / tot * 100;
-    const want = NEED[c.resource] / wantTot * 100;
-    return '<div class="row"><span>' + esc(c.resource) + '</span>' +
-      '<div class="bars"><div class="have" style="width:' + have.toFixed(1) + '%"></div>' +
-      '<div class="want" style="left:' + want.toFixed(1) + '%"></div></div>' +
-      '<u>' + have.toFixed(0) + '%</u></div>';
-  }).join('');
-  const now = fit();
-  if (now > G.bestFit) G.bestFit = now;
-  $('#b-fit').textContent = G.bestFit + '%';
-  $('#b-now').textContent = now + '%';
-}
-
-function drawSaga() {
-  $('#saga').innerHTML = G.saga.map((s) =>
-    '<div><i>' + s.t + '</i>  ' + esc(s.text) + '</div>').join('') ||
-    '<div>Nothing has happened yet. It will anyway.</div>';
-}
-
-function drawFoot() {
-  $('#t-tick').textContent = G.t.toLocaleString();
-  $('#t-house').textContent = houses();
-  $('#t-rate').textContent = totalRate().toFixed(2);
-}
-
-function drawAll() { drawStock(); drawHalls(); drawMix(); drawSaga(); drawFoot(); }
-
-/* ── raising a roof. The only thing a press does, and it is always +1. ─── */
-function raise(id) {
-  const c = CLANS.find((x) => x.id === id);
-  const nx = nextTier(c), cost = costOf(c);
-  if (!nx || G.stock[c.resource] < cost) return;
-  G.stock[c.resource] -= cost;
-  G.tier[c.id]++;
-  const t = tierOf(c);
-  log(c.name + ' raise a ' + c.house.toLowerCase() + '. ' + t.note);
-  save(); drawAll();
-}
-
-/* ── idle. This is the part that matters. ──────────────────────────────
-   The board does not need you. On load it works out how long the page was
-   shut and credits every tick of it — no cap, no penalty, no bonus for
-   having been here. Being present is not rewarded, because rewarding
-   presence is how an idle game turns into a job. */
-(function creditTheAbsence() {
-  const gap = Date.now() - (G.seen || Date.now());
-  const missed = Math.floor(gap / TICK_MS);
-  if (missed > 1) {
-    const before = Object.values(G.stock).reduce((a, b) => a + b, 0);
-    tick(missed);
-    const after = Object.values(G.stock).reduce((a, b) => a + b, 0);
-    const mins = Math.round(gap / 60000);
-    log('The halls worked ' + missed.toLocaleString() + ' firings while nobody ' +
-        'watched' + (mins > 1 ? ' — about ' + mins.toLocaleString() + ' minutes' : '') +
-        ', and brought in ' + Math.round(after - before).toLocaleString() + '.');
-  }
-  G.seen = Date.now();
-})();
-
-if (!G.saga.length)
-  log('Six halls, six cadences, none of them the same. They have started.');
-
-drawAll();
-
-/* the clock. Nothing here waits to be pressed. */
-setInterval(() => {
-  tick(1);
-  G.seen = Date.now();
-  if (G.t % 20 === 0) save();
-  drawStock(); drawMix(); drawFoot();
-  /* only redraw the halls on a firing, so the lit doors mean something */
-  if (CLANS.some((c) => G.t % c.period === 0)) drawHalls();
-  if (G.t % LATTICE === 0)
-    log('All six cadences have come back into line. That is ' +
-        LATTICE.toLocaleString() + ' firings and it will not happen again soon.');
-}, TICK_MS);
-
-addEventListener('beforeunload', () => { G.seen = Date.now(); save(); });
-<\/script>\n</body>\n</html>\n`;
-
-writeFileSync('clans.html', html);
-
-console.log('\nclans.html · ' + clans.length + ' clans, ' +
-  clans.reduce((a, c) => a + c.tiers.length, 0) + ' tiers');
-console.log('  periods ' + clans.map((c) => c.period).join(' ') +
-  ' — all prime, all distinct, realigning every ' + LATTICE.toLocaleString() + ' ticks');
-console.log('  output at tier 1: ' + tick1.toFixed(2) + '/tick · at the top: ' +
-  tickMax.toFixed(2) + '/tick · ' + (tickMax / tick1).toFixed(1) + 'x over the whole game');
-console.log('  the deck wants ' + Object.entries(NEED)
-  .map(([k, v]) => k + ' ' + Math.round(v / needTotal * 100) + '%').join(', '));
-console.log('  refuses: a loss of any kind, a non-prime or duplicate cadence,');
-console.log('           a tier whose houses or yield falls below the one before it');
-console.log('  idle: the absence is credited in full, with no cap and no bonus for');
-console.log('        being present — rewarding presence is how this becomes a job');
+  [['dawn', 'the long dawn', 'works ×1.2', 1.2], ['noon', 'the two-day noon', 'raids ×1.3', 1.3], ['night', 'the two-day night', 'works ×0.6, raids ×0.7', 0.6]].forEach(([id, name, does, mul], i) => out.push({ id: 'turn-' + id, kind: 'turn', name, does, mul, days: i === 0 ? 1 : 2, text: 'Venus turns once in four days; ' + name + ' is a ' + (i === 0 ? 'day' : 'two days') + ' of it. ' + does + '.', wovenBy: 'the planet' }));
+  function ti(i) { return Math.floor(i / 4); }
+  return out;
+}`;
+const clans = readdirSync('templates-clan').filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync('templates-clan/' + f, 'utf8'))).sort((a, b) => a.period - b.period);
+const weave = new Function(WEAVE + '; return weave;')();
+const assets = weave(clans, 793);
+rmSync('templates-asset', { recursive: true, force: true }); mkdirSync('templates-asset');
+for (const a of assets) writeFileSync(`templates-asset/${a.id}.json`, JSON.stringify(a, null, 1));
+const total = readdirSync('.').filter(d => d.startsWith('templates-')).reduce((n, d) => n + readdirSync(d).filter(f => f.endsWith('.json')).length, 0);
+console.log(`assets ${assets.length} from ${clans.length} clans (${assets.filter(a => a.kind === 'work').length} works, ${assets.filter(a => a.kind === 'band').length} bands, ${assets.filter(a => a.kind === 'pile').length} piles, 3 turns) · templates on disk: ${total}`);
+const spells = readdirSync('templates-spell').filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync('templates-spell/' + f, 'utf8')));
+const DEF = { clans: clans.map(c => ({ id: c.id, name: c.name, house: c.house, resource: c.resource, period: c.period, base: c.base, saga: c.saga })), assets, spells: spells.map(s => ({ id: s.id, name: s.name, glyph: s.glyph, cost: s.cost, cooldown: s.cooldown, kind: s.kind, does: s.does })), seed: 793, total };
+const page = readFileSync('clans.page.js', 'utf8');
+const html = `<title>War of clans &middot; a portfolio on Venus</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  WAR OF CLANS — the base layer. A jarl's portfolio of individual assets on a
+  Venusian continent: ${assets.length} templates woven by clans.mjs from the six clans in
+  templates-clan/, each yielding on its clan's coprime period (2, 3, 5, 7, 11, 13) so
+  nothing ever fires together and nothing can be maximised, only composed. Raids come on
+  the other clans' periods; bands hold the ford; piles keep what the night would take;
+  the warlock's spells are the sorcery. Absence is credited in full. The weave function is
+  in this page: re-weave with another seed and the game hands its own templates back.
+  ${total} templates on disk at build. No faces; shields, masts, cairns.
+  SCRIPT: yes, and marked.
+-->
+<style>
+  :root{--void:#0b0d12;--panel:#151922;--panel2:#1c2230;--edge:#2b3445;--ink:#efe9dc;--dim:#95a0b3;--gold:#f2c98a;--venus:#f0a83c;--ok:#6fd4a8;--bad:#e06f5a;--sea:#3f8fbf;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+  *{box-sizing:border-box}html,body{margin:0;background:var(--void);color:var(--ink);font:13.5px/1.5 ui-rounded,system-ui,-apple-system,sans-serif}
+  header{padding:20px 24px 8px;max-width:1160px;margin:0 auto;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}header h1{margin:0;font:500 30px/1.1 var(--serif);color:var(--gold)}header small{color:var(--dim)}header .sp{flex:1}
+  #scene{display:block;width:100%;max-width:1160px;height:240px;margin:0 auto;border-radius:14px;background:#1a0f0a}
+  main{padding:12px 24px 40px;max-width:1160px;margin:0 auto;display:grid;gap:12px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}.stat{background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:9px 12px}.stat b{display:block;font-size:10.5px;color:var(--dim);font-weight:500;text-transform:uppercase;letter-spacing:.08em}.stat span{font:500 20px/1.2 var(--serif);font-variant-numeric:tabular-nums}.stat i{font-style:normal;color:var(--dim);font-size:11px;display:block}
+  .cols{display:grid;grid-template-columns:1.1fr 1fr;gap:12px}@media (max-width:900px){.cols{grid-template-columns:1fr}}
+  section{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:12px}section h2{margin:0 0 8px;font:500 17px/1.2 var(--serif)}section h2 i{font:400 11.5px/1.4 ui-rounded,system-ui,sans-serif;color:var(--dim);display:block;margin-top:2px}
+  .clan{border:1px solid var(--edge);border-radius:12px;padding:8px 10px;margin:6px 0;background:var(--panel2)}.clan h3{margin:0;font:500 15px/1.2 var(--serif);display:flex;justify-content:space-between;gap:8px}.clan h3 small{font:400 11px ui-rounded,system-ui,sans-serif;color:var(--dim)}.clan p{margin:2px 0 6px;color:var(--dim);font-size:11.5px}
+  .asset{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;border-top:1px solid var(--edge);padding:6px 0}.asset b{font-weight:600;font-size:12.5px}.asset p{margin:0;font-size:11.5px;color:var(--dim);grid-column:1}.asset .n{grid-row:span 2;font-size:12px;color:var(--gold);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}.asset.held b{color:var(--ok)}
+  button{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--edge);border-radius:9px;padding:5px 11px;cursor:pointer}button:hover:not(:disabled){border-color:var(--gold)}button:disabled{opacity:.4;cursor:not-allowed}button.primary{background:#2a2036;border-color:var(--venus)}
+  .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.badge{display:inline-block;background:var(--panel);border:1px solid var(--edge);border-radius:999px;padding:2px 9px;font-size:11px;color:var(--dim)}.badge.hot{border-color:var(--venus);color:var(--venus)}.badge.ok{border-color:var(--ok);color:var(--ok)}
+  .spell{display:inline-flex;flex-direction:column;align-items:center;gap:2px;min-width:70px}.spell b{font-size:18px}.spell small{color:var(--dim)}
+  .log{font-size:12px;color:var(--dim);max-height:220px;overflow:auto}.log div{border-bottom:1px solid var(--edge);padding:3px 0}.log b{color:var(--ink);font-weight:500;margin-right:6px}
+  .piles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px}.pile{background:var(--panel2);border:1px solid var(--edge);border-radius:10px;padding:8px 10px}.pile b{display:block;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}.pile span{font:500 18px/1.2 var(--serif);font-variant-numeric:tabular-nums}.bar{height:5px;background:#0e1118;border-radius:3px;margin-top:5px;overflow:hidden}.bar div{height:100%;background:var(--sea)}
+  textarea,input[type=number]{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--edge);border-radius:9px;padding:6px 8px}
+  footer{padding:10px 24px 28px;color:var(--dim);font-size:12px;max-width:1160px;margin:0 auto}footer a{color:var(--sea);text-decoration:none}
+</style>
+<header><h1>War of clans</h1><small>a portfolio on Venus · six clans, six coprime periods · one day a second · bronze age, sword and sorcery</small><span class="sp"></span><small id="clock"></small></header>
+<canvas id="scene" width="1160" height="240"></canvas>
+<main>
+  <div class="stats" id="stats"></div>
+  <section><h2>Stockpiles<i>what is not piled is not yours by morning</i></h2><div class="piles" id="piles"></div></section>
+  <div class="cols">
+    <div><section><h2>The portfolio<i>individual assets, one clan at a time; works yield on the period, bands raid or hold, piles keep</i></h2><div id="clans"></div></section></div>
+    <div>
+      <section><h2>Sorcery<i>the warlock's six, on a reserve of twenty</i></h2><div class="row" id="spells"></div></section>
+      <section><h2>The record</h2><div class="log" id="log"></div><div class="row" style="margin-top:8px"><button id="wipe">Start the war again</button></div></section>
+      <section><h2>Re-weave<i>the loom is in this page: another seed, another ${assets.length} templates, handed back as files</i></h2><div class="row"><input id="seed" type="number" value="793" style="width:110px"><button class="primary" id="reweave">Weave with this seed</button><button id="download">Download the templates</button><span class="badge" id="woven"></span></div><p style="color:var(--dim);font-size:12px;margin:8px 0 0">The same function that wrote templates-asset/ runs here. Weaving in the page changes the assets on offer for this browser; the download is the JSON of all of them, one file per template inside, ready to be written back into the yard.</p></section>
+    </div>
+  </div>
+</main>
+<footer>Clans from <a href="clans.html">templates-clan/</a>, spells from <a href="warlock.html">the warlock</a>, the cadence from the sixth lesson in <a href="school.html">the school</a>; the docket from <a href="descent.html">the ground landing</a>. ${total} templates on disk at build. <a href="arcade.html">← the arcade</a> · <a href="index.html">the yard</a></footer>
+<script id="def-json" type="application/json">${JSON.stringify(DEF).replace(/<\//g, '<\\/')}</script>
+<script>
+${WEAVE}
+${page}
+</script>
+`;
+writeFileSync('clans.html', html); console.log(`wrote clans.html (${html.length} bytes)`);

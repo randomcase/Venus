@@ -1,0 +1,15 @@
+{
+ "id": "hrafn-work-3",
+ "kind": "work",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "house": "Cracking house",
+ "resource": "hydrogen",
+ "period": 2,
+ "tier": 3,
+ "yield": 12,
+ "cost": 4320,
+ "name": "Cracking house 3 of Hrafnsson",
+ "text": "Waste heat from the second feeds the first. Nothing is added; something is stopped from being wasted. Yields 12 hydrogen every 2 days.",
+ "wovenBy": "hrafn"
+}

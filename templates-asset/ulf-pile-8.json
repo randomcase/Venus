@@ -1,0 +1,12 @@
+{
+ "id": "ulf-pile-8",
+ "kind": "pile",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "name": "a tally on the mast for silicate",
+ "holds": 950,
+ "cost": 1140,
+ "text": "Holds 950 silicate. What is not piled is not yours by morning.",
+ "wovenBy": "ulf"
+}

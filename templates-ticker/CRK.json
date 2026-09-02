@@ -1,0 +1,15 @@
+{
+ "id": "CRK",
+ "kind": "farm",
+ "farm": "CRK",
+ "farmName": "Cracking house of Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "degree": 0,
+ "path": "",
+ "weight": 1,
+ "price": 1080,
+ "volatility": 0.04,
+ "text": "Cracking house of Hrafnsson, the whole farm: hydrogen every 2 days.",
+ "wovenBy": "hrafn"
+}

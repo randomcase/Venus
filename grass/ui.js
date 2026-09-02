@@ -136,7 +136,7 @@
       form.append(el('label', { class: 'f' }, f.name, inp, el('output', {}, f.type === 'range' ? v : ''))); }
     function set(k, v) { Tick.setAvatar({ [k]: v }); drawYou(); }
     p.append(el('section', {}, el('h2', {}, D.becoming ? 'Its colours' : 'Your blade', el('i', {}, D.avatar.note)), el('div', { class: 'avatar-wrap' }, cv, form)));
-    p.append(el('section', {}, el('h2', {}, 'Playstyle'), el('p', { style: 'color:var(--dim)' }, S.playstyle ? D.playstyles.find(x => x.id === S.playstyle).name + ' — ' + D.playstyles.find(x => x.id === S.playstyle).desc : 'not chosen yet')));
+    p.append(el('section', {}, el('h2', {}, 'Playstyle'), el('p', { style: 'color:var(--dim)' }, (() => { const ps = S.playstyle && (D.playstyles || []).find(x => x.id === S.playstyle); return ps ? ps.name + ' — ' + ps.desc : S.playstyle ? S.playstyle + ' — not in this template' : 'not chosen yet'; })())));
     drawYou(); };
   function refreshYou() { const ul = $('#conds'); if (!ul || !D.becoming) return; ul.innerHTML = Tick.conditions().map(c => `<li class="${c.ok ? 'ok' : ''}">${fmt(c.have)} / ${fmt(c.need)} ${c.label}</li>`).join(''); const b = $('#become'); if (b) b.disabled = !Tick.canBecome(); }
   function drawYou(t = 0) { const cv = $('#you-canvas'); if (!cv) return; const g = cv.getContext('2d'); g.clearRect(0, 0, cv.width, cv.height);

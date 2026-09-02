@@ -1,0 +1,15 @@
+{
+ "id": "hrafn-band-4",
+ "kind": "band",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "name": "thralls with spears of Hrafnsson",
+ "strength": 13,
+ "raids": true,
+ "cost": 1774,
+ "upkeep": 4,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 13; eats 4 hydrogen a day.",
+ "wovenBy": "hrafn"
+}

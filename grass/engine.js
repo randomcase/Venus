@@ -46,7 +46,7 @@
     o.res = Object.assign({}, f.res, s.res || {}); o.n = Object.assign({}, f.n, s.n || {});
     o.avatar = Object.assign({}, f.avatar, s.avatar || {}); for (const k of Object.keys(o.avatar)) if (!(k in f.avatar)) delete o.avatar[k]; return o; };
 
-  T.load = (def, state) => { D = def; S = state ? migrate(typeof state === 'string' ? JSON.parse(state) : state) : T.fresh(); recompute(); return T; };
+  T.load = (def, state) => { D = def; S = state ? migrate(typeof state === 'string' ? JSON.parse(state) : state) : T.fresh(); if (S.playstyle && !byId(D.playstyles || [], S.playstyle)) S.playstyle = null; recompute(); return T; };
   T.def = () => D; T.state = () => S; T.mods = () => M; T.flows = () => flows;
   T.serialize = () => { S.saved = Date.now(); return JSON.stringify(S); };
 

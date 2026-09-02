@@ -1,5 +1,5 @@
 {
- "generators": 63,
+ "generators": 64,
  "schema": {
   "templates-act": {
    "owner": null,
@@ -94,6 +94,28 @@
     "attacked_when": "string",
     "evidence": "string",
     "finding": "string"
+   },
+   "example": "id"
+  },
+  "templates-asset": {
+   "owner": "clans.mjs",
+   "declared": false,
+   "count": 165,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "kind": "string",
+    "clan": "string",
+    "clanName": "string",
+    "resource": "string",
+    "period": "number",
+    "name": "string",
+    "strength": "number",
+    "raids": "boolean",
+    "cost": "number",
+    "upkeep": "number",
+    "text": "string",
+    "wovenBy": "string"
    },
    "example": "id"
   },
@@ -228,19 +250,9 @@
   },
   "templates-clan": {
    "owner": "clans.mjs",
-   "declared": true,
+   "declared": false,
    "count": 6,
-   "required": [
-    "id",
-    "name",
-    "house",
-    "resource",
-    "period",
-    "base",
-    "saga",
-    "tiers",
-    "order"
-   ],
+   "required": [],
    "shape": {
     "id": "string",
     "order": "number",
@@ -829,7 +841,7 @@
    "example": "id"
   },
   "templates-spell": {
-   "owner": "siege.mjs",
+   "owner": "clans.mjs",
    "declared": false,
    "count": 6,
    "required": [],
@@ -923,6 +935,28 @@
     "record": "string",
     "instrument": "string",
     "honest": "string"
+   },
+   "example": "id"
+  },
+  "templates-ticker": {
+   "owner": "market.mjs",
+   "declared": false,
+   "count": 20,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "kind": "string",
+    "farm": "string",
+    "farmName": "string",
+    "resource": "string",
+    "period": "number",
+    "degree": "number",
+    "path": "string",
+    "weight": "number",
+    "price": "number",
+    "volatility": "number",
+    "text": "string",
+    "wovenBy": "string"
    },
    "example": "id"
   },
@@ -1105,6 +1139,13 @@
    ]
   },
   {
+   "dir": "templates-asset",
+   "files": 165,
+   "read_by": [
+    "clans.mjs"
+   ]
+  },
+  {
    "dir": "templates-base",
    "files": 4,
    "read_by": [
@@ -1165,6 +1206,7 @@
    "read_by": [
     "arcade.mjs",
     "clans.mjs",
+    "market.mjs",
     "steading.mjs"
    ]
   },
@@ -1351,6 +1393,7 @@
    "files": 6,
    "read_by": [
     "arcade.mjs",
+    "clans.mjs",
     "siege.mjs",
     "warlock.mjs"
    ]
@@ -1369,6 +1412,13 @@
    "read_by": [
     "arcade.mjs",
     "symbols.mjs"
+   ]
+  },
+  {
+   "dir": "templates-ticker",
+   "files": 20,
+   "read_by": [
+    "market.mjs"
    ]
   },
   {
@@ -1445,6 +1495,7 @@
   "kb.mjs",
   "keep.mjs",
   "loom.mjs",
+  "market.mjs",
   "missouri.mjs",
   "owls.mjs",
   "paper.mjs",
@@ -1657,7 +1708,12 @@
   },
   "clans.mjs": {
    "reads": [
-    "templates-clan"
+    "clans.page.js",
+    "templates-asset",
+    "templates-clan",
+    "templates-clan/",
+    "templates-spell",
+    "templates-spell/"
    ],
    "writes": [
     "clans.html"
@@ -1882,6 +1938,18 @@
    "writes": [
     "farm.html",
     "templates-loom/_index.json"
+   ],
+   "refuses": ""
+  },
+  "market.mjs": {
+   "reads": [
+    "market.page.js",
+    "templates-clan",
+    "templates-clan/",
+    "templates-ticker"
+   ],
+   "writes": [
+    "market.html"
    ],
    "refuses": ""
   },

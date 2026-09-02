@@ -1,0 +1,15 @@
+{
+ "id": "KLN",
+ "kind": "farm",
+ "farm": "KLN",
+ "farmName": "Kiln of Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "degree": 0,
+ "path": "",
+ "weight": 1,
+ "price": 640,
+ "volatility": 0.04,
+ "text": "Kiln of Ulfsson, the whole farm: silicate every 5 days.",
+ "wovenBy": "ulf"
+}

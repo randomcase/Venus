@@ -1,0 +1,15 @@
+{
+ "id": "ingrid-band-3",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "night raiders of Ingridsdottir",
+ "strength": 13,
+ "raids": false,
+ "cost": 1774,
+ "upkeep": 4,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 13; eats 4 record a day.",
+ "wovenBy": "ingrid"
+}

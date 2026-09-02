@@ -1,0 +1,15 @@
+{
+ "id": "ulf-band-10",
+ "kind": "band",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "name": "berserks of Ulfsson",
+ "strength": 10,
+ "raids": true,
+ "cost": 1000,
+ "upkeep": 2,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 10; eats 2 silicate a day.",
+ "wovenBy": "ulf"
+}

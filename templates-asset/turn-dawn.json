@@ -1,0 +1,10 @@
+{
+ "id": "turn-dawn",
+ "kind": "turn",
+ "name": "the long dawn",
+ "does": "works ×1.2",
+ "mul": 1.2,
+ "days": 1,
+ "text": "Venus turns once in four days; the long dawn is a day of it. works ×1.2.",
+ "wovenBy": "the planet"
+}

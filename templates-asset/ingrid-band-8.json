@@ -1,0 +1,15 @@
+{
+ "id": "ingrid-band-8",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "bowmen of Ingridsdottir",
+ "strength": 8,
+ "raids": true,
+ "cost": 918,
+ "upkeep": 2,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 8; eats 2 record a day.",
+ "wovenBy": "ingrid"
+}

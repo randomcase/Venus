@@ -1,0 +1,12 @@
+{
+ "id": "ulf-pile-4",
+ "kind": "pile",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "name": "a buried hoard for silicate",
+ "holds": 100,
+ "cost": 120,
+ "text": "Holds 100 silicate. What is not piled is not yours by morning.",
+ "wovenBy": "ulf"
+}

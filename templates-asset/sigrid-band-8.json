@@ -1,0 +1,15 @@
+{
+ "id": "sigrid-band-8",
+ "kind": "band",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "period": 7,
+ "name": "berserks of Sigrdrifa",
+ "strength": 6,
+ "raids": true,
+ "cost": 654,
+ "upkeep": 1,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 6; eats 1 biomass a day.",
+ "wovenBy": "sigrid"
+}
