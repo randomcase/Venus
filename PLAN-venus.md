@@ -90,6 +90,17 @@ periods and the charter change without a rebuild. The docket's rulebook is
 separate and not editable: it is what holds from door 1 to door 200, and
 the ledger enforces it rather than any page.
 
+## The look, pulled out
+
+`templates-theme/` holds the ship's look: palette, type, sky, glows, the
+fireflies' colours and layers, the glass, the standard. `_active.json` names
+which theme is on, and `toonami.mjs` only turns it into CSS. Two themes ship:
+Hesperus and Wine-dark. Change one word in `_active.json`, run
+`node toonami-all.mjs`, and all 119 pages are repainted with no code edited.
+The look is the one thing a browser-kept copy cannot change on its own,
+because it is stamped CSS, which is what keeps the script-free pages free of
+script.
+
 ## Venus M1
 
 This build is the first mark of the ship: the loop closed, the bridge as the

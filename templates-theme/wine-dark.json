@@ -1,0 +1,87 @@
+{
+ "id": "wine-dark",
+ "kind": "theme",
+ "name": "Wine-dark",
+ "text": "The other look, and the proof that the look is data: the same ship at the other end of the day. Deep wine and oxblood instead of indigo, brass and rose instead of cyan and magenta, and the fireflies burn low and orange, the way they do over a field after harvest rather than under a broadcast tower.",
+ "palette": {
+  "void": "#0b0508",
+  "panel": "#170a10",
+  "panel2": "#22101a",
+  "edge": "#5a2436",
+  "ink": "#f6e8dd",
+  "dim": "#b08a92",
+  "gold": "#e8b45c",
+  "venus": "#ff7a1a",
+  "ok": "#c8d96f",
+  "bad": "#ff6b5a",
+  "sea": "#e0916b",
+  "magenta": "#d4547e"
+ },
+ "type": {
+  "serif": "\"Iowan Old Style\",\"Palatino Linotype\",Palatino,Georgia,serif",
+  "titleTransform": "uppercase",
+  "titleSpacing": ".14em",
+  "titleWeight": "600",
+  "titleColor": "#f6e8dd",
+  "headingSpacing": ".1em",
+  "headingSize": "14px",
+  "labelSpacing": ".16em",
+  "labelSize": "10px"
+ },
+ "sky": {
+  "top": "#3a1220",
+  "stop": "68%",
+  "width": "1500px",
+  "height": "760px"
+ },
+ "glow": {
+  "edge": "rgba(224,145,107,.08)",
+  "inner": "rgba(224,145,107,.06)",
+  "button": "rgba(232,180,92,.35)",
+  "primary": "rgba(212,84,126,.35)",
+  "title": "rgba(232,180,92,.4)",
+  "canvas": "rgba(224,145,107,.14)"
+ },
+ "fireflies": {
+  "hues": [
+   ["255,196,92", "#ffc45c"],
+   ["255,158,74", "#ff9e4a"],
+   ["240,220,140", "#f0dc8c"],
+   ["255,124,80", "#ff7c50"],
+   ["232,180,92", "#e8b45c"]
+  ],
+  "sizeMin": 1.4,
+  "sizeSpan": 1.6,
+  "halo": 8,
+  "core": 2.8,
+  "coreAlpha": ".24",
+  "spread": "-8%",
+  "layers": [
+   { "seed": 61, "count": 12, "drift": "tn-drift-a 59s", "blink": "tn-blink-a 6.1s", "delay": "0s" },
+   { "seed": 67, "count": 12, "drift": "tn-drift-b 67s", "blink": "tn-blink-b 8.3s", "delay": "2.2s" },
+   { "seed": 71, "count": 10, "drift": "tn-drift-c 73s", "blink": "tn-blink-a 5.7s", "delay": "3.4s" },
+   { "seed": 73, "count": 10, "drift": "tn-drift-b 53s reverse", "blink": "tn-blink-b 9.1s", "delay": "1.1s" }
+  ],
+  "blinkA": "0%,40%,100%{opacity:.18}50%{opacity:.9}60%{opacity:.26}",
+  "blinkB": "0%,55%,100%{opacity:.2}66%{opacity:.95}74%{opacity:.24}",
+  "reducedOpacity": ".45"
+ },
+ "glass": {
+  "scanlineColor": "rgba(0,0,0,.14)",
+  "scanlineOn": "3px",
+  "scanlineOff": "6px",
+  "vignetteStart": "50%",
+  "vignetteColor": "rgba(0,0,0,.55)"
+ },
+ "standard": {
+  "text": "SPQR",
+  "sub": "the ship Hesperus &middot; the senate and the people of it",
+  "color": "#e8b45c",
+  "border": "#7a4a2e",
+  "glow": "rgba(232,180,92,.5)",
+  "corner": "left:14px;bottom:12px",
+  "spacing": ".38em"
+ },
+ "wovenBy": "the bridge",
+ "note": "Put this on the ship by writing {\"theme\":\"wine-dark\"} into templates-theme/_active.json and running node toonami-all.mjs."
+}
