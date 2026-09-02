@@ -1,0 +1,17 @@
+{
+ "kind": "aqueduct",
+ "name": "the aqueduct from a well",
+ "waters": 25,
+ "cost": 4000,
+ "text": "Water, free, for 25 households. Still nobody pays for water.",
+ "id": "t-v-water-08",
+ "wovenBy": "v-water-08",
+ "chain": [
+  "v-water-08",
+  "water-08",
+  "l2-water-1-2",
+  "l3-water-1",
+  "l4-water",
+  "loom.mjs"
+ ]
+}

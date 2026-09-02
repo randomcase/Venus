@@ -1,0 +1,18 @@
+{
+ "kind": "exchange",
+ "name": "the exchange at the port",
+ "every": 7,
+ "mul": 1.92,
+ "cost": 7950,
+ "text": "The guilds sell at ×1.92 every 7 days.",
+ "id": "t-v-market-03",
+ "wovenBy": "v-market-03",
+ "chain": [
+  "v-market-03",
+  "market-03",
+  "l2-market-2-1",
+  "l3-market-2",
+  "l4-market",
+  "loom.mjs"
+ ]
+}

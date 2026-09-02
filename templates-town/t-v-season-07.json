@@ -1,0 +1,16 @@
+{
+ "kind": "fair",
+ "name": "the fair of deep winter",
+ "mul": 1.1,
+ "text": "Prosperity ×1.10 for the season.",
+ "id": "t-v-season-07",
+ "wovenBy": "v-season-07",
+ "chain": [
+  "v-season-07",
+  "season-07",
+  "l2-season-1-1",
+  "l3-season-1",
+  "l4-season",
+  "loom.mjs"
+ ]
+}

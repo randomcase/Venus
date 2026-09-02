@@ -1,0 +1,17 @@
+{
+ "kind": "road",
+ "name": "the road past the ditch and bank",
+ "keep": 0.99,
+ "cost": 1602,
+ "text": "A road; the town loses ×0.99 less to it.",
+ "id": "t-v-fence-05",
+ "wovenBy": "v-fence-05",
+ "chain": [
+  "v-fence-05",
+  "fence-05",
+  "l2-fence-1-1",
+  "l3-fence-1",
+  "l4-fence",
+  "loom.mjs"
+ ]
+}

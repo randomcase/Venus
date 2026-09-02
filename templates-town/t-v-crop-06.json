@@ -1,0 +1,18 @@
+{
+ "kind": "guild",
+ "name": "the guild of ale",
+ "dues": 99,
+ "members": 3,
+ "cost": 8709,
+ "text": "ale, by charter. Three households in the guild; dues of 99 HEZE a day.",
+ "id": "t-v-crop-06",
+ "wovenBy": "v-crop-06",
+ "chain": [
+  "v-crop-06",
+  "crop-06",
+  "l2-crop-1-2",
+  "l3-crop-1",
+  "l4-crop",
+  "loom.mjs"
+ ]
+}

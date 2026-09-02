@@ -1,0 +1,17 @@
+{
+ "kind": "ward",
+ "name": "the ward of a loft",
+ "houses": 32,
+ "cost": 12000,
+ "text": "32 households in the ward.",
+ "id": "t-v-store-06",
+ "wovenBy": "v-store-06",
+ "chain": [
+  "v-store-06",
+  "store-06",
+  "l2-store-3-2",
+  "l3-store-3",
+  "l4-store",
+  "loom.mjs"
+ ]
+}

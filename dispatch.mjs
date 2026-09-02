@@ -58,6 +58,7 @@ export function build() {
   .meta{color:var(--dim);font-size:12px;margin:4px 0 0}
   .body{margin-top:10px;border-top:1px solid var(--edge);padding-top:10px}.body h3{margin:12px 0 4px;font:500 15px/1.3 var(--serif);color:var(--gold)}.body p{margin:6px 0}.body ul{margin:4px 0 8px 18px;padding:0}.body li{margin:2px 0}.body code{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;color:var(--sea)}
   .marks{margin-top:10px}.marks button.on{border-color:var(--ok);color:var(--ok)}
+  .chipbox{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}.chip{display:inline-flex;flex-direction:column;background:var(--panel2);border:1px solid var(--edge);border-radius:14px;padding:8px 14px;font:500 15px/1.2 var(--serif);color:var(--gold);min-width:96px}.chip small{font:400 10.5px/1.3 ui-rounded,system-ui,sans-serif;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}.chip.num{color:var(--ink);font-variant-numeric:tabular-nums}
   footer{padding:10px 24px 28px;color:var(--dim);font-size:12px;max-width:920px;margin:0 auto}footer a{color:var(--sea);text-decoration:none}
 </style>
 <header><h1>Dispatches</h1><p>The story of this yard, in ${entries.length} pieces, each sealed with the words that asked for it. Type any of your words below; what they open, opens. The rest stays on the shelf so the shape of the whole is always in view.</p></header>
@@ -75,12 +76,17 @@ export function build() {
   const opened = {};
   async function open(phrase, d) { try { const km = await crypto.subtle.importKey('raw', new TextEncoder().encode(norm(phrase)), 'PBKDF2', false, ['deriveKey']); const k = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64(d.salt), iterations: d.rounds, hash: 'SHA-256' }, km, { name: 'AES-GCM', length: 256 }, false, ['decrypt']); const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(d.iv) }, k, b64(d.ct)); return new TextDecoder().decode(pt); } catch (e) { return null; } }
   const md = t => t.replace(/\\r\\n?/g, '\\n').split(/\\n{2,}/).map(b => b.startsWith('## ') ? (() => { const i = b.indexOf('\\n'); const h = i < 0 ? b : b.slice(0, i), rest = i < 0 ? '' : b.slice(i + 1); return '<h3>' + esc(h.slice(3)) + '</h3>' + (rest ? (rest.startsWith('- ') ? '<ul>' + rest.split('\\n').map(l => '<li>' + inline(esc(l.replace(/^- /, ''))) + '</li>').join('') + '</ul>' : '<p>' + inline(esc(rest)) + '</p>') : ''); })() : b.startsWith('- ') ? '<ul>' + b.split('\\n').map(l => '<li>' + inline(esc(l.replace(/^- /, ''))) + '</li>').join('') + '</ul>' : '<p>' + inline(esc(b)) + '</p>').join('');
-  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); const inline = s => s.replace(/\`([^\`]+)\`/g, '<code>$1</code>').replace(/\\*\\*([^*]+)\\*\\*/g, '<b>$1</b>');
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  /* a digest: the template of enums, decoded into chips. Big, cute, and only in the words of digest-enums.json. */
+  const chips = t => { let j; try { j = JSON.parse(t); } catch (e) { return '<p>' + esc(t) + '</p>'; } const skip = new Set(['digest', 'numbers', 'stray', 'enums']);
+    return '<div class="chipbox">' + Object.entries(j).filter(([k]) => !skip.has(k)).map(([k, v]) => '<span class="chip"><small>' + esc(k) + '</small>' + esc(String(v)) + '</span>').join('') + '</div>' +
+      (j.numbers ? '<div class="chipbox">' + Object.entries(j.numbers).map(([k, v]) => '<span class="chip num"><small>' + esc(k) + '</small>' + Number(v).toLocaleString('en-US') + '</span>').join('') + '</div>' : '') +
+      (j.stray && j.stray.length ? '<p class="meta">not yet in the template: ' + esc(j.stray.join('; ')) + '</p>' : '<p class="meta">every value is in the template</p>'); }; const inline = s => s.replace(/\`([^\`]+)\`/g, '<code>$1</code>').replace(/\\*\\*([^*]+)\\*\\*/g, '<b>$1</b>');
   function render() { const shelf = $('#shelf'); shelf.innerHTML = ''; let n = 0, r = 0, a = 0;
     for (const d of E) { const m = marks[d.id] || {}; if (opened[d.id]) n++; if (m.read) r++; if (m.answered) a++;
       const art = document.createElement('article'); art.className = (opened[d.id] ? 'open' : '') + (m.read ? ' read' : '');
       art.innerHTML = '<h2>' + esc(d.title) + '<small>' + d.t.slice(0, 10) + '</small></h2><p class="meta">sealed with your words: <b>' + esc(d.hint) + '</b> (' + d.words + ' words) · ' + d.chars.toLocaleString() + ' characters · ' + (d.tags || []).join(', ') + (opened[d.id] ? ' · <span class="badge ok">open</span>' : ' · <span class="badge">sealed</span>') + '</p>';
-      if (opened[d.id]) { const body = document.createElement('div'); body.className = 'body'; body.innerHTML = md(opened[d.id]); art.append(body);
+      if (opened[d.id]) { const body = document.createElement('div'); body.className = 'body'; body.innerHTML = opened[d.id].trim().startsWith('{') ? chips(opened[d.id]) : md(opened[d.id]); art.append(body);
         const mk = document.createElement('div'); mk.className = 'marks row'; for (const [k, label] of [['read', 'I have read this'], ['answered', 'I have answered this']]) { const b = document.createElement('button'); b.textContent = label; b.className = m[k] ? 'on' : ''; b.onclick = () => { marks[d.id] = { ...(marks[d.id] || {}), [k]: !m[k] }; saveMarks(); render(); }; mk.append(b); } art.append(mk); }
       shelf.append(art); }
     $('#count').textContent = n + ' of ' + E.length + ' open'; $('#marks').textContent = r + ' read · ' + a + ' answered'; }

@@ -1,0 +1,17 @@
+{
+ "kind": "road",
+ "name": "the road past the wattle",
+ "keep": 0.97,
+ "cost": 1185,
+ "text": "A road; the town loses ×0.97 less to it.",
+ "id": "t-v-fence-08",
+ "wovenBy": "v-fence-08",
+ "chain": [
+  "v-fence-08",
+  "fence-08",
+  "l2-fence-2-2",
+  "l3-fence-2",
+  "l4-fence",
+  "loom.mjs"
+ ]
+}

@@ -1,5 +1,5 @@
 {
- "generators": 61,
+ "generators": 63,
  "schema": {
   "templates-act": {
    "owner": null,
@@ -926,6 +926,23 @@
    },
    "example": "id"
   },
+  "templates-town": {
+   "owner": "town.mjs",
+   "declared": false,
+   "count": 100,
+   "required": [],
+   "shape": {
+    "kind": "string",
+    "name": "string",
+    "feeds": "number",
+    "cost": "number",
+    "text": "string",
+    "id": "string",
+    "wovenBy": "string",
+    "chain": "array"
+   },
+   "example": "kind"
+  },
   "templates-verdict": {
    "owner": null,
    "declared": false,
@@ -1042,6 +1059,10 @@
  "not_generators": [
   {
    "file": "castle-rules.mjs",
+   "kind": "library"
+  },
+  {
+   "file": "digest.mjs",
    "kind": "library"
   },
   {
@@ -1351,6 +1372,13 @@
    ]
   },
   {
+   "dir": "templates-town",
+   "files": 100,
+   "read_by": [
+    "town.mjs"
+   ]
+  },
+  {
    "dir": "templates-verdict",
    "files": 100,
    "read_by": []
@@ -1364,6 +1392,7 @@
    "dir": "templates-village",
    "files": 100,
    "read_by": [
+    "town.mjs",
     "village.mjs"
    ]
   },
@@ -1400,6 +1429,7 @@
   "clans.mjs",
   "corps.mjs",
   "descent.mjs",
+  "dispatch.mjs",
   "estate.mjs",
   "explorer.mjs",
   "factions.mjs",
@@ -1427,6 +1457,7 @@
   "steading.mjs",
   "studios.mjs",
   "symbols.mjs",
+  "town.mjs",
   "treasury.mjs",
   "tribunal.mjs",
   "village.mjs",
@@ -1679,6 +1710,13 @@
    ],
    "writes": [
     "dev.html"
+   ],
+   "refuses": ""
+  },
+  "dispatch.mjs": {
+   "reads": [],
+   "writes": [
+    "dispatch.html"
    ],
    "refuses": ""
   },
@@ -1991,6 +2029,18 @@
   "templatise.mjs": {
    "reads": [],
    "writes": [],
+   "refuses": ""
+  },
+  "town.mjs": {
+   "reads": [
+    "templates-town",
+    "templates-village",
+    "templates-village/",
+    "town.page.js"
+   ],
+   "writes": [
+    "town.html"
+   ],
    "refuses": ""
   },
   "treasury.mjs": {
