@@ -1,5 +1,5 @@
 {
- "generators": 60,
+ "generators": 61,
  "schema": {
   "templates-act": {
    "owner": null,
@@ -958,6 +958,24 @@
    },
    "example": "id"
   },
+  "templates-village": {
+   "owner": "village.mjs",
+   "declared": false,
+   "count": 100,
+   "required": [],
+   "shape": {
+    "kind": "string",
+    "name": "string",
+    "good": "string",
+    "feeds": "number",
+    "cost": "number",
+    "text": "string",
+    "id": "string",
+    "wovenBy": "string",
+    "chain": "array"
+   },
+   "example": "kind"
+  },
   "templates-vote": {
    "owner": null,
    "declared": false,
@@ -1185,7 +1203,8 @@
    "dir": "templates-farm",
    "files": 100,
    "read_by": [
-    "loom.mjs"
+    "loom.mjs",
+    "village.mjs"
    ]
   },
   {
@@ -1342,6 +1361,13 @@
    "read_by": []
   },
   {
+   "dir": "templates-village",
+   "files": 100,
+   "read_by": [
+    "village.mjs"
+   ]
+  },
+  {
    "dir": "templates-vote",
    "files": 100,
    "read_by": []
@@ -1403,6 +1429,7 @@
   "symbols.mjs",
   "treasury.mjs",
   "tribunal.mjs",
+  "village.mjs",
   "warlock.mjs",
   "siege.mjs",
   "warlocks.mjs",
@@ -1986,6 +2013,18 @@
    "reads": [],
    "writes": [
     "viewport.html"
+   ],
+   "refuses": ""
+  },
+  "village.mjs": {
+   "reads": [
+    "templates-farm",
+    "templates-farm/",
+    "templates-village",
+    "village.page.js"
+   ],
+   "writes": [
+    "village.html"
    ],
    "refuses": ""
   },

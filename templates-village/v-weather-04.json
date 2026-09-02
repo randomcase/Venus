@@ -1,0 +1,14 @@
+{
+ "kind": "saying",
+ "name": "a saying about hail",
+ "text": "Hail on the barley, ale in the barrel.",
+ "id": "v-weather-04",
+ "wovenBy": "weather-04",
+ "chain": [
+  "weather-04",
+  "l2-weather-2-2",
+  "l3-weather-2",
+  "l4-weather",
+  "loom.mjs"
+ ]
+}

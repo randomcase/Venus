@@ -1,0 +1,15 @@
+{
+ "kind": "festival",
+ "name": "the festival of deep winter",
+ "mul": 1,
+ "text": "Held when deep winter comes in: prosperity ×1.00 for the season.",
+ "id": "v-season-07",
+ "wovenBy": "season-07",
+ "chain": [
+  "season-07",
+  "l2-season-1-1",
+  "l3-season-1",
+  "l4-season",
+  "loom.mjs"
+ ]
+}

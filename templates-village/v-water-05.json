@@ -1,0 +1,16 @@
+{
+ "kind": "well",
+ "name": "the well at a pond",
+ "waters": 3,
+ "cost": 500,
+ "text": "Clean water, free, for 3 households. Nobody pays for water.",
+ "id": "v-water-05",
+ "wovenBy": "water-05",
+ "chain": [
+  "water-05",
+  "l2-water-3-1",
+  "l3-water-3",
+  "l4-water",
+  "loom.mjs"
+ ]
+}

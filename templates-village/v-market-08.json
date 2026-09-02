@@ -1,0 +1,17 @@
+{
+ "kind": "square",
+ "name": "the square at the port",
+ "every": 14,
+ "mul": 1.24,
+ "cost": 2748,
+ "text": "A market square: every 14 days the trades sell at ×1.24.",
+ "id": "v-market-08",
+ "wovenBy": "market-08",
+ "chain": [
+  "market-08",
+  "l2-market-2-2",
+  "l3-market-2",
+  "l4-market",
+  "loom.mjs"
+ ]
+}

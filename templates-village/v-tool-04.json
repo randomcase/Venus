@@ -1,0 +1,16 @@
+{
+ "kind": "workshop",
+ "name": "the smith's shop of the hoe",
+ "mul": 1.05,
+ "cost": 300,
+ "text": "Trades pay ×1.05 for the flint hoe.",
+ "id": "v-tool-04",
+ "wovenBy": "tool-04",
+ "chain": [
+  "tool-04",
+  "l2-tool-2-2",
+  "l3-tool-2",
+  "l4-tool",
+  "loom.mjs"
+ ]
+}

@@ -1,0 +1,16 @@
+{
+ "kind": "holding",
+ "name": "the smallholding on flat sand field of 2",
+ "grows": 3,
+ "cost": 800,
+ "text": "A household grows 3 of its own a day and asks for nothing.",
+ "id": "v-field-03",
+ "wovenBy": "field-03",
+ "chain": [
+  "field-03",
+  "l2-field-2-1",
+  "l3-field-2",
+  "l4-field",
+  "loom.mjs"
+ ]
+}

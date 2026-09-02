@@ -1,0 +1,18 @@
+{
+ "kind": "trade",
+ "name": "the brewhouse",
+ "good": "ale",
+ "eats": 11,
+ "pays": 63,
+ "cost": 2671,
+ "text": "ale from barley. Eats 11 of the harvest a day, pays 63 HEZE a day, feeds two households.",
+ "id": "v-crop-01",
+ "wovenBy": "crop-01",
+ "chain": [
+  "crop-01",
+  "l2-crop-1-1",
+  "l3-crop-1",
+  "l4-crop",
+  "loom.mjs"
+ ]
+}

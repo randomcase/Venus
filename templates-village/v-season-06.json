@@ -1,0 +1,15 @@
+{
+ "kind": "festival",
+ "name": "the festival of harvest",
+ "mul": 1.3,
+ "text": "Held when harvest comes in: prosperity ×1.30 for the season.",
+ "id": "v-season-06",
+ "wovenBy": "season-06",
+ "chain": [
+  "season-06",
+  "l2-season-3-2",
+  "l3-season-3",
+  "l4-season",
+  "loom.mjs"
+ ]
+}

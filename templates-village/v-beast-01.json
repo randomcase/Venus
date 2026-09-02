@@ -1,0 +1,17 @@
+{
+ "kind": "byre",
+ "name": "the byre of bees",
+ "good": "honey",
+ "feeds": 1,
+ "cost": 832,
+ "text": "bees, draws the plough. Feeds one household on its own; heard, not seen.",
+ "id": "v-beast-01",
+ "wovenBy": "beast-01",
+ "chain": [
+  "beast-01",
+  "l2-beast-1-1",
+  "l3-beast-1",
+  "l4-beast",
+  "loom.mjs"
+ ]
+}

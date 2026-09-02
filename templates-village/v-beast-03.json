@@ -1,0 +1,17 @@
+{
+ "kind": "byre",
+ "name": "the byre of a milk cow",
+ "good": "milk",
+ "feeds": 1,
+ "cost": 766,
+ "text": "a milk cow, draws the plough. Feeds one household on its own; heard, not seen.",
+ "id": "v-beast-03",
+ "wovenBy": "beast-03",
+ "chain": [
+  "beast-03",
+  "l2-beast-2-1",
+  "l3-beast-2",
+  "l4-beast",
+  "loom.mjs"
+ ]
+}

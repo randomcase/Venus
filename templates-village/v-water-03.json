@@ -1,0 +1,16 @@
+{
+ "kind": "well",
+ "name": "the well at rain barrels",
+ "waters": 5,
+ "cost": 1000,
+ "text": "Clean water, free, for 5 households. Nobody pays for water.",
+ "id": "v-water-03",
+ "wovenBy": "water-03",
+ "chain": [
+  "water-03",
+  "l2-water-2-1",
+  "l3-water-2",
+  "l4-water",
+  "loom.mjs"
+ ]
+}
