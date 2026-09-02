@@ -1,7 +1,7 @@
 {
  "id": "_active",
  "kind": "theme-pointer",
- "theme": "hesperus",
+ "theme": "dance-101",
  "text": "Which theme the ship is wearing. Change this word to the id of any file in templates-theme/ and run node toonami-all.mjs; every page in the yard is repainted, and no code is edited to do it.",
  "wovenBy": "the bridge"
 }
