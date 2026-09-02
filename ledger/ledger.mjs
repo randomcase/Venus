@@ -77,6 +77,7 @@ export class Ledger {
       else if (e.type === 'redeem') { const f = st.accounts[b.from], t = st.accounts[b.to]; f.balances[b.tranche] -= b.amount; t.redeemed += b.amount; st.redeemed = (st.redeemed || 0) + b.amount; }
       else if (e.type === 'rotate-key') { const k = st.keys[b.old]; if (k) { delete st.keys[b.old]; st.keys[b.new.id] = { ...b.new, role: k.role, account: k.account }; if (k.account) st.accounts[k.account].owner = b.new; } }
       else if (e.type === 'key-succession') { st.keyEpochs = st.keyEpochs || []; st.keyEpochs.push({ epoch: st.keyEpochs.length + 1, at: e.time, ...b }); }
+      else if (e.type === 'syndication') { st.syndications = st.syndications || []; st.syndications.push({ n: st.syndications.length + 1, at: e.time, ...b }); }
       else if (e.type === 'note') st.notes++;
       else if (e.type === 'checkpoint') st.checkpoints++;
     }
@@ -110,6 +111,11 @@ export class Ledger {
          changing who could ever reconstruct that secret, which is as consequential
          as amending the rules. */
       case 'key-succession': if (!hasQuorum()) throw new Error('key succession needs the quorum'); if (!(b.threshold >= 1 && b.threshold <= (b.holders || []).length)) throw new Error('threshold must be between 1 and the number of holders'); break;
+      /* a crossing between two independent ledgers — this world's chain and the other's. It carries a
+         Merkle root and a count, never the events themselves: what crosses is proof that a span of
+         history exists and is unbroken, not the history. Quorum-gated because it changes what this
+         ledger asserts about a chain it does not control and cannot verify past the root it was given. */
+      case 'syndication': if (!hasQuorum()) throw new Error('syndication needs the quorum'); if (!b.counterpart || !b.root || !(b.count >= 0)) throw new Error('a syndication needs a counterpart, a root, and a count'); break;
       case 'note': if (!sigIds.some(id => st.keys[id])) throw new Error('a note needs a signature from a registered key'); break;
       default: throw new Error('unknown event type ' + e.type);
     }
@@ -167,9 +173,10 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, '
       else if (cmd === 'transfer') out(l.append('transfer', { from: args[0], to: args[1], tranche: +args[2], amount: +args[3], memo: (flags.memo || [''])[0] }, signers));
       else if (cmd === 'note') out(l.append('note', JSON.parse(args[0]), signers));
       else if (cmd === 'key-succession') out(l.append('key-succession', JSON.parse(args[0]), signers));
+      else if (cmd === 'syndication') out(l.append('syndication', JSON.parse(args[0]), signers));
       else if (cmd === 'checkpoint') out(l.checkpoint(signers));
       else if (cmd === 'verify') { const v = l.verify(); out(v); process.exit(v.ok ? 0 : 1); }
       else if (cmd === 'balances') { const st = l.replay(); out({ allowedPerTranche: l.allowedIssuance(), issued: st.issued, accounts: Object.values(st.accounts).map(a => ({ id: a.id, name: a.name, balances: a.balances })) }); }
-      else { console.error('commands: init keygen account issue transfer note key-succession checkpoint verify balances'); process.exit(2); } }
+      else { console.error('commands: init keygen account issue transfer note key-succession syndication checkpoint verify balances'); process.exit(2); } }
   } catch (e) { console.error('no:', e.message); process.exit(1); }
 }

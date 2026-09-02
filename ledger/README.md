@@ -152,6 +152,36 @@ fallback model inside the same call.
 Credentials: `ANTHROPIC_API_KEY`, or `ant auth login`. Without either, the
 ledger, the report and the lights work; the assistant does not.
 
+## Syndication: carrying one ledger's history to another's
+
+Two sovereign chains — say, an Earth ledger and a lunar one — are not one
+ledger split in half. Each is its own `Ledger`, its own custodians, its own
+quorum; neither can see or verify the other's history past what actually
+crosses. `syndicate.mjs` carries a Merkle root and a count from one chain and
+records it as a `syndication` event (quorum-signed, like `amend`) on the
+other — never the events themselves. A chain vouches for the fact that a
+span of the other's history exists and is unbroken, without ever taking
+custody of what's in it — the same shape as `key-succession`'s "the hash,
+never the secret."
+
+```bash
+node syndicate.mjs status earth-dir moon-dir                 # what would cross, without crossing it
+node syndicate.mjs carry earth-dir moon-dir --signer selene --signer endymion
+                                                              # moon records what it received, quorum-signed there
+node syndicate.mjs carry earth-dir moon-dir --signer selene --signer endymion \
+  --mirror --signer2 witch --signer2 warlock                 # earth also records what it sent
+```
+
+Run this against a lunar ledger that has been accruing its own six months of
+unrelated activity and the arithmetic says the honest thing on its own:
+Earth's contribution is whatever share it actually is, usually a rounding
+error, and the Moon's own count doesn't pause for it — reconciled without
+comment. That's not a flourish; a test grows a real 6,000-event lunar
+history and checks the real percentage. A second `carry` only ever counts
+what's new since the last one, never the whole history again, and content
+sealed with `keyring.mjs` and merely *noted* on one side never appears in
+the other side's file — a test checks the raw JSONL for exactly that.
+
 ## Tests
 
 ```bash
