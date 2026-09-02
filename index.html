@@ -335,6 +335,91 @@
     <div class="band"><i style="background:var(--green)"></i>
       <i style="background:var(--plum)"></i><i style="background:var(--cream)"></i>
       <i style="background:var(--rose)"></i><i style="background:var(--gold)"></i></div>
+  </header>
+
+  <!-- THE BRIDGE. The front page is the bridge of the Hesperus now: the viewscreen ahead,
+       the stations across, the ship's plan below, and the decks after that. The readouts
+       are read from what the other decks saved in this browser; nothing here is invented.
+       The viewscreen is stars, the planet and the rail: nothing with a face. -->
+  <style>
+    .bridge{margin:0 0 26px}
+    .bridge .screen{position:relative;border:1px solid var(--edge);border-radius:14px;overflow:hidden;background:#000;box-shadow:0 0 0 1px rgba(63,212,255,.08),0 0 40px rgba(63,212,255,.12)}
+    .bridge canvas{display:block;width:100%;height:320px}
+    .bridge .hud{position:absolute;left:14px;top:12px;font:10.5px/1.5 ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--sea);text-shadow:0 0 8px rgba(63,212,255,.6)}
+    .bridge .hud b{display:block;color:#fff;font-size:12px}
+    .bridge .hud.r{left:auto;right:14px;text-align:right}
+    .stations{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin:12px 0 0}
+    .station{display:block;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:10px 12px;box-shadow:inset 0 0 24px rgba(63,212,255,.05)}
+    .station:hover{border-color:var(--sea);box-shadow:0 0 14px rgba(63,212,255,.35)}
+    .station b{display:block;font:700 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--sea);margin-bottom:6px}
+    .station span{display:block;font:500 19px/1.15 var(--serif);font-variant-numeric:tabular-nums;color:#fff}
+    .station i{display:block;font-style:normal;font-size:11px;color:var(--dim);margin-top:3px}
+    .plan{margin:14px 0 0;background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:14px 16px}
+    .plan h3{margin:0 0 4px;font:700 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--sea)}
+    .plan p{color:var(--dim);font-size:12.5px;max-width:82ch;margin:6px 0}
+    .plan p b{color:var(--ink);font-weight:600}
+    .hull{display:grid;grid-template-columns:3fr 1fr;height:150px;margin:12px 0 6px;border:2px solid #7a5a1e;border-radius:80px 12px 12px 80px;overflow:hidden;box-shadow:0 0 18px rgba(255,210,63,.15)}
+    .corn{position:relative;background:repeating-linear-gradient(90deg,#173a1c 0 9px,#0c2210 9px 12px);border-right:2px solid #7a5a1e}
+    .corn::after{content:"CORN · 135,400 KM² · THREE QUARTERS · EVERYONE'S";position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font:700 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;color:#b6ff7a;text-shadow:0 0 8px #000,0 0 8px #000}
+    .quarter{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);background:#0f1430}
+    .quarter i{font-style:normal;font:9px/1.2 ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);border:1px solid #22307a;display:flex;align-items:center;justify-content:center;text-align:center;padding:2px}
+    .quarter i.empty{color:var(--dim)}
+    @media (max-width:700px){.bridge canvas{height:220px}.hull{height:120px}}
+  </style>
+  <div class="bridge">
+    <div class="screen"><canvas id="viewscreen" width="1200" height="320"></canvas>
+      <div class="hud"><b>Hesperus</b>bearing Venus · the evening star</div>
+      <div class="hud r"><b id="hud-day">day —</b><span id="hud-line">the decks are quiet</span></div>
+    </div>
+    <div class="stations">
+      <a class="station" href="clans.html"><b>Helm · the clans</b><span id="rd-clans">—</span><i>units piled across six clans</i></a>
+      <a class="station" href="continent.html"><b>Fields · Aphrodite Terra</b><span id="rd-continent">—</span><i>parcels grown of 4,080 arable</i></a>
+      <a class="station" href="village.html"><b>Stores · the village</b><span id="rd-village">—</span><i>grain in the village, households</i></a>
+      <a class="station" href="town.html"><b>Quarters · the town</b><span id="rd-town">—</span><i>citizens, and rent sent down</i></a>
+      <a class="station" href="market.html"><b>Exchange · the market</b><span id="rd-market">—</span><i>tranches held, degree on the board</i></a>
+      <a class="station" href="descent.html"><b>Treasury · the docket</b><span id="rd-heze">—</span><i>HEZE, against a cap of 21,000,000</i></a>
+      <a class="station" href="dispatch.html"><b>Comms · the shelf</b><span>26 sealed</span><i>dispatches and digests, by your words</i></a>
+      <a class="station" href="ledger/explorer.html"><b>Engineering · the ledger</b><span>21 × 1,000,000</span><i>two centuries, hash-chained</i></a>
+      <a class="station" href="arcade.html"><b>The arcade</b><span>223 cabinets</span><i>every deck, running</i></a>
+    </div>
+    <div class="plan">
+      <h3>The ship's plan</h3>
+      <div class="hull">
+        <div class="corn"></div>
+        <div class="quarter"><i>the library</i><i>the loom hall</i><i>the long walk</i><i>the workshop</i><i>the dispatch shelf</i><i class="empty">a room kept empty</i></div>
+      </div>
+      <p><b>The Hesperus is the size of Missouri</b>: 180,540 square kilometres of deck. Three quarters of it is corn, 135,400 square kilometres of field, and the corn is not mine; the corn is everyone's, and the clans, the continent, the village and the town are how it is grown, piled, milled and eaten. One quarter is living space, 45,100 square kilometres, and that quarter is mine.</p>
+      <p><b>What I do with my quarter.</b> Most of it I give back as commons. A library, which is <a href="reading.html" style="color:var(--gold)">the reading room</a> and <a href="kb.html" style="color:var(--gold)">the knowledge base</a>. A loom hall, where the <a href="farm.html" style="color:var(--gold)">templates weave templates</a>. A long walk with nothing on it but the fireflies. A workshop, which is <a href="whiteboard.html" style="color:var(--gold)">the whiteboard</a>. The dispatch shelf, sealed with your words. And one room kept empty, because a ship this size should have somewhere nobody has decided anything about yet. Nothing in my quarter has a face, and nothing in it looks at you.</p>
+    </div>
+  </div>
+  <script>
+  (function () {
+    const J = k => { try { return JSON.parse(localStorage.getItem(k) || 'null') || {}; } catch (e) { return {}; } };
+    const fmt = n => Math.round(n).toLocaleString('en-US'), $ = s => document.querySelector(s);
+    const c = J('clans.v1'), ct = J('continent.v1'), v = J('village.v1'), t = J('town.v1'), m = J('market.v1'), d = J('descent.v1');
+    const piles = Object.values(c.piles || {}).reduce((a, b) => a + b, 0), grown = (ct.cells || []).filter(x => x === 2).length;
+    $('#rd-clans').textContent = c.piles ? fmt(piles) : 'unmanned'; $('#rd-continent').textContent = ct.cells ? fmt(grown) : 'bare';
+    $('#rd-village').textContent = v.built ? `${fmt(v.grain || 0)} · ${v.households || 0}` : 'unbuilt'; $('#rd-town').textContent = t.built ? `${t.citizens || 0} · ${fmt(t.rentSent || 0)}` : 'unbuilt';
+    $('#rd-market').textContent = m.held ? `${m.held.length} · degree ${m.degree}` : 'closed'; $('#rd-heze').textContent = d.heze != null ? fmt(d.heze) : 'no docket';
+    const day = Math.max(c.day || 0, ct.day || 0, v.day || 0, t.day || 0); $('#hud-day').textContent = `day ${fmt(day)}`;
+    $('#hud-line').textContent = grown > 0 ? `${(100 * grown / 4080).toFixed(1)}% of the continent grown` : piles > 0 ? 'the clans are piling' : 'the decks are quiet';
+    /* the viewscreen: stars, the planet, the rail. Drawn, not photographed; nothing with a face. */
+    const cv = $('#viewscreen'), g = cv.getContext('2d'); const stars = Array.from({ length: 260 }, (_, i) => ({ x: (i * 7919 % 1200), y: (i * 104729 % 320), r: .4 + (i % 5) * .3, s: .02 + (i % 7) * .01 }));
+    function draw(now) { const W = cv.width = cv.clientWidth * (devicePixelRatio > 1 ? 1.5 : 1), H = cv.height = cv.clientHeight * (devicePixelRatio > 1 ? 1.5 : 1); const t = now / 1000;
+      g.fillStyle = '#02030a'; g.fillRect(0, 0, W, H);
+      for (const s of stars) { const x = ((s.x / 1200) * W - t * s.s * 40) % W; g.fillStyle = `rgba(233,241,255,${.35 + .4 * Math.abs(Math.sin(t * .7 + s.x))})`; g.beginPath(); g.arc(x < 0 ? x + W : x, s.y / 320 * H, s.r * (W / 1200), 0, 7); g.fill(); }
+      const px = W * .74, py = H * .62, pr = H * .72; const glow = g.createRadialGradient(px, py, pr * .9, px, py, pr * 1.25); glow.addColorStop(0, 'rgba(255,190,90,.35)'); glow.addColorStop(1, 'rgba(255,190,90,0)'); g.fillStyle = glow; g.beginPath(); g.arc(px, py, pr * 1.25, 0, 7); g.fill();
+      g.save(); g.beginPath(); g.arc(px, py, pr, 0, 7); g.clip(); const disc = g.createRadialGradient(px - pr * .35, py - pr * .35, pr * .1, px, py, pr); disc.addColorStop(0, '#ffe2a8'); disc.addColorStop(.6, '#e0a65a'); disc.addColorStop(1, '#6a3a18'); g.fillStyle = disc; g.fillRect(0, 0, W, H);
+      for (let b = 0; b < 14; b++) { const y = py - pr + (b + .5) * (2 * pr / 14), a = .08 + .08 * Math.sin(b * 1.7); g.fillStyle = `rgba(120,60,20,${a})`; g.beginPath(); for (let x = px - pr; x <= px + pr; x += 6) { const yy = y + Math.sin(x / 60 + t * .15 + b) * 6 + Math.sin(x / 23 - t * .1) * 3; b === 0 && x === px - pr ? g.moveTo(x, yy) : g.lineTo(x, yy); } g.lineTo(px + pr, y + 9); g.lineTo(px - pr, y + 9); g.closePath(); g.fill(); }
+      const term = g.createLinearGradient(px - pr, 0, px + pr, 0); term.addColorStop(0, 'rgba(0,0,0,0)'); term.addColorStop(.55, 'rgba(0,0,0,0)'); term.addColorStop(1, 'rgba(0,0,0,.85)'); g.fillStyle = term; g.fillRect(0, 0, W, H); g.restore();
+      g.fillStyle = '#0a0d1c'; g.beginPath(); g.moveTo(0, H); g.lineTo(0, H * .86); g.quadraticCurveTo(W * .5, H * .7, W, H * .86); g.lineTo(W, H); g.fill(); g.strokeStyle = 'rgba(63,212,255,.45)'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(0, H * .86); g.quadraticCurveTo(W * .5, H * .7, W, H * .86); g.stroke();
+      for (let k = 0; k < 9; k++) { const x = W * (.08 + k * .105), on = Math.sin(t * (1 + k * .3) + k) > .2; g.fillStyle = on ? (k % 3 ? '#3fd4ff' : '#ff4fd8') : '#22307a'; g.fillRect(x, H * .9 - k % 2 * 4, 22, 3); }
+      requestAnimationFrame(draw); }
+    requestAnimationFrame(draw);
+  })();
+  </script>
+
+  <h2>The decks</h2>
     <p class="lede">Thirty-nine pages: boards, templates, a contract, a court and
       its record. Draw a hull and count its fastenings, order it against a price
       list, man it, provision it, run it down a lane, put a motion to a chamber
@@ -347,7 +432,7 @@
       starting, start at <a href="school.html" style="color:var(--gold)">the
       school</a>; if you are teaching, start at
       <a href="grades.html" style="color:var(--gold)">the twelve grades</a>.</p>
-  </header>
+
 
   <h2>Build</h2>
   <div class="grid">
