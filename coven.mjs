@@ -104,6 +104,31 @@ const HOLDS = [
     effect: { type: 'add', target: 'waxCap', x: 40 }, text: 'Favours no office. Raises how much sealing wax the croft can hold before it is wasted — a thing every syndicate needs and none of the three offices claims for itself.' },
 ];
 
+/* THE ACTIVITY. What a syndicate is doing right now, so syndication reads as something alive
+   rather than a clock ticking toward the next interval. Every activityEvery days each syndicate
+   rerolls, weighted, into one of four states — a light, glanceable from the list without opening
+   a syndicate — and picks a line for what it is looking into from that state's own pool. Two of
+   the four are worth stealing from: money sitting in the open (staged) or a finding worth taking
+   before they write it down (discovery), and the steal is how you move HEZE onto the shared
+   docket ahead of an honest carry — a syndicate this large does not miss it, but a failed attempt
+   while it is discovery, or a failed attempt at all while it is staged, leaves it alert for
+   stealCooldown days. Effects are the same {chance, min, max} shape throughout, read by
+   coven.page.js, never hard-coded there. */
+const ACTIVITY = [
+  { id: 'quiet', kind: 'activity', label: 'Quiet', color: '#5a6478', weight: 40, steal: null,
+    lookingInto: ['the weather over the seat', 'a slow day at the door', 'whether the wax fills before the next visit', 'nothing worth a note'],
+    text: 'Nothing stirring. There is nothing here to take.' },
+  { id: 'planning', kind: 'activity', label: 'Planning', color: '#3f8fbf', weight: 30, steal: { chance: 35, min: 150, max: 400 },
+    lookingInto: ['where the next issuance should go', 'whether to widen a door\'s share', 'a proposal that has not been written yet', 'next season\'s allocation', 'a door that has been quiet too long'],
+    text: 'Weighing what to do next. Nothing is committed yet, so nothing here is guarded closely.' },
+  { id: 'discovery', kind: 'activity', label: 'Discovery', color: '#e0a13f', weight: 20, steal: { chance: 15, min: 300, max: 900 },
+    lookingInto: ['a discrepancy between two tallies', 'why the last checkpoint hash did not match on the first try', 'a carry the warlock swears he made', 'a door that signed twice in one day', 'a share that does not reconcile', 'a proposal nobody remembers writing'],
+    text: 'Auditing something that does not add up. Alert, and a bad time to be noticed near a door.' },
+  { id: 'staged', kind: 'activity', label: 'Staged', color: '#e06f5a', weight: 10, steal: { chance: 70, min: 500, max: 1500 },
+    lookingInto: ['the ready pile, at capacity and waiting', 'a warlock about to travel', 'the six-month gate, and how far off it is', 'nothing — it is already decided'],
+    text: 'Signed and staged, waiting on the interval to carry it across. Move first, and it never goes.' },
+];
+
 const SYNDICATES = 21, DOORS = 200;
 const weave = new Function(WEAVE + '; return weave;')();
 const SEED = 1621;
@@ -116,10 +141,12 @@ rmSync('templates-croft', { recursive: true, force: true }); mkdirSync('template
 for (const c of crofts) writeFileSync(`templates-croft/${c.id}.json`, JSON.stringify(c, null, 1));
 rmSync('templates-hold', { recursive: true, force: true }); mkdirSync('templates-hold');
 for (const h of HOLDS) writeFileSync(`templates-hold/${h.id}.json`, JSON.stringify(h, null, 1));
+rmSync('templates-activity', { recursive: true, force: true }); mkdirSync('templates-activity');
+for (const a of ACTIVITY) writeFileSync(`templates-activity/${a.id}.json`, JSON.stringify(a, null, 1));
 const total = readdirSync('.').filter(d => d.startsWith('templates-')).reduce((n, d) => n + readdirSync(d).filter(f => f.endsWith('.json')).length, 0);
-console.log(`the coven: ${people.length} practitioners (${people.filter(p => p.office === 'witch').length} witches, ${people.filter(p => p.office === 'wizard').length} wizards, ${people.filter(p => p.office === 'warlock').length} warlocks) in ${syndicates.length} syndicates over ${doors.length} doors, reading ${PRED.length} of the archive's ${warlocks.length}, holding back ${HELD_BACK.join(' and ')}; ${crofts.length} crofts, ${HOLDS.length} hold types · templates on disk: ${total}`);
+console.log(`the coven: ${people.length} practitioners (${people.filter(p => p.office === 'witch').length} witches, ${people.filter(p => p.office === 'wizard').length} wizards, ${people.filter(p => p.office === 'warlock').length} warlocks) in ${syndicates.length} syndicates over ${doors.length} doors, reading ${PRED.length} of the archive's ${warlocks.length}, holding back ${HELD_BACK.join(' and ')}; ${crofts.length} crofts, ${HOLDS.length} hold types, ${ACTIVITY.length} activity states · templates on disk: ${total}`);
 
-const DEF = { people, syndicates, doors, crofts, holds: HOLDS, pred: PRED, spells: SPELLS, seed: SEED, syndicateCount: SYNDICATES, doorCount: DOORS, total, rules: rulesFor('coven') };
+const DEF = { people, syndicates, doors, crofts, holds: HOLDS, activity: ACTIVITY, pred: PRED, spells: SPELLS, seed: SEED, syndicateCount: SYNDICATES, doorCount: DOORS, total, rules: rulesFor('coven') };
 const page = readFileSync('coven.page.js', 'utf8');
 const html = `<title>The coven &middot; who holds the doors</title>
 <meta charset="utf-8">
@@ -135,6 +162,11 @@ const html = `<title>The coven &middot; who holds the doors</title>
   own trick; four buildable holds, one favouring each office and one favouring none, spend
   wax and HEZE to change the odds of signing, how long a proposal stays fresh, or unlock
   an early carry outside the six-month interval.
+  Every syndicate also carries a light: quiet, planning, discovery or staged, rerolled on
+  its own schedule, each with its own line for what it is looking into. Staged and
+  discovery are worth stealing from — money sitting in the open, or a finding worth taking
+  before it is written down — and a successful steal moves HEZE onto the shared docket
+  ahead of an honest carry. A failed attempt leaves a syndicate alert for a while.
   The names are invented; templates-warlock/ holds twenty-two real people, several of them
   killed for witchcraft, and each practitioner cites one rather than standing in for one.
   Sigils are geometry: rings, bars, chords. Nothing with a face.
@@ -150,6 +182,12 @@ const html = `<title>The coven &middot; who holds the doors</title>
   .syns{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:6px}
   .syn{background:var(--panel2);border:1px solid var(--edge);border-radius:10px;padding:7px 8px;cursor:pointer;font-size:11px}.syn:hover{border-color:var(--gold)}.syn.on{border-color:var(--gold);box-shadow:0 0 10px rgba(242,201,138,.2)}
   .syn b{display:block;font-size:12px;font-weight:600}.syn span{color:var(--dim)}.syn .q{color:var(--ok)}.syn .w{color:var(--bad)}
+  .light{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:1px;box-shadow:0 0 5px currentColor}
+  .light.hot{animation:pulse 1.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--dim);margin:6px 0 2px}.legend span{display:flex;align-items:center}
+  #activity p{margin:6px 0 0;color:var(--dim);font-size:12px}
+  #steal-out{font-size:12px;margin-top:6px}
   .who{display:grid;grid-template-columns:52px 1fr auto;gap:8px;align-items:start;border-top:1px solid var(--edge);padding:8px 0}
   .who canvas{width:52px;height:52px;border:1px solid var(--edge);border-radius:8px;background:#0a0d14}
   .who b{font-weight:600;display:block}.who em{font-style:normal;color:var(--sea);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
@@ -167,8 +205,15 @@ const html = `<title>The coven &middot; who holds the doors</title>
 <header><h1>The coven</h1><small>who holds the doors &middot; 21 syndicates, one per tranche &middot; a witch at the door, a wizard over the book, a warlock who carries &middot; two of three sign</small><span class="sp"></span><small id="clock"></small></header>
 <main>
   <div>
-    <section><h2>The syndicates<i>one per tranche of a million; click one to read its three and its doors</i></h2><div class="syns" id="syns"></div></section>
-    <section><h2 id="syn-name">—</h2><div id="syn-stats"></div><div id="who"></div></section>
+    <section><h2>The syndicates<i>one per tranche of a million; click one to read its three and its doors</i></h2>
+      <div class="legend" id="legend"></div>
+      <div class="syns" id="syns"></div></section>
+    <section><h2 id="syn-name">—</h2><div id="syn-stats"></div>
+      <h2 style="margin-top:10px">Activity<i>what this syndicate is doing right now, and whether there is anything worth taking</i></h2>
+      <div id="activity"></div>
+      <div class="row"><button id="steal">Attempt a steal</button></div>
+      <div id="steal-out"></div>
+      <div id="who"></div></section>
     <section><h2>The croft<i>sealing wax, grown on its own coprime period — never due the same day as another syndicate's</i></h2><div id="croft-stats"></div></section>
     <section><h2>Holds<i>four kinds, one favouring each office and one favouring none; wax and HEZE both, and one per syndicate</i></h2><div id="holds"></div></section>
   </div>

@@ -534,11 +534,12 @@
   },
   "spellId": {
    "type": "string",
-   "distinct": 6,
+   "distinct": 7,
    "samples": 284,
    "values": [
     "bind",
     "bolt",
+    "enum-spell",
     "gate",
     "summon",
     "unmake",

@@ -336,6 +336,22 @@
     183
    ]
   },
+  "rules.activityEvery": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 7,
+   "values": [
+    5
+   ]
+  },
+  "rules.stealCooldown": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 7,
+   "values": [
+    30
+   ]
+  },
   "notes.quorum": {
    "type": "string",
    "distinct": 1,

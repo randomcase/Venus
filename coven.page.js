@@ -7,12 +7,14 @@
   const KEY = 'coven.v1', DKEY = 'descent.v1';
   const read = (k, d) => { try { return Object.assign(d, JSON.parse(localStorage.getItem(k) || 'null') || {}); } catch (e) { return d; } };
   let W = { people: D.people, syndicates: D.syndicates, doors: D.doors, crofts: D.crofts };
-  let S = read(KEY, { day: 0, seed: D.seed, props: [], carried: 0, chain: [], nextId: 1, lastSync: 0, auto: false, log: [], wax: {}, built: {}, saved: Date.now() });
-  S.wax = S.wax || {}; S.built = S.built || {};
+  let S = read(KEY, { day: 0, seed: D.seed, props: [], carried: 0, chain: [], nextId: 1, lastSync: 0, auto: false, log: [], wax: {}, built: {}, activity: {}, stealLock: {}, saved: Date.now() });
+  S.wax = S.wax || {}; S.built = S.built || {}; S.activity = S.activity || {}; S.stealLock = S.stealLock || {};
   let Dk = read(DKEY, { heze: 0, issued: 0, ledger: [] });
   const note = m => { S.log.unshift({ t: Math.floor(S.day), m }); S.log.length = Math.min(S.log.length, 60); };
   const save = () => { S.saved = Date.now(); Dk.saved = Date.now(); localStorage.setItem(KEY, JSON.stringify(S)); localStorage.setItem(DKEY, JSON.stringify(Dk)); };
   const debit = (amt, line) => { if (Dk.heze < amt) return false; Dk.heze -= amt; Dk.ledger.unshift({ t: Date.now(), line: 'Coven: ' + line, amt: -amt }); return true; };
+  const CAP = RULES.cap;
+  const credit = (amt, line) => { const a = Math.min(amt, Math.max(0, CAP - Dk.issued)); if (a <= 0) return 0; Dk.heze += a; Dk.issued += a; Dk.ledger.unshift({ t: Date.now(), line: 'Coven: ' + line, amt: a }); Dk.ledger.length = Math.min(Dk.ledger.length, 300); return a; };
   let cur = 0;
 
   /* THE CROFTS AND HOLDS. One croft per syndicate, growing sealing wax on its own coprime period —
@@ -42,6 +44,44 @@
   const OFFICES = ['witch', 'wizard', 'warlock'];
   const WHY = ['a door that had not moved in a season', 'a redemption asked for at the counter', 'a tranche share drawn against the next door', 'a correction the book found on replay', 'a carry the other world says it never received', 'an issuance due on the schedule and not yet taken', 'a reconciliation of two tallies that disagree by one', 'a door asking to be closed for the interval'];
 
+  /* THE ACTIVITY. Every activityEvery days a syndicate rerolls, weighted by D.activity's own
+     weight field, into one of quiet/planning/discovery/staged, and picks a line from that
+     state's lookingInto pool — both from a hash of the day and the syndicate, so it is stable
+     within an interval and replays the same way on catch-up, not redrawn on every render.
+     h32 is unsigned throughout (>>> only): the same coercion bug this file already found once
+     in the proposal generator is just as real here. */
+  const h32 = (a, b) => { let x = (Math.imul(a, 2654435761) ^ Math.imul(b, 40503)) >>> 0; x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return x >>> 0; };
+  function rollActivity(synId, sIdx, d1) {
+    const totalWeight = D.activity.reduce((a, s) => a + s.weight, 0);
+    const k1 = h32(d1, sIdx * 7 + 1) % totalWeight;
+    let acc = 0, chosen = D.activity[0];
+    for (const s of D.activity) { acc += s.weight; if (k1 < acc) { chosen = s; break; } }
+    const k2 = h32(d1, sIdx * 13 + 5) % chosen.lookingInto.length;
+    S.activity[synId] = { state: chosen.id, since: d1, looking: chosen.lookingInto[k2] };
+  }
+  const activityFor = synId => { if (!S.activity[synId]) rollActivity(synId, W.syndicates.findIndex(s => s.id === synId), Math.floor(S.day)); return S.activity[synId]; };
+  const activityDef = id => D.activity.find(a => a.id === id);
+
+  function steal(synId) {
+    const act = activityFor(synId), def = activityDef(act.state), sy = W.syndicates.find(s => s.id === synId);
+    const d1 = Math.floor(S.day);
+    if ((S.stealLock[synId] || 0) > d1) { $('#steal-out').innerHTML = `<span style="color:var(--bad)">${sy.name} is still alert. ${S.stealLock[synId] - d1} days left before it is worth trying again.</span>`; return; }
+    if (!def.steal) { $('#steal-out').innerHTML = `<span style="color:var(--dim)">Nothing to take while ${sy.name} is ${def.label.toLowerCase()}.</span>`; return; }
+    const k = h32(S.nextId++, synId.length + d1) % 100;
+    if (k < def.steal.chance) {
+      const want = def.steal.min + h32(S.nextId++, d1) % (def.steal.max - def.steal.min + 1);
+      const amt = credit(want, `stolen from ${sy.name} while ${def.label.toLowerCase()} — smuggled into Venus`);
+      note(`Stole ${fmt(amt)} HEZE from ${sy.name} while it was ${def.label.toLowerCase()}. It moves onto the docket before they ever carry it.`);
+      $('#steal-out').innerHTML = `<span style="color:var(--ok)">Took ${fmt(amt)} HEZE. Onto the docket, ahead of the carry.</span>`;
+    } else {
+      const cooldown = (act.state === 'staged' || act.state === 'discovery') ? RULES.stealCooldown : 0;
+      if (cooldown) { S.stealLock[synId] = d1 + cooldown; rollActivity(synId, W.syndicates.findIndex(s => s.id === synId), d1); S.activity[synId].state = 'discovery'; S.activity[synId].looking = activityDef('discovery').lookingInto[h32(d1, synId.length) % activityDef('discovery').lookingInto.length]; }
+      note(`The attempt on ${sy.name} came up empty${cooldown ? ', and now they are watching — alert for ' + cooldown + ' days.' : '.'}`);
+      $('#steal-out').innerHTML = `<span style="color:var(--bad)">Nothing taken${cooldown ? '. They noticed, and are digging into it now.' : '.'}</span>`;
+    }
+    save(); render();
+  }
+
   /* proposals accrue at the doors: one every few days, at a door of some syndicate */
   function step(dt, quiet) { const d0 = Math.floor(S.day); S.day += dt; const d1 = Math.floor(S.day); if (d1 === d0) return;
     /* k is built as an unsigned 32-bit value, so every shift on it must be unsigned (>>>) too: a plain
@@ -56,6 +96,11 @@
     /* the crofts: each grows on its own period, coprime with every other, so no two are ever due together */
     for (const c of W.crofts) if (d1 % c.period === 0) { const cap = c.cap + effectsFor(c.syndicate).waxCapAdd, had = S.wax[c.syndicate] || 0, got = Math.max(0, Math.min(c.yield, cap - had));
       S.wax[c.syndicate] = had + got; if (!quiet && got < c.yield) note(`The croft at ${c.seat} filled its store; some wax went to waste. A granary would help.`); }
+    /* the activity: each syndicate rerolls on its own schedule, unless a failed steal has it still
+       alert — a lock holds its state at discovery until the cooldown runs out, then it rerolls again */
+    if (d1 % RULES.activityEvery === 0) for (let i = 0; i < W.syndicates.length; i++) { const sy = W.syndicates[i]; if ((S.stealLock[sy.id] || 0) > d1) continue;
+      const was = S.activity[sy.id] && S.activity[sy.id].state; rollActivity(sy.id, i, d1); const now = S.activity[sy.id].state;
+      if (!quiet && now !== was && (now === 'staged' || now === 'discovery')) note(`${sy.name} turns ${now}: ${S.activity[sy.id].looking}.`); }
     if (d1 - S.lastSync >= RULES.intervalDays) carry(quiet); }
 
   /* THE FAR SIDE. The syndicate is multiplanetary and it is enormous, and the honest thing to
@@ -98,10 +143,15 @@
 
   function render() { const sy = syn(cur);
     $('#syns').innerHTML = W.syndicates.map((s, i) => { const open = S.props.filter(p => p.syn === s.id), ready = open.filter(p => p.signed.length >= 2).length;
-      return `<div class="syn ${i === cur ? 'on' : ''}" data-i="${i}"><b>${s.tranche}</b><span>doors ${s.doors[0]}–${s.doors[1]}</span><br><span class="${ready ? 'q' : open.length ? 'w' : ''}">${open.length ? `${ready}/${open.length} signed` : 'quiet'}</span></div>`; }).join('');
-    $('#syns').querySelectorAll('.syn').forEach(e => e.onclick = () => { cur = +e.dataset.i; render(); });
+      const act = activityFor(s.id), def = activityDef(act.state);
+      return `<div class="syn ${i === cur ? 'on' : ''}" data-i="${i}"><b><span class="light ${def.steal && def.steal.chance >= 50 ? 'hot' : ''}" style="background:${def.color};color:${def.color}" title="${def.label}: ${act.looking}"></span>${s.tranche}</b><span>doors ${s.doors[0]}–${s.doors[1]}</span><br><span class="${ready ? 'q' : open.length ? 'w' : ''}">${open.length ? `${ready}/${open.length} signed` : 'quiet'}</span></div>`; }).join('');
+    $('#syns').querySelectorAll('.syn').forEach(e => e.onclick = () => { cur = +e.dataset.i; $('#steal-out').innerHTML = ''; render(); });
+    if (!$('#legend').childElementCount) $('#legend').innerHTML = D.activity.map(a => `<span><span class="light" style="background:${a.color};color:${a.color}"></span>${a.label}</span>`).join('');
     $('#syn-name').innerHTML = `${sy.name}<i>${sy.text}</i>`;
     $('#syn-stats').innerHTML = [['tranche', `${sy.tranche} of ${D.syndicateCount}`], ['tranche holds', fmt(sy.holds) + ' HEZE'], ['doors', `${sy.doors[0]} to ${sy.doors[1]} (${sy.doorCount})`], ['quorum', `${sy.quorum} of ${sy.of}`], ['seat', sy.seat]].map(([k, v]) => `<div class="stat"><span>${k}</span><b>${v}</b></div>`).join('');
+    { const act = activityFor(sy.id), def = activityDef(act.state), locked = (S.stealLock[sy.id] || 0) - Math.floor(S.day);
+      $('#activity').innerHTML = `<div class="stat"><span>state</span><b><span class="light ${def.steal && def.steal.chance >= 50 ? 'hot' : ''}" style="background:${def.color};color:${def.color}"></span>${def.label}</b></div><div class="stat"><span>looking into</span><b>${act.looking}</b></div><p>${def.text}${locked > 0 ? ' Alert from a failed steal — ' + locked + ' day' + (locked === 1 ? '' : 's') + ' left.' : ''}</p>`;
+      $('#steal').textContent = def.steal ? `Attempt a steal — ${def.steal.chance}% chance, ${def.steal.min}–${def.steal.max} HEZE` : 'Attempt a steal'; }
     $('#who').innerHTML = people(sy.id).map(p => `<div class="who"><canvas data-p="${p.id}"></canvas><div><em>${p.office} &middot; ${p.office_is}</em><b>${p.name}</b><p>${p.does}</p><p>Keeps ${p.keeps}. Holds the spell ${p.glyph} ${p.spell}. Key share <code>${p.share}</code>.</p><p><small>Reads ${p.reads}.</small> ${p.reason}</p></div><div></div></div>`).join('');
     $('#who').querySelectorAll('canvas').forEach(cv => sigil(cv, W.people.find(p => p.id === cv.dataset.p)));
     /* the croft and its holds, for the syndicate on screen */
@@ -139,6 +189,7 @@
     $('#clock').textContent = `day ${Math.floor(S.day)} · seed ${S.seed}`; }
 
   $('#carry').onclick = () => carry(false);
+  $('#steal').onclick = () => steal(syn(cur).id);
   $('#autosign').onclick = () => { S.auto = !S.auto; note(S.auto ? 'The custodians will sign on their own, at their own pace.' : 'The custodians stop signing; nothing crosses unless you sign it.'); save(); render(); };
   $('#regen').onclick = () => { const seed = +$('#seed').value || D.seed; W = weave(seed, D.pred, D.spells, D.syndicateCount, D.doorCount); S.seed = seed; S.props = []; note(`Re-generated with seed ${seed}: another sixty-three, another two hundred doors, another twenty-one crofts. The chain stands, and so do the wax and the holds already built; the people at the doors do not.`); save(); render(); };
   $('#download').onclick = () => { const files = {}; for (const t of [...W.people, ...W.syndicates, ...W.doors, ...W.crofts]) files[(t.kind === 'croft' ? 'templates-croft/' : 'templates-coven/') + t.id + '.json'] = t;

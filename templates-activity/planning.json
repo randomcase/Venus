@@ -1,0 +1,20 @@
+{
+ "id": "planning",
+ "kind": "activity",
+ "label": "Planning",
+ "color": "#3f8fbf",
+ "weight": 30,
+ "steal": {
+  "chance": 35,
+  "min": 150,
+  "max": 400
+ },
+ "lookingInto": [
+  "where the next issuance should go",
+  "whether to widen a door's share",
+  "a proposal that has not been written yet",
+  "next season's allocation",
+  "a door that has been quiet too long"
+ ],
+ "text": "Weighing what to do next. Nothing is committed yet, so nothing here is guarded closely."
+}

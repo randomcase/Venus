@@ -1,0 +1,15 @@
+{
+ "id": "quiet",
+ "kind": "activity",
+ "label": "Quiet",
+ "color": "#5a6478",
+ "weight": 40,
+ "steal": null,
+ "lookingInto": [
+  "the weather over the seat",
+  "a slow day at the door",
+  "whether the wax fills before the next visit",
+  "nothing worth a note"
+ ],
+ "text": "Nothing stirring. There is nothing here to take."
+}

@@ -50,29 +50,34 @@ function flatten(obj, prefix, depth, out) {
    itself — which is what lets it travel into the page whole, via buildShape.toString(),
    and run there exactly as it runs here. entities.mjs carries its own copy for the same
    reason: each generated artifact is complete on its own. */
+/* A field seen as null in at least one sample and something real in at least one other is
+   nullable, not just whatever the non-null samples happen to look like — entities.mjs turns
+   this into Option[...] rather than a type that NPEs the day it meets the record that made
+   the gap obvious (templates-activity's steal:null on quiet is exactly this shape). */
 function buildShape(values, depth) {
   const nonNull = values.filter(v => v !== null && v !== undefined);
+  const nullable = nonNull.length > 0 && nonNull.length < values.length;
   if (!nonNull.length) return { kind: 'unknown' };
   const kinds = new Set(nonNull.map(v => Array.isArray(v) ? 'array' : typeof v === 'object' ? 'object' : typeof v));
-  if (kinds.size !== 1) return { kind: 'unknown' };
+  if (kinds.size !== 1) return { kind: 'unknown', nullable };
   const [kind] = kinds;
   const ENUM_CAP = 30, PROSE_LEN = 40, UNIQUE_RATIO = 0.8;
   if (kind === 'object') {
     const names = new Set(); for (const o of nonNull) for (const k of Object.keys(o)) names.add(k);
     const fields = {};
     for (const k of names) fields[k] = depth < 3 ? buildShape(nonNull.map(o => o[k]).filter(v => v !== undefined), depth + 1) : { kind: 'unknown' };
-    return { kind: 'object', fields };
+    return { kind: 'object', fields, nullable };
   }
-  if (kind === 'array') { const elems = []; for (const a of nonNull) for (const e of a) elems.push(e); return { kind: 'array', of: buildShape(elems, depth + 1) }; }
+  if (kind === 'array') { const elems = []; for (const a of nonNull) for (const e of a) elems.push(e); return { kind: 'array', of: buildShape(elems, depth + 1), nullable }; }
   if (kind === 'string') {
     const counts = new Map(); for (const v of nonNull) counts.set(v, (counts.get(v) || 0) + 1);
     const distinct = counts.size, avgLen = nonNull.reduce((a, s) => a + s.length, 0) / nonNull.length;
     const tooUnique = nonNull.length >= 5 && distinct / nonNull.length > UNIQUE_RATIO;
-    return distinct <= ENUM_CAP && avgLen <= PROSE_LEN && !tooUnique ? { kind: 'enum', values: [...counts.keys()].sort() } : { kind: 'string' };
+    return distinct <= ENUM_CAP && avgLen <= PROSE_LEN && !tooUnique ? { kind: 'enum', values: [...counts.keys()].sort(), nullable } : { kind: 'string', nullable };
   }
-  if (kind === 'number') return { kind: nonNull.every(Number.isInteger) ? 'int' : 'double' };
-  if (kind === 'boolean') return { kind: 'bool' };
-  return { kind: 'unknown' };
+  if (kind === 'number') return { kind: nonNull.every(Number.isInteger) ? 'int' : 'double', nullable };
+  if (kind === 'boolean') return { kind: 'bool', nullable };
+  return { kind: 'unknown', nullable };
 }
 
 function mine(family) {
@@ -170,14 +175,15 @@ function describeShape(node, indent) {
   return indent + shortKind(node);
 }
 function shortKind(v) {
-  if (v.kind === 'enum') return 'enum(' + v.values.length + '): ' + v.values.slice(0, 8).join(', ') + (v.values.length > 8 ? ', …' : '');
-  if (v.kind === 'object') return 'object {';
-  if (v.kind === 'array') return 'array of ' + shortKind(v.of);
-  if (v.kind === 'int') return 'Int';
-  if (v.kind === 'double') return 'Double';
-  if (v.kind === 'bool') return 'Boolean';
-  if (v.kind === 'string') return 'String';
-  return 'unknown';
+  const wrap = s => v.nullable ? 'optional ' + s : s;
+  if (v.kind === 'enum') return wrap('enum(' + v.values.length + '): ' + v.values.slice(0, 8).join(', ') + (v.values.length > 8 ? ', …' : ''));
+  if (v.kind === 'object') return wrap('object {');
+  if (v.kind === 'array') return wrap('array of ' + shortKind(v.of));
+  if (v.kind === 'int') return wrap('Int');
+  if (v.kind === 'double') return wrap('Double');
+  if (v.kind === 'bool') return wrap('Boolean');
+  if (v.kind === 'string') return wrap('String');
+  return wrap('unknown');
 }
 
 function render(filter) {

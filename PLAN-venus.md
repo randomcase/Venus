@@ -176,6 +176,22 @@ The two scripts are auto-discovered by `yard.mjs` the same as every other
 generator, by what they read and write, so rebuilding the whole yard keeps
 both layers current without anyone adding a line to a list.
 
+## The syndicates, alive: activity, and a reason to steal
+
+`templates-activity/` gives every syndicate a light — quiet, planning, discovery or staged —
+rerolled every activityEvery days, weighted, with its own line for what it is looking into,
+so a glance at the syndicate list says something about what is happening there without
+opening it. Quiet has nothing to take; planning is safe to try against and forgettable if
+it fails; discovery is a syndicate already auditing something, worth the risk only because
+what it is about to find is worth more than what is easy; staged is money already signed
+and waiting on the six-month gate, the single best moment to move first. A successful steal
+credits HEZE straight onto the shared docket — smuggled into Venus ahead of an honest carry
+— through the same capped `credit()` every other deck uses. A failed attempt against
+discovery or staged leaves the syndicate alert for stealCooldown days, locked against
+another attempt and forced into discovery, because now it is looking for what almost went
+missing. Effects live in the activity's own template, the same {chance, min, max} shape
+throughout, read by coven.page.js and never hard-coded there.
+
 ## The terminal: the notebook before the automation
 
 `terminal.html` is the text layer for the whole ship: `sow 31 44`, `take
