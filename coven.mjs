@@ -76,21 +76,50 @@ export const WEAVE = `function weave(seed, PRED, SPELLS, SYNDICATES, DOORS) {
     for (let d = lo; d <= hi; d++) doors.push({ id: 'door-' + d, kind: 'door', door: d, syndicate: 'syn-' + (s + 1), tranche: s + 1, keeper: trio[0].id, share: +(1000000 / (hi - lo + 1)).toFixed(2),
       text: 'Door ' + d + ' of ' + DOORS + '. Draws on the ' + (s + 1) + (s === 0 ? 'st' : s === 1 ? 'nd' : s === 2 ? 'rd' : 'th') + ' tranche, kept by ' + trio[0].name + ', signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door ' + DOORS + '.', wovenBy: 'syn-' + (s + 1) });
   }
-  return { people, syndicates, doors };
+  /* THE CROFTS. One per syndicate, at its seat, growing the wax a proposal is sealed with. The
+     period is the (s+1)th prime — 2, 3, 5, 7, ... 73 for the 21 syndicates — continuing the war of
+     clans' own trick: coprime periods mean no two syndicates' crofts ever come due together, so the
+     wax supply is never idle everywhere at once and never all spent at once either. */
+  const PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73];
+  const crofts = syndicates.map((syn, s) => { const h = h32(seed, s, 41);
+    return { id: 'croft-' + syn.id, kind: 'croft', syndicate: syn.id, tranche: syn.tranche, seat: syn.seat, period: PRIMES[s % PRIMES.length],
+      yield: 2 + (h % 4), cap: 30, text: 'The croft at ' + syn.seat + ', growing sealing wax for ' + syn.name.toLowerCase() + ' every ' + PRIMES[s % PRIMES.length] + ' days.', wovenBy: syn.id }; });
+  return { people, syndicates, doors, crofts };
 }`;
+
+/* THE HOLDS. Four buildable structures, one catalog offered to every syndicate rather than one
+   instance per syndicate (like the corn guilds, not like the clans' per-clan assets) — a syndicate
+   builds from this same list, and which three offices it favours is the whole design: a watch-tower
+   for the witch's door, an archive for the wizard's book, a waystation for the warlock's crossing,
+   and a granary that favours none of them and just holds more. Effects are the yard's own mini
+   language: {type, target, x}, read by coven.page.js, never hard-coded there. */
+const HOLDS = [
+  { id: 'watch-tower', kind: 'hold', name: 'A watch-tower', office: 'witch', costWax: 20, costHeze: 400,
+    effect: { type: 'mul', target: 'signChance', x: 1.6 }, text: 'Favours the witch. A door with a watch-tower is signed at 60% better odds when the custodians are left to sign on their own.' },
+  { id: 'archive', kind: 'hold', name: 'An archive', office: 'wizard', costWax: 25, costHeze: 500,
+    effect: { type: 'mul', target: 'staleAfter', x: 2 }, text: 'Favours the wizard. A proposal at a syndicate with an archive is kept twice as long before it counts against the bank\'s health as stale.' },
+  { id: 'waystation', kind: 'hold', name: 'A waystation', office: 'warlock', costWax: 30, costHeze: 600,
+    effect: { type: 'unlock', target: 'earlyCarry' }, text: 'Favours the warlock. A syndicate with a waystation can carry its own signed proposals the moment they are ready, without waiting for the six-month interval — only its own, never another syndicate\'s.' },
+  { id: 'granary', kind: 'hold', name: 'A granary', office: 'none', costWax: 15, costHeze: 250,
+    effect: { type: 'add', target: 'waxCap', x: 40 }, text: 'Favours no office. Raises how much sealing wax the croft can hold before it is wasted — a thing every syndicate needs and none of the three offices claims for itself.' },
+];
 
 const SYNDICATES = 21, DOORS = 200;
 const weave = new Function(WEAVE + '; return weave;')();
 const SEED = 1621;
-const { people, syndicates, doors } = weave(SEED, PRED, SPELLS, SYNDICATES, DOORS);
+const { people, syndicates, doors, crofts } = weave(SEED, PRED, SPELLS, SYNDICATES, DOORS);
 rmSync('templates-coven', { recursive: true, force: true }); mkdirSync('templates-coven');
 for (const p of people) writeFileSync(`templates-coven/${p.id}.json`, JSON.stringify(p, null, 1));
 for (const s of syndicates) writeFileSync(`templates-coven/${s.id}.json`, JSON.stringify(s, null, 1));
 for (const d of doors) writeFileSync(`templates-coven/${d.id}.json`, JSON.stringify(d, null, 1));
+rmSync('templates-croft', { recursive: true, force: true }); mkdirSync('templates-croft');
+for (const c of crofts) writeFileSync(`templates-croft/${c.id}.json`, JSON.stringify(c, null, 1));
+rmSync('templates-hold', { recursive: true, force: true }); mkdirSync('templates-hold');
+for (const h of HOLDS) writeFileSync(`templates-hold/${h.id}.json`, JSON.stringify(h, null, 1));
 const total = readdirSync('.').filter(d => d.startsWith('templates-')).reduce((n, d) => n + readdirSync(d).filter(f => f.endsWith('.json')).length, 0);
-console.log(`the coven: ${people.length} practitioners (${people.filter(p => p.office === 'witch').length} witches, ${people.filter(p => p.office === 'wizard').length} wizards, ${people.filter(p => p.office === 'warlock').length} warlocks) in ${syndicates.length} syndicates over ${doors.length} doors, reading ${PRED.length} of the archive's ${warlocks.length}, holding back ${HELD_BACK.join(' and ')} · templates on disk: ${total}`);
+console.log(`the coven: ${people.length} practitioners (${people.filter(p => p.office === 'witch').length} witches, ${people.filter(p => p.office === 'wizard').length} wizards, ${people.filter(p => p.office === 'warlock').length} warlocks) in ${syndicates.length} syndicates over ${doors.length} doors, reading ${PRED.length} of the archive's ${warlocks.length}, holding back ${HELD_BACK.join(' and ')}; ${crofts.length} crofts, ${HOLDS.length} hold types · templates on disk: ${total}`);
 
-const DEF = { people, syndicates, doors, pred: PRED, spells: SPELLS, seed: SEED, syndicateCount: SYNDICATES, doorCount: DOORS, total, rules: rulesFor('coven') };
+const DEF = { people, syndicates, doors, crofts, holds: HOLDS, pred: PRED, spells: SPELLS, seed: SEED, syndicateCount: SYNDICATES, doorCount: DOORS, total, rules: rulesFor('coven') };
 const page = readFileSync('coven.page.js', 'utf8');
 const html = `<title>The coven &middot; who holds the doors</title>
 <meta charset="utf-8">
@@ -102,6 +131,10 @@ const html = `<title>The coven &middot; who holds the doors</title>
   from a seed. Two of three sign or nothing moves. Proposals accrue at the doors; signed
   ones wait; every six months the syndication carries them across and commits a checkpoint,
   hashed with real SHA-256 through WebCrypto and chained to the one before.
+  A croft at every seat grows sealing wax on its own coprime period, the war of clans'
+  own trick; four buildable holds, one favouring each office and one favouring none, spend
+  wax and HEZE to change the odds of signing, how long a proposal stays fresh, or unlock
+  an early carry outside the six-month interval.
   The names are invented; templates-warlock/ holds twenty-two real people, several of them
   killed for witchcraft, and each practitioner cites one rather than standing in for one.
   Sigils are geometry: rings, bars, chords. Nothing with a face.
@@ -136,16 +169,19 @@ const html = `<title>The coven &middot; who holds the doors</title>
   <div>
     <section><h2>The syndicates<i>one per tranche of a million; click one to read its three and its doors</i></h2><div class="syns" id="syns"></div></section>
     <section><h2 id="syn-name">—</h2><div id="syn-stats"></div><div id="who"></div></section>
+    <section><h2>The croft<i>sealing wax, grown on its own coprime period — never due the same day as another syndicate's</i></h2><div id="croft-stats"></div></section>
+    <section><h2>Holds<i>four kinds, one favouring each office and one favouring none; wax and HEZE both, and one per syndicate</i></h2><div id="holds"></div></section>
   </div>
   <div>
     <section><h2>The syndication<i>every six months the warlocks carry what was signed across, and a checkpoint is committed</i></h2>
       <div id="sync-stats"></div><div class="clock"><div id="clock-bar" style="width:0%"></div></div>
-      <div class="row"><button class="primary" id="carry">Carry now</button><button id="autosign">Let them sign</button></div></section>
+      <div class="row"><button class="primary" id="carry">Carry now</button><button id="autosign">Let them sign</button></div>
+      <div class="row" id="early-carry-wrap" hidden style="margin-top:6px"><button id="early-carry">Carry this syndicate early, via the waystation</button></div></section>
     <section><h2>The bank's health<i>read from the chain and the desk, not asserted</i></h2><div id="health"></div></section>
     <section><h2>At the doors<i>a proposal needs two of its syndicate's three; sign for whichever office you are standing in</i></h2><div id="props"></div></section>
     <section><h2>The chain<i>SHA-256 over each syndication, chained to the one before, and what came back from the far side</i></h2><div class="chain" id="chain"></div>
       <p style="color:var(--dim);font-size:12px;margin:8px 0 0">The syndicate is multiplanetary and it is enormous, so it does not care. At every carry the other world's chain arrives with an interval's volume orders of magnitude past anything these doors did, and it never rejects, never asks and never answers. It reconciles. That is not contempt, it is scale, and it is also the safety in it: a thing that cannot notice you cannot single you out.</p></section>
-    <section><h2>Re-generate<i>the whole roster from another seed, handed back as ${people.length + syndicates.length + doors.length} files</i></h2>
+    <section><h2>Re-generate<i>the whole roster from another seed, handed back as ${people.length + syndicates.length + doors.length + crofts.length} files</i></h2>
       <div class="row"><input id="seed" type="number" value="${SEED}"><button id="regen">Generate</button><button id="download">Download</button></div>
       <p style="color:var(--dim);font-size:12px;margin:8px 0 0">Names are invented. The ${warlocks.length} in <a href="warlock.html" style="color:var(--gold)">the archive</a> are real people, several of them killed for witchcraft; every practitioner cites one and none stands in for one. ${HELD_BACK.join(' and ')} are held out of the pool: they are venerated in living traditions, and a magic roster does not get to enlist them.</p></section>
     <section><h2>The record</h2><div class="log" id="log"></div></section>

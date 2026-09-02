@@ -1,0 +1,12 @@
+{
+ "id": "croft-syn-1",
+ "kind": "croft",
+ "syndicate": "syn-1",
+ "tranche": 1,
+ "seat": "the turned key",
+ "period": 2,
+ "yield": 2,
+ "cap": 30,
+ "text": "The croft at the turned key, growing sealing wax for the 1st syndicate every 2 days.",
+ "wovenBy": "syn-1"
+}

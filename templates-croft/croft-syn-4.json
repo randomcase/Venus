@@ -1,0 +1,12 @@
+{
+ "id": "croft-syn-4",
+ "kind": "croft",
+ "syndicate": "syn-4",
+ "tranche": 4,
+ "seat": "the ninth arch",
+ "period": 7,
+ "yield": 4,
+ "cap": 30,
+ "text": "The croft at the ninth arch, growing sealing wax for the 4th syndicate every 7 days.",
+ "wovenBy": "syn-4"
+}

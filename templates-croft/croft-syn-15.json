@@ -1,0 +1,12 @@
+{
+ "id": "croft-syn-15",
+ "kind": "croft",
+ "syndicate": "syn-15",
+ "tranche": 15,
+ "seat": "the salt stair",
+ "period": 47,
+ "yield": 5,
+ "cap": 30,
+ "text": "The croft at the salt stair, growing sealing wax for the 15th syndicate every 47 days.",
+ "wovenBy": "syn-15"
+}

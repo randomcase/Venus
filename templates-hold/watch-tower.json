@@ -1,0 +1,14 @@
+{
+ "id": "watch-tower",
+ "kind": "hold",
+ "name": "A watch-tower",
+ "office": "witch",
+ "costWax": 20,
+ "costHeze": 400,
+ "effect": {
+  "type": "mul",
+  "target": "signChance",
+  "x": 1.6
+ },
+ "text": "Favours the witch. A door with a watch-tower is signed at 60% better odds when the custodians are left to sign on their own."
+}

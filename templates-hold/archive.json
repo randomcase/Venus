@@ -1,0 +1,14 @@
+{
+ "id": "archive",
+ "kind": "hold",
+ "name": "An archive",
+ "office": "wizard",
+ "costWax": 25,
+ "costHeze": 500,
+ "effect": {
+  "type": "mul",
+  "target": "staleAfter",
+  "x": 2
+ },
+ "text": "Favours the wizard. A proposal at a syndicate with an archive is kept twice as long before it counts against the bank's health as stale."
+}

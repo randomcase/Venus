@@ -125,6 +125,24 @@ waiting or blocked, with one line at the top naming the earliest block. People
 on the ship should know exactly what they are doing and what is going on, and
 that panel is where it is said.
 
+## Buildings and farms for the coven: crofts and holds
+
+`templates-croft/` gives every syndicate a croft at its seat, growing sealing
+wax on its own period — the (s+1)th prime, 2 through 73 for the 21 syndicates,
+the war of clans' own coprime trick, so no two syndicates' crofts ever come
+due together. `templates-hold/` is one catalog of four buildable structures
+offered to all twenty-one, each favouring one of the three offices and one
+favouring none: a watch-tower (the witch — better odds when custodians sign
+on their own), an archive (the wizard — a proposal stays fresh twice as long
+before it counts against the bank's health as stale), a waystation (the
+warlock — carry a syndicate's own signed proposals early, without waiting the
+six-month interval, never another's), and a granary (no office — more wax
+storage). Effects are read from the hold's own template as the yard's usual
+{type, target, x} mini language, never hard-coded in the page. Building costs
+both wax and HEZE from the shared docket, so the coven's own economy still
+depends on the rest of the ship: a syndicate with an empty docket cannot
+build, no matter how much wax its croft has grown.
+
 ## The terminal: the notebook before the automation
 
 `terminal.html` is the text layer for the whole ship: `sow 31 44`, `take

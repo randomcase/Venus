@@ -1,0 +1,14 @@
+{
+ "id": "granary",
+ "kind": "hold",
+ "name": "A granary",
+ "office": "none",
+ "costWax": 15,
+ "costHeze": 250,
+ "effect": {
+  "type": "add",
+  "target": "waxCap",
+  "x": 40
+ },
+ "text": "Favours no office. Raises how much sealing wax the croft can hold before it is wasted — a thing every syndicate needs and none of the three offices claims for itself."
+}

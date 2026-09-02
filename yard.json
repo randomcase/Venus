@@ -1,5 +1,5 @@
 {
- "generators": 70,
+ "generators": 71,
  "schema": {
   "templates-act": {
    "owner": null,
@@ -362,6 +362,25 @@
    },
    "example": "id"
   },
+  "templates-croft": {
+   "owner": "coven.mjs",
+   "declared": false,
+   "count": 21,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "kind": "string",
+    "syndicate": "string",
+    "tranche": "number",
+    "seat": "string",
+    "period": "number",
+    "yield": "number",
+    "cap": "number",
+    "text": "string",
+    "wovenBy": "string"
+   },
+   "example": "id"
+  },
   "templates-demon": {
    "owner": "siege.mjs",
    "declared": false,
@@ -596,6 +615,23 @@
     "23": "null"
    },
    "example": "0"
+  },
+  "templates-hold": {
+   "owner": "coven.mjs",
+   "declared": false,
+   "count": 4,
+   "required": [],
+   "shape": {
+    "id": "string",
+    "kind": "string",
+    "name": "string",
+    "office": "string",
+    "costWax": "number",
+    "costHeze": "number",
+    "effect": "object",
+    "text": "string"
+   },
+   "example": "id"
   },
   "templates-house": {
    "owner": "houses.mjs",
@@ -1282,7 +1318,8 @@
    "files": 660,
    "read_by": [
     "clans.mjs",
-    "continent.mjs"
+    "continent.mjs",
+    "terminal.mjs"
    ]
   },
   {
@@ -1349,7 +1386,8 @@
     "continent.mjs",
     "glossary.mjs",
     "market.mjs",
-    "steading.mjs"
+    "steading.mjs",
+    "terminal.mjs"
    ]
   },
   {
@@ -1367,14 +1405,16 @@
    "dir": "templates-continent",
    "files": 4102,
    "read_by": [
-    "continent.mjs"
+    "continent.mjs",
+    "terminal.mjs"
    ]
   },
   {
    "dir": "templates-corn",
    "files": 5,
    "read_by": [
-    "glossary.mjs"
+    "glossary.mjs",
+    "terminal.mjs"
    ]
   },
   {
@@ -1383,6 +1423,13 @@
    "read_by": [
     "coven.mjs",
     "glossary.mjs"
+   ]
+  },
+  {
+   "dir": "templates-croft",
+   "files": 21,
+   "read_by": [
+    "coven.mjs"
    ]
   },
   {
@@ -1461,6 +1508,13 @@
    "read_by": [
     "arcade.mjs",
     "github.mjs"
+   ]
+  },
+  {
+   "dir": "templates-hold",
+   "files": 4,
+   "read_by": [
+    "coven.mjs"
    ]
   },
   {
@@ -1564,7 +1618,8 @@
    "files": 7,
    "read_by": [
     "glossary.mjs",
-    "rules.mjs"
+    "rules.mjs",
+    "terminal.mjs"
    ]
   },
   {
@@ -1592,6 +1647,7 @@
     "coven.mjs",
     "glossary.mjs",
     "siege.mjs",
+    "terminal.mjs",
     "warlock.mjs"
    ]
   },
@@ -1718,6 +1774,7 @@
   "steading.mjs",
   "studios.mjs",
   "symbols.mjs",
+  "terminal.mjs",
   "town.mjs",
   "treasury.mjs",
   "tribunal.mjs",
@@ -1985,6 +2042,8 @@
     "coven.page.js",
     "rules.mjs",
     "templates-coven",
+    "templates-croft",
+    "templates-hold",
     "templates-spell",
     "templates-spell/",
     "templates-warlock",
@@ -2395,6 +2454,24 @@
   "templatise.mjs": {
    "reads": [],
    "writes": [],
+   "refuses": ""
+  },
+  "terminal.mjs": {
+   "reads": [
+    "rules.mjs",
+    "templates-asset",
+    "templates-clan",
+    "templates-continent",
+    "templates-corn",
+    "templates-rules",
+    "templates-rules/docket.json",
+    "templates-spell",
+    "terminal.page.js",
+    "toonami.mjs"
+   ],
+   "writes": [
+    "terminal.html"
+   ],
    "refuses": ""
   },
   "toonami-all.mjs": {
