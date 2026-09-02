@@ -355,7 +355,15 @@ if (existsSync('kb.json')) {
 const grades = boardFiles.map((file) => {
   const s = readFileSync(file, 'utf8');
   const n = (re) => (s.match(re) || []).length;
-  const title = (s.match(/<title>([^<]*)<\/title>/) || [])[1] || file;
+  /* Titles are HTML, so a board whose title reads "The houses · luxury"
+     arrives here as "&middot;" and the split on the character finds nothing —
+     the whole title then lands in the grade pane where a short name belongs.
+     Decode before splitting. */
+  const ENT = { '&middot;': '·', '&mdash;': '—', '&rsquo;': '’',
+                '&lsquo;': '‘', '&ldquo;': '“', '&rdquo;': '”',
+                '&amp;': '&', '&lt;': '<', '&gt;': '>', '&nbsp;': ' ' };
+  const title = ((s.match(/<title>([^<]*)<\/title>/) || [])[1] || file)
+    .replace(/&[a-z]+;/g, (m) => ENT[m] || m);
   const scripts = n(/<script/g);
   const decides = n(/counter-increment|counter-reset/g) + n(/:has\(/g) + n(/:target/g);
   const controls = new Set((s.match(/type="radio"[^>]*name="([^"]+)"/g) || [])
@@ -393,6 +401,39 @@ const gradeTotals = {
   settling: grades.filter((g) => g.settled > 0).length,
   unassessed: grades.filter((g) => g.useful === 'unassessed').length
 };
+
+/* ═══ the houses, for the drawer ════════════════════════════════════════
+   The grade already covers houses.html the same way it covers every board —
+   by whether kb.json cites it. This is the other direction: the notebook is
+   where drafts get written and judged, and it could not reach the layer at
+   all. Now `house` searches it and `serial` recomputes the memory split in
+   the drawer, so a claim written at this desk can be checked at this desk. */
+const houseRows = !existsSync('templates-house') ? [] :
+  readdirSync('templates-house')
+    .filter((f) => f.endsWith('.json') && f !== '_scope.json')
+    .flatMap((f) => {
+      const c = JSON.parse(readFileSync(join('templates-house', f), 'utf8'));
+      return c.houses.map((x) => ({ n: x.name, c: x.country, k: x.cat,
+        f: x.founded, s: x.serial ? 1 : 0, g: c.group }));
+    });
+
+/* ═══ consistency, for the drawer ═══════════════════════════════════════
+   consistency.mjs recomputes the yard's watched figures from the layers that
+   own them and hunts for anybody who has written a different number down.
+   The notebook carries the result because this is the desk where prose gets
+   written, and prose is where a stale figure goes to hide. A FAULT is a
+   disagreement; a GAP is something incomplete and known. */
+const consist = existsSync('consistency.json')
+  ? JSON.parse(readFileSync('consistency.json', 'utf8'))
+  : { faults: [], gaps: [], watched: [] };
+
+/* ═══ the yard's map of itself, for the drawer ══════════════════════════
+   yard.mjs computes the build order from what each generator actually reads
+   and writes, instead of anybody remembering it. The notebook carries that
+   map so the desk can run the yard rather than asking someone to. */
+const yardMap = existsSync('yard.json')
+  ? JSON.parse(readFileSync('yard.json', 'utf8'))
+  : { generators: 0, layers: [], order: [], pass: [], passes: 0, detail: {} };
 
 /* ═══ 3 · Virgo, on her side, with the ecliptic through her ════════════ */
 /* Right ascension in hours, declination in degrees, magnitude. J2000. */
@@ -503,11 +544,19 @@ const html = '<!doctype html>\n<html lang="en">\n<head>\n' +
     --room:#08070a;
     --paper:#f2ead7; --paper2:#e6dbc0; --edgepg:#d9cdb0;
     --rule:#cec1a4; --margin:#a8443a;
-    --ink:#22201b; --pale:#7a6f5d; --faint:#a2957c;
-    --gold:#a8791a; --foil:#d9b455;
+    /* ink, gold and serif share their names with toonami's own palette, and toonami-all.mjs
+       always stamps its block right before </body> — after this one, every time, since this
+       page defines no markers of its own for it to refresh in place instead. A later :root
+       wins a plain naming collision regardless of which came first in the file, so the ship's
+       neon ink and brief-lived gold were quietly overwriting this page's own the moment any
+       theme repainted the yard — "syntax, in ink and iron rather than in neon" was true right
+       up until the stamp ran. !important is the fix, on exactly the three names that collide,
+       not the seven that do not. */
+    --ink:#22201b !important; --pale:#7a6f5d; --faint:#a2957c;
+    --gold:#a8791a !important; --foil:#d9b455;
     --term:#0c0b0a; --term2:#141210;
     --amber:#d8b46b; --moss:#82a98d; --rust:#c4674f;
-    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif !important;
     --mono:ui-monospace,"Cascadia Mono","Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
   }
   *{box-sizing:border-box}
@@ -857,11 +906,16 @@ forms.map((f) => '        <option value="' + esc(f.id) + '">' + esc(f.name) + '<
 'const FORMS = ' + JSON.stringify(forms) + ';\n' +
 'const LESSONS = ' + JSON.stringify(lessons) + ';\n' +
 'const QUENEAU = ' + JSON.stringify(QUENEAU) + ';\n' +
+'const YARD = ' + JSON.stringify(yardMap) + ';\n' +
+'const CONSIST = ' + JSON.stringify(consist) + ';\n' +
+'const HOUSES = ' + JSON.stringify(houseRows) + ';\n' +
 'const GRADES = ' + JSON.stringify(grades) + ';\n' +
 'const GRADE_TOTALS = ' + JSON.stringify(gradeTotals) + ';\n' +
 `
 const KEY = 'venus.notebook.v1';
 const $ = (s) => document.querySelector(s);
+const NOSERVER = 'no app server on this origin. Start it with  node venus-app.mjs  '
+  + 'and open the yard at 127.0.0.1:8777.';
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const byId = (id) => FORMS.find((f) => f.id === id) || FORMS[0];
 const lessonById = (id) => LESSONS.find((l) => l.id === id) || LESSONS[0];
@@ -1576,6 +1630,15 @@ const HELP = [
   ['stanza', 'sign this draft; copy the block'],
   ['verify <block>', 'check somebody else\u2019s stanza block'],
   ['against <block>', 'is this draft the text that block signed?'],
+  ['house <what>', 'search the 519 houses \u2014 a name, a country, a craft'],
+  ['serial', 'which crafts remember, recomputed here rather than quoted'],
+  ['agree', 'does the yard still agree with itself'],
+  ['yard', 'every layer and generator, and the order they build in'],
+  ['craft <layer> [id]', 'what a component needs, or scaffold one into the draft'],
+  ['peek <layer>/<id>', 'read a component\u2019s JSON'],
+  ['put <layer>/<id>', 'save the draft as that component, then let its generator judge it'],
+  ['build [what]', 'run a generator, or build all \u2014 needs the app server'],
+  ['refuses [what]', 'what each generator refuses, which is the real spine'],
   ['grade [what]', 'every board on automation and usefulness'],
   ['export', 'write every draft to a markdown file'],
   ['clear', 'empty the console'],
@@ -1754,6 +1817,286 @@ function cmd(raw) {
           (g.settled ? 'settles ' + g.settled : g.cited ? 'provisional' : 'unassessed') +
           '</span>').join('\\n') +
         '\\n<span class="dim">grade unassessed — the ones nothing cites yet. Those are the gaps, and closing one is worth more than another board.</span>');
+    }
+
+    case 'house': {
+      if (!HOUSES.length) return say('templates-house is not in this yard.', 'err');
+      const want = arg.trim().toLowerCase();
+      if (!want) return say('house <what> \u2014 try a name, a country, or a craft ' +
+        'like lingerie, tailoring, watches.', 'err');
+      const hit = HOUSES.filter((h) => (h.n + ' ' + h.c + ' ' + h.k.join(' ') +
+        ' ' + h.g).toLowerCase().includes(want));
+      if (!hit.length) return say('nothing matches ' + arg + '. If a house you ' +
+        'expected is missing and no exclusion on the board covers it, that is ' +
+        'the falsification test firing \u2014 add it.', 'err');
+      const shown = hit.slice(0, 24);
+      return sayHTML('<span class="hd">' + hit.length + ' of ' + HOUSES.length +
+        '</span>\\n' + shown.map((h) =>
+        /* the cohort goes on the row because a house can sit in two of them —
+           Zimmerli makes a men's line and a women's line — and two rows that
+           differ in nothing visible read as a duplicate rather than as a fact */
+        '  <span class="ok">' + esc(h.n.slice(0, 24).padEnd(25)) + '</span>' +
+        '<span class="dim">' + esc(String(h.f || '—').padEnd(6)) +
+        esc(h.c.slice(0, 13).padEnd(14)) + esc(h.k.join(' ').slice(0, 18).padEnd(19)) +
+        '</span><span class="' + (h.s ? 'hd' : 'dim') + '">' +
+        (h.s ? 'serial ' : '       ') + '</span>' +
+        '<span class="dim">' + esc(h.g.slice(0, 22)) + '</span>').join('\\n') +
+        (hit.length > shown.length ? '\\n<span class="dim">  \u2026 and ' +
+          (hit.length - shown.length) + ' more; narrow it.</span>' : ''));
+    }
+
+    case 'serial': {
+      if (!HOUSES.length) return say('templates-house is not in this yard.', 'err');
+      /* Recomputed here, from the layer, rather than copied off the board.
+         A figure you can only check by trusting another page is a figure you
+         cannot check. */
+      const by = {};
+      HOUSES.forEach((h) => h.k.forEach((k) => {
+        by[k] = by[k] || { n: 0, s: 0 };
+        by[k].n++; by[k].s += h.s;
+      }));
+      const rows = Object.entries(by).filter(([, v]) => v.n >= 6)
+        .sort((a, b) => (b[1].s / b[1].n) - (a[1].s / a[1].n));
+      const tot = HOUSES.reduce((a, h) => a + h.s, 0);
+      openTab('grade');
+      return sayHTML('<span class="hd">' + tot + ' of ' + HOUSES.length +
+        ' houses make goods that carry a serial.</span>\\n' +
+        rows.map(([k, v]) => {
+          const p = Math.round(v.s / v.n * 100);
+          return '  <span class="dim">' + esc(k.padEnd(12)) + '</span>' +
+            '<span class="' + (p > 50 ? 'ok' : 'dim') + '">' +
+            String(p).padStart(3) + '%</span>' +
+            '<span class="dim"> ' + '\u2588'.repeat(Math.round(p / 5)).padEnd(20) +
+            ' ' + v.s + '/' + v.n + '</span>';
+        }).join('\\n') +
+        '\\n<span class="dim">The order is the finding, and it is the order of ' +
+        'the resale markets. A resale market is a ledger, and a ledger ends ' +
+        'fungibility \u2014 see the-serial in the base.</span>');
+    }
+
+    case 'agree': {
+      const F = CONSIST.faults || [], G = CONSIST.gaps || [];
+      const W = CONSIST.watched || [];
+      if (!W.length) return say('consistency.json is not in this yard. Run '
+        + 'node consistency.mjs.', 'err');
+      openTab('grade');
+      return sayHTML(
+        '<span class="' + (F.length ? 'err' : 'ok') + '">' + F.length +
+        ' fault' + (F.length === 1 ? '' : 's') + '</span>' +
+        '<span class="dim">, ' + G.length + ' known gap' +
+        (G.length === 1 ? '' : 's') + '. A fault is two places in this yard '
+        + 'stating different things about one fact. A gap is something '
+        + 'incomplete that the yard already knows about.</span>\\n' +
+        (F.length ? F.map((x) => '  <span class="err">' +
+          esc(x.check + '  ' + x.where.slice(0, 22).padEnd(23)) + '</span>' +
+          '<span class="dim">' + esc(x.what) + '</span>').join('\\n') + '\\n' : '') +
+        (G.length ? G.slice(0, 8).map((x) => '  <span class="hd">' +
+          esc(x.check + '  ' + x.where.slice(0, 22).padEnd(23)) + '</span>' +
+          '<span class="dim">' + esc(x.what.slice(0, 88)) + '</span>').join('\\n') +
+          (G.length > 8 ? '\\n  <span class="dim">\u2026 and ' + (G.length - 8) +
+            ' more on consistency.html</span>' : '') + '\\n' : '') +
+        '\\n<span class="hd">watched figures</span>\\n' +
+        W.map((w) => '  <span class="dim">' + esc(w.name.padEnd(20)) + '</span>' +
+          '<span class="ok">' + String(w.value).padStart(4) + '</span>' +
+          '<span class="dim">  from ' + esc(w.owner) + '</span>').join('\\n') +
+        '\\n<span class="dim">None of those are stored. Each is recomputed from '
+        + 'its layer, then hunted for in the prose of every base entry and '
+        + 'generator header. Quote one in a draft and it is checkable; change '
+        + 'the layer and whoever wrote the old number is named.</span>');
+    }
+
+    case 'yard': {
+      if (!YARD.generators) return say('yard.json is not here. Run node yard.mjs.', 'err');
+      openTab('grade');
+      return sayHTML('<span class="hd">' + YARD.generators + ' generators, ' +
+        YARD.layers.length + ' data layers.</span>\\n\\n' +
+        '<span class="hd">the layers</span>\\n' +
+        YARD.layers.map((L) => '  <span class="ok">' +
+          esc(L.dir.replace('templates-', '').padEnd(13)) + '</span>' +
+          '<span class="dim">' + String(L.files).padStart(3) + ' files   ' +
+          esc(L.read_by.join(', ') || 'read by nothing') + '</span>').join('\\n') +
+        '\\n\\n<span class="hd">the fixed-point group</span>\\n' +
+        '  <span class="dim">' + esc(YARD.pass.join(' \u2192 ')) + '</span>\\n' +
+        '  <span class="dim">Each of these scans every board and emits one, so no '
+        + 'total order exists among them. It is a fixed point, not a sequence: '
+        + 'the group runs ' + YARD.passes + ' times, stampers last.</span>\\n\\n' +
+        '<span class="hd">build order, tail</span>\\n  <span class="dim">\u2026 ' +
+        esc(YARD.order.slice(-8).join(' \u2192 ')) + '</span>');
+    }
+
+    case 'refuses': {
+      const want = arg.trim().toLowerCase();
+      const has = Object.entries(YARD.detail || {})
+        .filter(([g, d]) => d.refuses && (!want || g.includes(want)));
+      if (!has.length) return say(want ? 'no generator matches ' + arg
+        : 'yard.json has no refusals recorded.', 'err');
+      return sayHTML('<span class="hd">' + has.length + ' generators say what they '
+        + 'refuse.</span> <span class="dim">Every one of them exists to turn some '
+        + 'bad input away; that is the spine of this place and it is worth reading '
+        + 'before the boards.</span>\\n\\n' +
+        has.map(([g, d]) => '<span class="ok">' + esc(g) + '</span>\\n' +
+          '<span class="dim">' + esc(d.refuses.replace(/\\s+/g, ' ')
+            .slice(0, 300)) + '</span>').join('\\n\\n'));
+    }
+
+    case 'build': {
+      const want = arg.trim();
+      if (!want) return say('build <generator>, or build all. ' +
+        'The order is computed, not remembered \u2014 see yard.', 'err');
+      /* A page cannot run node. This needs the app server, and if it is not
+         there the honest thing is to say so and hand over the command rather
+         than fail quietly or pretend something ran. */
+      const list = want === 'all' ? YARD.order.slice()
+        : YARD.order.filter((g) => g.includes(want.replace(/[.]mjs$/, '')));
+      if (!list.length) return say('no generator matches ' + want, 'err');
+      if (want === 'all' && YARD.passes > 1) list.push(...YARD.pass);
+      say('running ' + list.length + ' generator' + (list.length === 1 ? '' : 's') +
+        (want === 'all' ? ' in computed order, the fixed-point group twice' : '') +
+        '\u2026', 'hd');
+      (async () => {
+        for (const g of list) {
+          let r;
+          try {
+            r = await fetch('/api/run', { method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ path: g }) }).then((x) => x.json());
+          } catch (e) {
+            return say('no app server on this origin, so nothing ran. Start it '
+              + 'with  node venus-app.mjs  and open the yard at 127.0.0.1:8777 '
+              + '\u2014 or run  node ' + g + '  yourself.', 'err');
+          }
+          sayHTML('<span class="' + (r.ok ? 'ok' : 'err') + '">' +
+            esc(g.padEnd(20)) + '</span><span class="dim">' +
+            esc(String(r.out || '').trim().split(String.fromCharCode(10))[0].slice(0, 90)) + '</span>');
+          /* a refusal announces itself; anything else is a crash, and calling
+             a crash "the generator working" is the most misleading thing this
+             console could say. venus-app.mjs was reported as refusing when it
+             had simply tried to bind a port already held. */
+          if (!r.ok) {
+            const refused = /REFUSED/.test(String(r.out || ''));
+            return say('stopped at ' + g + '. ' + (refused
+              ? 'It refused, and that is the generator working — fix the '
+                + 'input, not the check.'
+              : 'It did not refuse; it failed. That is a fault in the file, '
+                + 'not in what you gave it.'), 'err');
+          }
+        }
+        say('built.', 'ok');
+      })();
+      return;
+    }
+
+    case 'craft': {
+      const bits = arg.trim().split(/\\s+/).filter(Boolean);
+      const key = (bits[0] || '').replace(/^templates-/, '');
+      const dir = 'templates-' + key;
+      const S = (YARD.schema || {})[dir];
+      if (!S) return sayHTML('<span class="err">no layer ' + esc(key) +
+        '</span>\\n<span class="dim">the layers are: ' +
+        esc(Object.keys(YARD.schema || {}).map((d) => d.replace('templates-', ''))
+          .join(', ')) + '</span>');
+      const shape = Object.entries(S.shape || {});
+      if (!bits[1])
+        return sayHTML('<span class="hd">' + esc(dir) + '</span> <span class="dim">' +
+          S.count + ' components, judged by ' + esc(S.owner || 'nothing') +
+          '</span>\\n\\n' +
+          (S.declared
+            ? '<span class="hd">required</span>\\n  <span class="ok">' +
+              esc(S.required.join('  ')) + '</span>\\n\\n'
+            : '<span class="hd">required</span>\\n  <span class="dim">This ' +
+              'generator does not declare its keys in a form anything can read, ' +
+              'so nothing here can list them. Its refusals still will.</span>\\n\\n') +
+          '<span class="hd">the shape of a real one</span>\\n' +
+          shape.map(([k, t]) => '  <span class="dim">' + esc(k.padEnd(16)) +
+            esc(t) + '</span>').join('\\n') +
+          '\\n\\n<span class="dim">craft ' + esc(key) + ' &lt;id&gt; scaffolds one ' +
+          'into the draft. Nothing validates as you type \u2014 you write it, ' +
+          'then put it, and ' + esc(S.owner || 'the generator') + ' says yes or no. ' +
+          'The refusal is the schema.</span>');
+      /* scaffolded from a real component's shape, not invented: a scaffold
+         with made-up keys teaches the wrong shape and gets refused for the
+         wrong reason. */
+      const id = bits[1].replace(/[^a-z0-9-]/gi, '-').toLowerCase();
+      const obj = {};
+      for (const [k, t] of shape)
+        obj[k] = k === 'id' ? id
+          : t === 'number' ? 0 : t === 'boolean' ? false
+          : t === 'array' ? [] : t === 'object' ? {} : '';
+      for (const k of (S.required || [])) if (!(k in obj)) obj[k] = '';
+      const text = JSON.stringify(obj, null, 1);
+      const d = D();
+      d.text = text;
+      const ta = $('#pen'); if (ta) ta.value = text;   /* the pen, not #text */
+      save();
+      return sayHTML('<span class="ok">scaffolded ' + esc(dir + '/' + id + '.json') +
+        '</span> <span class="dim">into this draft, from the shape of a real ' +
+        'component. Fill it in, then</span>  <span class="hd">put ' + esc(key) +
+        '/' + esc(id) + '</span>\\n<span class="dim">It will be refused until it ' +
+        'is right, and the refusal will say why.</span>');
+    }
+
+    case 'peek': {
+      const [key, id] = arg.trim().split('/');
+      if (!key || !id) return say('peek <layer>/<id>', 'err');
+      const path = 'templates-' + key.replace(/^templates-/, '') + '/' + id + '.json';
+      (async () => {
+        let r;
+        try {
+          r = await fetch('/api/read?path=' + encodeURIComponent(path))
+            .then((x) => x.json());
+        } catch (e) { return say(NOSERVER, 'err'); }
+        if (r.error || r.body === undefined)
+          return say('not there: ' + path, 'err');
+        sayHTML('<span class="hd">' + esc(path) + '</span>\\n' +
+          '<span class="dim">' + esc(String(r.body).slice(0, 2400)) + '</span>');
+      })();
+      return;
+    }
+
+    case 'put': {
+      const [key0, id] = arg.trim().split('/');
+      const key = (key0 || '').replace(/^templates-/, '');
+      if (!key || !id) return say('put <layer>/<id>', 'err');
+      const S = (YARD.schema || {})['templates-' + key];
+      if (!S) return say('no layer ' + key, 'err');
+      const text = D().text || '';
+      /* refuse to save something that is not JSON at all. This is the one
+         check the notebook is entitled to make on its own: a file that will
+         not parse cannot be judged, so the generator would only report a
+         crash and the author would learn nothing. */
+      try { JSON.parse(text); }
+      catch (e) { return say('this draft is not JSON: ' + e.message +
+        '. Fix that first \u2014 a file that will not parse cannot be judged, and ' +
+        'the generator would only tell you it crashed.', 'err'); }
+      const path = 'templates-' + key + '/' + id + '.json';
+      (async () => {
+        let w;
+        try {
+          w = await fetch('/api/save', { method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ path, body: text }) }).then((x) => x.json());
+        } catch (e) { return say(NOSERVER, 'err'); }
+        if (!w.ok) return say('could not write ' + path + ': ' +
+          (w.error || 'refused by the server'), 'err');
+        say('wrote ' + path, 'ok');
+        if (!S.owner) return say('no generator owns this layer, so nothing ' +
+          'will judge it. That is worth fixing before adding more.', 'err');
+        /* saved and unjudged is the state that lets a layer rot, so the
+           owner runs now rather than at some later convenience */
+        const r = await fetch('/api/run', { method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ path: S.owner }) }).then((x) => x.json());
+        const out = String(r.out || '').trim();
+        const mine = out.split(String.fromCharCode(10))
+          .filter((L) => L.includes(id) || /REFUSED|x /.test(L)).slice(0, 10);
+        sayHTML('<span class="' + (r.ok ? 'ok' : 'err') + '">' + esc(S.owner) +
+          (r.ok ? ' accepted it' : ' refused it') + '</span>\\n' +
+          '<span class="dim">' + esc((mine.length ? mine : out.split(
+            String.fromCharCode(10)).slice(0, 6)).join(String.fromCharCode(10))) +
+          '</span>' + (r.ok ? '' : '\\n<span class="dim">That is the schema, ' +
+          'stated by the only thing entitled to state it.</span>'));
+      })();
+      return;
     }
 
     case 'export': return say(exportAll(), 'ok');
