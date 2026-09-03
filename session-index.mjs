@@ -122,6 +122,7 @@ const PROJECTS = [
   [61, 'The legacy: Agent Orange, the ordnance, the homecoming', 'projects/61-legacy.html', 'three post-war lifespans, the perception timeline, the tap code, a corrected bibliography'],
   [62, 'USS Constellation', 'projects/62-constellation.html', 'Connie: first strikes, first loss, first prisoner, first aces; the idle game where you are the ship'],
   [63, 'You are Australia, building ships', 'projects/63-australia-shipyard.html', 'a shipyard idle game with the Omaha / Missouri / Constellation table and the destroyer Australia sent'],
+  [64, 'October Revolution', 'projects/64-october-revolution.html', 'the room every other room descends from: the night by the hour, to the standard'],
 ].sort((a, b) => a[0] - b[0]);
 const pfile = n => PROJECTS.find(p => p[0] === n)[2].replace('projects/', '');
 
@@ -324,7 +325,7 @@ ${table(['Field', 'Shape', 'Rule'], STANDARD.map(r => r.map(esc)))}
 <p>Four U.S. presidents primarily managed American involvement in the Vietnam War, and each gets one line item and one repository in this index. A fifth presided over the ending and is listed as such.</p>
 ${table(['#', 'President', 'Term', 'Line item'], PRESIDENTS.map(p => [p.order <= 4 ? `<span class="num">${p.order}</span>` : 'ending', `<a href="${pfile(39 + p.order)}">${esc(p.name)}</a>`, `${p.term[0]}–${p.term[1]}`, esc(p.role)]))}
 <h2>Rooms built to this standard</h2>
-${table(['Room', 'Kind', 'From', 'To', 'Ending'], WARS.filter(w => w.kind === 'war-room').map(w => [`<a href="${pfile(w.id === 'vietnam' ? 37 : w.id === 'vietnam-responses' ? 39 : w.id === 'air' ? 59 : 56)}">${esc(w.name)}</a>`, w.kind, w.from, w.to, w.prediction ? esc(w.prediction.endingName) : '']))}
+${table(['Room', 'Kind', 'From', 'To', 'Ending'], WARS.filter(w => w.kind === 'war-room').map(w => [`<a href="${pfile(w.id === 'vietnam' ? 37 : w.id === 'vietnam-responses' ? 39 : w.id === 'air' ? 59 : w.id === 'october' ? 64 : 56)}">${esc(w.name)}</a>`, w.kind, w.from, w.to, w.prediction ? esc(w.prediction.endingName) : '']))}
 <h2>The Joint Chiefs</h2>
 <p>The chiefs are listed with their presidents. A chief who served two presidents appears once, with the first, and is given nothing more with the second except the duty he owed him. The five chiefs seated at the opening (1955-11-01) and the five at the fall (1975-04-30) each get a repository, projects 45–54.</p>
 ${table(['Seat', 'Who', 'From', 'To', 'Note'], ROSTER.seats.map(s => [esc(s.seat), esc(s.who), s.from, s.to, esc(s.note)]))}`,
@@ -407,7 +408,7 @@ PROJECTS.forEach(([n, name, file]) => { if (n !== 63) writeGame(name, n, TOTAL, 
 // Generated project pages.
 for (const w of WARS) {
   if (w.kind !== 'war-room') continue;
-  const n = w.id === 'vietnam' ? 37 : w.id === 'vietnam-responses' ? 39 : w.id === 'air' ? 59 : 56;
+  const n = w.id === 'vietnam' ? 37 : w.id === 'vietnam-responses' ? 39 : w.id === 'air' ? 59 : w.id === 'october' ? 64 : 56;
   writeFileSync(`projects/${pfile(n)}`, warRoom(w, n));
 }
 writeFileSync(`projects/${pfile(38)}`, standardPage(38));
