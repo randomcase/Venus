@@ -12,7 +12,7 @@ import { writeFileSync, mkdirSync } from 'node:fs';
 const SESSIONS = [
   ['Full voting system', '48743f', 'Remote Control', 'offline'],
   ['Move now', '5d4940', 'Remote Control', 'offline'],
-  ['Random case GitHub usernames', '65094e', 'cloud', 'idle'],
+  ['Random case GitHub usernames', '65094e', 'cloud', 'offline'],
   ['zakeem-witty-origami', '2f16d8', 'Remote Control', 'offline'],
   ['Musical arrangement with beat and claps', 'c0c33d', 'Remote Control', 'offline'],
   ['Build X258 Byte Hound binary ingestion kernel', '69a76a', 'Remote Control', 'offline'],
@@ -25,7 +25,7 @@ const SESSIONS = [
   ['Compose the Anatolian League epic', 'f23f3b', 'Remote Control', 'offline'],
   ['Create 3 shared repositories for 2 users', '085ea6', 'Remote Control', 'offline'],
   ['Build node art program and judge game', 'db289f', 'Remote Control', 'offline'],
-  ['Dispatch background conversation', '3a3433', 'Remote Control', 'idle'],
+  ['Dispatch background conversation', '3a3433', 'Remote Control', 'offline'],
   ['Ready to work on coding session', '1522fb', 'Remote Control', 'offline'],
   ['Review Claude platform documentation', '7453d4', 'Remote Control', 'offline'],
   ['Open GitHub repo Venus', '4b4e05', 'Remote Control', 'offline'],
@@ -39,8 +39,8 @@ const SESSIONS = [
   ['Set up email service agent playgrounds', 'd62937', 'Remote Control', 'offline'],
   ['Explore Java agentic automation repositories', '8109e6', 'Remote Control', 'offline'],
   ['Configure cloud environment on GitHub', '102bd9', 'Remote Control', 'offline'],
-  ['Java agent workflow', 'e8d165', 'cloud', 'idle'],
-  ['Git Bash introductory guide', 'b83025', 'cloud', 'idle'],
+  ['Java agent workflow', 'e8d165', 'cloud', 'offline'],
+  ['Git Bash introductory guide', 'b83025', 'cloud', 'offline'],
 ];
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
