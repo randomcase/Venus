@@ -1,0 +1,14 @@
+{
+ "id": "unknown",
+ "kind": "demographic",
+ "order": 6,
+ "name": "Not recorded",
+ "recordTerm": "unknown",
+ "popShare1970": null,
+ "deaths": 263,
+ "deathShare": 0.5,
+ "note": "The 263 the record could not classify.",
+ "johnson": "",
+ "source": "Defense Casualty Analysis System (DCAS), Vietnam Conflict Extract File, race field; US Census 1970; Guzmán 1969; Appy, Working-Class War (1993).",
+ "wovenBy": "the bridge"
+}

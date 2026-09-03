@@ -1,0 +1,13 @@
+{
+ "id": "burke",
+ "kind": "jcs-seat",
+ "order": 3,
+ "who": "Adm. Arleigh A. Burke",
+ "seat": "Chief of Naval Operations",
+ "seatAt": "opening",
+ "date": "1955-11-01",
+ "from": 1955,
+ "to": 1961,
+ "note": "CNO on the opening date, two months in. Served three terms; the carriers that flew Rolling Thunder were his fleet’s design.",
+ "wovenBy": "the bridge"
+}

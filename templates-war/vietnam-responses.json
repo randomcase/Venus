@@ -1,0 +1,53 @@
+{
+ "id": "vietnam-responses",
+ "kind": "war-room",
+ "order": 2,
+ "respondsTo": "vietnam",
+ "name": "Responses to the Vietnam War",
+ "also": "the home front, the press, the army, the law, and Hanoi's own response",
+ "theatre": "United States, mostly; the campuses, the networks, the Congress, the Pentagon",
+ "from": "1965-03-24",
+ "to": "1982-11-13",
+ "sides": [
+  { "side": "For the war", "who": "the administration until 1968; the 'silent majority' Nixon named in Nov 1969; hard-hat counter-marches (May 1970)", "backed": "a plurality in polls until roughly mid-1968" },
+  { "side": "Against the war", "who": "SDS, the Mobe, the Moratorium, draft resisters, VVAW, the clergy, most of the press after Tet", "backed": "a majority in polls from roughly mid-1968" }
+ ],
+ "chain": [
+  { "who": "The campuses", "role": "first responders", "from": 1965, "to": 1970, "did": "First teach-in at Michigan (24 Mar 1965); SDS march on Washington (Apr 1965); draft-card burnings; Columbia (1968); after Cambodia, a strike of some four million students, and Kent State (4 May 1970) and Jackson State (15 May 1970)." },
+  { "who": "The press", "role": "the turn", "from": 1968, "to": 1971, "did": "Cronkite's 'mired in stalemate' broadcast (27 Feb 1968); My Lai reported by Seymour Hersh (Nov 1969); the Pentagon Papers published by the Times and the Post (Jun 1971), upheld by the Supreme Court in seventeen days." },
+  { "who": "The veterans", "role": "the witnesses", "from": 1967, "to": 1971, "did": "Vietnam Veterans Against the War founded (1967); Winter Soldier hearings in Detroit (Jan–Feb 1971); Dewey Canyon III, medals thrown over the Capitol fence, and John Kerry before the Senate (Apr 1971)." },
+  { "who": "The Congress", "role": "the law", "from": 1970, "to": 1974, "did": "Repealed the Gulf of Tonkin resolution (Jan 1971); Case–Church amendment cutting off funds for combat (Jun 1973); War Powers Resolution over Nixon's veto (Nov 1973); refused Ford's aid request (Apr 1975)." },
+  { "who": "The army", "role": "the institution", "from": 1973, "to": 1991, "did": "Ended the draft (Jan 1973) for an all-volunteer force; rebuilt doctrine around decisive force and clear objectives, later called the Weinberger–Powell doctrine; stopped using body counts as a metric." },
+  { "who": "Hanoi", "role": "the other response", "from": 1968, "to": 1975, "did": "Tet was a military defeat and a political response that worked; the Easter Offensive (1972) tested Vietnamization; the Ho Chi Minh Campaign (1975) answered the ceasefire." },
+  { "who": "The country, afterwards", "role": "the memory", "from": 1979, "to": 1982, "did": "PTSD entered the DSM-III (1980), pushed by veterans' groups; the Vietnam Veterans Memorial, a black wall with 58,000 names and no figures, dedicated 13 Nov 1982." }
+ ],
+ "phases": [
+  { "from": 1965, "to": 1967, "name": "Teach-in", "text": "Objection is academic and religious; the draft makes it personal; support for the war still holds a majority." },
+  { "from": 1968, "to": 1969, "name": "The turn", "text": "Tet, Cronkite, Johnson withdraws (31 Mar 1968), Chicago convention; a majority now calls the war a mistake; the Moratorium (15 Oct 1969) is the largest protest to date." },
+  { "from": 1970, "to": 1971, "name": "Rupture", "text": "Cambodia, Kent State, the student strike, Winter Soldier, the Pentagon Papers, the May Day arrests (12,000 in three days)." },
+  { "from": 1973, "to": 1982, "name": "Settlement", "text": "Draft ends; War Powers; POWs return; Saigon falls; the country argues about the veterans and then builds them a wall." }
+ ],
+ "gauge": { "unit": "Gallup: percent saying it was a mistake to send troops", "series": [[1965, 24], [1966, 35], [1967, 46], [1968, 53], [1969, 58], [1970, 56], [1971, 61], [1973, 60]] },
+ "cost": [
+  { "k": "Killed at Kent State and Jackson State", "v": "4 and 2" },
+  { "k": "Draft evasion or resistance cases", "v": "~210,000 accused; ~9,000 convicted; Carter's pardon (Jan 1977)" },
+  { "k": "Americans who left for Canada", "v": "estimates 30,000 to 100,000" },
+  { "k": "Voting age lowered to 18", "v": "26th Amendment, ratified in 100 days (Jul 1971), the fastest ever, on the argument 'old enough to fight'" },
+  { "k": "Laws that survived", "v": "War Powers Resolution (1973), still in force and still contested" }
+ ],
+ "outcome": "The war ended the draft, the president's unilateral war power on paper, the press's deference, and the metric of the body count. It did not end the war; Hanoi did that.",
+ "open": [
+  "Whether the protests shortened the war or, by hardening the 'silent majority', lengthened it — Nixon's own view was that they made withdrawal harder.",
+  "Whether Tet changed opinion or merely confirmed a decline already under way since 1967 in the polls.",
+  "Whether the all-volunteer force made later wars easier to start because fewer families had a stake."
+ ],
+ "sources": [
+  "Gallup, Vietnam War polling series (1965–1973)",
+  "Tom Wells, The War Within (1994)",
+  "Charles DeBenedetti, An American Ordeal (1990)",
+  "Kent State: May 4 Collection, Kent State University Libraries",
+  "War Powers Resolution, Pub. L. 93–148"
+ ],
+ "text": "A war room of responses to the Vietnam war room: who answered the war, in what order, what it cost them, and what changed in law and doctrine because of it.",
+ "wovenBy": "the bridge"
+}

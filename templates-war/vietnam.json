@@ -1,0 +1,262 @@
+{
+ "id": "vietnam",
+ "kind": "war-room",
+ "order": 1,
+ "name": "Vietnam War",
+ "also": "Second Indochina War; in Vietnam, the Resistance War Against America",
+ "theatre": "Vietnam, Laos, Cambodia",
+ "from": "1955-11-01",
+ "to": "1975-04-30",
+ "sides": [
+  {
+   "side": "North",
+   "who": "Democratic Republic of Vietnam, Viet Cong (NLF)",
+   "backed": "USSR, China"
+  },
+  {
+   "side": "South",
+   "who": "Republic of Vietnam, United States, South Korea, Australia, Thailand, New Zealand, Philippines",
+   "backed": "SEATO"
+  }
+ ],
+ "chain": [
+  {
+   "who": "Dwight D. Eisenhower",
+   "role": "US president",
+   "from": 1953,
+   "to": 1961,
+   "did": "Managed early involvement: refused to bomb Dien Bien Phu (1954), backed Diem, sent military advisers — about 900 in country by the end of his term."
+  },
+  {
+   "who": "John F. Kennedy",
+   "role": "US president",
+   "from": 1961,
+   "to": 1963,
+   "did": "Raised the adviser mission from under a thousand to about 16,000; approved the coup that removed Diem three weeks before his own assassination."
+  },
+  {
+   "who": "Lyndon B. Johnson",
+   "role": "US president",
+   "from": 1963,
+   "to": 1969,
+   "did": "Oversaw the massive escalation: Gulf of Tonkin resolution (Aug 1964), Rolling Thunder (Mar 1965), first combat troops at Da Nang (Mar 1965), over 500,000 troops in country by 1968. Declined to run again after Tet."
+  },
+  {
+   "who": "Richard Nixon",
+   "role": "US president",
+   "from": 1969,
+   "to": 1974,
+   "did": "Vietnamization: pulled US troops out while shifting the fighting to the South Vietnamese army; widened the air war to Cambodia and Laos; signed the Paris Peace Accords (Jan 1973). Last US combat troops left March 1973."
+  },
+  {
+   "who": "Gerald Ford",
+   "role": "US president",
+   "from": 1974,
+   "to": 1977,
+   "did": "Asked Congress for aid to Saigon and was refused; ordered the evacuation. Saigon fell 30 April 1975."
+  }
+ ],
+ "phases": [
+  {
+   "from": 1955,
+   "to": 1964,
+   "name": "Advisers",
+   "text": "MAAG and then MACV train the ARVN; strategic hamlets; Buddhist crisis; Diem overthrown."
+  },
+  {
+   "from": 1965,
+   "to": 1968,
+   "name": "Escalation",
+   "text": "Rolling Thunder; ground war of attrition under Westmoreland; search and destroy; Ia Drang, Khe Sanh, Tet (Jan 1968)."
+  },
+  {
+   "from": 1969,
+   "to": 1973,
+   "name": "Vietnamization",
+   "text": "Troop withdrawals; Cambodia incursion (1970); Lam Son 719 (1971); Easter Offensive and Linebacker (1972); Paris Accords (Jan 1973)."
+  },
+  {
+   "from": 1973,
+   "to": 1975,
+   "name": "Collapse",
+   "text": "Ceasefire ignored by both sides; US aid cut; Ho Chi Minh Campaign; fall of Saigon (30 Apr 1975)."
+  }
+ ],
+ "gauge": {
+  "unit": "US troops in South Vietnam, year end",
+  "series": [
+   [
+    1960,
+    900
+   ],
+   [
+    1961,
+    3205
+   ],
+   [
+    1962,
+    11300
+   ],
+   [
+    1963,
+    16300
+   ],
+   [
+    1964,
+    23300
+   ],
+   [
+    1965,
+    184300
+   ],
+   [
+    1966,
+    385300
+   ],
+   [
+    1967,
+    485600
+   ],
+   [
+    1968,
+    536100
+   ],
+   [
+    1969,
+    475200
+   ],
+   [
+    1970,
+    334600
+   ],
+   [
+    1971,
+    156800
+   ],
+   [
+    1972,
+    24200
+   ],
+   [
+    1973,
+    50
+   ]
+  ]
+ },
+ "cost": [
+  {
+   "k": "US military deaths",
+   "v": "58,220"
+  },
+  {
+   "k": "ARVN military deaths",
+   "v": "~254,000"
+  },
+  {
+   "k": "PAVN / Viet Cong deaths",
+   "v": "~1,100,000 (Vietnamese government figure)"
+  },
+  {
+   "k": "Vietnamese civilian deaths",
+   "v": "estimates from ~600,000 to 2,000,000"
+  },
+  {
+   "k": "US bomb tonnage, Indochina",
+   "v": "~7,500,000 tons, more than all of WWII"
+  },
+  {
+   "k": "US cost",
+   "v": "~$168 billion then; roughly $1 trillion in 2020s dollars"
+  }
+ ],
+ "prediction": {
+  "ending": "1975-04-30",
+  "endingName": "Fall of Saigon",
+  "unit": "provinces still held by Saigon (of 44; counts approximate to within two or three)",
+  "series": [
+   [
+    "1975-01-06",
+    43
+   ],
+   [
+    "1975-03-10",
+    42
+   ],
+   [
+    "1975-03-18",
+    36
+   ],
+   [
+    "1975-03-25",
+    30
+   ],
+   [
+    "1975-03-29",
+    24
+   ],
+   [
+    "1975-04-03",
+    20
+   ],
+   [
+    "1975-04-21",
+    14
+   ]
+  ],
+  "fitFrom": "1975-03-10",
+  "marks": [
+   [
+    "1975-01-06",
+    "Phuoc Long falls; no US response"
+   ],
+   [
+    "1975-03-10",
+    "Ban Me Thuot"
+   ],
+   [
+    "1975-03-14",
+    "Thieu orders the Highlands abandoned"
+   ],
+   [
+    "1975-03-25",
+    "Hue"
+   ],
+   [
+    "1975-03-29",
+    "Da Nang"
+   ],
+   [
+    "1975-04-09",
+    "Xuan Loc, the 18th Division holds twelve days"
+   ],
+   [
+    "1975-04-21",
+    "Thieu resigns; Xuan Loc falls"
+   ],
+   [
+    "1975-04-29",
+    "Frequent Wind, the helicopters"
+   ],
+   [
+    "1975-04-30",
+    "Saigon"
+   ]
+  ],
+  "note": "The model is a straight line through the provinces-held counts from Ban Me Thuot onward, extended to zero. It is late, not early: the line runs at the March pace, about one province a day, and the last fourteen provinces went in nine days once Xuan Loc fell. The difference between the computed date and 30 April is the speed of a collapse, which a line cannot see coming and which Weyand, on 4 April, could."
+ },
+ "outcome": "North Vietnamese victory; reunification under Hanoi (1976); US withdrawal complete two years before the end.",
+ "open": [
+  "Whether the Gulf of Tonkin second attack (4 Aug 1964) happened at all; the NSA's 2005 release says it did not.",
+  "Whether Kennedy would have withdrawn after 1964 (NSAM 263 vs. his public statements).",
+  "What Vietnamization was for: an exit, or a decent interval."
+ ],
+ "sources": [
+  "Pentagon Papers (1971; full release 2011)",
+  "US National Archives, Statistical Information about Casualties of the Vietnam War",
+  "Stanley Karnow, Vietnam: A History (1983)",
+  "Fredrik Logevall, Embers of War (2012)",
+  "Max Hastings, Vietnam: An Epic Tragedy (2018)"
+ ],
+ "text": "A war room for the Vietnam War: the chain of command that escalated and then withdrew, the four phases, the troop gauge by year, and the questions still open.",
+ "wovenBy": "the bridge"
+}

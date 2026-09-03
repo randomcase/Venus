@@ -1,0 +1,14 @@
+{
+ "id": "native",
+ "kind": "demographic",
+ "order": 4,
+ "name": "American Indian",
+ "recordTerm": "American Indian",
+ "popShare1970": 0.4,
+ "deaths": 226,
+ "deathShare": 0.4,
+ "note": "About 42,000 served, 90% of them volunteers; 226 killed, about 0.4% of deaths against 0.4% of the population, one of the highest service rates of any group.",
+ "johnson": "",
+ "source": "Defense Casualty Analysis System (DCAS), Vietnam Conflict Extract File, race field; US Census 1970; Guzmán 1969; Appy, Working-Class War (1993).",
+ "wovenBy": "the bridge"
+}
