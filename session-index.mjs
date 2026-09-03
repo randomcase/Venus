@@ -186,9 +186,11 @@ const predict = (p) => {
   const sxx = pts.reduce((a, [x]) => a + x * x, 0), sxy = pts.reduce((a, [x, y]) => a + x * y, 0);
   const m = (n * sxy - sx * sy) / (n * sxx - sx * sx), b = (sy - m * sx) / n;
   const zeroDay = -b / m; const when = new Date(t0 + zeroDay * DAY);
-  const actual = Date.parse(p.ending); const err = Math.round((actual - when.getTime()) / DAY);
-  const iso = when.toISOString().slice(0, 10);
-  return { m, b, iso, err, n };
+  const timed = /T/.test(p.series[0][0]);
+  const ending = timed && p.marks ? (p.marks.find(([d]) => d.startsWith(p.ending)) || [p.ending])[0] : p.ending;
+  const actual = Date.parse(ending); const unit = timed ? DAY / 24 : DAY; const err = Math.round((actual - when.getTime()) / unit);
+  const iso = timed ? when.toISOString().slice(0, 16).replace("T", " ") : when.toISOString().slice(0, 10);
+  return { m, b, iso, err, n, unitName: timed ? "hours" : "days" };
 };
 const predictionBox = (p) => {
   const r = predict(p);
@@ -196,7 +198,7 @@ const predictionBox = (p) => {
 <div class="card warn"><span class="k">${esc(p.unit)}</span>
 ${table(['Date', 'Count'], p.series.map(([d, v]) => [d, `<span class="num">${v}</span>`]))}
 <p><b>Fit:</b> ${r.n} points from ${p.fitFrom}, least squares, slope ${r.m.toFixed(2)} per day, intercept ${r.b.toFixed(1)}.</p>
-<p><b>The computer says zero on ${r.iso}.</b> The ending, ${esc(p.endingName)}, was ${p.ending}. Error: ${r.err > 0 ? `${r.err} days early` : r.err < 0 ? `${-r.err} days late` : 'exact'}.</p>
+<p><b>The computer says zero on ${r.iso}.</b> The ending, ${esc(p.endingName)}, was ${p.ending}. Error: ${r.err > 0 ? `${r.err} ${r.unitName} early` : r.err < 0 ? `${-r.err} ${r.unitName} late` : 'exact'}.</p>
 <p>${esc(p.note)}</p></div>
 <h3>Marks</h3>
 ${lines(p.marks)}`;
