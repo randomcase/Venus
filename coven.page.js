@@ -7,10 +7,10 @@
   const KEY = 'coven.v1', DKEY = 'descent.v1';
   const read = (k, d) => { try { return Object.assign(d, JSON.parse(localStorage.getItem(k) || 'null') || {}); } catch (e) { return d; } };
   let W = { people: D.people, syndicates: D.syndicates, doors: D.doors, crofts: D.crofts };
-  let S = read(KEY, { day: 0, seed: D.seed, props: [], carried: 0, chain: [], nextId: 1, lastSync: 0, auto: false, log: [], wax: {}, built: {}, activity: {}, stealLock: {}, stance: {}, suspicion: {}, lastCarriedAt: {}, stanceLog: [], bossScore: { presidents: 0, kings: 0 }, saved: Date.now() });
+  let S = read(KEY, { day: 0, seed: D.seed, props: [], carried: 0, chain: [], nextId: 1, lastSync: 0, auto: false, log: [], wax: {}, built: {}, activity: {}, stealLock: {}, stance: {}, suspicion: {}, lastCarriedAt: {}, stanceLog: [], relationLog: [], bossScore: { presidents: 0, kings: 0 }, saved: Date.now() });
   S.wax = S.wax || {}; S.built = S.built || {}; S.activity = S.activity || {}; S.stealLock = S.stealLock || {};
   S.stance = S.stance || {}; S.suspicion = S.suspicion || {}; S.lastCarriedAt = S.lastCarriedAt || {}; S.stanceLog = S.stanceLog || [];
-  S.bossScore = S.bossScore || { presidents: 0, kings: 0 };
+  S.bossScore = S.bossScore || { presidents: 0, kings: 0 }; S.relationLog = S.relationLog || [];
   let Dk = read(DKEY, { heze: 0, issued: 0, ledger: [] });
   const note = m => { S.log.unshift({ t: Math.floor(S.day), m }); S.log.length = Math.min(S.log.length, 60); };
   const save = () => { S.saved = Date.now(); Dk.saved = Date.now(); localStorage.setItem(KEY, JSON.stringify(S)); localStorage.setItem(DKEY, JSON.stringify(Dk)); };
@@ -116,6 +116,55 @@
     }
   }
 
+  /* THE RELATION. Presidents and kings act on a syndicate from outside the coven; this is the
+     coven acting on itself. Every syndicate has exactly one neighbor — the next tranche around,
+     wrapping syn-21 to syn-1 — and every relationEvery days each of the three relations gets
+     one roll against it: a wizard AUDITS the neighbor's own book, a full croft LENDS wax to a
+     neighbor running low, and two neighbors both staged the same day RIVAL for the one
+     six-month gate. relationDef mirrors activityDef/stanceDef exactly. */
+  const relationDef = id => D.relation.find(r => r.id === id);
+  const neighborOf = synId => { const n = +synId.slice(4); return 'syn-' + (n % W.syndicates.length + 1); };
+  function rollRelations(d1, quiet) {
+    for (let i = 0; i < W.syndicates.length; i++) {
+      const a = W.syndicates[i], bId = neighborOf(a.id), b = W.syndicates.find(s => s.id === bId);
+      if (!b) continue;
+      /* audit: a wizard reads the neighbor's own desk. A stale proposal there is real and gets
+         flagged, exactly like interference; a neighbor already suspect and found clean instead
+         gets cleared early — the one relation that can help rather than only ever cost. */
+      if (h32(d1, i * 41 + 11) % 100 < RULES.auditChance) {
+        const staleB = S.props.some(p => p.syn === bId && p.signed.length < RULES.quorum && d1 - p.at > RULES.staleAfter * effectsFor(bId).staleAfterMul);
+        if (staleB && (S.suspicion[bId] || 0) <= d1) { S.suspicion[bId] = d1 + RULES.suspicionDays;
+          S.relationLog.unshift({ at: d1, a: a.id, b: bId, rel: 'audit', outcome: 'flagged' });
+          if (!quiet) note(`${a.name}'s wizard audits ${b.name} and finds a stale proposal — flagged, alert for ${RULES.suspicionDays} days.`); }
+        else if ((S.suspicion[bId] || 0) > d1) { S.suspicion[bId] = 0;
+          S.relationLog.unshift({ at: d1, a: a.id, b: bId, rel: 'audit', outcome: 'cleared' });
+          if (!quiet) note(`${a.name}'s wizard audits ${b.name} and finds nothing wrong — the suspicion lifts early.`); }
+      }
+      /* lend: a full croft moving wax to a neighbor running low is the one place HEZE-free wax
+         actually crosses between two syndicates rather than between a syndicate and the docket. */
+      const capA = croftFor(a.id).cap + effectsFor(a.id).waxCapAdd, waxA = S.wax[a.id] || 0;
+      const capB = croftFor(bId).cap + effectsFor(bId).waxCapAdd, waxB = S.wax[bId] || 0;
+      if (waxA >= capA - 1 && waxB < capB * 0.3) {
+        const amt = Math.min(RULES.lendAmount, capB - waxB);
+        if (amt > 0) { S.wax[a.id] = waxA - amt; S.wax[bId] = waxB + amt;
+          S.relationLog.unshift({ at: d1, a: a.id, b: bId, rel: 'lend', outcome: amt });
+          if (!quiet) note(`${a.name} lends ${amt} wax to ${b.name}, running low, rather than let it spill over the top.`); }
+      }
+      /* rival: two neighbors staged the same day are drawing on the same six-month gate — only
+         one of them gets there. The loser falls back to planning, not discovery: outmaneuvered
+         is not the same as caught. */
+      const actA = S.activity[a.id], actB = S.activity[bId];
+      if (actA && actB && actA.state === 'staged' && actB.state === 'staged' && h32(d1, i * 53 + 17) % 100 < RULES.rivalChance) {
+        const loser = h32(d1, i * 61 + 19) % 2 ? a : b, other = loser === a ? b : a;
+        rollActivity(loser.id, W.syndicates.findIndex(s => s.id === loser.id), d1); S.activity[loser.id].state = 'planning';
+        S.activity[loser.id].looking = activityDef('planning').lookingInto[h32(d1, loser.id.length) % activityDef('planning').lookingInto.length];
+        S.relationLog.unshift({ at: d1, a: other.id, b: loser.id, rel: 'rival', outcome: 'won' });
+        if (!quiet) note(`${other.name} outmaneuvers ${loser.name} for the same gate — ${loser.name} falls back to planning.`);
+      }
+    }
+    S.relationLog.length = Math.min(S.relationLog.length, 80);
+  }
+
   function steal(synId) {
     const act = activityFor(synId), stance = S.stance[synId] || 'yellow', sy = W.syndicates.find(s => s.id === synId);
     const d1 = Math.floor(S.day);
@@ -158,6 +207,7 @@
     if (d1 % RULES.activityEvery === 0) for (let i = 0; i < W.syndicates.length; i++) { const sy = W.syndicates[i]; if ((S.stealLock[sy.id] || 0) > d1) continue;
       const was = S.activity[sy.id] && S.activity[sy.id].state; rollActivity(sy.id, i, d1); const now = S.activity[sy.id].state;
       if (!quiet && now !== was && (now === 'staged' || now === 'discovery')) note(`${sy.name} turns ${now}: ${S.activity[sy.id].looking}.`); }
+    if (d1 % RULES.relationEvery === 0) rollRelations(d1, quiet);
     if (d1 % RULES.interferenceEvery === 0) rollInterference(d1, quiet);
     updateStances(d1, quiet);
     if (d1 - S.lastSync >= RULES.intervalDays) carry(quiet); }
@@ -226,6 +276,11 @@
       $('#steal').textContent = effSteal ? `Attempt a steal — ${effSteal.chance}% chance, ${effSteal.min}–${effSteal.max} HEZE` : 'Attempt a steal'; }
     { const stDef = stanceDef(S.stance[sy.id] || 'yellow'), suspectDays = (S.suspicion[sy.id] || 0) - d1;
       $('#stance').innerHTML = `<div class="stat"><span>reads as</span><b><span class="light" style="background:${stDef.color};color:${stDef.color}"></span>${stDef.label}</b></div><p>${stDef.text}${suspectDays > 0 ? ' Accused from outside — ' + suspectDays + ' day' + (suspectDays === 1 ? '' : 's') + ' left.' : ''}${stDef.id === 'green' ? ' The exact head to cut off, while it lasts.' : ''}</p>`; }
+    { const nb = W.syndicates.find(s => s.id === neighborOf(sy.id)), nbStance = stanceDef(S.stance[nb.id] || 'yellow'), nbAct = activityFor(nb.id), nbDef = activityDef(nbAct.state);
+      const recent = S.relationLog.filter(r => r.a === sy.id || r.b === sy.id).slice(0, 3);
+      $('#neighbor').innerHTML = `<div class="stat"><span>neighbor</span><b><span class="light" style="background:${nbStance.color};color:${nbStance.color}"></span><span class="light" style="background:${nbDef.color};color:${nbDef.color}"></span>${nb.name}</b></div>`
+        + `<div class="stat"><span>its wax</span><b>${fmt(S.wax[nb.id] || 0)} / ${fmt(croftFor(nb.id).cap + effectsFor(nb.id).waxCapAdd)}</b></div>`
+        + (recent.length ? recent.map(r => `<p style="margin:4px 0 0;font-size:11.5px;color:var(--dim)">d${r.at} &middot; ${(r.a === sy.id ? sy : nb).name} ${relationDef(r.rel).verb} ${(r.a === sy.id ? nb : sy).name}${r.rel === 'lend' ? ' — ' + r.outcome + ' wax' : r.rel === 'audit' ? ' — ' + r.outcome : ''}</p>`).join('') : '<p style="margin:4px 0 0;color:var(--dim);font-size:11.5px">Nothing between these two yet.</p>'); }
     $('#who').innerHTML = people(sy.id).map(p => `<div class="who"><canvas data-p="${p.id}"></canvas><div><em>${p.office} &middot; ${p.office_is}</em><b>${p.name}</b><p>${p.does}</p><p>Keeps ${p.keeps}. Holds the spell ${p.glyph} ${p.spell}. Key share <code>${p.share}</code>.</p><p><small>Reads ${p.reads}.</small> ${p.reason}</p></div><div></div></div>`).join('');
     $('#who').querySelectorAll('canvas').forEach(cv => sigil(cv, W.people.find(p => p.id === cv.dataset.p)));
     /* the croft and its holds, for the syndicate on screen */
@@ -256,6 +311,8 @@
       + `<p style="color:var(--dim);font-size:12px;margin:8px 0 0">${H.every(h => h[2]) ? 'Healthy: every door can be signed, the chain agrees with itself, and the carries are on time. A bank is healthy when nothing about it needs explaining.' : 'Not healthy yet, and the line above says which part. Nothing here is hidden by an average.'}</p>`;
     $('#stance-log').innerHTML = (S.stanceLog.length ? `<div style="color:var(--gold);border-bottom:1px solid var(--edge);padding-bottom:4px;margin-bottom:4px">Presidents have taken ${fmt(S.bossScore.presidents)} HEZE from the eagle-eye view &middot; kings have taken ${fmt(S.bossScore.kings)} HEZE from the ground. Neither reaches your docket.</div>` : '')
       + (S.stanceLog.length ? S.stanceLog.slice(0, 30).map(t => `<div><b>d${t.at}</b> ${t.name} turns ${t.to}${t.boss ? ' — a president or king made this one' : ''} (from ${t.from})</div>`).join('') : '<div>Nothing has changed hands yet. The first stance settles once a syndicate does something worth reading.</div>');
+    $('#relation-log').innerHTML = S.relationLog.length ? S.relationLog.slice(0, 30).map(r => { const a = W.syndicates.find(s => s.id === r.a), b = W.syndicates.find(s => s.id === r.b);
+      return `<div><b>d${r.at}</b> ${a.name} ${relationDef(r.rel).verb} ${b.name}${r.rel === 'lend' ? ' — ' + r.outcome + ' wax' : r.rel === 'audit' ? ' — ' + r.outcome : ' — the gate'}</div>`; }).join('') : '<div>Nothing between any two of them yet. Audit, lend and rival all roll on their own schedule.</div>';
     $('#props').innerHTML = S.props.length ? S.props.slice(0, 12).map(p => `<div class="prop"><b>${p.id} &middot; door ${p.door}</b><div class="sigs">${OFFICES.map(o => `<i class="${p.signed.includes(o) ? 'on' : ''}" title="${o}"></i>`).join('')}</div><p>${p.why} &middot; ${fmt(p.amount)} HEZE &middot; ${p.signed.length}/2 signed${p.signed.length ? ' by the ' + p.signed.join(' and the ') : ''}</p><div class="row">${OFFICES.filter(o => !p.signed.includes(o)).map(o => `<button data-e="${p.id}" data-o="${o}">sign as ${o}</button>`).join('')}</div></div>`).join('') : '<p style="color:var(--dim);margin:0">No proposals at the doors. They come on their own.</p>';
     $('#props').querySelectorAll('button').forEach(b => b.onclick = () => { const p = S.props.find(x => x.id === b.dataset.e); if (!p || p.signed.length >= 2) return; p.signed.push(b.dataset.o);
       if (p.signed.length >= 2) note(`${p.id} at door ${p.door}: two of three. It waits for the carry.`); save(); render(); });

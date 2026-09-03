@@ -220,6 +220,24 @@ overrides everything else a steal would normally require, on purpose: whatever e
 of a syndicate, presenting is always a real, well-flagged chance to steal from it — the
 exact head to cut off, whenever one appears.
 
+## The relation: the coven acting on itself
+
+Presidents and kings act on a syndicate from outside the coven. `templates-relation/`
+is the coven acting on itself: every syndicate has exactly one neighbor — the next
+tranche around, syn-21 wrapping to syn-1 — and every relationEvery days each of three
+relations gets one roll against it. **Audit**: a wizard checks the neighbor's own book
+instead of hers, flagging a real stale proposal there or, just as often this early in a
+game, clearing a suspicion a president or king cast that the neighbor's own record does
+not support — the one relation that can help rather than only ever cost. **Lend**: a
+croft sitting at its cap moves wax to a neighbor running low rather than watching it
+spill over the top — the first HEZE-free transfer that actually crosses between two
+syndicates instead of between a syndicate and the docket. **Rival**: two neighbors
+staged the same day are drawing on the same six-month gate, and only one of them gets
+there — the loser falls back to planning, outmaneuvered rather than caught. "Between
+the syndicates" now sits beside "What the coven does to itself," so external
+interference and internal relation are both real, readable feeds, not one log standing
+in for two different things.
+
 ## The terminal: the notebook before the automation
 
 `terminal.html` is the text layer for the whole ship: `sow 31 44`, `take

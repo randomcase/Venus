@@ -1,0 +1,50 @@
+{
+ "id": "enum-relation",
+ "kind": "enum",
+ "family": "relation",
+ "path": "templates-enum/relation.json",
+ "note": "The fixed vocabulary of templates-relation/, mined from 3 of its 3 templates by enums.mjs. Kept in templates-enum/, never inside templates-relation/ itself, so nothing that scans templates-relation/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 3,
+ "sampledFiles": 3,
+ "fields": {
+  "id": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "audit",
+    "lend",
+    "rival"
+   ]
+  },
+  "kind": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 3,
+   "values": [
+    "relation"
+   ]
+  },
+  "label": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "Audits",
+    "Lends to",
+    "Rivals"
+   ]
+  },
+  "verb": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "audits",
+    "lends wax to",
+    "outmaneuvers"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

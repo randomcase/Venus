@@ -152,6 +152,22 @@ const STANCE = [
   { id: 'red', kind: 'stance', label: 'Suspect', color: '#e06f5a', text: 'Under suspicion — auditing itself, or accused by a president or king from outside.' },
 ];
 
+/* THE RELATION. Activity is a syndicate alone; stance is how it reads; this is the one thing
+   that is actually between two of them rather than about one. Every syndicate has exactly one
+   neighbor — the next tranche around, syn-21 wrapping to syn-1 — and every relationEvery days
+   it gets one roll at each of three things a neighbor can do to a neighbor, the way witch,
+   wizard and warlock split the coven's own three jobs: a wizard AUDITS the neighbor's book
+   instead of her own, and either flags something real or clears a suspicion early; a full
+   croft LENDS wax to a neighbor running low rather than watching it spill over the top; and
+   two neighbors staged on the same day RIVAL for the same six-month gate, and only one of them
+   gets there first. None of this is presidents or kings, which act on a syndicate from outside
+   the coven; this is the coven acting on itself. */
+const RELATION = [
+  { id: 'audit', kind: 'relation', label: 'Audits', verb: 'audits', text: 'A wizard checks the neighbor\'s book instead of her own. A stale proposal there is real, and so is a clean one — either is worth saying, and either changes what happens next.' },
+  { id: 'lend', kind: 'relation', label: 'Lends to', verb: 'lends wax to', text: 'A croft at its cap does a neighbor running low more good moving than sitting. Wax that would spill over the top crosses to whoever needs it instead.' },
+  { id: 'rival', kind: 'relation', label: 'Rivals', verb: 'outmaneuvers', text: 'Two neighbors staged on the same day are drawing on the same six-month gate. One of them gets there; the other waits, whether it likes it or not.' },
+];
+
 const SYNDICATES = 21, DOORS = 200;
 const weave = new Function(WEAVE + '; return weave;')();
 const SEED = 1621;
@@ -168,10 +184,12 @@ rmSync('templates-activity', { recursive: true, force: true }); mkdirSync('templ
 for (const a of ACTIVITY) writeFileSync(`templates-activity/${a.id}.json`, JSON.stringify(a, null, 1));
 rmSync('templates-stance', { recursive: true, force: true }); mkdirSync('templates-stance');
 for (const s of STANCE) writeFileSync(`templates-stance/${s.id}.json`, JSON.stringify(s, null, 1));
+rmSync('templates-relation', { recursive: true, force: true }); mkdirSync('templates-relation');
+for (const r of RELATION) writeFileSync(`templates-relation/${r.id}.json`, JSON.stringify(r, null, 1));
 const total = readdirSync('.').filter(d => d.startsWith('templates-')).reduce((n, d) => n + readdirSync(d).filter(f => f.endsWith('.json')).length, 0);
-console.log(`the coven: ${people.length} practitioners (${people.filter(p => p.office === 'witch').length} witches, ${people.filter(p => p.office === 'wizard').length} wizards, ${people.filter(p => p.office === 'warlock').length} warlocks) in ${syndicates.length} syndicates over ${doors.length} doors, reading ${PRED.length} of the archive's ${warlocks.length}, holding back ${HELD_BACK.join(' and ')}; ${crofts.length} crofts, ${HOLDS.length} hold types, ${ACTIVITY.length} activity states, ${STANCE.length} stance lights · templates on disk: ${total}`);
+console.log(`the coven: ${people.length} practitioners (${people.filter(p => p.office === 'witch').length} witches, ${people.filter(p => p.office === 'wizard').length} wizards, ${people.filter(p => p.office === 'warlock').length} warlocks) in ${syndicates.length} syndicates over ${doors.length} doors, reading ${PRED.length} of the archive's ${warlocks.length}, holding back ${HELD_BACK.join(' and ')}; ${crofts.length} crofts, ${HOLDS.length} hold types, ${ACTIVITY.length} activity states, ${STANCE.length} stance lights, ${RELATION.length} relations · templates on disk: ${total}`);
 
-const DEF = { people, syndicates, doors, crofts, holds: HOLDS, activity: ACTIVITY, stance: STANCE, pred: PRED, spells: SPELLS, seed: SEED, syndicateCount: SYNDICATES, doorCount: DOORS, total, rules: rulesFor('coven') };
+const DEF = { people, syndicates, doors, crofts, holds: HOLDS, activity: ACTIVITY, stance: STANCE, relation: RELATION, pred: PRED, spells: SPELLS, seed: SEED, syndicateCount: SYNDICATES, doorCount: DOORS, total, rules: rulesFor('coven') };
 const page = readFileSync('coven.page.js', 'utf8');
 const html = `<title>The coven &middot; who holds the doors</title>
 <meta charset="utf-8">
@@ -192,6 +210,11 @@ const html = `<title>The coven &middot; who holds the doors</title>
   discovery are worth stealing from — money sitting in the open, or a finding worth taking
   before it is written down — and a successful steal moves HEZE onto the shared docket
   ahead of an honest carry. A failed attempt leaves a syndicate alert for a while.
+  Every syndicate also has one neighbor, the next tranche around, and every relationEvery
+  days it rolls audit, lend and rival against it: a wizard checks the neighbor's book rather
+  than her own, a full croft lends wax to a neighbor running low, and two neighbors staged the
+  same day compete for the same six-month gate. That is the coven acting on itself, not
+  presidents or kings acting on it from outside.
   The names are invented; templates-warlock/ holds twenty-two real people, several of them
   killed for witchcraft, and each practitioner cites one rather than standing in for one.
   Sigils are geometry: rings, bars, chords. Nothing with a face.
@@ -241,6 +264,8 @@ const html = `<title>The coven &middot; who holds the doors</title>
       <div id="steal-out"></div>
       <h2 style="margin-top:10px">Stance<i>how this syndicate reads to the others, not to you</i></h2>
       <div id="stance"></div>
+      <h2 style="margin-top:10px">Neighbor<i>the one syndicate this one actually acts on, and is acted on by</i></h2>
+      <div id="neighbor"></div>
       <div id="who"></div></section>
     <section><h2>The croft<i>sealing wax, grown on its own coprime period — never due the same day as another syndicate's</i></h2><div id="croft-stats"></div></section>
     <section><h2>Holds<i>four kinds, one favouring each office and one favouring none; wax and HEZE both, and one per syndicate</i></h2><div id="holds"></div></section>
@@ -252,6 +277,7 @@ const html = `<title>The coven &middot; who holds the doors</title>
       <div class="row" id="early-carry-wrap" hidden style="margin-top:6px"><button id="early-carry">Carry this syndicate early, via the waystation</button></div></section>
     <section><h2>The bank's health<i>read from the chain and the desk, not asserted</i></h2><div id="health"></div></section>
     <section><h2>Between the syndicates<i>every stance transition, across all twenty-one, most recent first — where interference actually shows up</i></h2><div class="log" id="stance-log"></div></section>
+    <section><h2>What the coven does to itself<i>audit, lend and rival — every neighbor acting on a neighbor, most recent first</i></h2><div class="log" id="relation-log"></div></section>
     <section><h2>At the doors<i>a proposal needs two of its syndicate's three; sign for whichever office you are standing in</i></h2><div id="props"></div></section>
     <section><h2>The chain<i>SHA-256 over each syndication, chained to the one before, and what came back from the far side</i></h2><div class="chain" id="chain"></div>
       <p style="color:var(--dim);font-size:12px;margin:8px 0 0">The syndicate is multiplanetary and it is enormous, so it does not care. At every carry the other world's chain arrives with an interval's volume orders of magnitude past anything these doors did, and it never rejects, never asks and never answers. It reconciles. That is not contempt, it is scale, and it is also the safety in it: a thing that cannot notice you cannot single you out.</p></section>
