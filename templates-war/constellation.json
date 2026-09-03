@@ -1,0 +1,34 @@
+{
+ "id": "constellation",
+ "kind": "ship",
+ "order": 9,
+ "respondsTo": "air",
+ "name": "USS Constellation",
+ "also": "CVA-64, “Connie”; Kitty Hawk class; commissioned 27 October 1961; at Yankee Station from the first day of the air war to the last",
+ "station": "Yankee Station, Gulf of Tonkin; seven combat deployments 1964–1973",
+ "lines": [
+  ["1964-08-05", "Pierce Arrow: with Ticonderoga, launches the first retaliatory strikes after the Tonkin Gulf incident, against the torpedo-boat bases and the Vinh oil depot. Lt. (j.g.) Richard Sather, an A-1 pilot from Connie, is the first Navy pilot killed in the war; Lt. (j.g.) Everett Alvarez, an A-4 pilot from Connie, is shot down and becomes the first Navy prisoner. He is held eight years and six months."],
+  ["1966–1967", "Second and third deployments: Rolling Thunder over the delta; the air wing loses aircraft to the guns that page 6 of the workbook describes."],
+  ["1968–1969", "Fourth deployment: the bombing halt of 31 October 1968 comes with Connie on station; the wing turns to the Trail."],
+  ["1971-11 to 1972-07", "Sixth deployment. 10 May 1972: the first day of Linebacker I, Connie's fighters shoot down seven MiGs; Lt. Randy Cunningham and Lt. (j.g.) Willie Driscoll of VF-96 take three in one sortie and become the Navy's first aces of the war, then are hit by a SAM on the way out and ejected over the gulf, picked up by a Marine helicopter."],
+  ["1972-11", "The sit-down: about 130 Black sailors refuse to reboard at San Diego after racial incidents aboard; the Navy calls it a work stoppage rather than a mutiny, and the Z-grams follow."],
+  ["1973-01 to 1973-10", "Seventh deployment: on station when the Accords are signed; her last combat sorties are over Laos and Cambodia."],
+  ["1975-04", "Not at the fall — at Bremerton for overhaul. Enterprise, Coral Sea, Midway and Hancock take the helicopters."],
+  ["2003-08-07", "Decommissioned after Iraq; scrapped at Brownsville, 2015–2017."]
+ ],
+ "numbers": [
+  { "k": "Air wing", "v": "about 70–80 aircraft; CVW-14 for most of the war, CVW-9 in 1971–72" },
+  { "k": "Sorties in a line period", "v": "roughly 100–130 a day at full tempo, in cycles of about ninety minutes" },
+  { "k": "Combat deployments", "v": "7, 1964–1973; about 30 months on the line in all" },
+  { "k": "Crew", "v": "about 5,000, of whom perhaps a tenth ever saw the coast" }
+ ],
+ "game": { "resource": "sorties", "worker": "aircraft", "verb": "launch", "note": "You are Connie. Each tap launches a sortie; each aircraft you spot on deck launches on its own, on the ninety-minute cycle, forever. The game does not count losses, which is the one thing the ship counted." },
+ "sources": [
+  "Naval History and Heritage Command, Dictionary of American Naval Fighting Ships: Constellation (CVA-64)",
+  "Everett Alvarez and Anthony Pitch, Chained Eagle (1989)",
+  "John Sherwood, Black Sailor, White Navy (2007), on the 1972 sit-down",
+  "Randy Cunningham and Jeff Ethell, Fox Two (1984)"
+ ],
+ "text": "USS Constellation, Connie: first strikes, first Navy pilot lost, first Navy prisoner, first Navy aces, and a repository and an idle game where you are the ship.",
+ "wovenBy": "the bridge"
+}

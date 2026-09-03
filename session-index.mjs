@@ -117,6 +117,10 @@ const PROJECTS = [
   [55, 'Vietnam during the spread of communism', 'projects/55-nations.html', 'communism as an idea, every nation involved, who funded it, the death toll, three lenses'],
   [57, 'Racial demographics of the force', 'projects/57-demographics.html', 'a folder, templates-demographics/, one file per group as the record kept them'],
   [58, 'Communism, after Saigon', 'projects/58-communism-after.html', 'full stop on Saigon; what happened after we left, every nation that withdrew, and where communism went next'],
+  [59, 'Bomb warfare', 'projects/59-bomb-warfare.html', 'the air war as a war room: three roles, the campaigns, tonnage by year, the stations and bases, the fitted lever'],
+  [60, 'Bomb warfare, a workbook', 'projects/60-bomb-warfare-workbook.html', 'ten pages, each a lesson, exercises and folded answers, until we understand bomb warfare'],
+  [61, 'The legacy: Agent Orange, the ordnance, the homecoming', 'projects/61-legacy.html', 'three post-war lifespans, the perception timeline, the tap code, a corrected bibliography'],
+  [62, 'USS Constellation', 'projects/62-constellation.html', 'Connie: first strikes, first loss, first prisoner, first aces; the idle game where you are the ship'],
 ].sort((a, b) => a[0] - b[0]);
 const pfile = n => PROJECTS.find(p => p[0] === n)[2].replace('projects/', '');
 
@@ -208,6 +212,7 @@ ${table(['Who', 'Role', 'From', 'To', 'What they did'], w.chain.map(c => [`<b>${
 <div class="grid">${w.phases.map(p => `<div class="card"><span class="k">${p.from}–${p.to}</span><br><b>${esc(p.name)}</b><p>${esc(p.text)}</p></div>`).join('')}</div>
 <h2>Gauge</h2>
 ${gauge(w.gauge)}
+${w.stations ? `<h2>Where the ships and the aircraft were</h2>${table(['Where', 'What', 'Who', 'What it did'], w.stations.map(x => [`<b>${esc(x.where)}</b>`, esc(x.what), esc(x.who), esc(x.did)]))}` : ''}
 ${w.prediction ? predictionBox(w.prediction) : ''}
 ${w.days ? `<h2>The spread, one line per day</h2>
 <div class="tw"><table>${w.days.map(([d, side, t]) => `<tr class="day"><td>${d}</td><td class="side-${esc(side)}">${esc(side)}</td><td>${esc(t)}</td></tr>`).join('\n')}</table></div>` : ''}
@@ -318,13 +323,15 @@ ${table(['Field', 'Shape', 'Rule'], STANDARD.map(r => r.map(esc)))}
 <p>Four U.S. presidents primarily managed American involvement in the Vietnam War, and each gets one line item and one repository in this index. A fifth presided over the ending and is listed as such.</p>
 ${table(['#', 'President', 'Term', 'Line item'], PRESIDENTS.map(p => [p.order <= 4 ? `<span class="num">${p.order}</span>` : 'ending', `<a href="${pfile(39 + p.order)}">${esc(p.name)}</a>`, `${p.term[0]}–${p.term[1]}`, esc(p.role)]))}
 <h2>Rooms built to this standard</h2>
-${table(['Room', 'Kind', 'From', 'To', 'Ending'], WARS.filter(w => w.kind === 'war-room').map(w => [`<a href="${pfile(w.id === 'vietnam' ? 37 : w.id === 'vietnam-responses' ? 39 : 56)}">${esc(w.name)}</a>`, w.kind, w.from, w.to, w.prediction ? esc(w.prediction.endingName) : '']))}
+${table(['Room', 'Kind', 'From', 'To', 'Ending'], WARS.filter(w => w.kind === 'war-room').map(w => [`<a href="${pfile(w.id === 'vietnam' ? 37 : w.id === 'vietnam-responses' ? 39 : w.id === 'air' ? 59 : 56)}">${esc(w.name)}</a>`, w.kind, w.from, w.to, w.prediction ? esc(w.prediction.endingName) : '']))}
 <h2>The Joint Chiefs</h2>
 <p>The chiefs are listed with their presidents. A chief who served two presidents appears once, with the first, and is given nothing more with the second except the duty he owed him. The five chiefs seated at the opening (1955-11-01) and the five at the fall (1975-04-30) each get a repository, projects 45–54.</p>
 ${table(['Seat', 'Who', 'From', 'To', 'Note'], ROSTER.seats.map(s => [esc(s.seat), esc(s.who), s.from, s.to, esc(s.note)]))}`,
   'The standard.');
 
-const writeGame = (name, n, total, tpl, res, project) => {
+const GAME_OVERRIDES = { 'USS Constellation': { res: 'sorties', worker: 'aircraft', verb: 'launch', note: 'You are Connie. Each tap launches a sortie; each aircraft spotted on deck launches on its own, on the ninety-minute cycle, forever. The game does not count losses, which is the one thing the ship counted.' } };
+const writeGame = (name, n, total, tpl, res0, project) => {
+  const ov = GAME_OVERRIDES[name] || {}; const res = ov.res || res0; const worker = ov.worker || 'worker'; const verb = ov.verb || 'gather';
   const key = `idle:${slug(name)}`;
   writeFileSync(gameOf(name), `<title>${esc(name)} &middot; idle</title>
 <meta charset="utf-8">
@@ -346,9 +353,10 @@ ${STYLE}
 <div class="wrap">
   <div class="game">
     <p class="big"><span id="n">0</span> ${res}</p>
-    <p class="rate"><span id="r">0</span> ${res}/s &middot; <span id="w">0</span> workers</p>
-    <button id="tap">gather ${res}</button>
-    <span class="shop"><button id="buy">hire worker (<span id="c">10</span>)</button><button id="reset">reset</button></span>
+    <p class="rate"><span id="r">0</span> ${res}/s &middot; <span id="w">0</span> ${worker}s</p>
+    <button id="tap">${verb} ${res}</button>
+    <span class="shop"><button id="buy">add ${worker} (<span id="c">10</span>)</button><button id="reset">reset</button></span>
+    ${ov.note ? `<p class="rate" style="margin:12px 0 0">${esc(ov.note)}</p>` : ''}
   </div>
   <a class="back" href="../session-index.html">&larr; back to the index</a>
 </div>
@@ -398,7 +406,7 @@ PROJECTS.forEach(([n, name, file]) => writeGame(name, n, TOTAL, TEMPLATES[n - 1]
 // Generated project pages.
 for (const w of WARS) {
   if (w.kind !== 'war-room') continue;
-  const n = w.id === 'vietnam' ? 37 : w.id === 'vietnam-responses' ? 39 : 56;
+  const n = w.id === 'vietnam' ? 37 : w.id === 'vietnam-responses' ? 39 : w.id === 'air' ? 59 : 56;
   writeFileSync(`projects/${pfile(n)}`, warRoom(w, n));
 }
 writeFileSync(`projects/${pfile(38)}`, standardPage(38));
@@ -423,6 +431,42 @@ ${lines(c.next)}
 <div class="card"><p>${esc(c.neighbours)}</p></div>
 <h2>Sources</h2>
 <ul>${c.sources.map(s => `<li>${esc(s)}</li>`).join('')}</ul>`, c.text));
+}
+
+{
+  const wb = WARS.find(w => w.id === 'air-workbook');
+  writeFileSync(`projects/${pfile(60)}`, page(wb.name, 60, `a workbook, kind <code>workbook</code>, on the <a href="${pfile(59)}">bomb warfare room</a>`,
+    `<div class="card warn"><span class="k">${esc(wb.also)}</span><p>${esc(wb.premise)}</p></div>
+<p class="k">Pages: ${wb.pages.map(p => `<a href="#p${p.n}">${p.n}</a>`).join(' · ')}</p>
+${wb.pages.map(p => `<h2 id="p${p.n}">Page ${p.n} of ${wb.pages.length} — ${esc(p.title)}</h2>
+<div class="card"><p>${esc(p.lesson)}</p></div>
+<h3>Exercises</h3>
+<ol>${p.exercises.map((e, i) => `<li>${esc(e)}<details><summary class="k">answer</summary><p>${esc(p.answers[i])}</p></details></li>`).join('')}</ol>`).join('\n')}
+<h2>Sources</h2>
+<ul>${wb.sources.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`, wb.text));
+
+  const lg = WARS.find(w => w.id === 'legacy');
+  writeFileSync(`projects/${pfile(61)}`, page(lg.name, 61, `after the <a href="${pfile(59)}">air war</a> and after the rooms`,
+    `<div class="card warn"><span class="k">${esc(lg.also)}</span></div>
+${tollBox(1975, 'where the rooms stop; the legacy is what the toll does not count')}
+<h2>Three ways to say the thesis</h2>
+${table(['Tone', 'Thesis'], Object.entries(lg.thesis).map(([k, v]) => [esc(k), esc(v)]))}
+${lg.sections.map(sec => `<h2>${esc(sec.title)}</h2>${lines(sec.lines)}`).join('\n')}
+<h2>Bibliography, three styles</h2>
+${table(['Style', 'Entry'], lg.bibliography.map(b => [esc(b[0]), esc(b[1])]))}`, lg.text));
+
+  const cv = WARS.find(w => w.id === 'constellation');
+  writeFileSync(`projects/${pfile(62)}`, page(cv.name, 62, `a ship, kind <code>ship</code>, at <a href="${pfile(59)}">Yankee Station</a> · <a href="../${gameOf(cv.name)}">you are Connie: the idle game</a>`,
+    `<div class="card warn"><span class="k">${esc(cv.also)}</span><p><b>Station.</b> ${esc(cv.station)}</p></div>
+${tollBox(1973, 'the last sortie, 1973')}
+<h2>The ship, one line item each</h2>
+${lines(cv.lines)}
+<h2>Numbers</h2>
+${table(['', ''], cv.numbers.map(x => [esc(x.k), esc(x.v)]))}
+<h2>The game</h2>
+<div class="card"><p>${esc(cv.game.note)}</p><p><a href="../${gameOf(cv.name)}">Launch</a> — resource: ${esc(cv.game.resource)}; unit: ${esc(cv.game.worker)}.</p></div>
+<h2>Sources</h2>
+<ul>${cv.sources.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`, cv.text));
 }
 
 // Project 33: the dossier is generated from the warlock archive plus a witch

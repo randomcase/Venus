@@ -1,0 +1,58 @@
+{
+ "id": "legacy",
+ "kind": "legacy",
+ "order": 8,
+ "respondsTo": "air",
+ "name": "The legacy: Agent Orange, the ordnance, the homecoming",
+ "also": "three post-war lifespans — the legal battle, the technical cleanup, the return — and how the country's view of the men who came back changed",
+ "thesis": {
+  "academic": "While the 1973 Paris Peace Accords functionally concluded conventional military operations, the legacy of the Vietnam War persists through structural public policy battles over chemical exposure, technological innovations in post-conflict land reclamation, and the institutional reintegration of prisoners of war.",
+  "narrative": "The final echoes of the Vietnam War were not silenced by a signed peace treaty, but live on in the quiet endurance of prisoners returning home, the multi-generational fight against a toxic inheritance, and the high-tech battle to strip hidden explosives from a scarred earth.",
+  "argumentative": "The conventional timeline of the Vietnam War is fundamentally flawed; the true conclusion of the conflict spans decades of post-1973 activism, driven by veterans demanding medical justice for dioxin exposure and civilian communities using modern technology to reclaim their land from unexploded ordnance."
+ },
+ "sections": [
+  { "title": "Operation Homecoming, 1973", "lines": [
+   ["1973-02-12", "First C-141 Starlifter out of Gia Lam, Hanoi: 116 prisoners. The aircraft were called the Freedom Birds; the cabin went silent until the wheels left the ground, and then it did not."],
+   ["1973-02 to 1973-04", "591 prisoners repatriated in all — from Hanoi, from the Viet Cong in the South, from the Pathet Lao — in 54 flights; most were aircrew shot down over the North, some held nearly eight years."],
+   ["1973-03-17", "Travis Air Force Base: Lt. Cdr. Robert L. Stirm meets his family on the tarmac. Sal Veder's photograph, Burst of Joy, wins the Pulitzer; Stirm had received his wife's letter ending the marriage three days before."],
+   ["1973-03-29", "The last prisoners out on the day the last troops leave. The public celebrates the 591; 2,646 are then listed missing, and the MIA question becomes the war's longest argument."],
+   ["the tap code", "A 5×5 grid, the Polybius square with K folded into C: row taps, pause, column taps. B is tap, tap-tap; T is four, four. GN for good night through the walls every evening, GBU for God bless you. When the guards listened at the walls the prisoners swept, coughed, thumped a thigh, or blinked the same grid. Stockdale (In Love and War, 1984) describes the code and the rope torture it survived."]
+  ]},
+  { "title": "Agent Orange, the legal battle", "lines": [
+   ["1970s–1980s", "The Veterans Administration denies claims: no proven link between dioxin and the veterans' cancers, it says, and the burden of proof is on the sick."],
+   ["1984-05-07", "The class action against the manufacturers — Dow, Monsanto and five others — settles out of court for $180 million on the morning the trial was to begin. Payouts are small; long-term care is not covered."],
+   ["1990", "Admiral Elmo Zumwalt, who as commander of the brown-water navy had ordered the spraying along the rivers, testifies and writes the report that lists the diseases; his son Elmo III, who served on those rivers, had died of lymphoma in 1988."],
+   ["1991-02-06", "The Agent Orange Act: the VA must presume certain diseases — Hodgkin's, non-Hodgkin's lymphoma, soft-tissue sarcoma, and a list that grows to fourteen — are service-connected for anyone who set foot in Vietnam. The burden of proof moves."],
+   ["2019-06-25", "The Blue Water Navy Vietnam Veterans Act: the sailors offshore, excluded for twenty-eight years, are included."],
+   ["2022-08-10", "The PACT Act: toxic-exposure presumptions extended to the burn-pit generation, on the precedent the Vietnam veterans fought for. The Vietnamese exposed, some three million by Hanoi's count, and their children, have no act."]
+  ]},
+  { "title": "The ordnance, and the technology clearing it", "lines": [
+   ["the ground", "About 30% of cluster submunitions failed; some 80 million in Laos, most of Quang Tri province in Vietnam contaminated; about 20,000 Lao and 100,000 Vietnamese killed or injured since 1975."],
+   ["by hand", "For forty years: a metal detector, a foot patrol, a technician kneeling. Still the last step."],
+   ["from the air", "Drones with LiDAR map the ground under the canopy and find the craters; thermal cameras at dawn and dusk pick out metal that heats and cools faster than soil; magnetometers find the iron; ground-penetrating radar gives the depth before anyone digs."],
+   ["the data", "The US Air Force's own bombing records — the THOR database, sortie by sortie with coordinates — are cross-referenced against the drone maps to rank the ground by probability before a team is sent."],
+   ["the people", "MAG, HALO, PeaceTrees, UXO Lao: the technicians are local, and a large share are women from the villages, in the best-paid technical work the provinces have. Farmers photograph what the plough turns up and send the coordinates; children learn the bombies by song and puppet show; cleared land goes to coffee and pepper the same season."]
+  ]},
+  { "title": "How the country saw the men who came back", "lines": [
+   ["1973–1979", "Scapegoating and silence: a televised, unpopular war and the public's anger landed on the troops; men changed out of uniform in the airport; the film veteran was unstable; PTSD had no name until 1980."],
+   ["1982-11-13", "The Wall. Grief given a place; the war separated from the warrior; the apology begins. Project 44 has the rest of the lives."],
+   ["1991", "The Gulf War and the vow never to do it again to the ones coming home; the Agent Orange Act the same year: from complicit to survivors."],
+   ["2000s–now", "Honor flights, thanks for service, the PACT Act; a consensus of regret for 1973. The veterans are in their late seventies and eighties; about 600,000 of the 2.7 million who served in country are still alive."]
+  ]}
+ ],
+ "bibliography": [
+  ["Chicago", "Stockdale, James B., and Sybil Stockdale. In Love and War: The Story of a Family's Ordeal and Sacrifice During the Vietnam Years. New York: Harper & Row, 1984."],
+  ["Chicago", "U.S. Congress. House. Agent Orange Act of 1991. H.R. 556, 102nd Cong., 1st sess. Enacted February 6, 1991. congress.gov."],
+  ["Chicago", "Veder, Sal. Burst of Joy. Photograph. Travis Air Force Base, CA: Associated Press, March 17, 1973."],
+  ["Chicago", "Mines Advisory Group. Lao PDR programme reports. maginternational.org."],
+  ["APA", "Stockdale, J. B., & Stockdale, S. (1984). In love and war: The story of a family's ordeal and sacrifice during the Vietnam years. Harper & Row."],
+  ["APA", "Agent Orange Act of 1991, H.R. 556, 102nd Cong. (1991). congress.gov"],
+  ["APA", "Veder, S. (1973). Burst of joy [Photograph]. Associated Press."],
+  ["MLA", "Stockdale, James B., and Sybil Stockdale. In Love and War: The Story of a Family's Ordeal and Sacrifice During the Vietnam Years. Harper & Row, 1984."],
+  ["MLA", "United States, Congress, House. Agent Orange Act of 1991. 102nd Congress, 1st session, House Bill 556, enacted 6 Feb. 1991."],
+  ["MLA", "Veder, Sal. Burst of Joy. Associated Press, 17 Mar. 1973, Travis Air Force Base, CA. Photograph."],
+  ["note", "The pasted bibliography credited the photograph to 'Sal Vder Slader'; the photographer is Sal Veder of the Associated Press. The Agent Orange Act passed the House on 25 January 1991 and was signed on 6 February; the enactment date is the one to cite."]
+ ],
+ "text": "The three lifespans after the war — the prisoners' return, the Agent Orange battle from denial to the PACT Act, the ordnance and the drones and the villagers clearing it — with the perception timeline and a corrected bibliography.",
+ "wovenBy": "the bridge"
+}
