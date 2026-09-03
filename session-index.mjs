@@ -208,7 +208,7 @@ ${lines(p.marks)}`;
 const warRoom = (w, n) => {
   const endYear = +w.to.slice(0, 4);
   const body = `<div class="card"><span class="k">${esc(w.also)}</span><p><b>Theatre.</b> ${esc(w.theatre)} &middot; <b>From</b> ${w.from} <b>to</b> ${w.to}${w.respondsTo ? ` &middot; responds to <a href="${pfile(37)}">the ${esc(w.respondsTo)} room</a>` : ''}</p></div>
-${tollBox(Math.min(endYear, 1975), `${w.name}, to ${w.to}`)}
+${endYear >= 1955 ? tollBox(Math.min(endYear, 1975), `${w.name}, to ${w.to}`) : `<div class="card toll"><span class="k">the death toll, ${esc(w.name)}</span><p>Not a Vietnam room; the Vietnam box does not apply. The toll is in the cost table below, and the range that box would show — 1,400,000 to 3,800,000 — is for a war this one is upstream of.</p></div>`}
 <h2>Sides</h2>
 ${table(['Side', 'Who', 'Backed by'], w.sides.map(s => [esc(s.side), esc(s.who), esc(s.backed)]))}
 <h2>Chain of command, one line item each</h2>
