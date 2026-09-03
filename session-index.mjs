@@ -597,7 +597,7 @@ ${STYLE}
 <style>.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--dim)}</style>
 <header>
   <h1>Session Index</h1>
-  <p>Every peer session visible to this one via <code>ListAgents</code>, at the moment this page was written. Read-only: nothing here can start, stop, or message another session. Each row links to its page (the project), its repo under <code>randomcase/</code>, one template, and one idle game. Projects ${PROJECTS[0][0]}–${PROJECTS.at(-1)[0]} are not sessions; they are written pages, given the same treatment, every one with a repository.</p>
+  <p>Every peer session visible to this one via <code>ListAgents</code>, at the moment this page was written. Read-only: nothing here can start, stop, or message another session. Each row links to its page (the project), its repo under <code>randomcase/</code>, one template, and one idle game. Projects ${PROJECTS[0][0]}–${PROJECTS.at(-1)[0]} are not sessions; they are written pages, given the same treatment, every one with a repository. This index is appended to <a href="https://github.com/randomcase/vietnam-war-legacy-project">randomcase/vietnam-war-legacy-project</a> under <code>index/</code>.</p>
 </header>
 <div class="wrap">
 <table>
