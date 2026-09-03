@@ -1,0 +1,17 @@
+{
+ "id": "the-number",
+ "kind": "heze-slide",
+ "order": 2,
+ "kicker": "02 · the number",
+ "heading": "Twenty-one million, and not one more",
+ "lede": "The cap is not a marketing figure carried over from somewhere else. It is the constraint the rest of the design was built to satisfy, and everything downstream had to clear it.",
+ "grid": [
+  { "span": "Cap", "b": "21,000,000", "p": "Whole units. Divisible for accounting, never extended." },
+  { "span": "Combination floor", "b": "21,000,000", "sm": true, "p": "The design rule: a coin must address at least this many distinct hulls, so no two are forced to collide." },
+  { "span": "Actually achieved", "b": "1.536 × 10¹²", "sm": true, "p": "73,142 times the floor, counting only the discrete slots." }
+ ],
+ "rule": true,
+ "note": { "strong": "Why the floor matters.", "text": "If the number of buildable hulls were smaller than the number of coins, coins would have to share hulls, and a hull would stop being a thing a coin could stand for. The forge clears it by six orders of magnitude before the continuous axes — the length, beam, freeboard, sheer and rig sliders — are counted at all. With those, the space is around <code>2 × 10²⁵</code>." },
+ "text": "Why 21,000,000 specifically: the combination-floor design rule and the actual addressable space.",
+ "wovenBy": "the bridge"
+}

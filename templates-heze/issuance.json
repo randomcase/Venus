@@ -1,0 +1,18 @@
+{
+ "id": "issuance",
+ "kind": "heze-slide",
+ "order": 4,
+ "kicker": "04 · issuance",
+ "heading": "One address in, one hull out",
+ "lede": "A public address is read as a number and seeded into the forge. The same address always yields the same ship — that determinism is the only property that makes a build worth claiming.",
+ "grid": [
+  { "span": "Step one", "b": "Read", "sm": true, "p": "The address is hashed locally with FNV-1a into a seed. It is never transmitted, and it is never signed with." },
+  { "span": "Step two", "b": "Draw", "sm": true, "p": "The seed picks hull, element, method, twelve slots, palette, finish, fastening and every proportion. Then the ship is drawn." },
+  { "span": "Step three", "b": "Count", "sm": true, "p": "The bill of materials falls out of the drawing — strakes, frames, fastenings, seams — and the cost falls out of the bill." }
+ ],
+ "rule": true,
+ "note": { "strong": "Build the ten.", "text": "One address also lays down a whole fleet: ten hulls, one per tradition, each seeded from <code>address:index:hull</code> so they are ten different ships rather than ten paint jobs on one. The fleet is berthed locally and costed at the current yard rates." },
+ "okFlag": { "strong": "Nothing leaves the file.", "text": "There is no network call in the forge. The address sits in an input, is read, and is used to pick options. Closing the tab ends it." },
+ "text": "How a hull is drawn deterministically from an address, entirely locally, with no network call.",
+ "wovenBy": "the bridge"
+}

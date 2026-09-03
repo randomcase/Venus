@@ -1,0 +1,18 @@
+{
+ "id": "unit-of-account",
+ "kind": "heze-slide",
+ "order": 1,
+ "kicker": "Heze Orbital Yard · unit of account",
+ "hero": "HEZE",
+ "sub": "The yard quotes in it, the docket sums in it, and a hull is released against it. It is a unit of account for the files in this project — not a chain, not a contract, and not for sale.",
+ "band": true,
+ "grid": [
+  { "span": "Supply", "b": "21,000,000", "p": "Fixed by definition. Nothing in these files issues more." },
+  { "span": "Backing", "b": "A costed fleet", "sm": true, "p": "Ten hulls, priced from their own bills of materials." },
+  { "span": "Where it settles", "b": "Nowhere yet", "sm": true, "p": "No transfer exists. The docket is a piece of paper." }
+ ],
+ "lede": "Six slides. What the number is, what stands behind it, how a hull is drawn from an address, what the yard charges, and — at the end, in full — what this is not.",
+ "ledeAfter": true,
+ "text": "The opening slide: HEZE as a unit of account, fixed supply, no settlement, not for sale.",
+ "wovenBy": "the bridge"
+}

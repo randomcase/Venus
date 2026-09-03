@@ -1,4 +1,74 @@
-<title>HEZE — the yard's unit of account</title>
+#!/usr/bin/env node
+/* heze.mjs — builds heze.html, the six-slide design document for HEZE, from
+   templates-heze/*.json instead of the hand-written HTML it used to be.
+
+   HEZE was never meant to be a currency in the sense that could be bought,
+   sold or listed — the docket's own rulebook says so (templates-rules/docket.json,
+   notToken), and slide six here says so again, at length, on purpose. What
+   this generator does is exactly what every other deck in the yard already
+   does: pull the content that used to live only in one HTML file out into
+   templates, so it is editable in one place, checkable by the same tools
+   that check every other template family, and rebuilt rather than hand-edited.
+   Nothing about what the page says changes; only where it lives does.
+
+   The slide shapes are not uniform — slide one has a hero and a closing
+   lede, three and five lead with a table, six is all disclaimer flags — so
+   the template schema carries a handful of optional fields (grid, table,
+   flags, note, okFlag, closing) rather than forcing every slide into one
+   shape it does not fit. A slide provides what it needs; the renderer below
+   only emits a block when the field for it is present.
+
+     node heze.mjs        write heze.html from templates-heze/*.json */
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+
+const DIR = 'templates-heze';
+const slides = readdirSync(DIR).filter(f => f.endsWith('.json') && !f.startsWith('_'))
+  .map(f => JSON.parse(readFileSync(`${DIR}/${f}`, 'utf8')))
+  .sort((a, b) => a.order - b.order);
+
+/* "Dhow · 18 m" becomes "Dhow <span class="q">· 18 m</span>" — the qualifier
+   after the middle dot renders dim and small, exactly as the hand-written
+   table cells did. */
+const qualify = s => { const i = s.indexOf(' · '); return i < 0 ? s : `${s.slice(0, i)} <span class="q">${s.slice(i + 1)}</span>`; };
+
+const grid = (cells, cols) => `<div class="grid${cols === 2 ? ' two' : ''}">${cells.map(c =>
+  `<div class="cell"><span>${c.span}</span><b${c.sm ? ' class="sm"' : ''}>${c.b}</b><p>${c.p}</p></div>`).join('')}</div>`;
+
+const table = t => `<table><tr>${t.headers.map(h => `<th>${h}</th>`).join('')}</tr>${
+  t.rows.map(r => `<tr>${r.map((c, i) => `<td>${i === 0 ? qualify(c) : c}</td>`).join('')}</tr>`).join('')}${
+  t.sumRow ? `<tr class="sum">${t.sumRow.map(c => `<td>${c}</td>`).join('')}</tr>` : ''}</table>`;
+
+const flagBox = (f, cls) => `<div class="flag${cls ? ' ' + cls : ''}"><b>${f.strong}</b> ${f.text}</div>`;
+
+function slideHtml(s, i) {
+  const n = i + 1, last = n === slides.length;
+  const head = s.hero ? `<h1>${s.hero}<small>${s.sub}</small></h1>` : `<h2>${s.heading}</h2>`;
+  const lede = s.lede ? `<p class="lede">${s.lede}</p>` : '';
+  const body = [
+    s.band ? '<div class="band"><i class="g"></i><i class="p"></i><i class="c"></i><i class="r"></i><i class="o"></i></div>' : '',
+    s.ledeAfter ? '' : lede,
+    s.table ? table(s.table) : '',
+    s.grid ? grid(s.grid, s.gridCols || 3) : '',
+    s.ledeAfter ? lede : '',
+    s.rule ? '<div class="rule"></div>' : '',
+    s.note ? `<p><strong>${s.note.strong}</strong> ${s.note.text}</p>` : '',
+    s.okFlag ? flagBox(s.okFlag, 'ok') : '',
+    s.flags ? s.flags.map(f => flagBox(f)).join('') : '',
+    s.closing ? `<p class="lede" style="margin-top:18px">${s.closing}</p>` : '',
+  ].join('\n    ');
+  const nav = `<nav class="nav">
+      ${n > 1 ? `<a href="#s${n - 1}">◂ Back</a>` : ''}<a class="p" href="#s${last ? 1 : n + 1}">${last ? 'Start over' : 'Next ▸'}</a>
+      <span class="no">${String(n).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}</span>
+    </nav>`;
+  return `<section class="slide" id="s${n}">
+    <span class="kicker">${s.kicker}</span>
+    ${head}
+    ${body}
+    ${nav}
+  </section>`;
+}
+
+const html = `<title>HEZE — the yard's unit of account</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
@@ -377,122 +447,10 @@
 
 <div class="deck">
 
-  <section class="slide" id="s1">
-    <span class="kicker">Heze Orbital Yard · unit of account</span>
-    <h1>HEZE<small>The yard quotes in it, the docket sums in it, and a hull is released against it. It is a unit of account for the files in this project — not a chain, not a contract, and not for sale.</small></h1>
-    <div class="band"><i class="g"></i><i class="p"></i><i class="c"></i><i class="r"></i><i class="o"></i></div>
-    
-    
-    <div class="grid"><div class="cell"><span>Supply</span><b>21,000,000</b><p>Fixed by definition. Nothing in these files issues more.</p></div><div class="cell"><span>Backing</span><b class="sm">A costed fleet</b><p>Ten hulls, priced from their own bills of materials.</p></div><div class="cell"><span>Where it settles</span><b class="sm">Nowhere yet</b><p>No transfer exists. The docket is a piece of paper.</p></div></div>
-    <p class="lede">Six slides. What the number is, what stands behind it, how a hull is drawn from an address, what the yard charges, and — at the end, in full — what this is not.</p>
-    
-    
-    
-    
-    
-    <nav class="nav">
-      <a class="p" href="#s2">Next ▸</a>
-      <span class="no">01 / 06</span>
-    </nav>
-  </section>
-
-  <section class="slide" id="s2">
-    <span class="kicker">02 · the number</span>
-    <h2>Twenty-one million, and not one more</h2>
-    
-    <p class="lede">The cap is not a marketing figure carried over from somewhere else. It is the constraint the rest of the design was built to satisfy, and everything downstream had to clear it.</p>
-    
-    <div class="grid"><div class="cell"><span>Cap</span><b>21,000,000</b><p>Whole units. Divisible for accounting, never extended.</p></div><div class="cell"><span>Combination floor</span><b class="sm">21,000,000</b><p>The design rule: a coin must address at least this many distinct hulls, so no two are forced to collide.</p></div><div class="cell"><span>Actually achieved</span><b class="sm">1.536 × 10¹²</b><p>73,142 times the floor, counting only the discrete slots.</p></div></div>
-    
-    <div class="rule"></div>
-    <p><strong>Why the floor matters.</strong> If the number of buildable hulls were smaller than the number of coins, coins would have to share hulls, and a hull would stop being a thing a coin could stand for. The forge clears it by six orders of magnitude before the continuous axes — the length, beam, freeboard, sheer and rig sliders — are counted at all. With those, the space is around <code>2 × 10²⁵</code>.</p>
-    
-    
-    
-    <nav class="nav">
-      <a href="#s1">◂ Back</a><a class="p" href="#s3">Next ▸</a>
-      <span class="no">02 / 06</span>
-    </nav>
-  </section>
-
-  <section class="slide" id="s3">
-    <span class="kicker">03 · what stands behind it</span>
-    <h2>A costed fleet, not a promise</h2>
-    
-    <p class="lede">Every hull in the forge is priced from the geometry that was actually drawn: cubic metres of oak, metres of seam to caulk, square metres of cloth, kilos of ironwork, and shipwright hours. Change a strake count and the timber volume changes, so the price changes, because there is more boat.</p>
-    <table><tr><th>Hull</th><th>Displacement</th><th>Build cost</th></tr><tr><td>Dhow <span class="q">· 18 m</span></td><td>90 t</td><td>$117,081</td></tr><tr><td>Umiak <span class="q">· 9 m</span></td><td>21 t</td><td>$78,400</td></tr><tr><td>Waka <span class="q">· 20 m</span></td><td>58 t</td><td>$126,812</td></tr><tr><td>Longship <span class="q">· 24 m</span></td><td>91 t</td><td>$162,092</td></tr><tr><td>Caravel <span class="q">· 23 m</span></td><td>162 t</td><td>$194,883</td></tr><tr><td>Reed barge <span class="q">· 26 m</span></td><td>148 t</td><td>$204,600</td></tr><tr><td>Junk <span class="q">· 30 m</span></td><td>333 t</td><td>$286,371</td></tr><tr><td>Trireme <span class="q">· 37 m</span></td><td>195 t</td><td>$286,487</td></tr><tr><td>Galleon <span class="q">· 40 m</span></td><td>937 t</td><td>$477,946</td></tr><tr><td>Ironclad <span class="q">· 52 m</span></td><td>1,993 t</td><td>$3,630,161</td></tr><tr class="sum"><td>Fleet of ten</td><td>4,028 t</td><td>$20,387,410</td></tr></table>
-    <div class="grid two"><div class="cell"><span>Fleet cost ÷ 21,000,000</span><b>$0.97</b><p>Arithmetic on a costing. It is a ratio between two numbers on this page, not a price, not a valuation, and not a forecast.</p></div><div class="cell"><span>Rates behind it</span><b class="sm">Editable</b><p>Oak $/m³, shipwright $/hr, canvas $/m², yard overhead %. Move any of them and every figure above moves. They are defaults to argue with.</p></div></div>
-    
-    
-    
-    
-    
-    
-    <nav class="nav">
-      <a href="#s2">◂ Back</a><a class="p" href="#s4">Next ▸</a>
-      <span class="no">03 / 06</span>
-    </nav>
-  </section>
-
-  <section class="slide" id="s4">
-    <span class="kicker">04 · issuance</span>
-    <h2>One address in, one hull out</h2>
-    
-    <p class="lede">A public address is read as a number and seeded into the forge. The same address always yields the same ship — that determinism is the only property that makes a build worth claiming.</p>
-    
-    <div class="grid"><div class="cell"><span>Step one</span><b class="sm">Read</b><p>The address is hashed locally with FNV-1a into a seed. It is never transmitted, and it is never signed with.</p></div><div class="cell"><span>Step two</span><b class="sm">Draw</b><p>The seed picks hull, element, method, twelve slots, palette, finish, fastening and every proportion. Then the ship is drawn.</p></div><div class="cell"><span>Step three</span><b class="sm">Count</b><p>The bill of materials falls out of the drawing — strakes, frames, fastenings, seams — and the cost falls out of the bill.</p></div></div>
-    
-    <div class="rule"></div>
-    <p><strong>Build the ten.</strong> One address also lays down a whole fleet: ten hulls, one per tradition, each seeded from <code>address:index:hull</code> so they are ten different ships rather than ten paint jobs on one. The fleet is berthed locally and costed at the current yard rates.</p>
-    <div class="flag ok"><b>Nothing leaves the file.</b> There is no network call in the forge. The address sits in an input, is read, and is used to pick options. Closing the tab ends it.</div>
-    
-    
-    <nav class="nav">
-      <a href="#s3">◂ Back</a><a class="p" href="#s5">Next ▸</a>
-      <span class="no">04 / 06</span>
-    </nav>
-  </section>
-
-  <section class="slide" id="s5">
-    <span class="kicker">05 · the price list</span>
-    <h2>What the yard quotes</h2>
-    
-    <p class="lede">Ten classes on the order desk, quoted in HEZE. The desk sums them with CSS counters — the running total on the docket is arithmetic done by the layout engine, with no script on the page.</p>
-    <table><tr><th>Class</th><th>Displacement</th><th>Weeks</th><th>HEZE</th></tr><tr><td>Bucketeer</td><td>900 t</td><td>2</td><td>1,000</td></tr><tr><td>Merchant</td><td>9,400 t</td><td>3</td><td>2,100</td></tr><tr><td>Auxiliary</td><td>6,800 t</td><td>4</td><td>3,200</td></tr><tr><td>Corsair</td><td>2,600 t</td><td>5</td><td>4,600</td></tr><tr><td>Destroyer</td><td>8,300 t</td><td>9</td><td>12,400</td></tr><tr><td>Cruiser</td><td>14,600 t</td><td>16</td><td>28,000</td></tr><tr><td>Monitor</td><td>26,500 t</td><td>22</td><td>47,000</td></tr><tr><td>Carrier</td><td>47,000 t</td><td>27</td><td>61,000</td></tr><tr><td>Battleship</td><td>64,000 t</td><td>34</td><td>84,000</td></tr><tr><td>Yamato <span class="q">· will not fly</span></td><td>72,800 t</td><td>52</td><td>150,000</td></tr></table>
-    <div class="grid two"><div class="cell"><span>Distinct orders on the desk</span><b>62,914,560</b><p>Ten classes × slip × drive × flight × escort × four fittings × eleven conventional mounts.</p></div><div class="cell"><span>Arsenal</span><b class="sm">Conventional only</b><p>The yard fits no nuclear weapons and there is no option to order them. Every mount you check is drawn on the band under the hull.</p></div></div>
-    
-    
-    
-    
-    
-    
-    <nav class="nav">
-      <a href="#s4">◂ Back</a><a class="p" href="#s6">Next ▸</a>
-      <span class="no">05 / 06</span>
-    </nav>
-  </section>
-
-  <section class="slide" id="s6">
-    <span class="kicker">06 · what this is not</span>
-    <h2>Read this one twice</h2>
-    
-    <p class="lede">The five slides before this describe a unit of account inside a set of local HTML files. This slide describes everything it isn't, and none of it is hedging — each line is a fact about the code.</p>
-    
-    
-    
-    
-    
-    
-    <div class="flag"><b>There is no token.</b> No chain, no contract, no deployment, no address that holds anything. <code>0x48455a45</code> is the ASCII for “HEZE” printed on a docket, not a function selector on any network.</div><div class="flag"><b>Nothing here can be bought or sold.</b> These files have no transfer, no order book, no custody and no counterparty. There is nothing to acquire, so nothing on these slides is an offer, a solicitation or a sale.</div><div class="flag"><b>The dollar figures are a costing, not a valuation.</b> $20,387,410 is what ten drawn hulls would cost to build at rates you can edit. Dividing it by 21,000,000 gives a ratio between two numbers in this project. It is not a price, it does not imply one, and no one is obliged to honour it.</div><div class="flag"><b>Nothing is signed and nothing is sent.</b> The address field is read locally to seed a drawing. There is no network call, no wallet connection, no signature request, and no key ever touches these files.</div><div class="flag"><b>This is not financial advice.</b> Nothing here is a recommendation to buy, sell or hold anything, and nobody involved is a licensed adviser.</div>
-    <p class="lede" style="margin-top:18px">What it <em>is</em>: a design document for the unit a fictional shipyard quotes in, sitting alongside two files that draw ships and count their fastenings. That is the whole of it, and it is enough.</p>
-    <nav class="nav">
-      <a href="#s5">◂ Back</a><a class="p" href="#s1">Start over</a>
-      <span class="no">06 / 06</span>
-    </nav>
-  </section>
+  ${slides.map(slideHtml).join('\n\n  ')}
 
   <div class="dots">
-    <a href="#s1"></a><a href="#s2"></a><a href="#s3"></a><a href="#s4"></a><a href="#s5"></a><a href="#s6"></a>
+    ${slides.map((_, i) => `<a href="#s${i + 1}"></a>`).join('')}
   </div>
 </div>
 
@@ -506,32 +464,7 @@
 <script src="patron.js"></script>
 <script src="automat.js"></script>
 <script src="devmode.js"></script>
-<!--toonami--><style>
-  :root{--void:#0a0714;--panel:#160f28;--panel2:#201638;--edge:#7a3aa0;--ink:#fdf3ff;--dim:#b79bd6;--gold:#ffe14d;--venus:#ff5fa8;--ok:#7dffb0;--bad:#ff4470;--sea:#42e8ff;--magenta:#ff3ec8;--serif:"Baloo 2","Poppins","Segoe UI",system-ui,sans-serif}
-  html{background:#0a0714}body{background:radial-gradient(1400px 700px at 50% -20%,#3a1258 0%,#0a0714 58%) fixed;color:var(--ink)}
-  header h1,h1{text-transform:uppercase;letter-spacing:.12em;font-weight:800;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(255,225,77,.5)}
-  header small,footer{color:var(--dim)}
-  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(255,62,200,.1),inset 0 0 28px rgba(66,232,255,.06)}
-  section h2{text-transform:uppercase;letter-spacing:.09em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
-  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
-  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(66,232,255,.4)}
-  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,62,200,.45)}
-  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(66,232,255,.4)}
-  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(255,62,200,.16)}
-  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
-  #toonami i{inset:-6%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 17s ease-in-out infinite,tn-blink-a 1.9s ease-in-out infinite 0s}
-  #toonami i:nth-child(1){background-image:radial-gradient(14px circle at 82.1% 59.1%, #fff 0, #7dffb0 1.6px, rgba(125,255,176,.35) 3.8px, transparent 14px),radial-gradient(14px circle at 19.1% 50.2%, #fff 0, #42e8ff 1.6px, rgba(66,232,255,.35) 3.8px, transparent 14px),radial-gradient(15px circle at 29.3% 87.5%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(19px circle at 62.9% 7.8%, #fff 0, #ff5fa8 2.1px, rgba(255,95,168,.35) 5.0px, transparent 19px),radial-gradient(10px circle at 55.9% 78.6%, #fff 0, #7dffb0 1.1px, rgba(125,255,176,.35) 2.6px, transparent 10px),radial-gradient(15px circle at 80.9% 44.3%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(19px circle at 53.8% 38.9%, #fff 0, #ffe14d 2.1px, rgba(255,225,77,.35) 5.0px, transparent 19px),radial-gradient(16px circle at 33.8% 39.4%, #fff 0, #42e8ff 1.8px, rgba(66,232,255,.35) 4.3px, transparent 16px),radial-gradient(10px circle at 83.5% 47.0%, #fff 0, #42e8ff 1.1px, rgba(66,232,255,.35) 2.6px, transparent 10px),radial-gradient(11px circle at 48.1% 2.5%, #fff 0, #7dffb0 1.2px, rgba(125,255,176,.35) 2.9px, transparent 11px),radial-gradient(15px circle at 17.2% 67.4%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(17px circle at 86.2% 97.4%, #fff 0, #7dffb0 1.9px, rgba(125,255,176,.35) 4.6px, transparent 17px),radial-gradient(14px circle at 91.5% 81.4%, #fff 0, #ff5fa8 1.5px, rgba(255,95,168,.35) 3.6px, transparent 14px),radial-gradient(11px circle at 77.7% 88.6%, #fff 0, #ffe14d 1.2px, rgba(255,225,77,.35) 2.9px, transparent 11px),radial-gradient(14px circle at 31.0% 50.2%, #fff 0, #ff5fa8 1.5px, rgba(255,95,168,.35) 3.6px, transparent 14px),radial-gradient(14px circle at 97.8% 71.1%, #fff 0, #ff5fa8 1.5px, rgba(255,95,168,.35) 3.6px, transparent 14px)}
-  #toonami i:nth-child(2){background-image:radial-gradient(14px circle at 72.9% 90.2%, #fff 0, #ff5fa8 1.5px, rgba(255,95,168,.35) 3.6px, transparent 14px),radial-gradient(19px circle at 31.0% 87.8%, #fff 0, #ff3ec8 2.1px, rgba(255,62,200,.35) 5.0px, transparent 19px),radial-gradient(20px circle at 74.2% 96.1%, #fff 0, #ff5fa8 2.2px, rgba(255,95,168,.35) 5.3px, transparent 20px),radial-gradient(11px circle at 59.8% 57.2%, #fff 0, #ffe14d 1.2px, rgba(255,225,77,.35) 2.9px, transparent 11px),radial-gradient(19px circle at 0.9% 98.0%, #fff 0, #7dffb0 2.1px, rgba(125,255,176,.35) 5.0px, transparent 19px),radial-gradient(19px circle at 56.7% 50.9%, #fff 0, #ffe14d 2.1px, rgba(255,225,77,.35) 5.0px, transparent 19px),radial-gradient(14px circle at 11.5% 54.8%, #fff 0, #ffe14d 1.6px, rgba(255,225,77,.35) 3.8px, transparent 14px),radial-gradient(17px circle at 64.4% 67.3%, #fff 0, #7dffb0 1.9px, rgba(125,255,176,.35) 4.6px, transparent 17px),radial-gradient(17px circle at 65.3% 9.8%, #fff 0, #42e8ff 1.9px, rgba(66,232,255,.35) 4.6px, transparent 17px),radial-gradient(10px circle at 33.1% 21.1%, #fff 0, #ff3ec8 1.1px, rgba(255,62,200,.35) 2.6px, transparent 10px),radial-gradient(17px circle at 71.8% 48.6%, #fff 0, #42e8ff 1.9px, rgba(66,232,255,.35) 4.6px, transparent 17px),radial-gradient(9px circle at 82.7% 37.9%, #fff 0, #ffe14d 1.0px, rgba(255,225,77,.35) 2.4px, transparent 9px),radial-gradient(15px circle at 62.9% 69.8%, #fff 0, #ff3ec8 1.7px, rgba(255,62,200,.35) 4.1px, transparent 15px),radial-gradient(19px circle at 18.4% 19.5%, #fff 0, #7dffb0 2.1px, rgba(125,255,176,.35) 5.0px, transparent 19px),radial-gradient(16px circle at 22.0% 55.3%, #fff 0, #ff5fa8 1.8px, rgba(255,95,168,.35) 4.3px, transparent 16px),radial-gradient(12px circle at 85.0% 5.9%, #fff 0, #ff5fa8 1.3px, rgba(255,95,168,.35) 3.1px, transparent 12px);animation:tn-drift-b 19s ease-in-out infinite,tn-blink-b 2.3s ease-in-out infinite .4s}
-  #toonami i:nth-child(3){background-image:radial-gradient(18px circle at 46.0% 19.5%, #fff 0, #ffe14d 2.0px, rgba(255,225,77,.35) 4.8px, transparent 18px),radial-gradient(17px circle at 48.6% 85.4%, #fff 0, #ff5fa8 1.9px, rgba(255,95,168,.35) 4.6px, transparent 17px),radial-gradient(9px circle at 99.5% 9.8%, #fff 0, #42e8ff 1.0px, rgba(66,232,255,.35) 2.4px, transparent 9px),radial-gradient(15px circle at 60.2% 86.1%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(15px circle at 91.5% 0.1%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(14px circle at 18.6% 41.3%, #fff 0, #ff3ec8 1.5px, rgba(255,62,200,.35) 3.6px, transparent 14px),radial-gradient(15px circle at 37.4% 35.7%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(16px circle at 74.4% 18.2%, #fff 0, #ffe14d 1.8px, rgba(255,225,77,.35) 4.3px, transparent 16px),radial-gradient(15px circle at 69.6% 56.5%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(12px circle at 56.2% 90.8%, #fff 0, #ff5fa8 1.3px, rgba(255,95,168,.35) 3.1px, transparent 12px),radial-gradient(12px circle at 61.7% 42.2%, #fff 0, #ff5fa8 1.3px, rgba(255,95,168,.35) 3.1px, transparent 12px),radial-gradient(11px circle at 37.3% 76.7%, #fff 0, #7dffb0 1.2px, rgba(125,255,176,.35) 2.9px, transparent 11px),radial-gradient(13px circle at 2.9% 99.1%, #fff 0, #7dffb0 1.4px, rgba(125,255,176,.35) 3.4px, transparent 13px),radial-gradient(17px circle at 93.7% 96.7%, #fff 0, #ff5fa8 1.9px, rgba(255,95,168,.35) 4.6px, transparent 17px);animation:tn-drift-c 21s ease-in-out infinite,tn-blink-a 1.5s ease-in-out infinite .8s}
-  #toonami i:nth-child(4){background-image:radial-gradient(14px circle at 61.2% 63.6%, #fff 0, #ff5fa8 1.6px, rgba(255,95,168,.35) 3.8px, transparent 14px),radial-gradient(10px circle at 84.7% 90.5%, #fff 0, #ffe14d 1.1px, rgba(255,225,77,.35) 2.6px, transparent 10px),radial-gradient(10px circle at 46.8% 61.7%, #fff 0, #ff5fa8 1.1px, rgba(255,95,168,.35) 2.6px, transparent 10px),radial-gradient(14px circle at 20.2% 34.9%, #fff 0, #ff5fa8 1.5px, rgba(255,95,168,.35) 3.6px, transparent 14px),radial-gradient(17px circle at 54.3% 36.9%, #fff 0, #7dffb0 1.9px, rgba(125,255,176,.35) 4.6px, transparent 17px),radial-gradient(11px circle at 73.2% 49.5%, #fff 0, #ff3ec8 1.2px, rgba(255,62,200,.35) 2.9px, transparent 11px),radial-gradient(15px circle at 65.2% 8.7%, #fff 0, #7dffb0 1.7px, rgba(125,255,176,.35) 4.1px, transparent 15px),radial-gradient(15px circle at 82.3% 88.4%, #fff 0, #42e8ff 1.7px, rgba(66,232,255,.35) 4.1px, transparent 15px),radial-gradient(17px circle at 42.1% 76.5%, #fff 0, #7dffb0 1.9px, rgba(125,255,176,.35) 4.6px, transparent 17px),radial-gradient(15px circle at 50.9% 46.9%, #fff 0, #42e8ff 1.7px, rgba(66,232,255,.35) 4.1px, transparent 15px),radial-gradient(12px circle at 96.3% 44.9%, #fff 0, #ff5fa8 1.3px, rgba(255,95,168,.35) 3.1px, transparent 12px),radial-gradient(14px circle at 66.0% 75.5%, #fff 0, #ffe14d 1.6px, rgba(255,225,77,.35) 3.8px, transparent 14px),radial-gradient(13px circle at 91.6% 80.2%, #fff 0, #7dffb0 1.4px, rgba(125,255,176,.35) 3.4px, transparent 13px),radial-gradient(19px circle at 36.6% 44.8%, #fff 0, #42e8ff 2.1px, rgba(66,232,255,.35) 5.0px, transparent 19px);animation:tn-drift-b 15s reverse ease-in-out infinite,tn-blink-b 2.7s ease-in-out infinite .2s}
-  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 62%,rgba(10,7,20,.4) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0 2px,transparent 2px 5px)}
-  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
-  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
-  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
-  @keyframes tn-blink-a{0%,20%,100%{opacity:.3}30%{opacity:1}40%{opacity:.32}}
-  @keyframes tn-blink-b{0%,25%,100%{opacity:.28}35%{opacity:1}45%{opacity:.3}}
-  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffe14d;text-shadow:0 0 10px rgba(255,62,200,.55);border:3px double #7a3aa0;padding:7px 6px 6px 12px;background:#0a0714b8;font-style:normal}
-  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
-  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
-</style>
-<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+<!--toonami--><!--/toonami-->
+`;
+writeFileSync('heze.html', html);
+console.log(`heze: ${slides.length} slides from templates-heze/ -> heze.html (${html.length} bytes)`);

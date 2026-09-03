@@ -1,0 +1,85 @@
+{
+ "id": "enum-heze",
+ "kind": "enum",
+ "family": "heze",
+ "path": "templates-enum/heze.json",
+ "note": "The fixed vocabulary of templates-heze/, mined from 6 of its 6 templates by enums.mjs. Kept in templates-enum/, never inside templates-heze/ itself, so nothing that scans templates-heze/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 6,
+ "sampledFiles": 6,
+ "fields": {
+  "kind": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 6,
+   "values": [
+    "heze-slide"
+   ]
+  },
+  "rule": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 6,
+   "values": [
+    true
+   ]
+  },
+  "note.strong": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 6,
+   "values": [
+    "Build the ten.",
+    "Why the floor matters."
+   ]
+  },
+  "okFlag.strong": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 6,
+   "values": [
+    "Nothing leaves the file."
+   ]
+  },
+  "wovenBy": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 6,
+   "values": [
+    "the bridge"
+   ]
+  },
+  "gridCols": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 6,
+   "values": [
+    2
+   ]
+  },
+  "hero": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 6,
+   "values": [
+    "HEZE"
+   ]
+  },
+  "band": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 6,
+   "values": [
+    true
+   ]
+  },
+  "ledeAfter": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 6,
+   "values": [
+    true
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}
