@@ -1,0 +1,17 @@
+{
+ "id": "decentralization",
+ "kind": "heze-slide",
+ "order": 7,
+ "kicker": "07 · lesson two, decentralization",
+ "heading": "Decentralized where it is priced, not where it is kept honest",
+ "lede": "Decentralization is not one property a design either has or lacks — it is a choice about which specific part of a system is allowed to act on its own, and which part exists to reconcile what the independent parts did. HEZE's docket makes that choice explicitly rather than picking a slogan.",
+ "grid": [
+  { "span": "Decentralized", "b": "200 doors", "p": "Each door issues against its own local share of a tranche, on its own schedule, with no door needing another door's permission to move." },
+  { "span": "Centralized", "b": "21 syndicates", "sm": true, "p": "Two of three custodians per syndicate sign before anything is real, and every door's events are reconciled into one chain the syndicate keeps." },
+  { "span": "Why both", "b": "Neither alone is enough", "sm": true, "p": "200 doors with no reconciliation would drift apart with no way to catch a contradiction. One central authority with no independent doors would only ever be checking itself." }
+ ],
+ "rule": true,
+ "note": { "strong": "What this is not.", "text": "It is not a claim that nobody is in charge — two of three custodians signing is a real, named authority, on purpose. It is a claim about where that authority sits: at the reconciliation, not at any one door, and never in one signature alone." },
+ "text": "Decentralization taught as a specific design choice: which part of HEZE's docket acts independently (the doors) and which part reconciles (the syndicates), rather than an abstract slogan.",
+ "wovenBy": "the bridge"
+}

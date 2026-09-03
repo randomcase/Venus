@@ -384,7 +384,7 @@
     
     
     <div class="grid"><div class="cell"><span>Supply</span><b>21,000,000</b><p>Fixed by definition. Nothing in these files issues more.</p></div><div class="cell"><span>Backing</span><b class="sm">A costed fleet</b><p>Ten hulls, priced from their own bills of materials.</p></div><div class="cell"><span>Where it settles</span><b class="sm">Nowhere yet</b><p>No transfer exists. The docket is a piece of paper.</p></div></div>
-    <p class="lede">Six slides. What the number is, what stands behind it, how a hull is drawn from an address, what the yard charges, and — at the end, in full — what this is not.</p>
+    <p class="lede">Ten slides. What the number is, what stands behind it, how a hull is drawn from an address, what the yard charges, four real lessons — fungibility, decentralization, automation, syndication — taught through it, and — at the end, in full — what this is not.</p>
     
     
     
@@ -392,7 +392,7 @@
     
     <nav class="nav">
       <a class="p" href="#s2">Next ▸</a>
-      <span class="no">01 / 06</span>
+      <span class="no">01 / 10</span>
     </nav>
   </section>
 
@@ -411,7 +411,7 @@
     
     <nav class="nav">
       <a href="#s1">◂ Back</a><a class="p" href="#s3">Next ▸</a>
-      <span class="no">02 / 06</span>
+      <span class="no">02 / 10</span>
     </nav>
   </section>
 
@@ -430,7 +430,7 @@
     
     <nav class="nav">
       <a href="#s2">◂ Back</a><a class="p" href="#s4">Next ▸</a>
-      <span class="no">03 / 06</span>
+      <span class="no">03 / 10</span>
     </nav>
   </section>
 
@@ -449,7 +449,7 @@
     
     <nav class="nav">
       <a href="#s3">◂ Back</a><a class="p" href="#s5">Next ▸</a>
-      <span class="no">04 / 06</span>
+      <span class="no">04 / 10</span>
     </nav>
   </section>
 
@@ -468,15 +468,91 @@
     
     <nav class="nav">
       <a href="#s4">◂ Back</a><a class="p" href="#s6">Next ▸</a>
-      <span class="no">05 / 06</span>
+      <span class="no">05 / 10</span>
     </nav>
   </section>
 
   <section class="slide" id="s6">
-    <span class="kicker">06 · what this is not</span>
+    <span class="kicker">06 · lesson one, fungibility</span>
+    <h2>Any one HEZE is every HEZE</h2>
+    
+    <p class="lede">Fungibility means two units of the same thing are interchangeable — holding one is exactly as good as holding any other, with nothing about its past attached to it. It is one of two properties this whole design was built to keep, and the easiest way to see it is to compare HEZE against something in these same files that is deliberately not fungible.</p>
+    
+    <div class="grid"><div class="cell"><span>HEZE, door 1 vs door 200</span><b>No difference</b><p>A unit issued at the first door and a unit issued at the two-hundredth are the same unit. Neither deck may ask which door a HEZE came from before accepting it.</p></div><div class="cell"><span>A hull from the forge</span><b class="sm">Always different</b><p>Two ships of the same class, ordered from two different addresses, are drawn from two different seeds — different strakes, different cost, a different bill of materials. That is the opposite of fungible: identity is the whole point.</p></div><div class="cell"><span>The rule, in one line</span><b class="sm">No history</b><p>A fungible unit carries no record of where it has been that changes what it is worth. The moment one HEZE became worth more than another because of its past, it would stop being a unit of account and start being a collectible.</p></div></div>
+    
+    <div class="rule"></div>
+    <p><strong>Why it has to be this way.</strong> A price list only works if every buyer is quoting against the same thing. The order desk two slides back prices a Destroyer at 12,400 HEZE for anyone at any door — the moment two doors' HEZE stopped being interchangeable, the price list would need one column per door instead of one column, period.</p>
+    
+    
+    
+    <nav class="nav">
+      <a href="#s5">◂ Back</a><a class="p" href="#s7">Next ▸</a>
+      <span class="no">06 / 10</span>
+    </nav>
+  </section>
+
+  <section class="slide" id="s7">
+    <span class="kicker">07 · lesson two, decentralization</span>
+    <h2>Decentralized where it is priced, not where it is kept honest</h2>
+    
+    <p class="lede">Decentralization is not one property a design either has or lacks — it is a choice about which specific part of a system is allowed to act on its own, and which part exists to reconcile what the independent parts did. HEZE's docket makes that choice explicitly rather than picking a slogan.</p>
+    
+    <div class="grid"><div class="cell"><span>Decentralized</span><b>200 doors</b><p>Each door issues against its own local share of a tranche, on its own schedule, with no door needing another door's permission to move.</p></div><div class="cell"><span>Centralized</span><b class="sm">21 syndicates</b><p>Two of three custodians per syndicate sign before anything is real, and every door's events are reconciled into one chain the syndicate keeps.</p></div><div class="cell"><span>Why both</span><b class="sm">Neither alone is enough</b><p>200 doors with no reconciliation would drift apart with no way to catch a contradiction. One central authority with no independent doors would only ever be checking itself.</p></div></div>
+    
+    <div class="rule"></div>
+    <p><strong>What this is not.</strong> It is not a claim that nobody is in charge — two of three custodians signing is a real, named authority, on purpose. It is a claim about where that authority sits: at the reconciliation, not at any one door, and never in one signature alone.</p>
+    
+    
+    
+    <nav class="nav">
+      <a href="#s6">◂ Back</a><a class="p" href="#s8">Next ▸</a>
+      <span class="no">07 / 10</span>
+    </nav>
+  </section>
+
+  <section class="slide" id="s8">
+    <span class="kicker">08 · lesson three, automation</span>
+    <h2>Nothing runs that a person did not run first</h2>
+    
+    <p class="lede">Real crypto systems automate constantly — bots, smart contracts, scheduled jobs — and a large share of real losses trace back to code that ran unattended before anyone had actually checked the sequence by hand. HEZE's own terminal draws the line on purpose: record, run, then automate, always in that order.</p>
+    
+    <div class="grid"><div class="cell"><span>Away time</span><b>Caught up, not guessed</b><p>Up to eight hours away is replayed one simulated day at a time — the same proposals, the same rolls, the same result you would have gotten watching it happen, never a shortcut.</p></div><div class="cell"><span>Auto-sign</span><b class="sm">Opt in, per desk</b><p>Custodians only sign on their own once told to, at the same odds a person signing by hand would face — automation changes who is at the keyboard, not the rules being followed.</p></div><div class="cell"><span>Record → run → automate</span><b class="sm">In that order</b><p>A command sequence is typed and watched until it is right, replayed once to confirm it, and only then set on an interval. The macro is a transcript of a person, not a program nobody read.</p></div></div>
+    
+    <div class="rule"></div>
+    <p><strong>The real-world version of this mistake.</strong> A contract that moves funds on a trigger nobody tested against every input, or a bot that was live before its first run was ever watched — both are automation that skipped the middle step. The terminal's rule exists because that step is the only one that catches a mistake before it repeats forever.</p>
+    
+    
+    
+    <nav class="nav">
+      <a href="#s7">◂ Back</a><a class="p" href="#s9">Next ▸</a>
+      <span class="no">08 / 10</span>
+    </nav>
+  </section>
+
+  <section class="slide" id="s9">
+    <span class="kicker">09 · lesson four, syndication</span>
+    <h2>Carrying a chain to another chain, and proving it later</h2>
+    
+    <p class="lede">Bridging one ledger's history into another's is one of the oldest sources of real losses in crypto — a forged root, waved through because nobody on the receiving side could actually check it. HEZE's syndication is the same idea, built with the check included rather than assumed.</p>
+    
+    <div class="grid"><div class="cell"><span>Every six months</span><b>The interval</b><p>Whatever a syndicate's doors signed since the last carry crosses at the interval, whether or not anything was ready — the checkpoint is taken either way, so a quiet interval is provable too.</p></div><div class="cell"><span>A checkpoint, chained</span><b class="sm">SHA-256 over the last</b><p>Each syndication hashes the events it carried together with the previous checkpoint's own hash, so breaking one checkpoint without breaking every one after it is not possible.</p></div><div class="cell"><span>The far side, at scale</span><b class="sm">Reconciles, does not answer</b><p>The other world's chain arrives with orders of magnitude more volume than these doors did and reconciles without comment — not contempt, just scale, and the same scale is what keeps any one door from being singled out.</p></div></div>
+    
+    <div class="rule"></div>
+    <p><strong>The check that actually matters.</strong> A checkpoint you cannot recompute is a claim, not a proof. Verifying a crossing means holding both chains and recomputing the source's own Merkle root at the exact sequence the checkpoint names — that is the one thing a forged root cannot survive, and it is the templated attack this design was tested against on purpose, not the one left out of the test suite.</p>
+    
+    
+    
+    <nav class="nav">
+      <a href="#s8">◂ Back</a><a class="p" href="#s10">Next ▸</a>
+      <span class="no">09 / 10</span>
+    </nav>
+  </section>
+
+  <section class="slide" id="s10">
+    <span class="kicker">10 · what this is not</span>
     <h2>Read this one twice</h2>
     
-    <p class="lede">The five slides before this describe a unit of account inside a set of local HTML files. This slide describes everything it isn't, and none of it is hedging — each line is a fact about the code.</p>
+    <p class="lede">The nine slides before this describe a unit of account inside a set of local HTML files, and four real lessons taught through it. This slide describes everything it isn't, and none of it is hedging — each line is a fact about the code.</p>
     
     
     
@@ -486,13 +562,13 @@
     <div class="flag"><b>There is no token.</b> No chain, no contract, no deployment, no address that holds anything. <code>0x48455a45</code> is the ASCII for “HEZE” printed on a docket, not a function selector on any network.</div><div class="flag"><b>Nothing here can be bought or sold.</b> These files have no transfer, no order book, no custody and no counterparty. There is nothing to acquire, so nothing on these slides is an offer, a solicitation or a sale.</div><div class="flag"><b>The dollar figures are a costing, not a valuation.</b> $20,387,410 is what ten drawn hulls would cost to build at rates you can edit. Dividing it by 21,000,000 gives a ratio between two numbers in this project. It is not a price, it does not imply one, and no one is obliged to honour it.</div><div class="flag"><b>Nothing is signed and nothing is sent.</b> The address field is read locally to seed a drawing. There is no network call, no wallet connection, no signature request, and no key ever touches these files.</div><div class="flag"><b>This is not financial advice.</b> Nothing here is a recommendation to buy, sell or hold anything, and nobody involved is a licensed adviser.</div>
     <p class="lede" style="margin-top:18px">What it <em>is</em>: a design document for the unit a fictional shipyard quotes in, sitting alongside two files that draw ships and count their fastenings. That is the whole of it, and it is enough.</p>
     <nav class="nav">
-      <a href="#s5">◂ Back</a><a class="p" href="#s1">Start over</a>
-      <span class="no">06 / 06</span>
+      <a href="#s9">◂ Back</a><a class="p" href="#s1">Start over</a>
+      <span class="no">10 / 10</span>
     </nav>
   </section>
 
   <div class="dots">
-    <a href="#s1"></a><a href="#s2"></a><a href="#s3"></a><a href="#s4"></a><a href="#s5"></a><a href="#s6"></a>
+    <a href="#s1"></a><a href="#s2"></a><a href="#s3"></a><a href="#s4"></a><a href="#s5"></a><a href="#s6"></a><a href="#s7"></a><a href="#s8"></a><a href="#s9"></a><a href="#s10"></a>
   </div>
 </div>
 

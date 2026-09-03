@@ -1,0 +1,17 @@
+{
+ "id": "fungibility",
+ "kind": "heze-slide",
+ "order": 6,
+ "kicker": "06 · lesson one, fungibility",
+ "heading": "Any one HEZE is every HEZE",
+ "lede": "Fungibility means two units of the same thing are interchangeable — holding one is exactly as good as holding any other, with nothing about its past attached to it. It is one of two properties this whole design was built to keep, and the easiest way to see it is to compare HEZE against something in these same files that is deliberately not fungible.",
+ "grid": [
+  { "span": "HEZE, door 1 vs door 200", "b": "No difference", "p": "A unit issued at the first door and a unit issued at the two-hundredth are the same unit. Neither deck may ask which door a HEZE came from before accepting it." },
+  { "span": "A hull from the forge", "b": "Always different", "sm": true, "p": "Two ships of the same class, ordered from two different addresses, are drawn from two different seeds — different strakes, different cost, a different bill of materials. That is the opposite of fungible: identity is the whole point." },
+  { "span": "The rule, in one line", "b": "No history", "sm": true, "p": "A fungible unit carries no record of where it has been that changes what it is worth. The moment one HEZE became worth more than another because of its past, it would stop being a unit of account and start being a collectible." }
+ ],
+ "rule": true,
+ "note": { "strong": "Why it has to be this way.", "text": "A price list only works if every buyer is quoting against the same thing. The order desk two slides back prices a Destroyer at 12,400 HEZE for anyone at any door — the moment two doors' HEZE stopped being interchangeable, the price list would need one column per door instead of one column, period." },
+ "text": "Fungibility taught through contrast: HEZE (interchangeable, no history) against a forge-drawn hull (unique, seed-identified).",
+ "wovenBy": "the bridge"
+}

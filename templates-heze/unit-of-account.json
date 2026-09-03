@@ -11,7 +11,7 @@
   { "span": "Backing", "b": "A costed fleet", "sm": true, "p": "Ten hulls, priced from their own bills of materials." },
   { "span": "Where it settles", "b": "Nowhere yet", "sm": true, "p": "No transfer exists. The docket is a piece of paper." }
  ],
- "lede": "Six slides. What the number is, what stands behind it, how a hull is drawn from an address, what the yard charges, and — at the end, in full — what this is not.",
+ "lede": "Ten slides. What the number is, what stands behind it, how a hull is drawn from an address, what the yard charges, four real lessons — fungibility, decentralization, automation, syndication — taught through it, and — at the end, in full — what this is not.",
  "ledeAfter": true,
  "text": "The opening slide: HEZE as a unit of account, fixed supply, no settlement, not for sale.",
  "wovenBy": "the bridge"

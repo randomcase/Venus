@@ -1,0 +1,17 @@
+{
+ "id": "automation",
+ "kind": "heze-slide",
+ "order": 8,
+ "kicker": "08 · lesson three, automation",
+ "heading": "Nothing runs that a person did not run first",
+ "lede": "Real crypto systems automate constantly — bots, smart contracts, scheduled jobs — and a large share of real losses trace back to code that ran unattended before anyone had actually checked the sequence by hand. HEZE's own terminal draws the line on purpose: record, run, then automate, always in that order.",
+ "grid": [
+  { "span": "Away time", "b": "Caught up, not guessed", "p": "Up to eight hours away is replayed one simulated day at a time — the same proposals, the same rolls, the same result you would have gotten watching it happen, never a shortcut." },
+  { "span": "Auto-sign", "b": "Opt in, per desk", "sm": true, "p": "Custodians only sign on their own once told to, at the same odds a person signing by hand would face — automation changes who is at the keyboard, not the rules being followed." },
+  { "span": "Record → run → automate", "b": "In that order", "sm": true, "p": "A command sequence is typed and watched until it is right, replayed once to confirm it, and only then set on an interval. The macro is a transcript of a person, not a program nobody read." }
+ ],
+ "rule": true,
+ "note": { "strong": "The real-world version of this mistake.", "text": "A contract that moves funds on a trigger nobody tested against every input, or a bot that was live before its first run was ever watched — both are automation that skipped the middle step. The terminal's rule exists because that step is the only one that catches a mistake before it repeats forever." },
+ "text": "Automation taught as a discipline: record a sequence by hand, run it once to confirm it, only then automate it — with the away-time catch-up and auto-sign as concrete examples that already follow the rule.",
+ "wovenBy": "the bridge"
+}
