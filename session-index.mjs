@@ -491,7 +491,7 @@ ${STYLE}
 </style>
 <header>
   <h1>${esc(au.name)}</h1>
-  <p>Idle game 63 of ${TOTAL} &middot; project <a href="../${pfile(63)}">${esc(au.name)}</a> &middot; template <a href="../templates/${TEMPLATES[62]}.template.html">${TEMPLATES[62]}</a> &middot; repo <a href="${repoOf(au.name)}">randomcase/${slug(au.name)}</a></p>
+  <p>Idle game 63 of ${TOTAL} &middot; project <a href="../projects/${pfile(63)}">${esc(au.name)}</a> &middot; template <a href="../templates/${TEMPLATES[62]}.template.html">${TEMPLATES[62]}</a> &middot; repo <a href="${repoOf(au.name)}">randomcase/${slug(au.name)}</a></p>
 </header>
 <div class="wrap">
   <div class="game">
