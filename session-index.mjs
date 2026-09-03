@@ -124,6 +124,7 @@ const PROJECTS = [
   [63, 'You are Australia, building ships', 'projects/63-australia-shipyard.html', 'a shipyard idle game with the Omaha / Missouri / Constellation table and the destroyer Australia sent'],
   [64, 'October Revolution', 'projects/64-october-revolution.html', 'the room every other room descends from: the night by the hour, to the standard'],
   [65, 'February Revolution', 'projects/65-february-revolution.html', 'the room upstream of October: eight days from the bread queues to the abdication, to the standard'],
+  [66, 'Anal sex', 'projects/66-anal-sex.html', 'a report: who and how often, what the body is asked to do, the risks with their numbers, what lowers them; sources'],
 ].sort((a, b) => a[0] - b[0]);
 const pfile = n => PROJECTS.find(p => p[0] === n)[2].replace('projects/', '');
 
@@ -335,7 +336,7 @@ ${table(['Room', 'Kind', 'From', 'To', 'Ending'], WARS.filter(w => w.kind === 'w
 ${table(['Seat', 'Who', 'From', 'To', 'Note'], ROSTER.seats.map(s => [esc(s.seat), esc(s.who), s.from, s.to, esc(s.note)]))}`,
   'The standard.');
 
-const GAME_OVERRIDES = { 'USS Constellation': { res: 'sorties', worker: 'aircraft', verb: 'launch', note: 'You are Connie. Each tap launches a sortie; each aircraft spotted on deck launches on its own, on the ninety-minute cycle, forever. The game does not count losses, which is the one thing the ship counted.' } };
+const GAME_OVERRIDES = { 'Anal sex': { res: 'swabs', worker: 'clinic', verb: 'run', note: 'Each tap runs one rectal swab; each clinic runs them on its own. The game counts tests, which is the one thing section 5 says is not being done enough.' }, 'USS Constellation': { res: 'sorties', worker: 'aircraft', verb: 'launch', note: 'You are Connie. Each tap launches a sortie; each aircraft spotted on deck launches on its own, on the ninety-minute cycle, forever. The game does not count losses, which is the one thing the ship counted.' } };
 const writeGame = (name, n, total, tpl, res0, project) => {
   const ov = GAME_OVERRIDES[name] || {}; const res = ov.res || res0; const worker = ov.worker || 'worker'; const verb = ov.verb || 'gather';
   const key = `idle:${slug(name)}`;
