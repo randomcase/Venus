@@ -34,7 +34,7 @@
   "series": [["1917-02-26", 150000], ["1917-02-27", 20000], ["1917-02-28", 1100]],
   "fitFrom": "1917-02-26",
   "marks": [["1917-02-23", "International Women's Day; the Vyborg women come out"], ["1917-02-25", "250,000 on strike; the Tsar telegraphs Khabalov to end it"], ["1917-02-26", "Znamenskaya Square; the Pavlovsky company fires on the police"], ["1917-02-27", "the Volynsky at dawn; 40,000 rifles; the Tauride fills"], ["1917-02-28", "Bublikov's telegram; Khabalov reports 1,100 loyal"], ["1917-03-01", "Order No. 1; the Tsar's train reaches Pskov"], ["1917-03-02", "the abdication"], ["1917-03-03", "Michael refuses"]],
-  "note": "The line through the garrison's obedience from the order to fire reaches zero on the 28th, when Khabalov had eleven hundred men. The Tsar abdicated two days later, because he was not in the city and the news reached him by the trains he could no longer take. The error is the distance from Petrograd to Pskov, measured in telegrams."
+  "note": "The line through the garrison's obedience from the order to fire reaches zero on the 27th, the day the garrison went over; Khabalov still had eleven hundred men on the 28th. The Tsar abdicated three days after the line said the army was gone, because he was not in the city and the news reached him by the trains he could no longer take. The error is the distance from Petrograd to Pskov, measured in telegrams."
  },
  "cost": [
   { "k": "Killed in Petrograd", "v": "1,443 by the infobox; over 1,300 by the text; most of them on the 26th and 27th, and many of them police" },
