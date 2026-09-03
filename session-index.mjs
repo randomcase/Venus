@@ -126,6 +126,12 @@ const PROJECTS = [
   [65, 'February Revolution', 'projects/65-february-revolution.html', 'the room upstream of October: eight days from the bread queues to the abdication, to the standard'],
   [66, 'Anal sex', 'projects/66-anal-sex.html', 'a report: who and how often, the body, the risks with their numbers, what lowers them, douching, the projections against the record, assault, and the law case by case, every country'],
   [67, 'Anal sex, a workbook', 'projects/67-anal-sex-workbook.html', 'ten pages on the report, each a lesson, exercises and folded answers: the per-act arithmetic, the protections, the projections, the cases'],
+  [68, 'Zero transmissions: the PARTNER studies', 'projects/68-partner-studies.html', 'what "zero in 77,000 acts" was: 76,088 reported acts, 782 couples, fifteen infections from outside, the ceiling zero puts on the risk'],
+  [69, 'PrEP: where the 1% went', 'projects/69-prep.html', 'the 99% is a model; the trials from 44% to 100%, the dozen breakthroughs, the errors of calculus, the injections, the rectal versions'],
+  [70, 'Condoms: the 70%, and the projections', 'projects/70-condoms.html', 'where 70% and 80% come from, how condoms fail, the fall in use since PrEP, what the models project for HIV and the other infections, the object'],
+  [71, 'Lubricant technology', 'projects/71-lubricant.html', 'tribology, chemistry, osmolality and pH with the measurements, the cell studies, the microbicide programme, regulation, what is being built'],
+  [72, 'Sodomy law, a workbook', 'projects/72-sodomy-law-workbook.html', 'ten pages on the law: the cases, the savings clause, enforcement against enactment, where the codes came from, governance'],
+  [73, 'Sodomy law: the cases, the codes, the governance', 'projects/73-sodomy-law-cases.html', 'a site: the six steps with every case, every country, enforcement tiers, penal-code lineages, governance, Algeria worked'],
 ].sort((a, b) => a[0] - b[0]);
 const pfile = n => PROJECTS.find(p => p[0] === n)[2].replace('projects/', '');
 
@@ -337,7 +343,13 @@ ${table(['Room', 'Kind', 'From', 'To', 'Ending'], WARS.filter(w => w.kind === 'w
 ${table(['Seat', 'Who', 'From', 'To', 'Note'], ROSTER.seats.map(s => [esc(s.seat), esc(s.who), s.from, s.to, esc(s.note)]))}`,
   'The standard.');
 
-const GAME_OVERRIDES = { 'Anal sex, a workbook': { res: 'answers', worker: 'page', verb: 'fold', note: 'Each tap folds one answer open; each page turned folds them on its own. Ten pages in the workbook; the game does not stop at ten.' }, 'Anal sex': { res: 'swabs', worker: 'clinic', verb: 'run', note: 'Each tap runs one rectal swab; each clinic runs them on its own. The game counts tests, which is the one thing section 5 says is not being done enough.' }, 'USS Constellation': { res: 'sorties', worker: 'aircraft', verb: 'launch', note: 'You are Connie. Each tap launches a sortie; each aircraft spotted on deck launches on its own, on the ninety-minute cycle, forever. The game does not count losses, which is the one thing the ship counted.' } };
+const GAME_OVERRIDES = { 'Zero transmissions: the PARTNER studies': { res: 'questionnaires', worker: 'clinic visit', verb: 'file', note: 'Nobody watched. Each tap files one questionnaire; each clinic visit files them on its own. The count never reaches a transmission.' },
+  'PrEP: where the 1% went': { res: 'doses', worker: 'week', verb: 'take', note: 'Seven a week is the model. Each tap is a dose; each week takes them on its own. Adherence is the whole story.' },
+  'Condoms: the 70%, and the projections': { res: 'condoms', worker: 'factory line', verb: 'dip', note: 'The object of 1920 is the object of today. Each tap dips one; each line dips them on its own, about 30 billion a year worldwide.' },
+  'Lubricant technology': { res: 'mOsm', worker: 'osmometer', verb: 'measure', note: 'Body fluid is 290. Each tap measures one; each osmometer measures on its own. The game does not stop at 1,200.' },
+  'Sodomy law, a workbook': { res: 'judgments', worker: 'court', verb: 'read', note: 'Each tap reads one judgment; each court reads them on its own. Ten pages in the workbook; the table has a hundred rows.' },
+  'Sodomy law: the cases, the codes, the governance': { res: 'repeals', worker: 'claimant', verb: 'file', note: 'Each tap files one challenge; each claimant files them on its own. The game does not model the savings clause.' },
+  'Anal sex, a workbook': { res: 'answers', worker: 'page', verb: 'fold', note: 'Each tap folds one answer open; each page turned folds them on its own. Ten pages in the workbook; the game does not stop at ten.' }, 'Anal sex': { res: 'swabs', worker: 'clinic', verb: 'run', note: 'Each tap runs one rectal swab; each clinic runs them on its own. The game counts tests, which is the one thing section 5 says is not being done enough.' }, 'USS Constellation': { res: 'sorties', worker: 'aircraft', verb: 'launch', note: 'You are Connie. Each tap launches a sortie; each aircraft spotted on deck launches on its own, on the ninety-minute cycle, forever. The game does not count losses, which is the one thing the ship counted.' } };
 const writeGame = (name, n, total, tpl, res0, project) => {
   const ov = GAME_OVERRIDES[name] || {}; const res = ov.res || res0; const worker = ov.worker || 'worker'; const verb = ov.verb || 'gather';
   const key = `idle:${slug(name)}`;
