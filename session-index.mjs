@@ -189,7 +189,8 @@ const predict = (p) => {
   const timed = /T/.test(p.series[0][0]);
   const ending = timed && p.marks ? (p.marks.find(([d]) => d.startsWith(p.ending)) || [p.ending])[0] : p.ending;
   const actual = Date.parse(ending); const unit = timed ? DAY / 24 : DAY; const err = Math.round((actual - when.getTime()) / unit);
-  const iso = timed ? when.toISOString().slice(0, 16).replace("T", " ") : when.toISOString().slice(0, 10);
+  const p2 = x => String(x).padStart(2, "0");
+  const iso = timed ? `${when.getFullYear()}-${p2(when.getMonth() + 1)}-${p2(when.getDate())} ${p2(when.getHours())}:${p2(when.getMinutes())}` : when.toISOString().slice(0, 10);
   return { m, b, iso, err, n, unitName: timed ? "hours" : "days" };
 };
 const predictionBox = (p) => {
