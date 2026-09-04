@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The instruments &middot; every figure, and how wrong it might be</title>
+<!-- No off-origin requests. Every entry checked against the boards that cite it. -->
+<style>
+  :root{
+    --bg:#0b0e12; --panel:#12171d; --edge:#1f2831; --edge2:#2d3a46;
+    --ink:#dfe5ea; --dim:#8b95a0; --faint:#5b6570;
+    --cool:#6f9fb5; --moss:#7d9d6a; --rust:#c4674f; --gold:#c9a227;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.72 var(--serif);padding:38px 20px 90px}
+  main{max-width:1000px;margin:0 auto}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+  .top{display:flex;align-items:baseline;gap:15px;flex-wrap:wrap;margin-bottom:4px}
+  h1{margin:0;font:500 38px/1.08 var(--serif)}
+  .top span{font:400 9px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;
+    color:var(--cool)}
+  .intro{margin:0 0 26px;max-width:80ch;color:var(--dim);font-size:15.5px}
+
+  .rule{margin:26px 0;padding:20px 22px;background:var(--panel);
+    border-left:3px solid var(--rust)}
+  .rule h4{margin:0 0 10px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--rust)}
+  .rule p{margin:0 0 11px;max-width:80ch} .rule p:last-child{margin:0}
+  .rule code{color:var(--gold);font:400 13px/1.5 var(--mono)}
+
+  .i{background:var(--panel);border:1px solid var(--edge);margin-bottom:12px}
+  .i header{display:flex;align-items:baseline;gap:14px;padding:14px 18px;
+    border-bottom:1px solid var(--edge);flex-wrap:wrap}
+  .i h3{margin:0;font:500 20px/1.2 var(--serif)}
+  .i .v{margin-left:auto;font:400 24px/1 var(--mono);color:var(--ink);
+    font-variant-numeric:tabular-nums}
+  .i .v s{text-decoration:none;color:var(--faint);font-size:14px}
+  .i .v u{text-decoration:none;color:var(--cool);font-size:13px;margin-left:8px}
+  .i .k{font:400 8px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
+    padding:4px 8px;border:1px solid var(--edge2);color:var(--faint)}
+  .i .k.computed{color:var(--cool);border-color:#2e4a58}
+  .i .k.measured{color:var(--moss);border-color:#33452c}
+  .i .k.derived{color:var(--gold);border-color:#4a3d15}
+  .i .body{padding:15px 18px;display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:16px}
+  .i .f h5{margin:0 0 6px;font:400 8px/1 var(--mono);letter-spacing:.16em;
+    text-transform:uppercase;color:var(--faint)}
+  .i .f p{margin:0;font-size:14.5px;line-height:1.7;color:#c4cbd2}
+  .i .f.bad h5{color:var(--rust)}
+  .i footer{padding:10px 18px;border-top:1px solid var(--edge);
+    font:400 10px/1.6 var(--mono);color:var(--faint);display:flex;gap:14px;
+    flex-wrap:wrap;align-items:center}
+  .i footer .bar{flex:1;min-width:120px;height:5px;background:#1a222a;position:relative}
+  .i footer .bar i{position:absolute;top:0;bottom:0;background:var(--cool);opacity:.7}
+  .i .warn{padding:10px 18px;background:#1d1610;border-top:1px solid #3a2a1c;
+    font:400 12px/1.6 var(--serif);color:#c9a980}
+
+  table{width:100%;border-collapse:collapse;margin:20px 0;font:400 12.5px/1.5 var(--mono)}
+  .scroll{overflow-x:auto}
+  table{min-width:620px}
+  th{text-align:right;padding:0 11px 9px 0;color:var(--faint);font-weight:400;
+    font-size:8px;letter-spacing:.15em;text-transform:uppercase;
+    border-bottom:1px solid var(--edge2)}
+  th:first-child,td:first-child{text-align:left}
+  td{padding:8px 11px 8px 0;border-bottom:1px solid #161d24;text-align:right;
+    font-variant-numeric:tabular-nums}
+  td.d{text-align:left;color:var(--dim);font:400 13.5px/1.4 var(--serif)}
+  footer.page{margin-top:52px;padding-top:18px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 10.5px/1.85 var(--mono)}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>The instruments</h1><span>every figure, and how wrong it might be</span></div>
+<p class="intro">Boards across this yard print 574 g/cm&sup2;, 4.94 minutes, 2.05 degrees, 8.71 m/s&sup2;. Until this layer existed, nothing recorded where any of them came from. <b>A figure with no provenance is a rumour with a decimal point</b> — so each of these declares its method, its uncertainty, what it is used for, and what would make it wrong.</p>
+<div class="rule">
+  <h4>the check nobody runs</h4>
+  <p>The generator refuses an entry whose quoted precision is not justified by its own error bar. The rule is the ordinary one: <b>the last digit you write should be the first digit you are unsure about.</b></p>
+  <p>So <code>&plusmn;0.5</code> justifies one decimal place and <code>146.1</code> is fine. <code>&plusmn;25</code> justifies none, and <code>574</code> is fine because the units digit is the uncertain one. But <code>150 &plusmn; 50</code> is a third of the value — that supports one significant figure, not three, and writing it as 150 claims a confidence the measurement does not have.</p>
+  <p>This is not a wrong-number check. It is an <b>over-confident</b>-number check, and that is the harder mistake to see because it looks exactly like rigour.</p>
+</div>
+<div class="scroll"><table>
+<tr><th>quantity</th><th>value</th><th>bar</th><th>relative</th><th>kind</th><th>boards</th></tr>
+<tr><td class="d">Gravity at the deck</td><td>8.71 m/s2</td><td>&plusmn; 0.02</td><td>0.23%</td><td class="d">derived</td><td>2</td></tr>
+<tr><td class="d">Atmospheric shielding above 55 km</td><td>570 g/cm2</td><td>&plusmn; 25</td><td>4%</td><td class="d">derived</td><td>1</td></tr>
+<tr><td class="d">Light delay at arrival</td><td>4.94 minutes</td><td>&plusmn; 0.02</td><td>0.40%</td><td class="d">computed</td><td>2</td></tr>
+<tr><td class="d">Spica, ecliptic latitude</td><td>2.05 degrees</td><td>&plusmn; 0.01</td><td>0.49%</td><td class="d">computed</td><td>1</td></tr>
+<tr><td class="d">Minimum-energy transfer, Earth to Venus</td><td>146.1 days</td><td>&plusmn; 0.5</td><td>0.34%</td><td class="d">computed</td><td>1</td></tr>
+<tr><td class="d">Bond albedo of Venus</td><td>0.77 fraction</td><td>&plusmn; 0.02</td><td>3%</td><td class="d">measured</td><td>2</td></tr>
+<tr><td class="d">Greenhouse warming at the Venus surface</td><td>510 K</td><td>&plusmn; 8</td><td>2%</td><td class="d">derived</td><td>2</td></tr>
+<tr><td class="d">Deuterium to hydrogen, Venus against Earth</td><td>150 times</td><td>&plusmn; 50</td><td>33%</td><td class="d">measured</td><td>2</td></tr>
+<tr><td class="d">Rossby deformation radius on Venus</td><td>2400 km</td><td>&plusmn; 400</td><td>17%</td><td class="d">derived</td><td>1</td></tr>
+<tr><td class="d">Venus solar day</td><td>116.75 Earth days</td><td>&plusmn; 0.01</td><td>0.01%</td><td class="d">computed</td><td>3</td></tr>
+<tr><td class="d">Hall of Mirrors, length</td><td>73 metres</td><td>&plusmn; 1</td><td>1%</td><td class="d">measured</td><td>1</td></tr>
+<tr><td class="d">Pitch of the hall stair</td><td>23 degrees</td><td>&plusmn; 0.1</td><td>0.43%</td><td class="d">computed</td><td>1</td></tr>
+</table></div>
+<p>The loosest figure here is <b>Deuterium to hydrogen, Venus against Earth</b> at 33 per cent, and it is worth knowing that it is also the one whose conclusion survives the bar — anything in its range carries the same argument. A wide bar only matters when the argument is quantitative, and saying which is which is most of what this page is for.</p>
+<article class="i">
+  <header><h3>Gravity at the deck</h3><span class="k derived">derived</span><span class="v">8.71<s> m/s2</s><u>&plusmn; 0.02</u></span></header>
+  <div class="body">
+    <div class="f"><h5>how it was arrived at</h5><p>Surface gravity from GM and the mean radius, then reduced by the inverse square to 55 km. Both inputs are known to far better than the figure needs, so the error here is the altitude, not the mass.</p></div>
+    <div class="f"><h5>what it is used for</h5><p>Everything about the weight-versus-inertia argument: settling velocity, sediment carriage, and whether a person can work.</p></div>
+    <div class="f bad"><h5>what would make it wrong</h5><p>The deck is not held at 55 km. Every tenth of a kilometre moves this in the fourth decimal, so drift in station-keeping is a bigger error source than the constants.</p></div>
+  </div>
+  <footer><span>0.23% bar</span><span class="bar"><i style="left:49.540757749712974%;right:49.540757749712974%"></i></span><span><a href="paper.html">paper.html</a> &middot; <a href="castle.html">castle.html</a></span></footer>
+</article>
+<article class="i">
+  <header><h3>Atmospheric shielding above 55 km</h3><span class="k derived">derived</span><span class="v">570<s> g/cm2</s><u>&plusmn; 25</u></span></header>
+  <div class="body">
+    <div class="f"><h5>how it was arrived at</h5><p>Integrated column mass above 55 km from a standard Venus atmosphere model. The uncertainty is the model, not the integration. Rounded: rounded from 574: a ±25 bar owns the tens digit.</p></div>
+    <div class="f"><h5>what it is used for</h5><p>The claim that radiation is not the problem on the deck.</p></div>
+    <div class="f bad"><h5>what would make it wrong</h5><p>The atmosphere model is wrong above 55 km, which it may be — the density profile there is less well constrained than lower down, and a systematic error would move all of it one way.</p></div>
+  </div>
+  <footer><span>4% bar</span><span class="bar"><i style="left:41.228070175438596%;right:41.228070175438596%"></i></span><span><a href="paper.html">paper.html</a></span></footer>
+</article>
+<article class="i">
+  <header><h3>Light delay at arrival</h3><span class="k computed">computed</span><span class="v">4.94<s> minutes</s><u>&plusmn; 0.02</u></span></header>
+  <div class="body">
+    <div class="f"><h5>how it was arrived at</h5><p>Range between the two planets at the arrival geometry, divided by c. Recomputed per frame in game.html against a Kepler solve rather than taken from a table.</p></div>
+    <div class="f"><h5>what it is used for</h5><p>The relay, the corps autonomy window, and the whole argument that nothing on the deck can be run in real time from Earth.</p></div>
+    <div class="f bad"><h5>what would make it wrong</h5><p>The arrival geometry is not the one assumed. This is a figure for one moment in one trajectory, not a constant, and quoting it as though it were a property of Venus is the mistake to watch for.</p></div>
+  </div>
+  <footer><span>0.40% bar</span><span class="bar"><i style="left:49.19028340080972%;right:49.19028340080972%"></i></span><span><a href="paper.html">paper.html</a> &middot; <a href="corps.html">corps.html</a></span></footer>
+</article>
+<article class="i">
+  <header><h3>Spica, ecliptic latitude</h3><span class="k computed">computed</span><span class="v">2.05<s> degrees</s><u>&plusmn; 0.01</u></span></header>
+  <div class="body">
+    <div class="f"><h5>how it was arrived at</h5><p>beta = asin(sin d cos e - cos d sin e sin a), from the J2000 catalogue position and the obliquity. Computed in the generator rather than looked up.</p></div>
+    <div class="f"><h5>what it is used for</h5><p>Why Venus and Spica keep meeting, on the notebook cover.</p></div>
+    <div class="f bad"><h5>what would make it wrong</h5><p>Nothing plausible. This is arithmetic on published constants and the only way it moves is if the catalogue position is wrong, which it is not.</p></div>
+  </div>
+  <footer><span>0.49% bar</span><span class="bar"><i style="left:49.02439024390244%;right:49.02439024390244%"></i></span><span><a href="writing.html">writing.html</a></span></footer>
+</article>
+<article class="i">
+  <header><h3>Minimum-energy transfer, Earth to Venus</h3><span class="k computed">computed</span><span class="v">146.1<s> days</s><u>&plusmn; 0.5</u></span></header>
+  <div class="body">
+    <div class="f"><h5>how it was arrived at</h5><p>Half the period of the transfer ellipse, from vis-viva and Kepler. Reproduces the published 146 d, which is the check that the rest of the transit curve is worth reading.</p></div>
+    <div class="f"><h5>what it is used for</h5><p>The whole transit argument, and the six-months-is-a-choice section.</p></div>
+    <div class="f bad"><h5>what would make it wrong</h5><p>The orbits are treated as circular and coplanar. They are neither, and a real mission planner would get a different number by a day or two depending on the launch window.</p></div>
+  </div>
+  <footer><span>0.34% bar</span><span class="bar"><i style="left:49.31553730321698%;right:49.31553730321698%"></i></span><span><a href="paper.html">paper.html</a></span></footer>
+</article>
+<article class="i">
+  <header><h3>Bond albedo of Venus</h3><span class="k measured">measured</span><span class="v">0.77<s> fraction</s><u>&plusmn; 0.02</u></span></header>
+  <div class="body">
+    <div class="f"><h5>how it was arrived at</h5><p>Spacecraft radiometry, integrated over the sphere and the spectrum.</p></div>
+    <div class="f"><h5>what it is used for</h5><p>The inversion: that Venus absorbs less sunlight than Earth. This single number is what carries that finding.</p></div>
+    <div class="f bad"><h5>what would make it wrong</h5><p>It is nearer 0.75 or 0.80, which is within argument. At 0.70 the inversion narrows sharply, and the finding is more sensitive to this figure than to anything else in it.</p></div>
+  </div>
+  <footer><span>3% bar</span><span class="bar"><i style="left:44.8051948051948%;right:44.8051948051948%"></i></span><span><a href="paper.html">paper.html</a> &middot; <a href="cistern.html">cistern.html</a></span></footer>
+</article>
+<article class="i">
+  <header><h3>Greenhouse warming at the Venus surface</h3><span class="k derived">derived</span><span class="v">510<s> K</s><u>&plusmn; 8</u></span></header>
+  <div class="body">
+    <div class="f"><h5>how it was arrived at</h5><p>Surface temperature minus the effective temperature computed from absorbed flux. The uncertainty is inherited almost entirely from the albedo.</p></div>
+    <div class="f"><h5>what it is used for</h5><p>The factor of fifteen against Earth, which is the divergence.</p></div>
+    <div class="f bad"><h5>what would make it wrong</h5><p>The albedo is wrong. Everything else in the chain is arithmetic.</p></div>
+  </div>
+  <footer><span>2% bar</span><span class="bar"><i style="left:46.86274509803921%;right:46.86274509803921%"></i></span><span><a href="cistern.html">cistern.html</a> &middot; <a href="paper.html">paper.html</a></span></footer>
+</article>
+<article class="i">
+  <header><h3>Deuterium to hydrogen, Venus against Earth</h3><span class="k measured">measured</span><span class="v">150<s> times</s><u>&plusmn; 50</u></span></header>
+  <div class="body">
+    <div class="f"><h5>how it was arrived at</h5><p>Mass spectrometry from atmospheric probes. The published range is wide and the figure is usually quoted as an order of magnitude.</p></div>
+    <div class="f"><h5>what it is used for</h5><p>The claim that Venus had an ocean and lost it.</p></div>
+    <div class="f bad"><h5>what would make it wrong</h5><p>Nothing that changes the conclusion. Anything from 100 to 200 carries the same argument, which is why the wide bar does not matter here and would matter enormously if the argument were quantitative rather than directional.</p></div>
+  </div>
+  <footer><span>33% bar</span><span class="bar"><i style="left:2%;right:2%"></i></span><span><a href="cistern.html">cistern.html</a> &middot; <a href="paper.html">paper.html</a></span></footer>
+</article>
+<article class="i">
+  <header><h3>Rossby deformation radius on Venus</h3><span class="k derived">derived</span><span class="v">2400<s> km</s><u>&plusmn; 400</u></span></header>
+  <div class="body">
+    <div class="f"><h5>how it was arrived at</h5><p>Standard deformation radius from the scale height, buoyancy frequency and the Coriolis parameter at mid-latitude. The buoyancy term is the loose one. Rounded: rounded from 2363: a ±400 bar owns the hundreds.</p></div>
+    <div class="f"><h5>what it is used for</h5><p>You can dig a dust bowl, you cannot dig a hurricane.</p></div>
+    <div class="f bad"><h5>what would make it wrong</h5><p>The buoyancy frequency is off by a factor, which would move this proportionally. The confirmation is that the polar vortices are observed at about 2,000 km, which was not arranged and is the reason to believe the calculation.</p></div>
+  </div>
+  <footer><span>17% bar</span><span class="bar"><i style="left:16.66666666666667%;right:16.66666666666667%"></i></span><span><a href="paper.html">paper.html</a></span></footer>
+</article>
+<article class="i">
+  <header><h3>Venus solar day</h3><span class="k computed">computed</span><span class="v">116.75<s> Earth days</s><u>&plusmn; 0.01</u></span></header>
+  <div class="body">
+    <div class="f"><h5>how it was arrived at</h5><p>From the sidereal rotation and the orbital period, both measured to many figures.</p></div>
+    <div class="f"><h5>what it is used for</h5><p>The 58-day night, which sets the entire lighting budget.</p></div>
+    <div class="f bad"><h5>what would make it wrong</h5><p>Nothing. This is among the best-known numbers in the document.</p></div>
+  </div>
+  <footer><span>0.01% bar</span><span class="bar"><i style="left:49.98286937901499%;right:49.98286937901499%"></i></span><span><a href="paper.html">paper.html</a> &middot; <a href="corps.html">corps.html</a> &middot; <a href="castle.html">castle.html</a></span></footer>
+</article>
+<article class="i">
+  <header><h3>Hall of Mirrors, length</h3><span class="k measured">measured</span><span class="v">73<s> metres</s><u>&plusmn; 1</u></span></header>
+  <div class="body">
+    <div class="f"><h5>how it was arrived at</h5><p>Published dimension, widely repeated and consistent across sources.</p></div>
+    <div class="f"><h5>what it is used for</h5><p>The gallery on two castle plans, and the 357-over-17 division that the generator refuses to let drift.</p></div>
+    <div class="f bad"><h5>what would make it wrong</h5><p>Sources disagree by a metre or so about where the room is measured from. It does not matter for anything here.</p></div>
+  </div>
+  <footer><span>1% bar</span><span class="bar"><i style="left:47.26027397260274%;right:47.26027397260274%"></i></span><span><a href="castle.html">castle.html</a></span></footer>
+</article>
+<article class="i">
+  <header><h3>Pitch of the hall stair</h3><span class="k computed">computed</span><span class="v">23<s> degrees</s><u>&plusmn; 0.1</u></span></header>
+  <div class="body">
+    <div class="f"><h5>how it was arrived at</h5><p>atan(rise / going) from the declared 153 mm by 360 mm.</p></div>
+    <div class="f"><h5>what it is used for</h5><p>Whether the stair reads as processional or as a ladder, and the comparison against a 42-degree service stair.</p></div>
+    <div class="f bad"><h5>what would make it wrong</h5><p>Nothing — it is arithmetic on two numbers I chose. This is a DESIGN figure rather than a measurement, and the layer marks it as such so nobody mistakes it for a fact about the world.</p></div>
+  </div>
+  <footer><span>0.43% bar</span><span class="bar"><i style="left:49.130434782608695%;right:49.130434782608695%"></i></span><span><a href="hall.html">hall.html</a></span></footer>
+</article>
+<footer class="page">
+Built by <a href="instruments.mjs">instruments.mjs</a> from 12 entries in templates-instrument/. Every one is checked for a stated uncertainty, a failure mode, a citation that exists on disk, and a quoted precision its own bar justifies. It also warns when a board no longer contains the figure the instrument claims to measure, which catches a number drifting out from under its own provenance.<br>
+Cited across 6 boards: <a href="castle.html">castle</a> &middot; <a href="cistern.html">cistern</a> &middot; <a href="corps.html">corps</a> &middot; <a href="hall.html">hall</a> &middot; <a href="paper.html">paper</a> &middot; <a href="writing.html">writing</a><br><a href="reading.html">the reading room</a> &middot; <a href="dev.html">the hub</a>
+</footer>
+</main>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

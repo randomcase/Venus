@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Real-Time WebSocket 8-Layer Telemetry Monitor</title>
+  <style>
+    body {
+      background: #06090e;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+      padding: 24px;
+      margin: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    .status-badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      background: #dc2626;
+      color: #fff;
+    }
+    .status-connected { background: #16a34a; }
+    .grid-8 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .layer-card {
+      background: #0f172a;
+      border: 2px solid #334155;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      font-weight: bold;
+      transition: all 0.15s ease;
+    }
+    .active-green { background: rgba(34, 197, 94, 0.25); border-color: #22c55e; color: #22c55e; }
+    .active-blue { background: rgba(59, 130, 246, 0.25); border-color: #3b82f6; color: #3b82f6; }
+    .active-yellow { background: rgba(234, 179, 8, 0.25); border-color: #eab308; color: #eab308; }
+    .active-red { background: rgba(239, 68, 68, 0.25); border-color: #ef4444; color: #ef4444; }
+    .dot { width: 18px; height: 18px; border-radius: 50%; background: #475569; }
+    .log-box {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      padding: 14px;
+      font-family: monospace;
+      font-size: 12px;
+      height: 180px;
+      overflow-y: auto;
+      color: #38bdf8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div>
+        <h2 style="margin:0 0 4px;">📡 WebSocket 8-Layer Telemetry Monitor</h2>
+        <span style="color:#94a3b8; font-size:13px;">Streaming Live Ingestion & Layer State Transitions</span>
+      </div>
+      <span class="status-badge" id="connStatus">DISCONNECTED</span>
+    </div>
+
+    <div class="grid-8">
+      <div class="layer-card" id="card-L1"><span>L1: CORE SIGNAL</span><div class="dot"></div></div>
+      <div class="layer-card" id="card-L2"><span>L2: INGESTION STAGE</span><div class="dot"></div></div>
+      <div class="layer-card" id="card-L3"><span>L3: BUFFER QUEUE</span><div class="dot"></div></div>
+      <div class="layer-card" id="card-L4"><span>L4: ROUTER COMPLEX</span><div class="dot"></div></div>
+      <div class="layer-card" id="card-L5"><span>L5: ARTIFACT GENERATOR</span><div class="dot"></div></div>
+      <div class="layer-card" id="card-L6"><span>L6: ENCODER TELEMETRY</span><div class="dot"></div></div>
+      <div class="layer-card" id="card-L7"><span>L7: CRYPTO HASH POOL</span><div class="dot"></div></div>
+      <div class="layer-card" id="card-L8"><span>L8: LEDGER COMMITMENT</span><div class="dot"></div></div>
+    </div>
+
+    <h4 style="margin: 0 0 8px;">📜 Live WebSocket Telemetry Log:</h4>
+    <div class="log-box" id="logBox">Waiting for WebSocket telemetry stream connection...</div>
+  </div>
+
+  <script>
+    const logBox = document.getElementById('logBox');
+    const connStatus = document.getElementById('connStatus');
+
+    function connectWs() {
+      const ws = new WebSocket("ws://localhost:8080/v1/monitor/stream");
+
+      ws.onopen = () => {
+        connStatus.innerText = "CONNECTED (ws://localhost:8080)";
+        connStatus.className = "status-badge status-connected";
+        logBox.innerHTML += `<div>[${new Date().toLocaleTimeString()}] Connected to telemetry stream.</div>`;
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          logBox.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${event.data}</div>`;
+          logBox.scrollTop = logBox.scrollHeight;
+
+          if (data.currentActiveLayer) {
+            highlightLayer(data.currentActiveLayer);
+          }
+        } catch(e) {
+          logBox.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${event.data}</div>`;
+        }
+      };
+
+      ws.onclose = () => {
+        connStatus.innerText = "DISCONNECTED";
+        connStatus.className = "status-badge";
+        setTimeout(connectWs, 3000);
+      };
+    }
+
+    function highlightLayer(idx) {
+      for (let i = 1; i <= 8; i++) {
+        const card = document.getElementById(`card-L${i}`);
+        card.className = "layer-card";
+      }
+      const active = document.getElementById(`card-L${idx}`);
+      if (idx <= 2) active.className = "layer-card active-green";
+      else if (idx <= 4) active.className = "layer-card active-blue";
+      else if (idx <= 6) active.className = "layer-card active-yellow";
+      else active.className = "layer-card active-red";
+    }
+
+    connectWs();
+  </script>
+</body>
+</html>

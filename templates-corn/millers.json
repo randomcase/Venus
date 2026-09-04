@@ -1,0 +1,12 @@
+{
+ "id": "millers",
+ "kind": "guild",
+ "order": 1,
+ "name": "The millers",
+ "makes": "meal",
+ "takes": "a bushel of corn",
+ "gives": "a bushel of meal, less the bran",
+ "feeds": "the village's grain, milled",
+ "text": "Corn into meal. The first thing corn is good for, and the one every other guild waits on: nothing else on this list starts before the millers have run.",
+ "wovenBy": "the corn"
+}

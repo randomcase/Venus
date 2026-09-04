@@ -1,0 +1,14 @@
+{
+ "id": "l2-field-3-1",
+ "depth": 2,
+ "wovenBy": "l3-field-3",
+ "kind": "field",
+ "name": "The field mould 3.1: silt, south-facing",
+ "fixed": {
+  "soil": "silt",
+  "lie": "south-facing"
+ },
+ "open": [
+  "size"
+ ]
+}

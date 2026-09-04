@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The warlock &middot; a siege that does not end</title>
+<link rel="stylesheet" href="symbol.css">
+<style>
+  :root{--bg:#0a0c10;--panel:#11151b;--edge:#1e2630;--edge2:#2c3744;
+    --ink:#dfe4ea;--dim:#8a939e;--faint:#59626d;--gold:#c9a227;
+    --moss:#7d9d6a;--rust:#c4674f;--cool:#6f9fb5;--violet:#8f5fb5;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.7 var(--serif);padding:30px 18px 70px}
+  main{max-width:1240px;margin:0 auto}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+  .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+  h1{margin:0;font:500 38px/1.06 var(--serif)}
+  .top span{font:400 9px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;
+    color:var(--gold)}
+  .intro{margin:0 0 18px;max-width:86ch;color:var(--dim);font-size:15px}
+  .rig{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px;align-items:start}
+  .rig>*{min-width:0}
+  @media (max-width:1040px){ .rig{grid-template-columns:minmax(0,1fr)} }
+  .card{background:var(--panel);border:1px solid var(--edge);padding:15px 17px;
+    margin-bottom:14px}
+  .card h3{margin:0 0 11px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold)}
+  .card h3 span{color:var(--faint);margin-left:9px;letter-spacing:.04em;
+    text-transform:none}
+  /* max-width, not width: a 920 px canvas in a grid track sets the track's
+     minimum and pushes the page sideways on anything narrower. */
+  #field{width:100%;max-width:100%;height:auto;display:block;
+    background:#080a0d;border:1px solid var(--edge2)}
+  .bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:11px}
+  .go{background:#182029;border:1px solid var(--edge2);color:var(--ink);
+    padding:9px 15px;cursor:pointer;font:400 10px/1.2 var(--mono);letter-spacing:.08em}
+  .go:hover{border-color:var(--gold);color:var(--gold)}
+  .go.on{border-color:var(--moss);color:var(--moss)}
+  .hud{display:flex;gap:16px;flex-wrap:wrap;font:400 11px/1.4 var(--mono);
+    color:var(--faint)}
+  .hud b{color:var(--ink);font-weight:400}
+  .spells{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(140px,100%),1fr));
+    gap:1px;background:var(--edge);border:1px solid var(--edge)}
+  .sp{background:#0e1319;padding:10px 11px;cursor:pointer;position:relative}
+  .sp:hover{background:#141b22}
+  .sp.sel{background:#1a222b;box-shadow:inset 0 0 0 1px var(--gold)}
+  .sp.cold{opacity:.4;cursor:not-allowed}
+  .sp b{display:block;font:500 14px/1.3 var(--serif)}
+  .sp .g{float:right;font-size:17px;line-height:1}
+  .sp i{display:block;font:400 9px/1.5 var(--mono);color:var(--faint);
+    font-style:normal;margin-top:3px}
+  .sp .cd{position:absolute;left:0;bottom:0;height:2px;background:var(--gold)}
+  .dex{border-bottom:1px solid var(--edge);padding:10px 0}
+  .dex:last-child{border-bottom:none}
+  .dex b{font:500 15px/1.3 var(--serif)}
+  .dex .g{float:right;font-size:16px}
+  .dex p{margin:3px 0 0;font-size:12.5px;color:var(--dim);line-height:1.6}
+  .dex p.geo{color:var(--faint);font-size:12px}
+  .note{padding:11px 13px;border-left:3px solid var(--edge2);background:#0e1319;
+    font:400 13px/1.65 var(--serif);color:var(--dim);margin-top:11px}
+  .note.warn{border-left-color:var(--rust)}
+  .note.key{border-left-color:var(--gold);background:#12100c;color:#d8ccae}
+  .note b{color:var(--ink)}
+  .forge{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:9px}
+  .forge label{display:block;font:400 8px/1.5 var(--mono);letter-spacing:.14em;
+    text-transform:uppercase;color:var(--faint);margin-bottom:3px}
+  .forge input,.forge select,.forge textarea{width:100%;background:#0b0f14;
+    border:1px solid var(--edge2);color:var(--ink);padding:7px 8px;
+    font:400 12px/1.3 var(--mono);outline:none}
+  .forge input:focus,.forge textarea:focus,.forge select:focus{border-color:var(--gold)}
+  .forge .wide{grid-column:1/-1}
+  .forge textarea{resize:vertical;min-height:52px;font-family:var(--serif);
+    font-size:13px;line-height:1.55}
+  .pw{display:flex;justify-content:space-between;align-items:baseline;
+    font:400 10px/1.5 var(--mono);color:var(--faint);margin:2px 0 8px}
+  .pw b{font-weight:400}
+  .pw .ok{color:var(--moss)} .pw .no{color:var(--rust)}
+  .mine{margin-top:9px;font:400 10px/1.7 var(--mono);color:var(--faint);
+    word-break:break-all;padding:8px 10px;background:#0b0f14;
+    border:1px solid var(--edge)}
+  .mine u{text-decoration:none;color:var(--gold);letter-spacing:.1em;
+    text-transform:uppercase;font-size:8px;margin-right:7px}
+  .sp.mine-sp{box-shadow:inset 0 0 0 1px var(--violet)}
+  .stances{display:grid;grid-template-columns:1fr 1fr;gap:1px;
+    background:var(--edge);border:1px solid var(--edge);margin-bottom:10px}
+  .st{background:#0e1319;padding:11px 12px;cursor:pointer}
+  .st:hover{background:#141b22}
+  .st.on{background:#1a222b;box-shadow:inset 0 0 0 1px currentColor}
+  .st b{display:block;font:500 15px/1.3 var(--serif);color:var(--ink)}
+  .st i{display:block;font:400 9px/1.5 var(--mono);color:var(--faint);
+    font-style:normal;margin-top:3px}
+  .st u{text-decoration:none;display:block;font:400 11px/1.5 var(--serif);
+    color:var(--dim);margin-top:6px}
+  .log{max-height:150px;overflow-y:auto;font:400 10.5px/1.7 var(--mono);
+    color:var(--faint);margin-top:10px}
+  .log div{padding:3px 0;border-bottom:1px dotted #1a222b}
+  .log b{color:var(--violet);font-weight:400}
+  .log s{text-decoration:none;color:var(--rust)}
+  footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 10.5px/1.85 var(--mono)}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>The warlock</h1><span>a siege that does not end</span></div>
+<p class="intro">The field is <b>Krak des Chevaliers</b> at its own dimensions &mdash; concentric, outer 200&times;140&thinsp;m, inner 140&times;100, the inner wall higher so taking the outer ring puts you in a corridor overlooked from both sides. The numbers on the board are the ones <a href="siege.html">siege.mjs</a> computed: towers 40&thinsp;m apart against a 100&thinsp;m bowshot, <b>8.3&thinsp;m of dead ground</b> at the foot where nothing can shoot down, and a 25.9&thinsp;m ladder to climb it.</p>
+<div class="rig">
+<div>
+  <div class="card"><h3>the field <span>twin towers, two leaves, and 8.3&thinsp;m nobody can reach</span></h3>
+    <div class="bar"><button class="go" id="run">begin the siege</button><button class="go" id="wave">send a wave</button><span class="hud" id="hud"></span></div>
+    <canvas id="field" width="920" height="600"></canvas>
+    <div class="note"><b>Red is dead ground.</b> Inside 8.3&thinsp;m of the wall nothing can shoot down &mdash; that is the geometry, not a rule somebody added. The Digger stands there on purpose. Only a Ward or a Bolt reaches inside it.</div>
+  </div>
+  <div class="card"><h3>the bestiary <span>every one of them uses the plan</span></h3>
+<div class="dex"><span class="g" style="color:#8a4a3a">▲</span><b>Crawler</b> <span style="font:400 9px/1 var(--mono);color:var(--faint)">hp 3 &middot; from wave 1</span><p>Walks to the gate and hits it.</p><p class="geo">Nothing special. It is the baseline the others are measured against.</p></div><div class="dex"><span class="g" style="color:#a8552f">◣</span><b>Digger</b> <span style="font:400 9px/1 var(--mono);color:var(--faint)">hp 5 &middot; from wave 2</span><p>Stops in the dead ground and works at the footing.</p><p class="geo">THE DEAD GROUND IS ITS WHOLE STRATEGY. Inside 8.3 m of the wall nothing can shoot down at it, so it is safe there and it knows. Only a Ward or a Bolt reaches it.</p></div><div class="dex"><span class="g" style="color:#b5673a">◥</span><b>Climber</b> <span style="font:400 9px/1 var(--mono);color:var(--faint)">hp 4 &middot; from wave 3</span><p>Carries a ladder and goes over rather than through.</p><p class="geo">The ladder is 25.9 m for a 25 m wall, so it is slow to raise and it can be levered off — but it ignores the gate entirely.</p></div><div class="dex"><span class="g" style="color:#6b3a5a">◆</span><b>Hollow</b> <span style="font:400 9px/1 var(--mono);color:var(--faint)">hp 9 &middot; from wave 5</span><p>Slow, heavy, and it does not path around towers.</p><p class="geo">It walks the shortest line, straight through covered ground, and takes every arrow on the way. It is a test of whether your spacing is real.</p></div><div class="dex"><span class="g" style="color:#8f5fb5">✦</span><b>Herald</b> <span style="font:400 9px/1 var(--mono);color:var(--faint)">hp 6 &middot; from wave 7</span><p>Carries a letter and makes for the gate without fighting.</p><p class="geo">IT DOES NOT ATTACK. If it reaches the gate the gate opens, because the garrison believes the letter. Krak fell to exactly this in 1271 and no wall on this board stops it.</p></div>  </div>
+</div>
+<aside>
+  <div class="card"><h3>the warlock <span>click a spell, then the field</span></h3>
+    <div class="spells" id="spells"></div>
+    <div class="log" id="log"></div>
+  </div>
+  <div class="card"><h3>the stance <span>from <a href="rites.html">the rites</a> — four mechanisms, three thousand years</span></h3>
+    <div class="stances" id="stances"></div>
+    <div class="note" id="stnote"></div>
+  </div>
+  <div class="card"><h3>the forge <span>make one of your own</span></h3>
+    <div class="forge">      <div><label>name</label><input id="f-name" value="Sever"></div>      <div><label>glyph</label><input id="f-glyph" value="✡" maxlength="2"></div>      <div><label>mana</label><input id="f-cost" type="number" value="5" min="1" max="20"></div>      <div><label>cooldown, s</label><input id="f-cd" type="number" value="8" min="1" max="60"></div>      <div><label>effect</label><select id="f-eff">        <option value="strike">strike — damage in a radius</option>        <option value="ward">ward — a tower reaches its dead ground</option>        <option value="summon">summon — bind a demon to a tower</option>        <option value="hold">hold — stop what is moving</option>      </select></div>      <div><label>magnitude</label><input id="f-mag" type="number" value="3" min="1" max="12"></div>      <div class="wide"><label>reaches into the dead ground?</label>        <select id="f-dead"><option value="0">no</option>        <option value="1">yes — and it costs</option></select></div>      <div class="wide"><label>what it costs you — stated plainly</label>        <textarea id="f-costs">Cuts one thread. The others tighten, because nothing was removed from the weave and something was removed from the slack.</textarea></div>    </div>
+    <div class="pw" id="pw"></div>
+    <div class="bar"><button class="go" id="forge">forge it</button>      <button class="go" id="send">send it to the layer</button></div>
+    <div id="mine"></div>
+    <div class="note"><b>A spell with no stated cost is a button.</b> The generator refuses one at build time and the forge refuses it here, at the same threshold — so anything you forge would also survive <code>node warlock.mjs</code>.</div>
+    <div class="note"><b>And power must be paid for.</b> The forge scores what the spell actually does and refuses any mana cost below it. You can build something enormous. You cannot build something enormous and cheap.</div>
+  </div>
+  <div class="card"><h3>the one rule</h3>
+    <div class="note key">You summon demons to hold a wall <b>against demons</b>, so a summon is the same kind of thing as the thing outside. <b>Fifteen per cent turn.</b> Not on a timer and not when you are ready &mdash; on the roll. A turned summon keeps its tower and stops being yours, and you are then holding a defended position against yourself.</div>
+    <div class="note">Unmake is the only spell that undoes one. It costs 9 of a pool that refills slowly and it takes exactly one thing, so a turn is survivable rather than summoning being safe.</div>
+  </div>
+  <div class="card"><h3>the Herald <span>the only one taken from the record</span></h3>
+    <div class="note warn">It does not fight. It walks to the gate carrying a letter, and if it arrives <b>the gate opens</b>, because the garrison believes it. No wall on this board stops it and none of the arithmetic applies.<br><br>Krak des Chevaliers fell in 1271 to exactly that &mdash; a forged order to surrender, delivered to a garrison that believed it. The best numbers on <a href="siege.html">the siege board</a> were beaten by a document.</div>
+  </div>
+</aside>
+</div>
+<footer>
+Built by <a href="warlock.mjs">warlock.mjs</a> from 6 spells, 5 demons, and Krak des Chevaliers out of templates-castle. Geometry from <a href="siege.html">siege.mjs</a>; the contract is <a href="api/warlock.json">api/warlock.json</a>. Refuses a spell with no stated cost (a spell with no downside is a button) and a demon with no geometry (a demon that does not use the plan is a sprite).<br>
+<a href="siege.html">the siege</a> &middot; <a href="castle.html">the castle</a> &middot; <a href="arcade.html">the arcade</a> &middot; <a href="dev.html">the hub</a>
+</footer>
+</main>
+<script>
+const F = {"outerW":200,"outerD":140,"innerW":140,"innerD":100,"outerWall":9,"innerWall":25,"bowshot":100,"dead":8.3,"ladder":25.9,"towers":17,"spacing":40,"spells":[{"id":"ward","order":1,"name":"Ward","glyph":"◈","cost":3,"cooldown":6,"kind":"defence","colour":"#6f9fb5","does":"Raises the parapet on one tower for a time, cutting the dead ground beneath it to nothing.","costs":"It is one tower. The other sixteen still have 8.3 m at their feet, and the thing you fear knows which one you warded."},{"id":"bolt","order":2,"name":"Bolt","glyph":"⟊","cost":2,"cooldown":2,"kind":"attack","colour":"#c9a227","does":"A single shot that ignores range and lands anywhere on the field, including the dead ground.","costs":"Cheap, fast, and it kills one. Waves do not come in ones."},{"id":"summon","order":3,"name":"Summon","glyph":"☾","cost":5,"cooldown":8,"kind":"summon","colour":"#8f5fb5","turns":0.15,"does":"Binds a demon to a tower. It fights what comes and it fights well, because it is the same kind of thing.","costs":"FIFTEEN PER CENT OF SUMMONS TURN. Not on a timer and not when you are ready — on the roll. A turned summon keeps the tower and stops being yours, and you now have a defended position held against you."},{"id":"bind","order":4,"name":"Bind","glyph":"⛓","cost":4,"cooldown":10,"kind":"control","colour":"#7d9d6a","does":"Holds a turned summon in place. It cannot advance and it cannot be reasoned with, but it stops.","costs":"It does not unturn anything. You are paying to keep a problem stationary, which is the honest description of most control."},{"id":"gate","order":5,"name":"Shut the gate","glyph":"◫","cost":6,"cooldown":14,"kind":"defence","colour":"#c4674f","does":"Swings both leaves of the egg gate closed. Nothing crosses while it holds.","costs":"Nothing crosses OUTWARD either. Every summon beyond the wall is on its own, and a shut gate is the wall admitting the field is lost."},{"id":"unmake","order":6,"name":"Unmake","glyph":"✖","cost":9,"cooldown":20,"kind":"attack","colour":"#a83232","does":"Removes one thing from the field completely, turned summons included. The only spell that undoes a summon.","costs":"Nine of a pool that refills slowly, and it takes ONE. It exists so that a turn is survivable, not so that summoning is safe."}],"demons":[{"id":"crawler","order":1,"name":"Crawler","glyph":"▲","hp":3,"speed":1,"colour":"#8a4a3a","wave":1,"trait":"Walks to the gate and hits it.","geometry":"Nothing special. It is the baseline the others are measured against."},{"id":"digger","order":2,"name":"Digger","glyph":"◣","hp":5,"speed":0.6,"colour":"#a8552f","wave":2,"trait":"Stops in the dead ground and works at the footing.","geometry":"THE DEAD GROUND IS ITS WHOLE STRATEGY. Inside 8.3 m of the wall nothing can shoot down at it, so it is safe there and it knows. Only a Ward or a Bolt reaches it."},{"id":"climber","order":3,"name":"Climber","glyph":"◥","hp":4,"speed":1.3,"colour":"#b5673a","wave":3,"trait":"Carries a ladder and goes over rather than through.","geometry":"The ladder is 25.9 m for a 25 m wall, so it is slow to raise and it can be levered off — but it ignores the gate entirely."},{"id":"hollow","order":4,"name":"Hollow","glyph":"◆","hp":9,"speed":0.5,"colour":"#6b3a5a","wave":5,"trait":"Slow, heavy, and it does not path around towers.","geometry":"It walks the shortest line, straight through covered ground, and takes every arrow on the way. It is a test of whether your spacing is real."},{"id":"herald","order":5,"name":"Herald","glyph":"✦","hp":6,"speed":0.9,"colour":"#8f5fb5","wave":7,"trait":"Carries a letter and makes for the gate without fighting.","geometry":"IT DOES NOT ATTACK. If it reaches the gate the gate opens, because the garrison believes the letter. Krak fell to exactly this in 1271 and no wall on this board stops it."}]};
+
+const $ = (s) => document.querySelector(s);
+const cv = $('#field'), cx = cv.getContext('2d');
+const W = cv.width, H = cv.height;
+
+/* metres -> pixels. The plan is drawn at its real proportions. */
+const SC = 2.6;
+const CXc = W / 2, CYc = H / 2 - 10;
+const ow = F.outerW * SC, od = F.outerD * SC;
+const iw = F.innerW * SC, ih = F.innerD * SC;
+const DEADPX = F.dead * SC, BOWPX = F.bowshot * SC;
+
+/* the gatehouse sits on the south face: two drum towers, two leaves between */
+const GATE = { x: CXc, y: CYc + od / 2, w: 30 * SC, tower: 9 * SC };
+
+let running = false, t = 0, wave = 0, mana = 12, kills = 0, breaches = 0;
+let sel = null, gateShut = false, gateOpen = false;
+const cool = {}, units = [], summons = [], notes = [];
+
+function say(m, bad) {
+  notes.unshift({ m, bad });
+  if (notes.length > 40) notes.pop();
+  $('#log').innerHTML = notes.map((n) => '<div>' + (n.bad
+    ? '<s>' + n.m + '</s>' : n.m) + '</div>').join('');
+}
+
+/* ── tower positions, evenly round the outer ring at the computed spacing ── */
+const towers = [];
+(function () {
+  const per = 2 * (ow + od), step = per / F.towers;
+  for (let d = 0; d < per; d += step) {
+    let x, y, k = d;
+    if (k < ow) { x = CXc - ow / 2 + k; y = CYc - od / 2; }
+    else if ((k -= ow) < od) { x = CXc + ow / 2; y = CYc - od / 2 + k; }
+    else if ((k -= od) < ow) { x = CXc + ow / 2 - k; y = CYc + od / 2; }
+    else { k -= ow; x = CXc - ow / 2; y = CYc + od / 2 - k; }
+    towers.push({ x, y, held: null });
+  }
+})();
+
+function ring(x, y, w, h, col, lw) {
+  cx.strokeStyle = col; cx.lineWidth = lw;
+  cx.strokeRect(x - w / 2, y - h / 2, w, h);
+}
+
+function draw() {
+  cx.clearRect(0, 0, W, H);
+
+  /* dead ground: the band hugging the outer wall that nothing can shoot into */
+  cx.fillStyle = 'rgba(196,103,79,.16)';
+  cx.fillRect(CXc - ow / 2 - DEADPX, CYc - od / 2 - DEADPX,
+    ow + DEADPX * 2, od + DEADPX * 2);
+  cx.clearRect(CXc - ow / 2, CYc - od / 2, ow, od);
+  cx.fillStyle = '#080a0d';
+  cx.fillRect(CXc - ow / 2, CYc - od / 2, ow, od);
+
+  /* bowshot arcs from each tower, faint */
+  cx.fillStyle = 'rgba(111,159,181,.045)';
+  for (const tw of towers) {
+    cx.beginPath(); cx.arc(tw.x, tw.y, BOWPX, 0, Math.PI * 2); cx.fill();
+  }
+
+  ring(CXc, CYc, ow, od, '#8d8577', 5);          /* outer curtain */
+  ring(CXc, CYc, iw, ih, '#a39a89', 6);          /* inner, higher */
+  cx.fillStyle = 'rgba(255,255,255,.03)';
+  cx.fillRect(CXc - iw / 2, CYc - ih / 2, iw, ih);
+
+  /* the towers */
+  for (const tw of towers) {
+    cx.beginPath(); cx.arc(tw.x, tw.y, 7, 0, Math.PI * 2);
+    cx.fillStyle = tw.held === 'turned' ? '#a83232'
+      : tw.held ? '#8f5fb5' : '#6f6a60';
+    cx.fill();
+    cx.strokeStyle = '#0a0c10'; cx.lineWidth = 2; cx.stroke();
+  }
+
+  /* ── the gatehouse: twin drum towers, two conjoined leaves ── */
+  const g = GATE;
+  /* the opening */
+  cx.fillStyle = '#080a0d';
+  cx.fillRect(g.x - g.w / 2, g.y - 7, g.w, 14);
+  /* the two leaves, seen from above: they swing on the jambs */
+  const swing = gateShut ? 0 : (gateOpen ? 1 : 0.55);
+  for (const side of [-1, 1]) {
+    cx.save();
+    cx.translate(g.x + side * g.w / 2, g.y);
+    cx.rotate(side * swing * 1.15);
+    cx.fillStyle = gateShut ? '#6b4a2f' : '#4a3722';
+    cx.fillRect(-side * g.w * 0.5, -4, g.w * 0.5, 8);
+    cx.strokeStyle = '#c9a227'; cx.lineWidth = 1.4;
+    cx.strokeRect(Math.min(0, -side * g.w * 0.5), -4, g.w * 0.5, 8);
+    cx.restore();
+  }
+
+  /* the twin drum towers that hold it */
+  for (const side of [-1, 1]) {
+    cx.beginPath();
+    cx.arc(g.x + side * (g.w / 2 + g.tower * 0.55), g.y, g.tower, 0, Math.PI * 2);
+    cx.fillStyle = '#9a9184'; cx.fill();
+    cx.strokeStyle = '#2a2721'; cx.lineWidth = 2.5; cx.stroke();
+    cx.beginPath();
+    cx.arc(g.x + side * (g.w / 2 + g.tower * 0.55), g.y, g.tower * 0.45, 0, Math.PI * 2);
+    cx.fillStyle = '#6f6a60'; cx.fill();
+  }
+
+  /* summons */
+  for (const s of summons) {
+    cx.beginPath(); cx.arc(s.x, s.y, 5, 0, Math.PI * 2);
+    cx.fillStyle = s.turned ? '#a83232' : '#8f5fb5'; cx.fill();
+  }
+
+  /* the demons */
+  for (const u of units) {
+    const d = F.demons.find((x) => x.id === u.id);
+    cx.fillStyle = d.colour;
+    cx.font = '15px serif';
+    cx.textAlign = 'center'; cx.textBaseline = 'middle';
+    cx.fillText(d.glyph, u.x, u.y);
+    if (u.hp < d.hp) {
+      cx.fillStyle = 'rgba(196,103,79,.85)';
+      cx.fillRect(u.x - 8, u.y + 10, 16 * (u.hp / d.hp), 2);
+    }
+  }
+
+  /* ── the gate in ELEVATION, because a plan cannot show an arch ──
+     Two leaves, a lintel across, and a relieving arch springing wider than
+     the opening so the wall's load goes around the lintel and not through
+     it. The gap between them is the tympanum. */
+  (function () {
+    const bx = 26, by = H - 176, bw = 210, bh = 150;
+    cx.fillStyle = 'rgba(8,10,13,.92)';
+    cx.fillRect(bx - 10, by - 12, bw + 20, bh + 26);
+    cx.strokeStyle = '#2c3744'; cx.lineWidth = 1;
+    cx.strokeRect(bx - 10, by - 12, bw + 20, bh + 26);
+
+    const cxm = bx + bw / 2, base = by + bh, ow2 = 66, top = by + 46;
+
+    /* the wall face */
+    cx.fillStyle = '#1a1814';
+    cx.fillRect(bx, by, bw, bh);
+
+    /* the relieving arch — springs WIDER than the opening, which is the point */
+    cx.beginPath();
+    cx.moveTo(cxm - ow2 - 22, top + 14);
+    cx.bezierCurveTo(cxm - ow2 - 10, by + 6, cxm + ow2 + 10, by + 6,
+                     cxm + ow2 + 22, top + 14);
+    cx.lineWidth = 4; cx.strokeStyle = '#9a9184'; cx.stroke();
+
+    /* the tympanum: the space it leaves above the lintel */
+    cx.fillStyle = 'rgba(154,145,132,.14)';
+    cx.beginPath();
+    cx.moveTo(cxm - ow2 - 20, top + 12);
+    cx.bezierCurveTo(cxm - ow2 - 8, by + 10, cxm + ow2 + 8, by + 10,
+                     cxm + ow2 + 20, top + 12);
+    cx.lineTo(cxm + ow2 + 20, top + 12);
+    cx.lineTo(cxm - ow2 - 20, top + 12);
+    cx.closePath(); cx.fill();
+
+    /* the lintel, straight across */
+    cx.fillStyle = '#8d8577';
+    cx.fillRect(cxm - ow2 - 20, top + 8, (ow2 + 20) * 2, 11);
+    cx.strokeStyle = '#5c564c'; cx.lineWidth = 1; cx.strokeRect(cxm - ow2 - 20, top + 8, (ow2 + 20) * 2, 11);
+
+    /* the jambs */
+    cx.fillStyle = '#7a7268';
+    cx.fillRect(cxm - ow2 - 14, top + 19, 14, base - top - 19);
+    cx.fillRect(cxm + ow2, top + 19, 14, base - top - 19);
+
+    /* the two leaves */
+    for (const side of [-1, 1]) {
+      cx.fillStyle = gateShut ? '#6b4a2f' : '#3d2d1c';
+      cx.fillRect(side < 0 ? cxm - ow2 : cxm, top + 19, ow2, base - top - 19);
+      cx.strokeStyle = '#c9a227'; cx.lineWidth = 1.2;
+      cx.strokeRect(side < 0 ? cxm - ow2 : cxm, top + 19, ow2, base - top - 19);
+      /* the ring pull */
+      cx.beginPath();
+      cx.arc(cxm + side * ow2 * 0.42, top + 74, 5.5, 0, Math.PI * 2);
+      cx.lineWidth = 2; cx.strokeStyle = '#c9a227'; cx.stroke();
+    }
+    /* the meeting stile, where the leaves close on each other */
+    cx.strokeStyle = '#c9a227'; cx.lineWidth = 2;
+    cx.beginPath(); cx.moveTo(cxm, top + 19); cx.lineTo(cxm, base); cx.stroke();
+
+    /* the plinth blocks at the foot of each jamb */
+    cx.fillStyle = '#9a9184';
+    cx.fillRect(cxm - ow2 - 24, base - 22, 26, 22);
+    cx.fillRect(cxm + ow2 - 2, base - 22, 26, 22);
+
+    cx.fillStyle = 'var';
+    cx.fillStyle = '#c9a227';
+    cx.font = '9px ui-monospace,monospace'; cx.textAlign = 'left';
+    cx.fillText('RELIEVING ARCH', bx + 4, by + 12);
+    cx.fillStyle = '#59626d';
+    cx.fillText('tympanum', cxm - 24, top + 2);
+    cx.fillText('lintel', bx + 4, top + 17);
+    cx.fillText('meeting stile', cxm + 6, base - 6);
+    cx.textAlign = 'left';
+    cx.fillText('the gate, in elevation', bx - 8, by + bh + 22);
+  })();
+
+  /* the label on the dead ground */
+  cx.fillStyle = 'rgba(196,103,79,.7)';
+  cx.font = '10px ui-monospace,monospace'; cx.textAlign = 'left';
+  cx.fillText(F.dead + ' m dead ground — nothing shoots into this',
+    CXc - ow / 2 - DEADPX + 4, CYc - od / 2 - DEADPX - 6);
+}
+
+function spawn() {
+  wave++;
+  const pool = F.demons.filter((d) => d.wave <= wave);
+  const n = 3 + Math.floor(wave * 1.4);
+  for (let i = 0; i < n; i++) {
+    const d = pool[Math.floor(Math.random() * pool.length)];
+    const a = Math.random() * Math.PI * 2;
+    units.push({ id: d.id, hp: d.hp,
+      x: CXc + Math.cos(a) * (ow * 0.9), y: CYc + Math.sin(a) * (od * 0.95),
+      dug: 0 });
+  }
+  say('wave <b>' + wave + '</b> — ' + n + ' of them');
+}
+
+function step() {
+  t++;
+  if (t % 20 === 0) mana = Math.min(20, mana + 1);
+  if (t % 260 === 0) spawn();
+
+  /* the stance, applied before anything moves */
+  if (stance === 'noise') {
+    if (t % 20 === 0) mana = Math.max(0, mana - 1);
+    for (const u of units) {
+      const dx = u.x - CXc, dy = u.y - CYc;
+      const d2 = Math.hypot(dx, dy) || 1;
+      u.x += dx / d2 * 0.5; u.y += dy / d2 * 0.5;   /* pushed off the wall */
+      if (t % 40 === 0) u.hp -= 1;                  /* and it reaches the dead ground */
+    }
+  } else if (stance === 'procession') {
+    if (t % 90 === 0 && breaches > 0) breaches--;
+  } else if (stance === 'prohibition') {
+    if (t % 12 === 0) for (const u of units) u.hp -= 1;   /* by far the strongest */
+    if (t % 20 === 0) mana = Math.max(0, mana - 1);
+  }
+
+  for (const u of units) {
+    const d = F.demons.find((x) => x.id === u.id);
+    /* disguise: they lose the gate and wander — except the Herald, which is
+       carrying a letter and does not need to see anything */
+    if (stance === 'disguise' && u.id !== 'herald' && (t + u.hp * 7) % 90 < 45) {
+      u.x += Math.sin((t + u.hp) * 0.05) * 0.7;
+      u.y += Math.cos((t + u.hp) * 0.05) * 0.7;
+      continue;
+    }
+    const dx = GATE.x - u.x, dy = GATE.y - u.y;
+    const dist = Math.hypot(dx, dy);
+    /* the Digger stops in the dead ground, because it is safe there */
+    const inDead = Math.abs(u.x - CXc) < ow / 2 + DEADPX &&
+                   Math.abs(u.y - CYc) < od / 2 + DEADPX &&
+                   !(Math.abs(u.x - CXc) < ow / 2 && Math.abs(u.y - CYc) < od / 2);
+    if (u.id === 'digger' && inDead) { u.dug++; continue; }
+    if (dist > 8) { u.x += dx / dist * d.speed * 0.9; u.y += dy / dist * d.speed * 0.9; }
+    else if (u.id === 'herald' && !gateShut) {
+      gateOpen = true; breaches++;
+      say('a <b>Herald</b> reached the gate. It carried a letter and the gate opened.', 1);
+      u.hp = 0;
+    } else if (!gateShut) { breaches++; u.hp = 0; }
+  }
+
+  /* towers shoot — but never into the dead ground, which is the whole point */
+  if (t % 14 === 0) {
+    for (const tw of towers) {
+      if (tw.held === 'turned') continue;
+      const reach = tw.held ? BOWPX * 1.15 : BOWPX;
+      const target = units.find((u) => {
+        const inDead = Math.abs(u.x - CXc) < ow / 2 + DEADPX &&
+                       Math.abs(u.y - CYc) < od / 2 + DEADPX &&
+                       !(Math.abs(u.x - CXc) < ow / 2 && Math.abs(u.y - CYc) < od / 2);
+        if (inDead && !tw.warded) return false;
+        return Math.hypot(u.x - tw.x, u.y - tw.y) < reach && u.hp > 0;
+      });
+      if (target) target.hp -= 1;
+    }
+  }
+
+  /* a summon may turn, on the roll and not on a clock */
+  for (const s of summons) {
+    if (!s.turned && Math.random() < 0.0006) {
+      s.turned = true;
+      const tw = towers[s.tower];
+      if (tw) tw.held = 'turned';
+      say('a <b>summon turned</b> and kept its tower.', 1);
+    }
+  }
+
+  for (let i = units.length - 1; i >= 0; i--)
+    if (units[i].hp <= 0) { units.splice(i, 1); kills++; }
+
+  for (const k of Object.keys(cool)) if (cool[k] > 0) cool[k]--;
+  gateOpen = false;
+  hud(); paint(); draw();
+}
+
+function hud() {
+  $('#hud').innerHTML = 'wave <b>' + wave + '</b> &middot; mana <b>' + mana +
+    '</b> &middot; on the field <b>' + units.length + '</b> &middot; put down <b>' +
+    kills + '</b> &middot; got through <b>' + breaches + '</b>' +
+    (gateShut ? ' &middot; <b style="color:var(--rust)">gate shut</b>' : '');
+}
+
+function paint() {
+  $('#spells').innerHTML = F.spells.map((s) => {
+    const c = cool[s.id] || 0;
+    const off = c > 0 || mana < s.cost;
+    return '<div class="sp' + (sel === s.id ? ' sel' : '') + (off ? ' cold' : '') +
+      (s.mine ? ' mine-sp' : '') +
+      '" data-s="' + s.id + '">' +
+      '<span class="g" style="color:' + s.colour + '">' + s.glyph + '</span>' +
+      '<b>' + s.name + '</b><i>' + s.cost + ' mana &middot; ' + s.cooldown + 's</i>' +
+      (c > 0 ? '<div class="cd" style="width:' + (c / (s.cooldown * 10) * 100) +
+        '%"></div>' : '') + '</div>';
+  }).join('');
+}
+
+$('#spells').onclick = (e) => {
+  const el = e.target.closest('.sp'); if (!el) return;
+  const s = F.spells.find((x) => x.id === el.dataset.s);
+  if ((cool[s.id] || 0) > 0 || mana < s.cost) return;
+  sel = sel === s.id ? null : s.id;
+  paint();
+};
+
+cv.onclick = (e) => {
+  if (!sel) return;
+  const s = F.spells.find((x) => x.id === sel);
+  const r = cv.getBoundingClientRect();
+  const x = (e.clientX - r.left) * (W / r.width);
+  const y = (e.clientY - r.top) * (H / r.height);
+  mana -= s.cost; cool[s.id] = s.cooldown * 10;
+
+  if (s.id === 'bolt') {
+    const u = units.reduce((b, u2) => {
+      const d = Math.hypot(u2.x - x, u2.y - y);
+      return d < 34 && (!b || d < b.d) ? { u: u2, d } : b; }, null);
+    if (u) { u.u.hp = 0; say('Bolt — one down, anywhere on the field.'); }
+    else say('Bolt into empty ground.');
+  } else if (s.id === 'summon') {
+    let best = 0, bd = 1e9;
+    towers.forEach((tw, i) => { const d = Math.hypot(tw.x - x, tw.y - y);
+      if (d < bd) { bd = d; best = i; } });
+    towers[best].held = 'summon';
+    summons.push({ x: towers[best].x, y: towers[best].y, tower: best, turned: false });
+    say('Summon bound to a tower. <b>It is the same kind of thing.</b>');
+  } else if (s.id === 'ward') {
+    let best = 0, bd = 1e9;
+    towers.forEach((tw, i) => { const d = Math.hypot(tw.x - x, tw.y - y);
+      if (d < bd) { bd = d; best = i; } });
+    towers[best].warded = true;
+    say('Ward — that tower now reaches into its own dead ground.');
+  } else if (s.id === 'gate') {
+    gateShut = !gateShut;
+    say(gateShut ? 'Both leaves shut. <b>Nothing crosses outward either.</b>'
+      : 'The gate is open again.');
+  } else if (s.id === 'bind') {
+    const s2 = summons.find((z) => z.turned);
+    if (s2) { s2.bound = true; say('Bound. It has stopped. It has not come back.'); }
+    else say('Nothing to bind.');
+  } else if (s.mine) {
+    /* a forged spell runs on the primitives, at the magnitude it paid for */
+    const hits = units.filter((u) => Math.hypot(u.x - x, u.y - y) < 20 + s.mag * 7);
+    if (s.eff === 'strike') {
+      let n = 0;
+      for (const u of hits) {
+        const inDead = Math.abs(u.x - CXc) < ow / 2 + DEADPX &&
+                       Math.abs(u.y - CYc) < od / 2 + DEADPX &&
+                       !(Math.abs(u.x - CXc) < ow / 2 && Math.abs(u.y - CYc) < od / 2);
+        if (inDead && !s.dead) continue;
+        u.hp -= s.mag; n++;
+      }
+      say('<b>' + s.name + '</b> — ' + n + ' struck' +
+        (s.dead ? ', dead ground included' : ''));
+    } else if (s.eff === 'ward') {
+      let best = 0, bd = 1e9;
+      towers.forEach((tw, i) => { const d = Math.hypot(tw.x - x, tw.y - y);
+        if (d < bd) { bd = d; best = i; } });
+      towers[best].warded = true;
+      say('<b>' + s.name + '</b> — that tower reaches its own dead ground.');
+    } else if (s.eff === 'summon') {
+      let best = 0, bd = 1e9;
+      towers.forEach((tw, i) => { const d = Math.hypot(tw.x - x, tw.y - y);
+        if (d < bd) { bd = d; best = i; } });
+      towers[best].held = 'summon';
+      summons.push({ x: towers[best].x, y: towers[best].y, tower: best, turned: false });
+      say('<b>' + s.name + '</b> — bound. It is the same kind of thing.');
+    } else {
+      hits.forEach((u) => { u.held = true; });
+      say('<b>' + s.name + '</b> — ' + hits.length + ' held.');
+    }
+  } else if (s.id === 'unmake') {
+    const s2 = summons.find((z) => z.turned);
+    if (s2) { const tw = towers[s2.tower]; if (tw) tw.held = null;
+      summons.splice(summons.indexOf(s2), 1);
+      say('Unmade. The tower is yours again.'); }
+    else { const u = units[0]; if (u) { u.hp = 0; say('Unmade one of them.'); } }
+  }
+  sel = null; hud(); paint(); draw();
+};
+
+/* ══ the stances ═══════════════════════════════════════════════════════════
+   Lifted from templates-rite and made operable. The rites board found that
+   the mechanism changes shape over three thousand years and does not get more
+   effective — it gets more specific about who to blame. That is the mechanic,
+   and prohibition is in here because leaving it out would be the dishonest
+   version: it IS the strongest move, and what it works on is your own. */
+const STANCES = [
+  { id: 'none', name: 'No stance', era: '—', cost: 0,
+    says: 'The wall does its own arithmetic and nothing else is spent.' },
+  { id: 'disguise', name: 'Disguise', era: 'Samhain, Iron Age', cost: 0,
+    says: 'Be unreadable to it. Demons lose the gate and wander. The oldest ' +
+          'mechanism here and it costs nothing — and it does nothing at all to ' +
+          'the Herald, because a letter does not need to see you.' },
+  { id: 'noise', name: 'Noise', era: 'the Perchten, and bells against storms', cost: 1,
+    says: 'Bells and volume. Pushes everything back off the wall and reaches ' +
+          'into the dead ground, which nothing else does. It drains while you ' +
+          'hold it — the ringers paid for this one too.' },
+  { id: 'procession', name: 'Procession', era: 'Rogationtide', cost: 0,
+    says: 'Walk the bounds and bless the crop. Repairs the gate slowly and ' +
+          'does nothing whatever to what is already inside the wall.' },
+  { id: 'prohibition', name: 'Prohibition', era: 'the Little Ice Age, 1580–1630',
+    cost: 4, danger: true,
+    says: 'Name a culprit. It is the strongest move on this board by a wide ' +
+          'margin — and every use takes one of YOUR OWN summons off it. That ' +
+          'is not a random casualty. That is the mechanic: naming works, and ' +
+          'what it works on is your own people.' }
+];
+let stance = 'none';
+
+function stancePaint() {
+  $('#stances').innerHTML = STANCES.map((x) =>
+    '<div class="st' + (stance === x.id ? ' on' : '') + '" data-x="' + x.id +
+    '" style="color:' + (x.danger ? 'var(--rust)' : 'var(--cool)') + '">' +
+    '<b>' + x.name + '</b><i>' + x.era + (x.cost ? ' · ' + x.cost + ' mana/tick' : '') +
+    '</i></div>').join('');
+  const cur = STANCES.find((x) => x.id === stance);
+  $('#stnote').innerHTML = '<b>' + cur.name + '.</b> ' + cur.says;
+}
+$('#stances').onclick = (e) => {
+  const el = e.target.closest('.st'); if (!el) return;
+  stance = el.dataset.x;
+  const cur = STANCES.find((x) => x.id === stance);
+  if (stance === 'prohibition') {
+    const s2 = summons.filter((z) => !z.gone);
+    if (s2.length) {
+      const victim = s2[0];
+      victim.gone = true;
+      const tw = towers[victim.tower]; if (tw) tw.held = null;
+      summons.splice(summons.indexOf(victim), 1);
+      say('<b>Prohibition.</b> A name was given. <s>One of your own is off the ' +
+        'board.</s>', 1);
+    } else {
+      say('<b>Prohibition</b> with nobody of your own left to name. It still ' +
+        'works on the field, and there is nothing further to spend.', 1);
+    }
+  } else if (stance !== 'none') {
+    say('<b>' + cur.name + '.</b> ' + cur.era);
+  }
+  stancePaint(); draw();
+};
+
+/* ══ the forge ═══════════════════════════════════════════════════════════
+   Power is scored from what the spell does, and the mana cost must cover it.
+   Reaching into the dead ground is the expensive option on purpose: the dead
+   ground is the one place the geometry says nothing can shoot, so a spell
+   that ignores it is buying its way past the plan. */
+const g_ = (id) => document.getElementById(id);
+function powerOf() {
+  const eff = g_('f-eff').value, mag = +g_('f-mag').value || 1;
+  const dead = +g_('f-dead').value;
+  let p = 0;
+  if (eff === 'strike') p = mag * 1.4;
+  else if (eff === 'ward') p = 3 + mag * 0.5;
+  else if (eff === 'summon') p = 5 + mag * 0.8;
+  else p = 2 + mag * 0.7;
+  if (dead) p += 3;                 /* the geometry is not free to ignore */
+  return Math.ceil(p);
+}
+function gauge() {
+  const need = powerOf(), have = +g_('f-cost').value || 0;
+  const words = (g_('f-costs').value || '').trim().length;
+  const ok = have >= need && words >= 30;
+  g_('pw').innerHTML = '<span>power <b>' + need + '</b> &middot; you are paying <b>' +
+    have + '</b></span><span class="' + (ok ? 'ok' : 'no') + '">' +
+    (have < need ? 'costs too little by ' + (need - have)
+      : words < 30 ? 'the stated cost is ' + words + ' characters — say what it takes'
+      : 'it will forge') + '</span>';
+  return ok;
+}
+['f-eff','f-mag','f-cost','f-dead','f-costs'].forEach((id) => {
+  const el = g_(id); if (el) { el.oninput = gauge; el.onchange = gauge; }
+});
+
+const b64u = (b) => btoa(String.fromCharCode(...new Uint8Array(b)))
+  .replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+let myKey = null, forged = JSON.parse(localStorage.getItem('warlock.forged') || '[]');
+
+function addForged(sp) {
+  F.spells.push(sp);
+  paint();
+}
+forged.forEach(addForged);
+
+g_('forge').onclick = async () => {
+  if (!gauge()) { say('the forge refused it.', 1); return; }
+  const id = 'own-' + (g_('f-name').value || 'spell').toLowerCase()
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  if (F.spells.some((x) => x.id === id)) { say('you already have one by that name.', 1); return; }
+  const sp = { id, order: 90 + forged.length, name: g_('f-name').value || 'Spell',
+    glyph: g_('f-glyph').value || '✷', cost: +g_('f-cost').value,
+    cooldown: +g_('f-cd').value, kind: g_('f-eff').value, colour: '#8f5fb5',
+    eff: g_('f-eff').value, mag: +g_('f-mag').value,
+    dead: !!+g_('f-dead').value, power: powerOf(),
+    does: 'Forged at the keyboard.', costs: g_('f-costs').value.trim(), mine: true };
+  try {
+    if (!myKey) {
+      const kp = await crypto.subtle.generateKey(
+        { name:'ECDSA', namedCurve:'P-256' }, false, ['sign','verify']);
+      const raw = await crypto.subtle.exportKey('spki', kp.publicKey);
+      myKey = { kp, fp: b64u(await crypto.subtle.digest('SHA-256', raw)).slice(0,16) };
+    }
+    const body = new TextEncoder().encode(JSON.stringify(sp));
+    sp.seal = b64u(await crypto.subtle.sign({ name:'ECDSA', hash:'SHA-256' },
+      myKey.kp.privateKey, body));
+    sp.by = myKey.fp;
+  } catch (e) { say('could not seal it: ' + e.message, 1); }
+  forged.push(sp);
+  localStorage.setItem('warlock.forged', JSON.stringify(forged));
+  addForged(sp);
+  g_('mine').innerHTML = '<div class="mine"><u>forged</u>' + sp.name +
+    '<br><u>power</u>' + sp.power + ' &middot; paid ' + sp.cost +
+    '<br><u>by</u>' + (sp.by || '—') +
+    '<br><u>seal</u><span style="color:var(--gold)">' +
+    (sp.seal || '').slice(0, 64) + '…</span></div>';
+  say('<b>' + sp.name + '</b> forged, sealed, and it is yours.');
+};
+
+g_('send').onclick = async () => {
+  const sp = forged[forged.length - 1];
+  if (!sp) { say('forge one first.', 1); return; }
+  try {
+    const r = await fetch('/api/save', { method:'POST',
+      headers:{'content-type':'application/json'},
+      body: JSON.stringify({ path: 'templates-spell/' + sp.id + '.json',
+        body: JSON.stringify(sp, null, 1) + String.fromCharCode(10) }) })
+      .then((x) => x.json());
+    say(r.ok ? 'written to templates-spell/' + sp.id + '.json — it is in the layer now.'
+      : 'the server refused it.', !r.ok);
+  } catch (e) {
+    say('no app server on this origin, so it stayed in this browser only.', 1);
+  }
+};
+
+$('#run').onclick = () => {
+  running = !running;
+  $('#run').textContent = running ? 'the siege is running' : 'begin the siege';
+  $('#run').classList.toggle('on', running);
+  if (running) loop();
+};
+$('#wave').onclick = () => { spawn(); draw(); hud(); };
+
+function loop() { if (!running) return; step(); requestAnimationFrame(loop); }
+
+say('The field is Krak des Chevaliers, at its own dimensions.');
+say('It does not end. The count only goes up.');
+hud(); paint(); draw(); gauge(); stancePaint();
+</script>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

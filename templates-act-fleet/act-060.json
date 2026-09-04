@@ -1,0 +1,18 @@
+{
+ "id": "act-060",
+ "bench": "fleet",
+ "order": 60,
+ "year": 6,
+ "day": 2146,
+ "parties": [
+  "menelaus",
+  "neoptolemus"
+ ],
+ "actor": "Menelaus",
+ "with": "Neoptolemus",
+ "verb": "dragged",
+ "object": "a body three times round the wall",
+ "place": "in Agamemnon's hut",
+ "side": "fleet",
+ "text": "Menelaus and Neoptolemus dragged a body three times round the wall, in Agamemnon's hut, in the sixth year."
+}

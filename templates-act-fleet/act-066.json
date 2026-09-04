@@ -1,0 +1,18 @@
+{
+ "id": "act-066",
+ "bench": "fleet",
+ "order": 66,
+ "year": 7,
+ "day": 2341,
+ "parties": [
+  "priam",
+  "agamemnon"
+ ],
+ "actor": "Priam",
+ "with": "Agamemnon",
+ "verb": "gave back",
+ "object": "a body for its weight in gold",
+ "place": "at Aulis",
+ "side": "troy",
+ "text": "Priam and Agamemnon gave back a body for its weight in gold, at Aulis, in the seventh year."
+}

@@ -1,0 +1,31 @@
+{
+ "id": "p-32",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Irmen Tarnor",
+ "syndicate": "syn-11",
+ "tranche": 11,
+ "doors": [
+  96,
+  104
+ ],
+ "house": "the counted step",
+ "sigil": {
+  "ring": 2,
+  "bars": 2,
+  "chord": 0,
+  "turn": 64
+ },
+ "keeps": "the arithmetic nobody else wants to do",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Major Thomas Weir",
+ "readsId": "weir",
+ "reason": "He confessed unprompted to crimes nobody had accused him of.",
+ "spell": "Summon",
+ "spellId": "summon",
+ "glyph": "☾",
+ "share": "21cd10",
+ "text": "Irmen tarnor of the counted step, keeps the book for the 11th tranche, doors 96 to 104. Keeps the arithmetic nobody else wants to do. Reads Major Thomas Weir.",
+ "wovenBy": "weir"
+}

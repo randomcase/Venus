@@ -1,0 +1,22 @@
+{
+ "id": "syn-17",
+ "kind": "syndicate",
+ "tranche": 17,
+ "holds": 1000000,
+ "doors": [
+  153,
+  161
+ ],
+ "doorCount": 9,
+ "custodians": [
+  "p-49",
+  "p-50",
+  "p-51"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 17th syndicate",
+ "seat": "the borrowed hour",
+ "text": "Holds one tranche of a million against doors 153 to 161. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

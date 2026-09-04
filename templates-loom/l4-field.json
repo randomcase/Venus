@@ -1,0 +1,34 @@
+{
+ "id": "l4-field",
+ "depth": 4,
+ "wovenBy": "loom.mjs",
+ "kind": "field",
+ "name": "The field loom",
+ "slots": {
+  "soil": [
+   "loam",
+   "clay",
+   "chalk",
+   "peat",
+   "sand",
+   "silt"
+  ],
+  "lie": [
+   "flat",
+   "south-facing",
+   "terraced",
+   "riverside",
+   "high",
+   "walled"
+  ],
+  "size": [
+   1,
+   2,
+   3,
+   5,
+   8
+  ]
+ },
+ "gives": "ground for a crop; yield × soil × lie",
+ "weaves": 3
+}

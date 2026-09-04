@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The steading &middot; six clans, one castle, nothing pressed</title>
+<!-- No off-origin requests. Clans from templates-clan, plan from templates-castle. -->
+<style>
+  :root{
+    --night:#0a0d10; --hall:#121820; --edge:#1e2831; --edge2:#2b3947;
+    --ink:#e2ddd0; --dim:#8b8778; --faint:#5c5850;
+    --stone:#c8bda6; --fire:#c8762b; --gold:#c9a227; --moss:#7d9d6a; --iron:#7d8b96;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--night);color:var(--ink);font:16px/1.68 var(--serif);
+    padding:30px 16px 70px}
+  main{max-width:1280px;margin:0 auto}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+  .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:3px}
+  h1{margin:0;font:500 36px/1.08 var(--serif)}
+  .top span{font:400 9px/1 var(--mono);letter-spacing:.28em;text-transform:uppercase;
+    color:var(--fire)}
+  .intro{margin:0 0 18px;max-width:84ch;color:var(--dim);font-size:15px}
+
+  .stock{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(110px,100%),1fr));
+    gap:1px;background:var(--edge);border:1px solid var(--edge);margin-bottom:14px}
+  .stock div{background:var(--hall);padding:11px 8px;text-align:center}
+  .stock u{display:block;text-decoration:none;font:400 19px/1 var(--mono);
+    font-variant-numeric:tabular-nums}
+  .stock b{display:block;font-weight:400;margin-top:5px;font:400 7.5px/1 var(--mono);
+    letter-spacing:.13em;text-transform:uppercase;color:var(--faint)}
+  .stock .stone u{color:var(--stone)} .stock .lime u{color:#d9d2bd}
+  .stock .timber u{color:var(--moss)} .stock .iron u{color:var(--iron)}
+  .stock .food u{color:var(--gold)}  .stock .record u{color:var(--faint)}
+
+  .rig{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px}
+  @media (max-width:1020px){ .rig{grid-template-columns:1fr} }
+  .stage{background:linear-gradient(180deg,#151c24,#0d1217);border:1px solid var(--edge);
+    position:relative}
+  canvas{display:block;width:100%;height:auto}
+  .cap{position:absolute;left:12px;bottom:10px;right:12px;font:400 9px/1.5 var(--mono);
+    color:var(--faint);pointer-events:none}
+
+  aside{display:flex;flex-direction:column;gap:12px}
+  .card{background:var(--hall);border:1px solid var(--edge);padding:13px 14px}
+  .card h3{margin:0 0 10px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--fire)}
+  #plan{width:100%;background:#0d1217;border:1px solid var(--edge2);color:var(--ink);
+    padding:8px;font:400 11px/1.2 var(--mono);cursor:pointer}
+  .turn{display:flex;align-items:center;gap:5px;margin-top:9px}
+  .turn span{font:400 8px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--faint);margin-right:2px}
+  .turn button{flex:1;background:#0d1217;border:1px solid var(--edge2);color:var(--faint);
+    padding:7px 4px;cursor:pointer;font:400 9px/1 var(--mono);letter-spacing:.08em}
+  .turn button:hover{color:var(--ink)}
+  .turn button.on{color:var(--fire);border-color:var(--fire)}
+
+  .work{margin:0;padding:0;list-style:none}
+  .work li{padding:9px 0;border-bottom:1px dotted #202a33}
+  .work li:last-child{border-bottom:none}
+  .work .hd{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 var(--mono)}
+  .work .hd b{flex:1;color:var(--dim);font-weight:400}
+  .work .hd u{text-decoration:none;color:var(--faint);font-size:9.5px}
+  .work li.on .hd b{color:var(--ink)}
+  .work li.done .hd b{color:var(--moss)}
+  .work li.done .hd u{color:var(--moss)}
+  .work li.locked{opacity:.42}
+  .t{height:5px;background:#182029;margin-top:6px}
+  .t i{display:block;height:100%;background:var(--fire);width:0}
+  .work li.done .t i{background:var(--moss)}
+  .work .why{margin:6px 0 0;font:400 12px/1.55 var(--serif);color:var(--faint);display:none}
+  .work li.on .why{display:block}
+
+  .clans{margin:0;padding:0;list-style:none;font:400 10.5px/1.4 var(--mono)}
+  .clans li{display:flex;align-items:baseline;gap:8px;padding:5px 0;
+    border-bottom:1px dotted #202a33}
+  .clans li:last-child{border-bottom:none}
+  .clans b{flex:1;color:var(--dim);font-weight:400}
+  .clans em{font-style:normal;color:var(--fire);width:26px;text-align:right}
+  .clans u{text-decoration:none;color:var(--faint);width:52px;text-align:right}
+
+  .say{margin:0;font:400 12.5px/1.65 var(--serif);color:var(--dim)}
+  .say b{color:var(--ink)}
+  .done-note{margin:10px 0 0;padding:10px 12px;background:#121a14;
+    border-left:2px solid var(--moss);font:400 12.5px/1.6 var(--serif);color:var(--moss)}
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 10px/1.85 var(--mono);
+    display:flex;gap:16px;flex-wrap:wrap}
+  footer .r{margin-left:auto}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>The steading</h1><span>six clans &middot; one castle &middot; nothing pressed</span></div>
+<p class="intro">The two boards were already the same board. Six longhouses on coprime cadences producing forever, and a plan with a bill of materials and a validator &mdash; put the output of the first into the second and the score is a castle. It builds while the page is shut and the whole absence is credited when you come back. The only thing this file adds to the two layers is <b>the order the work has to happen in</b>.</p>
+<div class="stock" id="stock"></div>
+<div class="rig">
+  <div class="stage"><canvas id="c" width="1080" height="600"></canvas><div class="cap" id="cap"></div></div>
+  <aside>
+    <div class="card"><h3>what is being built</h3>
+      <select id="plan"></select>
+      <div class="turn"><span>look from</span><button data-turn="0" class="on">SW</button><button data-turn="1">NW</button><button data-turn="2">NE</button><button data-turn="3">SE</button></div>
+      <p class="say" id="planwhy" style="margin-top:10px"></p>
+    </div>
+    <div class="card"><h3>the work</h3><ul class="work" id="work"></ul></div>
+    <div class="card"><h3>the six</h3><ul class="clans" id="clans"></ul>
+      <p class="say" style="margin-top:10px">Same six houses, same six cadences, different century. The periods and the tier tables belong to <a href="clans.html">the clans layer</a> and are not this board&rsquo;s to change.</p></div>
+  </aside>
+</div>
+<footer>
+  <span>ticks <b id="t-tick">0</b></span>
+  <span>stages <b id="t-stage">0</b></span>
+  <span>work done <b id="t-work">0</b></span>
+  <span class="r"><a href="clans.html">the clans</a> &middot; <a href="keep.html">the bench</a> &middot; <a href="castle.html">the plans</a> &middot; <a href="steading.mjs">steading.mjs</a></span>
+</footer>
+</main>
+
+<script>
+const CLANS = [{"id":"hrafn","name":"Hrafnsson","period":2,"tiers":[{"n":1,"houses":1,"note":"One house, one still, and a queue.","yield":3},{"n":2,"houses":2,"note":"A second still, and the first one stops being the bottleneck.","yield":7},{"n":3,"houses":3,"note":"Waste heat from the second feeds the first. Nothing is added; something is stopped from being wasted.","yield":12},{"n":4,"houses":4,"note":"Four houses. The queue is now the storage and not the cracking.","yield":18},{"n":5,"houses":5,"note":"The bottleneck has moved off this clan entirely, which is the only real completion there is.","yield":25}],"gives":"lime","why":"Burners. Lime is what makes stone into a wall rather than a heap."},{"id":"bjorn","name":"Bjornsdottir","period":3,"tiers":[{"n":1,"houses":1,"note":"A bed, an inoculum, and a long wait.","yield":5},{"n":2,"houses":2,"note":"The second bed is seeded from the first, so it starts where the first finished.","yield":11},{"n":3,"houses":3,"note":"Three beds on rotation. None of them is ever idle and none is ever finished.","yield":19},{"n":4,"houses":4,"note":"The rotation is what produces, not the beds. Adding a bed adds a phase.","yield":29},{"n":5,"houses":5,"note":"Five phases, and the output stops looking like a batch.","yield":41}],"gives":"timber","why":"Foresters. The palisade, the scaffold, the floors and the roof frame."},{"id":"ulf","name":"Ulfsson","period":5,"tiers":[{"n":1,"houses":1,"note":"One kiln, fired on daylight.","yield":4},{"n":2,"houses":2,"note":"A second kiln banked against the night, which is fifty-eight days long.","yield":9},{"n":3,"houses":3,"note":"Banking is the technology. The kilns are just kilns.","yield":15},{"n":4,"houses":4,"note":"Four, and the bank outlasts the night with margin.","yield":22},{"n":5,"houses":5,"note":"The margin is now the product. Nothing here is ever short.","yield":30}],"gives":"stone","why":"Quarrymen. Already the kiln clan; the trade barely changes."},{"id":"sigrid","name":"Sigrdrifa","period":7,"tiers":[{"n":1,"houses":1,"note":"A bed. Most of what is in it will not take.","yield":2},{"n":2,"houses":2,"note":"Something took. Nobody knows yet which thing.","yield":4},{"n":3,"houses":3,"note":"The network under the bed is doing more than the bed is.","yield":7},{"n":4,"houses":4,"note":"Four beds, and the third one was seeded from the second’s failure.","yield":11},{"n":5,"houses":5,"note":"It is a soil now. That word was not earned until this tier.","yield":16}],"gives":"food","why":"Fields. Nothing gets built by people who are not fed."},{"id":"thorvald","name":"Thorvaldsson","period":11,"tiers":[{"n":1,"houses":1,"note":"One mast. Everything routes through it, which is the problem.","yield":6},{"n":2,"houses":2,"note":"Two masts, and now nothing routes through either one alone.","yield":13},{"n":3,"houses":3,"note":"Three. The graph stops having a cut vertex in it.","yield":21},{"n":4,"houses":4,"note":"Four, and a mast can be down without anybody noticing in time to worry.","yield":30},{"n":5,"houses":5,"note":"Redundancy is not a spare. It is the absence of a single answer to who carries the message.","yield":40}],"gives":"iron","why":"Smiths. Hinges, nails, grilles, tools that wear out faster than walls."},{"id":"ingrid","name":"Ingridsdottir","period":13,"tiers":[{"n":1,"houses":1,"note":"One scribe. One book. Mostly blank, on purpose.","yield":1},{"n":2,"houses":2,"note":"A second book, for the things the first one refused.","yield":2},{"n":3,"houses":3,"note":"Somebody reads back three years and does not repeat a search.","yield":4},{"n":4,"houses":4,"note":"The register is now cheaper than the searching it prevents.","yield":6},{"n":5,"houses":5,"note":"Nine books. Nobody has ever thanked them and the ledger is still the reason.","yield":9}],"gives":"record","why":"The scriptorium, unchanged. Somebody writes down what was built and when."}];
+const STAGES = [{"id":"ditch","name":"The ditch and the mound","needs":[],"take":{"food":0.1},"note":"One operation, not two. The spoil from the ditch IS the motte, and digging them separately does the work twice."},{"id":"palisade","name":"The palisade","needs":["ditch"],"take":{"timber":0.22,"iron":0.04,"food":0.06},"note":"Timber goes up first because the site must be defensible for the years the stone will take."},{"id":"footings","name":"The footings","needs":["ditch"],"take":{"stone":0.14,"lime":0.1,"food":0.06},"note":"Everything above is carried by this and nothing above can start before it."},{"id":"keep","name":"The keep","needs":["footings"],"take":{"stone":0.26,"lime":0.2,"timber":0.08,"iron":0.06,"food":0.1},"note":"The last thing to fall, so the first thing in stone."},{"id":"curtain","name":"The curtain wall","needs":["footings","palisade"],"take":{"stone":0.3,"lime":0.26,"food":0.1},"note":"It replaces the palisade, which is why the palisade had to exist and why it does not survive."},{"id":"towers","name":"The towers","needs":["curtain"],"take":{"stone":0.18,"lime":0.16,"iron":0.1,"food":0.08},"note":"Corners first. A curtain wall with an undefended corner is a wall with a door in it."},{"id":"gate","name":"The gatehouse","needs":["curtain"],"take":{"stone":0.08,"lime":0.06,"iron":0.24,"timber":0.1,"food":0.06},"note":"The weakest point of any wall by construction, so it gets the ironwork."},{"id":"ranges","name":"The ranges","needs":["keep"],"take":{"stone":0.1,"timber":0.28,"lime":0.1,"food":0.12},"note":"Where the household actually lives, which is not the keep."},{"id":"roof","name":"The roof","needs":["ranges","towers"],"take":{"timber":0.24,"iron":0.2,"food":0.08},"note":"A roof needs walls under it. This is the stage everybody schedules too early."},{"id":"gallery","name":"The long gallery","needs":["roof","gate"],"take":{"stone":0.06,"timber":0.1,"iron":0.16,"lime":0.06,"food":0.1},"note":"Last, because glass in a building site is glass on a floor."}];
+const PLANS = [{"id":"windsor","name":"Windsor","kind":"accreted","lesson":"It is not symmetrical and was never meant to be. Two wards of different sizes either side of a mound, because the mound came first and everything else went where there was room. A plan like this cannot be designed; it can only be arrived at.","wards":[{"id":"upper","name":"Upper Ward","w":180,"d":120,"wall":8,"note":"The private side. State apartments along the north."},{"id":"lower","name":"Lower Ward","w":200,"d":110,"wall":8,"note":"The public side. The chapel, and everybody who is not the household."}],"motte":{"diameter":60,"height":15,"note":"Thrown up in the 1070s. The Round Tower sits on it."},"keep":{"name":"The Round Tower","diameter":30,"height":20,"shape":"round","note":"Round because a round tower has no corner to undermine."},"towers":14,"gallery":null,"bill":{"stone":16257.39500823462,"lime":2370.8701053675486,"timber":1652.2462561759667,"iron":220.29950082346224,"food":1256.6103161026474,"record":40},"total":21797.421186704243},{"id":"versailles","name":"Versailles","kind":"axial","lesson":"One axis, laid out at once, and everything placed to be seen from a point on it. The opposite of Windsor in every way, and equally correct — which is the whole reason both are here. A base is either arrived at or argued, and you should know which one you are doing.","wards":[{"id":"cour","name":"Cour de Marbre","w":60,"d":40,"wall":0,"note":"The narrowest point, so that arriving feels like a funnel."},{"id":"corps","name":"Corps de Logis","w":180,"d":60,"wall":0,"note":"The block the whole axis runs through."},{"id":"parterre","name":"Parterre d’Eau","w":240,"d":140,"wall":0,"note":"Water, held flat, so the sky is doubled and the axis keeps going."}],"motte":null,"keep":{"name":"The Corps de Logis","diameter":0,"height":24,"shape":"block","note":"No keep. There is nothing to defend against, and saying so is the message."},"towers":0,"gallery":{"name":"Hall of Mirrors","length_m":73,"width_m":10.5,"height_m":12.3,"bays":17,"mirrors":357,"windows":17,"note":"Seventeen mirrored arches facing seventeen windows. The mirrors are there to put the garden on the wall that has no garden behind it."},"bill":{"stone":2557.44,"lime":372.96000000000004,"timber":1918.08,"iron":255.744,"food":1118.8799999999999,"record":40},"total":6263.103999999999},{"id":"deck-keep","name":"The Deck Keep","kind":"sealed","lesson":"A castle where the wall holds air rather than people out. Every defensive form here has been kept and repurposed, which is either lazy or the whole point depending on how you feel about the fact that a round tower resists pressure for exactly the same reason it resists undermining.","wards":[{"id":"inner","name":"The Sealed Ward","w":140,"d":140,"wall":6,"note":"The biome. The wall is a pressure boundary and holds nothing out."},{"id":"outer","name":"The Working Ward","w":220,"d":160,"wall":4,"note":"Kilns, beds, masts, scriptorium. Where the six clans actually live."}],"motte":{"diameter":48,"height":6,"note":"Not for defence. It is the substrate lift — half a metre of basalt over the site costs three days of the site’s own sunlight, and the mound is where it goes."},"keep":{"name":"The Seed Vault","diameter":24,"height":14,"shape":"round","note":"Round for pressure, not for siege. The only structure here that would be defended, and what it holds is a library."},"towers":8,"gallery":{"name":"The Long Gallery","length_m":73,"width_m":10.5,"height_m":12.3,"bays":17,"mirrors":357,"windows":17,"note":"The same room as Versailles, to the millimetre, and for the opposite reason: with a fifty-eight-day night outside, mirrors multiplying the lamps is not a flourish, it is the lighting budget."},"bill":{"stone":11668.986884216127,"lime":1701.727253948185,"timber":1839.7401631620949,"iron":245.29868842161267,"food":1265.1817618445557,"record":40},"total":16760.934751592577},{"id":"krak","name":"Krak des Chevaliers","kind":"concentric","lesson":"The best-defended building of its century was never breached and was lost anyway, to a piece of paper. Concentric rings solve the problem of force completely and do nothing at all about the problem of authority — the garrison obeyed an order because orders were obeyed. Every choke point in a command tree has this exact shape: it is not the wall that fails.","wards":[{"id":"outer","name":"Outer enceinte","w":200,"d":140,"wall":9,"note":"A complete ring. Taking it gains you a corridor and nothing else."},{"id":"inner","name":"Inner enceinte","w":140,"d":100,"wall":25,"note":"A second complete ring, higher, so the outer wall is overlooked from inside and an attacker who takes it is standing in a trap."}],"motte":null,"keep":{"name":"The inner keep","diameter":0,"height":27,"shape":"block","note":"Not a lone tower. The whole inner ring is the keep."},"towers":17,"gallery":null,"bill":{"stone":28562.399999999998,"lime":4165.349999999999,"timber":1852.1999999999998,"iron":246.96,"food":1624.0500000000002,"record":40},"total":36490.96},{"id":"himeji","name":"Himeji","kind":"spiral","lesson":"Where Krak makes you go through the wall, Himeji makes you go the long way. The approach is the weapon: a spiral turns an assault into a queue, and a queue can be dealt with a few at a time. If you cannot make the wall thicker, make the route longer.","wards":[{"id":"ni","name":"Ni-no-maru","w":180,"d":150,"wall":12,"note":"The second circle."},{"id":"hon","name":"Hon-maru","w":120,"d":100,"wall":14,"note":"The first circle, at the top of the spiral."}],"motte":{"diameter":90,"height":23,"note":"A stone base, battered, curving outward at the foot — the curve sheds an earthquake rather than resisting it."},"keep":{"name":"The great keep","diameter":36,"height":46,"shape":"block","note":"Six storeys reading as five from outside. Whitewashed against fire."},"towers":12,"gallery":null,"bill":{"stone":23332.141468458853,"lime":3402.6039641502493,"timber":2292.7061013441407,"iron":305.6941468458854,"food":1759.8118924507487,"record":40},"total":31132.957573249878},{"id":"malbork","name":"Malbork","kind":"three-ward","lesson":"The largest castle in the world is made of the cheapest material available at the site. That is not a compromise, it is the reason it could be that large — a stone Malbork was never possible and a brick one was inevitable. Build with what is under your feet and the size takes care of itself.","wards":[{"id":"high","name":"High Castle","w":160,"d":160,"wall":20,"note":"The convent."},{"id":"middle","name":"Middle Castle","w":220,"d":180,"wall":14,"note":"The Grand Master."},{"id":"outer","name":"Outer Bailey","w":300,"d":200,"wall":10,"note":"Everything that works."}],"motte":null,"keep":{"name":"The High Castle","diameter":0,"height":30,"shape":"block","note":"A closed quadrangle around a courtyard — a keep you can live an entire administration inside."},"towers":20,"gallery":null,"bill":{"stone":54932.16,"lime":8010.94,"timber":4479.12,"iron":597.216,"food":3632.8199999999997,"record":40},"total":71692.256},{"id":"neuschwanstein","name":"Neuschwanstein","kind":"theatrical","lesson":"The glossary gives you the tool to date this one at a glance: machicolations are floor openings for dropping things through, and these have no openings. They are a carving of a function. That is the whole building — a nineteenth-century theatre set quoting a form whose reasons had been dead for six hundred years, and it is the most visited castle on earth. Worth knowing which one you are building.","wards":[{"id":"court","name":"Upper Court","w":90,"d":60,"wall":0,"note":"A courtyard shaped like a bailey that never enclosed anything."}],"motte":null,"keep":{"name":"The Palas","diameter":0,"height":65,"shape":"block","note":"A keep in silhouette only. There is nothing to keep."},"towers":0,"gallery":null,"bill":{"stone":1948.3200000000002,"lime":284.13,"timber":1461.24,"iron":194.832,"food":852.39,"record":40},"total":4780.912},{"id":"theodosian","name":"The Theodosian Walls","kind":"triple-line","lesson":"Krak was never breached and fell to a forged letter. This was never breached by assault in a thousand years and fell to artillery — to a gun that made thickness irrelevant rather than to anybody getting over it. Put the two together and you have the whole of it: the best wall ever built lost twice, once to authority and once to a change in what a wall was up against, and neither time to the thing it was designed to stop. Design for the assault you can imagine and you will be defeated by the one you cannot.","wards":[{"id":"outer","name":"Outer wall and terrace","w":6500,"d":20,"wall":9,"note":"The first line, and the one meant to be taken — losing it puts an attacker in a terrace overlooked from above."},{"id":"inner","name":"Inner wall","w":6500,"d":15,"wall":12,"note":"Five metres thick at the base. Ninety-six towers, none of them more than a bowshot from the next."}],"motte":null,"keep":{"name":"The city","diameter":0,"height":14,"shape":"block","note":"There is no keep. The city is what the wall is for."},"towers":96,"gallery":null,"bill":{"stone":403870.8,"lime":58897.825,"timber":7285.5,"iron":971.4,"food":12461.475,"record":40},"total":483527}];
+const MATS = ["stone","lime","timber","iron","food","record"];
+
+const KEY = 'venus.steading.v1';
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const TICK_MS = 900;
+const n0 = (x) => x >= 1e4 ? Math.round(x / 1e3) + 'k' : Math.round(x).toLocaleString();
+
+function fresh(planId) {
+  const s = { plan: planId || PLANS[0].id, t: 0, stock: {}, put: {}, done: [], seen: Date.now() };
+  MATS.forEach((m) => { s.stock[m] = 0; });
+  STAGES.forEach((st) => { s.put[st.id] = {}; MATS.forEach((m) => { s.put[st.id][m] = 0; }); });
+  return s;
+}
+function load() {
+  try { const g = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (g && g.stock && g.put) return g; } catch (e) {}
+  return null;
+}
+let G = load() || fresh();
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(G)); } catch (e) {} };
+const plan = () => PLANS.find((p) => p.id === G.plan) || PLANS[0];
+
+/* what a stage costs, from the plan's own bill */
+function cost(st) {
+  const b = plan().bill, out = {};
+  for (const [m, share] of Object.entries(st.take)) out[m] = b[m] * share;
+  return out;
+}
+const unlocked = (st) => st.needs.every((n) => G.done.includes(n));
+const doneShare = (st) => {
+  const c = cost(st);
+  const keys = Object.keys(c);
+  if (!keys.length) return 1;
+  return keys.reduce((a, m) => a + Math.min(1, (G.put[st.id][m] || 0) / c[m]), 0) / keys.length;
+};
+
+/* ══ the tick. Clans on their own primes; the site takes what it can. ══
+   Nothing is pressed. The stock rises, the work consumes it, and the WORK is
+   the number that never falls — the stock is allowed to, because spending is
+   the only downward motion on the board and it is spending on something that
+   stays built. */
+function tick(n) {
+  for (let i = 0; i < n; i++) {
+    G.t++;
+    for (const c of CLANS)
+      if (G.t % c.period === 0) G.stock[c.gives] += c.tiers[0].yield;
+
+    /* the site works on the earliest unlocked, unfinished stage */
+    for (const st of STAGES) {
+      if (G.done.includes(st.id) || !unlocked(st)) continue;
+      const c = cost(st);
+      let complete = true;
+      for (const [m, need] of Object.entries(c)) {
+        const short = need - G.put[st.id][m];
+        if (short <= 0) continue;
+        const take = Math.min(short, G.stock[m]);
+        G.stock[m] -= take;
+        G.put[st.id][m] += take;
+        if (G.put[st.id][m] < need - 1e-9) complete = false;
+      }
+      if (complete) G.done.push(st.id);
+      break;                    /* one stage at a time, in order */
+    }
+  }
+}
+
+/* ══ drawing — iso, depth, tone, from lesson one ═════════════════════ */
+const HALF_W = 15, HALF_H = 7.5, UNIT_Z = 8;
+const iso = (x, y, z) => [(x - y) * HALF_W, (x + y) * HALF_H - z * UNIT_Z];
+const depth = (x, y, z) => x + y + z;
+const tone = (f) => f === 'top' ? 1 : f === 'lit' ? 0.72 : 0.52;
+const cv = $('#c'), ctx = cv.getContext('2d');
+const SCALE = 4;
+
+/* Quarter turns. An axis-aligned box stays axis-aligned under a 90-degree
+   turn if you swap its footprint: [x,x+w]x[y,y+d] becomes [y,y+d]x[-(x+w),-x].
+   So the view rotates without the geometry knowing, and the camera auto-fits
+   whatever comes out. One isometric viewpoint reads as a picture; four read
+   as a solid, and that is the whole of 2.5D. */
+let TURN = 0;
+function turn(x, y, w, d) {
+  for (let i = 0; i < TURN; i++) {
+    const nx = y, ny = -(x + w), nw = d, nd = w;
+    x = nx; y = ny; w = nw; d = nd;
+  }
+  return [x, y, w, d];
+}
+function box(L, x, y, z, w, d, h, rgb) {
+  const r = turn(x, y, w, d);
+  L.push({ x: r[0], y: r[1], z, w: r[2], d: r[3], h, rgb, o: depth(r[0], r[1], z) });
+}
+function drawBox(b) {
+  const [r, g, bl] = b.rgb;
+  const put = (t) => ctx.fillStyle = 'rgb(' + [r, g, bl]
+    .map((c) => Math.min(255, Math.round(c * tone(t)))).join(',') + ')';
+  const P = iso, { x, y, z, w, d, h } = b;
+  const poly = (pts, t) => { put(t); ctx.beginPath();
+    pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]));
+    ctx.closePath(); ctx.fill(); };
+  poly([P(x, y + d, z), P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z)], 'lit');
+  poly([P(x + w, y, z), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z)], 'dark');
+  poly([P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)], 'top');
+}
+function drum(L, cx, cy, z, r, h, rgb) {
+  for (let i = 0; i < 5; i++) { const t = i / 5, rr = r * (1 - t * 0.07);
+    box(L, cx - rr, cy - rr, z + h * t, rr * 2, rr * 2, h / 5 + 0.02, rgb); }
+  box(L, cx - r * 0.8, cy - r * 0.8, z + h, r * 1.6, r * 1.6, r * 0.5, [95, 108, 118]);
+}
+
+/* only what has been built gets drawn, and part-built stages rise partway */
+function scene() {
+  const p = plan(), L = [];
+  const STONE = [200, 189, 166], WOOD = [124, 104, 74], LEAD = [111, 123, 132];
+  const has = (id) => G.done.includes(id);
+  const part = (id) => { const st = STAGES.find((s) => s.id === id);
+    return has(id) ? 1 : (unlocked(st) ? doneShare(st) : 0); };
+
+  box(L, -2, -2, -1.2, 48, 36, 1.2, [58, 76, 48]);
+
+  const w0 = p.wards[0] || { w: 120, d: 100, wall: 8 };
+  const ww = Math.max(7, w0.w / (SCALE * 2.4)), wd = Math.max(7, w0.d / (SCALE * 2.4));
+  const x0 = 5, y0 = 5;
+
+  /* the ditch and the mound, one operation */
+  const dm = part('ditch');
+  if (dm > 0) {
+    box(L, x0 - 1.4, y0 - 1.4, -0.5, ww + 2.8, 1.2, 0.5, [44, 52, 38]);
+    const mr = (p.motte ? p.motte.diameter : 44) / (SCALE * 4.4);
+    const mh = ((p.motte ? p.motte.height : 10) / SCALE) * dm;
+    for (let i = 0; i < 6; i++) { const t = i / 6, rr = mr * (1 - t * 0.34);
+      box(L, x0 + 3 - rr, y0 + 4 - rr, mh * t, rr * 2, rr * 2, mh / 6 + 0.02,
+          [84 - i * 3, 108 - i * 4, 66 - i * 2]); }
+  }
+  /* the palisade, which the curtain later replaces */
+  const pa = part('palisade');
+  if (pa > 0 && !has('curtain'))
+    for (let i = 0; i < Math.round(ww * 2 * pa); i++)
+      box(L, x0 + i * 0.5, y0 + wd, 0, 0.34, 0.34, 1.7, WOOD);
+  /* footings */
+  if (part('footings') > 0) box(L, x0 + 1.5, y0 + 2.5, 0, ww - 3, wd - 5, 0.3 * part('footings'), STONE);
+  /* the keep, on the mound */
+  const kp = part('keep');
+  if (kp > 0) {
+    const mh = p.motte ? (p.motte.height / SCALE) : 0;
+    drum(L, x0 + 3, y0 + 4, mh, (p.keep && p.keep.diameter ? p.keep.diameter : 22) / (SCALE * 5),
+         ((p.keep ? p.keep.height : 18) / SCALE) * kp, [210, 199, 176]);
+  }
+  /* the curtain */
+  const cu = part('curtain');
+  if (cu > 0) {
+    const h = (w0.wall || 8) * cu / 2.4, t = 0.9;
+    box(L, x0, y0, 0, ww, t, h, STONE);
+    box(L, x0, y0 + wd - t, 0, ww, t, h, STONE);
+    box(L, x0, y0, 0, t, wd, h, STONE);
+    box(L, x0 + ww - t, y0, 0, t, wd, h, STONE);
+  }
+  /* towers, corners first */
+  const tw = part('towers');
+  if (tw > 0) {
+    const spots = [[x0, y0], [x0 + ww - 1, y0], [x0, y0 + wd - 1], [x0 + ww - 1, y0 + wd - 1]];
+    const n = Math.max(0, Math.round(Math.min(p.towers, 10) * tw));
+    for (let k = 4; k < n; k++) spots.push([x0 + ww * ((k - 3) / (n - 3)), k % 2 ? y0 : y0 + wd - 1]);
+    spots.slice(0, Math.max(0, n)).forEach((s) =>
+      drum(L, s[0] + 0.5, s[1] + 0.5, 0, 1.4, (w0.wall || 8) / 1.7, STONE));
+  }
+  /* the gatehouse */
+  const ga = part('gate');
+  if (ga > 0) box(L, x0 + ww / 2 - 1.6, y0 + wd - 1.2, 0, 3.2, 1.8,
+                  ((w0.wall || 8) / 1.5) * ga, [188, 176, 152]);
+  /* the ranges, then the roof on top of them */
+  const ra = part('ranges');
+  if (ra > 0) box(L, x0 + 2, y0 + wd - 5, 0.3, (ww - 4) * ra, 3, 3.4, [198, 187, 163]);
+  const ro = part('roof');
+  if (ro > 0 && ra > 0.99) box(L, x0 + 2, y0 + wd - 5, 3.7, (ww - 4) * ro, 3, 1.1, LEAD);
+  /* and the gallery */
+  const gl = part('gallery');
+  if (gl > 0) box(L, x0 + 2, y0 + 1.5, 0.3, (ww - 4) * gl, 2.2, 3.9, [205, 190, 150]);
+  return L;
+}
+
+function draw() {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  const L = scene();
+  L.sort((a, b) => a.o - b.o);
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const b of L) for (const cx of [b.x, b.x + b.w]) for (const cy of [b.y, b.y + b.d])
+    for (const cz of [b.z, b.z + b.h]) { const q = iso(cx, cy, cz);
+      if (q[0] < x0) x0 = q[0]; if (q[0] > x1) x1 = q[0];
+      if (q[1] < y0) y0 = q[1]; if (q[1] > y1) y1 = q[1]; }
+  const pad = 30;
+  const k = Math.min((cv.width - pad * 2) / (x1 - x0), (cv.height - pad * 2) / (y1 - y0));
+  ctx.setTransform(k, 0, 0, k, cv.width / 2 - k * (x0 + x1) / 2,
+                                cv.height / 2 - k * (y0 + y1) / 2);
+  L.forEach(drawBox);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  $('#cap').textContent = G.done.length + ' of ' + STAGES.length + ' stages, ' +
+    L.length + ' solids, painted far to near.';
+}
+
+/* ══ the panels ══════════════════════════════════════════════════════ */
+function paintStock() {
+  $('#stock').innerHTML = MATS.map((m) =>
+    '<div class="' + m + '"><u>' + n0(G.stock[m] || 0) + '</u><b>' + m + '</b></div>').join('');
+}
+function paintWork() {
+  $('#work').innerHTML = STAGES.map((st) => {
+    const done = G.done.includes(st.id), open = !done && unlocked(st);
+    const share = done ? 1 : (open ? doneShare(st) : 0);
+    const c = cost(st);
+    const short = Object.entries(c)
+      .filter(([m, need]) => G.put[st.id][m] < need - 1e-9)
+      .sort((a, b) => (b[1] - G.put[st.id][b[0]]) - (a[1] - G.put[st.id][a[0]]))[0];
+    return '<li class="' + (done ? 'done' : open ? 'on' : 'locked') + '">' +
+      '<div class="hd"><b>' + esc(st.name) + '</b><u>' +
+        (done ? 'built' : open ? Math.round(share * 100) + '%' +
+          (short ? ' \u00b7 wants ' + short[0] : '') : 'waits on ' + st.needs.join(', ')) +
+      '</u></div>' +
+      '<div class="t"><i style="width:' + Math.round(share * 100) + '%"></i></div>' +
+      '<p class="why">' + esc(st.note) + '</p></li>';
+  }).join('');
+}
+function paintClans() {
+  $('#clans').innerHTML = CLANS.map((c) =>
+    '<li><b>' + esc(c.name) + '</b><em>' + c.period + '</em><u>' + esc(c.gives) + '</u></li>').join('');
+}
+function paintPlan() {
+  const p = plan();
+  $('#planwhy').innerHTML = esc(p.lesson.slice(0, 210)) +
+    '<br><br><b>' + n0(p.total) + '</b> tonnes of material in all.' +
+    (G.done.length === STAGES.length
+      ? '<span class="done-note">It stands. Every stage built, in the only order they could have been built in.</span>'
+      : '');
+}
+function paintFoot() {
+  $('#t-tick').textContent = G.t.toLocaleString();
+  $('#t-stage').textContent = G.done.length + ' / ' + STAGES.length;
+  const total = STAGES.reduce((a, st) => a + doneShare(st), 0);
+  $('#t-work').textContent = Math.round(total / STAGES.length * 100) + '%';
+}
+function all() { paintStock(); paintWork(); paintClans(); paintPlan(); paintFoot(); draw(); }
+
+$('#plan').innerHTML = PLANS.map((p) =>
+  '<option value="' + esc(p.id) + '"' + (p.id === G.plan ? ' selected' : '') + '>' +
+  esc(p.name) + '</option>').join('');
+document.querySelectorAll('[data-turn]').forEach((b) => {
+  b.onclick = () => {
+    TURN = +b.dataset.turn;
+    document.querySelectorAll('[data-turn]').forEach((x) => x.classList.remove('on'));
+    b.classList.add('on');
+    draw();
+  };
+});
+
+$('#plan').onchange = (e) => {
+  const keepStock = G.stock;
+  G = fresh(e.target.value);
+  G.stock = keepStock;          /* the materials are yours; the site is new */
+  save(); all();
+};
+
+/* the absence, credited in full */
+(function () {
+  const gap = Date.now() - (G.seen || Date.now());
+  const missed = Math.floor(gap / TICK_MS);
+  if (missed > 1) tick(missed);
+  G.seen = Date.now();
+})();
+
+all();
+setInterval(() => {
+  tick(1);
+  G.seen = Date.now();
+  if (G.t % 20 === 0) save();
+  paintStock(); paintFoot();
+  if (G.t % 3 === 0) { paintWork(); draw(); }
+}, TICK_MS);
+addEventListener('beforeunload', () => { G.seen = Date.now(); save(); });
+</script>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+ "id": "code-fungible",
+ "type": "code",
+ "tier": 2,
+ "title": "Write the preference function, and fail",
+ "unlocks": "fungibility",
+ "ground": "The constructive test: try to write a function that ranks two units. If it compiles, they are not fungible.",
+ "task": "Define a unit type carrying no field that can distinguish two instances. Then write compare(a, b) and demonstrate that it cannot be written without adding one. Then add the field and show what it costs.",
+ "rubric": [
+  {
+   "band": "It runs",
+   "test": "Does the type exist and the demonstration execute?"
+  },
+  {
+   "band": "The failure is structural",
+   "test": "Is compare impossible because of the type, or merely unwritten? A comment saying \"we choose not to\" fails this band."
+  },
+  {
+   "band": "The cost is shown",
+   "test": "After adding the distinguishing field, is there a working ranking — and is it obvious who would collect on it?"
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "id": "tool-07",
+ "depth": 1,
+ "wovenBy": "l2-tool-1-1",
+ "kind": "tool",
+ "thing": "harrow",
+ "metal": "bronze",
+ "name": "a bronze harrow",
+ "cost": 700,
+ "mul": 1.35,
+ "on": "loam"
+}

@@ -1,0 +1,13 @@
+{
+ "id": "saga1597-sigrid-pile-8",
+ "kind": "pile",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "name": "the temple store for biomass",
+ "holds": 700,
+ "cost": 840,
+ "text": "Holds 700 biomass. What is not piled is not yours by morning.",
+ "wovenBy": "sigrid",
+ "saga": 1597
+}

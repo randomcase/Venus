@@ -1,0 +1,17 @@
+{
+ "id": "act-093",
+ "bench": "fleet",
+ "order": 93,
+ "year": 10,
+ "day": 3321,
+ "parties": [
+  "neoptolemus"
+ ],
+ "actor": "Neoptolemus",
+ "with": null,
+ "verb": "held",
+ "object": "the ships against the fire",
+ "place": "at Aulis",
+ "side": "fleet",
+ "text": "Neoptolemus held the ships against the fire, at Aulis, in the tenth year."
+}

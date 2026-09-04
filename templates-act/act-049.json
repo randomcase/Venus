@@ -1,0 +1,16 @@
+{
+ "id": "act-049",
+ "order": 49,
+ "year": 5,
+ "day": 1739,
+ "parties": [
+  "paris"
+ ],
+ "actor": "Paris",
+ "with": null,
+ "verb": "duelled",
+ "object": "in the space between the lines",
+ "place": "on the mound of Aesyetes",
+ "side": "troy",
+ "text": "Paris duelled in the space between the lines, on the mound of Aesyetes, in the fifth year."
+}

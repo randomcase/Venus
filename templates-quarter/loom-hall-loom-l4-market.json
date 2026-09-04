@@ -1,0 +1,9 @@
+{
+ "id": "loom-hall-loom-l4-market",
+ "kind": "loom",
+ "room": "loom-hall",
+ "name": "The market loom",
+ "text": "One of the ten looms at the top of the chain. It weaves markets, and what it weaves weaves the rest.",
+ "wovenBy": "l4-market",
+ "bay": 4
+}

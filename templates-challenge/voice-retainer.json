@@ -1,0 +1,62 @@
+{
+ "id": "voice-retainer",
+ "type": "voice",
+ "tier": 2,
+ "title": "The retainer",
+ "unlocks": "the-retainer",
+ "ground": "The subsidiary alliance system, British India, from 1798 under Wellesley. A ruler keeps his throne, his title, his court and his revenues. He accepts a British force stationed in his territory, pays for it, accepts a Resident at his court, and gives up the conduct of his own foreign relations. There is no conquest, no annexation, and on paper no loss of sovereignty. The instrument contains no false statement anywhere, which is why it survived scrutiny for fifty years. He was not deposed. He was retained.",
+ "sources": [
+  "Subsidiary alliance treaties, 1798 onward (Hyderabad 1798, Awadh 1801, others)",
+  "Wellesley’s despatches as Governor-General"
+ ],
+ "standpoints": [
+  {
+   "id": "nawab",
+   "who": "The ruler who signed",
+   "brief": "He kept everything he could name and lost something he cannot. Write him at a moment when the arrangement is working exactly as agreed and he can find nothing to object to."
+  },
+  {
+   "id": "resident",
+   "who": "The Resident at his court",
+   "brief": "Polite, competent, genuinely fond of the man, and structurally his replacement. He would be offended to be called a governor and he is one."
+  },
+  {
+   "id": "sepoy",
+   "who": "A soldier in the subsidiary force",
+   "brief": "He is paid out of the ruler’s treasury and takes orders from the Company. By 1857 there are roughly six of him for every British soldier — 135,000 Indian to 24,000 European in the Bengal Army alone. Write him on an ordinary day, not a famous one."
+  },
+  {
+   "id": "farmer",
+   "who": "A revenue farmer in the district",
+   "brief": "The demand went up because the force has to be paid for. Nobody lied to him and nothing was stolen. Write the voice of somebody doing arithmetic that comes out wrong."
+  },
+  {
+   "id": "commander",
+   "who": "The officer commanding the subsidiary force",
+   "brief": "British officer, Company orders, and his men are paid out of the treasury of the ruler they are stationed on. He is a garrison that the garrisoned pays for. He did not design the instrument, could not alter it, and is the visible daily fact of it — the thing the farmer actually sees when he sees the arrangement at all."
+  }
+ ],
+ "task": "Write 300–400 words in ONE voice, on a day when nothing happens. The hard version of this exercise is that there is no villain in the room and the piece still has to land.",
+ "rubric": [
+  {
+   "band": "It is a voice",
+   "test": "Could a reader identify the standpoint from any 40 consecutive words, header removed?"
+  },
+  {
+   "band": "Nothing is stolen in it",
+   "test": "Does the piece resist inventing a crime? If a theft or a lie appears, the exercise has been avoided rather than done."
+  },
+  {
+   "band": "The instrument is visible",
+   "test": "Can a reader reconstruct the shape of the arrangement from the voice alone, without it being explained to them?"
+  },
+  {
+   "band": "It is not an argument",
+   "test": "Remove every sentence that could appear in an essay. Is there still a piece?"
+  },
+  {
+   "band": "He is the instrument and not its author",
+   "test": "If you wrote the commander: does the piece resist letting him explain the treaty? A man who can articulate the structure he embodies has stepped outside it, and the exercise is to stay inside."
+  }
+ ]
+}

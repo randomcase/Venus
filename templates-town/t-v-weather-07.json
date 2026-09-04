@@ -1,0 +1,15 @@
+{
+ "kind": "inscription",
+ "name": "the inscription over the gate of hail",
+ "text": "Hail on the barley, ale in the barrel.",
+ "id": "t-v-weather-07",
+ "wovenBy": "v-weather-07",
+ "chain": [
+  "v-weather-07",
+  "weather-07",
+  "l2-weather-2-1",
+  "l3-weather-2",
+  "l4-weather",
+  "loom.mjs"
+ ]
+}

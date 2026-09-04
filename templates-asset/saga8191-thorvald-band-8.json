@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-thorvald-band-8",
+ "kind": "band",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "period": 11,
+ "name": "skirmishers of Thorvaldsson",
+ "strength": 8,
+ "raids": true,
+ "cost": 894,
+ "upkeep": 2,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 8; eats 2 signal a day.",
+ "wovenBy": "thorvald",
+ "saga": 8191
+}

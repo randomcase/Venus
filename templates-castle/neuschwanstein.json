@@ -1,0 +1,51 @@
+{
+ "id": "neuschwanstein",
+ "order": 7,
+ "name": "Neuschwanstein",
+ "era": "1869 to 1886",
+ "kind": "theatrical",
+ "ground": "A crag in the Bavarian Alps with no road, no water supply, and no strategic value of any kind, selected entirely for how it would look from below.",
+ "motte": null,
+ "keep": {
+  "name": "The Palas",
+  "diameter": 0,
+  "height": 65,
+  "shape": "block",
+  "note": "A keep in silhouette only. There is nothing to keep."
+ },
+ "wards": [
+  {
+   "id": "court",
+   "name": "Upper Court",
+   "w": 90,
+   "d": 60,
+   "wall": 0,
+   "note": "A courtyard shaped like a bailey that never enclosed anything."
+  }
+ ],
+ "towers": 0,
+ "axis": {
+  "name": "The view from the Marienbrücke",
+  "length_m": 800,
+  "note": "The whole building is composed for one viewpoint on a bridge across the gorge. Stand anywhere else and it does not resolve."
+ },
+ "figures": [
+  {
+   "what": "begun",
+   "value": "1869, six centuries after castles stopped working"
+  },
+  {
+   "what": "defensive value",
+   "value": "none, and none intended"
+  },
+  {
+   "what": "machicolations",
+   "value": "carved, decorative, with no opening through them"
+  },
+  {
+   "what": "nights the king slept there",
+   "value": "11, before he died and it opened to visitors"
+  }
+ ],
+ "lesson": "The glossary gives you the tool to date this one at a glance: machicolations are floor openings for dropping things through, and these have no openings. They are a carving of a function. That is the whole building — a nineteenth-century theatre set quoting a form whose reasons had been dead for six hundred years, and it is the most visited castle on earth. Worth knowing which one you are building."
+}

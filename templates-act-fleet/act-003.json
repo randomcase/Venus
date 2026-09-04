@@ -1,0 +1,18 @@
+{
+ "id": "act-003",
+ "bench": "fleet",
+ "order": 3,
+ "year": 1,
+ "day": 89,
+ "parties": [
+  "diomedes",
+  "odysseus"
+ ],
+ "actor": "Diomedes",
+ "with": "Odysseus",
+ "verb": "called",
+ "object": "the assembly and named the cause",
+ "place": "at Aulis",
+ "side": "fleet",
+ "text": "Diomedes and Odysseus called the assembly and named the cause, at Aulis, in the first year."
+}

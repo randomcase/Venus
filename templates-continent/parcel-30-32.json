@@ -1,0 +1,16 @@
+{
+ "id": "parcel-30-32",
+ "kind": "parcel",
+ "x": 30,
+ "y": 32,
+ "region": "Thetis Regio",
+ "clan": "bjorn",
+ "resource": "nitrogen",
+ "period": 3,
+ "terrain": "corona",
+ "fertility": 1.3,
+ "yield": 2.79,
+ "text": "the rim of a corona, rich and warm, in Thetis Regio, sown from the temple store for nitrogen.",
+ "wovenBy": "bjorn-pile-7",
+ "chain": "seven deep"
+}

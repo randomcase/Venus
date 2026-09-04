@@ -1,0 +1,9 @@
+{
+ "id": "library-chair-polypropylene",
+ "kind": "chair",
+ "room": "library",
+ "name": "a reading chair in polypropylene",
+ "text": "Upholstered in polypropylene, which survives Venus well. A genuinely acid-resistant fibre that can be spun, woven and worn, and the cheapest thing on this list that could go outside. Its limit is heat, not chemistry.",
+ "wovenBy": "polypropylene",
+ "seat": 2
+}

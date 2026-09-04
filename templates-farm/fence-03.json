@@ -1,0 +1,11 @@
+{
+ "id": "fence-03",
+ "depth": 1,
+ "wovenBy": "l2-fence-2-1",
+ "kind": "fence",
+ "wall": "wattle",
+ "keeps": "the geese in",
+ "name": "wattle that keeps the geese in",
+ "cost": 254,
+ "keep": 0.87
+}

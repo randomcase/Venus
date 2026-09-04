@@ -1,0 +1,16 @@
+{
+ "id": "forged-root-syndication",
+ "kind": "attack",
+ "order": 8,
+ "target": "a crossing",
+ "name": "A root that was never on the source",
+ "tactic": "Get the target's own quorum to sign a syndication event naming a Merkle root that does not correspond to anything the source chain actually produced — not stolen, not copied, simply invented, and offered as if it arrived from across the crossing.",
+ "requires": ["tampered-amount", "dropped-line", "forged-signature"],
+ "expect": { "ledgerAlone": "accepted", "withAuditor": "rejected" },
+ "response": {
+  "pass": "the target's own quorum accepted it, exactly as it must — a chain cannot verify a foreign root it has no access to, which is trust, not verification. {{detail}}",
+  "fail": "{{detail}}"
+ },
+ "text": "This is the one honest gap in the set, and the point of putting it after the first three: those prove the chain defends itself against everything happening INSIDE its own file. A syndication event asserts something about a file it cannot see, so its own quorum check can only confirm the assertion is well-formed, never that it is true. The only real defense is an auditor holding both chains at once and recomputing the source's root at the claimed sequence — syndicate.mjs's verifyCrossing() does exactly that, and only that function, never the ledger alone, is what should be trusted to catch this one.",
+ "wovenBy": "syndicate.mjs"
+}

@@ -1,0 +1,18 @@
+{
+ "id": "act-080",
+ "bench": "fleet",
+ "order": 80,
+ "year": 8,
+ "day": 2850,
+ "parties": [
+  "diomedes",
+  "odysseus"
+ ],
+ "actor": "Diomedes",
+ "with": "Odysseus",
+ "verb": "beached",
+ "object": "the ships and built the wall",
+ "place": "in the assembly by the ships",
+ "side": "fleet",
+ "text": "Diomedes and Odysseus beached the ships and built the wall, in the assembly by the ships, in the eighth year."
+}

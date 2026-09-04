@@ -1,0 +1,16 @@
+{
+ "id": "saga41-ingrid-band-12",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "longship crew of Ingridsdottir",
+ "strength": 17,
+ "raids": true,
+ "cost": 1971,
+ "upkeep": 4,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 17; eats 4 record a day.",
+ "wovenBy": "ingrid",
+ "saga": 41
+}

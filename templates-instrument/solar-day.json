@@ -1,0 +1,17 @@
+{
+ "id": "solar-day",
+ "order": 10,
+ "quantity": "Venus solar day",
+ "value": 116.75,
+ "unit": "Earth days",
+ "uncertainty": 0.01,
+ "kind": "computed",
+ "method": "From the sidereal rotation and the orbital period, both measured to many figures.",
+ "used_for": "The 58-day night, which sets the entire lighting budget.",
+ "boards": [
+  "paper.html",
+  "corps.html",
+  "castle.html"
+ ],
+ "wrong_if": "Nothing. This is among the best-known numbers in the document."
+}

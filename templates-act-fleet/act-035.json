@@ -1,0 +1,17 @@
+{
+ "id": "act-035",
+ "bench": "fleet",
+ "order": 35,
+ "year": 4,
+ "day": 1241,
+ "parties": [
+  "ajax"
+ ],
+ "actor": "Ajax",
+ "with": null,
+ "verb": "struck",
+ "object": "the one who spoke",
+ "place": "at Aulis",
+ "side": "fleet",
+ "text": "Ajax struck the one who spoke, at Aulis, in the fourth year."
+}

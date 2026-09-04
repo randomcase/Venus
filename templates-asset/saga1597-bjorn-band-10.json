@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-bjorn-band-10",
+ "kind": "band",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "name": "skirmishers of Bjornsdottir",
+ "strength": 11,
+ "raids": true,
+ "cost": 1157,
+ "upkeep": 2,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 11; eats 2 nitrogen a day.",
+ "wovenBy": "bjorn",
+ "saga": 1597
+}

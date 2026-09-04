@@ -1,0 +1,12 @@
+{
+ "id": "l2-water-2-2",
+ "depth": 2,
+ "wovenBy": "l3-water-2",
+ "kind": "water",
+ "name": "The water mould 2.2: rain barrels, 500",
+ "fixed": {
+  "source": "rain barrels",
+  "holds": 500
+ },
+ "open": []
+}

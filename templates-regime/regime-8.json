@@ -1,0 +1,13 @@
+{
+ "id": "regime-8",
+ "kind": "regime",
+ "degree": 8,
+ "tickers": 262144,
+ "aFarm": 65536,
+ "pxACell": 2,
+ "named": false,
+ "visual": true,
+ "name": "Degree 8, 262,144.",
+ "text": "Four pixels a ticker. The syndication has out-run the screen.",
+ "wovenBy": "market.mjs"
+}

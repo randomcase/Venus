@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-hrafn-work-4",
+ "kind": "work",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "house": "Cracking house",
+ "resource": "hydrogen",
+ "period": 2,
+ "tier": 4,
+ "yield": 18,
+ "cost": 8640,
+ "name": "Cracking house 4 of Hrafnsson",
+ "text": "Four houses. The queue is now the storage and not the cracking. Yields 18 hydrogen every 2 days.",
+ "wovenBy": "hrafn",
+ "saga": 8191
+}

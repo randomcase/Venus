@@ -1,0 +1,17 @@
+{
+ "id": "act-087",
+ "bench": "fleet",
+ "order": 87,
+ "year": 9,
+ "day": 3121,
+ "parties": [
+  "thersites"
+ ],
+ "actor": "Thersites",
+ "with": null,
+ "verb": "held",
+ "object": "the ships against the fire",
+ "place": "at Aulis",
+ "side": "fleet",
+ "text": "Thersites held the ships against the fire, at Aulis, in the ninth year."
+}

@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-ulf-band-5",
+ "kind": "band",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "name": "wardens of the ford of Ulfsson",
+ "strength": 15,
+ "raids": false,
+ "cost": 1830,
+ "upkeep": 4,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 15; eats 4 silicate a day.",
+ "wovenBy": "ulf",
+ "saga": 1597
+}

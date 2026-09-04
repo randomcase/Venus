@@ -1,0 +1,14 @@
+{
+ "id": "hispanic",
+ "kind": "demographic",
+ "order": 3,
+ "name": "Hispanic",
+ "recordTerm": "not recorded separately; counted as Caucasian",
+ "popShare1970": 4.5,
+ "deaths": 3070,
+ "deathShare": 5.3,
+ "note": "The record did not keep a Hispanic category, so the count is an estimate (about 3,000–3,500, or 5–6% of deaths, against about 4.5% of the population). Ralph Guzmán’s 1969 study of the Southwest found Spanish-surnamed men were 19% of the region’s casualties and about 12% of its population.",
+ "johnson": "",
+ "source": "Defense Casualty Analysis System (DCAS), Vietnam Conflict Extract File, race field; US Census 1970; Guzmán 1969; Appy, Working-Class War (1993).",
+ "wovenBy": "the bridge"
+}

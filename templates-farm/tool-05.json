@@ -1,0 +1,12 @@
+{
+ "id": "tool-05",
+ "depth": 1,
+ "wovenBy": "l2-tool-3-1",
+ "kind": "tool",
+ "thing": "hoe",
+ "metal": "iron",
+ "name": "an iron hoe",
+ "cost": 900,
+ "mul": 1.5,
+ "on": "peat"
+}

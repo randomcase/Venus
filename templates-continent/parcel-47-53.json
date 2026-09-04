@@ -1,0 +1,16 @@
+{
+ "id": "parcel-47-53",
+ "kind": "parcel",
+ "x": 47,
+ "y": 53,
+ "region": "Diana Chasma",
+ "clan": "thorvald",
+ "resource": "signal",
+ "period": 11,
+ "terrain": "tessera",
+ "fertility": 0.6,
+ "yield": 0.88,
+ "text": "tessera, folded highland that holds less, in Diana Chasma, sown from a longhouse loft for signal.",
+ "wovenBy": "thorvald-pile-3",
+ "chain": "seven deep"
+}

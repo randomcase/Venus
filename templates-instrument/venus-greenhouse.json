@@ -1,0 +1,16 @@
+{
+ "id": "venus-greenhouse",
+ "order": 7,
+ "quantity": "Greenhouse warming at the Venus surface",
+ "value": 510,
+ "unit": "K",
+ "uncertainty": 8,
+ "kind": "derived",
+ "method": "Surface temperature minus the effective temperature computed from absorbed flux. The uncertainty is inherited almost entirely from the albedo.",
+ "used_for": "The factor of fifteen against Earth, which is the divergence.",
+ "boards": [
+  "cistern.html",
+  "paper.html"
+ ],
+ "wrong_if": "The albedo is wrong. Everything else in the chain is arithmetic."
+}

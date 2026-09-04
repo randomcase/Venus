@@ -1,0 +1,16 @@
+{
+ "id": "act-098",
+ "order": 98,
+ "year": 10,
+ "day": 3517,
+ "parties": [
+  "diomedes"
+ ],
+ "actor": "Diomedes",
+ "with": null,
+ "verb": "duelled",
+ "object": "in the space between the lines",
+ "place": "on the plain of Scamander",
+ "side": "fleet",
+ "text": "Diomedes duelled in the space between the lines, on the plain of Scamander, in the tenth year."
+}

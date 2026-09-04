@@ -1,4 +1,5 @@
-<title>Venus Yard</title>
+<title>Hesperus &middot; Venus Yard</title>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
   The front door. Seven boards and one contract, in the order you would
@@ -73,21 +74,490 @@
   .foot b{color:var(--ink)}
   code{font:11px ui-monospace,Menlo,monospace;color:var(--cream);
     background:#0b1219;border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+
+    /* ═══════════════════════════════════════════════════ THE GALACTIC BACKDROP
+     A window, not a wallpaper. Still no script.
+
+     69 bright stars and 139 dim ones, weighted the way the real sky is —
+     mostly dim and warm, a scatter of white, almost no blue — laid along a band
+     twenty-four degrees off horizontal with the dust lane cut back out of it in
+     the background colour, because the dark half of a galaxy is most of what
+     you see. The stars are Earth's, because they would be: Venus is 0.28 AU
+     away and that is nothing at stellar distances.
+
+     WE ARE TRAVELLING, so the sky does. It sits on two fixed pseudo-elements
+     rather than one background, and each one moves by TRANSFORM — which the
+     compositor does on its own thread, without repainting 208 gradients a
+     frame. Animating background-position instead would have cost the frame
+     budget of every board in the yard, and that is the only reason this is
+     built out of two layers instead of one.
+
+     AND WE ARE EXPANDING, so the near layer runs faster and scales harder than
+     the far one. That difference is parallax and parallax is the entire cue:
+     hold still and the bright stars slide past the dim ones, which is what a
+     window does and what a backdrop cannot. 21 minutes and 34 — coprime, so the
+     two never fall back into the arrangement they started in.
+
+     Both sit at z-index:-1 behind everything, each page keeps its own colour
+     wash on <body> over the top, and prefers-reduced-motion stops the travel
+     dead while leaving every star exactly where it is. */
+  html{background-color:#080b0f}
+  body{background-color:transparent}
+  html::before,html::after{content:"";position:fixed;z-index:-1;
+    inset:-18%;pointer-events:none;background-repeat:no-repeat;
+    background-size:cover;will-change:transform}
+  html::before{background-image:
+      radial-gradient(0.35px 0.35px at 63.60% 61.37%,rgba(202,215,255,0.16),transparent),
+      radial-gradient(0.54px 0.54px at 31.73% 56.60%,rgba(255,210,161,0.26),transparent),
+      radial-gradient(0.36px 0.36px at 16.19% 41.87%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.12% 16.25%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 61.37% 49.53%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.66px 0.66px at 89.13% 49.03%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.52px 0.52px at 23.10% 65.23%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 81.55% 90.93%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.35px 0.35px at 1.99% 39.17%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.67px 0.67px at 88.33% 64.79%,rgba(255,210,161,0.32),transparent),
+      radial-gradient(0.65px 0.65px at 52.00% 41.82%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.84px 0.84px at 59.58% 82.02%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.44px 0.44px at 55.83% 49.97%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.45px 0.45px at 61.17% 3.50%,rgba(202,215,255,0.21),transparent),
+      radial-gradient(0.48px 0.48px at 92.68% 74.19%,rgba(255,181,107,0.23),transparent),
+      radial-gradient(0.41px 0.41px at 44.55% 40.37%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.80px 0.80px at 33.50% 52.15%,rgba(255,181,107,0.39),transparent),
+      radial-gradient(0.70px 0.70px at 15.53% 74.11%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.69px 0.69px at 83.20% 49.99%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.86px 0.86px at 14.02% 0.25%,rgba(255,181,107,0.42),transparent),
+      radial-gradient(0.35px 0.35px at 8.46% 26.75%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 16.18% 29.77%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.57px 0.57px at 46.77% 49.71%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.58px 0.58px at 80.94% 96.51%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.44px 0.44px at 46.92% 31.31%,rgba(255,181,107,0.20),transparent),
+      radial-gradient(0.37px 0.37px at 34.69% 85.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.42px 0.42px at 56.44% 46.68%,rgba(255,210,161,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 7.58% 26.10%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.48px 0.48px at 16.83% 84.69%,rgba(202,215,255,0.22),transparent),
+      radial-gradient(0.53px 0.53px at 9.16% 5.95%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.57px 0.57px at 41.82% 44.48%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.90px 0.90px at 74.31% 45.97%,rgba(255,210,161,0.44),transparent),
+      radial-gradient(0.40px 0.40px at 64.18% 49.64%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 5.25% 39.37%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.53px 0.53px at 9.07% 72.19%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.78px 0.78px at 64.06% 69.96%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.37px 0.37px at 8.76% 35.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 57.68% 27.55%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 98.05% 7.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.66px 0.66px at 44.51% 72.98%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.46px 0.46px at 37.26% 1.54%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.59px 0.59px at 90.42% 72.27%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.57px 0.57px at 98.13% 10.35%,rgba(248,247,255,0.27),transparent),
+      radial-gradient(0.91px 0.91px at 94.93% 71.89%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.36px 0.36px at 4.64% 11.86%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.56px 0.56px at 46.09% 50.65%,rgba(255,210,161,0.27),transparent),
+      radial-gradient(0.72px 0.72px at 98.16% 60.72%,rgba(255,181,107,0.35),transparent),
+      radial-gradient(0.90px 0.90px at 23.45% 18.12%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.53px 0.53px at 13.29% 38.54%,rgba(248,247,255,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 48.20% 58.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 93.26% 70.43%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.77px 0.77px at 98.31% 71.27%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.51px 0.51px at 91.86% 57.08%,rgba(255,210,161,0.24),transparent),
+      radial-gradient(0.76px 0.76px at 3.22% 18.38%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 67.24% 79.63%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.44px 0.44px at 4.49% 37.24%,rgba(255,210,161,0.20),transparent),
+      radial-gradient(0.35px 0.35px at 19.05% 44.87%,rgba(248,247,255,0.16),transparent),
+      radial-gradient(0.43px 0.43px at 80.57% 75.11%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.38px 0.38px at 84.40% 42.68%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.44px 0.44px at 84.04% 97.87%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.65px 0.65px at 16.48% 27.55%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.75px 0.75px at 84.52% 73.60%,rgba(255,210,161,0.36),transparent),
+      radial-gradient(0.63px 0.63px at 50.13% 6.86%,rgba(248,247,255,0.30),transparent),
+      radial-gradient(0.78px 0.78px at 87.51% 70.49%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.76px 0.76px at 16.34% 26.34%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.35px 0.35px at 58.85% 56.40%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 4.52% 56.48%,rgba(255,181,107,0.33),transparent),
+      radial-gradient(0.46px 0.46px at 86.45% 52.09%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.39px 0.39px at 91.92% 82.50%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.36px 0.36px at 6.83% 33.67%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.10% 7.69%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 63.59% 62.73%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 72.64% 55.47%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.57px 0.57px at 1.57% 22.68%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.35px 0.35px at 20.24% 40.59%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 81.60% 86.38%,rgba(255,244,234,0.33),transparent),
+      radial-gradient(0.75px 0.75px at 1.01% 89.43%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.50px 0.50px at 1.89% 45.85%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.36px 0.36px at 86.06% 69.70%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.46px 0.46px at 54.27% 84.12%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.35px 0.35px at 68.88% 69.99%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 51.92% 44.11%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.37px 0.37px at 83.56% 88.23%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.61px 0.61px at 48.63% 32.82%,rgba(248,247,255,0.29),transparent),
+      radial-gradient(0.46px 0.46px at 3.14% 19.70%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.35px 0.35px at 91.65% 60.72%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 39.35% 42.18%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.60px 0.60px at 96.63% 57.34%,rgba(255,210,161,0.29),transparent),
+      radial-gradient(0.36px 0.36px at 93.19% 66.52%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 91.66% 53.83%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.53px 0.53px at 37.09% 33.98%,rgba(255,210,161,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 7.69% 48.04%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.76px 0.76px at 40.92% 77.22%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.62px 0.62px at 53.18% 55.13%,rgba(255,181,107,0.30),transparent),
+      radial-gradient(0.52px 0.52px at 36.16% 17.06%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.42px 0.42px at 7.30% 10.90%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 98.83% 35.83%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.57px 0.57px at 32.25% 40.39%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.77px 0.77px at 68.97% 58.36%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.35px 0.35px at 98.16% 72.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 49.07% 50.45%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.59px 0.59px at 36.73% 46.36%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.37px 0.37px at 59.16% 52.43%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 5.87% 47.43%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.35px 0.35px at 28.92% 42.34%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.84px 0.84px at 38.15% 61.03%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.35px 0.35px at 17.08% 95.56%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.56px 0.56px at 72.12% 52.35%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.43px 0.43px at 10.79% 34.15%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.36px 0.36px at 90.72% 54.28%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.36px 0.36px at 0.22% 39.29%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.38px 0.38px at 66.88% 43.63%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.76px 0.76px at 85.24% 53.71%,rgba(255,210,161,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 76.84% 68.26%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.82px 0.82px at 20.88% 36.67%,rgba(255,181,107,0.40),transparent),
+      radial-gradient(0.53px 0.53px at 72.59% 59.70%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.82px 0.82px at 99.56% 61.97%,rgba(248,247,255,0.40),transparent),
+      radial-gradient(0.37px 0.37px at 43.04% 22.87%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.38px 0.38px at 62.75% 36.42%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.64px 0.64px at 11.37% 52.16%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.35px 0.35px at 65.28% 54.10%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 23.22% 51.57%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.41px 0.41px at 7.86% 15.80%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 1.16% 17.03%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 24.23% 36.88%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 67.85% 71.10%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.87px 0.87px at 21.22% 9.64%,rgba(255,181,107,0.43),transparent),
+      radial-gradient(16px 16px at 11.38% 48.06%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 66.59% 41.28%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 40.80% 23.68%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 41.01% 67.29%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 31.18% 27.63%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 10.81% 18.20%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 3.23% 54.03%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(30% 30% at 22% 30%,rgba(91,127,199,0.055),transparent 70%),
+      radial-gradient(26% 26% at 74% 58%,rgba(201,87,143,0.040),transparent 70%),
+      radial-gradient(22% 22% at 46% 18%,rgba(79,179,166,0.035),transparent 70%),
+      linear-gradient(66deg,transparent 34%,rgba(148,138,196,.045) 43%,rgba(172,162,214,.085) 50%,rgba(148,138,196,.045) 57%,transparent 66%),
+      linear-gradient(66deg,transparent 46%,rgba(4,3,7,.55) 49.4%,rgba(4,3,7,.62) 50.6%,transparent 54%);
+    animation:au-far 2040s ease-in-out infinite alternate}
+  html::after{background-image:
+      radial-gradient(1.30px 1.30px at 68.42% 62.26%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(0.96px 0.96px at 44.46% 53.88%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.72px 1.72px at 97.52% 67.89%,rgba(255,210,161,0.86),transparent),
+      radial-gradient(1.27px 1.27px at 29.09% 44.54%,rgba(255,181,107,0.63),transparent),
+      radial-gradient(1.25px 1.25px at 0.41% 98.24%,rgba(255,181,107,0.62),transparent),
+      radial-gradient(1.12px 1.12px at 48.27% 61.45%,rgba(255,181,107,0.55),transparent),
+      radial-gradient(1.62px 1.62px at 21.27% 82.41%,rgba(255,181,107,0.81),transparent),
+      radial-gradient(1.13px 1.13px at 32.91% 34.63%,rgba(255,181,107,0.56),transparent),
+      radial-gradient(1.56px 1.56px at 71.19% 43.86%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.40px 1.40px at 6.85% 52.24%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.14px 1.14px at 86.46% 83.26%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.10px 1.10px at 71.95% 42.90%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.42px 1.42px at 36.96% 17.89%,rgba(255,181,107,0.71),transparent),
+      radial-gradient(1.13px 1.13px at 4.31% 1.17%,rgba(170,191,255,0.56),transparent),
+      radial-gradient(1.31px 1.31px at 41.52% 51.61%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(1.46px 1.46px at 76.09% 66.82%,rgba(255,244,234,0.72),transparent),
+      radial-gradient(1.78px 1.78px at 26.72% 43.06%,rgba(255,181,107,0.89),transparent),
+      radial-gradient(1.69px 1.69px at 22.68% 46.22%,rgba(170,191,255,0.84),transparent),
+      radial-gradient(1.76px 1.76px at 30.20% 97.65%,rgba(255,181,107,0.88),transparent),
+      radial-gradient(1.38px 1.38px at 99.58% 76.98%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.08px 1.08px at 15.38% 27.05%,rgba(255,244,234,0.53),transparent),
+      radial-gradient(0.95px 0.95px at 42.39% 32.32%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.57px 1.57px at 58.49% 81.25%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(0.94px 0.94px at 48.37% 39.34%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.41px 1.41px at 91.19% 97.04%,rgba(255,210,161,0.70),transparent),
+      radial-gradient(1.37px 1.37px at 7.79% 44.56%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.07px 1.07px at 89.66% 36.01%,rgba(255,181,107,0.53),transparent),
+      radial-gradient(1.69px 1.69px at 67.50% 93.44%,rgba(255,181,107,0.84),transparent),
+      radial-gradient(1.15px 1.15px at 57.27% 40.78%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.58px 1.58px at 33.10% 45.94%,rgba(255,181,107,0.79),transparent),
+      radial-gradient(1.04px 1.04px at 83.01% 82.39%,rgba(255,181,107,0.51),transparent),
+      radial-gradient(1.56px 1.56px at 88.42% 66.83%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.29px 1.29px at 24.78% 0.51%,rgba(255,181,107,0.64),transparent),
+      radial-gradient(1.09px 1.09px at 6.07% 6.69%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.32px 1.32px at 53.40% 80.43%,rgba(255,210,161,0.65),transparent),
+      radial-gradient(1.19px 1.19px at 76.80% 81.97%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(0.94px 0.94px at 69.80% 57.79%,rgba(255,244,234,0.46),transparent),
+      radial-gradient(1.10px 1.10px at 7.00% 33.07%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.22px 1.22px at 76.56% 52.71%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(0.96px 0.96px at 85.29% 63.59%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.18px 1.18px at 17.44% 43.04%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(1.51px 1.51px at 36.81% 57.97%,rgba(255,210,161,0.75),transparent),
+      radial-gradient(1.37px 1.37px at 98.28% 82.40%,rgba(248,247,255,0.68),transparent),
+      radial-gradient(1.65px 1.65px at 78.05% 82.63%,rgba(248,247,255,0.82),transparent),
+      radial-gradient(1.20px 1.20px at 59.28% 41.45%,rgba(248,247,255,0.60),transparent),
+      radial-gradient(1.55px 1.55px at 40.98% 18.58%,rgba(255,181,107,0.77),transparent),
+      radial-gradient(1.02px 1.02px at 82.66% 66.73%,rgba(255,181,107,0.50),transparent),
+      radial-gradient(1.20px 1.20px at 0.68% 23.74%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(1.15px 1.15px at 57.32% 67.46%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.34px 1.34px at 6.29% 37.15%,rgba(255,244,234,0.66),transparent),
+      radial-gradient(1.39px 1.39px at 63.56% 50.69%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.59px 1.59px at 80.48% 31.89%,rgba(202,215,255,0.79),transparent),
+      radial-gradient(1.52px 1.52px at 40.22% 51.94%,rgba(255,210,161,0.76),transparent),
+      radial-gradient(1.52px 1.52px at 78.35% 77.94%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(1.70px 1.70px at 33.95% 56.66%,rgba(255,181,107,0.85),transparent),
+      radial-gradient(1.16px 1.16px at 77.09% 41.34%,rgba(255,210,161,0.58),transparent),
+      radial-gradient(1.67px 1.67px at 39.69% 60.56%,rgba(255,210,161,0.83),transparent),
+      radial-gradient(1.47px 1.47px at 12.24% 30.52%,rgba(255,181,107,0.73),transparent),
+      radial-gradient(1.11px 1.11px at 80.16% 93.71%,rgba(255,210,161,0.55),transparent),
+      radial-gradient(1.52px 1.52px at 11.04% 44.84%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(0.94px 0.94px at 59.58% 30.37%,rgba(255,210,161,0.46),transparent),
+      radial-gradient(1.53px 1.53px at 0.35% 42.03%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(2.6px 2.6px at 11.38% 48.06%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 66.59% 41.28%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 40.80% 23.68%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 41.01% 67.29%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 31.18% 27.63%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 10.81% 18.20%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 3.23% 54.03%,rgba(255,255,255,.95),transparent);
+    animation:au-near 1260s ease-in-out infinite alternate}
+  @keyframes au-far{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-3.0%,1.6%,0) scale(1.09)}}
+  @keyframes au-near{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-8.5%,4.4%,0) scale(1.26)}}
+  @media (prefers-reduced-motion:reduce){
+    html::before,html::after{animation:none}}
 </style>
 
 <div class="wrap">
   <header>
-    <h1>Venus Yard</h1>
+    <h1>Hesperus</h1>
+    <p class="lede" style="margin-top:0"><b style="letter-spacing:.3em;color:var(--gold)">SPQR</b> &middot; the yard is a ship now, the Hesperus, which is the evening star's name for Venus. Every page is a deck; the senate and the people of it are the same crew. The standard is in the corner of every deck.</p>
     <div class="band"><i style="background:var(--green)"></i>
       <i style="background:var(--plum)"></i><i style="background:var(--cream)"></i>
       <i style="background:var(--rose)"></i><i style="background:var(--gold)"></i></div>
-    <p class="lede">Thirty-four boards, two templates and one contract. Draw a hull and count its
-      fastenings, order it against a price list, man it, provision it, run it
-      down a lane — and carry one JSON document between them. <b>Thirty-three of the
-      thirty-five have no script in them at all</b>; the arithmetic is CSS counters
-      and the state is <code>:has()</code>. The seventh is the bridge, and it is
-      marked.</p>
   </header>
+
+  <!-- THE BRIDGE. The front page is the bridge of the Hesperus now: the viewscreen ahead,
+       the stations across, the ship's plan below, and the decks after that. The readouts
+       are read from what the other decks saved in this browser; nothing here is invented.
+       The viewscreen is stars, the planet and the rail: nothing with a face. -->
+  <style>
+    .bridge{margin:0 0 26px}
+    .bridge .screen{position:relative;border:1px solid var(--edge);border-radius:14px;overflow:hidden;background:#000;box-shadow:0 0 0 1px rgba(63,212,255,.08),0 0 40px rgba(63,212,255,.12)}
+    .bridge canvas{display:block;width:100%;height:320px}
+    .bridge .hud{position:absolute;left:14px;top:12px;font:10.5px/1.5 ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--sea);text-shadow:0 0 8px rgba(63,212,255,.6)}
+    .bridge .hud b{display:block;color:#fff;font-size:12px}
+    .bridge .hud.r{left:auto;right:14px;text-align:right}
+    .link{display:grid;grid-template-columns:126px 1fr auto;gap:4px 10px;align-items:baseline;border-top:1px solid var(--edge);padding:7px 0;font-size:12.5px}
+    .link b{font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--sea)}
+    .link p{margin:0;color:var(--dim)}
+    .link .s{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+    .link .flowing{color:var(--ok)}.link .waiting{color:var(--dim)}.link .blocked{color:var(--bad)}
+    .stations{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin:12px 0 0}
+    .station{display:block;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:10px 12px;box-shadow:inset 0 0 24px rgba(63,212,255,.05)}
+    .station:hover{border-color:var(--sea);box-shadow:0 0 14px rgba(63,212,255,.35)}
+    .station b{display:block;font:700 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--sea);margin-bottom:6px}
+    .station span{display:block;font:500 19px/1.15 var(--serif);font-variant-numeric:tabular-nums;color:#fff}
+    .station i{display:block;font-style:normal;font-size:11px;color:var(--dim);margin-top:3px}
+    .plan{margin:14px 0 0;background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:14px 16px}
+    .plan h3{margin:0 0 4px;font:700 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--sea)}
+    .plan p{color:var(--dim);font-size:12.5px;max-width:82ch;margin:6px 0}
+    .plan p b{color:var(--ink);font-weight:600}
+    .hull{display:grid;grid-template-columns:3fr 1fr;height:150px;margin:12px 0 6px;border:2px solid #7a5a1e;border-radius:80px 12px 12px 80px;overflow:hidden;box-shadow:0 0 18px rgba(255,210,63,.15)}
+    .corn{position:relative;background:repeating-linear-gradient(90deg,#173a1c 0 9px,#0c2210 9px 12px);border-right:2px solid #7a5a1e}
+    .corn::after{content:"CORN · 135,400 KM² · THREE QUARTERS · EVERYONE'S";position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font:700 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;color:#b6ff7a;text-shadow:0 0 8px #000,0 0 8px #000}
+    .quarter{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);background:#0f1430}
+    .quarter i{font-style:normal;font:9px/1.2 ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);border:1px solid #22307a;display:flex;align-items:center;justify-content:center;text-align:center;padding:2px}
+    .quarter i.empty{color:var(--dim)}
+    @media (max-width:700px){.bridge canvas{height:220px}.hull{height:120px}}
+  </style>
+  <div class="bridge">
+    <div class="screen"><canvas id="viewscreen" width="1200" height="320"></canvas>
+      <div class="hud"><b>Hesperus · Venus M1</b>bearing Venus · the evening star · the first mark of the ship</div>
+      <div class="hud r"><b id="hud-day">day —</b><span id="hud-line">the decks are quiet</span></div>
+    </div>
+    <div class="stations">
+      <a class="station" href="clans.html"><b>Helm · the clans</b><span id="rd-clans">—</span><i>units piled across six clans</i></a>
+      <a class="station" href="continent.html"><b>Fields · Aphrodite Terra</b><span id="rd-continent">—</span><i>parcels grown of 4,080 arable</i></a>
+      <a class="station" href="village.html"><b>Stores · the village</b><span id="rd-village">—</span><i>grain in the village, households</i></a>
+      <a class="station" href="town.html"><b>Quarters · the town</b><span id="rd-town">—</span><i>citizens, and rent sent down</i></a>
+      <a class="station" href="market.html"><b>Exchange · the market</b><span id="rd-market">—</span><i>tranches held, degree on the board</i></a>
+      <a class="station" href="descent.html"><b>Treasury · the docket</b><span id="rd-heze">—</span><i>HEZE, against a cap of 21,000,000</i></a>
+      <a class="station" href="dispatch.html"><b>Comms · the shelf</b><span>26 sealed</span><i>dispatches and digests, by your words</i></a>
+      <a class="station" href="ledger/explorer.html"><b>Engineering · the ledger</b><span>21 × 1,000,000</span><i>two centuries, hash-chained</i></a>
+      <a class="station" href="coven.html"><b>The coven &middot; the doors</b><span id="rd-coven">—</span><i>21 syndicates, 63 practitioners, two of three sign</i></a>
+      <a class="station" href="glossary.html"><b>The glossary &middot; the chronicle</b><span id="rd-gloss">—</span><i>every word the ship uses, and the text that writes itself</i></a>
+      <a class="station" href="terminal.html"><b>The terminal &middot; typed</b><span>notebook</span><i>the ship, in words: json, api, set a rule, record a macro, automate it</i></a>
+      <a class="station" href="quarter.html"><b>The quarter · yours</b><span>6 rooms · 120 pieces</span><i>furnished from the yard's own templates; the console and the editor are in the workshop</i></a>
+      <a class="station" href="arcade.html"><b>The arcade</b><span>223 cabinets</span><i>every deck, running</i></a>
+    </div>
+    <div class="plan">
+      <h3>The ship's plan</h3>
+      <div class="hull">
+        <div class="corn"></div>
+        <div class="quarter"><i>the library</i><i>the loom hall</i><i>the long walk</i><i>the workshop</i><i>the dispatch shelf</i><i class="empty">a room kept empty</i></div>
+      </div>
+      <p><b>The Hesperus is the size of Missouri</b>: 180,540 square kilometres of deck. Three quarters of it is corn, 135,400 square kilometres of field, and the corn is not mine; the corn is everyone's, and the clans, the continent, the village and the town are how it is grown, piled, milled and eaten. One quarter is living space, 45,100 square kilometres, and that quarter is mine. It is furnished now: <a href="quarter.html" style="color:var(--gold)">the quarter</a>.</p>
+      <p><b>What the corn is good for: five guilds.</b> <b>The millers</b> make meal: corn into meal. <b>The bakers</b> make bread: meal into bread. <b>The distillers</b> make spirit: corn into spirit, by mash and still. <b>The drovers</b> make stock: corn into fodder into stock. <b>The chandlers</b> make oil and fuel: corn into oil, pressed from the germ, for the lamps on the long walk; and cobs into fuel for the kilns. Five guilds and fifteen citizens is the town's charter, and these are the five. Each is a template in <code>templates-corn/</code>.</p>
+      <p><b>What I do with my quarter.</b> Most of it I give back as commons. A library, which is <a href="reading.html" style="color:var(--gold)">the reading room</a> and <a href="kb.html" style="color:var(--gold)">the knowledge base</a>. A loom hall, where the <a href="farm.html" style="color:var(--gold)">templates weave templates</a>. A long walk with nothing on it but the fireflies. A workshop, which is <a href="whiteboard.html" style="color:var(--gold)">the whiteboard</a>. The dispatch shelf, sealed with your words. And one room kept empty, because a ship this size should have somewhere nobody has decided anything about yet. Nothing in my quarter has a face, and nothing in it looks at you.</p>
+    </div>
+    <div class="plan" id="symbiosis" style="margin-top:12px">
+      <h3>The symbiosis</h3>
+      <p id="sym-now" style="color:var(--gold);font-size:13px;margin:2px 0 10px"></p>
+      <p>Six links, and each one is somebody's work feeding somebody else's. Nothing on
+        this ship produces for itself: the clans pile what the continent sows, the
+        continent feeds the village, the village feeds the town, the town pays the
+        clans, the coven signs what the docket issues. A link is <b>flowing</b> when
+        something crossed it recently, <b>waiting</b> when the thing upstream has not
+        made anything yet, and <b>blocked</b> when it has and the crossing is stuck.
+        Every line below is read off the decks' own saved state, so it is what is
+        actually happening rather than what the design intends.</p>
+      <div id="sym-links" style="margin-top:10px"></div>
+    </div>
+    <div class="plan" id="launch-panel" style="margin-top:12px">
+      <h3>Launch</h3>
+      <p><b>Everything to zero.</b> Every deck's saved state on this browser is
+        cleared: the docket, the clans' piles, the continent, the village, the town,
+        the market, the school, the blade. Nothing is edited on disk; the ship as
+        built is untouched. Three things are <b>not</b> state and are kept: what you
+        authored in the workshop's editor, what you wrote in the journal, and the
+        wallet's encrypted vault, which is key material and not a saved game. A
+        snapshot of everything, those three included, downloads first, so a launch
+        is undoable by hand.</p>
+      <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px">
+        <button id="launch" style="font:700 12px/1 var(--serif);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);background:#1a1030;border:2px solid var(--gold);border-radius:10px;padding:10px 18px;cursor:pointer">Set everything to zero and launch</button>
+        <button id="zero-all" style="font:inherit;font-size:11px;color:var(--dim);background:transparent;border:1px solid var(--edge);border-radius:9px;padding:8px 12px;cursor:pointer">Clear the vault and the journal too</button>
+        <span id="launch-state" style="color:var(--dim);font-size:12px"></span>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function () {
+    const J = k => { try { return JSON.parse(localStorage.getItem(k) || 'null') || {}; } catch (e) { return {}; } };
+    const fmt = n => Math.round(n).toLocaleString('en-US'), $ = s => document.querySelector(s);
+    let LAUNCH = J('hesperus.v1'), burn = 0;
+    function readouts() {
+    const c = J('clans.v1'), ct = J('continent.v1'), v = J('village.v1'), t = J('town.v1'), m = J('market.v1'), d = J('descent.v1');
+    const piles = Object.values(c.piles || {}).reduce((a, b) => a + b, 0), grown = (ct.cells || []).filter(x => x === 2).length;
+    $('#rd-clans').textContent = c.piles ? fmt(piles) : 'unmanned'; $('#rd-continent').textContent = ct.cells ? fmt(grown) : 'bare';
+    $('#rd-village').textContent = v.built ? `${fmt(v.grain || 0)} · ${v.households || 0}` : 'unbuilt'; $('#rd-town').textContent = t.built ? `${t.citizens || 0} · ${fmt(t.rentSent || 0)}` : 'unbuilt';
+    const cv = J('coven.v1'), gl = J('chronicle.v1');
+    $('#rd-coven').textContent = cv.chain ? `${(cv.chain || []).length} checkpoints` : 'unsworn';
+    $('#rd-gloss').textContent = (gl.lines || []).length ? `${(gl.lines || []).length} lines` : '216 terms';
+    $('#rd-market').textContent = m.held ? `${m.held.length} · degree ${m.degree}` : 'closed'; $('#rd-heze').textContent = d.heze != null ? fmt(d.heze) : 'no docket';
+    const day = Math.max(c.day || 0, ct.day || 0, v.day || 0, t.day || 0); $('#hud-day').textContent = `day ${fmt(day)}`;
+    $('#hud-line').textContent = LAUNCH.launched ? `${fmt((Date.now() - LAUNCH.launched) / 1000)} s since launch` : grown > 0 ? `${(100 * grown / 4080).toFixed(1)}% of the continent grown` : piles > 0 ? 'the clans are piling' : 'the decks are quiet';
+    if (LAUNCH.launched) $('#hud-day').textContent = `day ${fmt(day)} \u00b7 under way`;
+    }
+    readouts(); symbiosis(); setInterval(() => { readouts(); symbiosis(); }, 5000);
+    /* THE SYMBIOSIS. Each link reads the two decks it joins and says, in a sentence, whether
+       work is crossing it. A link is blocked when the upstream deck has made something the
+       downstream deck has not taken, and waiting when the upstream has not made anything yet.
+       The first line names the one thing most worth doing next, which is the earliest block. */
+    function symbiosis() {
+      const c = J('clans.v1'), ct = J('continent.v1'), v = J('village.v1'), t = J('town.v1'), m = J('market.v1'), cv = J('coven.v1'), d = J('descent.v1');
+      const piles = Object.values(c.piles || {}).reduce((a, b) => a + b, 0), grown = (ct.cells || []).filter(x => x === 2).length;
+      const produced = Math.round(ct.produced || 0), drawn = Math.round(v.drawnContinent || 0), grain = Math.round(v.grain || 0);
+      const L = [];
+      L.push({ from: 'the clans', to: 'the continent', want: 'open the clans and take a work, then sow a parcel',
+        state: !c.piles ? 'waiting' : piles < 3 ? 'blocked' : grown > 0 ? 'flowing' : 'waiting',
+        say: !c.piles ? 'The clans are unmanned, so nothing is being piled and nothing can be sown.'
+          : piles < 3 ? `Only ${fmt(piles)} units are piled, and a sowing costs three. The continent cannot start until a pile holds more.`
+          : grown > 0 ? `${fmt(piles)} piled, ${fmt(grown)} parcels grown. The piles are feeding the fields.`
+          : `${fmt(piles)} units are piled and no parcel is sown yet. The continent is waiting on you to sow one.` });
+      L.push({ from: 'the continent', to: 'the village', want: 'open the village so it draws what the continent made',
+        state: !produced ? 'waiting' : produced > drawn + 50 ? 'blocked' : 'flowing',
+        say: !produced ? 'Aphrodite Terra has produced no provision yet; there is nothing for the village to draw.'
+          : produced > drawn + 50 ? `${fmt(produced - drawn)} provision is sitting on the continent undrawn. It moves when the village is open.`
+          : `${fmt(drawn)} of ${fmt(produced)} provision has gone up the road. The village is drawing what the fields make.` });
+      L.push({ from: 'the village', to: 'the town', want: 'build a trade in the village, or a guild in the town',
+        state: !v.built ? 'waiting' : grain < 10 ? 'blocked' : (t.citizens || 0) > 0 ? 'flowing' : 'waiting',
+        say: !v.built ? 'The village is unbuilt, so no grain is milled and the town has nothing to eat.'
+          : grain < 10 ? `The village store holds ${fmt(grain)}, and ten grain feed one citizen. The town cannot grow on that.`
+          : (t.citizens || 0) > 0 ? `${fmt(grain)} grain in store, feeding ${Math.floor(grain / 10)} of the town's ${t.citizens}.`
+          : `${fmt(grain)} grain would feed ${Math.floor(grain / 10)} citizens, and the town has none yet. It needs a guild and a ward.` });
+      L.push({ from: 'the town', to: 'the clans', want: 'build a tenement in the town so rent starts flowing down',
+        state: !t.built ? 'waiting' : !(t.rentSent || 0) ? 'blocked' : 'flowing',
+        say: !t.built ? 'The town is unbuilt, so there is no rent to send back down.'
+          : !(t.rentSent || 0) ? 'The town has no tenements, so no rent goes down to the clans and the loop is open at this link.'
+          : `${fmt(t.rentSent)} HEZE of rent has gone down to the clans, and ${fmt(c.rentDrawn || 0)} of it has been turned into stock.` });
+      L.push({ from: 'the coven', to: 'the docket', want: 'sign a proposal at a door, then carry',
+        state: !cv.chain ? 'waiting' : (cv.props || []).filter(p => p.signed && p.signed.length >= 2).length ? 'flowing' : (cv.props || []).length ? 'blocked' : 'waiting',
+        say: !cv.chain ? 'The coven has not been opened; no door has been signed and nothing has crossed.'
+          : (cv.props || []).filter(p => p.signed && p.signed.length >= 2).length ? `${(cv.props || []).filter(p => p.signed && p.signed.length >= 2).length} proposals have two of three and are waiting for the carry. ${(cv.chain || []).length} checkpoints so far.`
+          : (cv.props || []).length ? `${(cv.props || []).length} proposals are open at the doors and none has two signatures. Nothing can cross until they do.`
+          : `${(cv.chain || []).length} checkpoints committed. The doors are quiet.` });
+      L.push({ from: 'the market', to: 'the docket', want: 'take a tranche on the market',
+        state: !(m.held || []).length ? 'waiting' : 'flowing',
+        say: !(m.held || []).length ? 'No tranches held, so no dividends are paid on the farms\' periods.'
+          : `${(m.held || []).length} tranches held; they pay on their farms' coprime periods, so they never all pay at once.` });
+      $('#sym-links').innerHTML = L.map(l => `<div class="link"><b>${l.from} &rarr; ${l.to}</b><p>${l.say}</p><span class="s ${l.state}">${l.state}</span></div>`).join('');
+      const stuck = L.find(l => l.state === 'blocked') || L.find(l => l.state === 'waiting');
+      $('#sym-now').textContent = stuck ? `What to do next: ${stuck.want}. That is the earliest link not carrying anything.`
+        : `Every link is carrying. The docket stands at ${fmt(d.heze || 0)} HEZE, and nothing in the loop is waiting on you.`;
+    }
+    /* THE LAUNCH. Everything the decks saved on this browser is cleared, except what was
+       authored in the workshop's editor; a snapshot downloads first so it is undoable by hand.
+       Nothing on disk is touched: the ship as built does not change when it launches. */
+    /* NOT STATE, AND NOT CLEARED BY A LAUNCH: what you authored in the workshop's editor,
+       what you wrote in the journal, and the wallet's encrypted vault, which is key material
+       and not a saved game. The launch says so on the panel; the second control clears them
+       too, and asks first, because a vault cleared is keys gone. */
+    const KEEP = k => k === 'custom.v1' || k === 'venus.journal.v1' || k.startsWith('vw.');
+    const say = m => { $('#launch-state').textContent = m; };
+    function snapshot() { const all = {}; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); all[k] = localStorage.getItem(k); }
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify({ taken: new Date().toISOString(), keys: Object.keys(all).length, state: all }, null, 1)], { type: 'application/json' }));
+      a.download = `hesperus-before-launch-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '')}.json`; document.body.append(a); a.click(); a.remove(); return Object.keys(all).length; }
+    function zero() { const keys = []; for (let i = 0; i < localStorage.length; i++) keys.push(localStorage.key(i));
+      let n = 0; for (const k of keys) if (!KEEP(k) || window.__zeroAll) { localStorage.removeItem(k); n++; } return n; }
+    $('#launch').onclick = async () => {
+      const b = $('#launch'); if (b.disabled) return; b.disabled = true; b.style.opacity = .6;
+      const had = snapshot(); say(`snapshot of ${had} keys downloaded`); await new Promise(r => setTimeout(r, 900));
+      const n = zero(); LAUNCH = { launched: 0, mark: 'Venus M1', zeroed: n, at: null };
+      say(`${n} keys cleared \u2014 every deck at zero`); await new Promise(r => setTimeout(r, 900));
+      for (let k = 10; k >= 1; k--) { say(`launch in ${k}`); await new Promise(r => setTimeout(r, 700)); }
+      LAUNCH = { launched: Date.now(), mark: 'Venus M1', zeroed: n };
+      localStorage.setItem('hesperus.v1', JSON.stringify(LAUNCH)); burn = performance.now();
+      say('under way \u00b7 the decks are at zero and running'); readouts();
+      b.textContent = 'Launched'; b.style.color = 'var(--ok)'; b.style.borderColor = 'var(--ok)';
+    };
+    $('#zero-all').onclick = () => { if (!confirm('This clears the wallet\u2019s encrypted vault as well, and a vault cleared is keys gone. The snapshot the launch downloads is the only copy. Clear them too?')) return;
+      window.__zeroAll = true; $('#zero-all').textContent = 'the vault and the journal will go too'; $('#zero-all').style.color = 'var(--bad)'; };
+    if (LAUNCH.launched) say(`under way since ${new Date(LAUNCH.launched).toLocaleString()} \u00b7 ${LAUNCH.zeroed} keys were cleared at zero hour`);
+    /* the viewscreen: stars, the planet, the rail. Drawn, not photographed; nothing with a face. */
+    const cv = $('#viewscreen'), g = cv.getContext('2d'); const stars = Array.from({ length: 260 }, (_, i) => ({ x: (i * 7919 % 1200), y: (i * 104729 % 320), r: .4 + (i % 5) * .3, s: .02 + (i % 7) * .01 }));
+    function draw(now) { const W = cv.width = cv.clientWidth * (devicePixelRatio > 1 ? 1.5 : 1), H = cv.height = cv.clientHeight * (devicePixelRatio > 1 ? 1.5 : 1); const t = now / 1000;
+      g.fillStyle = '#02030a'; g.fillRect(0, 0, W, H);
+      const B = burn ? Math.max(0, 1 - (now - burn) / 8000) : 0;
+      for (const s of stars) { const x = ((s.x / 1200) * W - t * s.s * 40 * (1 + B * 90)) % W; const px = x < 0 ? x + W : x, py = s.y / 320 * H, r = s.r * (W / 1200);
+        g.fillStyle = `rgba(233,241,255,${.35 + .4 * Math.abs(Math.sin(t * .7 + s.x))})`;
+        if (B > .02) { g.fillRect(px, py - r / 2, r + B * 130 * (s.s * 20), r); } else { g.beginPath(); g.arc(px, py, r, 0, 7); g.fill(); } }
+      if (B > 0) { g.fillStyle = `rgba(255,190,90,${B * .18})`; g.fillRect(0, 0, W, H); }
+      const px = W * .74, py = H * .62, pr = H * .72; const glow = g.createRadialGradient(px, py, pr * .9, px, py, pr * 1.25); glow.addColorStop(0, 'rgba(255,190,90,.35)'); glow.addColorStop(1, 'rgba(255,190,90,0)'); g.fillStyle = glow; g.beginPath(); g.arc(px, py, pr * 1.25, 0, 7); g.fill();
+      g.save(); g.beginPath(); g.arc(px, py, pr, 0, 7); g.clip(); const disc = g.createRadialGradient(px - pr * .35, py - pr * .35, pr * .1, px, py, pr); disc.addColorStop(0, '#ffe2a8'); disc.addColorStop(.6, '#e0a65a'); disc.addColorStop(1, '#6a3a18'); g.fillStyle = disc; g.fillRect(0, 0, W, H);
+      for (let b = 0; b < 14; b++) { const y = py - pr + (b + .5) * (2 * pr / 14), a = .08 + .08 * Math.sin(b * 1.7); g.fillStyle = `rgba(120,60,20,${a})`; g.beginPath(); for (let x = px - pr; x <= px + pr; x += 6) { const yy = y + Math.sin(x / 60 + t * .15 + b) * 6 + Math.sin(x / 23 - t * .1) * 3; b === 0 && x === px - pr ? g.moveTo(x, yy) : g.lineTo(x, yy); } g.lineTo(px + pr, y + 9); g.lineTo(px - pr, y + 9); g.closePath(); g.fill(); }
+      const term = g.createLinearGradient(px - pr, 0, px + pr, 0); term.addColorStop(0, 'rgba(0,0,0,0)'); term.addColorStop(.55, 'rgba(0,0,0,0)'); term.addColorStop(1, 'rgba(0,0,0,.85)'); g.fillStyle = term; g.fillRect(0, 0, W, H); g.restore();
+      g.fillStyle = '#0a0d1c'; g.beginPath(); g.moveTo(0, H); g.lineTo(0, H * .86); g.quadraticCurveTo(W * .5, H * .7, W, H * .86); g.lineTo(W, H); g.fill(); g.strokeStyle = 'rgba(63,212,255,.45)'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(0, H * .86); g.quadraticCurveTo(W * .5, H * .7, W, H * .86); g.stroke();
+      for (let k = 0; k < 9; k++) { const x = W * (.08 + k * .105), on = Math.sin(t * (1 + k * .3) + k) > .2; g.fillStyle = on ? (k % 3 ? '#3fd4ff' : '#ff4fd8') : '#22307a'; g.fillRect(x, H * .9 - k % 2 * 4, 22, 3); }
+      requestAnimationFrame(draw); }
+    requestAnimationFrame(draw);
+  })();
+  </script>
+
+  <h2>The decks</h2>
+    <p class="lede">Thirty-nine pages: boards, templates, a contract, a court and
+      its record. Draw a hull and count its fastenings, order it against a price
+      list, man it, provision it, run it down a lane, put a motion to a chamber
+      and a case to a bench — and carry one JSON document between them.
+      <b>Forty-five of the forty-seven have no script in them at all</b>; the
+      arithmetic is CSS counters and the state is <code>:has()</code>, which
+      forty-two of them depend on. Three keep their state in the URL and
+      survive a reload. Two run script, and so do the four lesson pages in
+      <code>lessons/</code>, which teach it. All of them are marked. If you are
+      starting, start at <a href="school.html" style="color:var(--gold)">the
+      school</a>; if you are teaching, start at
+      <a href="grades.html" style="color:var(--gold)">the twelve grades</a>.</p>
+
 
   <h2>Build</h2>
   <div class="grid">
@@ -530,15 +1000,683 @@
     </a>
 
     <a class="card" href="templates/index.html">
-      <span class="chip doc">33 files</span>
+      <span class="chip doc">49 files</span>
       <span class="no">37</span>
       <h3>Templates</h3>
       <p>One per authored page, extracted by <code>templatise.mjs</code>. Each
         keeps its source stylesheet and every input id, so it runs as it stands
         — the prose is what was removed.</p>
-      <dl><dt>Templates</dt><dd>33</dd>
-        <dt>Counters carried</dt><dd>81</dd>
-        <dt>:has() rules carried</dt><dd class="g">782</dd></dl>
+      <dl><dt>Templates</dt><dd>48</dd>
+        <dt>Counters carried</dt><dd>121</dd>
+        <dt>:has() rules carried</dt><dd class="g">1,533</dd></dl>
+    </a>
+
+    <a class="card" href="pulse.html">
+      <span class="chip no">no script</span>
+      <span class="no">38</span>
+      <h3>The Pulse</h3>
+      <p>A circulatory vote. The ballot enters the ring at one seat and goes
+        round twelve practices that were never yours to move — you set the
+        reading, the circuit, the hour and the text. The amendment strikes six
+        words, costs the motion nothing on any pair, and gains it six.</p>
+      <dl><dt>Seats</dt><dd>12</dd>
+        <dt>Circuits</dt><dd>24</dd>
+        <dt>Carried · short · lost · hung</dt><dd class="g">9 · 5 · 9 · 1</dd></dl>
+    </a>
+
+    <a class="card" href="bench.html">
+      <span class="chip no">no script</span>
+      <span class="no">39</span>
+      <h3>The Bench of Nine</h3>
+      <p><i>In re the Pot</i>, heard in nine thousand square miles of forest.
+        The rule of four decides whether there is a case; a majority decides it.
+        Seven judges were seated to fix it. Nothing ties now: the two circuits
+        with the pot on the table are decided by a vote that joins no opinion,
+        so the court wins the case and holds nothing.</p>
+      <dl><dt>Judges · voting</dt><dd>16 · 14 or 13</dd>
+        <dt>Circuits heard</dt><dd>12 of 12</dd>
+        <dt>Reverse · affirm · plurality</dt><dd class="g">8 · 2 · 2</dd></dl>
+    </a>
+
+    <a class="card" href="chamber.html">
+      <span class="chip no">no script</span>
+      <span class="no">40</span>
+      <h3>The Writing Chamber</h3>
+      <p>An exchange of ideas run as an exchange. Nine minds, three houses, and
+        three levers — the signature, the bundle of sticks, and which animal is
+        loud today. None of the three is the idea, and the idea never appears in
+        the arithmetic once.</p>
+      <dl><dt>Minds</dt><dd>9</dd>
+        <dt>Circuits</dt><dd>12</dd>
+        <dt>Settles 4/4/4</dt><dd class="g">mint · short · unbound</dd></dl>
+    </a>
+
+    <a class="card" href="coven.html">
+      <span class="chip js">javascript</span>
+      <span class="no">71</span>
+      <h3>The coven &middot; who holds the doors</h3>
+      <p>The starting layer of the syndication, procedurally generated. Twenty-one
+        syndicates, one per tranche of a million, three custodians each: a witch who
+        keeps a door, a wizard who keeps the book, a warlock who carries between,
+        which is what the word means and exactly the office a six-month crossing
+        needs. Two of three sign or nothing moves. Proposals accrue at two hundred
+        doors, signed ones wait, and at every interval the carry commits a checkpoint
+        hashed with SHA-256 and chained to the one before. The bank's health is read
+        off the chain and the desk rather than asserted. Names are invented; the
+        twenty-two real people in the archive are cited, never impersonated, and the
+        two venerated in living traditions are held out of the roster entirely.
+        A croft at every seat grows sealing wax on its own coprime period — the war
+        of clans' own trick, so no two syndicates' crofts ever come due together —
+        and four buildable holds, one favouring each office and one favouring none,
+        spend wax and HEZE to shift the odds of signing, how long a proposal stays
+        fresh, or unlock carrying a syndicate's own proposals early. Each syndicate
+        also carries a light — quiet, planning, discovery or staged — and staged or
+        discovery is worth stealing from: HEZE moved onto the shared docket ahead of
+        an honest carry, at the risk of a failed attempt leaving it alert for a while.</p>
+      <dl><dt>Practitioners</dt><dd>63</dd>
+        <dt>Doors</dt><dd>200</dd>
+        <dt>Crofts &middot; holds</dt><dd class="g">21 &middot; 4 kinds</dd>
+        <dt>Activity states</dt><dd>4</dd></dl>
+    </a>
+
+    <a class="card" href="glossary.html">
+      <span class="chip js">javascript</span>
+      <span class="no">72</span>
+      <h3>The glossary &middot; and the chronicle</h3>
+      <p>Two layers on one deck. The chronicle is the idle text layer: it watches what
+        every deck saved and writes a line whenever a quantity actually moved, keeps
+        what it wrote, and goes on writing while you are away. It never invents, and
+        when nothing moved it says nothing. The glossary is 216 terms gathered from the
+        templates themselves at build, so a new template is a new entry without anybody
+        writing one, and a term with a current value shows it live from the decks.</p>
+      <dl><dt>Terms</dt><dd>216</dd>
+        <dt>Sources</dt><dd>20</dd>
+        <dt>Updates</dt><dd class="g">on every build, and live</dd></dl>
+    </a>
+
+    <a class="card" href="terminal.html">
+      <span class="chip js">javascript</span>
+      <span class="no">73</span>
+      <h3>The terminal &middot; the ship, typed</h3>
+      <p>The text layer. Everything the decks do with buttons can be done here in
+        words, against the same saved state: <code>sow 31 44</code> really sows a
+        parcel and really draws the pile down. It is the notebook before the
+        automation: <code>json</code> reads a template as built, <code>api</code>
+        calls the ledger server, <code>set</code> changes a rule and keeps it in
+        this browser, and only once a sequence is typed correctly can it be
+        <code>record</code>ed and <code>automate</code>d on an interval. Nothing
+        runs here that was not first typed by hand. <code>look</code> says where
+        the work is stuck; <code>define</code> reads the glossary;
+        <code>chronicle</code> reads what the ship wrote about itself.</p>
+      <dl><dt>Commands</dt><dd>20</dd>
+        <dt>Definitions</dt><dd>118</dd>
+        <dt>Automatable</dt><dd class="g">yes, from a macro</dd></dl>
+    </a>
+
+    <a class="card" href="quarter.html">
+      <span class="chip js">javascript</span>
+      <span class="no">70</span>
+      <h3>The quarter &middot; furnished</h3>
+      <p>The living quarter of the Hesperus, six rooms and 120 pieces, every
+        piece a template woven from something the yard already had: shelves
+        from the verse forms, chairs from the fabrics that survive Venus,
+        looms from the ten at the top of the chain, lanterns in the fireflies'
+        colours, workbenches from the twelve instruments, pigeonholes from the
+        dispatches. The empty room stays empty, on the record. In the
+        workshop: the console, where the counsel aboard answers from what the
+        decks saved, and the editor, where any template on the ship can be
+        loaded, changed, kept in this browser and handed back as a file.</p>
+      <dl><dt>Rooms</dt><dd>6</dd>
+        <dt>Pieces</dt><dd>120</dd>
+        <dt>Customizable</dt><dd class="g">every template</dd></dl>
+    </a>
+
+    <a class="card" href="continent.html">
+      <span class="chip js">javascript</span>
+      <span class="no">69</span>
+      <h3>Aphrodite Terra &middot; the continental farm</h3>
+      <p>The continental farm, built from the clans' piles. The real continent
+        of Venus as 4,096 parcels in six regions named for its real features,
+        one region per clan, every parcel a template woven from one of the
+        clans' piles. The page reads the piles the war of clans saved; sowing
+        draws from them and writes them back. A sown parcel grows on its
+        clan's period and then propagates into bare neighbours, one unit of
+        the pile per parcel, so the continent greens outward and stops
+        exactly where the piles run dry. Its provision goes up to the village
+        as grain, and the village's grain feeds the town. Six coprime periods, so no two
+        regions ever advance together. Seven deep: clan, pile, parcel.</p>
+      <dl><dt>Parcels</dt><dd>4,096</dd>
+        <dt>Regions</dt><dd>6</dd>
+        <dt>Sown from</dt><dd class="g">the piles</dd></dl>
+    </a>
+
+    <a class="card" href="market.html">
+      <span class="chip js">javascript</span>
+      <span class="no">68</span>
+      <h3>The market &middot; syndicated tickers</h3>
+      <p>Four stock-standard farms, syndicated to the ninth degree: four
+        tranches, then four of each, to 1,048,576 tickers. The board is a
+        quadtree drawn as pixels, so the slider answers the question of
+        where complexity becomes visual: the fifth degree, 4,096 cells,
+        where no cell is a thing any more and the eye reads weather instead
+        of tickers. The ninth is one ticker per pixel and no more complex
+        than the fifth. Buy tranches against the docket; the farms pay on
+        their coprime periods. The syndicate function is in the page.</p>
+      <dl><dt>Tickers on disk</dt><dd>21,844</dd>
+        <dt>At the ninth degree</dt><dd>1,048,576</dd>
+        <dt>Visual complexity from</dt><dd class="g">degree 5</dd></dl>
+    </a>
+
+    <a class="card" href="clans.html">
+      <span class="chip js">javascript</span>
+      <span class="no">67</span>
+      <h3>War of clans &middot; a portfolio on Venus</h3>
+      <p>The base layer: people groups gathering and stockpiling, bronze age,
+        sword and sorcery. Six clans, six coprime periods, and a jarl who
+        holds individual assets rather than one farm that pays a single
+        enormous number: works that yield on the clan's period, bands that
+        raid on it or hold the ford, piles that keep what the night would
+        take, three turns of the four-day Venusian rotation. Absence is
+        credited in full and taken in full. The town's rent comes back down
+        here, split by whose region grew the provision, and becomes stock in
+        the piles. The weave function is in the page; another seed hands
+        back another 165 templates as files.</p>
+      <dl><dt>Templates, four sagas</dt><dd>660</dd>
+        <dt>On disk, all told</dt><dd>27,954</dd>
+        <dt>Re-weaves itself</dt><dd class="g">yes</dd></dl>
+    </a>
+
+    <a class="card" href="dispatch.html">
+      <span class="chip js">javascript</span>
+      <span class="no">66</span>
+      <h3>Dispatches &middot; the sealed shelf</h3>
+      <p>Every story from the session, sealed with the words you asked it in,
+        and every interface digested into the template of enums and sealed
+        with its own name. Type a phrase and what it opens, opens; the rest
+        stays shut. Nothing here is readable without the words.</p>
+      <dl><dt>Dispatches</dt><dd>10</dd>
+        <dt>Digests</dt><dd>13</dd>
+        <dt>Rounds</dt><dd class="g">200,000</dd></dl>
+    </a>
+
+    <a class="card" href="town.html">
+      <span class="chip js">javascript</span>
+      <span class="no">63</span>
+      <h3>The town &middot; built from the village</h3>
+      <p>The interface after the village. Each village template weaves one
+        thing in the town: a trade a guild, a hall a ward, a square an
+        exchange, a workshop a manufactory, a byre a stall, a well an
+        aqueduct, a lane a road, a festival a fair, a smallholding a tenement,
+        a saying an inscription over a gate. Six deep. The village's
+        households are the first citizens; five guilds and fifteen of them and
+        the town takes its charter without asking. Water is still free; the
+        tenements charge rent for what used to be, and the page says so.
+        The rent does not stay: it goes back down to the clans.</p>
+      <dl><dt>Templates</dt><dd>100</dd>
+        <dt>The chain</dt><dd>6 deep</dd>
+        <dt>Windows in the tower</dt><dd class="g">0</dd></dl>
+    </a>
+
+    <a class="card" href="village.html">
+      <span class="chip js">javascript</span>
+      <span class="no">61</span>
+      <h3>The village &middot; built from the farm</h3>
+      <p>The interface after the farm. Each of the farm's hundred leaves
+        weaves one thing in the village: a crop a trade, a store a hall, a
+        market a square, a tool a workshop, a beast a byre, a water a well, a
+        fence a lane, a season a festival, a field a smallholding, a weather a
+        saying. The chain is five deep and every file names the one above it.
+        The page reads the farm's own saved harvest; that is what the trades
+        mill, bake, brew and weave. Water is free. Roofs have chimneys and no
+        windows; households are counted, never drawn.</p>
+      <dl><dt>Templates</dt><dd>100</dd>
+        <dt>The chain</dt><dd>5 deep</dd>
+        <dt>Written by hand</dt><dd class="g">0</dd></dl>
+    </a>
+
+    <a class="card" href="farm.html">
+      <span class="chip js">javascript</span>
+      <span class="no">60</span>
+      <h3>The farm &middot; woven from a hundred leaves</h3>
+      <p>Templates that build templates that build templates that build
+        templates: ten looms in templates-loom/ weave twenty-five patterns,
+        which weave fifty moulds, which weave a hundred leaves in
+        templates-farm/, and the farm is laid out from the leaves and nothing
+        else. Fields, crops, tools, weathers, seasons, beasts, water, fences,
+        stores and markets, every one a file that names what wove it. An idle
+        farm, one day a second, on the shared HEZE docket; re-woven by the
+        build. No eyes: the beasts are heard, not seen.</p>
+      <dl><dt>Looms &middot; patterns &middot; moulds</dt><dd>10 &middot; 25 &middot; 50</dd>
+        <dt>Leaves</dt><dd>100</dd>
+        <dt>Written by hand</dt><dd class="g">0</dd></dl>
+    </a>
+
+    <a class="card" href="tribunal.html">
+      <span class="no">59</span>
+      <h3>The tribunal of Troy &middot; two benches, a hundred acts each</h3>
+      <p>Generated from templates: on Troy's bench a hundred acts of war
+        composed from the Iliad's parts, a hundred votes by Antenor the judge
+        on the first lesson's test, a hundred verdicts, and one casus belli on
+        Ida; on the fleet's bench the same hundred-fold under Nestor, with the
+        oath of Tyndareus as its one cause and its own king-of-kings count. The
+        final verdict is computed from the counts, not written: king of
+        kings is whoever is a single choke point most often; Paris is half
+        of a pair and never a king; the king before him is Priam, and before
+        Priam Laomedon. Thermopylae is folded into Priam as the pass he holds
+        with three hundred against a hundred verdicts. No script.</p>
+      <dl><dt>Acts &middot; votes &middot; verdicts</dt><dd>100 &middot; 100 &middot; 100</dd>
+        <dt>Causes</dt><dd>1</dd>
+        <dt>The pass</dt><dd class="g">300</dd></dl>
+    </a>
+
+    <a class="card" href="siege.html">
+      <span class="chip js">javascript</span>
+      <span class="no">58</span>
+      <h3>The siege of Troy &middot; tower defence, seven levels behind</h3>
+      <p>You are Priam. The fourteen princes are the towers, each a template
+        in templates-prince/ with one thing only he does. The fleet is an AI
+        whose level is always yours plus seven, sending the warlock's shapes at
+        the wall for ten years, one day a second. The warlock's six spells;
+        8.3 m of dead ground most towers cannot see into; and once a year a
+        wedding behind veils where you and the fleet bid blind, and one of the
+        suitors, at the last wedding for certain, is Paris. Paid in HEZE.</p>
+      <dl><dt>Princes &middot; shapes &middot; spells</dt><dd>14 &middot; 5 &middot; 6</dd>
+        <dt>The AI</dt><dd>+7 levels</dd>
+        <dt>Days</dt><dd class="g">3,650</dd></dl>
+    </a>
+
+    <a class="card" href="troy.html">
+      <span class="chip js">javascript</span>
+      <span class="no">57</span>
+      <h3>Troy &middot; ten years, paid in HEZE</h3>
+      <p>The war as a docket: hulls from the price list, heroes as the peers
+        in the middle, engines against a wall of nine, and at the end the
+        Horse, which is the Yamato class and will not fly. Plunder comes back
+        in HEZE from the cities up the coast, one day a second, into the same
+        docket the ground landing keeps. Priam the younger rebuilds at night;
+        Paris the younger waits for the tenth year. Nothing here is money.</p>
+      <dl><dt>Hulls <dt>Hulls &middot; heroes &middot; engines</dt><dd>9 &middot; 7 &middot; 4</dd>middot; heroes <dt>Hulls &middot; heroes &middot; engines</dt><dd>9 &middot; 7 &middot; 4</dd>middot; routes</dt><dd>9 &middot; 7 &middot; 6</dd>
+        <dt>The council</dt><dd>7 votes</dd>
+        <dt>Days</dt><dd class="g">3,650</dd></dl>
+    </a>
+
+    <a class="card" href="descent.html">
+      <span class="chip js">javascript</span>
+      <span class="no">56</span>
+      <h3>The ground landing &middot; paid in HEZE</h3>
+      <p>The school and the unit of account, joined to the one goal the yard
+        talks around: something on the ground at 475 &deg;C and 92 bar, alive
+        longer than Venera 13's 127 minutes. Pass a lesson, the docket credits
+        HEZE; spend it on the five stages of the approach, each of which asks
+        for the lesson whose idea it needs; land; then stay, with hardening
+        bought from the price list and a clock credited in full while you are
+        away. Not money, not a token, not in the wallet.</p>
+      <dl><dt>Lessons &middot; checks</dt><dd>6 &middot; 54</dd>
+        <dt>Stages &middot; hardenings</dt><dd>5 &middot; 7</dd>
+        <dt>Cap</dt><dd class="g">21,000,000</dd></dl>
+    </a>
+
+    <a class="card" href="grass.html">
+      <span class="chip js">javascript</span>
+      <span class="no">55</span>
+      <h3>The First Blade &middot; an idle game</h3>
+      <p>One blade of grass, with the Tao in mind. Everything you let happen
+        compounds; everything you do spends stillness and the meadow grows
+        slower for it. Twelve chapters, a guest who is a dragon or a longship
+        crew or the fae or the house of Ma'at, and the rains every 584 days.
+        Under it, three tracks that do not end: the blade becomes a flower
+        becomes an acorn and the rings are rolled from templates after the
+        first; every ring plants a tree nothing takes away; and the mycelium
+        beneath deepens a thousandfold a step. Exported from grass/, where the
+        same def.json also drives a Chromium side panel and a ScalaFX desktop
+        with an HTTP API.</p>
+      <dl><dt>Things to let happen</dt><dd>18</dd>
+        <dt>Chapters &middot; sayings</dt><dd>12 &middot; 13</dd>
+        <dt>Last form</dt><dd class="g">none</dd></dl>
+    </a>
+
+    <a class="card" href="game.html">
+      <span class="chip js">javascript</span>
+      <span class="no">54</span>
+      <h3>Venus Yard &middot; the game</h3>
+      <p>The aerostat, in a handset on a desktop. Twelve build pads on a plate
+        you can orbit in real 3D, and every dependency, refusal and figure comes
+        from a page here that worked it out first. One scarcity: hydrogen cannot
+        be made, only delivered, every 584 days.</p>
+      <dl><dt>Sectors</dt><dd>12</dd>
+        <dt>Libraries</dt><dd>0</dd>
+        <dt>Numbers invented for fun</dt><dd class="g">0</dd></dl>
+    </a>
+
+    <a class="card" href="sumer.html">
+      <span class="chip no">no script</span>
+      <span class="no">55</span>
+      <h3>Sumer</h3>
+      <p>The same twelve functions, itemised fifteen hundred years earlier by
+        people who had never heard of Olympus. It matches almost everywhere, and
+        the page is about the two places it does not: Nisaba is grain and writing
+        in one goddess, and Zeus needs two Sumerian gods to cover him.</p>
+      <dl><dt>Matches</dt><dd>9 of 12</dd>
+        <dt>Splits</dt><dd>3</dd>
+        <dt>Gaps forced</dt><dd class="g">0</dd></dl>
+    </a>
+
+    <a class="card" href="economy.html">
+      <span class="chip no">no script</span>
+      <span class="no">53</span>
+      <h3>The Twelve</h3>
+      <p>The Olympian pantheon as twelve sectors, and the order they have to be
+        started in. Aphrodite is a root, not a luxury. Ares is downstream of the
+        surplus, not upstream. And writing was invented for accounting, which
+        puts Apollo after Hermes and settles it.</p>
+      <dl><dt>Sectors</dt><dd>12</dd>
+        <dt>Roots</dt><dd>4</dd>
+        <dt>Enough to survive on</dt><dd class="g">not the roots</dd></dl>
+    </a>
+
+    <a class="card" href="ships/index.html">
+      <span class="chip doc">generated</span>
+      <span class="no">52</span>
+      <h3>The Fleet</h3>
+      <p>Seven logs, one per ship, named for Greek gods by what they actually
+        do. The chart is set months before departure and never revised; readiness
+        is six lines every morning against it. Captain, bridge, operator
+        &mdash; three hands before breakfast, which is what turns a claim into
+        evidence. Six chart once a year out; Charon charts daily, because his
+        passage is hours and what varies is how hot the cable is.</p>
+      <dl><dt>Ships</dt><dd>7</dd>
+        <dt>Entries</dt><dd>23</dd>
+        <dt>Ships with legs</dt><dd class="g">2</dd></dl>
+    </a>
+
+    <a class="card" href="profiles/index.html">
+      <span class="chip doc">generated</span>
+      <span class="no">51</span>
+      <h3>Profiles</h3>
+      <p>Fourteen things this needs, one page each, written from a single JSON
+        file &mdash; figures, dependency graph in both directions, and every
+        count computed. Six of the fourteen are settled. The item with the most
+        downstream of it is not one of them.</p>
+      <dl><dt>Requirements</dt><dd>14</dd>
+        <dt>Settled</dt><dd>6</dd>
+        <dt>Typed twice</dt><dd class="g">nothing</dd></dl>
+    </a>
+
+    <a class="card" href="water.html">
+      <span class="chip no">no script</span>
+      <span class="no">50</span>
+      <h3>The Waterway</h3>
+      <p>A healthy one, which is not a clean one &mdash; it has to go anoxic in
+        one specific place or it poisons itself with its own cleaning. Six
+        stages, six checks, four ways to fail. Working out the dissolved oxygen
+        moved the whole settlement five kilometres up.</p>
+      <dl><dt>Stages</dt><dd>6</dd>
+        <dt>Faults it teaches</dt><dd>4</dd>
+        <dt>Numbers it refuses to print</dt><dd class="g">all of them at scale</dd></dl>
+    </a>
+
+    <a class="card" href="terraform.html">
+      <span class="chip no">no script</span>
+      <span class="no">47</span>
+      <h3>Terraform</h3>
+      <p>Nine thousand square miles sited on a planet with two places and no
+        shared clock between them. The canopy floats at 50&nbsp;km where
+        breathable air is a lifting gas; the floor is domed on a surface at
+        475&nbsp;&deg;C and 92&nbsp;bar. Their days differ by a factor of
+        twenty-nine.</p>
+      <dl><dt>Of Venus</dt><dd>0.00506%</dd>
+        <dt>Sites</dt><dd>2</dd>
+        <dt>Scarce element</dt><dd class="g">hydrogen, only</dd></dl>
+    </a>
+
+    <a class="card" href="assembly.html">
+      <span class="chip no">no script</span>
+      <span class="no">48</span>
+      <h3>The Assembly</h3>
+      <p>Six traditions at one table and no two keeping the same calendar &mdash;
+        which is the relay problem indoors. What they agreed on without ever
+        meeting was Venus: 583.92 days, found separately, because the number was
+        not theirs.</p>
+      <dl><dt>Calendars</dt><dd>6</dd>
+        <dt>Agreements</dt><dd>6</dd>
+        <dt>Needing negotiation</dt><dd class="g">5 of 6</dd></dl>
+    </a>
+
+    <a class="card" href="mycelium.html">
+      <span class="chip no">no script</span>
+      <span class="no">49</span>
+      <h3>The Fungus</h3>
+      <p>A market under the flower bed running on the most fungible commodity
+        there is, which discriminates anyway &mdash; plants send more carbon to
+        partners that return more phosphate. The correction to theory.md, and
+        the parable that gets dropped.</p>
+      <dl><dt>Parties</dt><dd>3</dd>
+        <dt>Flows</dt><dd>4</dd>
+        <dt>Parables kept</dt><dd class="g">0</dd></dl>
+    </a>
+
+    <a class="card" href="ecosystem.html">
+      <span class="chip no">no script</span>
+      <span class="no">46</span>
+      <h3>The Ecosystem</h3>
+      <p>Twelve orders in nine thousand square miles of forest, as a dependency
+        graph. Fireflies keep time, owls decide, wolves move, peacocks prove,
+        flamingos show, bees spread, butterflies inherit, ants build, moths bear,
+        spiders catch, beetles bury, geckos retrieve &mdash; and two made agents
+        who are not required and try anyway. Take one out and see what stops, and
+        what carries on without it.</p>
+      <dl><dt>Orders · agents</dt><dd>12 · 2</dd>
+        <dt>Capabilities</dt><dd>21</dd>
+        <dt>Stop rules that failed</dt><dd class="g">1, kept</dd></dl>
+    </a>
+
+    <a class="card" href="lessons/index.html">
+      <span class="chip js">javascript</span>
+      <span class="no">45</span>
+      <h3>Four Lanterns</h3>
+      <p>Lessons in game development, in the order the machine needs them: a
+        surface, a clock, a swarm, and a line to somewhere else. Four lanterns
+        carry them &mdash; four corporals, Vietnam &mdash; and the fifth light is
+        whoever is reading. HTML, JavaScript, then Java.</p>
+      <dl><dt>Lessons</dt><dd>4</dd>
+        <dt>Live demos</dt><dd>4</dd>
+        <dt>Names invented</dt><dd class="g">0</dd></dl>
+    </a>
+
+    <a class="card" href="grades.html">
+      <span class="chip no">no script</span>
+      <span class="no">44</span>
+      <h3>Twelve Grades</h3>
+      <p>One curriculum per level, preschool to grade ten, in one strand — and
+        the strand boundary said out loud rather than implied. Six of the twelve
+        have no computer in them. Every level is walked twice: by the cadet who
+        did the whole syllabus and by the one who commissioned himself at level
+        four and came back for five to eight in public.</p>
+      <dl><dt>Levels</dt><dd>12</dd>
+        <dt>Without a computer</dt><dd>6</dd>
+        <dt>Durations claimed</dt><dd class="g">0</dd></dl>
+    </a>
+
+    <a class="card" href="school.html">
+      <span class="chip no">no script</span>
+      <span class="no">43</span>
+      <h3>The Yard School</h3>
+      <p>A curriculum. Eight units in the order that works, one exercise each,
+        and a stated test for whether you are done — no invented durations. Your
+        place in the course is in the URL. The page is built out of every
+        technique it teaches, on you, while it teaches them.</p>
+      <dl><dt>Units</dt><dd>8</dd>
+        <dt>Techniques</dt><dd>6</dd>
+        <dt>Timings claimed</dt><dd class="g">0</dd></dl>
+    </a>
+
+    <a class="card" href="persist.html">
+      <span class="chip no">no script</span>
+      <span class="no">42</span>
+      <h3>The Persistence Layer</h3>
+      <p>State that survives the tab closing, with no script and no server. Not
+        one input on the page: every control is a link, the store is the URL
+        fragment, <code>:target</code> reads it back, and the Back button is
+        undo. The price is that one target means whole states only.</p>
+      <dl><dt>Stored states</dt><dd>6</dd>
+        <dt>Inputs</dt><dd>0</dd>
+        <dt>Survives</dt><dd class="g">reload · bookmark · share</dd></dl>
+    </a>
+
+    <a class="card" href="exhibit.html">
+      <span class="chip doc">record</span>
+      <span class="no">41</span>
+      <h3>Exhibit A</h3>
+      <p>The transcript in <i>In re the Pot</i>, entered verbatim and
+        uncorrected. Six findings, each with the line numbers it rests on, so
+        anyone who thinks the reading is wrong can name the line.</p>
+      <dl><dt>Lines</dt><dd>72</dd>
+        <dt>Findings</dt><dd>6</dd>
+        <dt>Corrections</dt><dd class="g">0</dd></dl>
+    </a>
+    <a class="card" href="workbook.html">
+      <span class="chip no">no script</span>
+      <span class="no">56</span>
+      <h3>The Workbook</h3>
+      <p>HTML and CSS for developers, taught out of this repository. Twelve
+        rules, the smallest true example of each, a drill whose answer folds
+        away behind a checkbox, and the file where this yard leans on it. Where
+        a rule cost us a bug, the bug is in the chapter &mdash; the cascade one
+        is the (1,3,0) that lost to (2,4,0) and said nothing.</p>
+      <dl><dt>Chapters</dt><dd>12</dd>
+        <dt>Drills</dt><dd>12</dd>
+        <dt>Score</dt><dd class="g">none, deliberately</dd></dl>
+    </a>
+
+    <a class="card" href="automat.html">
+      <span class="chip js">?run &middot; ?dev</span>
+      <span class="no">57</span>
+      <h3>Automat</h3>
+      <p>The script layer, on the half of the URL CSS cannot read. Two inert
+        files: one presses every control forever &mdash; radios mod n, checkbox
+        banks in Gray code, one bit a beat &mdash; on prime cadences so a board
+        walks its lattice and not its diagonal. The other injects CSS, injects
+        HTML and probes any element for every rule that matches it. No score,
+        no goal state, no ending anywhere in either.</p>
+      <dl><dt>Boards with tribes</dt><dd>44</dd>
+        <dt>Tribes</dt><dd>140</dd>
+        <dt>Win conditions</dt><dd class="g">0</dd></dl>
+    </a>
+
+    <a class="card" href="buddha.html">
+      <span class="chip no">no script</span>
+      <span class="no">58</span>
+      <h3>Under the Tree</h3>
+      <p>A seated figure with five apertures and a stone in his mouth. He is not
+        corrupt &mdash; a lie can be checked. He is on a retainer, which buys a
+        full mouth rather than a sentence, and an open mouth reads as speech to
+        everyone walking past. Then the floor he sits on, which has two names:
+        the same matter, one word of difference, and four capabilities become
+        four line items.</p>
+      <dl><dt>Arrangements</dt><dd>32</dd>
+        <dt>That produce a word</dt><dd>16</dd>
+        <dt>Matter, under both names</dt><dd class="g">1</dd></dl>
+    </a>
+    <a class="card" href="rapture.html">
+      <span class="chip no">no script</span>
+      <span class="no">59</span>
+      <h3>Caught Up</h3>
+      <p>A quiet storm set and a Venusian superrotation, which turn out to be
+        the same object described twice: a medium moving faster than the thing
+        it rests on, carrying whatever is in it, with no break anywhere in it.
+        Both are ruined by the same event &mdash; an announcement. Seven
+        segments on a forty-eight column grid, all in row one, overlapping
+        because a crossfade is a stretch of time when both records are playing.
+        No lyrics, and the reason is stated.</p>
+      <dl><dt>Gaps in the set</dt><dd>0</dd>
+        <dt>Propulsion to lap Venus</dt><dd>0</dd>
+        <dt>Arc</dt><dd class="g">none, in either</dd></dl>
+    </a>
+    <a class="card" href="kb.html">
+      <span class="chip doc">27 entries</span>
+      <span class="no">60</span>
+      <h3>The Knowledge Base</h3>
+      <p>What this yard has actually established, and how you would show each of
+        it false. Every entry carries a <b>test</b> &mdash; an entry that cannot
+        say what would falsify it is an opinion with a heading on it. Citations
+        are checked at build time, the see-also graph is computed both ways, and
+        any entry the yard asserts without demonstrating is named at the foot of
+        the page. Starts with decentralization, fungibility, and what it takes
+        to start something, then smart contracts, the wallet, the ledger and the gas &mdash; and the transit itself: the window, the passage, the light delay and the relay, every figure with its arithmetic shown, the injector who has two verbs, and the baton, which is the only thing in the system whose journey is the point.</p>
+      <dl><dt>Boards cited</dt><dd>31</dd>
+        <dt>Broken citations</dt><dd>0</dd>
+        <dt>Most depended-on</dt><dd class="g">the relay, 7 inbound</dd></dl>
+    </a>
+    <a class="card" href="baseline.html">
+      <span class="chip no">no script</span>
+      <span class="no">61</span>
+      <h3>The Baseline</h3>
+      <p>One offer, three reference sets. Six clauses written once, and nothing
+        in the stylesheet rewrites them &mdash; five read extractive against a
+        stable prior, one against a sample of one, and the clause about being
+        looked after turns from ordinary into <b>generous</b> without a word
+        being added to it. Then the exit, which three money offers cannot buy
+        and a published rule can. Then a door that admits one of four.</p>
+      <dl><dt>Clauses</dt><dd>6</dd>
+        <dt>Clauses changed</dt><dd>0</dd>
+        <dt>Switched, on money</dt><dd class="g">0 of 3 offers</dd></dl>
+    </a>
+    <a class="card" href="interior.html">
+      <span class="chip no">no script</span>
+      <span class="no">62</span>
+      <h3>The Interior</h3>
+      <p>Crust to core, carried as ranges because nobody has ever put a
+        seismometer on Venus. And the hurricane bowl answered with a Rossby
+        number: dig a basin and the floor runs 9.5 K hotter a kilometre, which
+        drives convection &mdash; but rotation only wins at <b>2,363 km</b>, and
+        the check is that Venus&rsquo;s only rotating storms are the polar
+        vortices at about 2,000 km. You can dig a dust bowl. You cannot dig a
+        hurricane.</p>
+      <dl><dt>Deepest hole ever, anywhere</dt><dd>12.3 km</dd>
+        <dt>Longest surface survival</dt><dd>127 min</dd>
+        <dt>Magnetic field</dt><dd class="g">none at all</dd></dl>
+    </a>
+    <a class="card" href="flood.html">
+      <span class="chip no">no script</span>
+      <span class="no">63</span>
+      <h3>The Flood Pulse</h3>
+      <p>Ten floods a year beat one lake, and the reason is ecological: the
+        moving edge is where the production is, and a lake never moves it.
+        Then the gravity ledger for the people digging &mdash; 8.71 m/s&sup2; at
+        the deck, so weight fell 11.2% and <b>mass did not move at all</b>.
+        Carrying is easier; starting and stopping are identical, and that is
+        the line that hurts.</p>
+      <dl><dt>Channel to dig</dt><dd>45M m&sup3;</dd>
+        <dt>1,000 people</dt><dd>109 years</dd>
+        <dt>Silt carried</dt><dd class="g">13% further</dd></dl>
+    </a>
+    <a class="card" href="residence.html">
+      <span class="chip no">no script</span>
+      <span class="no">64</span>
+      <h3>Residence Time</h3>
+      <p>In a bag the failure is not shortage, it is immobilisation &mdash; and
+        <b>98.8%</b> of the site&rsquo;s phosphorus is unavailable at any moment.
+        Argues the range rescope (a herbivore moves P in days against decades
+        for wood), lays out a settlement pattern decided by return-path length,
+        and puts the mutation fear where it belongs: 574 g/cm&sup2; of shielding
+        means radiation is not the risk. The founder count is.</p>
+      <dl><dt>Available P, whole site</dt><dd>58 kt</dd>
+        <dt>Shielding at 55 km</dt><dd>574 g/cm&sup2;</dd>
+        <dt>N&#8337; = 1,000 after 100 gen</dt><dd class="g">95% kept</dd></dl>
+    </a>
+    <a class="card" href="bluelight.html">
+      <span class="chip no">no script</span>
+      <span class="no">65</span>
+      <h3>The Blue Light</h3>
+      <p>Ten miles up and down &mdash; 16.09 km, 55 &plusmn; 8.05, eleven
+        stations, 1.40 bar to 0.14, +96 &deg;C to &minus;22 &mdash; and five of
+        those stations sit inside the unknown UV absorber nobody has identified
+        since the 1920s. Carries <b>the register of nothings</b>: what was looked
+        for and was not there, counted the same as a finding, because ruling a
+        candidate out costs the same and nobody publishes it.</p>
+      <dl><dt>Stations in the open question</dt><dd>5 of 11</dd>
+        <dt>Nothings on the register</dt><dd>6</dd>
+        <dt>Absorbers identified</dt><dd class="g">0, in 100 years</dd></dl>
     </a>
   </div>
 
@@ -561,3 +1699,43 @@
     why it says so on its own chip.
   </p>
 </div>
+
+<!-- ─────────────────────────────────────────────────────── THE SCRIPT LAYER
+  Inert. automat.js reads the query string and nothing else, and the query
+  string is the half of a URL CSS cannot see. Open this file plainly and it
+  is the board it always was, deciding everything in the stylesheet. Open
+  it as index.html?run and the same board gets a hand on it: tribes on prime
+  cadences pressing the controls forever, with no score and no ending.
+  See automat.html. -->
+<script src="patron.js"></script>
+<script src="automat.js"></script>
+<script src="devmode.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->

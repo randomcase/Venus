@@ -1,0 +1,17 @@
+{
+ "id": "act-007",
+ "bench": "fleet",
+ "order": 7,
+ "year": 1,
+ "day": 228,
+ "parties": [
+  "patroclus"
+ ],
+ "actor": "Patroclus",
+ "with": null,
+ "verb": "sent",
+ "object": "the embassy with gifts",
+ "place": "on the plain",
+ "side": "fleet",
+ "text": "Patroclus sent the embassy with gifts, on the plain, in the first year."
+}

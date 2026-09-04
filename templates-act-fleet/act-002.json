@@ -1,0 +1,17 @@
+{
+ "id": "act-002",
+ "bench": "fleet",
+ "order": 2,
+ "year": 1,
+ "day": 41,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "held",
+ "object": "the ships against the fire",
+ "place": "on the beach at dawn",
+ "side": "fleet",
+ "text": "Achilles held the ships against the fire, on the beach at dawn, in the first year."
+}

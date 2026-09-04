@@ -1,0 +1,13 @@
+{
+ "id": "write-the-preference",
+ "layer": "fungibility",
+ "entry": "fungibility",
+ "giver": "The mint, which asserts that two units cannot be ranked and would like to be wrong in public rather than in private.",
+ "object": "Take the unit type and write compare(a, b) so that it returns a real ordering. Use only fields the protocol already has.",
+ "done": "Either the function cannot be written without adding a field — and you can say which field — or it can, and you have named who would collect on the ranking.",
+ "produces": [
+  "a finding, in either direction"
+ ],
+ "requires": [],
+ "note": "Constructive rather than rhetorical: the quest is passed by failing at it in a way you can describe."
+}

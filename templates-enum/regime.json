@@ -1,0 +1,46 @@
+{
+ "id": "enum-regime",
+ "kind": "enum",
+ "family": "regime",
+ "path": "templates-enum/regime.json",
+ "note": "The fixed vocabulary of templates-regime/, mined from 10 of its 10 templates by enums.mjs. Kept in templates-enum/, never inside templates-regime/ itself, so nothing that scans templates-regime/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 10,
+ "sampledFiles": 10,
+ "fields": {
+  "kind": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 10,
+   "values": [
+    "regime"
+   ]
+  },
+  "named": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 10,
+   "values": [
+    false,
+    true
+   ]
+  },
+  "visual": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 10,
+   "values": [
+    false,
+    true
+   ]
+  },
+  "wovenBy": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 10,
+   "values": [
+    "market.mjs"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

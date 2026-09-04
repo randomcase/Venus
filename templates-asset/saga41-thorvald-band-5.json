@@ -1,0 +1,16 @@
+{
+ "id": "saga41-thorvald-band-5",
+ "kind": "band",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "period": 11,
+ "name": "berserks of Thorvaldsson",
+ "strength": 13,
+ "raids": false,
+ "cost": 1589,
+ "upkeep": 3,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 13; eats 3 signal a day.",
+ "wovenBy": "thorvald",
+ "saga": 41
+}

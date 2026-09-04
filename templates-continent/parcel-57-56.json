@@ -1,0 +1,16 @@
+{
+ "id": "parcel-57-56",
+ "kind": "parcel",
+ "x": 57,
+ "y": 56,
+ "region": "Diana Chasma",
+ "clan": "thorvald",
+ "resource": "signal",
+ "period": 11,
+ "terrain": "corona",
+ "fertility": 1.3,
+ "yield": 2.54,
+ "text": "the rim of a corona, rich and warm, in Diana Chasma, sown from a longhouse loft for signal.",
+ "wovenBy": "thorvald-pile-4",
+ "chain": "seven deep"
+}

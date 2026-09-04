@@ -1,0 +1,15 @@
+{
+ "id": "ingrid-band-9",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "thralls with spears of Ingridsdottir",
+ "strength": 16,
+ "raids": false,
+ "cost": 1896,
+ "upkeep": 4,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 16; eats 4 record a day.",
+ "wovenBy": "ingrid"
+}

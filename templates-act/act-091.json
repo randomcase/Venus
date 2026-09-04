@@ -1,0 +1,17 @@
+{
+ "id": "act-091",
+ "order": 91,
+ "year": 10,
+ "day": 3259,
+ "parties": [
+  "hector",
+  "agamemnon"
+ ],
+ "actor": "Hector",
+ "with": "Agamemnon",
+ "verb": "duelled",
+ "object": "in the space between the lines",
+ "place": "on the mound of Aesyetes",
+ "side": "troy",
+ "text": "Hector and Agamemnon duelled in the space between the lines, on the mound of Aesyetes, in the tenth year."
+}

@@ -1,0 +1,9 @@
+{
+ "id": "workshop-bench-stair-pitch",
+ "kind": "workbench",
+ "room": "workshop",
+ "name": "the pitch of the hall stair bench",
+ "text": "A bench for one figure: Pitch of the hall stair, 23 degrees give or take 0.1. Wrong if nothing — it is arithmetic on two numbers I chose.",
+ "wovenBy": "stair-pitch",
+ "bay": 11
+}

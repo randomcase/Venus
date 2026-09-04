@@ -1,0 +1,9 @@
+{
+ "id": "workshop-bench-rossby",
+ "kind": "workbench",
+ "room": "workshop",
+ "name": "the rossby deformation radius on venus bench",
+ "text": "A bench for one figure: Rossby deformation radius on Venus, 2400 km give or take 400. Wrong if the buoyancy frequency is off by a factor, which would move this proportionally.",
+ "wovenBy": "rossby",
+ "bay": 8
+}

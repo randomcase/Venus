@@ -1,0 +1,15 @@
+{
+ "id": "region-hrafn",
+ "kind": "region",
+ "name": "Ovda Regio",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "seat": [
+  26,
+  14
+ ],
+ "parcels": 565,
+ "wovenBy": "hrafn"
+}

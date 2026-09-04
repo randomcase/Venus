@@ -1,0 +1,14 @@
+{
+ "id": "black",
+ "kind": "demographic",
+ "order": 2,
+ "name": "Black",
+ "recordTerm": "Negro",
+ "popShare1970": 11.1,
+ "deaths": 7243,
+ "deathShare": 12.4,
+ "note": "About 12.4% of deaths against 11% of the population over the whole war; but in 1965–1966 Black soldiers were roughly a fifth of Army combat deaths, and the Pentagon changed assignment patterns in 1967 to bring the share down. Project 100,000 (1966–1971) took 354,000 men below the normal standards, 41% of them Black, mostly into the infantry. In 1967 a draft-board study found 64% of eligible Black men were drafted against 31% of eligible whites, largely because of deferments the others could reach. Black officers were about 2% of the Army officer corps in 1968.",
+ "johnson": "The Johnson years are the years this disproportion was largest, argued over (King, April 1967: “the cruel irony”), and then corrected in the field.",
+ "source": "Defense Casualty Analysis System (DCAS), Vietnam Conflict Extract File, race field; US Census 1970; Guzmán 1969; Appy, Working-Class War (1993).",
+ "wovenBy": "the bridge"
+}

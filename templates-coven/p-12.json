@@ -1,0 +1,31 @@
+{
+ "id": "p-12",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Dorna Gralune",
+ "syndicate": "syn-4",
+ "tranche": 4,
+ "doors": [
+  29,
+  38
+ ],
+ "house": "the long gallery",
+ "sigil": {
+  "ring": 2,
+  "bars": 3,
+  "chord": 0,
+  "turn": 186
+ },
+ "keeps": "the oath he is named for breaking",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Giles Corey",
+ "readsId": "corey",
+ "reason": "Refused to plead, so there was no conviction and no forfeiture.",
+ "spell": "Unmake",
+ "spellId": "unmake",
+ "glyph": "✖",
+ "share": "57ae8c",
+ "text": "Dorna gralune of the long gallery, carries between for the 4th tranche, doors 29 to 38. Keeps the oath he is named for breaking. Reads Giles Corey.",
+ "wovenBy": "corey"
+}

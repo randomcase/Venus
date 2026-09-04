@@ -1,0 +1,15 @@
+{
+ "id": "CRK.01113",
+ "kind": "tranche",
+ "farm": "CRK",
+ "farmName": "Cracking house of Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "degree": 5,
+ "path": "01113",
+ "weight": 0.804,
+ "price": 1.78,
+ "volatility": 0.11,
+ "text": "Tranche 0.1.1.1.3 of Cracking house of Hrafnsson, the fifth degree: a quarter of the one above, weighted 0.80.",
+ "wovenBy": "CRK.0111"
+}

@@ -1,0 +1,18 @@
+{
+ "id": "act-020",
+ "bench": "fleet",
+ "order": 20,
+ "year": 2,
+ "day": 711,
+ "parties": [
+  "agamemnon",
+  "hector"
+ ],
+ "actor": "Agamemnon",
+ "with": "Hector",
+ "verb": "sacrificed",
+ "object": "at Aulis for a wind",
+ "place": "at the pyre",
+ "side": "fleet",
+ "text": "Agamemnon and Hector sacrificed at Aulis for a wind, at the pyre, in the second year."
+}

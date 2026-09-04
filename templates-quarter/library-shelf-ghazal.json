@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-ghazal",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of ghazal",
+ "text": "Independent couplets, each one able to stand alone, held together by a repeated end-word or phrase and the rhyme just before it.",
+ "wovenBy": "ghazal",
+ "bay": 5
+}

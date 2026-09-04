@@ -1,0 +1,16 @@
+{
+ "id": "saga41-ulf-band-3",
+ "kind": "band",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "name": "bowmen of Ulfsson",
+ "strength": 6,
+ "raids": false,
+ "cost": 835,
+ "upkeep": 2,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 6; eats 2 silicate a day.",
+ "wovenBy": "ulf",
+ "saga": 41
+}

@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-ingrid-band-3",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "skirmishers of Ingridsdottir",
+ "strength": 11,
+ "raids": false,
+ "cost": 1490,
+ "upkeep": 3,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 11; eats 3 record a day.",
+ "wovenBy": "ingrid",
+ "saga": 8191
+}

@@ -1,0 +1,161 @@
+{
+ "id": "range",
+ "grow": [
+  1.0,
+  1.1,
+  1.2,
+  1.3
+ ],
+ "name": "The turnover",
+ "tiers": [
+  "run",
+  "range",
+  "warren",
+  "commons"
+ ],
+ "note": "Rescoped, because the first version had it fertilising and it cannot. Surtsey's gulls fed in the North Atlantic and defecated on the island — an outside, a pump, and a reservoir. A sealed deck has none of those, so animals on it eat on-system and excrete on-system and their net nutrient addition is zero at any stocking density. What they actually do is TURNOVER: eat matter that is locking up, pass it back in a form something else can take, and hold the residence time of a phosphorus atom down to years instead of centuries. In a bag the number that kills you is not how much there is, it is how long it stays unavailable — and this is the building that keeps it moving. Also: peafowl are Phasianidae, the same family as turkeys, and flamingos are filter feeders. Neither is semi-aquatic, neither is a predator, and the first draft of this file called them both both.",
+ "parts": [
+  {
+   "s": "box",
+   "at": [
+    -1.15,
+    -1.15,
+    0
+   ],
+   "size": [
+    2.3,
+    2.3,
+    0.08
+   ],
+   "lid": 0.86
+  },
+  {
+   "s": "fence",
+   "at": [
+    0,
+    0,
+    0.08
+   ],
+   "r": 1.1,
+   "n": 7
+  },
+  {
+   "s": "flock",
+   "at": [
+    0,
+    0,
+    0.08
+   ],
+   "n": 5,
+   "kind": "flamingo"
+  },
+  {
+   "s": "flock",
+   "at": [
+    0,
+    0,
+    0.08
+   ],
+   "n": 4,
+   "kind": "peacock",
+   "from": 2
+  },
+  {
+   "s": "flock",
+   "at": [
+    0,
+    0,
+    0.08
+   ],
+   "n": 7,
+   "kind": "flamingo",
+   "from": 3
+  },
+  {
+   "s": "flock",
+   "at": [
+    0,
+    0,
+    0.08
+   ],
+   "n": 8,
+   "kind": "peacock",
+   "from": 4
+  },
+  {
+   "s": "dog",
+   "at": [
+    0.62,
+    0.55,
+    0.08
+   ]
+  },
+  {
+   "s": "box",
+   "at": [
+    -1.0,
+    0.55,
+    0.08
+   ],
+   "size": [
+    0.55,
+    0.5,
+    0.36
+   ],
+   "from": 2
+  },
+  {
+   "s": "roof",
+   "at": [
+    -1.05,
+    0.5,
+    0.44
+   ],
+   "size": [
+    0.65,
+    0.6,
+    0.28
+   ],
+   "ridge": true,
+   "from": 2
+  },
+  {
+   "s": "box",
+   "at": [
+    0.35,
+    -1.0,
+    0.08
+   ],
+   "size": [
+    0.5,
+    0.45,
+    0.3
+   ],
+   "from": 3
+  },
+  {
+   "s": "roof",
+   "at": [
+    0.3,
+    -1.05,
+    0.38
+   ],
+   "size": [
+    0.6,
+    0.55,
+    0.24
+   ],
+   "from": 3
+  },
+  {
+   "s": "flag",
+   "at": [
+    1.2,
+    -1.0,
+    0.08
+   ],
+   "h": 1.3,
+   "from": 4
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "id": "field-05",
+ "depth": 1,
+ "wovenBy": "l2-field-3-1",
+ "kind": "field",
+ "soil": "silt",
+ "lie": "south-facing",
+ "size": 5,
+ "name": "the south-facing silt field of 5",
+ "cost": 2000,
+ "yield": 1.44
+}

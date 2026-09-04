@@ -1,0 +1,16 @@
+{
+ "id": "rossby",
+ "order": 9,
+ "quantity": "Rossby deformation radius on Venus",
+ "value": 2400,
+ "unit": "km",
+ "uncertainty": 400,
+ "kind": "derived",
+ "method": "Standard deformation radius from the scale height, buoyancy frequency and the Coriolis parameter at mid-latitude. The buoyancy term is the loose one. Rounded: rounded from 2363: a ±400 bar owns the hundreds.",
+ "used_for": "You can dig a dust bowl, you cannot dig a hurricane.",
+ "boards": [
+  "paper.html"
+ ],
+ "wrong_if": "The buoyancy frequency is off by a factor, which would move this proportionally. The confirmation is that the polar vortices are observed at about 2,000 km, which was not arranged and is the reason to believe the calculation.",
+ "rounded_from": 2363
+}

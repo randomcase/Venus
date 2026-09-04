@@ -1,0 +1,17 @@
+{
+ "id": "act-023",
+ "bench": "fleet",
+ "order": 23,
+ "year": 3,
+ "day": 809,
+ "parties": [
+  "odysseus"
+ ],
+ "actor": "Odysseus",
+ "with": null,
+ "verb": "called",
+ "object": "the assembly and named the cause",
+ "place": "at the pyre",
+ "side": "fleet",
+ "text": "Odysseus called the assembly and named the cause, at the pyre, in the third year."
+}

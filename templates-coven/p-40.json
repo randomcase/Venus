@@ -1,0 +1,31 @@
+{
+ "id": "p-40",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Hespith Quillune",
+ "syndicate": "syn-14",
+ "tranche": 14,
+ "doors": [
+  124,
+  133
+ ],
+ "house": "the salt stair",
+ "sigil": {
+  "ring": 1,
+  "bars": 1,
+  "chord": 2,
+  "turn": 146
+ },
+ "keeps": "the names of everyone who came through",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "Johannes Junius",
+ "readsId": "junius",
+ "reason": "His letter to his daughter survives, written from the cell: the confession was false and extracted, and he said so in writing while he still could.",
+ "spell": "Ward",
+ "spellId": "ward",
+ "glyph": "◈",
+ "share": "a53db6",
+ "text": "Hespith quillune of the salt stair, keeps a door for the 14th tranche, doors 124 to 133. Keeps the names of everyone who came through. Reads Johannes Junius.",
+ "wovenBy": "junius"
+}

@@ -1,0 +1,30 @@
+{
+ "id": "enum-archetype",
+ "kind": "enum",
+ "family": "archetype",
+ "path": "templates-enum/archetype.json",
+ "note": "The fixed vocabulary of templates-archetype/, mined from 7 of its 7 templates by enums.mjs. Kept in templates-enum/, never inside templates-archetype/ itself, so nothing that scans templates-archetype/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 7,
+ "sampledFiles": 7,
+ "fields": {
+  "consumed": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 7,
+   "values": [
+    false,
+    true
+   ]
+  },
+  "persists": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 7,
+   "values": [
+    false,
+    true
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

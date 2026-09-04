@@ -1,0 +1,13 @@
+{
+ "id": "regime-7",
+ "kind": "regime",
+ "degree": 7,
+ "tickers": 65536,
+ "aFarm": 16384,
+ "pxACell": 4,
+ "named": false,
+ "visual": true,
+ "name": "Degree 7, 65,536.",
+ "text": "Grain. Motion reads as shimmer.",
+ "wovenBy": "market.mjs"
+}

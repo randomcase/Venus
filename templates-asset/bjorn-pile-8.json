@@ -1,0 +1,12 @@
+{
+ "id": "bjorn-pile-8",
+ "kind": "pile",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "name": "a pit for nitrogen",
+ "holds": 850,
+ "cost": 1020,
+ "text": "Holds 850 nitrogen. What is not piled is not yours by morning.",
+ "wovenBy": "bjorn"
+}

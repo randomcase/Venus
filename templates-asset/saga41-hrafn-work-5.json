@@ -1,0 +1,16 @@
+{
+ "id": "saga41-hrafn-work-5",
+ "kind": "work",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "house": "Cracking house",
+ "resource": "hydrogen",
+ "period": 2,
+ "tier": 5,
+ "yield": 25,
+ "cost": 15000,
+ "name": "Cracking house 5 of Hrafnsson",
+ "text": "The bottleneck has moved off this clan entirely, which is the only real completion there is. Yields 25 hydrogen every 2 days.",
+ "wovenBy": "hrafn",
+ "saga": 41
+}

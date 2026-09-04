@@ -1,0 +1,16 @@
+{
+ "id": "act-037",
+ "order": 37,
+ "year": 4,
+ "day": 1325,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "held",
+ "object": "the gate against the fleet",
+ "place": "by the river",
+ "side": "fleet",
+ "text": "Agamemnon held the gate against the fleet, by the river, in the fourth year."
+}

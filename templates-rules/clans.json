@@ -1,0 +1,53 @@
+{
+ "id": "rules-clans",
+ "kind": "rules",
+ "deck": "clans",
+ "path": "templates-rules/clans.json",
+ "rules": {
+  "cap": 21000000,
+  "awayHours": 8,
+  "secondsPerDay": 1,
+  "grant": 20000,
+  "price": {
+   "nitrogen": 3,
+   "hydrogen": 9,
+   "record": 12,
+   "biomass": 2,
+   "signal": 6,
+   "silicate": 4
+  },
+  "pileBase": 100,
+  "manaMax": 20,
+  "manaPerDay": 1,
+  "raidersBase": 4,
+  "raidersStep": 2,
+  "raidersEvery": 50,
+  "raidTake": 0.15,
+  "spoilPerStrength": 2,
+  "spoilPrice": 2,
+  "bronzePerDay": 20,
+  "bronzeHydrogenRatio": 3,
+  "bronzePrice": 8
+ },
+ "notes": {
+  "cap": "HEZE that can ever be issued across every deck; a unit of account inside the files, never a token",
+  "awayHours": "the most time a deck will catch up on when you come back",
+  "secondsPerDay": "how long a day is, in real seconds",
+  "grant": "HEZE the jarl starts with, credited against the cap",
+  "price": "HEZE per unit of each resource, at the docket",
+  "pileBase": "what each resource can hold with no pile built",
+  "manaMax": "the reserve the spells draw on",
+  "manaPerDay": "how much of the reserve comes back each day",
+  "raidersBase": "raid strength on day one",
+  "raidersStep": "how much raid strength grows each step",
+  "raidersEvery": "days between steps of raid strength",
+  "raidTake": "share of a pile a raid takes when the ford is not held",
+  "spoilPerStrength": "spoil per point of your raiders' strength",
+  "spoilPrice": "HEZE per unit of spoil",
+  "bronzePerDay": "most bronze cast in a day",
+  "bronzeHydrogenRatio": "units of silicate per unit of hydrogen in a casting",
+  "bronzePrice": "HEZE per unit of bronze"
+ },
+ "text": "The rulebook of the clans. Keep a changed copy in the browser through the editor in the quarter and the clans plays by it on its next load; write it into the yard and it plays by it for good.",
+ "wovenBy": "rules.mjs"
+}

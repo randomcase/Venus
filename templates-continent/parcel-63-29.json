@@ -1,0 +1,16 @@
+{
+ "id": "parcel-63-29",
+ "kind": "parcel",
+ "x": 63,
+ "y": 29,
+ "region": "Ulfrun Regio",
+ "clan": "ingrid",
+ "resource": "record",
+ "period": 13,
+ "terrain": "chasma",
+ "fertility": 0.8,
+ "yield": 1.69,
+ "text": "the floor of a chasma, sheltered, in Ulfrun Regio, sown from a cairn for record.",
+ "wovenBy": "ingrid-pile-9",
+ "chain": "seven deep"
+}

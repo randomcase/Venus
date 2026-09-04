@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-ingrid-band-9",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "scouts of Ingridsdottir",
+ "strength": 11,
+ "raids": false,
+ "cost": 1189,
+ "upkeep": 2,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 11; eats 2 record a day.",
+ "wovenBy": "ingrid",
+ "saga": 8191
+}

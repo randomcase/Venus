@@ -1,0 +1,13 @@
+{
+ "id": "shepherd",
+ "kind": "jcs-seat",
+ "order": 5,
+ "who": "Gen. Lemuel C. Shepherd Jr.",
+ "seat": "Commandant of the Marine Corps",
+ "seatAt": "opening",
+ "date": "1955-11-01",
+ "from": 1952,
+ "to": 1955,
+ "note": "Commandant on the opening date, with two months left in office. Not a statutory member; attended for Marine matters.",
+ "wovenBy": "the bridge"
+}

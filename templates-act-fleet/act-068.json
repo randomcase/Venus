@@ -1,0 +1,17 @@
+{
+ "id": "act-068",
+ "bench": "fleet",
+ "order": 68,
+ "year": 7,
+ "day": 2440,
+ "parties": [
+  "ajax"
+ ],
+ "actor": "Ajax",
+ "with": null,
+ "verb": "withdrew",
+ "object": "from the field and sat down",
+ "place": "among the ships",
+ "side": "fleet",
+ "text": "Ajax withdrew from the field and sat down, among the ships, in the seventh year."
+}

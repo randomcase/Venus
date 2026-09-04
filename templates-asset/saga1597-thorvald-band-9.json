@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-thorvald-band-9",
+ "kind": "band",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "period": 11,
+ "name": "night raiders of Thorvaldsson",
+ "strength": 5,
+ "raids": false,
+ "cost": 405,
+ "upkeep": 1,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 5; eats 1 signal a day.",
+ "wovenBy": "thorvald",
+ "saga": 1597
+}

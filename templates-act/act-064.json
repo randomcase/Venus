@@ -1,0 +1,16 @@
+{
+ "id": "act-064",
+ "order": 64,
+ "year": 7,
+ "day": 2289,
+ "parties": [
+  "aeneas"
+ ],
+ "actor": "Aeneas",
+ "with": null,
+ "verb": "drove",
+ "object": "the chariot at the wall",
+ "place": "at the fig tree",
+ "side": "troy",
+ "text": "Aeneas drove the chariot at the wall, at the fig tree, in the seventh year."
+}

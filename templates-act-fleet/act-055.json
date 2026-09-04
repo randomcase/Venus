@@ -1,0 +1,17 @@
+{
+ "id": "act-055",
+ "bench": "fleet",
+ "order": 55,
+ "year": 6,
+ "day": 1967,
+ "parties": [
+  "hector"
+ ],
+ "actor": "Hector",
+ "with": null,
+ "verb": "quarrelled",
+ "object": "over the arms of Achilles",
+ "place": "at the wall round the camp",
+ "side": "troy",
+ "text": "Hector quarrelled over the arms of Achilles, at the wall round the camp, in the sixth year."
+}

@@ -1,0 +1,18 @@
+{
+ "id": "act-050",
+ "bench": "fleet",
+ "order": 50,
+ "year": 5,
+ "day": 1788,
+ "parties": [
+  "achilles",
+  "priam"
+ ],
+ "actor": "Achilles",
+ "with": "Priam",
+ "verb": "tested",
+ "object": "the army by ordering it home",
+ "place": "on the plain",
+ "side": "fleet",
+ "text": "Achilles and Priam tested the army by ordering it home, on the plain, in the fifth year."
+}

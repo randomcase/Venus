@@ -1,0 +1,31 @@
+{
+ "id": "australia",
+ "kind": "shipyard",
+ "order": 10,
+ "respondsTo": "constellation",
+ "name": "You are Australia, building ships",
+ "also": "a shipyard game, with the three hulls it is measured against",
+ "premise": "Australia went to Vietnam with a task force, a lottery draft, and a navy of destroyers on the gunline — HMAS Hobart, Perth, Brisbane and Vendetta took turns off the coast, and Hobart was hit by a US aircraft's missiles in 1968. It has never built a carrier of its own; it bought two from Britain and retired the last, Melbourne, in 1982. The game is what it would take.",
+ "compare": [
+  { "ship": "USS Omaha (CL-4), “Omaha Girl”", "type": "WWII light cruiser", "length": "555 ft", "crew": "~450", "weapon": "twelve 6-inch guns", "reach": "about 14 miles", "verdict": "A scout to screen fleets; nimble; dwarfed by the others." },
+  { "ship": "USS Missouri (BB-63), “Mighty Mo”", "type": "WWII fast battleship", "length": "887 ft", "crew": "~2,700", "weapon": "nine 16-inch guns", "reach": "about 24 miles", "verdict": "The peak of armoured gun power, limited to the range of the guns; on the Vietnam gunline it was her sister New Jersey, for six months." },
+  { "ship": "USS Constellation (CV-64), “Connie”", "type": "Cold War supercarrier", "length": "1,047 ft, over three football fields", "crew": "5,000+ with the air wing", "weapon": "85 aircraft", "reach": "hundreds of miles, and Hanoi", "verdict": "A floating sovereign airbase; project 62 and the idle game where you are the ship." },
+  { "ship": "HMAS Hobart (D 39)", "type": "Perth-class guided-missile destroyer, US-built", "length": "437 ft", "crew": "~330", "weapon": "two 5-inch guns, Tartar missiles", "reach": "about 14 miles", "verdict": "What Australia actually sent: three deployments on the gunline, 1967–1970, and two dead when a USAF Phantom mistook her for a target in June 1968." }
+ ],
+ "yard": [
+  { "id": "patrol", "name": "Patrol boat", "tons": 100, "cost": 10, "rate": 1, "note": "Attack class, 1967; Australia built twenty of these itself." },
+  { "id": "destroyer", "name": "Destroyer (Hobart)", "tons": 3600, "cost": 120, "rate": 8, "note": "Bought from Defoe, Michigan; three of them." },
+  { "id": "cruiser", "name": "Light cruiser (Omaha)", "tons": 7050, "cost": 900, "rate": 40, "note": "Never built one after 1945." },
+  { "id": "carrier-light", "name": "Light carrier (Melbourne)", "tons": 20000, "cost": 6000, "rate": 200, "note": "Ex-HMS Majestic, 1955; sank two friendly destroyers in collisions; retired 1982." },
+  { "id": "battleship", "name": "Battleship (Missouri)", "tons": 45000, "cost": 40000, "rate": 900, "note": "Nobody has built one since 1944, and the game will not stop you." },
+  { "id": "supercarrier", "name": "Supercarrier (Constellation)", "tons": 61000, "cost": 250000, "rate": 5000, "note": "Two hundred and fifty thousand steel, and then an air wing, and then a fleet to protect it. This is why." }
+ ],
+ "game": { "resource": "steel", "note": "You are Australia. Tap to cut steel; every hull you lay down cuts steel for you, at the rate its yard would; the bigger the hull, the more it costs and the more it returns, and the supercarrier is priced at what it is. There is no enemy. The only thing to beat is the table above." },
+ "sources": [
+  "Royal Australian Navy, Sea Power Centre: HMAS Hobart (II), HMAS Melbourne (II)",
+  "Jeffrey Grey, Up Top: The Royal Australian Navy and Southeast Asian Conflicts 1955–1972 (1998)",
+  "Naval History and Heritage Command, DANFS: Omaha (CL-4), Missouri (BB-63), Constellation (CVA-64)"
+ ],
+ "text": "A shipyard idle game where you are Australia, with the comparison table of the three American hulls and the destroyer Australia actually sent.",
+ "wovenBy": "the bridge"
+}

@@ -1,0 +1,12 @@
+{
+ "id": "l2-beast-1-2",
+ "depth": 2,
+ "wovenBy": "l3-beast-1",
+ "kind": "beast",
+ "name": "The beast mould 1.2: bees, draws the plough",
+ "fixed": {
+  "beast": "bees",
+  "does": "draws the plough"
+ },
+ "open": []
+}

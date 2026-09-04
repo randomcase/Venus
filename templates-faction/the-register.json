@@ -1,0 +1,16 @@
+{
+ "id": "the-register",
+ "name": "The Register",
+ "patron": "The yard, smallest line on the manifest and the least negotiable.",
+ "holds": "One person, keeping the record of what was looked for and not found.",
+ "because": "A base that only counts hits will quietly stop reporting misses, and the misses are most of the work. This is a job with no output anybody wants and it is the reason nobody repeats a search that already failed.",
+ "produces_mostly": "lines that say nothing is there",
+ "study": "How much duplicated effort a maintained negative register actually saves. Nobody has measured it because nobody has kept one long enough.",
+ "stream": {
+  "cadence": "continuous",
+  "term": "perpetual"
+ },
+ "ends_when": "never",
+ "unconditional": true,
+ "anchor": "The file-drawer problem, addressed by paying somebody to open the drawer."
+}

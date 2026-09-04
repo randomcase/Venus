@@ -1,0 +1,9 @@
+{
+ "id": "dispatch-shelf-hole-d01",
+ "kind": "pigeonhole",
+ "room": "dispatch-shelf",
+ "name": "pigeonhole d01",
+ "text": "Holds The First Blade: the idle game, sealed. It opens with the words it was sealed with and no others.",
+ "wovenBy": "d01",
+ "bay": 0
+}

@@ -1,0 +1,672 @@
+<title>Sumer · the same list, named fifteen hundred years earlier</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  SUMER — the older stratum, and the two places the mapping breaks.
+
+  WHY PUT THEM SIDE BY SIDE
+  economy.html argues that twelve sectors are the things an economy cannot do
+  without, using the Olympians because their domains are already attested. The
+  obvious objection is that I picked a list to fit an argument. So here is the
+  same list, itemised by people fifteen hundred years earlier who had never
+  heard of Olympus, and who wrote theirs down on clay because they were running
+  the actual thing.
+
+  It matches almost everywhere. What is worth the page is the two places it
+  does not.
+
+  NISABA IS ONE GODDESS DOING TWO GREEK JOBS
+  She is grain. She is also writing, accounting and the scribe's craft. Not two
+  deities who became associated — one goddess whose domain is both, from the
+  start, because in Sumer counting grain and writing are the same activity and
+  nobody there would have understood the question. Greece needed Demeter AND
+  Apollo for what Sumer did with Nisaba, and that split is Greece forgetting
+  where writing came from.
+
+  ZEUS NEEDS TWO SUMERIAN GODS
+  An is the sky and the highest authority and does essentially nothing. Enlil is
+  the one who actually decides and enforces. Sumer distinguished authority-in-
+  name from authority-that-acts and kept them as separate gods; Greece merged
+  them into one and gave him a thunderbolt. Every constitutional crisis since is
+  an argument about which half you are appealing to.
+
+  AND INANNA IS THE PLANET
+  Not a metaphor and not a later identification: Inanna is Venus, the morning
+  and the evening star, in the earliest layers. The thing this whole yard is
+  terraforming was the first thing that pantheon put in the sky, and it was
+  already the same object seen twice.
+
+  THE ME
+  Enki's decrees: a list, itemised, of the components of civilisation, which
+  Inanna takes from him to Uruk. Kingship, priesthood, truth, the craft of the
+  scribe, the craft of the smith, descent to the underworld, the making of
+  decisions. It is profiles.json from four thousand years ago, and the fact
+  that somebody thought to enumerate it at all is more striking than any entry
+  on it.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#0a0806; --card:#171208; --card2:#1e180d; --edge:#3a2f1c;
+    --ink:#f4ecdc; --dim:#a9977a; --bone:#eadfc0;
+    --clay:#c98f4a; --clay2:#e8b46a; --lapis:#5b7fc7; --gold:#e0b155;
+    --greek:#9aa8c0; --split:#e0705a; --ok:#8fc98a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.68 ui-serif,Georgia,'Times New Roman',serif;
+    background-image:
+      radial-gradient(circle at 18% -6%,rgba(201,143,74,.13),transparent 44%),
+      radial-gradient(circle at 88% 96%,rgba(91,127,199,.10),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:24px;letter-spacing:-.015em;color:var(--clay2);font-weight:500}
+  header .sub{color:var(--dim);font-size:12px;max-width:76ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--clay);border:1px solid var(--clay);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  p{max-width:82ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.72;margin:10px 0 0;max-width:98ch;
+    font-family:ui-rounded,system-ui,sans-serif}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#0d0a06;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--clay2)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+
+  /* ------------------------------------------------------------ the tablet */
+  .rows{margin-top:12px;border:1px solid var(--edge);border-radius:12px;overflow:hidden}
+  .row{display:grid;grid-template-columns:1fr 26px 1fr;gap:0;
+    border-bottom:1px solid var(--edge)}
+  .row:last-child{border-bottom:0}
+  .row > div{padding:11px 13px}
+  .row .gk{background:#12100c;border-right:1px solid var(--edge)}
+  .row .su{background:#171208;border-left:1px solid var(--edge)}
+  .row .mid{display:grid;place-items:center;background:#0d0b07;
+    font:11px/1 ui-monospace,monospace;color:#5c4f36}
+  .row b{display:block;font-size:13.5px}
+  .row .gk b{color:var(--greek)} .row .su b{color:var(--clay2)}
+  .row span{display:block;font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);margin-top:4px}
+  .row i{display:block;font-style:normal;font-size:11px;color:var(--dim);
+    margin-top:7px;line-height:1.55;font-family:ui-rounded,system-ui,sans-serif}
+  .row.split{background:rgba(224,112,90,.05)}
+  .row.split .mid{color:var(--split);font-weight:700}
+  .row.gap .su{opacity:.55}
+  @media (max-width:720px){
+    .row{grid-template-columns:1fr}
+    .row .gk{border-right:0;border-bottom:1px solid var(--edge)}
+    .row .su{border-left:0}
+    .row .mid{padding:5px;background:#0d0b07}
+  }
+
+  .me{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+  @media (max-width:760px){.me{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:480px){.me{grid-template-columns:1fr}}
+  .me div{background:#12100c;border:1px solid var(--edge);border-radius:9px;
+    padding:9px 11px;font-size:11.5px;color:var(--bone);
+    font-family:ui-rounded,system-ui,sans-serif}
+  .me div i{display:block;font-style:normal;font-size:10px;color:var(--dim);margin-top:4px}
+
+  .fig{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}
+  @media (max-width:700px){.fig{grid-template-columns:1fr}}
+  .fig div{background:#12100c;border:1px solid var(--edge);border-radius:10px;padding:10px 11px}
+  .fig span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);display:block}
+  .fig b{display:block;font:15px/1.3 ui-monospace,Menlo,monospace;
+    color:var(--clay2);margin-top:6px}
+  .fig i{display:block;font-style:normal;font-size:10.5px;color:var(--dim);
+    margin-top:6px;line-height:1.55;font-family:ui-rounded,system-ui,sans-serif}
+
+    /* ═══════════════════════════════════════════════════ THE GALACTIC BACKDROP
+     A window, not a wallpaper. Still no script.
+
+     69 bright stars and 139 dim ones, weighted the way the real sky is —
+     mostly dim and warm, a scatter of white, almost no blue — laid along a band
+     twenty-four degrees off horizontal with the dust lane cut back out of it in
+     the background colour, because the dark half of a galaxy is most of what
+     you see. The stars are Earth's, because they would be: Venus is 0.28 AU
+     away and that is nothing at stellar distances.
+
+     WE ARE TRAVELLING, so the sky does. It sits on two fixed pseudo-elements
+     rather than one background, and each one moves by TRANSFORM — which the
+     compositor does on its own thread, without repainting 208 gradients a
+     frame. Animating background-position instead would have cost the frame
+     budget of every board in the yard, and that is the only reason this is
+     built out of two layers instead of one.
+
+     AND WE ARE EXPANDING, so the near layer runs faster and scales harder than
+     the far one. That difference is parallax and parallax is the entire cue:
+     hold still and the bright stars slide past the dim ones, which is what a
+     window does and what a backdrop cannot. 21 minutes and 34 — coprime, so the
+     two never fall back into the arrangement they started in.
+
+     Both sit at z-index:-1 behind everything, each page keeps its own colour
+     wash on <body> over the top, and prefers-reduced-motion stops the travel
+     dead while leaving every star exactly where it is. */
+  html{background-color:#0a0806}
+  body{background-color:transparent}
+  html::before,html::after{content:"";position:fixed;z-index:-1;
+    inset:-18%;pointer-events:none;background-repeat:no-repeat;
+    background-size:cover;will-change:transform}
+  html::before{background-image:
+      radial-gradient(0.35px 0.35px at 63.60% 61.37%,rgba(202,215,255,0.16),transparent),
+      radial-gradient(0.54px 0.54px at 31.73% 56.60%,rgba(255,210,161,0.26),transparent),
+      radial-gradient(0.36px 0.36px at 16.19% 41.87%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.12% 16.25%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 61.37% 49.53%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.66px 0.66px at 89.13% 49.03%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.52px 0.52px at 23.10% 65.23%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 81.55% 90.93%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.35px 0.35px at 1.99% 39.17%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.67px 0.67px at 88.33% 64.79%,rgba(255,210,161,0.32),transparent),
+      radial-gradient(0.65px 0.65px at 52.00% 41.82%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.84px 0.84px at 59.58% 82.02%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.44px 0.44px at 55.83% 49.97%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.45px 0.45px at 61.17% 3.50%,rgba(202,215,255,0.21),transparent),
+      radial-gradient(0.48px 0.48px at 92.68% 74.19%,rgba(255,181,107,0.23),transparent),
+      radial-gradient(0.41px 0.41px at 44.55% 40.37%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.80px 0.80px at 33.50% 52.15%,rgba(255,181,107,0.39),transparent),
+      radial-gradient(0.70px 0.70px at 15.53% 74.11%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.69px 0.69px at 83.20% 49.99%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.86px 0.86px at 14.02% 0.25%,rgba(255,181,107,0.42),transparent),
+      radial-gradient(0.35px 0.35px at 8.46% 26.75%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 16.18% 29.77%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.57px 0.57px at 46.77% 49.71%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.58px 0.58px at 80.94% 96.51%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.44px 0.44px at 46.92% 31.31%,rgba(255,181,107,0.20),transparent),
+      radial-gradient(0.37px 0.37px at 34.69% 85.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.42px 0.42px at 56.44% 46.68%,rgba(255,210,161,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 7.58% 26.10%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.48px 0.48px at 16.83% 84.69%,rgba(202,215,255,0.22),transparent),
+      radial-gradient(0.53px 0.53px at 9.16% 5.95%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.57px 0.57px at 41.82% 44.48%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.90px 0.90px at 74.31% 45.97%,rgba(255,210,161,0.44),transparent),
+      radial-gradient(0.40px 0.40px at 64.18% 49.64%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 5.25% 39.37%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.53px 0.53px at 9.07% 72.19%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.78px 0.78px at 64.06% 69.96%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.37px 0.37px at 8.76% 35.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 57.68% 27.55%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 98.05% 7.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.66px 0.66px at 44.51% 72.98%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.46px 0.46px at 37.26% 1.54%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.59px 0.59px at 90.42% 72.27%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.57px 0.57px at 98.13% 10.35%,rgba(248,247,255,0.27),transparent),
+      radial-gradient(0.91px 0.91px at 94.93% 71.89%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.36px 0.36px at 4.64% 11.86%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.56px 0.56px at 46.09% 50.65%,rgba(255,210,161,0.27),transparent),
+      radial-gradient(0.72px 0.72px at 98.16% 60.72%,rgba(255,181,107,0.35),transparent),
+      radial-gradient(0.90px 0.90px at 23.45% 18.12%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.53px 0.53px at 13.29% 38.54%,rgba(248,247,255,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 48.20% 58.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 93.26% 70.43%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.77px 0.77px at 98.31% 71.27%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.51px 0.51px at 91.86% 57.08%,rgba(255,210,161,0.24),transparent),
+      radial-gradient(0.76px 0.76px at 3.22% 18.38%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 67.24% 79.63%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.44px 0.44px at 4.49% 37.24%,rgba(255,210,161,0.20),transparent),
+      radial-gradient(0.35px 0.35px at 19.05% 44.87%,rgba(248,247,255,0.16),transparent),
+      radial-gradient(0.43px 0.43px at 80.57% 75.11%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.38px 0.38px at 84.40% 42.68%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.44px 0.44px at 84.04% 97.87%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.65px 0.65px at 16.48% 27.55%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.75px 0.75px at 84.52% 73.60%,rgba(255,210,161,0.36),transparent),
+      radial-gradient(0.63px 0.63px at 50.13% 6.86%,rgba(248,247,255,0.30),transparent),
+      radial-gradient(0.78px 0.78px at 87.51% 70.49%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.76px 0.76px at 16.34% 26.34%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.35px 0.35px at 58.85% 56.40%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 4.52% 56.48%,rgba(255,181,107,0.33),transparent),
+      radial-gradient(0.46px 0.46px at 86.45% 52.09%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.39px 0.39px at 91.92% 82.50%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.36px 0.36px at 6.83% 33.67%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.10% 7.69%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 63.59% 62.73%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 72.64% 55.47%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.57px 0.57px at 1.57% 22.68%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.35px 0.35px at 20.24% 40.59%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 81.60% 86.38%,rgba(255,244,234,0.33),transparent),
+      radial-gradient(0.75px 0.75px at 1.01% 89.43%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.50px 0.50px at 1.89% 45.85%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.36px 0.36px at 86.06% 69.70%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.46px 0.46px at 54.27% 84.12%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.35px 0.35px at 68.88% 69.99%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 51.92% 44.11%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.37px 0.37px at 83.56% 88.23%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.61px 0.61px at 48.63% 32.82%,rgba(248,247,255,0.29),transparent),
+      radial-gradient(0.46px 0.46px at 3.14% 19.70%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.35px 0.35px at 91.65% 60.72%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 39.35% 42.18%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.60px 0.60px at 96.63% 57.34%,rgba(255,210,161,0.29),transparent),
+      radial-gradient(0.36px 0.36px at 93.19% 66.52%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 91.66% 53.83%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.53px 0.53px at 37.09% 33.98%,rgba(255,210,161,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 7.69% 48.04%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.76px 0.76px at 40.92% 77.22%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.62px 0.62px at 53.18% 55.13%,rgba(255,181,107,0.30),transparent),
+      radial-gradient(0.52px 0.52px at 36.16% 17.06%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.42px 0.42px at 7.30% 10.90%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 98.83% 35.83%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.57px 0.57px at 32.25% 40.39%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.77px 0.77px at 68.97% 58.36%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.35px 0.35px at 98.16% 72.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 49.07% 50.45%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.59px 0.59px at 36.73% 46.36%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.37px 0.37px at 59.16% 52.43%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 5.87% 47.43%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.35px 0.35px at 28.92% 42.34%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.84px 0.84px at 38.15% 61.03%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.35px 0.35px at 17.08% 95.56%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.56px 0.56px at 72.12% 52.35%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.43px 0.43px at 10.79% 34.15%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.36px 0.36px at 90.72% 54.28%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.36px 0.36px at 0.22% 39.29%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.38px 0.38px at 66.88% 43.63%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.76px 0.76px at 85.24% 53.71%,rgba(255,210,161,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 76.84% 68.26%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.82px 0.82px at 20.88% 36.67%,rgba(255,181,107,0.40),transparent),
+      radial-gradient(0.53px 0.53px at 72.59% 59.70%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.82px 0.82px at 99.56% 61.97%,rgba(248,247,255,0.40),transparent),
+      radial-gradient(0.37px 0.37px at 43.04% 22.87%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.38px 0.38px at 62.75% 36.42%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.64px 0.64px at 11.37% 52.16%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.35px 0.35px at 65.28% 54.10%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 23.22% 51.57%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.41px 0.41px at 7.86% 15.80%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 1.16% 17.03%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 24.23% 36.88%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 67.85% 71.10%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.87px 0.87px at 21.22% 9.64%,rgba(255,181,107,0.43),transparent),
+      radial-gradient(16px 16px at 11.38% 48.06%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 66.59% 41.28%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 40.80% 23.68%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 41.01% 67.29%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 31.18% 27.63%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 10.81% 18.20%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 3.23% 54.03%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(30% 30% at 22% 30%,rgba(91,127,199,0.055),transparent 70%),
+      radial-gradient(26% 26% at 74% 58%,rgba(201,87,143,0.040),transparent 70%),
+      radial-gradient(22% 22% at 46% 18%,rgba(79,179,166,0.035),transparent 70%),
+      linear-gradient(66deg,transparent 34%,rgba(148,138,196,.045) 43%,rgba(172,162,214,.085) 50%,rgba(148,138,196,.045) 57%,transparent 66%),
+      linear-gradient(66deg,transparent 46%,rgba(4,3,7,.55) 49.4%,rgba(4,3,7,.62) 50.6%,transparent 54%);
+    animation:au-far 2040s ease-in-out infinite alternate}
+  html::after{background-image:
+      radial-gradient(1.30px 1.30px at 68.42% 62.26%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(0.96px 0.96px at 44.46% 53.88%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.72px 1.72px at 97.52% 67.89%,rgba(255,210,161,0.86),transparent),
+      radial-gradient(1.27px 1.27px at 29.09% 44.54%,rgba(255,181,107,0.63),transparent),
+      radial-gradient(1.25px 1.25px at 0.41% 98.24%,rgba(255,181,107,0.62),transparent),
+      radial-gradient(1.12px 1.12px at 48.27% 61.45%,rgba(255,181,107,0.55),transparent),
+      radial-gradient(1.62px 1.62px at 21.27% 82.41%,rgba(255,181,107,0.81),transparent),
+      radial-gradient(1.13px 1.13px at 32.91% 34.63%,rgba(255,181,107,0.56),transparent),
+      radial-gradient(1.56px 1.56px at 71.19% 43.86%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.40px 1.40px at 6.85% 52.24%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.14px 1.14px at 86.46% 83.26%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.10px 1.10px at 71.95% 42.90%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.42px 1.42px at 36.96% 17.89%,rgba(255,181,107,0.71),transparent),
+      radial-gradient(1.13px 1.13px at 4.31% 1.17%,rgba(170,191,255,0.56),transparent),
+      radial-gradient(1.31px 1.31px at 41.52% 51.61%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(1.46px 1.46px at 76.09% 66.82%,rgba(255,244,234,0.72),transparent),
+      radial-gradient(1.78px 1.78px at 26.72% 43.06%,rgba(255,181,107,0.89),transparent),
+      radial-gradient(1.69px 1.69px at 22.68% 46.22%,rgba(170,191,255,0.84),transparent),
+      radial-gradient(1.76px 1.76px at 30.20% 97.65%,rgba(255,181,107,0.88),transparent),
+      radial-gradient(1.38px 1.38px at 99.58% 76.98%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.08px 1.08px at 15.38% 27.05%,rgba(255,244,234,0.53),transparent),
+      radial-gradient(0.95px 0.95px at 42.39% 32.32%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.57px 1.57px at 58.49% 81.25%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(0.94px 0.94px at 48.37% 39.34%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.41px 1.41px at 91.19% 97.04%,rgba(255,210,161,0.70),transparent),
+      radial-gradient(1.37px 1.37px at 7.79% 44.56%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.07px 1.07px at 89.66% 36.01%,rgba(255,181,107,0.53),transparent),
+      radial-gradient(1.69px 1.69px at 67.50% 93.44%,rgba(255,181,107,0.84),transparent),
+      radial-gradient(1.15px 1.15px at 57.27% 40.78%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.58px 1.58px at 33.10% 45.94%,rgba(255,181,107,0.79),transparent),
+      radial-gradient(1.04px 1.04px at 83.01% 82.39%,rgba(255,181,107,0.51),transparent),
+      radial-gradient(1.56px 1.56px at 88.42% 66.83%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.29px 1.29px at 24.78% 0.51%,rgba(255,181,107,0.64),transparent),
+      radial-gradient(1.09px 1.09px at 6.07% 6.69%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.32px 1.32px at 53.40% 80.43%,rgba(255,210,161,0.65),transparent),
+      radial-gradient(1.19px 1.19px at 76.80% 81.97%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(0.94px 0.94px at 69.80% 57.79%,rgba(255,244,234,0.46),transparent),
+      radial-gradient(1.10px 1.10px at 7.00% 33.07%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.22px 1.22px at 76.56% 52.71%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(0.96px 0.96px at 85.29% 63.59%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.18px 1.18px at 17.44% 43.04%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(1.51px 1.51px at 36.81% 57.97%,rgba(255,210,161,0.75),transparent),
+      radial-gradient(1.37px 1.37px at 98.28% 82.40%,rgba(248,247,255,0.68),transparent),
+      radial-gradient(1.65px 1.65px at 78.05% 82.63%,rgba(248,247,255,0.82),transparent),
+      radial-gradient(1.20px 1.20px at 59.28% 41.45%,rgba(248,247,255,0.60),transparent),
+      radial-gradient(1.55px 1.55px at 40.98% 18.58%,rgba(255,181,107,0.77),transparent),
+      radial-gradient(1.02px 1.02px at 82.66% 66.73%,rgba(255,181,107,0.50),transparent),
+      radial-gradient(1.20px 1.20px at 0.68% 23.74%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(1.15px 1.15px at 57.32% 67.46%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.34px 1.34px at 6.29% 37.15%,rgba(255,244,234,0.66),transparent),
+      radial-gradient(1.39px 1.39px at 63.56% 50.69%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.59px 1.59px at 80.48% 31.89%,rgba(202,215,255,0.79),transparent),
+      radial-gradient(1.52px 1.52px at 40.22% 51.94%,rgba(255,210,161,0.76),transparent),
+      radial-gradient(1.52px 1.52px at 78.35% 77.94%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(1.70px 1.70px at 33.95% 56.66%,rgba(255,181,107,0.85),transparent),
+      radial-gradient(1.16px 1.16px at 77.09% 41.34%,rgba(255,210,161,0.58),transparent),
+      radial-gradient(1.67px 1.67px at 39.69% 60.56%,rgba(255,210,161,0.83),transparent),
+      radial-gradient(1.47px 1.47px at 12.24% 30.52%,rgba(255,181,107,0.73),transparent),
+      radial-gradient(1.11px 1.11px at 80.16% 93.71%,rgba(255,210,161,0.55),transparent),
+      radial-gradient(1.52px 1.52px at 11.04% 44.84%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(0.94px 0.94px at 59.58% 30.37%,rgba(255,210,161,0.46),transparent),
+      radial-gradient(1.53px 1.53px at 0.35% 42.03%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(2.6px 2.6px at 11.38% 48.06%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 66.59% 41.28%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 40.80% 23.68%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 41.01% 67.29%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 31.18% 27.63%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 10.81% 18.20%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 3.23% 54.03%,rgba(255,255,255,.95),transparent);
+    animation:au-near 1260s ease-in-out infinite alternate}
+  @keyframes au-far{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-3.0%,1.6%,0) scale(1.09)}}
+  @keyframes au-near{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-8.5%,4.4%,0) scale(1.26)}}
+  @media (prefers-reduced-motion:reduce){
+    html::before,html::after{animation:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="tag">no script<a href="automat.html" style="color:inherit;text-decoration:none;opacity:.62" title="Still true: this board decides everything in its stylesheet. It also ships two inert script tags — automat.js and devmode.js — which do nothing unless the URL carries ?run or ?dev, a half of the address CSS cannot read. See automat.html.">&nbsp;&dagger;</a></span>
+    <h1>Sumer</h1>
+    <p class="sub">The same twelve functions, itemised fifteen hundred years
+      earlier by people who had never heard of Olympus and who wrote theirs on
+      clay because they were running the actual thing. It matches almost
+      everywhere. The page is about where it does not.</p>
+  </header>
+
+  <div class="panel" style="border-color:rgba(201,143,74,.45)">
+    <h2 style="margin-top:0">Why put them side by side <b>the obvious objection</b></h2>
+    <p style="margin:0;font-size:12.5px"><a href="economy.html">The Twelve</a>
+      argues that twelve sectors are what an economy cannot do without, and uses
+      the Olympians because their domains are already attested. The fair
+      objection is that I chose a list to fit an argument.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">So: here is an independent list.
+      Older, unconnected, and drawn up by the civilisation that was doing it
+      first rather than describing it afterwards. <b>Where two cultures who
+      never met itemise the same functions, the list is doing less arguing than
+      it looks.</b> And where they disagree, one of them drew a distinction the
+      other lost.</p>
+  </div>
+
+  <h2>The two lists <b>Greek left, Sumerian right</b></h2>
+  <div class="rows">
+    <div class="row">
+      <div class="gk"><b>Aphrodite</b><span>demand</span>
+        <i>Wanting, and therefore the reason anything is grown at all.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Inanna</b><span>desire · war · the star</span>
+        <i>And she <b>is</b> Venus &mdash; the morning and the evening star, in
+          the earliest layers, not a later identification. The planet this yard
+          is terraforming was the first thing that pantheon put in the sky, and
+          it was already one object seen twice.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Poseidon</b><span>water</span>
+        <i>Water and the routes over it, and a root because nothing else can be.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Enki</b><span>fresh water · craft · the abzu</span>
+        <i>Not the sea &mdash; the <i>fresh</i> water under the ground, which is
+          the water that matters if you are farming. A sharper assignment than
+          the Greek one, from people whose survival depended on the
+          distinction.</i></div>
+    </div>
+
+    <div class="row gap">
+      <div class="gk"><b>Hestia</b><span>shelter</span>
+        <i>The hearth. Somewhere warm that is the same place tomorrow.</i></div>
+      <div class="mid">~</div>
+      <div class="su"><b>no clean match</b><span>the gap</span>
+        <i>There is no single Sumerian hearth deity of this weight. The household
+          is distributed across Ninlil, the city gods and the personal god who
+          attends one family. Recorded as a gap rather than forced &mdash; a
+          mapping with no holes in it has been fitted rather than found.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Artemis</b><span>the commons</span>
+        <i>The un-farmed, and the only sector the others are spending.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Ninhursag</b><span>the sacred mountain</span>
+        <i>Lady of the stony highland &mdash; literally the uncultivated ground
+          above the fields. The same idea arrived at from the other end: not
+          wilderness as a place to hunt, but as the land that is not
+          farmland.</i></div>
+    </div>
+
+    <div class="row split">
+      <div class="gk"><b>Demeter</b><span>food</span>
+        <i>Grain, and therefore surplus, and therefore every hand not growing
+          food.</i></div>
+      <div class="mid">2&rarr;1</div>
+      <div class="su"><b>Nisaba</b><span>grain · writing · accounting</span>
+        <i><b>One goddess doing two Greek jobs.</b> She is grain and she is the
+          scribe's craft, from the start &mdash; not two domains that became
+          associated. See below, because this is the finding.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Hephaestus</b><span>forge</span>
+        <i>Tools, and tools that make tools, paid for in meals somebody grew.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Ninagal</b><span>the smith</span>
+        <i>Patron of metalworkers, and one of Enki's craftsmen. The forge is a
+          named office in both systems, which is what you would expect of the
+          first job that had to be fed by somebody else.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Athena</b><span>skill</span>
+        <i>Craft and technique, and the passing of it on.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Enki</b><span>the me</span>
+        <i>He holds the <i>me</i>: the decrees, the itemised arts of
+          civilisation, which are transferred rather than invented. Skill as a
+          thing that is <b>handed over</b> is a better model than skill as a
+          thing you have.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Ares</b><span>force</span>
+        <i>Force under its own name, downstream of the surplus.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Ninurta</b><span>the plough and the club</span>
+        <i>God of the plough <i>and</i> of war, in one figure. Sumer put
+          agriculture and force in the same god, which states the dependency
+          this yard had to work out the long way: the guard exists because the
+          granary does.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Hermes</b><span>trade</span>
+        <i>Roads, exchange and messages. Needs two producers.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Ninshubur</b><span>the vizier who goes</span>
+        <i>Inanna's messenger, and the one sent between powers when something
+          must actually be carried. The errand is the office.</i></div>
+    </div>
+
+    <div class="row split">
+      <div class="gk"><b>Apollo</b><span>records</span>
+        <i>Measure, standards and the written account &mdash; and downstream of
+          trade.</i></div>
+      <div class="mid">2&rarr;1</div>
+      <div class="su"><b>Nisaba</b><span>again</span>
+        <i>The same goddess as food. Greece needed two deities for what Sumer
+          did with one, and the split is Greece forgetting where writing came
+          from.</i></div>
+    </div>
+
+    <div class="row">
+      <div class="gk"><b>Hera</b><span>contract</span>
+        <i>Oath, and the binding of an agreement past the moment of making it.</i></div>
+      <div class="mid">=</div>
+      <div class="su"><b>Utu</b><span>the sun, and therefore the judge</span>
+        <i>Oaths were sworn by Utu because the sun sees everything, which makes
+          him the witness and so the guarantor. Justice derived from
+          <b>visibility</b> rather than from authority &mdash; the same argument
+          the ships' countersigned logs are making.</i></div>
+    </div>
+
+    <div class="row split">
+      <div class="gk"><b>Zeus</b><span>authority</span>
+        <i>The appeal of last resort, and the only sector contributing nothing
+          until two others run.</i></div>
+      <div class="mid">1&rarr;2</div>
+      <div class="su"><b>An &middot; Enlil</b><span>name · and act</span>
+        <i><b>It takes two Sumerian gods to cover Zeus.</b> An is the sky and
+          the highest authority and does essentially nothing. Enlil is the one
+          who decides and enforces. See below.</i></div>
+    </div>
+  </div>
+
+  <h2>Nisaba <b>the finding, and it is theirs rather than mine</b></h2>
+  <div class="panel" style="border-color:rgba(224,112,90,.45)">
+    <p style="margin:0;font-size:12.5px"><a href="economy.html">The Twelve</a>
+      argues that writing is downstream of trade, on the evidence that cuneiform
+      begins as barley tallies. That is an inference from the archaeology.</p>
+    <p style="margin:9px 0 0;font-size:12.5px"><b>Sumer states it directly.</b>
+      Nisaba is the goddess of grain and the goddess of writing and the goddess
+      of accounts, and she is one goddess. Not a grain deity who later acquired
+      literacy: her domain is both from the earliest attestations, because to
+      the people doing it, counting grain and writing were not two activities
+      that needed relating. Scribes ended their tablets praising her, and they
+      were praising the same power that made the barley.</p>
+    <p class="note"><b>Greece split her.</b> Demeter got the grain and Apollo got
+      the measure, and once they are two gods the connection between them is a
+      thesis somebody has to argue rather than a fact of the pantheon. That is
+      what a lost distinction looks like from the far side: not an error, just a
+      question nobody has a reason to ask any more.</p>
+  </div>
+
+  <h2>An and Enlil <b>the other break, in the other direction</b></h2>
+  <div class="panel" style="border-color:rgba(224,112,90,.45)">
+    <div class="fig">
+      <div><span>An</span><b>authority in name</b><i>Sky, highest rank, invoked in every list, and does almost nothing in any story.</i></div>
+      <div><span>Enlil</span><b>authority that acts</b><i>Wind and storm, the executive, the one whose word settles it and whose anger has consequences.</i></div>
+      <div><span>Zeus</span><b>both, merged</b><i>Highest rank AND the thunderbolt, in one figure, with no seam.</i></div>
+    </div>
+    <p class="note" style="margin-top:12px"><b>Sumer kept them apart and Greece
+      welded them together</b>, and the weld is where every constitutional
+      argument since has happened. A crown that reigns and a cabinet that rules;
+      a founding document and a court; a board and an executive. Every one of
+      those is a society rediscovering that authority-in-name and
+      authority-that-acts are different things, after inheriting a model in
+      which they were the same god.</p>
+    <p class="note">On <a href="economy.html">the board</a>, Zeus contributes
+      nothing until Hera and Apollo are running &mdash; he needs a rule and a
+      record. That is the An half showing through: rank with nothing to act on.
+      The Enlil half is the part that does something, and it is downstream of
+      everything.</p>
+  </div>
+
+  <h2>The me <b>a requirements list from four thousand years ago</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">Enki holds the <i>me</i>: the decrees,
+      the itemised components of civilisation, which Inanna takes from him to
+      Uruk. What is remarkable is not any single entry. It is that somebody
+      thought civilisation was the kind of thing you could <b>enumerate</b>.</p>
+    <div class="me">
+      <div>kingship<i>authority</i></div>
+      <div>the throne<i>and the office, separately</i></div>
+      <div>truth<i>listed as a component</i></div>
+      <div>the craft of the scribe<i>records</i></div>
+      <div>the craft of the smith<i>the forge</i></div>
+      <div>the craft of the leatherworker<i>named individually</i></div>
+      <div>descent to the underworld<i>and the return from it</i></div>
+      <div>the making of decisions<i>as distinct from authority</i></div>
+      <div>counsel<i>advice, as its own thing</i></div>
+      <div>the giving of judgments<i>distinct again</i></div>
+      <div>music<i>on the same list as the smithy</i></div>
+      <div>fear and dismay<i>civilisation includes its costs</i></div>
+    </div>
+    <p class="note"><b>Three things about that list are worth taking.</b> It
+      separates authority, decision-making and judgment into three entries, which
+      is the An/Enlil split again and finer than most modern org charts. It puts
+      the crafts in individually rather than as "industry". And it includes fear
+      and dismay &mdash; the costs are components, not side effects, which is
+      more honest than any requirements document I have ever seen.</p>
+    <p class="note"><a href="profiles/index.html">profiles.json</a> is the same
+      artefact: a list of what a thing needs, with statuses, because somebody
+      decided the components could be written down and counted. Four thousand
+      years apart and the format is recognisable.</p>
+  </div>
+
+  <h2>Inanna is the planet <b>and always was</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">Inanna is Venus. Not by later
+      syncretism &mdash; in the earliest layers, the goddess and the morning and
+      evening star are the same. The Venus Tablet of Ammisaduqa, which
+      <a href="assembly.html">the assembly</a> uses as the oldest observational
+      record on the page, is a record of <i>her</i> risings and settings, kept
+      because her appearances mattered and had to be predicted.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">Which puts the whole of this yard
+      in an odd position. The planet being terraformed is the one that pantheon
+      put in the sky first; the 583.92-day period that every calendar-keeper
+      found independently was found by watching her; and
+      <a href="assembly.html">Hesperus and Phosphorus</a> &mdash; the thing that
+      is and is not itself &mdash; is her, seen from two sides of her own orbit,
+      by people who had been counting her for a thousand years before anybody
+      wrote the paradox down.</p>
+  </div>
+
+  <p class="note" style="margin-top:22px">Also in this system:
+    <a href="economy.html">the Twelve</a>, which this page checks &middot;
+    <a href="assembly.html">the assembly</a> &middot;
+    <a href="profiles/index.html">the profiles</a>, which are a me &middot;
+    <a href="theory.md">theory.md</a> &middot; <a href="index.html">the yard</a></p>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── THE SCRIPT LAYER
+  Inert. automat.js reads the query string and nothing else, and the query
+  string is the half of a URL CSS cannot see. Open this file plainly and it
+  is the board it always was, deciding everything in the stylesheet. Open
+  it as sumer.html?run and the same board gets a hand on it: tribes on prime
+  cadences pressing the controls forever, with no score and no ending.
+  See automat.html. -->
+<script src="patron.js"></script>
+<script src="automat.js"></script>
+<script src="devmode.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->

@@ -1,0 +1,31 @@
+{
+ "id": "p-48",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Gralune Kela",
+ "syndicate": "syn-16",
+ "tranche": 16,
+ "doors": [
+  143,
+  152
+ ],
+ "house": "the long gallery",
+ "sigil": {
+  "ring": 1,
+  "bars": 3,
+  "chord": 5,
+  "turn": 325
+ },
+ "keeps": "the oath he is named for breaking",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Jabir ibn Hayyan (Geber)",
+ "readsId": "jabir",
+ "reason": "The word alchemy carries an Arabic article on the front of it because of this tradition.",
+ "spell": "Bolt",
+ "spellId": "bolt",
+ "glyph": "⟊",
+ "share": "32bfd9",
+ "text": "Gralune kela of the long gallery, carries between for the 16th tranche, doors 143 to 152. Keeps the oath he is named for breaking. Reads Jabir ibn Hayyan (Geber).",
+ "wovenBy": "jabir"
+}

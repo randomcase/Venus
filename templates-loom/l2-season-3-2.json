@@ -1,0 +1,12 @@
+{
+ "id": "l2-season-3-2",
+ "depth": 2,
+ "wovenBy": "l3-season-3",
+ "kind": "season",
+ "name": "The season mould 3.2: harvest, 45",
+ "fixed": {
+  "turn": "harvest",
+  "length": 45
+ },
+ "open": []
+}

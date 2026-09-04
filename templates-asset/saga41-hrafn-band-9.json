@@ -1,0 +1,16 @@
+{
+ "id": "saga41-hrafn-band-9",
+ "kind": "band",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "name": "berserks of Hrafnsson",
+ "strength": 11,
+ "raids": false,
+ "cost": 1218,
+ "upkeep": 3,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 11; eats 3 hydrogen a day.",
+ "wovenBy": "hrafn",
+ "saga": 41
+}

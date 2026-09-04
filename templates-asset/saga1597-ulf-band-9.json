@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-ulf-band-9",
+ "kind": "band",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "name": "berserks of Ulfsson",
+ "strength": 6,
+ "raids": false,
+ "cost": 558,
+ "upkeep": 1,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 6; eats 1 silicate a day.",
+ "wovenBy": "ulf",
+ "saga": 1597
+}

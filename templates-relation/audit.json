@@ -1,0 +1,7 @@
+{
+ "id": "audit",
+ "kind": "relation",
+ "label": "Audits",
+ "verb": "audits",
+ "text": "A wizard checks the neighbor's book instead of her own. A stale proposal there is real, and so is a clean one — either is worth saying, and either changes what happens next."
+}

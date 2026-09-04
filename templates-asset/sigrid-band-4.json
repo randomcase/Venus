@@ -1,0 +1,15 @@
+{
+ "id": "sigrid-band-4",
+ "kind": "band",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "period": 7,
+ "name": "scouts of Sigrdrifa",
+ "strength": 3,
+ "raids": true,
+ "cost": 453,
+ "upkeep": 1,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 3; eats 1 biomass a day.",
+ "wovenBy": "sigrid"
+}

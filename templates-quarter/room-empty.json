@@ -1,0 +1,10 @@
+{
+ "kind": "room",
+ "id": "empty",
+ "name": "A room kept empty",
+ "km2": 5000,
+ "light": "whatever comes in",
+ "what": "Nothing. Somewhere on a ship this size nobody has decided anything about yet.",
+ "pieces": 1,
+ "wovenBy": "the bridge"
+}

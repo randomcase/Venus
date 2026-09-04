@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The castle &middot; the plans and the words for them</title>
+<!-- No off-origin requests. Drawn with the three functions lesson one teaches. -->
+<style>
+  :root{
+    --sky:#0d1014; --panel:#141a20; --edge:#222b34; --edge2:#2f3b47;
+    --ink:#e4ded0; --dim:#8d8878; --faint:#5d5a52;
+    --stone:#c8bda6; --lead:#6f7b84; --grass:#5d7a4a; --gold:#c9a227;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--sky);color:var(--ink);
+    font:16px/1.7 var(--serif);padding:38px 20px 90px}
+  main{max-width:1150px;margin:0 auto}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+
+  .top{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:4px}
+  h1{margin:0;font:500 40px/1.08 var(--serif);letter-spacing:.02em}
+  .top span{font:400 9px/1 var(--mono);letter-spacing:.32em;
+    text-transform:uppercase;color:var(--gold)}
+  .intro{margin:0 0 30px;max-width:80ch;color:var(--dim)}
+
+  #pick{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  #pick button{background:var(--panel);border:1px solid var(--edge2);color:var(--dim);
+    padding:10px 18px;cursor:pointer;font:400 11px/1 var(--mono);letter-spacing:.1em}
+  #pick button:hover{color:var(--ink)}
+  #pick button.on{background:#1d2731;color:var(--gold);border-color:var(--gold)}
+
+  .stage{background:linear-gradient(180deg,#161d24 0%,#0e1318 100%);
+    border:1px solid var(--edge);position:relative}
+  canvas{display:block;width:100%;height:auto}
+  .cap{position:absolute;left:14px;bottom:12px;right:14px;
+    font:400 9.5px/1.6 var(--mono);color:var(--faint);pointer-events:none}
+
+  .knobs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));
+    gap:12px;margin:14px 0 26px}
+  .knob{background:var(--panel);border:1px solid var(--edge);padding:11px 13px}
+  .knob label{display:flex;justify-content:space-between;align-items:baseline;
+    font:400 8.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--faint);margin-bottom:8px}
+  .knob label b{color:var(--gold);font-weight:400;font-size:12px}
+  .knob input{width:100%;accent-color:var(--gold)}
+
+  .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));
+    gap:18px;margin:24px 0}
+  .blk{background:var(--panel);border:1px solid var(--edge);padding:17px 19px}
+  .blk h3{margin:0 0 3px;font:600 19px/1.25 var(--serif)}
+  .blk .k{margin:0 0 12px;font:400 8.5px/1 var(--mono);letter-spacing:.18em;
+    text-transform:uppercase;color:var(--gold)}
+  .blk p{margin:0 0 12px;font-size:14.5px;line-height:1.72;color:var(--dim)}
+  .blk p:last-child{margin:0}
+  .blk .said{border-left:2px solid var(--gold);padding-left:14px;color:var(--ink);
+    font-style:italic}
+
+  .figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr));
+    gap:1px;background:var(--edge);border:1px solid var(--edge);margin:22px 0}
+  .figs div{background:var(--panel);padding:14px 15px}
+  .figs u{display:block;text-decoration:none;font:400 8px/1.3 var(--mono);
+    letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+  .figs b{font:400 15px/1.4 var(--serif);color:var(--ink);font-weight:500}
+
+  h2{margin:52px 0 12px;font:500 26px/1.2 var(--serif);
+    padding-bottom:8px;border-bottom:1px solid var(--edge)}
+  h2 s{text-decoration:none;display:block;margin-bottom:5px;
+    font:400 8.5px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;
+    color:var(--gold)}
+
+  /* the gallery, in elevation */
+  /* The Hall of Mirrors is the brightest room in Europe and drawing it in
+     near-black was simply wrong. Gilt, painted vault, and mirrors catching
+     the light off a wall of windows that is not there. */
+  .hall{background:#1b1409;border:1px solid #4a3a18;padding:18px;margin:20px 0}
+  .hall svg{width:100%;height:auto;display:block}
+  .mirror{fill:#6d5a2c;stroke:#d8b45c;stroke-width:1.4}
+  .win{fill:#cfd8dc;stroke:#8fa0a8;stroke-width:.5}
+  .glow{fill:#f0d488;opacity:.5}
+  .vault{fill:#8a6a30;stroke:#d8b45c;stroke-width:1.2}
+  .chand{fill:#ffe9a8}
+  .dim2{fill:#c9a227;font:400 8px/1 var(--mono);letter-spacing:.1em}
+
+  .gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr));
+    gap:12px;margin:18px 0}
+  .word{background:var(--panel);border:1px solid var(--edge);padding:14px 16px;
+    border-left:2px solid var(--gold)}
+  .word h4{margin:0 0 2px;font:600 17px/1.25 var(--serif);color:var(--ink)}
+  .word .say{margin:0 0 8px;font:400 9.5px/1 var(--mono);color:var(--faint);
+    letter-spacing:.1em}
+  .word p{margin:0;font-size:13.5px;line-height:1.7;color:var(--dim)}
+
+  footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 10px/1.9 var(--mono)}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>The castle</h1><span>8 plans &middot; and the words for them</span></div>
+<p class="intro">8 of them: real ones that are opposite answers to the same question, and one that does not exist yet. Everything is drawn with the three functions the notebook&rsquo;s first lesson sets &mdash; <b>iso</b> for the projection, <b>depth</b> for the painter&rsquo;s order, <b>tone</b> for one sun on three surfaces &mdash; unchanged and by name, because a lesson worth setting should be the thing the yard is built out of.</p>
+<div id="pick"></div>
+<div class="stage"><canvas id="c" width="1120" height="580"></canvas><div class="cap" id="cap"></div></div>
+<div class="knobs">
+  <div class="knob"><label>wall height <b id="v-wall"></b></label><input type="range" id="k-wall" min="2" max="18" step="1"></div>
+  <div class="knob"><label>towers <b id="v-tower"></b></label><input type="range" id="k-tower" min="0" max="24" step="1"></div>
+  <div class="knob"><label>keep height <b id="v-keep"></b></label><input type="range" id="k-keep" min="6" max="46" step="1"></div>
+  <div class="knob"><label>sun <b id="v-sun"></b></label><input type="range" id="k-sun" min="0" max="3" step="1"></div>
+</div>
+<div class="two" id="say"></div>
+<div class="figs" id="figs"></div>
+<h2><s>the room</s>Seventeen answering seventeen</h2>
+<p>The Hall of Mirrors is seventy-three metres long, ten and a half wide and twelve and a third high, with <b>seventeen mirrored arches facing seventeen windows</b>. Three hundred and fifty-seven mirrors, which is <b>exactly twenty-one an arch</b> &mdash; and the evenness of that division is why the room reads as calm rather than as a great many mirrors. A remainder there would mean somebody had run out of wall. This generator refuses a gallery whose mirrors do not divide.</p>
+<div class="hall" id="hall"></div>
+<p>The device is simple and it is not decoration. The garden is on one side only. The mirrors put it on the other side too, so a room with windows on a single wall reads as a room with windows on both &mdash; and at night the same surface multiplies the candles instead. On the deck, where the night is fifty-eight days long, that second use stops being a flourish and becomes the lighting budget.</p>
+<h2><s>the scoreboard nobody keeps</s>The heap of rocks won</h2>
+<p>Windsor was a mound of chalk with a wooden tower on it, thrown up by an invader who needed somewhere to sleep a day’s march from London. Versailles was the richest building project in Europe, laid out at once by the most powerful man in it, and every part of it was chosen.</p>
+<p><b>Windsor has been continuously occupied since the 1070s.</b> No other castle manages that. Versailles stopped being a royal residence in 1789 and has been a museum ever since — magnificently, and as a museum.</p>
+<p>That is not a verdict on architecture and it would be cheap to pretend it was. It is a fact about the two strategies. A plan arrived at can absorb the next thing that happens, because it was never finished and has no proportion to break. A plan argued all at once cannot: it is only correct while the argument holds, and the argument at Versailles was about who the king was. Windsor never made a claim it could be wrong about, so nothing it said ever stopped being true.</p>
+<p>Worth knowing before you lay out your own. One more nut, one more bolt, on everything, always, beats a thing that was perfect once.</p>
+<h2><s>the words</s>The glossary, on the way in</h2>
+<p>Several of these are routinely used wrongly and the wrong use is noted rather than tutted at. The first two are the ones that matter.</p>
+<div class="gloss">
+  <article class="word"><h4>château</h4><p class="say">shah-TOH</p><p>A country seat of the nobility. NOT necessarily fortified, which is the thing everybody gets wrong: Versailles is a château and has no defences at all. A fortified one is a château fort, and the two words are not interchangeable in French even though the English "chateau" has flattened them together.</p></article>
+  <article class="word"><h4>castle</h4><p class="say">KAH-sul</p><p>A fortified residence of a lord. Both halves matter. A fortification nobody lives in is a fortress; a residence with no defences is a house. The castle is the awkward middle, and every awkward thing about the form comes from being asked to do two jobs.</p></article>
+  <article class="word"><h4>motte</h4><p class="say">MOT</p><p>The artificial mound. Piled from the spoil of the ditch dug around it, so the ditch and the mound are one operation and you get both for one set of shovels. Windsor’s is fifteen metres of chalk from the 1070s.</p></article>
+  <article class="word"><h4>bailey / ward</h4><p class="say">BAY-lee / WORD</p><p>The enclosed courtyard. Bailey is the older word and ward the later one for the same thing. Windsor has two of unequal size, because the mound was there first and the wards went where there was room.</p></article>
+  <article class="word"><h4>donjon / keep</h4><p class="say">DON-zhon</p><p>The great tower, and the last thing to fall. English took the French donjon and demoted it to "dungeon", meaning the cell underneath — the strongest room in the castle became the word for the worst one.</p></article>
+  <article class="word"><h4>curtain wall</h4><p>The wall running between the towers. It is not the strong part and was never meant to be; the towers are, and the curtain exists to make an attacker approach one of them.</p></article>
+  <article class="word"><h4>enceinte</h4><p class="say">on-SANT</p><p>The whole enclosure, taken as one thing. Useful when you want to say "everything inside the walls" without listing what is inside them.</p></article>
+  <article class="word"><h4>barbican</h4><p class="say">BAR-bi-kan</p><p>The outwork in front of a gate. A gate is the weakest point of any wall by construction, so the barbican exists to make the weakest point happen somewhere you chose.</p></article>
+  <article class="word"><h4>machicolation</h4><p class="say">muh-chik-uh-LAY-shun</p><p>Openings in a projecting floor, for dropping things through onto whoever is at the foot of the wall. By the seventeenth century they are carved decoratively on buildings that will never be attacked, which is how you date a fake castle at a glance.</p></article>
+  <article class="word"><h4>corps de logis</h4><p class="say">kor duh loh-ZHEE</p><p>The main block of a château — the part that is actually lived in, as against the wings. Versailles’s runs the whole axis through.</p></article>
+  <article class="word"><h4>enfilade</h4><p class="say">on-fee-LAHD</p><p>Rooms in a row with their doors aligned, so that from one end you see through every one of them. It is a social instrument and not a plan: how far down the run you are admitted says what you are.</p></article>
+  <article class="word"><h4>parterre</h4><p class="say">par-TAIR</p><p>A flat formal garden, laid out to be read from above. It only works from the first floor of the building, which tells you who it was for.</p></article>
+  <article class="word"><h4>patte d’oie</h4><p class="say">pat DWAH</p><p>Goose-foot: three avenues radiating from a single point. At Versailles the point is the palace, and the device makes the building the origin of the countryside rather than something sitting in it.</p></article>
+  <article class="word"><h4>glacis</h4><p class="say">GLAH-see</p><p>The cleared, gently sloping ground outside the walls. Its purpose is that there is nothing on it — an empty field is a defensive work.</p></article>
+  <article class="word"><h4>ha-ha</h4><p class="say">HAH-hah</p><p>A ditch with a wall on its inner face, sunk so it cannot be seen from the house. It keeps livestock out while showing an uninterrupted view. The name is what you say when you fall into one.</p></article>
+</div>
+<footer>
+Built by <a href="castle.mjs">castle.mjs</a> from 8 plans in templates-castle/. Refuses a ward with no dimensions, a motte lower than its own wall, a walled plan with fewer towers than corners, and a gallery whose mirrors do not divide by its bays.<br>
+Drawn with iso, depth and tone from <a href="writing.html">the notebook</a>&rsquo;s lesson one. <a href="dev.html">the hub</a> &middot; <a href="arcade.html">the arcade</a>
+</footer>
+</main>
+
+<script>
+const PLANS = [{"id":"windsor","order":1,"name":"Windsor","era":"1070 onward","kind":"accreted","ground":"A chalk bluff above the Thames, chosen because it is thirty metres higher than everything around it and a day’s march from London. Every other decision here follows from those two facts and nothing follows from taste.","motte":{"diameter":60,"height":15,"note":"Thrown up in the 1070s. The Round Tower sits on it."},"keep":{"name":"The Round Tower","diameter":30,"height":20,"shape":"round","note":"Round because a round tower has no corner to undermine."},"wards":[{"id":"upper","name":"Upper Ward","w":180,"d":120,"wall":8,"note":"The private side. State apartments along the north."},{"id":"lower","name":"Lower Ward","w":200,"d":110,"wall":8,"note":"The public side. The chapel, and everybody who is not the household."}],"towers":14,"axis":{"name":"The Long Walk","length_m":4260,"note":"Four and a quarter kilometres, dead straight, and it exists so that the castle is the only thing at the end of it."},"figures":[{"what":"the site","value":"about 13 acres inside the walls"},{"what":"the motte","value":"15 m of piled chalk, dug from the ditch around it"},{"what":"the Long Walk","value":"4.26 km — 2.65 miles"},{"what":"continuously occupied","value":"since the 1070s, which no other castle manages"}],"lesson":"It is not symmetrical and was never meant to be. Two wards of different sizes either side of a mound, because the mound came first and everything else went where there was room. A plan like this cannot be designed; it can only be arrived at."},{"id":"versailles","order":2,"name":"Versailles","era":"1661 to 1715","kind":"axial","ground":"Flat, marshy, and with no strategic value whatsoever, which was the point: nothing about the site constrains the plan, so the plan is purely an argument.","motte":null,"keep":{"name":"The Corps de Logis","diameter":0,"height":24,"shape":"block","note":"No keep. There is nothing to defend against, and saying so is the message."},"wards":[{"id":"cour","name":"Cour de Marbre","w":60,"d":40,"wall":0,"note":"The narrowest point, so that arriving feels like a funnel."},{"id":"corps","name":"Corps de Logis","w":180,"d":60,"wall":0,"note":"The block the whole axis runs through."},{"id":"parterre","name":"Parterre d’Eau","w":240,"d":140,"wall":0,"note":"Water, held flat, so the sky is doubled and the axis keeps going."}],"towers":0,"axis":{"name":"The Grand Axis","length_m":3000,"note":"East to west, so the sun sets along it. That is not a coincidence and it was the single most expensive decision."},"gallery":{"name":"Hall of Mirrors","length_m":73,"width_m":10.5,"height_m":12.3,"bays":17,"mirrors":357,"windows":17,"note":"Seventeen mirrored arches facing seventeen windows. The mirrors are there to put the garden on the wall that has no garden behind it."},"figures":[{"what":"the Hall","value":"73 m long, 10.5 m wide, 12.3 m high"},{"what":"mirrors","value":"357, in 17 arches"},{"what":"per arch","value":"exactly 21 — the division is why the room reads calm"},{"what":"proportion","value":"the hall is about 7 times as long as it is wide"}],"lesson":"One axis, laid out at once, and everything placed to be seen from a point on it. The opposite of Windsor in every way, and equally correct — which is the whole reason both are here. A base is either arrived at or argued, and you should know which one you are doing."},{"id":"deck-keep","order":3,"name":"The Deck Keep","era":"not yet","kind":"sealed","ground":"Fifty-five kilometres up, at one bar and about the temperature of a warm afternoon, with 574 g/cm² of atmosphere overhead doing the job a curtain wall used to do. There is nothing to besiege and nothing to see from a distance.","motte":{"diameter":48,"height":6,"note":"Not for defence. It is the substrate lift — half a metre of basalt over the site costs three days of the site’s own sunlight, and the mound is where it goes."},"keep":{"name":"The Seed Vault","diameter":24,"height":14,"shape":"round","note":"Round for pressure, not for siege. The only structure here that would be defended, and what it holds is a library."},"wards":[{"id":"inner","name":"The Sealed Ward","w":140,"d":140,"wall":6,"note":"The biome. The wall is a pressure boundary and holds nothing out."},{"id":"outer","name":"The Working Ward","w":220,"d":160,"wall":4,"note":"Kilns, beds, masts, scriptorium. Where the six clans actually live."}],"towers":8,"axis":{"name":"The Long Deck","length_m":900,"note":"Nine hundred metres, and it points at nothing. The sun does not set along it because a solar day here is 116.75 Earth days."},"gallery":{"name":"The Long Gallery","length_m":73,"width_m":10.5,"height_m":12.3,"bays":17,"mirrors":357,"windows":17,"note":"The same room as Versailles, to the millimetre, and for the opposite reason: with a fifty-eight-day night outside, mirrors multiplying the lamps is not a flourish, it is the lighting budget."},"figures":[{"what":"gravity at the deck","value":"8.71 m/s² — 88.8% of Earth"},{"what":"shielding overhead","value":"574 g/cm², 56% of Earth at sea level, at no mass cost"},{"what":"the night","value":"58 Earth days of it, every 116.75"},{"what":"what the walls are for","value":"pressure. Nothing out there wants in."}],"lesson":"A castle where the wall holds air rather than people out. Every defensive form here has been kept and repurposed, which is either lazy or the whole point depending on how you feel about the fact that a round tower resists pressure for exactly the same reason it resists undermining."},{"id":"krak","order":4,"name":"Krak des Chevaliers","era":"1142 to 1271","kind":"concentric","ground":"A spur in the Homs Gap, the one pass between the coast and the interior. The site is the whole strategy: hold this and you hold the road, and there is no second road.","motte":null,"keep":{"name":"The inner keep","diameter":0,"height":27,"shape":"block","note":"Not a lone tower. The whole inner ring is the keep."},"wards":[{"id":"outer","name":"Outer enceinte","w":200,"d":140,"wall":9,"note":"A complete ring. Taking it gains you a corridor and nothing else."},{"id":"inner","name":"Inner enceinte","w":140,"d":100,"wall":25,"note":"A second complete ring, higher, so the outer wall is overlooked from inside and an attacker who takes it is standing in a trap."}],"towers":17,"axis":{"name":"The bent entry","length_m":137,"note":"A hundred and thirty-seven metres of covered ramp that turns back on itself, so a ram can never build up a run at anything."},"figures":[{"what":"garrison","value":"about 2,000, which is why it could hold"},{"what":"the talus","value":"a sloping stone skirt, so a mined wall collapses outward and buries the miners"},{"what":"taken by assault","value":"never, in 129 years"},{"what":"how it fell","value":"1271, to a forged letter ordering surrender"}],"lesson":"The best-defended building of its century was never breached and was lost anyway, to a piece of paper. Concentric rings solve the problem of force completely and do nothing at all about the problem of authority — the garrison obeyed an order because orders were obeyed. Every choke point in a command tree has this exact shape: it is not the wall that fails."},{"id":"himeji","order":5,"name":"Himeji","era":"1333, rebuilt 1609","kind":"spiral","ground":"A hill on the road west out of the capital. Flat country around it, so the defence has to be in the plan rather than in the ground.","motte":{"diameter":90,"height":23,"note":"A stone base, battered, curving outward at the foot — the curve sheds an earthquake rather than resisting it."},"keep":{"name":"The great keep","diameter":36,"height":46,"shape":"block","note":"Six storeys reading as five from outside. Whitewashed against fire."},"wards":[{"id":"ni","name":"Ni-no-maru","w":180,"d":150,"wall":12,"note":"The second circle."},{"id":"hon","name":"Hon-maru","w":120,"d":100,"wall":14,"note":"The first circle, at the top of the spiral."}],"towers":12,"axis":{"name":"The spiral approach","length_m":1600,"note":"The path to the keep winds through twenty-one gates and doubles back repeatedly. It is longer than the castle is wide by a factor of ten, and every metre of it is overlooked."},"figures":[{"what":"buildings","value":"83 still standing"},{"what":"the approach","value":"deliberately confusing — a spiral, not a line"},{"what":"survived","value":"the 1945 bombing and the 1995 Kobe earthquake"},{"what":"never taken","value":"in seven centuries"}],"lesson":"Where Krak makes you go through the wall, Himeji makes you go the long way. The approach is the weapon: a spiral turns an assault into a queue, and a queue can be dealt with a few at a time. If you cannot make the wall thicker, make the route longer."},{"id":"malbork","order":6,"name":"Malbork","era":"1274 onward","kind":"three-ward","ground":"A flat bank of the Nogat, chosen for the river rather than the height. Brick, because there is no building stone for a hundred miles and the clay is underfoot.","motte":null,"keep":{"name":"The High Castle","diameter":0,"height":30,"shape":"block","note":"A closed quadrangle around a courtyard — a keep you can live an entire administration inside."},"wards":[{"id":"high","name":"High Castle","w":160,"d":160,"wall":20,"note":"The convent."},{"id":"middle","name":"Middle Castle","w":220,"d":180,"wall":14,"note":"The Grand Master."},{"id":"outer","name":"Outer Bailey","w":300,"d":200,"wall":10,"note":"Everything that works."}],"towers":20,"axis":{"name":"The river frontage","length_m":700,"note":"Seven hundred metres of brick along the water, which is the view, the wharf and the argument all at once."},"figures":[{"what":"land area","value":"about 21 hectares — the largest castle in the world by area"},{"what":"material","value":"brick, roughly 4.5 million of them"},{"what":"built by","value":"the Teutonic Order, as a headquarters and not a fort"},{"what":"reconstructed","value":"after 1945, from photographs and rubble"}],"lesson":"The largest castle in the world is made of the cheapest material available at the site. That is not a compromise, it is the reason it could be that large — a stone Malbork was never possible and a brick one was inevitable. Build with what is under your feet and the size takes care of itself."},{"id":"neuschwanstein","order":7,"name":"Neuschwanstein","era":"1869 to 1886","kind":"theatrical","ground":"A crag in the Bavarian Alps with no road, no water supply, and no strategic value of any kind, selected entirely for how it would look from below.","motte":null,"keep":{"name":"The Palas","diameter":0,"height":65,"shape":"block","note":"A keep in silhouette only. There is nothing to keep."},"wards":[{"id":"court","name":"Upper Court","w":90,"d":60,"wall":0,"note":"A courtyard shaped like a bailey that never enclosed anything."}],"towers":0,"axis":{"name":"The view from the Marienbrücke","length_m":800,"note":"The whole building is composed for one viewpoint on a bridge across the gorge. Stand anywhere else and it does not resolve."},"figures":[{"what":"begun","value":"1869, six centuries after castles stopped working"},{"what":"defensive value","value":"none, and none intended"},{"what":"machicolations","value":"carved, decorative, with no opening through them"},{"what":"nights the king slept there","value":"11, before he died and it opened to visitors"}],"lesson":"The glossary gives you the tool to date this one at a glance: machicolations are floor openings for dropping things through, and these have no openings. They are a carving of a function. That is the whole building — a nineteenth-century theatre set quoting a form whose reasons had been dead for six hundred years, and it is the most visited castle on earth. Worth knowing which one you are building."},{"id":"theodosian","order":8,"name":"The Theodosian Walls","era":"408 to 1453","kind":"triple-line","ground":"The landward neck of a peninsula, which is the only side that can be walked to. Six and a half kilometres of it, and the sea does the rest.","motte":null,"keep":{"name":"The city","diameter":0,"height":14,"shape":"block","note":"There is no keep. The city is what the wall is for."},"wards":[{"id":"outer","name":"Outer wall and terrace","w":6500,"d":20,"wall":9,"note":"The first line, and the one meant to be taken — losing it puts an attacker in a terrace overlooked from above."},{"id":"inner","name":"Inner wall","w":6500,"d":15,"wall":12,"note":"Five metres thick at the base. Ninety-six towers, none of them more than a bowshot from the next."}],"towers":96,"axis":{"name":"The moat","length_m":6500,"note":"Twenty metres wide and fed from cisterns, so the ground in front of the outer wall could be flooded on demand."},"figures":[{"what":"built","value":"408 to 413, under Theodosius II, in five years"},{"what":"the three lines","value":"moat, outer wall, inner wall — an attacker fights the same battle three times"},{"what":"towers","value":"96 on the inner line, spaced within bowshot"},{"what":"held","value":"1,040 years"}],"lesson":"Krak was never breached and fell to a forged letter. This was never breached by assault in a thousand years and fell to artillery — to a gun that made thickness irrelevant rather than to anybody getting over it. Put the two together and you have the whole of it: the best wall ever built lost twice, once to authority and once to a change in what a wall was up against, and neither time to the thing it was designed to stop. Design for the assault you can imagine and you will be defeated by the one you cannot."}];
+const SCALE = 4;
+
+/* ══ the three functions, from lesson one, unchanged ═══════════════════ */
+const HALF_W = 15, HALF_H = 7.5, UNIT_Z = 8;
+const iso = (x, y, z) => [(x - y) * HALF_W, (x + y) * HALF_H - z * UNIT_Z];
+const depth = (x, y, z) => x + y + z;
+const tone = (face) => face === 'top' ? 1 : face === 'lit' ? 0.72 : 0.52;
+
+const $ = (s) => document.querySelector(s);
+const cv = $('#c'), ctx = cv.getContext('2d');
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+let pick = 0;
+let SUN = 0;                       /* which way the light comes from */
+const knob = { wall: 0, tower: 0, keep: 0 };
+
+/* ── a box, painted as three faces from one colour ──────────────────── */
+function box(list, x, y, z, w, d, h, rgb, label) {
+  /* the sort key is the box's NEAR-BACK corner, not its far one. Keyed on the
+     far corner, a big ground plate sorts last and paints over the castle
+     standing on it — which is precisely the failure lesson one warns about,
+     and I walked straight into it. */
+  list.push({ k: 'box', x, y, z, w, d, h, rgb, label, o: depth(x, y, z) });
+}
+function drawBox(b, ox, oy) {
+  const [r, g, bl] = b.rgb;
+  const put = (t) => ctx.fillStyle = 'rgb(' + [r, g, bl]
+    .map((c) => Math.min(255, Math.round(c * tone(t)))).join(',') + ')';
+  const P = (x, y, z) => { const p = iso(x, y, z); return [p[0] + ox, p[1] + oy]; };
+  const { x, y, z, w, d, h } = b;
+  /* which side the sun is on rotates the two lit faces */
+  const lit = SUN % 2 === 0 ? 'lit' : 'dark';
+  const dark = SUN % 2 === 0 ? 'dark' : 'lit';
+
+  const poly = (pts, t) => {
+    put(t); ctx.beginPath();
+    pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]));
+    ctx.closePath(); ctx.fill();
+  };
+  /* left face */
+  poly([P(x, y + d, z), P(x, y + d, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z)], lit);
+  /* right face */
+  poly([P(x + w, y, z), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x + w, y + d, z)], dark);
+  /* top */
+  poly([P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)], 'top');
+}
+
+/* ── a round tower: a stack of narrowing boxes reads as a drum at this
+      scale, and costs nothing that a real cylinder would buy ────────── */
+function drum(list, cx, cy, z, r, h, rgb) {
+  const steps = 5;
+  for (let i = 0; i < steps; i++) {
+    const t = i / steps, rr = r * (1 - t * 0.06);
+    box(list, cx - rr, cy - rr, z + h * t, rr * 2, rr * 2, h / steps + 0.02, rgb);
+  }
+  /* the roof: a smaller, darker cap */
+  box(list, cx - r * 0.78, cy - r * 0.78, z + h, r * 1.56, r * 1.56, r * 0.5,
+      [95, 108, 118]);
+}
+
+/* ── build the scene from a plan ────────────────────────────────────── */
+function scene(p) {
+  const L = [];
+  const STONE = [200, 189, 166], LEAD = [111, 123, 132], GRASS = [93, 122, 74];
+  const wallH = knob.wall, towers = knob.tower, keepH = knob.keep;
+
+  /* the ground plate: everything sits on it, so it is painted first and its
+     depth key is the smallest */
+  const gw = 46, gd = 34;
+  box(L, -2, -2, -1.2, gw, gd, 1.2, [58, 76, 48]);
+
+  /* the axis, running off the near corner */
+  const ax = Math.min(26, p.axis.length_m / 200);
+  box(L, gw / 2 - 3, gd - 2, 0, 6, ax, 0.18, [122, 116, 94], 'axis');
+
+  /* the wards, laid side by side along x */
+  let cursor = 3;
+  p.wards.forEach((w, i) => {
+    const ww = Math.max(6, w.w / (SCALE * 2.2));
+    const wd = Math.max(6, w.d / (SCALE * 2.2));
+    const y0 = 4;
+    /* the enclosed ground, a shade lighter */
+    box(L, cursor, y0, 0, ww, wd, 0.25, [78, 100, 64]);
+
+    if (w.wall > 0) {
+      const t = 0.9, h = wallH;
+      box(L, cursor, y0, 0, ww, t, h, STONE);                    /* far */
+      box(L, cursor, y0 + wd - t, 0, ww, t, h, STONE);           /* near */
+      box(L, cursor, y0, 0, t, wd, h, STONE);                    /* left */
+      box(L, cursor + ww - t, y0, 0, t, wd, h, STONE);           /* right */
+
+      /* towers: corners first, because a corner with nothing on it is a door */
+      const spots = [[cursor, y0], [cursor + ww - t, y0],
+                     [cursor, y0 + wd - t], [cursor + ww - t, y0 + wd - t]];
+      const share = Math.round(towers / p.wards.filter((x) => x.wall > 0).length);
+      for (let k = 4; k < share; k++) {
+        const f = (k - 3) / (share - 3);
+        spots.push(k % 2 ? [cursor + ww * f, y0] : [cursor + ww * f, y0 + wd - t]);
+      }
+      spots.slice(0, Math.max(0, share)).forEach((s) =>
+        drum(L, s[0] + 0.45, s[1] + 0.45, 0, 1.5, h * 1.45, STONE));
+    } else {
+      /* no wall: a block instead, which is what a château is */
+      box(L, cursor + 1, y0 + wd * 0.15, 0.25, ww - 2, wd * 0.35, 5.2, [206, 196, 172]);
+      box(L, cursor + 1, y0 + wd * 0.15, 5.45, ww - 2, wd * 0.35, 1.1, LEAD);
+    }
+    cursor += ww + 2;
+  });
+
+  /* the motte and the keep on it */
+  if (p.motte) {
+    const mr = p.motte.diameter / (SCALE * 4);
+    const mh = p.motte.height / SCALE;
+    const cx = 3 + 5, cy = 4 + 7;
+    for (let i = 0; i < 6; i++) {
+      const t = i / 6, rr = mr * (1 - t * 0.34);
+      box(L, cx - rr, cy - rr, mh * t, rr * 2, rr * 2, mh / 6 + 0.02,
+          [84 - i * 3, 108 - i * 4, 66 - i * 2]);
+    }
+    drum(L, cx, cy, mh, p.keep.diameter / (SCALE * 5) || 2, keepH / SCALE, [210, 199, 176]);
+  } else if (p.keep) {
+    /* no motte: the block sits on the ground and the axis runs through it */
+    box(L, 3 + 6, 4 + 6, 0.25, 12, 4, keepH / SCALE, [212, 203, 180]);
+    box(L, 3 + 6, 4 + 6, 0.25 + keepH / SCALE, 12, 4, 1.2, LEAD);
+  }
+  return L;
+}
+
+/* ── paint. Far away first: that is the whole depth buffer there is. ── */
+function draw() {
+  const p = PLANS[pick];
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  const L = scene(p);
+  L.sort((a, b) => a.o - b.o);
+
+  /* fit the camera to whatever it was handed. Framing it by eye against one
+     plan meant Krak — 25 m walls and seventeen towers — walked off the top.
+     Project the eight corners of every solid, take the bounds, and scale. */
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const b of L)
+    for (const cx of [b.x, b.x + b.w])
+      for (const cy of [b.y, b.y + b.d])
+        for (const cz of [b.z, b.z + b.h]) {
+          const q = iso(cx, cy, cz);
+          if (q[0] < x0) x0 = q[0];
+          if (q[0] > x1) x1 = q[0];
+          if (q[1] < y0) y0 = q[1];
+          if (q[1] > y1) y1 = q[1];
+        }
+  const pad = 34;
+  const k = Math.min((cv.width - pad * 2) / (x1 - x0), (cv.height - pad * 2) / (y1 - y0));
+  ctx.setTransform(k, 0, 0, k, cv.width / 2 - k * (x0 + x1) / 2,
+                                cv.height / 2 - k * (y0 + y1) / 2);
+  const ox = 0, oy = 0;
+  L.forEach((b) => drawBox(b, ox, oy));
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+  $('#cap').textContent = L.length + ' solids, painted far to near, camera at ' +
+    k.toFixed(2) + '×. ' +
+    'Sort key is x + y + z and there is no depth buffer — the order IS the depth.';
+}
+
+/* ── the gallery, in elevation and to proportion ────────────────────── */
+function hall(g) {
+  if (!g) return '<p style="color:var(--dim);margin:0">This plan has no gallery.</p>';
+  const W = 1100, H = Math.round(W * (g.height_m / g.length_m) * 1.9);
+  const n = g.bays, pad = 26;
+  const bw = (W - pad * 2) / n;
+  const floor = H - 22, springer = H * 0.42;
+  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '">';
+  /* the barrel vault */
+  s += '<path class="vault" d="M' + pad + ' ' + springer + ' Q ' + (W / 2) + ' -14 ' +
+       (W - pad) + ' ' + springer + ' L' + (W - pad) + ' ' + (springer + 8) +
+       ' Q ' + (W / 2) + ' 2 ' + pad + ' ' + (springer + 8) + ' Z"/>';
+  for (let i = 0; i < n; i++) {
+    const x = pad + i * bw + 3, w = bw - 6;
+    /* mirrored arch */
+    s += '<path class="mirror" d="M' + x + ' ' + floor + ' L' + x + ' ' + (springer + 34) +
+         ' Q ' + (x + w / 2) + ' ' + (springer - 6) + ' ' + (x + w) + ' ' + (springer + 34) +
+         ' L' + (x + w) + ' ' + floor + ' Z"/>';
+    /* the mirrors inside it: 21 panes, in three columns of seven */
+    for (let r = 0; r < 7; r++) for (let c = 0; c < 3; c++)
+      s += '<rect class="win" x="' + (x + 4 + c * (w - 8) / 3) + '" y="' +
+           (springer + 44 + r * (floor - springer - 52) / 7) + '" width="' +
+           ((w - 8) / 3 - 2) + '" height="' + ((floor - springer - 52) / 7 - 2) + '"/>';
+    /* a chandelier between each pair */
+    if (i < n - 1)
+      s += '<circle class="chand" cx="' + (pad + (i + 1) * bw) + '" cy="' +
+           (springer + 26) + '" r="3.4"/>';
+  }
+  s += '<rect class="glow" x="' + pad + '" y="' + (floor - 3) + '" width="' +
+       (W - pad * 2) + '" height="5"/>';
+  s += '<text class="dim2" x="' + pad + '" y="' + (H - 6) + '">' +
+       g.length_m + ' m long &#183; ' + g.width_m + ' m wide &#183; ' + g.height_m +
+       ' m high &#183; ' + n + ' bays &#183; ' + g.mirrors + ' mirrors &#183; ' +
+       (g.mirrors / g.bays) + ' each</text>';
+  return s + '</svg>';
+}
+
+/* ── the words beside the picture ───────────────────────────────────── */
+function say() {
+  const p = PLANS[pick];
+  $('#say').innerHTML =
+    '<div class="blk"><p class="k">' + esc(p.kind) + ' &middot; ' + esc(p.era) + '</p>' +
+      '<h3>' + esc(p.name) + '</h3><p>' + esc(p.ground) + '</p>' +
+      '<p><b>' + esc(p.axis.name) + '</b> — ' + esc(p.axis.note) + '</p></div>' +
+    '<div class="blk"><p class="k">what it teaches</p>' +
+      '<p class="said">' + esc(p.lesson) + '</p></div>';
+  $('#figs').innerHTML = (p.figures || []).map((f) =>
+    '<div><u>' + esc(f.what) + '</u><b>' + esc(f.value) + '</b></div>').join('');
+  $('#hall').innerHTML = hall(p.gallery);
+}
+
+function setPlan(i) {
+  pick = i;
+  const p = PLANS[i];
+  knob.wall = Math.max(2, Math.max(0, ...p.wards.map((w) => w.wall || 0)));
+  knob.tower = p.towers;
+  knob.keep = p.keep ? p.keep.height : 12;
+  $('#k-wall').value = knob.wall;
+  $('#k-tower').value = knob.tower;
+  $('#k-keep').value = knob.keep;
+  document.querySelectorAll('#pick button').forEach((b, k) =>
+    b.classList.toggle('on', k === i));
+  refresh();
+}
+function refresh() {
+  $('#v-wall').textContent = knob.wall + ' m';
+  $('#v-tower').textContent = knob.tower;
+  $('#v-keep').textContent = knob.keep + ' m';
+  $('#v-sun').textContent = ['south-west', 'north-west', 'north-east', 'south-east'][SUN];
+  draw(); say();
+}
+
+$('#pick').innerHTML = PLANS.map((p, i) =>
+  '<button data-i="' + i + '">' + esc(p.name) + '</button>').join('');
+document.querySelectorAll('#pick button').forEach((b) =>
+  b.onclick = () => setPlan(+b.dataset.i));
+
+$('#k-wall').oninput = (e) => { knob.wall = +e.target.value; refresh(); };
+$('#k-tower').oninput = (e) => { knob.tower = +e.target.value; refresh(); };
+$('#k-keep').oninput = (e) => { knob.keep = +e.target.value; refresh(); };
+$('#k-sun').oninput = (e) => { SUN = +e.target.value; refresh(); };
+
+setPlan(0);
+</script>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

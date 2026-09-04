@@ -1,0 +1,16 @@
+{
+ "id": "parcel-27-2",
+ "kind": "parcel",
+ "x": 27,
+ "y": 2,
+ "region": "Ovda Regio",
+ "clan": "hrafn",
+ "resource": "hydrogen",
+ "period": 2,
+ "terrain": "tessera",
+ "fertility": 0.6,
+ "yield": 1.53,
+ "text": "tessera, folded highland that holds less, in Ovda Regio, sown from a cairn for hydrogen.",
+ "wovenBy": "hrafn-pile-9",
+ "chain": "seven deep"
+}

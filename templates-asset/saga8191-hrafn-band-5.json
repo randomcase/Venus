@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-hrafn-band-5",
+ "kind": "band",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "name": "wardens of the ford of Hrafnsson",
+ "strength": 12,
+ "raids": false,
+ "cost": 1510,
+ "upkeep": 3,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 12; eats 3 hydrogen a day.",
+ "wovenBy": "hrafn",
+ "saga": 8191
+}

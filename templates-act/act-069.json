@@ -1,0 +1,17 @@
+{
+ "id": "act-069",
+ "order": 69,
+ "year": 7,
+ "day": 2459,
+ "parties": [
+  "hector",
+  "odysseus"
+ ],
+ "actor": "Hector",
+ "with": "Odysseus",
+ "verb": "gave back",
+ "object": "a body for its weight in gold",
+ "place": "on the plain of Scamander",
+ "side": "troy",
+ "text": "Hector and Odysseus gave back a body for its weight in gold, on the plain of Scamander, in the seventh year."
+}

@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-prose-scene",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of prose scene",
+ "text": "No line rules.",
+ "wovenBy": "prose-scene",
+ "bay": 1
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-048",
+ "order": 48,
+ "year": 5,
+ "day": 1692,
+ "parties": [
+  "aeneas",
+  "agamemnon"
+ ],
+ "actor": "Aeneas",
+ "with": "Agamemnon",
+ "verb": "buried",
+ "object": "a companion under a mound",
+ "place": "before the Scaean gate",
+ "side": "troy",
+ "text": "Aeneas and Agamemnon buried a companion under a mound, before the Scaean gate, in the fifth year."
+}

@@ -1,0 +1,12 @@
+{
+ "id": "bolt",
+ "order": 2,
+ "name": "Bolt",
+ "glyph": "⟊",
+ "cost": 2,
+ "cooldown": 2,
+ "kind": "attack",
+ "colour": "#c9a227",
+ "does": "A single shot that ignores range and lands anywhere on the field, including the dead ground.",
+ "costs": "Cheap, fast, and it kills one. Waves do not come in ones."
+}

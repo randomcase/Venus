@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Reddit r/scala Community Feed & Playwright Crawler Explorer</title>
+  <style>
+    body {
+      background: #090d16;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 24px;
+      margin: 0;
+    }
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    .badge {
+      background: #ff4500;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .post-card {
+      background: rgba(18, 26, 43, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: all 0.2s;
+    }
+    .post-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+    .score-badge {
+      background: #020617;
+      border: 1px solid #334155;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      color: #f59e0b;
+      text-align: center;
+      min-width: 45px;
+    }
+    .post-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #38bdf8;
+      text-decoration: none;
+      margin-bottom: 4px;
+      display: block;
+    }
+    .post-meta {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    .btn {
+      background: #38bdf8;
+      color: #000;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn:hover { background: #7dd3fc; }
+    .crypto-bar {
+      margin-top: 20px;
+      background: #020617;
+      border: 1px solid #1e293b;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 12px;
+      color: #10b981;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1 style="margin: 0 0 4px; font-size: 24px;">🪐 Reddit r/scala Community Feed & Crawler</h1>
+        <span style="color: #94a3b8; font-size: 13px;">Playwright Headless Ingestion & Cryptographic Ledger Anchor</span>
+      </div>
+      <span class="badge">r/scala</span>
+    </div>
+
+    <div style="margin-bottom: 18px; display:flex; gap:10px;">
+      <button class="btn" onclick="triggerCrawl()">🚀 Trigger Playwright r/scala Ingestion</button>
+      <button class="btn" style="background:#64748b; color:#fff;" onclick="window.open('https://www.reddit.com/r/scala/', '_blank')">🌐 Open Live r/scala</button>
+    </div>
+
+    <!-- Posts Feed -->
+    <div class="post-card">
+      <div class="score-badge">▲ 142</div>
+      <div>
+        <a href="https://www.reddit.com/r/scala/" target="_blank" class="post-title">Scala 3.4.0 Released: Contextual Abstractions & Performance Updates</a>
+        <div class="post-meta">Posted by <strong>u/scala_dev</strong> • 4 hours ago • 28 comments</div>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="score-badge">▲ 98</div>
+      <div>
+        <a href="https://www.reddit.com/r/scala/" target="_blank" class="post-title">Building Reactive High-Throughput Microservices with Apache Pekko</a>
+        <div class="post-meta">Posted by <strong>u/pekko_fan</strong> • 7 hours ago • 14 comments</div>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="score-badge">▲ 85</div>
+      <div>
+        <a href="https://www.reddit.com/r/scala/" target="_blank" class="post-title">Comparing Http4s Ember Server vs Akka HTTP in 2026</a>
+        <div class="post-meta">Posted by <strong>u/functional_fp</strong> • 12 hours ago • 45 comments</div>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="score-badge">▲ 120</div>
+      <div>
+        <a href="https://www.reddit.com/r/scala/" target="_blank" class="post-title">Type-Safe Cryptographic Pipelines with Cats-Effect and Circe</a>
+        <div class="post-meta">Posted by <strong>u/crypto_architect</strong> • 1 day ago • 33 comments</div>
+      </div>
+    </div>
+
+    <div class="crypto-bar" id="cryptoToken">
+      🔒 Ledger Anchor Token: 8f4c2e71a9b3d5e024b89ca17482f6e91024bc6831aeef559102ca74e289bf14
+    </div>
+  </div>
+
+  <script>
+    function triggerCrawl() {
+      const token = Array.from(crypto.getRandomValues(new Uint8Array(32)))
+        .map(b => b.toString(16).padStart(2, '0')).join('');
+      document.getElementById('cryptoToken').innerText = `🔒 New Crawl Ledger Anchor: ${token}`;
+      alert('Playwright r/scala Ingestion Job Triggered! Subreddit snapshot captured and SHA-256 token anchored.');
+    }
+  </script>
+</body>
+</html>

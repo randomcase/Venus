@@ -1,0 +1,28 @@
+{
+ "id": "rules-docket",
+ "kind": "rules",
+ "deck": "docket",
+ "path": "templates-rules/docket.json",
+ "rules": {
+  "unit": "HEZE",
+  "notToken": "a unit of account inside the files; never a token, never transferred for sale, never in a wallet",
+  "cap": 21000000,
+  "tranches": 21,
+  "perTranche": 1000000,
+  "years": 200,
+  "doors": 200,
+  "schedule": "straight-line: each door may issue the same share of a tranche; nothing may be issued ahead of its door",
+  "fungible": "a unit carries no history that changes what it is worth; a unit issued at door 1 and a unit issued at door 200 are the same unit, and every deck must accept either without asking which",
+  "chances": "the cap is a budget of attempts, not a scarcity: 21,000,000 units is 21,000,000 chances to act, and a chance not taken is not saved, it is only not taken",
+  "centralized": "the prices are decentralized, door by door; the effort is centralized at the syndicates, where every door's events are reconciled into one chain and the doors find out what the others did",
+  "balances": "replay only: a balance is the sum of the events, never a number kept on its own",
+  "write": "two of three custodians sign an event, or it is not an event",
+  "chain": "every event hashes the one before it, SHA-256 and SHA3-256 both; a Merkle checkpoint per door",
+  "exit": "redeem is the only way a unit leaves; there is no burn and no sale",
+  "syndication": "the chain is syndicated between worlds every six months, an interplanetary interval; between syndications each side keeps its own events and reconciles at the next",
+  "procurement": "inward: the ship procures from within; water and food are free and unpriced on every deck",
+  "immutable": true
+ },
+ "text": "The docket's rulebook: what holds from door 1 to door 200. Not editable; the ledger enforces it, and a changed copy kept in the browser is ignored by every deck.",
+ "wovenBy": "rules.mjs"
+}

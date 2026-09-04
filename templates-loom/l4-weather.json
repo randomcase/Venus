@@ -1,0 +1,27 @@
+{
+ "id": "l4-weather",
+ "depth": 4,
+ "wovenBy": "loom.mjs",
+ "kind": "weather",
+ "name": "The weather loom",
+ "slots": {
+  "sky": [
+   "rain",
+   "drought",
+   "frost",
+   "wind",
+   "haze",
+   "still heat",
+   "hail",
+   "fog"
+  ],
+  "lasts": [
+   3,
+   5,
+   8,
+   13
+  ]
+ },
+ "gives": "a multiplier on everything while it lasts",
+ "weaves": 2
+}

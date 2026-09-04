@@ -1,0 +1,15 @@
+{
+ "id": "hall-of-mirrors",
+ "order": 11,
+ "quantity": "Hall of Mirrors, length",
+ "value": 73,
+ "unit": "metres",
+ "uncertainty": 1,
+ "kind": "measured",
+ "method": "Published dimension, widely repeated and consistent across sources.",
+ "used_for": "The gallery on two castle plans, and the 357-over-17 division that the generator refuses to let drift.",
+ "boards": [
+  "castle.html"
+ ],
+ "wrong_if": "Sources disagree by a metre or so about where the room is measured from. It does not matter for anything here."
+}

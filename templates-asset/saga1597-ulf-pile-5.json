@@ -1,0 +1,13 @@
+{
+ "id": "saga1597-ulf-pile-5",
+ "kind": "pile",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "name": "a raft of barrels for silicate",
+ "holds": 400,
+ "cost": 480,
+ "text": "Holds 400 silicate. What is not piled is not yours by morning.",
+ "wovenBy": "ulf",
+ "saga": 1597
+}

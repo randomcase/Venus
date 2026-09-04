@@ -1,0 +1,15 @@
+{
+ "id": "region-thorvald",
+ "kind": "region",
+ "name": "Diana Chasma",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "period": 11,
+ "seat": [
+  50,
+  47
+ ],
+ "parcels": 1126,
+ "wovenBy": "thorvald"
+}

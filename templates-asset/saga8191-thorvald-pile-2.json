@@ -1,0 +1,13 @@
+{
+ "id": "saga8191-thorvald-pile-2",
+ "kind": "pile",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "name": "a sealed cistern for signal",
+ "holds": 350,
+ "cost": 420,
+ "text": "Holds 350 signal. What is not piled is not yours by morning.",
+ "wovenBy": "thorvald",
+ "saga": 8191
+}

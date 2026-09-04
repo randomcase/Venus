@@ -1,0 +1,17 @@
+{
+ "kind": "stall",
+ "name": "the milk stall",
+ "feeds": 3,
+ "cost": 1532,
+ "text": "milk in the market. Feeds three households.",
+ "id": "t-v-beast-03",
+ "wovenBy": "v-beast-03",
+ "chain": [
+  "v-beast-03",
+  "beast-03",
+  "l2-beast-2-1",
+  "l3-beast-2",
+  "l4-beast",
+  "loom.mjs"
+ ]
+}

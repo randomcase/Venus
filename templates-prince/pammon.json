@@ -1,0 +1,18 @@
+{
+ "id": "pammon",
+ "order": 10,
+ "name": "Pammon",
+ "kind": "sling",
+ "glyph": "◌",
+ "colour": "#c9a06a",
+ "cost": 10000,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 110,
+  "damage": 2,
+  "rate": 1.0,
+  "splash": 40
+ },
+ "does": "Stones that land among them. Everything within a step of the hit takes it.",
+ "text": "Middle son, middle reach, and the only one who hurts a crowd."
+}

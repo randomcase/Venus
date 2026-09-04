@@ -1,0 +1,16 @@
+{
+ "id": "act-039",
+ "order": 39,
+ "year": 4,
+ "day": 1384,
+ "parties": [
+  "deiphobus"
+ ],
+ "actor": "Deiphobus",
+ "with": null,
+ "verb": "dragged",
+ "object": "a body three times round the wall",
+ "place": "under the wall",
+ "side": "troy",
+ "text": "Deiphobus dragged a body three times round the wall, under the wall, in the fourth year."
+}

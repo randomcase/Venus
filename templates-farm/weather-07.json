@@ -1,0 +1,12 @@
+{
+ "id": "weather-07",
+ "depth": 1,
+ "wovenBy": "l2-weather-2-1",
+ "kind": "weather",
+ "sky": "hail",
+ "lasts": 5,
+ "name": "hail for 5 days",
+ "mul": 0.4,
+ "p": 0.0039,
+ "water": 0
+}

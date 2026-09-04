@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Gemini Ledger Spring Boot Frame</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --border: #334155; --text: #f8fafc; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 2rem; }
+        .frame-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--accent); padding-bottom: 1rem; margin-bottom: 2rem; }
+        .frame-header h1 { color: var(--accent); margin: 0; }
+        .badge { background: #0284c7; color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; background-color: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.5); }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background-color: #0f172a; color: var(--accent); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+        tr:hover { background-color: #334155; }
+        .nav-links { margin-top: 2rem; display: flex; gap: 1rem; }
+        .btn { background: #0284c7; color: white; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="frame-header">
+        <div>
+            <h1 th:text="${title}">Gemini Ledger Spring Boot Frame</h1>
+            <p style="color: #94a3b8; margin-top: 0.5rem;">Virgo Rising to Spica — Astronomical Governance Ledger</p>
+        </div>
+        <span class="badge">SPRING BOOT FRAME: ACTIVE</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Star Tag</th>
+                <th>Planetary Tag</th>
+                <th>Target Artifact</th>
+                <th>Description</th>
+                <th>Score</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entry : ${entries}">
+                <td th:text="${entry.id}">LEDGER-001</td>
+                <td style="color: #38bdf8; font-weight: bold;" th:text="${entry.starTag}">&lt;Zavijava 001&gt;</td>
+                <td style="color: #4ade80;" th:text="${entry.planetaryTag}">&lt;Mercury 001&gt;</td>
+                <td th:text="${entry.targetArtifact}">README.md</td>
+                <td th:text="${entry.description}">Project overview baseline</td>
+                <td th:text="${entry.scoreTag}">🟢 +1</td>
+                <td><span style="color: #4ade80; font-weight: bold;" th:text="${entry.status}">ACTIVE</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="nav-links">
+        <a href="/dashboard" class="btn">View Spring Boot Vaadin Dashboard</a>
+        <a href="/api/ledger" class="btn" style="background: #475569;">View REST API JSON</a>
+    </div>
+</body>
+</html>

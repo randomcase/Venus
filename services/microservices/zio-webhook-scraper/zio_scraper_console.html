@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 ZIO HTTP 3 Concurrent Webhook Scraper Studio</title>
+  <style>
+    body {
+      background: #090d16;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 24px;
+      margin: 0;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    .badge {
+      background: #3b82f6;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .card {
+      background: rgba(18, 26, 43, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+    input, select {
+      width: 100%;
+      background: #030712;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 6px;
+      box-sizing: border-box;
+      margin-bottom: 14px;
+      font-family: monospace;
+    }
+    .btn {
+      background: #38bdf8;
+      color: #000;
+      border: none;
+      padding: 12px 20px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn:hover { background: #7dd3fc; }
+    .scrape-card {
+      background: #0b1120;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .scrape-title { font-size: 15px; font-weight: bold; color: #38bdf8; }
+    .scrape-desc { font-size: 12px; color: #cbd5e1; margin-top: 4px; line-height: 1.4; }
+    .scrape-meta { font-size: 10px; color: #64748b; font-family: monospace; margin-top: 6px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1 style="margin:0 0 4px; font-size:24px;">🪐 ZIO HTTP 3 Webhook Scraper Studio</h1>
+        <span style="color:#94a3b8; font-size:13px;">Non-Blocking Webhook Ingestion • Fiber Forking • Instant 202 Accepted</span>
+      </div>
+      <span class="badge">ZIO HTTP: 3.0.0-RC10</span>
+    </div>
+
+    <div class="grid">
+      <!-- Left: Trigger Webhook Form -->
+      <div class="card">
+        <h3 style="margin-top:0; color:#38bdf8;">📥 Dispatch Inbound Webhook</h3>
+
+        <label>Target URL to Scrape:</label>
+        <input type="text" id="targetUrl" value="https://scalatimes.com/">
+
+        <label>Tracking Event Type:</label>
+        <select id="eventType">
+          <option value="PAGE_CHANGE_DETECTED">PAGE_CHANGE_DETECTED</option>
+          <option value="NEW_ARTICLE_PUBLISHED">NEW_ARTICLE_PUBLISHED</option>
+          <option value="PRICE_DROP_ALERT">PRICE_DROP_ALERT</option>
+        </select>
+
+        <button class="btn" onclick="fireScraperWebhook()">🚀 Fire Webhook (Receive 202 Accepted)</button>
+      </div>
+
+      <!-- Right: Live Scraped Feeds -->
+      <div class="card">
+        <h3 style="margin-top:0; color:#10b981;">📜 Extracted Page Metadata Ledger</h3>
+        <div id="scrapeResultsList">
+          <div class="scrape-card">
+            <div class="scrape-title">Scala Times - The Weekly Newsletter for Scala Developers</div>
+            <div class="scrape-desc">Curated Scala news, articles, libraries, and job postings delivered weekly.</div>
+            <div class="scrape-meta">URL: https://scalatimes.com/ | Digest: 4f8a9e...20b1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function fireScraperWebhook() {
+      const url = document.getElementById('targetUrl').value;
+      const eventType = document.getElementById('eventType').value;
+
+      // Simulate ZIO HTTP 3 fiber extraction
+      setTimeout(() => {
+        const title = url.includes("scalatimes") ? "Scala Times - Weekly Scala Newsletter" : "Target Domain Overview & Documentation";
+        const desc = "Extracted non-blocking DOM metadata using ZIO HTTP 3 & Jsoup/Skrape.it engine.";
+        const hash = Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b => b.toString(16).padStart(2,'0')).join('');
+
+        const container = document.getElementById('scrapeResultsList');
+        container.innerHTML = `
+          <div class="scrape-card">
+            <div class="scrape-title">${title}</div>
+            <div class="scrape-desc">${desc}</div>
+            <div class="scrape-meta">URL: ${url} | Event: ${eventType} | Digest: ${hash}</div>
+          </div>
+        ` + container.innerHTML;
+      }, 500);
+
+      alert(`✅ 202 Accepted! Webhook received. Background ZIO fiber forked to scrape: ${url}`);
+    }
+  </script>
+</body>
+</html>

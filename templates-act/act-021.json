@@ -1,0 +1,16 @@
+{
+ "id": "act-021",
+ "order": 21,
+ "year": 3,
+ "day": 720,
+ "parties": [
+  "aeneas"
+ ],
+ "actor": "Aeneas",
+ "with": null,
+ "verb": "read",
+ "object": "the birds and counselled retreat",
+ "place": "among the ships",
+ "side": "troy",
+ "text": "Aeneas read the birds and counselled retreat, among the ships, in the third year."
+}

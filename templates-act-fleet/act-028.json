@@ -1,0 +1,17 @@
+{
+ "id": "act-028",
+ "bench": "fleet",
+ "order": 28,
+ "year": 3,
+ "day": 1000,
+ "parties": [
+  "teucer"
+ ],
+ "actor": "Teucer",
+ "with": null,
+ "verb": "tested",
+ "object": "the army by ordering it home",
+ "place": "before Achilles' tent",
+ "side": "fleet",
+ "text": "Teucer tested the army by ordering it home, before Achilles' tent, in the third year."
+}

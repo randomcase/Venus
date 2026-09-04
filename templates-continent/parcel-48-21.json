@@ -1,0 +1,16 @@
+{
+ "id": "parcel-48-21",
+ "kind": "parcel",
+ "x": 48,
+ "y": 21,
+ "region": "Atla Regio",
+ "clan": "ulf",
+ "resource": "silicate",
+ "period": 5,
+ "terrain": "corona",
+ "fertility": 1.3,
+ "yield": 2.24,
+ "text": "the rim of a corona, rich and warm, in Atla Regio, sown from a tally on the mast for silicate.",
+ "wovenBy": "ulf-pile-8",
+ "chain": "seven deep"
+}

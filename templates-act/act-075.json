@@ -1,0 +1,16 @@
+{
+ "id": "act-075",
+ "order": 75,
+ "year": 8,
+ "day": 2692,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "refused",
+ "object": "the ransom for Chryseis",
+ "place": "before the Scaean gate",
+ "side": "fleet",
+ "text": "Achilles refused the ransom for Chryseis, before the Scaean gate, in the eighth year."
+}

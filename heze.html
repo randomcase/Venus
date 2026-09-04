@@ -1,4 +1,5 @@
 <title>HEZE — the yard's unit of account</title>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
   Six slides, no script.
@@ -12,6 +13,9 @@
   project's files. There is no chain, no contract, no token, and nothing that
   can be bought or sold. Slide six says so at length, and it is not a footnote —
   it is the point of including it.
+
+  The slides themselves are templates-heze/*.json now, not hand-written HTML;
+  run node heze.mjs after editing one to rebuild this file.
 -->
 <style>
   :root{
@@ -117,228 +121,493 @@
     .slide{display:block !important;page-break-after:always;box-shadow:none}
     .nav,.dots{display:none}
   }
+
+    /* ═══════════════════════════════════════════════════ THE GALACTIC BACKDROP
+     A window, not a wallpaper. Still no script.
+
+     69 bright stars and 139 dim ones, weighted the way the real sky is —
+     mostly dim and warm, a scatter of white, almost no blue — laid along a band
+     twenty-four degrees off horizontal with the dust lane cut back out of it in
+     the background colour, because the dark half of a galaxy is most of what
+     you see. The stars are Earth's, because they would be: Venus is 0.28 AU
+     away and that is nothing at stellar distances.
+
+     WE ARE TRAVELLING, so the sky does. It sits on two fixed pseudo-elements
+     rather than one background, and each one moves by TRANSFORM — which the
+     compositor does on its own thread, without repainting 208 gradients a
+     frame. Animating background-position instead would have cost the frame
+     budget of every board in the yard, and that is the only reason this is
+     built out of two layers instead of one.
+
+     AND WE ARE EXPANDING, so the near layer runs faster and scales harder than
+     the far one. That difference is parallax and parallax is the entire cue:
+     hold still and the bright stars slide past the dim ones, which is what a
+     window does and what a backdrop cannot. 21 minutes and 34 — coprime, so the
+     two never fall back into the arrangement they started in.
+
+     Both sit at z-index:-1 behind everything, each page keeps its own colour
+     wash on <body> over the top, and prefers-reduced-motion stops the travel
+     dead while leaving every star exactly where it is. */
+  html{background-color:#080b0f}
+  body{background-color:transparent}
+  html::before,html::after{content:"";position:fixed;z-index:-1;
+    inset:-18%;pointer-events:none;background-repeat:no-repeat;
+    background-size:cover;will-change:transform}
+  html::before{background-image:
+      radial-gradient(0.35px 0.35px at 63.60% 61.37%,rgba(202,215,255,0.16),transparent),
+      radial-gradient(0.54px 0.54px at 31.73% 56.60%,rgba(255,210,161,0.26),transparent),
+      radial-gradient(0.36px 0.36px at 16.19% 41.87%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.12% 16.25%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 61.37% 49.53%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.66px 0.66px at 89.13% 49.03%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.52px 0.52px at 23.10% 65.23%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 81.55% 90.93%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.35px 0.35px at 1.99% 39.17%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.67px 0.67px at 88.33% 64.79%,rgba(255,210,161,0.32),transparent),
+      radial-gradient(0.65px 0.65px at 52.00% 41.82%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.84px 0.84px at 59.58% 82.02%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.44px 0.44px at 55.83% 49.97%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.45px 0.45px at 61.17% 3.50%,rgba(202,215,255,0.21),transparent),
+      radial-gradient(0.48px 0.48px at 92.68% 74.19%,rgba(255,181,107,0.23),transparent),
+      radial-gradient(0.41px 0.41px at 44.55% 40.37%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.80px 0.80px at 33.50% 52.15%,rgba(255,181,107,0.39),transparent),
+      radial-gradient(0.70px 0.70px at 15.53% 74.11%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.69px 0.69px at 83.20% 49.99%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.86px 0.86px at 14.02% 0.25%,rgba(255,181,107,0.42),transparent),
+      radial-gradient(0.35px 0.35px at 8.46% 26.75%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 16.18% 29.77%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.57px 0.57px at 46.77% 49.71%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.58px 0.58px at 80.94% 96.51%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.44px 0.44px at 46.92% 31.31%,rgba(255,181,107,0.20),transparent),
+      radial-gradient(0.37px 0.37px at 34.69% 85.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.42px 0.42px at 56.44% 46.68%,rgba(255,210,161,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 7.58% 26.10%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.48px 0.48px at 16.83% 84.69%,rgba(202,215,255,0.22),transparent),
+      radial-gradient(0.53px 0.53px at 9.16% 5.95%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.57px 0.57px at 41.82% 44.48%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.90px 0.90px at 74.31% 45.97%,rgba(255,210,161,0.44),transparent),
+      radial-gradient(0.40px 0.40px at 64.18% 49.64%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 5.25% 39.37%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.53px 0.53px at 9.07% 72.19%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.78px 0.78px at 64.06% 69.96%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.37px 0.37px at 8.76% 35.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 57.68% 27.55%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 98.05% 7.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.66px 0.66px at 44.51% 72.98%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.46px 0.46px at 37.26% 1.54%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.59px 0.59px at 90.42% 72.27%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.57px 0.57px at 98.13% 10.35%,rgba(248,247,255,0.27),transparent),
+      radial-gradient(0.91px 0.91px at 94.93% 71.89%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.36px 0.36px at 4.64% 11.86%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.56px 0.56px at 46.09% 50.65%,rgba(255,210,161,0.27),transparent),
+      radial-gradient(0.72px 0.72px at 98.16% 60.72%,rgba(255,181,107,0.35),transparent),
+      radial-gradient(0.90px 0.90px at 23.45% 18.12%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.53px 0.53px at 13.29% 38.54%,rgba(248,247,255,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 48.20% 58.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 93.26% 70.43%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.77px 0.77px at 98.31% 71.27%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.51px 0.51px at 91.86% 57.08%,rgba(255,210,161,0.24),transparent),
+      radial-gradient(0.76px 0.76px at 3.22% 18.38%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 67.24% 79.63%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.44px 0.44px at 4.49% 37.24%,rgba(255,210,161,0.20),transparent),
+      radial-gradient(0.35px 0.35px at 19.05% 44.87%,rgba(248,247,255,0.16),transparent),
+      radial-gradient(0.43px 0.43px at 80.57% 75.11%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.38px 0.38px at 84.40% 42.68%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.44px 0.44px at 84.04% 97.87%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.65px 0.65px at 16.48% 27.55%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.75px 0.75px at 84.52% 73.60%,rgba(255,210,161,0.36),transparent),
+      radial-gradient(0.63px 0.63px at 50.13% 6.86%,rgba(248,247,255,0.30),transparent),
+      radial-gradient(0.78px 0.78px at 87.51% 70.49%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.76px 0.76px at 16.34% 26.34%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.35px 0.35px at 58.85% 56.40%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 4.52% 56.48%,rgba(255,181,107,0.33),transparent),
+      radial-gradient(0.46px 0.46px at 86.45% 52.09%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.39px 0.39px at 91.92% 82.50%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.36px 0.36px at 6.83% 33.67%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.10% 7.69%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 63.59% 62.73%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 72.64% 55.47%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.57px 0.57px at 1.57% 22.68%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.35px 0.35px at 20.24% 40.59%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 81.60% 86.38%,rgba(255,244,234,0.33),transparent),
+      radial-gradient(0.75px 0.75px at 1.01% 89.43%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.50px 0.50px at 1.89% 45.85%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.36px 0.36px at 86.06% 69.70%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.46px 0.46px at 54.27% 84.12%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.35px 0.35px at 68.88% 69.99%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 51.92% 44.11%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.37px 0.37px at 83.56% 88.23%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.61px 0.61px at 48.63% 32.82%,rgba(248,247,255,0.29),transparent),
+      radial-gradient(0.46px 0.46px at 3.14% 19.70%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.35px 0.35px at 91.65% 60.72%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 39.35% 42.18%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.60px 0.60px at 96.63% 57.34%,rgba(255,210,161,0.29),transparent),
+      radial-gradient(0.36px 0.36px at 93.19% 66.52%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 91.66% 53.83%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.53px 0.53px at 37.09% 33.98%,rgba(255,210,161,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 7.69% 48.04%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.76px 0.76px at 40.92% 77.22%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.62px 0.62px at 53.18% 55.13%,rgba(255,181,107,0.30),transparent),
+      radial-gradient(0.52px 0.52px at 36.16% 17.06%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.42px 0.42px at 7.30% 10.90%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 98.83% 35.83%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.57px 0.57px at 32.25% 40.39%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.77px 0.77px at 68.97% 58.36%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.35px 0.35px at 98.16% 72.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 49.07% 50.45%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.59px 0.59px at 36.73% 46.36%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.37px 0.37px at 59.16% 52.43%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 5.87% 47.43%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.35px 0.35px at 28.92% 42.34%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.84px 0.84px at 38.15% 61.03%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.35px 0.35px at 17.08% 95.56%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.56px 0.56px at 72.12% 52.35%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.43px 0.43px at 10.79% 34.15%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.36px 0.36px at 90.72% 54.28%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.36px 0.36px at 0.22% 39.29%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.38px 0.38px at 66.88% 43.63%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.76px 0.76px at 85.24% 53.71%,rgba(255,210,161,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 76.84% 68.26%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.82px 0.82px at 20.88% 36.67%,rgba(255,181,107,0.40),transparent),
+      radial-gradient(0.53px 0.53px at 72.59% 59.70%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.82px 0.82px at 99.56% 61.97%,rgba(248,247,255,0.40),transparent),
+      radial-gradient(0.37px 0.37px at 43.04% 22.87%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.38px 0.38px at 62.75% 36.42%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.64px 0.64px at 11.37% 52.16%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.35px 0.35px at 65.28% 54.10%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 23.22% 51.57%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.41px 0.41px at 7.86% 15.80%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 1.16% 17.03%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 24.23% 36.88%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 67.85% 71.10%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.87px 0.87px at 21.22% 9.64%,rgba(255,181,107,0.43),transparent),
+      radial-gradient(16px 16px at 11.38% 48.06%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 66.59% 41.28%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 40.80% 23.68%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 41.01% 67.29%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 31.18% 27.63%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 10.81% 18.20%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 3.23% 54.03%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(30% 30% at 22% 30%,rgba(91,127,199,0.055),transparent 70%),
+      radial-gradient(26% 26% at 74% 58%,rgba(201,87,143,0.040),transparent 70%),
+      radial-gradient(22% 22% at 46% 18%,rgba(79,179,166,0.035),transparent 70%),
+      linear-gradient(66deg,transparent 34%,rgba(148,138,196,.045) 43%,rgba(172,162,214,.085) 50%,rgba(148,138,196,.045) 57%,transparent 66%),
+      linear-gradient(66deg,transparent 46%,rgba(4,3,7,.55) 49.4%,rgba(4,3,7,.62) 50.6%,transparent 54%);
+    animation:au-far 2040s ease-in-out infinite alternate}
+  html::after{background-image:
+      radial-gradient(1.30px 1.30px at 68.42% 62.26%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(0.96px 0.96px at 44.46% 53.88%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.72px 1.72px at 97.52% 67.89%,rgba(255,210,161,0.86),transparent),
+      radial-gradient(1.27px 1.27px at 29.09% 44.54%,rgba(255,181,107,0.63),transparent),
+      radial-gradient(1.25px 1.25px at 0.41% 98.24%,rgba(255,181,107,0.62),transparent),
+      radial-gradient(1.12px 1.12px at 48.27% 61.45%,rgba(255,181,107,0.55),transparent),
+      radial-gradient(1.62px 1.62px at 21.27% 82.41%,rgba(255,181,107,0.81),transparent),
+      radial-gradient(1.13px 1.13px at 32.91% 34.63%,rgba(255,181,107,0.56),transparent),
+      radial-gradient(1.56px 1.56px at 71.19% 43.86%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.40px 1.40px at 6.85% 52.24%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.14px 1.14px at 86.46% 83.26%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.10px 1.10px at 71.95% 42.90%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.42px 1.42px at 36.96% 17.89%,rgba(255,181,107,0.71),transparent),
+      radial-gradient(1.13px 1.13px at 4.31% 1.17%,rgba(170,191,255,0.56),transparent),
+      radial-gradient(1.31px 1.31px at 41.52% 51.61%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(1.46px 1.46px at 76.09% 66.82%,rgba(255,244,234,0.72),transparent),
+      radial-gradient(1.78px 1.78px at 26.72% 43.06%,rgba(255,181,107,0.89),transparent),
+      radial-gradient(1.69px 1.69px at 22.68% 46.22%,rgba(170,191,255,0.84),transparent),
+      radial-gradient(1.76px 1.76px at 30.20% 97.65%,rgba(255,181,107,0.88),transparent),
+      radial-gradient(1.38px 1.38px at 99.58% 76.98%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.08px 1.08px at 15.38% 27.05%,rgba(255,244,234,0.53),transparent),
+      radial-gradient(0.95px 0.95px at 42.39% 32.32%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.57px 1.57px at 58.49% 81.25%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(0.94px 0.94px at 48.37% 39.34%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.41px 1.41px at 91.19% 97.04%,rgba(255,210,161,0.70),transparent),
+      radial-gradient(1.37px 1.37px at 7.79% 44.56%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.07px 1.07px at 89.66% 36.01%,rgba(255,181,107,0.53),transparent),
+      radial-gradient(1.69px 1.69px at 67.50% 93.44%,rgba(255,181,107,0.84),transparent),
+      radial-gradient(1.15px 1.15px at 57.27% 40.78%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.58px 1.58px at 33.10% 45.94%,rgba(255,181,107,0.79),transparent),
+      radial-gradient(1.04px 1.04px at 83.01% 82.39%,rgba(255,181,107,0.51),transparent),
+      radial-gradient(1.56px 1.56px at 88.42% 66.83%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.29px 1.29px at 24.78% 0.51%,rgba(255,181,107,0.64),transparent),
+      radial-gradient(1.09px 1.09px at 6.07% 6.69%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.32px 1.32px at 53.40% 80.43%,rgba(255,210,161,0.65),transparent),
+      radial-gradient(1.19px 1.19px at 76.80% 81.97%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(0.94px 0.94px at 69.80% 57.79%,rgba(255,244,234,0.46),transparent),
+      radial-gradient(1.10px 1.10px at 7.00% 33.07%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.22px 1.22px at 76.56% 52.71%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(0.96px 0.96px at 85.29% 63.59%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.18px 1.18px at 17.44% 43.04%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(1.51px 1.51px at 36.81% 57.97%,rgba(255,210,161,0.75),transparent),
+      radial-gradient(1.37px 1.37px at 98.28% 82.40%,rgba(248,247,255,0.68),transparent),
+      radial-gradient(1.65px 1.65px at 78.05% 82.63%,rgba(248,247,255,0.82),transparent),
+      radial-gradient(1.20px 1.20px at 59.28% 41.45%,rgba(248,247,255,0.60),transparent),
+      radial-gradient(1.55px 1.55px at 40.98% 18.58%,rgba(255,181,107,0.77),transparent),
+      radial-gradient(1.02px 1.02px at 82.66% 66.73%,rgba(255,181,107,0.50),transparent),
+      radial-gradient(1.20px 1.20px at 0.68% 23.74%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(1.15px 1.15px at 57.32% 67.46%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.34px 1.34px at 6.29% 37.15%,rgba(255,244,234,0.66),transparent),
+      radial-gradient(1.39px 1.39px at 63.56% 50.69%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.59px 1.59px at 80.48% 31.89%,rgba(202,215,255,0.79),transparent),
+      radial-gradient(1.52px 1.52px at 40.22% 51.94%,rgba(255,210,161,0.76),transparent),
+      radial-gradient(1.52px 1.52px at 78.35% 77.94%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(1.70px 1.70px at 33.95% 56.66%,rgba(255,181,107,0.85),transparent),
+      radial-gradient(1.16px 1.16px at 77.09% 41.34%,rgba(255,210,161,0.58),transparent),
+      radial-gradient(1.67px 1.67px at 39.69% 60.56%,rgba(255,210,161,0.83),transparent),
+      radial-gradient(1.47px 1.47px at 12.24% 30.52%,rgba(255,181,107,0.73),transparent),
+      radial-gradient(1.11px 1.11px at 80.16% 93.71%,rgba(255,210,161,0.55),transparent),
+      radial-gradient(1.52px 1.52px at 11.04% 44.84%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(0.94px 0.94px at 59.58% 30.37%,rgba(255,210,161,0.46),transparent),
+      radial-gradient(1.53px 1.53px at 0.35% 42.03%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(2.6px 2.6px at 11.38% 48.06%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 66.59% 41.28%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 40.80% 23.68%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 41.01% 67.29%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 31.18% 27.63%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 10.81% 18.20%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 3.23% 54.03%,rgba(255,255,255,.95),transparent);
+    animation:au-near 1260s ease-in-out infinite alternate}
+  @keyframes au-far{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-3.0%,1.6%,0) scale(1.09)}}
+  @keyframes au-near{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-8.5%,4.4%,0) scale(1.26)}}
+  @media (prefers-reduced-motion:reduce){
+    html::before,html::after{animation:none}}
 </style>
 
 <div class="deck">
 
-  <!-- ------------------------------------------------------------- slide 1 -->
   <section class="slide" id="s1">
     <span class="kicker">Heze Orbital Yard · unit of account</span>
-    <h1>HEZE
-      <small>The yard quotes in it, the docket sums in it, and a hull is
-        released against it. It is a unit of account for the files in this
-        project — not a chain, not a contract, and not for sale.</small></h1>
-    <div class="band"><i class="g"></i><i class="p"></i><i class="c"></i>
-      <i class="r"></i><i class="o"></i></div>
-    <div class="grid">
-      <div class="cell"><span>Supply</span><b>21,000,000</b>
-        <p>Fixed by definition. Nothing in these files issues more.</p></div>
-      <div class="cell"><span>Backing</span><b class="sm">A costed fleet</b>
-        <p>Ten hulls, priced from their own bills of materials.</p></div>
-      <div class="cell"><span>Where it settles</span><b class="sm">Nowhere yet</b>
-        <p>No transfer exists. The docket is a piece of paper.</p></div>
-    </div>
-    <p class="lede">Six slides. What the number is, what stands behind it, how a
-      hull is drawn from an address, what the yard charges, and — at the end,
-      in full — what this is not.</p>
+    <h1>HEZE<small>The yard quotes in it, the docket sums in it, and a hull is released against it. It is a unit of account for the files in this project — not a chain, not a contract, and not for sale.</small></h1>
+    <div class="band"><i class="g"></i><i class="p"></i><i class="c"></i><i class="r"></i><i class="o"></i></div>
+    
+    
+    <div class="grid"><div class="cell"><span>Supply</span><b>21,000,000</b><p>Fixed by definition. Nothing in these files issues more.</p></div><div class="cell"><span>Backing</span><b class="sm">A costed fleet</b><p>Ten hulls, priced from their own bills of materials.</p></div><div class="cell"><span>Where it settles</span><b class="sm">Nowhere yet</b><p>No transfer exists. The docket is a piece of paper.</p></div></div>
+    <p class="lede">Ten slides. What the number is, what stands behind it, how a hull is drawn from an address, what the yard charges, four real lessons — fungibility, decentralization, automation, syndication — taught through it, and — at the end, in full — what this is not.</p>
+    
+    
+    
+    
+    
     <nav class="nav">
       <a class="p" href="#s2">Next ▸</a>
-      <span class="no">01 / 06</span>
+      <span class="no">01 / 10</span>
     </nav>
   </section>
 
-  <!-- ------------------------------------------------------------- slide 2 -->
   <section class="slide" id="s2">
     <span class="kicker">02 · the number</span>
     <h2>Twenty-one million, and not one more</h2>
-    <p class="lede">The cap is not a marketing figure carried over from
-      somewhere else. It is the constraint the rest of the design was built to
-      satisfy, and everything downstream had to clear it.</p>
-
-    <div class="grid">
-      <div class="cell"><span>Cap</span><b>21,000,000</b>
-        <p>Whole units. Divisible for accounting, never extended.</p></div>
-      <div class="cell"><span>Combination floor</span><b class="sm">21,000,000</b>
-        <p>The design rule: a coin must address at least this many distinct
-          hulls, so no two are forced to collide.</p></div>
-      <div class="cell"><span>Actually achieved</span><b class="sm">1.536 × 10¹²</b>
-        <p>73,142 times the floor, counting only the discrete slots.</p></div>
-    </div>
-
+    
+    <p class="lede">The cap is not a marketing figure carried over from somewhere else. It is the constraint the rest of the design was built to satisfy, and everything downstream had to clear it.</p>
+    
+    <div class="grid"><div class="cell"><span>Cap</span><b>21,000,000</b><p>Whole units. Divisible for accounting, never extended.</p></div><div class="cell"><span>Combination floor</span><b class="sm">21,000,000</b><p>The design rule: a coin must address at least this many distinct hulls, so no two are forced to collide.</p></div><div class="cell"><span>Actually achieved</span><b class="sm">1.536 × 10¹²</b><p>73,142 times the floor, counting only the discrete slots.</p></div></div>
+    
     <div class="rule"></div>
-    <p><strong>Why the floor matters.</strong> If the number of buildable hulls
-      were smaller than the number of coins, coins would have to share hulls,
-      and a hull would stop being a thing a coin could stand for. The forge
-      clears it by six orders of magnitude before the continuous axes — the
-      length, beam, freeboard, sheer and rig sliders — are counted at all. With
-      those, the space is around <code>2 × 10²⁵</code>.</p>
-
+    <p><strong>Why the floor matters.</strong> If the number of buildable hulls were smaller than the number of coins, coins would have to share hulls, and a hull would stop being a thing a coin could stand for. The forge clears it by six orders of magnitude before the continuous axes — the length, beam, freeboard, sheer and rig sliders — are counted at all. With those, the space is around <code>2 × 10²⁵</code>.</p>
+    
+    
+    
     <nav class="nav">
       <a href="#s1">◂ Back</a><a class="p" href="#s3">Next ▸</a>
-      <span class="no">02 / 06</span>
+      <span class="no">02 / 10</span>
     </nav>
   </section>
 
-  <!-- ------------------------------------------------------------- slide 3 -->
   <section class="slide" id="s3">
     <span class="kicker">03 · what stands behind it</span>
     <h2>A costed fleet, not a promise</h2>
-    <p class="lede">Every hull in the forge is priced from the geometry that was
-      actually drawn: cubic metres of oak, metres of seam to caulk, square
-      metres of cloth, kilos of ironwork, and shipwright hours. Change a strake
-      count and the timber volume changes, so the price changes, because there
-      is more boat.</p>
-
-    <table>
-      <tr><th>Hull</th><th>Displacement</th><th>Build cost</th></tr>
-      <tr><td>Dhow <span class="q">· 18 m</span></td><td>90 t</td><td>$117,081</td></tr>
-      <tr><td>Umiak <span class="q">· 9 m</span></td><td>21 t</td><td>$78,400</td></tr>
-      <tr><td>Waka <span class="q">· 20 m</span></td><td>58 t</td><td>$126,812</td></tr>
-      <tr><td>Longship <span class="q">· 24 m</span></td><td>91 t</td><td>$162,092</td></tr>
-      <tr><td>Caravel <span class="q">· 23 m</span></td><td>162 t</td><td>$194,883</td></tr>
-      <tr><td>Reed barge <span class="q">· 26 m</span></td><td>148 t</td><td>$204,600</td></tr>
-      <tr><td>Junk <span class="q">· 30 m</span></td><td>333 t</td><td>$286,371</td></tr>
-      <tr><td>Trireme <span class="q">· 37 m</span></td><td>195 t</td><td>$286,487</td></tr>
-      <tr><td>Galleon <span class="q">· 40 m</span></td><td>937 t</td><td>$477,946</td></tr>
-      <tr><td>Ironclad <span class="q">· 52 m</span></td><td>1,993 t</td><td>$3,630,161</td></tr>
-      <tr class="sum"><td>Fleet of ten</td><td>4,028 t</td><td>$20,387,410</td></tr>
-    </table>
-
-    <div class="grid two">
-      <div class="cell"><span>Fleet cost ÷ 21,000,000</span><b>$0.97</b>
-        <p>Arithmetic on a costing. It is a ratio between two numbers on this
-          page, not a price, not a valuation, and not a forecast.</p></div>
-      <div class="cell"><span>Rates behind it</span><b class="sm">Editable</b>
-        <p>Oak $/m³, shipwright $/hr, canvas $/m², yard overhead %. Move any of
-          them and every figure above moves. They are defaults to argue with.</p></div>
-    </div>
-
+    
+    <p class="lede">Every hull in the forge is priced from the geometry that was actually drawn: cubic metres of oak, metres of seam to caulk, square metres of cloth, kilos of ironwork, and shipwright hours. Change a strake count and the timber volume changes, so the price changes, because there is more boat.</p>
+    <table><tr><th>Hull</th><th>Displacement</th><th>Build cost</th></tr><tr><td>Dhow <span class="q">· 18 m</span></td><td>90 t</td><td>$117,081</td></tr><tr><td>Umiak <span class="q">· 9 m</span></td><td>21 t</td><td>$78,400</td></tr><tr><td>Waka <span class="q">· 20 m</span></td><td>58 t</td><td>$126,812</td></tr><tr><td>Longship <span class="q">· 24 m</span></td><td>91 t</td><td>$162,092</td></tr><tr><td>Caravel <span class="q">· 23 m</span></td><td>162 t</td><td>$194,883</td></tr><tr><td>Reed barge <span class="q">· 26 m</span></td><td>148 t</td><td>$204,600</td></tr><tr><td>Junk <span class="q">· 30 m</span></td><td>333 t</td><td>$286,371</td></tr><tr><td>Trireme <span class="q">· 37 m</span></td><td>195 t</td><td>$286,487</td></tr><tr><td>Galleon <span class="q">· 40 m</span></td><td>937 t</td><td>$477,946</td></tr><tr><td>Ironclad <span class="q">· 52 m</span></td><td>1,993 t</td><td>$3,630,161</td></tr><tr class="sum"><td>Fleet of ten</td><td>4,028 t</td><td>$20,387,410</td></tr></table>
+    <div class="grid two"><div class="cell"><span>Fleet cost ÷ 21,000,000</span><b>$0.97</b><p>Arithmetic on a costing. It is a ratio between two numbers on this page, not a price, not a valuation, and not a forecast.</p></div><div class="cell"><span>Rates behind it</span><b class="sm">Editable</b><p>Oak $/m³, shipwright $/hr, canvas $/m², yard overhead %. Move any of them and every figure above moves. They are defaults to argue with.</p></div></div>
+    
+    
+    
+    
+    
+    
     <nav class="nav">
       <a href="#s2">◂ Back</a><a class="p" href="#s4">Next ▸</a>
-      <span class="no">03 / 06</span>
+      <span class="no">03 / 10</span>
     </nav>
   </section>
 
-  <!-- ------------------------------------------------------------- slide 4 -->
   <section class="slide" id="s4">
     <span class="kicker">04 · issuance</span>
     <h2>One address in, one hull out</h2>
-    <p class="lede">A public address is read as a number and seeded into the
-      forge. The same address always yields the same ship — that determinism is
-      the only property that makes a build worth claiming.</p>
-
-    <div class="grid">
-      <div class="cell"><span>Step one</span><b class="sm">Read</b>
-        <p>The address is hashed locally with FNV-1a into a seed. It is never
-          transmitted, and it is never signed with.</p></div>
-      <div class="cell"><span>Step two</span><b class="sm">Draw</b>
-        <p>The seed picks hull, element, method, twelve slots, palette, finish,
-          fastening and every proportion. Then the ship is drawn.</p></div>
-      <div class="cell"><span>Step three</span><b class="sm">Count</b>
-        <p>The bill of materials falls out of the drawing — strakes, frames,
-          fastenings, seams — and the cost falls out of the bill.</p></div>
-    </div>
-
+    
+    <p class="lede">A public address is read as a number and seeded into the forge. The same address always yields the same ship — that determinism is the only property that makes a build worth claiming.</p>
+    
+    <div class="grid"><div class="cell"><span>Step one</span><b class="sm">Read</b><p>The address is hashed locally with FNV-1a into a seed. It is never transmitted, and it is never signed with.</p></div><div class="cell"><span>Step two</span><b class="sm">Draw</b><p>The seed picks hull, element, method, twelve slots, palette, finish, fastening and every proportion. Then the ship is drawn.</p></div><div class="cell"><span>Step three</span><b class="sm">Count</b><p>The bill of materials falls out of the drawing — strakes, frames, fastenings, seams — and the cost falls out of the bill.</p></div></div>
+    
     <div class="rule"></div>
-    <p><strong>Build the ten.</strong> One address also lays down a whole fleet:
-      ten hulls, one per tradition, each seeded from
-      <code>address:index:hull</code> so they are ten different ships rather
-      than ten paint jobs on one. The fleet is berthed locally and costed at the
-      current yard rates.</p>
-    <div class="flag ok"><b>Nothing leaves the file.</b> There is no network
-      call in the forge. The address sits in an input, is read, and is used to
-      pick options. Closing the tab ends it.</div>
-
+    <p><strong>Build the ten.</strong> One address also lays down a whole fleet: ten hulls, one per tradition, each seeded from <code>address:index:hull</code> so they are ten different ships rather than ten paint jobs on one. The fleet is berthed locally and costed at the current yard rates.</p>
+    <div class="flag ok"><b>Nothing leaves the file.</b> There is no network call in the forge. The address sits in an input, is read, and is used to pick options. Closing the tab ends it.</div>
+    
+    
     <nav class="nav">
       <a href="#s3">◂ Back</a><a class="p" href="#s5">Next ▸</a>
-      <span class="no">04 / 06</span>
+      <span class="no">04 / 10</span>
     </nav>
   </section>
 
-  <!-- ------------------------------------------------------------- slide 5 -->
   <section class="slide" id="s5">
     <span class="kicker">05 · the price list</span>
     <h2>What the yard quotes</h2>
-    <p class="lede">Ten classes on the order desk, quoted in HEZE. The desk sums
-      them with CSS counters — the running total on the docket is arithmetic
-      done by the layout engine, with no script on the page.</p>
-
-    <table>
-      <tr><th>Class</th><th>Displacement</th><th>Weeks</th><th>HEZE</th></tr>
-      <tr><td>Bucketeer</td><td>900 t</td><td>2</td><td>1,000</td></tr>
-      <tr><td>Merchant</td><td>9,400 t</td><td>3</td><td>2,100</td></tr>
-      <tr><td>Auxiliary</td><td>6,800 t</td><td>4</td><td>3,200</td></tr>
-      <tr><td>Corsair</td><td>2,600 t</td><td>5</td><td>4,600</td></tr>
-      <tr><td>Destroyer</td><td>8,300 t</td><td>9</td><td>12,400</td></tr>
-      <tr><td>Cruiser</td><td>14,600 t</td><td>16</td><td>28,000</td></tr>
-      <tr><td>Monitor</td><td>26,500 t</td><td>22</td><td>47,000</td></tr>
-      <tr><td>Carrier</td><td>47,000 t</td><td>27</td><td>61,000</td></tr>
-      <tr><td>Battleship</td><td>64,000 t</td><td>34</td><td>84,000</td></tr>
-      <tr><td>Yamato <span class="q">· will not fly</span></td><td>72,800 t</td>
-        <td>52</td><td>150,000</td></tr>
-    </table>
-
-    <div class="grid two">
-      <div class="cell"><span>Distinct orders on the desk</span><b>62,914,560</b>
-        <p>Ten classes × slip × drive × flight × escort × four fittings × eleven
-          conventional mounts.</p></div>
-      <div class="cell"><span>Arsenal</span><b class="sm">Conventional only</b>
-        <p>The yard fits no nuclear weapons and there is no option to order
-          them. Every mount you check is drawn on the band under the hull.</p></div>
-    </div>
-
+    
+    <p class="lede">Ten classes on the order desk, quoted in HEZE. The desk sums them with CSS counters — the running total on the docket is arithmetic done by the layout engine, with no script on the page.</p>
+    <table><tr><th>Class</th><th>Displacement</th><th>Weeks</th><th>HEZE</th></tr><tr><td>Bucketeer</td><td>900 t</td><td>2</td><td>1,000</td></tr><tr><td>Merchant</td><td>9,400 t</td><td>3</td><td>2,100</td></tr><tr><td>Auxiliary</td><td>6,800 t</td><td>4</td><td>3,200</td></tr><tr><td>Corsair</td><td>2,600 t</td><td>5</td><td>4,600</td></tr><tr><td>Destroyer</td><td>8,300 t</td><td>9</td><td>12,400</td></tr><tr><td>Cruiser</td><td>14,600 t</td><td>16</td><td>28,000</td></tr><tr><td>Monitor</td><td>26,500 t</td><td>22</td><td>47,000</td></tr><tr><td>Carrier</td><td>47,000 t</td><td>27</td><td>61,000</td></tr><tr><td>Battleship</td><td>64,000 t</td><td>34</td><td>84,000</td></tr><tr><td>Yamato <span class="q">· will not fly</span></td><td>72,800 t</td><td>52</td><td>150,000</td></tr></table>
+    <div class="grid two"><div class="cell"><span>Distinct orders on the desk</span><b>62,914,560</b><p>Ten classes × slip × drive × flight × escort × four fittings × eleven conventional mounts.</p></div><div class="cell"><span>Arsenal</span><b class="sm">Conventional only</b><p>The yard fits no nuclear weapons and there is no option to order them. Every mount you check is drawn on the band under the hull.</p></div></div>
+    
+    
+    
+    
+    
+    
     <nav class="nav">
       <a href="#s4">◂ Back</a><a class="p" href="#s6">Next ▸</a>
-      <span class="no">05 / 06</span>
+      <span class="no">05 / 10</span>
     </nav>
   </section>
 
-  <!-- ------------------------------------------------------------- slide 6 -->
   <section class="slide" id="s6">
-    <span class="kicker">06 · what this is not</span>
-    <h2>Read this one twice</h2>
-    <p class="lede">The five slides before this describe a unit of account
-      inside a set of local HTML files. This slide describes everything it
-      isn't, and none of it is hedging — each line is a fact about the code.</p>
-
-    <div class="flag"><b>There is no token.</b> No chain, no contract, no
-      deployment, no address that holds anything. <code>0x48455a45</code> is the
-      ASCII for “HEZE” printed on a docket, not a function selector on any
-      network.</div>
-
-    <div class="flag"><b>Nothing here can be bought or sold.</b> These files
-      have no transfer, no order book, no custody and no counterparty. There is
-      nothing to acquire, so nothing on these slides is an offer, a solicitation
-      or a sale.</div>
-
-    <div class="flag"><b>The dollar figures are a costing, not a valuation.</b>
-      $20,387,410 is what ten drawn hulls would cost to build at rates you can
-      edit. Dividing it by 21,000,000 gives a ratio between two numbers in this
-      project. It is not a price, it does not imply one, and no one is obliged
-      to honour it.</div>
-
-    <div class="flag"><b>Nothing is signed and nothing is sent.</b> The address
-      field is read locally to seed a drawing. There is no network call, no
-      wallet connection, no signature request, and no key ever touches these
-      files.</div>
-
-    <div class="flag"><b>This is not financial advice.</b> Nothing here is a
-      recommendation to buy, sell or hold anything, and nobody involved is a
-      licensed adviser.</div>
-
-    <p class="lede" style="margin-top:18px">What it <em>is</em>: a design
-      document for the unit a fictional shipyard quotes in, sitting alongside
-      two files that draw ships and count their fastenings. That is the whole
-      of it, and it is enough.</p>
-
+    <span class="kicker">06 · lesson one, fungibility</span>
+    <h2>Any one HEZE is every HEZE</h2>
+    
+    <p class="lede">Fungibility means two units of the same thing are interchangeable — holding one is exactly as good as holding any other, with nothing about its past attached to it. It is one of two properties this whole design was built to keep, and the easiest way to see it is to compare HEZE against something in these same files that is deliberately not fungible.</p>
+    
+    <div class="grid"><div class="cell"><span>HEZE, door 1 vs door 200</span><b>No difference</b><p>A unit issued at the first door and a unit issued at the two-hundredth are the same unit. Neither deck may ask which door a HEZE came from before accepting it.</p></div><div class="cell"><span>A hull from the forge</span><b class="sm">Always different</b><p>Two ships of the same class, ordered from two different addresses, are drawn from two different seeds — different strakes, different cost, a different bill of materials. That is the opposite of fungible: identity is the whole point.</p></div><div class="cell"><span>The rule, in one line</span><b class="sm">No history</b><p>A fungible unit carries no record of where it has been that changes what it is worth. The moment one HEZE became worth more than another because of its past, it would stop being a unit of account and start being a collectible.</p></div></div>
+    
+    <div class="rule"></div>
+    <p><strong>Why it has to be this way.</strong> A price list only works if every buyer is quoting against the same thing. The order desk two slides back prices a Destroyer at 12,400 HEZE for anyone at any door — the moment two doors' HEZE stopped being interchangeable, the price list would need one column per door instead of one column, period.</p>
+    
+    
+    
     <nav class="nav">
-      <a href="#s5">◂ Back</a><a class="p" href="#s1">Start over</a>
-      <span class="no">06 / 06</span>
+      <a href="#s5">◂ Back</a><a class="p" href="#s7">Next ▸</a>
+      <span class="no">06 / 10</span>
+    </nav>
+  </section>
+
+  <section class="slide" id="s7">
+    <span class="kicker">07 · lesson two, decentralization</span>
+    <h2>Decentralized where it is priced, not where it is kept honest</h2>
+    
+    <p class="lede">Decentralization is not one property a design either has or lacks — it is a choice about which specific part of a system is allowed to act on its own, and which part exists to reconcile what the independent parts did. HEZE's docket makes that choice explicitly rather than picking a slogan.</p>
+    
+    <div class="grid"><div class="cell"><span>Decentralized</span><b>200 doors</b><p>Each door issues against its own local share of a tranche, on its own schedule, with no door needing another door's permission to move.</p></div><div class="cell"><span>Centralized</span><b class="sm">21 syndicates</b><p>Two of three custodians per syndicate sign before anything is real, and every door's events are reconciled into one chain the syndicate keeps.</p></div><div class="cell"><span>Why both</span><b class="sm">Neither alone is enough</b><p>200 doors with no reconciliation would drift apart with no way to catch a contradiction. One central authority with no independent doors would only ever be checking itself.</p></div></div>
+    
+    <div class="rule"></div>
+    <p><strong>What this is not.</strong> It is not a claim that nobody is in charge — two of three custodians signing is a real, named authority, on purpose. It is a claim about where that authority sits: at the reconciliation, not at any one door, and never in one signature alone.</p>
+    
+    
+    
+    <nav class="nav">
+      <a href="#s6">◂ Back</a><a class="p" href="#s8">Next ▸</a>
+      <span class="no">07 / 10</span>
+    </nav>
+  </section>
+
+  <section class="slide" id="s8">
+    <span class="kicker">08 · lesson three, automation</span>
+    <h2>Nothing runs that a person did not run first</h2>
+    
+    <p class="lede">Real crypto systems automate constantly — bots, smart contracts, scheduled jobs — and a large share of real losses trace back to code that ran unattended before anyone had actually checked the sequence by hand. HEZE's own terminal draws the line on purpose: record, run, then automate, always in that order.</p>
+    
+    <div class="grid"><div class="cell"><span>Away time</span><b>Caught up, not guessed</b><p>Up to eight hours away is replayed one simulated day at a time — the same proposals, the same rolls, the same result you would have gotten watching it happen, never a shortcut.</p></div><div class="cell"><span>Auto-sign</span><b class="sm">Opt in, per desk</b><p>Custodians only sign on their own once told to, at the same odds a person signing by hand would face — automation changes who is at the keyboard, not the rules being followed.</p></div><div class="cell"><span>Record → run → automate</span><b class="sm">In that order</b><p>A command sequence is typed and watched until it is right, replayed once to confirm it, and only then set on an interval. The macro is a transcript of a person, not a program nobody read.</p></div></div>
+    
+    <div class="rule"></div>
+    <p><strong>The real-world version of this mistake.</strong> A contract that moves funds on a trigger nobody tested against every input, or a bot that was live before its first run was ever watched — both are automation that skipped the middle step. The terminal's rule exists because that step is the only one that catches a mistake before it repeats forever.</p>
+    
+    
+    
+    <nav class="nav">
+      <a href="#s7">◂ Back</a><a class="p" href="#s9">Next ▸</a>
+      <span class="no">08 / 10</span>
+    </nav>
+  </section>
+
+  <section class="slide" id="s9">
+    <span class="kicker">09 · lesson four, syndication</span>
+    <h2>Carrying a chain to another chain, and proving it later</h2>
+    
+    <p class="lede">Bridging one ledger's history into another's is one of the oldest sources of real losses in crypto — a forged root, waved through because nobody on the receiving side could actually check it. HEZE's syndication is the same idea, built with the check included rather than assumed.</p>
+    
+    <div class="grid"><div class="cell"><span>Every six months</span><b>The interval</b><p>Whatever a syndicate's doors signed since the last carry crosses at the interval, whether or not anything was ready — the checkpoint is taken either way, so a quiet interval is provable too.</p></div><div class="cell"><span>A checkpoint, chained</span><b class="sm">SHA-256 over the last</b><p>Each syndication hashes the events it carried together with the previous checkpoint's own hash, so breaking one checkpoint without breaking every one after it is not possible.</p></div><div class="cell"><span>The far side, at scale</span><b class="sm">Reconciles, does not answer</b><p>The other world's chain arrives with orders of magnitude more volume than these doors did and reconciles without comment — not contempt, just scale, and the same scale is what keeps any one door from being singled out.</p></div></div>
+    
+    <div class="rule"></div>
+    <p><strong>The check that actually matters.</strong> A checkpoint you cannot recompute is a claim, not a proof. Verifying a crossing means holding both chains and recomputing the source's own Merkle root at the exact sequence the checkpoint names — that is the one thing a forged root cannot survive, and it is the templated attack this design was tested against on purpose, not the one left out of the test suite.</p>
+    
+    
+    
+    <nav class="nav">
+      <a href="#s8">◂ Back</a><a class="p" href="#s10">Next ▸</a>
+      <span class="no">09 / 10</span>
+    </nav>
+  </section>
+
+  <section class="slide" id="s10">
+    <span class="kicker">10 · what this is not</span>
+    <h2>Read this one twice</h2>
+    
+    <p class="lede">The nine slides before this describe a unit of account inside a set of local HTML files, and four real lessons taught through it. This slide describes everything it isn't, and none of it is hedging — each line is a fact about the code.</p>
+    
+    
+    
+    
+    
+    
+    <div class="flag"><b>There is no token.</b> No chain, no contract, no deployment, no address that holds anything. <code>0x48455a45</code> is the ASCII for “HEZE” printed on a docket, not a function selector on any network.</div><div class="flag"><b>Nothing here can be bought or sold.</b> These files have no transfer, no order book, no custody and no counterparty. There is nothing to acquire, so nothing on these slides is an offer, a solicitation or a sale.</div><div class="flag"><b>The dollar figures are a costing, not a valuation.</b> $20,387,410 is what ten drawn hulls would cost to build at rates you can edit. Dividing it by 21,000,000 gives a ratio between two numbers in this project. It is not a price, it does not imply one, and no one is obliged to honour it.</div><div class="flag"><b>Nothing is signed and nothing is sent.</b> The address field is read locally to seed a drawing. There is no network call, no wallet connection, no signature request, and no key ever touches these files.</div><div class="flag"><b>This is not financial advice.</b> Nothing here is a recommendation to buy, sell or hold anything, and nobody involved is a licensed adviser.</div>
+    <p class="lede" style="margin-top:18px">What it <em>is</em>: a design document for the unit a fictional shipyard quotes in, sitting alongside two files that draw ships and count their fastenings. That is the whole of it, and it is enough.</p>
+    <nav class="nav">
+      <a href="#s9">◂ Back</a><a class="p" href="#s1">Start over</a>
+      <span class="no">10 / 10</span>
     </nav>
   </section>
 
   <div class="dots">
-    <a href="#s1"></a><a href="#s2"></a><a href="#s3"></a>
-    <a href="#s4"></a><a href="#s5"></a><a href="#s6"></a>
+    <a href="#s1"></a><a href="#s2"></a><a href="#s3"></a><a href="#s4"></a><a href="#s5"></a><a href="#s6"></a><a href="#s7"></a><a href="#s8"></a><a href="#s9"></a><a href="#s10"></a>
   </div>
 </div>
+
+<!-- ─────────────────────────────────────────────────────── THE SCRIPT LAYER
+  Inert. automat.js reads the query string and nothing else, and the query
+  string is the half of a URL CSS cannot see. Open this file plainly and it
+  is the board it always was, deciding everything in the stylesheet. Open
+  it as heze.html?run and the same board gets a hand on it: tribes on prime
+  cadences pressing the controls forever, with no score and no ending.
+  See automat.html. -->
+<script src="patron.js"></script>
+<script src="automat.js"></script>
+<script src="devmode.js"></script>
+<!--toonami--><style>
+  :root{--void:#0a0714;--panel:#160f28;--panel2:#201638;--edge:#7a3aa0;--ink:#fdf3ff;--dim:#b79bd6;--gold:#ffe14d;--venus:#ff5fa8;--ok:#7dffb0;--bad:#ff4470;--sea:#42e8ff;--magenta:#ff3ec8;--serif:"Baloo 2","Poppins","Segoe UI",system-ui,sans-serif}
+  html{background:#0a0714}body{background:radial-gradient(1400px 700px at 50% -20%,#3a1258 0%,#0a0714 58%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.12em;font-weight:800;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(255,225,77,.5)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(255,62,200,.1),inset 0 0 28px rgba(66,232,255,.06)}
+  section h2{text-transform:uppercase;letter-spacing:.09em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(66,232,255,.4)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,62,200,.45)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(66,232,255,.4)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(255,62,200,.16)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-6%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 17s ease-in-out infinite,tn-blink-a 1.9s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(14px circle at 82.1% 59.1%, #fff 0, #7dffb0 1.6px, rgba(125,255,176,.35) 3.8px, transparent 14px),radial-gradient(14px circle at 19.1% 50.2%, #fff 0, #42e8ff 1.6px, rgba(66,232,255,.35) 3.8px, transparent 14px),radial-gradient(15px circle at 29.3% 87.5%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(19px circle at 62.9% 7.8%, #fff 0, #ff5fa8 2.1px, rgba(255,95,168,.35) 5.0px, transparent 19px),radial-gradient(10px circle at 55.9% 78.6%, #fff 0, #7dffb0 1.1px, rgba(125,255,176,.35) 2.6px, transparent 10px),radial-gradient(15px circle at 80.9% 44.3%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(19px circle at 53.8% 38.9%, #fff 0, #ffe14d 2.1px, rgba(255,225,77,.35) 5.0px, transparent 19px),radial-gradient(16px circle at 33.8% 39.4%, #fff 0, #42e8ff 1.8px, rgba(66,232,255,.35) 4.3px, transparent 16px),radial-gradient(10px circle at 83.5% 47.0%, #fff 0, #42e8ff 1.1px, rgba(66,232,255,.35) 2.6px, transparent 10px),radial-gradient(11px circle at 48.1% 2.5%, #fff 0, #7dffb0 1.2px, rgba(125,255,176,.35) 2.9px, transparent 11px),radial-gradient(15px circle at 17.2% 67.4%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(17px circle at 86.2% 97.4%, #fff 0, #7dffb0 1.9px, rgba(125,255,176,.35) 4.6px, transparent 17px),radial-gradient(14px circle at 91.5% 81.4%, #fff 0, #ff5fa8 1.5px, rgba(255,95,168,.35) 3.6px, transparent 14px),radial-gradient(11px circle at 77.7% 88.6%, #fff 0, #ffe14d 1.2px, rgba(255,225,77,.35) 2.9px, transparent 11px),radial-gradient(14px circle at 31.0% 50.2%, #fff 0, #ff5fa8 1.5px, rgba(255,95,168,.35) 3.6px, transparent 14px),radial-gradient(14px circle at 97.8% 71.1%, #fff 0, #ff5fa8 1.5px, rgba(255,95,168,.35) 3.6px, transparent 14px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(14px circle at 72.9% 90.2%, #fff 0, #ff5fa8 1.5px, rgba(255,95,168,.35) 3.6px, transparent 14px),radial-gradient(19px circle at 31.0% 87.8%, #fff 0, #ff3ec8 2.1px, rgba(255,62,200,.35) 5.0px, transparent 19px),radial-gradient(20px circle at 74.2% 96.1%, #fff 0, #ff5fa8 2.2px, rgba(255,95,168,.35) 5.3px, transparent 20px),radial-gradient(11px circle at 59.8% 57.2%, #fff 0, #ffe14d 1.2px, rgba(255,225,77,.35) 2.9px, transparent 11px),radial-gradient(19px circle at 0.9% 98.0%, #fff 0, #7dffb0 2.1px, rgba(125,255,176,.35) 5.0px, transparent 19px),radial-gradient(19px circle at 56.7% 50.9%, #fff 0, #ffe14d 2.1px, rgba(255,225,77,.35) 5.0px, transparent 19px),radial-gradient(14px circle at 11.5% 54.8%, #fff 0, #ffe14d 1.6px, rgba(255,225,77,.35) 3.8px, transparent 14px),radial-gradient(17px circle at 64.4% 67.3%, #fff 0, #7dffb0 1.9px, rgba(125,255,176,.35) 4.6px, transparent 17px),radial-gradient(17px circle at 65.3% 9.8%, #fff 0, #42e8ff 1.9px, rgba(66,232,255,.35) 4.6px, transparent 17px),radial-gradient(10px circle at 33.1% 21.1%, #fff 0, #ff3ec8 1.1px, rgba(255,62,200,.35) 2.6px, transparent 10px),radial-gradient(17px circle at 71.8% 48.6%, #fff 0, #42e8ff 1.9px, rgba(66,232,255,.35) 4.6px, transparent 17px),radial-gradient(9px circle at 82.7% 37.9%, #fff 0, #ffe14d 1.0px, rgba(255,225,77,.35) 2.4px, transparent 9px),radial-gradient(15px circle at 62.9% 69.8%, #fff 0, #ff3ec8 1.7px, rgba(255,62,200,.35) 4.1px, transparent 15px),radial-gradient(19px circle at 18.4% 19.5%, #fff 0, #7dffb0 2.1px, rgba(125,255,176,.35) 5.0px, transparent 19px),radial-gradient(16px circle at 22.0% 55.3%, #fff 0, #ff5fa8 1.8px, rgba(255,95,168,.35) 4.3px, transparent 16px),radial-gradient(12px circle at 85.0% 5.9%, #fff 0, #ff5fa8 1.3px, rgba(255,95,168,.35) 3.1px, transparent 12px);animation:tn-drift-b 19s ease-in-out infinite,tn-blink-b 2.3s ease-in-out infinite .4s}
+  #toonami i:nth-child(3){background-image:radial-gradient(18px circle at 46.0% 19.5%, #fff 0, #ffe14d 2.0px, rgba(255,225,77,.35) 4.8px, transparent 18px),radial-gradient(17px circle at 48.6% 85.4%, #fff 0, #ff5fa8 1.9px, rgba(255,95,168,.35) 4.6px, transparent 17px),radial-gradient(9px circle at 99.5% 9.8%, #fff 0, #42e8ff 1.0px, rgba(66,232,255,.35) 2.4px, transparent 9px),radial-gradient(15px circle at 60.2% 86.1%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(15px circle at 91.5% 0.1%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(14px circle at 18.6% 41.3%, #fff 0, #ff3ec8 1.5px, rgba(255,62,200,.35) 3.6px, transparent 14px),radial-gradient(15px circle at 37.4% 35.7%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(16px circle at 74.4% 18.2%, #fff 0, #ffe14d 1.8px, rgba(255,225,77,.35) 4.3px, transparent 16px),radial-gradient(15px circle at 69.6% 56.5%, #fff 0, #ff5fa8 1.7px, rgba(255,95,168,.35) 4.1px, transparent 15px),radial-gradient(12px circle at 56.2% 90.8%, #fff 0, #ff5fa8 1.3px, rgba(255,95,168,.35) 3.1px, transparent 12px),radial-gradient(12px circle at 61.7% 42.2%, #fff 0, #ff5fa8 1.3px, rgba(255,95,168,.35) 3.1px, transparent 12px),radial-gradient(11px circle at 37.3% 76.7%, #fff 0, #7dffb0 1.2px, rgba(125,255,176,.35) 2.9px, transparent 11px),radial-gradient(13px circle at 2.9% 99.1%, #fff 0, #7dffb0 1.4px, rgba(125,255,176,.35) 3.4px, transparent 13px),radial-gradient(17px circle at 93.7% 96.7%, #fff 0, #ff5fa8 1.9px, rgba(255,95,168,.35) 4.6px, transparent 17px);animation:tn-drift-c 21s ease-in-out infinite,tn-blink-a 1.5s ease-in-out infinite .8s}
+  #toonami i:nth-child(4){background-image:radial-gradient(14px circle at 61.2% 63.6%, #fff 0, #ff5fa8 1.6px, rgba(255,95,168,.35) 3.8px, transparent 14px),radial-gradient(10px circle at 84.7% 90.5%, #fff 0, #ffe14d 1.1px, rgba(255,225,77,.35) 2.6px, transparent 10px),radial-gradient(10px circle at 46.8% 61.7%, #fff 0, #ff5fa8 1.1px, rgba(255,95,168,.35) 2.6px, transparent 10px),radial-gradient(14px circle at 20.2% 34.9%, #fff 0, #ff5fa8 1.5px, rgba(255,95,168,.35) 3.6px, transparent 14px),radial-gradient(17px circle at 54.3% 36.9%, #fff 0, #7dffb0 1.9px, rgba(125,255,176,.35) 4.6px, transparent 17px),radial-gradient(11px circle at 73.2% 49.5%, #fff 0, #ff3ec8 1.2px, rgba(255,62,200,.35) 2.9px, transparent 11px),radial-gradient(15px circle at 65.2% 8.7%, #fff 0, #7dffb0 1.7px, rgba(125,255,176,.35) 4.1px, transparent 15px),radial-gradient(15px circle at 82.3% 88.4%, #fff 0, #42e8ff 1.7px, rgba(66,232,255,.35) 4.1px, transparent 15px),radial-gradient(17px circle at 42.1% 76.5%, #fff 0, #7dffb0 1.9px, rgba(125,255,176,.35) 4.6px, transparent 17px),radial-gradient(15px circle at 50.9% 46.9%, #fff 0, #42e8ff 1.7px, rgba(66,232,255,.35) 4.1px, transparent 15px),radial-gradient(12px circle at 96.3% 44.9%, #fff 0, #ff5fa8 1.3px, rgba(255,95,168,.35) 3.1px, transparent 12px),radial-gradient(14px circle at 66.0% 75.5%, #fff 0, #ffe14d 1.6px, rgba(255,225,77,.35) 3.8px, transparent 14px),radial-gradient(13px circle at 91.6% 80.2%, #fff 0, #7dffb0 1.4px, rgba(125,255,176,.35) 3.4px, transparent 13px),radial-gradient(19px circle at 36.6% 44.8%, #fff 0, #42e8ff 2.1px, rgba(66,232,255,.35) 5.0px, transparent 19px);animation:tn-drift-b 15s reverse ease-in-out infinite,tn-blink-b 2.7s ease-in-out infinite .2s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 62%,rgba(10,7,20,.4) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0 2px,transparent 2px 5px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,20%,100%{opacity:.3}30%{opacity:1}40%{opacity:.32}}
+  @keyframes tn-blink-b{0%,25%,100%{opacity:.28}35%{opacity:1}45%{opacity:.3}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffe14d;text-shadow:0 0 10px rgba(255,62,200,.55);border:3px double #7a3aa0;padding:7px 6px 6px 12px;background:#0a0714b8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->

@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-hrafn-band-3",
+ "kind": "band",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "name": "shieldwall of Hrafnsson",
+ "strength": 5,
+ "raids": false,
+ "cost": 643,
+ "upkeep": 1,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 5; eats 1 hydrogen a day.",
+ "wovenBy": "hrafn",
+ "saga": 1597
+}

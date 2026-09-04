@@ -1,0 +1,31 @@
+{
+ "id": "p-7",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Nixeth Zephen",
+ "syndicate": "syn-3",
+ "tranche": 3,
+ "doors": [
+  20,
+  28
+ ],
+ "house": "the fourth watch",
+ "sigil": {
+  "ring": 1,
+  "bars": 4,
+  "chord": 3,
+  "turn": 249
+ },
+ "keeps": "what grows on her side of the wall",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "John Dee",
+ "readsId": "dee",
+ "reason": "Assembled the largest library in England and advised on navigation for the northern voyages.",
+ "spell": "Shut the gate",
+ "spellId": "gate",
+ "glyph": "◫",
+ "share": "887beb",
+ "text": "Nixeth zephen of the fourth watch, keeps a door for the 3rd tranche, doors 20 to 28. Keeps what grows on her side of the wall. Reads John Dee.",
+ "wovenBy": "dee"
+}

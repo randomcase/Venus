@@ -1,0 +1,14 @@
+{
+ "id": "white",
+ "kind": "demographic",
+ "order": 1,
+ "name": "White",
+ "recordTerm": "Caucasian",
+ "popShare1970": 87.5,
+ "deaths": 50120,
+ "deathShare": 86.1,
+ "note": "About 86% of deaths against 87–88% of the population: the majority, in proportion.",
+ "johnson": "",
+ "source": "Defense Casualty Analysis System (DCAS), Vietnam Conflict Extract File, race field; US Census 1970; Guzmán 1969; Appy, Working-Class War (1993).",
+ "wovenBy": "the bridge"
+}

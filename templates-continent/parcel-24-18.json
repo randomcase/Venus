@@ -1,0 +1,16 @@
+{
+ "id": "parcel-24-18",
+ "kind": "parcel",
+ "x": 24,
+ "y": 18,
+ "region": "Ovda Regio",
+ "clan": "hrafn",
+ "resource": "hydrogen",
+ "period": 2,
+ "terrain": "corona",
+ "fertility": 1.3,
+ "yield": 2.32,
+ "text": "the rim of a corona, rich and warm, in Ovda Regio, sown from a sealed cistern for hydrogen.",
+ "wovenBy": "hrafn-pile-5",
+ "chain": "seven deep"
+}

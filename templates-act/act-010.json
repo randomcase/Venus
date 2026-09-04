@@ -1,0 +1,16 @@
+{
+ "id": "act-010",
+ "order": 10,
+ "year": 1,
+ "day": 334,
+ "parties": [
+  "patroclus"
+ ],
+ "actor": "Patroclus",
+ "with": null,
+ "verb": "divided",
+ "object": "the plunder by rank",
+ "place": "among the ships",
+ "side": "fleet",
+ "text": "Patroclus divided the plunder by rank, among the ships, in the first year."
+}

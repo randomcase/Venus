@@ -1,0 +1,19 @@
+{
+ "id": "antiphus",
+ "order": 8,
+ "name": "Antiphus",
+ "kind": "poison",
+ "glyph": "✧",
+ "colour": "#7fa85a",
+ "cost": 13000,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 130,
+  "damage": 1.5,
+  "rate": 1.1,
+  "poison": 1.2,
+  "poisonFor": 4
+ },
+ "does": "Arrows that keep working after they land. What he hits bleeds for four days.",
+ "text": "Taken once by Achilles and ransomed back. Priam paid; you are paying again."
+}

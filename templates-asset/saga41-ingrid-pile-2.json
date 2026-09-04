@@ -1,0 +1,13 @@
+{
+ "id": "saga41-ingrid-pile-2",
+ "kind": "pile",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "name": "a pit for record",
+ "holds": 100,
+ "cost": 120,
+ "text": "Holds 100 record. What is not piled is not yours by morning.",
+ "wovenBy": "ingrid",
+ "saga": 41
+}

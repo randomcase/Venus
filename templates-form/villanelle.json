@@ -1,0 +1,45 @@
+{
+ "id": "villanelle",
+ "name": "Villanelle",
+ "kind": "verse",
+ "order": 7,
+ "lines": 19,
+ "stanzas": [
+  3,
+  3,
+  3,
+  3,
+  3,
+  4
+ ],
+ "rhyme": "abaabaabaabaabaabaa",
+ "repeats": [
+  {
+   "line": 6,
+   "same_as": 1
+  },
+  {
+   "line": 12,
+   "same_as": 1
+  },
+  {
+   "line": 18,
+   "same_as": 1
+  },
+  {
+   "line": 9,
+   "same_as": 3
+  },
+  {
+   "line": 15,
+   "same_as": 3
+  },
+  {
+   "line": 19,
+   "same_as": 3
+  }
+ ],
+ "note": "Two lines said four times each. The form is built so that a refrain arrives in a different sentence every time and therefore means something different every time — if your refrains mean the same thing in stanza six as in stanza one, the form did nothing.",
+ "ground": "A nineteenth-century French invention retrofitted onto a much older pastoral song, which is to say it is not ancient and does not need to be treated as sacred. It is a machine for obsession.",
+ "ask": "Has either refrain changed meaning by the last stanza?"
+}

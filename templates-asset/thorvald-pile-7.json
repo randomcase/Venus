@@ -1,0 +1,12 @@
+{
+ "id": "thorvald-pile-7",
+ "kind": "pile",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "name": "a cairn for signal",
+ "holds": 200,
+ "cost": 240,
+ "text": "Holds 200 signal. What is not piled is not yours by morning.",
+ "wovenBy": "thorvald"
+}

@@ -1,0 +1,15 @@
+{
+ "id": "bjorn-band-8",
+ "kind": "band",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "name": "berserks of Bjornsdottir",
+ "strength": 13,
+ "raids": true,
+ "cost": 1563,
+ "upkeep": 3,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 13; eats 3 nitrogen a day.",
+ "wovenBy": "bjorn"
+}

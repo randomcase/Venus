@@ -1,0 +1,1408 @@
+<title>The Bench of Nine · In re the Pot</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  THE BENCH OF NINE — the first case, heard in a forest.
+
+  THE FOREST
+  Nine thousand square miles of it, which is the size of England, and there is
+  one court in it. Not one court per county: one. That is the fact the whole
+  page turns on, because a jurisdiction that large with a bench that small
+  cannot hear everything, so the first vote a court of nine ever takes is not
+  about the case. It is about whether there is a case. That vote needs four.
+
+  THE BENCH
+  Three benches of three. The Canopy reads the forest from above and is very
+  good at the shape of things and very bad at the floor. The Understory reads
+  the paths, which is to say it reads who actually walks where. The Root reads
+  what is underneath and is the only bench that has ever been right about
+  anything twice. They are cohesive as one court and factional in threes, and
+  the factions are hats, not people — which is a sentence that will come back.
+
+  THE CASE
+  In re the Pot. Nine came together for one thing, which was food. Money went
+  into the pot. The pot was split, dashed and dined. The court below held that
+  the pot was a vote: that paying in was consent, that everyone who dined had
+  thereby voted, and that the one who has abstained for fifteen years had
+  consented by not objecting.
+
+  THE PAGE'S VIEW, SINCE YOU ASKED FOR ONE
+  That holding is wrong, and it is wrong in a way that is worth being blunt
+  about. Matriculating funds upward is not voting. A structure that takes money
+  in, promotes from within, and reproduces itself in bodies that are not
+  identical but identitarianly aligned has no step at which anybody is asked,
+  and calling the pot a vote is how it avoids ever adding one. Abstention is
+  not consent. Fifteen years of abstention is not fifteen years of consent; it
+  is fifteen years of a question nobody put. The court reverses on six of the
+  twelve circuits you can put it through, denies cert on four, and splits five
+  to five on two.
+
+  THE TENTH AND ELEVENTH SEATS
+  There are eleven judges on this bench and it is still called the Bench of
+  Nine. Both extra seats were added to stop it deadlocking, which is the reason
+  a seat has ever been added to any bench anywhere.
+
+  Yew went on tenth. Ten is even. Before her the two deadlocks were the two
+  circuits where the ninth chair sat empty; after her those two affirmed and
+  two new deadlocks appeared, on the circuits where the abstainer actually came
+  and voted. The deadlock did not end. It moved onto her.
+
+  Alder went on eleventh. Eleven is odd and nothing tied any more, so the
+  packing worked on the second attempt — and both of the splits it resolved
+  resolved for the court below.
+
+  Bracken went on twelfth, and she is the first seat ever added to this bench
+  that votes on whether there is a case. The first two repairs were barred from
+  the certiorari vote, which is exactly why neither of them moved the door: for
+  two whole appointments the composition of this court changed and the set of
+  cases it would hear did not. Bracken grants always. The count clears four on
+  all twelve circuits now and there is no circuit left where the case is not
+  heard — and the stop rule that used to hide a verdict when there was no case
+  has been removed from the bottom of the stylesheet, conspicuously, because it
+  had nothing left to stop.
+
+  Twelve is even. The ties came back, on exactly the two circuits they were on
+  when there were ten.
+
+  Sedge went on thirteenth, holding the ninth chair's proxy and nothing else.
+  When Wren is recused, Sedge votes Wren's position for her; when Wren is
+  seated the proxy is void. Sitting therefore reads twelve on every circuit,
+  and the deadlocks doubled — from two to four. The two circuits that used to
+  affirm while the abstainer was away now tie instead.
+
+  That was the finding this board was built to reach. The deadlock was never an
+  accident of attendance. The court is genuinely split down the middle on
+  whether the pot was a vote, it has been the whole time, and every
+  configuration before that one was an arrangement for not finding out.
+
+  Hazel went on fourteenth, and she was at the pot. She put money in and she
+  dined. She is the only person on this bench who knows at first hand whether
+  anybody was ever asked anything, and she is disqualified from saying so
+  exactly when it counts: on the papers and on the record she sits and
+  reverses, and when the pot itself is put before the court she recuses for
+  interest, which is the correct rule and is not in any doubt.
+
+  Sitting read thirteen on the papers and on the record. Thirteen is odd, so
+  those eight circuits could not tie, and all eight of them decided. It read
+  twelve on the pot, and both remaining deadlocks were there: the court could
+  decide the case from a distance and could not decide it with the thing in
+  front of it, because the rule that keeps the bench clean is the same rule
+  that removes its only witness.
+
+  Rowan came fifteenth, as Chief, above the bench rather than at the end of it.
+  She takes no part in either vote, so not one number moved when she arrived —
+  and she assigns every opinion, which under the old rule she could never have
+  done, because she is never in the majority. Hawthorn, Chief for the whole
+  history of this court, has not written a word of it since. No outcome
+  changed. Every word of every judgment did.
+
+  Birk came sixteenth. She votes on the result and joins no opinion. She
+  reverses, so both deadlocks on the pot are gone — decided, for the appellant.
+  On those two circuits the majority exists only because of her, and a majority
+  resting on a judge who joins no opinion is a plurality: the case is disposed
+  of, nobody has stated the law, nothing binds the next court that is asked.
+
+  Six appointments have now been made to repair this bench. At the point of
+  closest contact with the evidence — the pot on the table — the court can at
+  last produce a result, and the result carries no reasons, because the one
+  witness is recused for interest and the deciding vote will not sign. That is
+  the same document the court below issued, and the same one the pot issued
+  before that. It is not a coincidence in the model; it is the model, and it is
+  what the model was for.
+
+  HOW IT IS BUILT — the same five things as every board here
+    1 COUNTERS ARE ARITHMETIC    both polls counted, never declared
+    2 :has() IS STATE            cert, the merits, the recusal
+    3 COMPOUND :has() IS LOOKUP  Fern's two keys; the opinion assignment
+    4 CASCADE ORDER IS AUTHORITY denial of cert, written last, beats a verdict
+    5 A GET FORM IS TRANSPORT    the judgment goes to the bridge
+    6 application/json IS DATA   the docket entry
+
+  Companions: pulse.html puts the same argument to a chamber that votes,
+  chamber.html prices the opinion, exhibit.html is the record. No script here.
+-->
+<style>
+  :root{
+    --void:#060a08; --card:#101a15; --card2:#15211b; --edge:#25362c;
+    --ink:#e8f2ea; --dim:#8ba396; --bone:#e4d9b8;
+    --moss:#6fc08a; --amber:#e0a94f; --violet:#a58ae0;
+    --rev:#6fc08a; --aff:#e07a5f; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 20% -6%,rgba(111,192,138,.14),transparent 44%),
+      radial-gradient(circle at 84% 96%,rgba(165,138,224,.12),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.015em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--moss);border:1px solid var(--moss);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.68;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  .lbl{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0a120e;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--moss)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+  .two{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:880px){.two{grid-template-columns:1fr}}
+
+  .opts{display:flex;gap:6px;flex-wrap:wrap}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;padding:10px 13px;
+    border-radius:8px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{border-color:var(--bone);color:var(--bone);
+    background:rgba(228,217,184,.10);font-weight:700}
+  .opts input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+
+  /* ------------------------------------------------------------- the bench */
+  .bench{display:grid;gap:10px;grid-template-columns:repeat(3,1fr)}
+  @media (max-width:880px){.bench{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:540px){.bench{grid-template-columns:1fr}}
+  .j{background:#0b1310;border:1px solid var(--edge);border-radius:11px;
+    padding:11px 12px;position:relative}
+  .j .who{display:flex;align-items:baseline;gap:8px}
+  .j .who i{font:9px/1 ui-monospace,monospace;font-style:normal;color:var(--dim);
+    border:1px solid var(--edge);border-radius:4px;padding:3px 5px}
+  .j .who b{font-size:13px;color:var(--bone)}
+  .j .who em{margin-left:auto;font:8.5px/1 ui-monospace,monospace;font-style:normal;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .j.can{border-left:3px solid var(--moss)}
+  .j.und{border-left:3px solid var(--amber)}
+  .j.roo{border-left:3px solid var(--violet)}
+  .j.cop{border-left:3px solid var(--bone);grid-column:1/-1;
+    background:linear-gradient(180deg,#0d1712,#0b1310)}
+  .j.cop .prac{min-height:0}
+  .j .prac{color:var(--dim);font-size:10.5px;line-height:1.6;margin:7px 0 9px;
+    min-height:5.2em}
+  .j .row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+    border-top:1px solid var(--edge);padding-top:8px}
+  .j .cert{font:8.5px/1 ui-monospace,monospace;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--dim)}
+  .vote{font:14px/1 ui-monospace,Menlo,monospace;font-weight:700;color:var(--dim)}
+
+  /* ==================================== 1 · BOTH POLLS ARE COUNTED, NOT SAID
+     Four counters. Every increment sits on a judge's .vote or .cert, and every
+     one of those is in the DOM before the tallies that print them. That is the
+     one rule this whole layout is arranged around. */
+  body{counter-reset:rev 0 aff 0 sit 0 grantv 0
+        disposed 0 fee 0 drafted 0 signed 0 named 0}
+
+  /* ---- SENIORITY 1 · HAWTHORN, Chief Justice, Canopy.
+     Votes with the grant. If you bring her the pot itself she will treat the
+     pot as the record, which is exactly the error the appeal is about, and she
+     is the only judge on this bench who commits it in good faith. */
+  .ct:has(#g-pa:checked) .j1 .vote::after{content:"REVERSE"}
+  .ct:has(#g-re:checked) .j1 .vote::after{content:"REVERSE"}
+  .ct:has(#g-po:checked) .j1 .vote::after{content:"AFFIRM"}
+  .ct:has(#g-pa:checked) .j1 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-re:checked) .j1 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-po:checked) .j1 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#g-pa:checked) .j1 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 2 · ROOK, Canopy. Votes with the season. In leaf she cannot
+     see the floor and defers to the court below; bare, she can, and does not. */
+  .ct:has(#s-gr:checked) .j2 .vote::after{content:"AFFIRM"}
+  .ct:has(#s-ba:checked) .j2 .vote::after{content:"REVERSE"}
+  .ct:has(#s-gr:checked) .j2 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#s-ba:checked) .j2 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-pa:checked) .j2 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 3 · ASH, Canopy. Answers to no instrument, votes to hear
+     everything, and has been reversing this holding since before it was one. */
+  .j3 .vote::after{content:"REVERSE"}
+  .j3 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .j3 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 4 · BRAMBLE, Understory. Votes with the grant. Will not
+     decide a thing on the papers when the paths are right there to be walked. */
+  .ct:has(#g-pa:checked) .j4 .vote::after{content:"AFFIRM"}
+  .ct:has(#g-re:checked) .j4 .vote::after{content:"REVERSE"}
+  .ct:has(#g-po:checked) .j4 .vote::after{content:"REVERSE"}
+  .ct:has(#g-pa:checked) .j4 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#g-re:checked) .j4 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-po:checked) .j4 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-re:checked) .j4 .cert{counter-increment:grantv 1;color:var(--bone)}
+  .ct:has(#g-po:checked) .j4 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 5 · THORN, Understory. Votes with the ninth chair. Will not
+     hold that silence was consent while the silent party is not in the room —
+     and will not decide it in her favour behind her back either. */
+  .ct:has(#n-se:checked) .j5 .vote::after{content:"REVERSE"}
+  .ct:has(#n-re:checked) .j5 .vote::after{content:"AFFIRM"}
+  .ct:has(#n-se:checked) .j5 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#n-re:checked) .j5 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+
+  /* ================================ 3 · COMPOUND :has() IS LOOKUP — FERN
+     The only judge who reads two keys. Neither the grant nor the season states
+     her vote; the PAIR states it. Six cells for three grants by two seasons,
+     and there is no shorter way to write it in a language with no
+     multiplication. The table is the model, and it is printed further down so
+     you can hold the page to it. */
+  .ct:has(#g-pa:checked):has(#s-gr:checked) .j6 .vote::after{content:"AFFIRM"}
+  .ct:has(#g-pa:checked):has(#s-ba:checked) .j6 .vote::after{content:"REVERSE"}
+  .ct:has(#g-re:checked):has(#s-gr:checked) .j6 .vote::after{content:"REVERSE"}
+  .ct:has(#g-re:checked):has(#s-ba:checked) .j6 .vote::after{content:"REVERSE"}
+  .ct:has(#g-po:checked):has(#s-gr:checked) .j6 .vote::after{content:"AFFIRM"}
+  .ct:has(#g-po:checked):has(#s-ba:checked) .j6 .vote::after{content:"AFFIRM"}
+  .ct:has(#g-pa:checked):has(#s-gr:checked) .j6 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#g-pa:checked):has(#s-ba:checked) .j6 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-re:checked):has(#s-gr:checked) .j6 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-re:checked):has(#s-ba:checked) .j6 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-po:checked):has(#s-gr:checked) .j6 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#g-po:checked):has(#s-ba:checked) .j6 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#g-po:checked) .j6 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 7 · LOAM, Root. Answers to nothing and affirms. The pot has
+     always been the pot; he would like it settled and he does not much mind
+     which way, which is how a great deal of law gets made. */
+  .j7 .vote::after{content:"AFFIRM"}
+  .j7 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#g-re:checked) .j7 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 8 · MYCEL, Root. Votes with the season, and is the only
+     judge who reads the season as evidence rather than as weather. */
+  .ct:has(#s-gr:checked) .j8 .vote::after{content:"AFFIRM"}
+  .ct:has(#s-ba:checked) .j8 .vote::after{content:"REVERSE"}
+  .ct:has(#s-gr:checked) .j8 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#s-ba:checked) .j8 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-re:checked) .j8 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 9 · WREN, Root. The ninth chair. Has abstained for fifteen
+     years, which is not the same as fifteen years of agreement, and is the
+     precise thing the court below held that it was. Seated, she votes, and she
+     votes on the only question she was ever entitled to answer. Recused, she
+     casts nothing and is counted as nothing — the page will not do to her what
+     the judgment below did. */
+  .ct:has(#n-se:checked) .j9 .vote::after{content:"REVERSE"}
+  .ct:has(#n-re:checked) .j9 .vote::after{content:"— RECUSED —"}
+  .ct:has(#n-se:checked) .j9 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#n-re:checked) .j9 .vote{color:var(--dim);font-size:11px}
+  .ct:has(#n-se:checked) .j9 .cert{counter-increment:grantv 1;color:var(--bone)}
+  .ct:has(#n-re:checked) .j9{opacity:.62}
+
+  /* ---- SENIORITY 10 · YEW, Coppice. THE TENTH SEAT.
+     Added to the bench to stop it deadlocking, which is the reason a tenth
+     seat has ever been added to any bench anywhere. Ten is an even number.
+     She votes with the ninth chair and only ever joins a majority that
+     already exists: seated, Wren has company and Yew reverses; recused, Wren
+     is absent and Yew affirms the court below. She grants nothing — she was
+     seated to decide, not to select, which means the rule of four is the one
+     vote on this board she has no part in. Compare the two four-four splits
+     before she arrived with the two five-five splits after, and note that
+     they are different circuits. */
+  .ct:has(#n-se:checked) .j10 .vote::after{content:"REVERSE"}
+  .ct:has(#n-re:checked) .j10 .vote::after{content:"AFFIRM"}
+  .ct:has(#n-se:checked) .j10 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#n-re:checked) .j10 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+
+  /* ---- SENIORITY 11 · ALDER, Windthrow. THE ELEVENTH SEAT.
+     Seated because a ten-judge court kept tying, which is what happens when
+     you repair an odd bench by making it even. Eleven is odd again and there
+     is now no circuit on this board that ties at all. She votes with the
+     season — in leaf she affirms, bare she reverses — and she grants nothing
+     either, so the rule of four remains untouched by anybody ever appointed
+     to fix this court. Both five-five splits are gone. Look at which way each
+     of them went when she broke it. */
+  .ct:has(#s-gr:checked) .j11 .vote::after{content:"AFFIRM"}
+  .ct:has(#s-ba:checked) .j11 .vote::after{content:"REVERSE"}
+  .ct:has(#s-gr:checked) .j11 .vote{counter-increment:aff 1 sit 1;color:var(--aff)}
+  .ct:has(#s-ba:checked) .j11 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+
+  /* ---- SENIORITY 12 · BRACKEN, of the Rolls. THE TWELFTH SEAT — and the
+     first added seat that votes on whether there is a case at all.
+     Every judge put on this bench to repair it has been barred from the
+     certiorari vote, which is why nine boards' worth of repairs never moved
+     the door an inch. Bracken grants. She grants always, on the ground that a
+     court which hears eighty things a year in a jurisdiction the size of
+     England should be embarrassed by the number and not comforted by it. With
+     her vote the count clears four on all twelve circuits and there is no
+     longer a circuit on this board where the case is not heard.
+     She reverses on the merits, having read the file, which is her job.
+     Twelve is even. The ties are back, on the same two circuits as before. */
+  .j12 .vote::after{content:"REVERSE"}
+  .j12 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .j12 .cert{counter-increment:grantv 1;color:var(--bone)}
+
+  /* ---- SENIORITY 13 · SEDGE, the Standing Proxy. THE THIRTEENTH SEAT.
+     She holds the ninth chair's proxy and nothing else. When Wren is recused
+     Sedge votes as Wren votes, on the merits and on certiorari both; when Wren
+     is seated the proxy is void and Sedge casts nothing, because a proxy is a
+     substitute for a person and not an addition to a bench.
+     Sitting therefore reads twelve on every circuit — which is even on every
+     circuit, and the consequence is the whole point of her. Giving the absent
+     woman a voice did not resolve anything. It doubled the deadlocks, from two
+     to four. The two circuits that used to affirm while she was away now tie
+     instead, and they tie because the court is genuinely split down the middle
+     on the question and has spent three appointments arranging not to find
+     out. The deadlock was never an accident of attendance. It was the actual
+     state of opinion, and her absence was what kept it off the record. */
+  .ct:has(#n-re:checked) .j13 .vote::after{content:"REVERSE"}
+  .ct:has(#n-se:checked) .j13 .vote::after{content:"— PROXY VOID —"}
+  .ct:has(#n-re:checked) .j13 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#n-se:checked) .j13 .vote{color:var(--dim);font-size:10px}
+  .ct:has(#n-re:checked) .j13 .cert{counter-increment:grantv 1;color:var(--bone)}
+  .ct:has(#n-se:checked) .j13{opacity:.62}
+
+  /* ---- SENIORITY 14 · HAZEL, of the Table. THE FOURTEENTH SEAT.
+     She was at the pot. She put money in and she dined, and she is therefore
+     the only person on this bench with first-hand knowledge of whether anybody
+     was ever asked anything — and the only one disqualified from saying so
+     when it counts. On the papers and on the record she sits and reverses,
+     because she was there and nobody asked her. When the pot itself is put
+     before the court she recuses for interest, which is the correct rule and
+     is not in any doubt.
+     The consequence is the sharpest thing on the board. Sitting reads thirteen
+     on the papers and on the record — odd, so those eight circuits cannot tie,
+     and all eight now decide cleanly. It reads twelve on the pot, and both
+     remaining deadlocks are there. This court can decide the case from a
+     distance and cannot decide it with the thing in front of it, because the
+     rule that keeps the bench clean is the rule that removes its only witness.
+     Nobody did anything wrong. That is the problem. */
+  .ct:has(#g-pa:checked) .j14 .vote::after{content:"REVERSE"}
+  .ct:has(#g-re:checked) .j14 .vote::after{content:"REVERSE"}
+  .ct:has(#g-po:checked) .j14 .vote::after{content:"— RECUSED · INTEREST —"}
+  .ct:has(#g-pa:checked) .j14 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-re:checked) .j14 .vote{counter-increment:rev 1 sit 1;color:var(--rev)}
+  .ct:has(#g-po:checked) .j14 .vote{color:var(--dim);font-size:9.5px}
+  .ct:has(#g-pa:checked) .j14 .cert{counter-increment:grantv 1;color:var(--bone)}
+  .ct:has(#g-re:checked) .j14 .cert{counter-increment:grantv 1;color:var(--bone)}
+  .ct:has(#g-po:checked) .j14{opacity:.62}
+
+  /* ---- ROWAN, Chief Justice of the Forest. THE FIFTEENTH SEAT, and the
+     first one seated ABOVE the bench rather than at the end of it.
+     She takes no part in either vote. She does not grant and she does not
+     decide, so not one number on this page moved when she arrived: the same
+     eight circuits reverse, the same two affirm, the same two deadlock on the
+     pot, and every judge already here votes exactly as they did yesterday.
+     What she has is the assignment. Until her appointment the pen went to the
+     Chief when the Chief was in the majority and otherwise to the most senior
+     judge who was, which meant Hawthorn wrote eight of the ten decided
+     circuits and Rook wrote two. Rowan is never in the majority — she does not
+     vote — so under the old rule she could never have assigned anything. The
+     rule was changed with her. She assigns all ten.
+     No outcome changed. Every word of every judgment did. The lookup table
+     below still computes who would have held the pen, because that is the most
+     useful thing left to compute here: it is the record of what one
+     appointment took, taken without moving a single vote, from a court that
+     had already been packed five times over the votes. */
+  .j0 .vote::after{content:"— DOES NOT VOTE —"}
+  .j0 .vote{color:var(--dim);font-size:9.5px}
+
+  /* ---- SENIORITY 16 · BIRK, of the Split Ash. THE SIXTEENTH SEAT.
+     She votes on the result and joins no opinion. Concurring in the judgment
+     only is a real position and an honourable one: she agrees the appellant
+     wins and she will not put her name to anybody's reasons for it.
+     She reverses, having read the file. Her vote counts in the division like
+     any other, so both of the deadlocks on the pot are gone — decided, and
+     decided for the appellant.
+     But on those two circuits the majority exists ONLY because of her, and a
+     majority that depends on a judge who joins no opinion is not a majority
+     opinion. It is a plurality: the case is disposed of, nobody has stated the
+     law, and nothing binds the next court. The two circuits where the pot is
+     on the table can now be decided and cannot be explained — Hazel is recused
+     for interest and Birk will not sign. The court has arrived at a way of
+     answering this question that produces a winner and no holding.
+     That is the last thing this board had left to demonstrate. */
+  .j16 .vote::after{content:"REVERSE · JUDGMENT ONLY"}
+  .j16 .vote{counter-increment:rev 1 sit 1;color:var(--rev);font-size:10px}
+
+
+  /* ---- SENIORITY 17 · THE MASTER OF THE ORDINARY LIST. THE SEVENTEENTH SEAT.
+     Every judge above this line is selected by the circuit. Sixteen cards, and
+     every one of them reads
+         .ct:has(#g-po:checked) .jN .vote::after { content: … }
+     because sixteen of these judges decide differently depending on what is in
+     front of them. That is what the whole board has been demonstrating.
+
+     The Master has no :has() at all. One rule, no condition, no circuit.
+
+     That is not a shortcut in the stylesheet, it is the finding about him. He
+     takes this question forty times a day and has done for eleven years. He is
+     not indifferent and he is not lazy — he is fast, he is almost always right,
+     and he is the only reason the other sixteen ever reach a hard case at all.
+     But the file in front of him stopped being the input a long time ago.
+     Toggle the circuits. Sixteen cards change. His does not.
+
+     AND HE IS PAID PER DISPOSAL. Not per hearing — per disposal, which is the
+     only line item a list can actually count. So the fee reads the same on the
+     eight circuits that produce a judgment and on the two that produce a
+     plurality with no holding in it, because the instrument cannot tell those
+     apart. Nothing about that is corrupt. It is an accurate meter measuring the
+     wrong quantity, which is worse, because there is nobody to accuse.
+
+     HE IS NOT IN THE DIVISION, and that is the second half of him. A Master of
+     the ordinary list is not on the appellate bench: he increments `disposed`
+     and `fee` and he touches `rev`, `aff` and `sit` with nothing. Every number
+     in the second vote above is unchanged by his existence, which is exactly
+     the situation being described — the bench of sixteen settles this question
+     once, in public, with a holding; he settles it forty times a day, on a
+     list, and his forty thousand dispositions appear in none of the court's
+     figures because the figures were built to count the sixteen. */
+  .j17 .vote::after{content:"DISPOSED · 40 TODAY"}
+  .j17 .vote{counter-increment:disposed 40 fee 40;
+    color:var(--rev);font-size:10px}
+
+  /* ---- THE CLERGY. Three of them, and they are paid to assist.
+     A disposal needs a judge. An OPINION needs somebody to write it, and nobody
+     on the bench above has the hours — which is why the reasons that bind the
+     next court are drafted by three people whose names appear nowhere in the
+     record. Retain them and twelve opinions are drafted, twelve are signed, and
+     none of the twelve carries a drafter's name. Release them and every disposal
+     still happens, on time, at the same fee. What stops is the reasons.
+     That is the sharpest thing on this board and it is not about money. The part
+     of a court's output that is DISPOSABLE is the part with a name on it. The
+     part that BINDS is the part without one. */
+  .ct:has(#cl-on:checked)  .clg .qty::after{content:"4 opinions drafted"}
+  .ct:has(#cl-on:checked)  .clg .qty{counter-increment:drafted 4 signed 4;
+    color:var(--bone)}
+  .ct:has(#cl-off:checked) .clg .qty::after{content:"— released —"}
+  .ct:has(#cl-off:checked) .clg .qty{color:var(--dim)}
+  .ct:has(#cl-off:checked) .clg{opacity:.42}
+  /* `named` never increments under either setting. It is declared, printed, and
+     reads zero forever, which is the only way to state a negative in CSS — and
+     it is worth a counter rather than a sentence because a reader can watch it
+     fail to move. */
+
+  .clergy{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:11px}
+  @media (max-width:820px){.clergy{grid-template-columns:1fr}}
+  .clg{background:#0b1310;border:1px solid var(--edge);border-radius:11px;
+    padding:11px 12px;border-left:3px solid var(--dim)}
+  .clg b{display:block;font-size:13px;color:var(--bone)}
+  .clg em{font-style:normal;font:9px/1 ui-monospace,monospace;letter-spacing:.11em;
+    text-transform:uppercase;color:var(--dim);display:block;margin:3px 0 7px}
+  .clg p{margin:0;font-size:10.5px;color:var(--dim);line-height:1.65}
+  .clg .qty{display:block;margin-top:8px;padding-top:7px;
+    border-top:1px solid var(--edge);font:10px/1 ui-monospace,monospace}
+  .retain{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+  .retain input{position:absolute;opacity:0;width:0;height:0}
+  .retain label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;
+    padding:10px 14px;border-radius:8px;border:1px solid var(--edge);
+    color:var(--dim);user-select:none}
+  .retain label:hover{color:var(--ink)}
+  .retain input:checked + label{border-color:var(--bone);color:var(--bone);
+    background:rgba(228,217,184,.10);font-weight:700}
+  .retain input:focus-visible + label{outline:2px solid var(--rev);outline-offset:2px}
+  .n-disposed::after{content:counter(disposed)}
+  .n-fee::after{content:counter(fee)}
+  .n-drafted::after{content:counter(drafted)}
+  .n-signed::after{content:counter(signed)}
+  .n-named::after{content:counter(named)}
+
+  /* ------------------------------------------------------------ the tallies */
+  .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .tally .head{background:#0b1310;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .tally .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .tally .head b{display:block;font:22px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:5px}
+  .tally .head.r b{color:var(--rev)} .tally .head.a b{color:var(--aff)}
+  @media (max-width:540px){.tally{grid-template-columns:repeat(2,1fr)}}
+  .n-rev::after{content:counter(rev)} .n-aff::after{content:counter(aff)}
+  .n-sit::after{content:counter(sit)} .n-grantv::after{content:counter(grantv)}
+
+  /* ================================================= 2 · THE RULE OF FOUR
+     Six rules, one per grant-and-ninth pair. Four votes hears the case. The
+     counter above prints how many there actually are, so the enumeration below
+     can be checked rather than believed — which is the only reason a page is
+     allowed to enumerate anything. */
+  .cst,.vst{display:none}
+  .ct:has(#g-pa:checked):has(#n-re:checked) .c-grant{display:block}
+  .ct:has(#g-pa:checked):has(#n-se:checked) .c-grant{display:block}
+  .ct:has(#g-re:checked):has(#n-re:checked) .c-grant{display:block}
+  .ct:has(#g-re:checked):has(#n-se:checked) .c-grant{display:block}
+  .ct:has(#g-po:checked):has(#n-re:checked) .c-grant{display:block}
+  .ct:has(#g-po:checked):has(#n-se:checked) .c-grant{display:block}
+
+  /* ================================================= 2 · THE MERITS · twelve
+     Twelve circuits, twelve rules. CSS cannot compare two counters, so the
+     comparison was not faked: it was done once by hand per circuit, and the
+     four numbers above are what let you audit it. */
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .v-rev{display:block}
+  .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
+  .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
+  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .v-rev{display:block}
+  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-se:checked) .v-rev{display:block}
+  .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .v-rev{display:block}
+  .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
+  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-re:checked) .v-aff{display:block}
+  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-se:checked) .v-plu{display:block}
+  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-re:checked) .v-plu{display:block}
+  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .v-rev{display:block}
+
+  /* ====================================== 3 · WHO WRITES IT · the assignment
+     The rule WAS the real one: if the Chief is in the majority the Chief
+     assigns the opinion, and otherwise the most senior justice in the majority
+     does. It is not the rule on this page any more - Rowan assigns everything -
+     and these ten cells are kept as the counterfactual, which is now the most
+     useful thing here to be able to compute. Three keys decide the majority, so three keys decide the writer, and
+     the eight cells that can be reached are written out. Nothing computes this
+     — a page that cannot subtract certainly cannot work out who is senior in a
+     set it did not build. It was worked out by hand and it is checkable
+     against the nine cards above, which is the deal. */
+  .wr{display:none}
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-re:checked) .w-rook{display:inline}
+  .ct:has(#g-pa:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
+  .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
+  .ct:has(#g-pa:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
+  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-re:checked) .w-haw {display:inline}
+  .ct:has(#g-re:checked):has(#s-gr:checked):has(#n-se:checked) .w-haw {display:inline}
+  .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-re:checked) .w-haw {display:inline}
+  .ct:has(#g-re:checked):has(#s-ba:checked):has(#n-se:checked) .w-haw {display:inline}
+  .ct:has(#g-po:checked):has(#s-gr:checked):has(#n-re:checked) .w-haw {display:inline}
+  .ct:has(#g-po:checked):has(#s-ba:checked):has(#n-se:checked) .w-rook{display:inline}
+
+  .vst.panel,.cst.panel{margin-top:2px}
+  .vh{font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700}
+  .v-rev .vh,.c-grant .vh{color:var(--rev)}
+  .v-aff .vh{color:var(--aff)} .v-plu .vh{color:var(--amber)}
+  .vst p,.cst p{margin:8px 0 0;font-size:12.5px;max-width:84ch}
+
+  /* the canopy closes over the page when the season is green */
+  .canopy{height:4px;border-radius:3px;background:var(--edge);margin:14px 0 0;
+    overflow:hidden;position:relative}
+  .canopy::after{content:"";position:absolute;inset:0;transform-origin:left;
+    background:linear-gradient(90deg,var(--moss),var(--amber));transform:scaleX(.34)}
+  .ct:has(#s-gr:checked) .canopy::after{transform:scaleX(1)}
+
+  /* ======================================= 4 · CASCADE ORDER IS AUTHORITY
+     There were four rules here, written last, and they were the strongest
+     thing on the page: if the court did not take the case, no merits panel
+     was allowed to say otherwise, whatever the twelve rules above had chosen.
+     They are gone, and they are recorded here rather than deleted quietly,
+     because what removed them was not a change of mind about cascade order.
+     It was the twelfth seat. There is no longer a circuit on this board where
+     the case is not heard, so there is nothing left for that stop to stop.
+     A stop rule that has become unreachable should be taken out and its
+     removal should be conspicuous; leaving it in to look careful is how a
+     page starts lying about what is enforcing what.
+     Section 4 is still demonstrated above, by the Chair's silence. */
+
+    /* ═══════════════════════════════════════════════════ THE GALACTIC BACKDROP
+     A window, not a wallpaper. Still no script.
+
+     69 bright stars and 139 dim ones, weighted the way the real sky is —
+     mostly dim and warm, a scatter of white, almost no blue — laid along a band
+     twenty-four degrees off horizontal with the dust lane cut back out of it in
+     the background colour, because the dark half of a galaxy is most of what
+     you see. The stars are Earth's, because they would be: Venus is 0.28 AU
+     away and that is nothing at stellar distances.
+
+     WE ARE TRAVELLING, so the sky does. It sits on two fixed pseudo-elements
+     rather than one background, and each one moves by TRANSFORM — which the
+     compositor does on its own thread, without repainting 208 gradients a
+     frame. Animating background-position instead would have cost the frame
+     budget of every board in the yard, and that is the only reason this is
+     built out of two layers instead of one.
+
+     AND WE ARE EXPANDING, so the near layer runs faster and scales harder than
+     the far one. That difference is parallax and parallax is the entire cue:
+     hold still and the bright stars slide past the dim ones, which is what a
+     window does and what a backdrop cannot. 21 minutes and 34 — coprime, so the
+     two never fall back into the arrangement they started in.
+
+     Both sit at z-index:-1 behind everything, each page keeps its own colour
+     wash on <body> over the top, and prefers-reduced-motion stops the travel
+     dead while leaving every star exactly where it is. */
+  html{background-color:#060a08}
+  body{background-color:transparent}
+  html::before,html::after{content:"";position:fixed;z-index:-1;
+    inset:-18%;pointer-events:none;background-repeat:no-repeat;
+    background-size:cover;will-change:transform}
+  html::before{background-image:
+      radial-gradient(0.35px 0.35px at 63.60% 61.37%,rgba(202,215,255,0.16),transparent),
+      radial-gradient(0.54px 0.54px at 31.73% 56.60%,rgba(255,210,161,0.26),transparent),
+      radial-gradient(0.36px 0.36px at 16.19% 41.87%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.12% 16.25%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 61.37% 49.53%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.66px 0.66px at 89.13% 49.03%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.52px 0.52px at 23.10% 65.23%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 81.55% 90.93%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.35px 0.35px at 1.99% 39.17%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.67px 0.67px at 88.33% 64.79%,rgba(255,210,161,0.32),transparent),
+      radial-gradient(0.65px 0.65px at 52.00% 41.82%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.84px 0.84px at 59.58% 82.02%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.44px 0.44px at 55.83% 49.97%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.45px 0.45px at 61.17% 3.50%,rgba(202,215,255,0.21),transparent),
+      radial-gradient(0.48px 0.48px at 92.68% 74.19%,rgba(255,181,107,0.23),transparent),
+      radial-gradient(0.41px 0.41px at 44.55% 40.37%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.80px 0.80px at 33.50% 52.15%,rgba(255,181,107,0.39),transparent),
+      radial-gradient(0.70px 0.70px at 15.53% 74.11%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.69px 0.69px at 83.20% 49.99%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.86px 0.86px at 14.02% 0.25%,rgba(255,181,107,0.42),transparent),
+      radial-gradient(0.35px 0.35px at 8.46% 26.75%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 16.18% 29.77%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.57px 0.57px at 46.77% 49.71%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.58px 0.58px at 80.94% 96.51%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.44px 0.44px at 46.92% 31.31%,rgba(255,181,107,0.20),transparent),
+      radial-gradient(0.37px 0.37px at 34.69% 85.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.42px 0.42px at 56.44% 46.68%,rgba(255,210,161,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 7.58% 26.10%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.48px 0.48px at 16.83% 84.69%,rgba(202,215,255,0.22),transparent),
+      radial-gradient(0.53px 0.53px at 9.16% 5.95%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.57px 0.57px at 41.82% 44.48%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.90px 0.90px at 74.31% 45.97%,rgba(255,210,161,0.44),transparent),
+      radial-gradient(0.40px 0.40px at 64.18% 49.64%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 5.25% 39.37%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.53px 0.53px at 9.07% 72.19%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.78px 0.78px at 64.06% 69.96%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.37px 0.37px at 8.76% 35.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 57.68% 27.55%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 98.05% 7.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.66px 0.66px at 44.51% 72.98%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.46px 0.46px at 37.26% 1.54%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.59px 0.59px at 90.42% 72.27%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.57px 0.57px at 98.13% 10.35%,rgba(248,247,255,0.27),transparent),
+      radial-gradient(0.91px 0.91px at 94.93% 71.89%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.36px 0.36px at 4.64% 11.86%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.56px 0.56px at 46.09% 50.65%,rgba(255,210,161,0.27),transparent),
+      radial-gradient(0.72px 0.72px at 98.16% 60.72%,rgba(255,181,107,0.35),transparent),
+      radial-gradient(0.90px 0.90px at 23.45% 18.12%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.53px 0.53px at 13.29% 38.54%,rgba(248,247,255,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 48.20% 58.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 93.26% 70.43%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.77px 0.77px at 98.31% 71.27%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.51px 0.51px at 91.86% 57.08%,rgba(255,210,161,0.24),transparent),
+      radial-gradient(0.76px 0.76px at 3.22% 18.38%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 67.24% 79.63%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.44px 0.44px at 4.49% 37.24%,rgba(255,210,161,0.20),transparent),
+      radial-gradient(0.35px 0.35px at 19.05% 44.87%,rgba(248,247,255,0.16),transparent),
+      radial-gradient(0.43px 0.43px at 80.57% 75.11%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.38px 0.38px at 84.40% 42.68%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.44px 0.44px at 84.04% 97.87%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.65px 0.65px at 16.48% 27.55%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.75px 0.75px at 84.52% 73.60%,rgba(255,210,161,0.36),transparent),
+      radial-gradient(0.63px 0.63px at 50.13% 6.86%,rgba(248,247,255,0.30),transparent),
+      radial-gradient(0.78px 0.78px at 87.51% 70.49%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.76px 0.76px at 16.34% 26.34%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.35px 0.35px at 58.85% 56.40%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 4.52% 56.48%,rgba(255,181,107,0.33),transparent),
+      radial-gradient(0.46px 0.46px at 86.45% 52.09%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.39px 0.39px at 91.92% 82.50%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.36px 0.36px at 6.83% 33.67%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.10% 7.69%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 63.59% 62.73%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 72.64% 55.47%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.57px 0.57px at 1.57% 22.68%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.35px 0.35px at 20.24% 40.59%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 81.60% 86.38%,rgba(255,244,234,0.33),transparent),
+      radial-gradient(0.75px 0.75px at 1.01% 89.43%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.50px 0.50px at 1.89% 45.85%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.36px 0.36px at 86.06% 69.70%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.46px 0.46px at 54.27% 84.12%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.35px 0.35px at 68.88% 69.99%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 51.92% 44.11%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.37px 0.37px at 83.56% 88.23%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.61px 0.61px at 48.63% 32.82%,rgba(248,247,255,0.29),transparent),
+      radial-gradient(0.46px 0.46px at 3.14% 19.70%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.35px 0.35px at 91.65% 60.72%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 39.35% 42.18%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.60px 0.60px at 96.63% 57.34%,rgba(255,210,161,0.29),transparent),
+      radial-gradient(0.36px 0.36px at 93.19% 66.52%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 91.66% 53.83%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.53px 0.53px at 37.09% 33.98%,rgba(255,210,161,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 7.69% 48.04%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.76px 0.76px at 40.92% 77.22%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.62px 0.62px at 53.18% 55.13%,rgba(255,181,107,0.30),transparent),
+      radial-gradient(0.52px 0.52px at 36.16% 17.06%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.42px 0.42px at 7.30% 10.90%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 98.83% 35.83%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.57px 0.57px at 32.25% 40.39%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.77px 0.77px at 68.97% 58.36%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.35px 0.35px at 98.16% 72.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 49.07% 50.45%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.59px 0.59px at 36.73% 46.36%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.37px 0.37px at 59.16% 52.43%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 5.87% 47.43%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.35px 0.35px at 28.92% 42.34%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.84px 0.84px at 38.15% 61.03%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.35px 0.35px at 17.08% 95.56%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.56px 0.56px at 72.12% 52.35%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.43px 0.43px at 10.79% 34.15%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.36px 0.36px at 90.72% 54.28%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.36px 0.36px at 0.22% 39.29%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.38px 0.38px at 66.88% 43.63%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.76px 0.76px at 85.24% 53.71%,rgba(255,210,161,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 76.84% 68.26%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.82px 0.82px at 20.88% 36.67%,rgba(255,181,107,0.40),transparent),
+      radial-gradient(0.53px 0.53px at 72.59% 59.70%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.82px 0.82px at 99.56% 61.97%,rgba(248,247,255,0.40),transparent),
+      radial-gradient(0.37px 0.37px at 43.04% 22.87%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.38px 0.38px at 62.75% 36.42%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.64px 0.64px at 11.37% 52.16%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.35px 0.35px at 65.28% 54.10%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 23.22% 51.57%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.41px 0.41px at 7.86% 15.80%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 1.16% 17.03%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 24.23% 36.88%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 67.85% 71.10%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.87px 0.87px at 21.22% 9.64%,rgba(255,181,107,0.43),transparent),
+      radial-gradient(16px 16px at 11.38% 48.06%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 66.59% 41.28%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 40.80% 23.68%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 41.01% 67.29%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 31.18% 27.63%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 10.81% 18.20%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 3.23% 54.03%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(30% 30% at 22% 30%,rgba(91,127,199,0.055),transparent 70%),
+      radial-gradient(26% 26% at 74% 58%,rgba(201,87,143,0.040),transparent 70%),
+      radial-gradient(22% 22% at 46% 18%,rgba(79,179,166,0.035),transparent 70%),
+      linear-gradient(66deg,transparent 34%,rgba(148,138,196,.045) 43%,rgba(172,162,214,.085) 50%,rgba(148,138,196,.045) 57%,transparent 66%),
+      linear-gradient(66deg,transparent 46%,rgba(4,3,7,.55) 49.4%,rgba(4,3,7,.62) 50.6%,transparent 54%);
+    animation:au-far 2040s ease-in-out infinite alternate}
+  html::after{background-image:
+      radial-gradient(1.30px 1.30px at 68.42% 62.26%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(0.96px 0.96px at 44.46% 53.88%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.72px 1.72px at 97.52% 67.89%,rgba(255,210,161,0.86),transparent),
+      radial-gradient(1.27px 1.27px at 29.09% 44.54%,rgba(255,181,107,0.63),transparent),
+      radial-gradient(1.25px 1.25px at 0.41% 98.24%,rgba(255,181,107,0.62),transparent),
+      radial-gradient(1.12px 1.12px at 48.27% 61.45%,rgba(255,181,107,0.55),transparent),
+      radial-gradient(1.62px 1.62px at 21.27% 82.41%,rgba(255,181,107,0.81),transparent),
+      radial-gradient(1.13px 1.13px at 32.91% 34.63%,rgba(255,181,107,0.56),transparent),
+      radial-gradient(1.56px 1.56px at 71.19% 43.86%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.40px 1.40px at 6.85% 52.24%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.14px 1.14px at 86.46% 83.26%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.10px 1.10px at 71.95% 42.90%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.42px 1.42px at 36.96% 17.89%,rgba(255,181,107,0.71),transparent),
+      radial-gradient(1.13px 1.13px at 4.31% 1.17%,rgba(170,191,255,0.56),transparent),
+      radial-gradient(1.31px 1.31px at 41.52% 51.61%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(1.46px 1.46px at 76.09% 66.82%,rgba(255,244,234,0.72),transparent),
+      radial-gradient(1.78px 1.78px at 26.72% 43.06%,rgba(255,181,107,0.89),transparent),
+      radial-gradient(1.69px 1.69px at 22.68% 46.22%,rgba(170,191,255,0.84),transparent),
+      radial-gradient(1.76px 1.76px at 30.20% 97.65%,rgba(255,181,107,0.88),transparent),
+      radial-gradient(1.38px 1.38px at 99.58% 76.98%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.08px 1.08px at 15.38% 27.05%,rgba(255,244,234,0.53),transparent),
+      radial-gradient(0.95px 0.95px at 42.39% 32.32%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.57px 1.57px at 58.49% 81.25%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(0.94px 0.94px at 48.37% 39.34%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.41px 1.41px at 91.19% 97.04%,rgba(255,210,161,0.70),transparent),
+      radial-gradient(1.37px 1.37px at 7.79% 44.56%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.07px 1.07px at 89.66% 36.01%,rgba(255,181,107,0.53),transparent),
+      radial-gradient(1.69px 1.69px at 67.50% 93.44%,rgba(255,181,107,0.84),transparent),
+      radial-gradient(1.15px 1.15px at 57.27% 40.78%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.58px 1.58px at 33.10% 45.94%,rgba(255,181,107,0.79),transparent),
+      radial-gradient(1.04px 1.04px at 83.01% 82.39%,rgba(255,181,107,0.51),transparent),
+      radial-gradient(1.56px 1.56px at 88.42% 66.83%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.29px 1.29px at 24.78% 0.51%,rgba(255,181,107,0.64),transparent),
+      radial-gradient(1.09px 1.09px at 6.07% 6.69%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.32px 1.32px at 53.40% 80.43%,rgba(255,210,161,0.65),transparent),
+      radial-gradient(1.19px 1.19px at 76.80% 81.97%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(0.94px 0.94px at 69.80% 57.79%,rgba(255,244,234,0.46),transparent),
+      radial-gradient(1.10px 1.10px at 7.00% 33.07%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.22px 1.22px at 76.56% 52.71%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(0.96px 0.96px at 85.29% 63.59%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.18px 1.18px at 17.44% 43.04%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(1.51px 1.51px at 36.81% 57.97%,rgba(255,210,161,0.75),transparent),
+      radial-gradient(1.37px 1.37px at 98.28% 82.40%,rgba(248,247,255,0.68),transparent),
+      radial-gradient(1.65px 1.65px at 78.05% 82.63%,rgba(248,247,255,0.82),transparent),
+      radial-gradient(1.20px 1.20px at 59.28% 41.45%,rgba(248,247,255,0.60),transparent),
+      radial-gradient(1.55px 1.55px at 40.98% 18.58%,rgba(255,181,107,0.77),transparent),
+      radial-gradient(1.02px 1.02px at 82.66% 66.73%,rgba(255,181,107,0.50),transparent),
+      radial-gradient(1.20px 1.20px at 0.68% 23.74%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(1.15px 1.15px at 57.32% 67.46%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.34px 1.34px at 6.29% 37.15%,rgba(255,244,234,0.66),transparent),
+      radial-gradient(1.39px 1.39px at 63.56% 50.69%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.59px 1.59px at 80.48% 31.89%,rgba(202,215,255,0.79),transparent),
+      radial-gradient(1.52px 1.52px at 40.22% 51.94%,rgba(255,210,161,0.76),transparent),
+      radial-gradient(1.52px 1.52px at 78.35% 77.94%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(1.70px 1.70px at 33.95% 56.66%,rgba(255,181,107,0.85),transparent),
+      radial-gradient(1.16px 1.16px at 77.09% 41.34%,rgba(255,210,161,0.58),transparent),
+      radial-gradient(1.67px 1.67px at 39.69% 60.56%,rgba(255,210,161,0.83),transparent),
+      radial-gradient(1.47px 1.47px at 12.24% 30.52%,rgba(255,181,107,0.73),transparent),
+      radial-gradient(1.11px 1.11px at 80.16% 93.71%,rgba(255,210,161,0.55),transparent),
+      radial-gradient(1.52px 1.52px at 11.04% 44.84%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(0.94px 0.94px at 59.58% 30.37%,rgba(255,210,161,0.46),transparent),
+      radial-gradient(1.53px 1.53px at 0.35% 42.03%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(2.6px 2.6px at 11.38% 48.06%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 66.59% 41.28%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 40.80% 23.68%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 41.01% 67.29%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 31.18% 27.63%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 10.81% 18.20%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 3.23% 54.03%,rgba(255,255,255,.95),transparent);
+    animation:au-near 1260s ease-in-out infinite alternate}
+  @keyframes au-far{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-3.0%,1.6%,0) scale(1.09)}}
+  @keyframes au-near{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-8.5%,4.4%,0) scale(1.26)}}
+  @media (prefers-reduced-motion:reduce){
+    html::before,html::after{animation:none}}
+</style>
+
+<!-- 5 · A GET FORM IS TRANSPORT -->
+<form id="vy" action="bridge.html" method="get">
+  <input type="hidden" name="board" value="bench" form="vy">
+</form>
+
+<div class="ct wrap">
+  <header>
+    <h1>The Bench of Nine</h1>
+    <span class="sub">Nine thousand square miles of forest — the size of England
+      — and one court in it. <i>In re the Pot</i>, first case. Two votes are
+      taken here and the first one is not about the pot. There are seventeen judges
+      and three clergy; never more than fifteen of the judges vote, one never
+      does, one will not sign anything, one is paid by the disposal &mdash; and
+      the three who write what binds are named nowhere in the record.
+      It is still called the Bench of Nine.</span>
+    <span class="tag">no script<a href="automat.html" style="color:inherit;text-decoration:none;opacity:.62" title="Still true: this board decides everything in its stylesheet. It also ships two inert script tags — automat.js and devmode.js — which do nothing unless the URL carries ?run or ?dev, a half of the address CSS cannot read. See automat.html.">&nbsp;&dagger;</a></span>
+  </header>
+
+  <div class="panel" style="border-color:rgba(111,192,138,.4)">
+    <h2 style="margin-top:0">In re the Pot <b>on appeal from the forest floor</b></h2>
+    <p style="margin:0;font-size:14.5px;max-width:78ch">Nine came together for
+      one thing, and the thing was food. Money went in the pot. The pot was
+      split, dashed and dined. The court below held that the pot was a vote —
+      that paying in was consent, that everyone who dined had voted, and that
+      the one who has abstained for fifteen years consented by saying nothing.</p>
+    <p class="note"><b>The appeal is narrow and the page thinks it is right.</b>
+      Matriculating funds upward is not voting. A structure that takes money in,
+      promotes from within, and reproduces itself in bodies that are not
+      identical but identitarianly aligned has no step at which anybody is
+      asked — and holding that the pot was the asking is precisely how it never
+      adds one. Abstention is not consent. Fifteen years of it is not fifteen
+      years of agreement; it is fifteen years of a question nobody put.</p>
+  </div>
+
+  <!-- ==== INPUTS FIRST. The tallies below cannot count backwards. ========= -->
+  <h2>How the case comes up <b>three keys, and they are all you hold</b></h2>
+  <div class="two">
+    <div class="panel">
+      <div style="margin-bottom:13px">
+        <div class="lbl">The grant — what is put before the bench</div>
+        <div class="opts">
+          <input type="radio" name="g" id="g-pa" form="vy" value="papers" checked><label for="g-pa">On the papers</label>
+          <input type="radio" name="g" id="g-re" form="vy" value="record"><label for="g-re">On the record</label>
+          <input type="radio" name="g" id="g-po" form="vy" value="pot"><label for="g-po">On the pot</label>
+        </div>
+      </div>
+      <div style="margin-bottom:13px">
+        <div class="lbl">The season — whether the canopy is closed</div>
+        <div class="opts">
+          <input type="radio" name="s" id="s-gr" form="vy" value="green" checked><label for="s-gr">In leaf</label>
+          <input type="radio" name="s" id="s-ba" form="vy" value="bare"><label for="s-ba">Bare</label>
+        </div>
+        <div class="canopy"></div>
+      </div>
+      <div>
+        <div class="lbl">The ninth chair — whether the abstainer is asked to sit</div>
+        <div class="opts">
+          <input type="radio" name="n" id="n-re" form="vy" value="recused" checked><label for="n-re">Recused</label>
+          <input type="radio" name="n" id="n-se" form="vy" value="seated"><label for="n-se">Seated</label>
+        </div>
+      </div>
+      <p class="note">Nobody's mind changes when you move these. What moves is
+        which of nine practised positions each judge is standing in when the
+        question arrives — which is what a practice is, and why a bench is not
+        an opinion poll.</p>
+    </div>
+
+    <div class="panel">
+      <div class="lbl">The first vote · the rule of four</div>
+      <div class="tally" style="grid-template-columns:repeat(2,1fr);margin-top:0">
+        <div class="head"><span>Votes to hear</span><b class="n-grantv"></b></div>
+        <div class="head"><span>Needed</span><b>4</b></div>
+      </div>
+      <div class="cst panel c-grant" style="border-color:var(--rev);margin-top:10px">
+        <div class="vh">Certiorari granted</div>
+        <p>Four or more, on every one of the twelve circuits. The forest is nine
+          thousand square miles and this court hears eighty things a year;
+          getting through that door is most of what winning is, and on this
+          board it is no longer possible to fail at it.</p>
+      </div>
+      <p class="note"><b>It was possible until the twelfth seat.</b> Four
+        circuits used to end here — papers or the pot, with the ninth chair
+        empty — and on those four the judgment below stood unreviewed and
+        unreasoned, and the pot remained a vote in every county of a
+        jurisdiction the size of England, not because a court held that it was
+        but because no court held anything. Three seats were added to repair
+        this bench. The first two were barred from this vote and changed
+        nothing about it. The third was not, and it changed everything about
+        it, immediately, on her first sitting. Denial is not disagreement and
+        it was never a small thing; it was simply the number the fewest people
+        ever looked at.</p>
+    </div>
+  </div>
+
+  <h2>The bench <b>three benches of three, and then six more</b></h2>
+  <div class="bench">
+    <div class="j cop j0">
+      <div class="who"><i>0</i><b>Rowan</b><em>chief justice · the fifteenth seat</em></div>
+      <div class="prac">Seated above the bench rather than at the end of it, and
+        she takes no part in either vote — she does not grant and she does not
+        decide. Not one number on this page moved when she arrived: the same
+        eight circuits reverse, the same two affirm, the same two deadlock on
+        the pot, and every judge here votes exactly as they did the day before.
+        What she has is the assignment. Until her appointment the pen went to
+        the Chief when the Chief was in the majority and otherwise to the most
+        senior judge who was, so Hawthorn wrote eight of the ten decided
+        circuits and Rook wrote two. Rowan is never in the majority, because
+        she never votes, and under that rule she could not have assigned
+        anything at all — so the rule was changed with her. She assigns all
+        ten. No outcome changed. Every word of every judgment did.</div>
+      <div class="row"><span class="cert">grants: never · decides: never</span><span class="vote"></span></div>
+    </div>
+    <div class="j can j1">
+      <div class="who"><i>1</i><b>Hawthorn</b><em>canopy · chief until the fifteenth</em></div>
+      <div class="prac">Votes with the grant. Brought the pot itself, she will
+        treat the pot as the record — the exact error under appeal, committed in
+        good faith by the judge who used to have the power to assign who
+        explains it. She was Chief of this court for the whole of its history
+        until the fifteenth seat, and has not written a word of it since.</div>
+      <div class="row"><span class="cert">grants on: papers</span><span class="vote"></span></div>
+    </div>
+    <div class="j can j2">
+      <div class="who"><i>2</i><b>Rook</b><em>canopy</em></div>
+      <div class="prac">Votes with the season. In leaf she cannot see the forest
+        floor and defers to the people who can. Bare, she can see it herself,
+        and defers to nobody.</div>
+      <div class="row"><span class="cert">grants on: papers</span><span class="vote"></span></div>
+    </div>
+    <div class="j can j3">
+      <div class="who"><i>3</i><b>Ash</b><em>canopy</em></div>
+      <div class="prac">Answers to no instrument. Votes to hear everything and
+        has been reversing this holding since before it was a holding. Costs the
+        appellant nothing and wins them nothing.</div>
+      <div class="row"><span class="cert">grants on: always</span><span class="vote"></span></div>
+    </div>
+    <div class="j und j4">
+      <div class="who"><i>4</i><b>Bramble</b><em>understory</em></div>
+      <div class="prac">Votes with the grant. Will not decide on the papers when
+        the paths are there to be walked, and reads who walks where as the only
+        evidence of what anybody actually agreed to.</div>
+      <div class="row"><span class="cert">grants on: record, pot</span><span class="vote"></span></div>
+    </div>
+    <div class="j und j5">
+      <div class="who"><i>5</i><b>Thorn</b><em>understory</em></div>
+      <div class="prac">Votes with the ninth chair. Will not hold that silence
+        was consent while the silent party is out of the room — and will not
+        decide it in her favour behind her back either.</div>
+      <div class="row"><span class="cert">grants on: never</span><span class="vote"></span></div>
+    </div>
+    <div class="j und j6">
+      <div class="who"><i>6</i><b>Fern</b><em>understory</em></div>
+      <div class="prac">The only judge who reads two keys. Neither the grant nor
+        the season moves her; the pair does. Her table is printed below because
+        a judge whose reasoning cannot be tabulated is not reasoning.</div>
+      <div class="row"><span class="cert">grants on: pot</span><span class="vote"></span></div>
+    </div>
+    <div class="j roo j7">
+      <div class="who"><i>7</i><b>Loam</b><em>root</em></div>
+      <div class="prac">Answers to nothing and affirms. The pot has always been
+        the pot. He would like it settled and does not much mind which way,
+        which is how a great deal of law gets made and most of it kept.</div>
+      <div class="row"><span class="cert">grants on: record</span><span class="vote"></span></div>
+    </div>
+    <div class="j roo j8">
+      <div class="who"><i>8</i><b>Mycel</b><em>root</em></div>
+      <div class="prac">Votes with the season and is the only judge who reads
+        the season as evidence rather than as weather. Bare ground is a record
+        of who walked on it, and he has read it.</div>
+      <div class="row"><span class="cert">grants on: record</span><span class="vote"></span></div>
+    </div>
+    <div class="j roo j9">
+      <div class="who"><i>9</i><b>Wren</b><em>root · the ninth</em></div>
+      <div class="prac">Has abstained for fifteen years. That is not fifteen
+        years of agreement, and it is the precise thing the court below held it
+        to be. Seated, she votes. Recused, she casts nothing and is counted as
+        nothing — this page will not do to her what the judgment did.</div>
+      <div class="row"><span class="cert">grants on: when seated</span><span class="vote"></span></div>
+    </div>
+    <div class="j cop j10">
+      <div class="who"><i>10</i><b>Yew</b><em>coppice · the tenth seat</em></div>
+      <div class="prac">Seated on this bench to stop it deadlocking, which is
+        the reason a tenth seat has ever been added to any bench anywhere. Ten
+        is an even number. She votes with the ninth chair and never against a
+        majority that already exists — seated, Wren has company and Yew
+        reverses; recused, Wren is absent and Yew affirms the court below. She
+        grants nothing: seated to decide, not to select, so the rule of four is
+        the one vote here she takes no part in. The two four-four splits are
+        gone. There are two five-five splits now, and they are not the same
+        circuits.</div>
+      <div class="row"><span class="cert">grants on: never</span><span class="vote"></span></div>
+    </div>
+    <div class="j cop j11">
+      <div class="who"><i>11</i><b>Alder</b><em>windthrow · the eleventh seat</em></div>
+      <div class="prac">Seated because a ten-judge court kept tying, which is
+        what happens when you repair an odd bench by making it even. Eleven is
+        odd again and nothing on this board ties any more. She votes with the
+        season: in leaf she affirms, bare she reverses. She grants nothing
+        either — two judges have now been added to this court to fix it, and
+        neither of them has any say in whether it hears anything at all. Both
+        five-five splits are gone. Both went the same way when she broke them,
+        and it was not the appellant's way.</div>
+      <div class="row"><span class="cert">grants on: never</span><span class="vote"></span></div>
+    </div>
+    <div class="j cop j12">
+      <div class="who"><i>12</i><b>Bracken</b><em>the rolls · the twelfth seat</em></div>
+      <div class="prac">The first seat ever added to this bench that votes on
+        whether there is a case. Every previous repair was barred from the
+        certiorari vote, which is why none of them moved the door an inch. She
+        grants always — a court that hears eighty things a year in a
+        jurisdiction the size of England should be embarrassed by that number
+        and not comforted by it — and the count now clears four on all twelve
+        circuits. She reverses on the merits, having read the file, which is
+        her job. Twelve is even, so the ties are back, on exactly the two
+        circuits they were on before. This time they are heard.</div>
+      <div class="row"><span class="cert">grants on: always</span><span class="vote"></span></div>
+    </div>
+    <div class="j cop j13">
+      <div class="who"><i>13</i><b>Sedge</b><em>standing proxy · the thirteenth seat</em></div>
+      <div class="prac">Holds the ninth chair's proxy and nothing else. When
+        Wren is recused, Sedge votes as Wren votes, on the merits and on
+        certiorari both; when Wren is seated the proxy is void and Sedge casts
+        nothing, because a proxy substitutes for a person rather than adding to
+        a bench. Sitting therefore reads twelve on every circuit, which is even
+        on every circuit. Giving the absent woman a voice did not resolve
+        anything — it doubled the deadlocks, from two to four. The two circuits
+        that used to affirm while she was away now tie instead. They tie
+        because the court is genuinely split down the middle on the question,
+        and her absence is what had been keeping that off the record.</div>
+      <div class="row"><span class="cert">grants: as she does</span><span class="vote"></span></div>
+    </div>
+    <div class="j cop j14">
+      <div class="who"><i>14</i><b>Hazel</b><em>of the table · the fourteenth seat</em></div>
+      <div class="prac">She was at the pot. She put money in and she dined, and
+        she is the only person on this bench with first-hand knowledge of
+        whether anybody was ever asked anything — and the only one disqualified
+        from saying so when it counts. On the papers and on the record she sits
+        and reverses, because she was there and nobody asked her. When the pot
+        itself is put before the court she recuses for interest, which is the
+        correct rule and is not in any doubt. Sitting reads thirteen on the
+        papers and on the record, which is odd, so those eight circuits cannot
+        tie and all eight now decide cleanly. It reads twelve on the pot, and
+        both remaining deadlocks are there. This court can decide the case from
+        a distance and cannot decide it with the thing in front of it, because
+        the rule that keeps the bench clean is the rule that removes its only
+        witness. Nobody did anything wrong. That is the problem.</div>
+      <div class="row"><span class="cert">grants: papers, record</span><span class="vote"></span></div>
+    </div>
+    <div class="j cop j16">
+      <div class="who"><i>16</i><b>Birk</b><em>split ash · concurs in the judgment only</em></div>
+      <div class="prac">She votes on the result and joins no opinion, which is
+        a real position and an honourable one: she agrees the appellant wins
+        and she will not put her name to anybody&rsquo;s reasons for it. She
+        reverses, having read the file, and her vote counts in the division
+        like any other — so both deadlocks on the pot are gone, decided, and
+        decided for the appellant. But on those two circuits the majority
+        exists only because of her, and a majority that depends on a judge who
+        joins no opinion is not a majority opinion. It is a plurality: the case
+        is disposed of, nobody has stated the law, and nothing binds the next
+        court. The two circuits with the pot on the table can now be decided
+        and cannot be explained. Hazel is recused for interest and Birk will
+        not sign.</div>
+      <div class="row"><span class="cert">grants: never</span><span class="vote"></span></div>
+    </div>
+    <div class="j cop j17">
+      <div class="who"><i>17</i><b>The Master</b><em>the ordinary list &middot; paid per disposal</em></div>
+      <div class="prac">He takes this question forty times a day and has done
+        for eleven years. He is fast, he is almost always right, and he is the
+        only reason the sixteen above him ever reach a hard case &mdash; a court
+        that heard every pot would hear nothing else. But toggle the circuits
+        and watch this card: <b>it does not change.</b> Every other judge on
+        this bench is selected by what is in front of them; his is the one card
+        on the board with no condition on it at all, because the file stopped
+        being the input somewhere around the four thousandth time. And he is
+        paid <b>per disposal</b>, which is the only line a list can count
+        &mdash; so the fee reads the same on the eight circuits that produce a
+        judgment and the two that produce a plurality with no holding in it.
+        Nothing here is corrupt. It is an accurate meter measuring the wrong
+        quantity, which is worse, because there is nobody to accuse.</div>
+      <div class="row"><span class="cert">grants: all, always</span><span class="vote"></span></div>
+    </div>
+  </div>
+
+  <!-- ======================================================== THE CLERGY -->
+  <h2>The clergy <b>paid to assist &middot; and the reasons are theirs</b></h2>
+  <p class="note">A disposal needs a judge. An <b>opinion</b> needs somebody to
+    write it, and nobody on the bench above has the hours. Three clerks are
+    retained. Between them they draft all twelve, the judges read, correct and
+    sign them, and <b>not one of the twelve carries a drafter&rsquo;s name.</b>
+    Release them with the control below and watch which number falls and which
+    does not.</p>
+  <div class="retain">
+    <input type="radio" name="clergy" id="cl-on" checked>
+      <label for="cl-on">the clergy are retained</label>
+    <input type="radio" name="clergy" id="cl-off">
+      <label for="cl-off">the clergy are released</label>
+  </div>
+  <div class="clergy">
+    <div class="clg">
+      <b>Sister Wren</b><em>drafts &middot; the merits</em>
+      <p>Reads the file the Master no longer reads, and writes the paragraph the
+        next court will quote. Eleven years less service than he has, and the
+        sentence that binds is hers.</p>
+      <span class="qty"></span>
+    </div>
+    <div class="clg">
+      <b>Brother Alder</b><em>drafts &middot; the dissents</em>
+      <p>Writes both sides, including the one his judge is against, because a
+        dissent nobody drafted is a dissent nobody filed &mdash; and an
+        unanswered majority is a stronger precedent than a contested one.</p>
+      <span class="qty"></span>
+    </div>
+    <div class="clg">
+      <b>Sister Holt</b><em>drafts &middot; the record</em>
+      <p>Keeps the citations honest and the findings tied to line numbers, which
+        is the whole reason <a href="exhibit.html">Exhibit A</a> can be checked
+        against this judgment at all.</p>
+      <span class="qty"></span>
+    </div>
+  </div>
+  <div class="tally" style="grid-template-columns:repeat(5,1fr)">
+    <div class="head r"><span>Disposed today</span><b class="n-disposed"></b></div>
+    <div class="head"><span>Fee units</span><b class="n-fee"></b></div>
+    <div class="head"><span>Drafted</span><b class="n-drafted"></b></div>
+    <div class="head"><span>Signed</span><b class="n-signed"></b></div>
+    <div class="head a"><span>Bearing a drafter</span><b class="n-named"></b></div>
+  </div>
+  <p class="note"><b>Five numbers, and the last one is zero under every setting
+    on this page.</b> Forty disposals, twelve opinions, no names. Release the
+    clergy and <code>Disposed</code> and <code>Fee</code> do not move &mdash;
+    every case still ends, on time, at the same price. <code>Drafted</code> and
+    <code>Signed</code> go to nothing. The disposal never needed them; the
+    reasons did.</p>
+  <p class="note">Note also what the Master does <b>not</b> touch. Scroll back:
+    <code>Reverse</code>, <code>Affirm</code> and <code>Sitting</code> are
+    identical to what they were before the seventeenth seat existed, because a
+    Master of the ordinary list is not on the appellate bench and his card
+    increments neither. That is not an omission in the stylesheet, it is the
+    situation. <b>The bench of sixteen settles this question once, in public,
+    with a holding. He settles it forty times a day, on a list, and none of it
+    is in the court&rsquo;s figures</b> &mdash; the figures were built to count
+    the sixteen.</p>
+  <p class="note">Which is the finding, and it is the hardest one this board has
+    produced. <b>The part of a court&rsquo;s output that is disposable is the
+    part with a name on it.</b> The part that binds the next court &mdash; the
+    holding, the reasons, the sentence somebody will quote across nine thousand
+    square miles of forest for the next forty years &mdash; is drafted by three
+    people the record does not mention, on a retainer, and the meter that pays
+    for all of it cannot see the difference between a judgment and a plurality.
+    Nobody did anything wrong. That is the problem, and it is the second time
+    this board has had to say so.</p>
+
+  <!-- ==== TOTALS AFTER. Counted from the nine cards above and nowhere else. -->
+  <h2>The second vote <b>counted, not declared</b></h2>
+  <div class="tally">
+    <div class="head r"><span>Reverse</span><b class="n-rev"></b></div>
+    <div class="head a"><span>Affirm</span><b class="n-aff"></b></div>
+    <div class="head"><span>Sitting</span><b class="n-sit"></b></div>
+    <div class="head"><span>Votes to hear</span><b class="n-grantv"></b></div>
+  </div>
+  <p class="note"><b>Four numbers and no margin.</b> A margin is a subtraction
+    and this page cannot subtract, so both sides are printed and you may hold
+    them against each other, which is what a bench does anyway. <code>Sitting</code> now reads
+    fourteen on the papers and on the record and thirteen on the pot: the proxy
+    replaces the ninth chair rather than adding to it, the fourteenth seat
+    recuses for interest whenever the pot is before the court, and the Chief
+    never votes at all. Nothing ties any more. Two circuits are decided by a
+    vote that joins no opinion, and those two are shown as pluralities rather
+    than as judgments, which is the honest label. <code>Votes to hear</code>
+    reads four or better everywhere, which it has done only since the twelfth
+    seat.</p>
+
+  <h2>The judgment <b>eight reverse, two affirm, two plurality — none tie</b></h2>
+
+  <div class="vst panel v-rev" style="border-color:var(--rev)">
+    <div class="vh">Reversed</div>
+    <p>The pot was not a vote. Paying in is not consent, dining is not
+      ratification, and the fifteen-year abstention is an abstention — it says
+      what it has always said, which is nothing, and nothing may not be read as
+      yes. The holding below is vacated across all nine thousand square miles.</p>
+    <p class="note">Opinion assigned by <b>Rowan, C.J.</b>, who did not vote.
+      Under the rule that stood until her appointment the pen would have gone
+      to <span class="wr w-haw"><b>Hawthorn, J.</b>, who is in the majority and
+      was Chief until the fifteenth seat.</span><span class="wr w-rook"><b>Rook,
+      J.</b>, the most senior judge in a majority the old Chief was not in —
+      the only power that fact ever gave her, and it is gone.</span></p>
+  </div>
+  <div class="vst panel v-aff" style="border-color:var(--aff)">
+    <div class="vh">Affirmed</div>
+    <p>The court below stands. Put to this bench in leaf, or put to it as the
+      pot itself, a majority of eleven will hold that the money was the meaning — and
+      they are not fools, they are reading a structure that has genuinely never
+      had a step where anyone was asked, and concluding that the pot must
+      therefore have been it. That is the error. It is an extremely easy one.</p>
+    <p class="note">Opinion assigned by <b>Rowan, C.J.</b>, who did not vote.
+      Under the old rule it would have been <span class="wr w-haw"><b>Hawthorn,
+      J.</b>, in the majority and Chief until the fifteenth seat.</span><span
+      class="wr w-rook"><b>Rook, J.</b>, senior-most in a majority the old
+      Chief was not in.</span></p>
+  </div>
+  <div class="vst panel v-plu" style="border-color:var(--amber)">
+    <div class="vh">Reversed · plurality · no opinion of the court</div>
+    <p>The appellant wins and the court has held nothing. Both circuits that end
+      here are <b>on the pot</b>, and until the sixteenth seat they were the two
+      deadlocks. Birk has broken them, for the appellant, and she concurs in the
+      judgment only — she will not put her name to anybody&rsquo;s reasons. Take
+      her vote away and there is no majority at all, so the majority exists only
+      because of a judge who joins no opinion. That is a plurality: the case is
+      disposed of, nobody has stated the law, and nothing here binds the next
+      court that is asked.</p>
+    <p>So on the two circuits where the pot is actually on the table, this bench
+      can now decide and cannot explain. Hazel was at the table and must recuse
+      for interest. Birk will not sign. Six appointments were made to repair
+      this court, and what they have produced, at the point of closest contact
+      with the evidence, is a result with no reasons attached to it — which is
+      the same document the court below issued, and the same one the pot issued
+      before that.</p>
+  </div>
+
+  <h2>Fern's table <b>§3 · two keys, one answer</b></h2>
+  <div class="panel">
+    <div class="tally" style="grid-template-columns:repeat(3,1fr);margin-top:0">
+      <div class="head"><span>Papers · in leaf</span><b style="color:var(--aff)">AFFIRM</b></div>
+      <div class="head"><span>Papers · bare</span><b style="color:var(--rev)">REVERSE</b></div>
+      <div class="head"><span>Record · in leaf</span><b style="color:var(--rev)">REVERSE</b></div>
+      <div class="head"><span>Record · bare</span><b style="color:var(--rev)">REVERSE</b></div>
+      <div class="head"><span>Pot · in leaf</span><b style="color:var(--aff)">AFFIRM</b></div>
+      <div class="head"><span>Pot · bare</span><b style="color:var(--aff)">AFFIRM</b></div>
+    </div>
+    <p class="note">Six cells, each typed by someone who can be asked why. Three
+      grants by two seasons is the whole of her jurisprudence and it fits in a
+      box — which is a higher standard of transparency than most benches meet
+      and a lower one than any bench should be allowed to fall below.</p>
+  </div>
+
+  <h2>Why the first vote is the whole case <b>the page being opinionated</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px;max-width:86ch">A syndicate does not
+      vote. It matriculates funds upward and promotes from within, and those are
+      one motion seen from either end. Being cyclical, it reproduces — not a
+      copy but a body identitarianly aligned with itself, mimicking the
+      structure closely enough to be run the same way by the same hands. Less
+      amoeba than germ: cohesive as one organism, factional in its parts, and
+      the factions are hats rather than people. There is no love in it and no
+      sex and no survival. It is a cycle that learned to make another of itself,
+      and the reason it looks transparent the moment you see it is that it was
+      never hiding — it simply has no step at which anyone is asked.</p>
+    <p style="margin:10px 0 0;font-size:12.5px;max-width:86ch">Which is why the
+      rule of four is the real holding of this page and the merits are the
+      footnote. Four votes is the step where somebody gets asked. Deny cert and
+      the structure keeps running with a court sitting right on top of it,
+      unreversed, having decided nothing — and that is not a failure of the
+      system, it is the system working exactly as built. The one reliable way
+      to lose <i>In re the Pot</i> was to leave the ninth chair empty, and the
+      ninth chair was empty for fifteen years. Two seats have since been added
+      to correct the court that produced that result. Neither of them votes on
+      whether there is a case. The door is exactly where it was.</p>
+  </div>
+
+  <h2>Carry it on <b>§5 and §6</b></h2>
+  <div class="panel">
+    <script type="application/json" id="doc">
+{ "manifest": "venus.yard/1", "board": "bench", "case": "In re the Pot",
+  "court": { "seats": 16, "vote_on_any_day": "13 on the pot, 14 otherwise",
+             "known_as": "the Bench of Nine", "benches": ["canopy", "understory", "root"],
+             "jurisdiction_sq_mi": 9000, "hears_per_year": 80 },
+  "rules": { "cert": 4, "decides": "a majority of those sitting",
+             "tie": "affirmed by an equally divided court",
+             "assignment": "the Chief, who does not vote",
+             "assignment_until_the_fifteenth_seat": "chief if in majority, else senior-most in majority" },
+  "circuits": 12, "reversed_on": 8, "affirmed_on": 2, "divided_on": 0,
+  "plurality_on": 2, "plurality_circuits_are_all": "on the pot",
+  "cert_denied_on": 0,
+  "added_seats": [
+    { "seniority": 10, "added_to_end": "deadlock", "grants": false, "ended_it": false, "moved_it": true },
+    { "seniority": 11, "added_to_end": "deadlock", "grants": false, "ended_it": true, "for_whom": "the court below" },
+    { "seniority": 12, "added_to_end": "deadlock", "grants": true, "ended_it": false, "opened_the_door": true },
+    { "seniority": 13, "holds": "the ninth chair proxy", "grants": "as she does",
+      "ended_it": false, "doubled_it": true },
+    { "seniority": 14, "was_at": "the pot", "grants": ["papers", "record"],
+      "recuses_for_interest_on": "the pot", "cleared": 8, "left": 2 },
+    { "seniority": 0, "chief": true, "grants": false, "votes": false,
+      "outcomes_changed": 0, "opinions_reassigned": 10 },
+    { "seniority": 16, "joins_no_opinion": true, "grants": false,
+      "ended_the_deadlocks": true, "produced_instead": "a plurality" }
+  ],
+  "seats_that_grant": 12,
+  "$note": "the docket entry. The ninth chair has been empty for fifteen years." }
+    </script>
+    <button type="submit" form="vy" style="font:inherit;font-size:13px;
+      font-weight:650;cursor:pointer;background:var(--moss);color:#08120c;
+      border:1px solid var(--moss);border-radius:9px;padding:11px 22px">
+      Enter the judgment at the bridge →</button>
+    <p class="note">The button is in no form of its own — it carries
+      <code>form="vy"</code> like every input here. Press it and the browser
+      opens <code>bridge.html?board=bench&amp;g=papers&amp;s=green&amp;n=seated</code>.
+      Nothing was fetched and nothing was sent anywhere but to another file.</p>
+  </div>
+
+  <h2>Where to start</h2>
+  <p class="note">The board opens <b>on the papers · in leaf · recused</b>,
+    which is three votes to hear and therefore no case at all. Seat the ninth
+    chair — though the door no longer closes on anyone and the ninth chair votes
+    either way now, because the twelfth seat opened one and the thirteenth
+    holds the other's proxy. Then put the case up <b>on the pot</b>, both
+    seasons, and watch the only two deadlocks left on the board appear. Five
+    appointments were made to fix this court. Put the case up <b>on the pot</b>,
+    both seasons, and read what comes back: a result, for the appellant, with
+    no opinion of the court attached to it. Then look at the line under any of
+    the other judgments and note who signs them now. Six appointments. Decide
+    for yourself which of them fixed anything, and then read the last paragraph
+    of the source comment.</p>
+  <p class="note">Next: <a href="chamber.html">the Writing Chamber</a>, where
+    the opinion is minted and priced · <a href="exhibit.html">Exhibit A</a>,
+    the record · <a href="pulse.html">the Pulse</a>, where the same
+    argument is put to a chamber that actually votes ·
+    <a href="court.html">the Floating Court</a> ·
+    <a href="index.html">the yard</a></p>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── THE SCRIPT LAYER
+  Inert. automat.js reads the query string and nothing else, and the query
+  string is the half of a URL CSS cannot see. Open this file plainly and it
+  is the board it always was, deciding everything in the stylesheet. Open
+  it as bench.html?run and the same board gets a hand on it: tribes on prime
+  cadences pressing the controls forever, with no score and no ending.
+  See automat.html. -->
+<script src="patron.js"></script>
+<script src="automat.js"></script>
+<script src="devmode.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->

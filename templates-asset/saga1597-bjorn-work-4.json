@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-bjorn-work-4",
+ "kind": "work",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "house": "Fixing bed",
+ "resource": "nitrogen",
+ "period": 3,
+ "tier": 4,
+ "yield": 29,
+ "cost": 13920,
+ "name": "Fixing bed 4 of Bjornsdottir",
+ "text": "The rotation is what produces, not the beds. Adding a bed adds a phase. Yields 29 nitrogen every 3 days.",
+ "wovenBy": "bjorn",
+ "saga": 1597
+}

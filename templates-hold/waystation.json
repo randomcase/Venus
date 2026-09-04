@@ -1,0 +1,13 @@
+{
+ "id": "waystation",
+ "kind": "hold",
+ "name": "A waystation",
+ "office": "warlock",
+ "costWax": 30,
+ "costHeze": 600,
+ "effect": {
+  "type": "unlock",
+  "target": "earlyCarry"
+ },
+ "text": "Favours the warlock. A syndicate with a waystation can carry its own signed proposals the moment they are ready, without waiting for the six-month interval — only its own, never another syndicate's."
+}

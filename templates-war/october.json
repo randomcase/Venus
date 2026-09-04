@@ -1,0 +1,60 @@
+{
+ "id": "october",
+ "kind": "war-room",
+ "order": 11,
+ "name": "October Revolution",
+ "also": "the Bolshevik seizure of Petrograd, 24–26 October 1917 Old Style (6–8 November New Style); the room from which every later room in this index descends, since the idea contained in Vietnam took its state here",
+ "theatre": "Petrograd: the Smolny Institute, the Peter and Paul Fortress, the bridges over the Neva, the Winter Palace; the cruiser Aurora on the river",
+ "from": "1917-07-16",
+ "to": "1918-01-06",
+ "sides": [
+  { "side": "Bolsheviks and the Petrograd Soviet", "who": "Lenin, Trotsky (chairman of the Soviet and of its Military Revolutionary Committee), Sverdlov, Dybenko (the Baltic sailors), Kamenev (who voted against and published the plan); Red Guards 20,000–30,000; Baltic Fleet sailors about 10,000; most of the Petrograd garrison, neutral or with them", "backed": "the Left SRs at the Congress; the Petrograd factories; Germany's money the previous spring, for the train and the press, not for the night" },
+  { "side": "The Provisional Government", "who": "Kerensky (Minister-President), Krasnov (the Cossacks he went to fetch); at the palace 500–1,000 cadets and volunteers and the 1st Petrograd Women's Battalion, about 1,000", "backed": "the Allies on paper; nobody in the city on the night" }
+ ],
+ "chain": [
+  { "who": "Vladimir Lenin", "role": "the decision", "from": 1917, "to": 1917, "did": "From Finland and then from hiding in Petrograd, wrote to the Central Committee that delay was death; won the vote of 10 October, 10–2; arrived at Smolny in disguise on the night of the 24th and pushed the rising to finish before the Congress opened, so the Congress would ratify a fact." },
+  { "who": "Leon Trotsky", "role": "the execution", "from": 1917, "to": 1917, "did": "As chairman of the Soviet, built the Military Revolutionary Committee on 16 October as a defensive body and used it as the instrument: the garrison's regiments answered to it, not to the government, by the 21st. Took the bridges, the telegraph, the stations, the power plant on the 24th–25th; the palace last." },
+  { "who": "Alexander Kerensky", "role": "the government", "from": 1917, "to": 1917, "did": "Closed the Bolshevik papers on the morning of the 24th, which was the provocation the MRC needed; left the palace by car on the morning of the 25th to find troops at the front; found Krasnov and about 700 Cossacks; lost at Pulkovo on the 30th; left Russia in 1918." },
+  { "who": "The Military Revolutionary Committee", "role": "the body", "from": 1917, "to": 1917, "did": "The order of the 25th to occupy the buildings; the ultimatum to the palace at 6:30 p.m.; the blank shot from the Aurora at 9:40 p.m. as the signal; the arrest of the cabinet in the Malachite Room at 2:10 a.m. on the 26th, by Antonov-Ovseenko." },
+  { "who": "The Second All-Russian Congress of Soviets", "role": "the ratification", "from": 1917, "to": 1917, "did": "Opened at Smolny at 10:40 p.m. on the 25th with the palace not yet taken; the Mensheviks and Right SRs walked out into what Trotsky called the dustbin of history; on the 26th passed the Decree on Peace and the Decree on Land and named the Council of People's Commissars, Lenin its chairman." }
+ ],
+ "phases": [
+  { "from": 1917, "to": 1917, "name": "July Days", "text": "16–17 July: half a million in the streets demanding Soviet power, without the party's order; the government fires; hundreds dead; Lenin flees to Finland; Trotsky is jailed. The rising the Bolsheviks did not want, and learned from." },
+  { "from": 1917, "to": 1917, "name": "Kornilov", "text": "August: the commander-in-chief moves on Petrograd; Kerensky arms the Soviet to stop him; the Bolsheviks come out of jail with rifles the government gave them and a majority in the Soviet by September." },
+  { "from": 1917, "to": 1917, "name": "The night", "text": "24–26 October: the papers closed, the bridges raised and retaken, the buildings occupied, the Aurora, the palace at 2:10 a.m., the Congress. Fewer than a dozen dead in the capital; six on the government side at the palace by most counts." },
+  { "from": 1917, "to": 1918, "name": "The ratification, and its refusal", "text": "The Constituent Assembly elected in November: Bolsheviks 175 of 715 seats, SRs 370. It met once, on 5 January 1918, rejected the decrees, and was dissolved the next morning by the sailors on guard. Brest-Litovsk in March; the civil war, 1918–1922, about ten million dead." }
+ ],
+ "gauge": { "unit": "Bolshevik strength in the capital, approximate: party members in Petrograd, by month of 1917", "series": [[2, 2000], [4, 16000], [6, 32000], [7, 36000], [8, 40000], [10, 50000]] },
+ "prediction": {
+  "ending": "1917-10-26",
+  "endingName": "The Winter Palace taken, 2:10 a.m. (Old Style)",
+  "unit": "hours the Provisional Government still controlled, counted as government buildings still held of the ten the MRC listed, by hour of 25 October Old Style",
+  "series": [["1917-10-25T02:00", 10], ["1917-10-25T06:00", 6], ["1917-10-25T10:00", 3], ["1917-10-25T14:00", 2], ["1917-10-25T18:00", 1]],
+  "fitFrom": "1917-10-25T02:00",
+  "marks": [["1917-10-24", "Bolshevik presses closed; the MRC answers by taking the bridges"], ["1917-10-25T10:00", "Lenin's proclamation: the Provisional Government is deposed — before it was"], ["1917-10-25T11:00", "Kerensky leaves by car"], ["1917-10-25T18:30", "ultimatum to the palace"], ["1917-10-25T21:40", "the Aurora fires blank"], ["1917-10-25T22:40", "the Congress opens"], ["1917-10-26T02:10", "the cabinet arrested"]],
+  "note": "The line fitted to the buildings lost through the day reaches zero at six in the evening; the palace held until ten past two, eight hours later, because a palace with a thousand defenders and a cabinet inside is not a telegraph office, and because the MRC waited for the Aurora and for the cadets to drift away rather than storm it. The eight hours of error are the difference between a building and a symbol. Eisenstein filmed the storming in 1927 with more extras than there had been attackers."
+ },
+ "cost": [
+  { "k": "Dead in Petrograd, 24–26 October", "v": "fewer than a dozen; the Soviet later filmed a battle" },
+  { "k": "Dead in Moscow, 27 October – 2 November", "v": "about 1,000; the real fighting of the revolution" },
+  { "k": "The Constituent Assembly", "v": "715 seats; Bolsheviks 175; one day of session" },
+  { "k": "The civil war it opened", "v": "1918–1922, about 10,000,000 dead, most of them civilians, of famine and typhus as much as of arms" },
+  { "k": "What the idea got", "v": "a state, an army and a capital: see the idea timeline in project 55, where 1917 is the second line" }
+ ],
+ "outcome": "A party of perhaps 350,000 in a country of 150 million took the capital in a night with almost no one killed, and held it for seventy-four years. The revolution was the ratification; the seizure was the night before; the war was after. Every room in this index that contains an idea is downstream of this one.",
+ "open": [
+  "Whether it was a coup or a revolution: the night was a coup by any definition, the Congress that ratified it had a Bolshevik–Left SR majority, and the Assembly elected a month later did not. Both facts are in the room.",
+  "Whether Kerensky could have held: the garrison had gone over by the 21st; the question is whether September's decisions or July's made that so.",
+  "Whether the Assembly's dissolution on 6 January 1918, not the night of 25 October, is the date the idea stopped asking for consent."
+ ],
+ "sources": [
+  "Wikipedia, October Revolution (fetched 2026-09-03), and the sources it cites",
+  "Alexander Rabinowitch, The Bolsheviks Come to Power (1976)",
+  "Richard Pipes, The Russian Revolution (1990)",
+  "Orlando Figes, A People's Tragedy (1996)",
+  "John Reed, Ten Days That Shook the World (1919), a witness, and a partisan one",
+  "Trotsky, History of the Russian Revolution (1930), the executor's own account"
+ ],
+ "text": "The October Revolution as a war room to the standard: the night by the hour, the chain that decided and executed it, the almost-no-one it killed, the ten million who died in what it opened, and the line that reaches zero six hours before the palace fell.",
+ "wovenBy": "the bridge"
+}

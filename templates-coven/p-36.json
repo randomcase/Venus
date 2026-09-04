@@ -1,0 +1,31 @@
+{
+ "id": "p-36",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Sableis Sableis",
+ "syndicate": "syn-12",
+ "tranche": 12,
+ "doors": [
+  105,
+  114
+ ],
+ "house": "the quiet lamp",
+ "sigil": {
+  "ring": 2,
+  "bars": 2,
+  "chord": 1,
+  "turn": 293
+ },
+ "keeps": "the route, which is not written down",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "John Fian",
+ "readsId": "fian",
+ "reason": "Accused of raising the storm that struck James VI’s ship.",
+ "spell": "Bind",
+ "spellId": "bind",
+ "glyph": "⛓",
+ "share": "e2d5a8",
+ "text": "Sableis sableis of the quiet lamp, carries between for the 12th tranche, doors 105 to 114. Keeps the route, which is not written down. Reads John Fian.",
+ "wovenBy": "fian"
+}

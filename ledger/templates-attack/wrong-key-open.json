@@ -1,0 +1,16 @@
+{
+ "id": "wrong-key-open",
+ "kind": "attack",
+ "order": 7,
+ "target": "a sealed event",
+ "name": "Any key, tried against the lock",
+ "tactic": "Reconstruct a key from a different split entirely — a plausible-looking 32 bytes, correctly formed, just not the one that sealed this particular content — and try to open the sealed event with it anyway.",
+ "requires": [],
+ "expect": "rejected",
+ "response": {
+  "pass": "{{ledger}} refused to open: {{detail}}",
+  "fail": "open() returned content under the wrong key. This must never happen — GCM's authentication tag exists exactly to make a wrong key fail loudly rather than return garbage that looks like an answer."
+ },
+ "text": "AES-256-GCM is authenticated, not just encrypted: it carries a tag computed over the exact key and ciphertext together, and decrypting under any other key fails that check before ever returning bytes. A wrong key does not produce wrong content — it produces no content.",
+ "wovenBy": "keyring.mjs"
+}

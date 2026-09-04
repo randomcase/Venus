@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-code-scala",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of scala",
+ "text": "For venus-core.",
+ "wovenBy": "code-scala",
+ "bay": 14
+}

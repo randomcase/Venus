@@ -1,0 +1,16 @@
+{
+ "id": "act-085",
+ "order": 85,
+ "year": 9,
+ "day": 3030,
+ "parties": [
+  "paris"
+ ],
+ "actor": "Paris",
+ "with": null,
+ "verb": "ransomed",
+ "object": "a son from the ships",
+ "place": "in Priam's hall",
+ "side": "troy",
+ "text": "Paris ransomed a son from the ships, in Priam's hall, in the ninth year."
+}

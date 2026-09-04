@@ -1,0 +1,9 @@
+{
+ "id": "library-chair-ptfe",
+ "kind": "chair",
+ "room": "library",
+ "name": "a reading chair in ptfe",
+ "text": "Upholstered in ptfe, which survives Venus by not reacting to anything. Chemically inert to sulfuric acid at every concentration and temperature the deck offers. Spinnable into fibre and castable into membrane. This is the answer, and it has been the answer since 1938.",
+ "wovenBy": "ptfe",
+ "seat": 3
+}

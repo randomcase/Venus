@@ -1,0 +1,13 @@
+{
+ "id": "regime-6",
+ "kind": "regime",
+ "degree": 6,
+ "tickers": 16384,
+ "aFarm": 4096,
+ "pxACell": 8,
+ "named": false,
+ "visual": true,
+ "name": "Degree 6, 16,384.",
+ "text": "Texture with grain. Farms are the only shapes left.",
+ "wovenBy": "market.mjs"
+}

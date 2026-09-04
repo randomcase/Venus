@@ -1,0 +1,13 @@
+{
+ "id": "regime-4",
+ "kind": "regime",
+ "degree": 4,
+ "tickers": 1024,
+ "aFarm": 256,
+ "pxACell": 32,
+ "named": false,
+ "visual": false,
+ "name": "Degree 4, 1,024.",
+ "text": "The names are gone; the cells remain. You can still point at one and mean it.",
+ "wovenBy": "market.mjs"
+}

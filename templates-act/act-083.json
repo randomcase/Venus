@@ -1,0 +1,16 @@
+{
+ "id": "act-083",
+ "order": 83,
+ "year": 9,
+ "day": 2954,
+ "parties": [
+  "hector"
+ ],
+ "actor": "Hector",
+ "with": null,
+ "verb": "sacked",
+ "object": "a city on the coast",
+ "place": "before the Scaean gate",
+ "side": "troy",
+ "text": "Hector sacked a city on the coast, before the Scaean gate, in the ninth year."
+}

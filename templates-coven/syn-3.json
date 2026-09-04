@@ -1,0 +1,22 @@
+{
+ "id": "syn-3",
+ "kind": "syndicate",
+ "tranche": 3,
+ "holds": 1000000,
+ "doors": [
+  20,
+  28
+ ],
+ "doorCount": 9,
+ "custodians": [
+  "p-7",
+  "p-8",
+  "p-9"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 3rd syndicate",
+ "seat": "the fourth watch",
+ "text": "Holds one tranche of a million against doors 20 to 28. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

@@ -1,0 +1,9 @@
+{
+ "id": "loom-hall-bench-linen",
+ "kind": "bench",
+ "room": "loom-hall",
+ "name": "a bench cushioned in linen",
+ "text": "Linen will not survive Venus. It is here anyway, because a bench you watch a loom from should be comfortable, and it can be re-covered.",
+ "wovenBy": "linen",
+ "seat": 1
+}

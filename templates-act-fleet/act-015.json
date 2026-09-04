@@ -1,0 +1,17 @@
+{
+ "id": "act-015",
+ "bench": "fleet",
+ "order": 15,
+ "year": 2,
+ "day": 505,
+ "parties": [
+  "hector"
+ ],
+ "actor": "Hector",
+ "with": null,
+ "verb": "drew",
+ "object": "lots for the duel with Hector",
+ "place": "at the wall round the camp",
+ "side": "troy",
+ "text": "Hector drew lots for the duel with Hector, at the wall round the camp, in the second year."
+}

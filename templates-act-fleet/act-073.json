@@ -1,0 +1,17 @@
+{
+ "id": "act-073",
+ "bench": "fleet",
+ "order": 73,
+ "year": 8,
+ "day": 2593,
+ "parties": [
+  "hector"
+ ],
+ "actor": "Hector",
+ "with": null,
+ "verb": "held",
+ "object": "the ships against the fire",
+ "place": "at the wall round the camp",
+ "side": "troy",
+ "text": "Hector held the ships against the fire, at the wall round the camp, in the eighth year."
+}

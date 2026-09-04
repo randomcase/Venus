@@ -1,0 +1,17 @@
+{
+ "id": "act-011",
+ "bench": "fleet",
+ "order": 11,
+ "year": 2,
+ "day": 376,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "spoke",
+ "object": "against the kings in the assembly",
+ "place": "in the assembly by the ships",
+ "side": "fleet",
+ "text": "Achilles spoke against the kings in the assembly, in the assembly by the ships, in the second year."
+}

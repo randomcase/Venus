@@ -1,0 +1,22 @@
+{
+ "id": "rules-continent",
+ "kind": "rules",
+ "deck": "continent",
+ "path": "templates-rules/continent.json",
+ "rules": {
+  "cap": 21000000,
+  "awayHours": 8,
+  "secondsPerDay": 1,
+  "sowCost": 3,
+  "spreadCost": 1
+ },
+ "notes": {
+  "cap": "HEZE that can ever be issued across every deck; a unit of account inside the files, never a token",
+  "awayHours": "the most time a deck will catch up on when you come back",
+  "secondsPerDay": "how long a day is, in real seconds",
+  "sowCost": "units drawn from the pile to sow a parcel by hand",
+  "spreadCost": "units drawn from the pile per parcel the continent spreads into on its own"
+ },
+ "text": "The rulebook of the continent. Keep a changed copy in the browser through the editor in the quarter and the continent plays by it on its next load; write it into the yard and it plays by it for good.",
+ "wovenBy": "rules.mjs"
+}

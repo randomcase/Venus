@@ -1,0 +1,31 @@
+{
+ "id": "p-34",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Hespic Vessic",
+ "syndicate": "syn-12",
+ "tranche": 12,
+ "doors": [
+  105,
+  114
+ ],
+ "house": "the open ledger",
+ "sigil": {
+  "ring": 3,
+  "bars": 1,
+  "chord": 5,
+  "turn": 26
+ },
+ "keeps": "what grows on her side of the wall",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "Jabir ibn Hayyan (Geber)",
+ "readsId": "jabir",
+ "reason": "The word alchemy carries an Arabic article on the front of it because of this tradition.",
+ "spell": "Bind",
+ "spellId": "bind",
+ "glyph": "⛓",
+ "share": "71e298",
+ "text": "Hespic vessic of the open ledger, keeps a door for the 12th tranche, doors 105 to 114. Keeps what grows on her side of the wall. Reads Jabir ibn Hayyan (Geber).",
+ "wovenBy": "jabir"
+}

@@ -1,0 +1,12 @@
+{
+ "id": "croft-syn-13",
+ "kind": "croft",
+ "syndicate": "syn-13",
+ "tranche": 13,
+ "seat": "the fourth watch",
+ "period": 41,
+ "yield": 2,
+ "cap": 30,
+ "text": "The croft at the fourth watch, growing sealing wax for the 13th syndicate every 41 days.",
+ "wovenBy": "syn-13"
+}

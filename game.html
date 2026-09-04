@@ -1,0 +1,2411 @@
+<title>Venus Yard · the aerostat</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  VENUS YARD — the game. Mobile shape, desktop screen.
+
+  WHAT THIS IS BUILT OUT OF
+  Nothing here is invented for the game. Every number, dependency and refusal
+  comes from a page in this repository that worked it out first:
+
+    the twelve sectors and their build order   economy.html
+    the twelve ecosystem orders as the roster  ecosystem.html
+    the fleet, and what each ship carries      ships/ + ships.json
+    the site, the lift, the hydrogen budget    terraform.html, water.html
+    the requirement graph and its statuses     profiles.json
+
+  THE LOOP, AND WHY IT IS NOT THE USUAL ONE
+  City builders run on several scarcities that all behave alike. This one has
+  exactly one scarcity and it behaves differently from everything else:
+
+    POWER    2,601 W/m2 at Venus, 1.91x Earth. Effectively unlimited, and it
+             stops for two days at a time because the band's day is four days
+             long and half of that is night.
+    CARBON   96.5% of the atmosphere. Unlimited. You cannot run out.
+    WATER    made locally, at a cost, out of hydrogen you did not make.
+    HYDROGEN cannot be produced here at any price. It arrives by ship or it
+             does not arrive. 292 days round trip for 11,400 kg.
+
+  So the game cannot be won by optimising production. Hydrogen is exogenous,
+  the ships come on a fixed 584-day cadence set by orbital mechanics, and the
+  only real decision is what you spend the arriving mass on before the next one.
+  That is the actual shape of the problem and it makes a stranger game than the
+  usual four-resource grind.
+
+  THE 3D
+  CSS 3D transforms rather than WebGL: a real perspective camera, real depth,
+  and a build plate you can orbit. These games are isometric anyway. The planet
+  behind is 2D canvas. No libraries, no CDN, one file, runs from disk.
+
+  SCRIPT: yes, obviously. It is a game. Everything else in this yard is
+  scriptless and marked as such; this is the exception and it is marked too.
+-->
+<style>
+  :root{
+    --void:#07060a; --panel:#141119; --panel2:#1b1722; --edge:#332c40;
+    --ink:#f2eee6; --dim:#9a8fa8; --gold:#e8c069; --gold2:#ffe6a8;
+    --venus:#f0a83c; --h2:#7fd0e0; --pw:#e8c069; --wat:#6ec6ff; --com:#7fc98a;
+    --bad:#e0705a; --ok:#65d6a8;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{margin:0;background:#050407;color:var(--ink);overflow:hidden;
+    font:13px/1.5 ui-rounded,system-ui,-apple-system,sans-serif;
+    display:grid;place-items:center}
+
+  /* the sky, behind everything, bleeding past the phone */
+  #sky{position:fixed;inset:0;z-index:0}
+
+  /* ------------------------------------------------------------ the shell
+     Phone shape on a phone, a proper wide app on a desktop. The aspect ratio
+     is not the design; the single column is, and above 860px the panes stop
+     being pages you switch to and become a sidebar that is always open. */
+  .phone{position:relative;z-index:1;width:min(404px,100vw);height:min(876px,100vh);
+    border-radius:34px;border:1px solid #2a2333;overflow:hidden;
+    background:linear-gradient(180deg,rgba(12,10,17,.30),rgba(8,7,12,.48));
+    box-shadow:0 40px 120px rgba(0,0,0,.75),0 0 0 9px #0b0910,0 0 0 10px #1d1826;
+    display:flex;flex-direction:column;backdrop-filter:blur(2px)}
+
+  @media (max-width:520px){
+    body{display:block}
+    .phone{width:100vw;height:100vh;border-radius:0;border:0;box-shadow:none}
+  }
+
+  @media (min-width:860px){
+    .phone{width:min(1180px,94vw);height:min(880px,94vh);
+      display:grid;grid-template-columns:1fr 344px;
+      grid-template-rows:auto auto auto auto 1fr auto;
+      grid-template-areas:'res side' 'clock side' 'forest side' 'supply side'
+                          'stage side' 'nav side'}
+    .res{grid-area:res} .clockbar{grid-area:clock}
+    #supply{grid-area:supply;margin:9px 12px 0}
+    #forest{grid-area:forest}
+    .stage{grid-area:stage} nav{grid-area:nav}
+    .relay,.run{grid-area:stage}
+    .side{grid-area:side;border-left:1px solid var(--edge);overflow:auto;
+      background:rgba(10,8,14,.6);display:block}
+    .pane{display:none !important}
+    .side .pane{display:block !important;border-bottom:1px solid var(--edge)}
+    .side h4{margin:0;padding:11px 13px 8px;font:9px/1 ui-monospace,monospace;
+      letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
+      background:#0d0b13;border-bottom:1px solid var(--edge)}
+    nav button[data-tab="roster"],nav button[data-tab="fleet"],
+    nav button[data-tab="codex"],nav button[data-tab="hub"]{display:none}
+    .side #side-hub{padding:0}
+    nav{grid-template-columns:repeat(3,1fr)}
+    .run{perspective:640px}
+    .stage.off{display:block}
+
+    /* THE SHEET STOPS BEING A DRAWER. On a phone a panel that slides up from
+       the bottom edge is right — the thumb is there and the edge is reachable.
+       On a desktop there is no thumb and no edge, and 74% of the height
+       arriving from below is a phone gesture performed at somebody who is
+       sitting still. Same element, same .up class, same JS: only the geometry
+       changes, which is what a media query is for. */
+    .sheet{left:50%;right:auto;bottom:auto;top:50%;width:min(560px,62vw);
+      max-height:78%;border-radius:14px;border:1px solid var(--edge);
+      box-shadow:0 24px 70px rgba(0,0,0,.6);padding:16px 18px 18px;
+      transform:translate(-50%,-46%) scale(.97);opacity:0;pointer-events:none;
+      transition:transform .18s cubic-bezier(.2,.8,.3,1),opacity .18s}
+    .sheet.up{transform:translate(-50%,-50%) scale(1);opacity:1;
+      pointer-events:auto}
+    .sheet .grab{display:none}
+    /* four destinations read better side by side than stacked when there is
+       room for them to be */
+    .mf{grid-template-columns:1fr 1fr}
+  }
+  .side{display:none}
+
+  /* ------------------------------------------------------------- top bar */
+  .res{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#241e2e;
+    border-bottom:1px solid var(--edge);flex:none}
+  .res div{background:#100d16;padding:8px 6px;text-align:center}
+  .res span{display:block;font:8px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim)}
+  .res b{display:block;font:14px/1.2 ui-monospace,Menlo,monospace;margin-top:4px}
+  .res i{display:block;font-style:normal;font:8px/1 ui-monospace,monospace;
+    color:#5f5470;margin-top:3px}
+  .r-h2 b{color:var(--h2)} .r-pw b{color:var(--pw)}
+  .r-wa b{color:var(--wat)} .r-co b{color:var(--com)}
+  .res b.low{color:var(--bad)}
+
+  .clockbar{display:flex;align-items:center;gap:8px;padding:6px 12px;flex:none;
+    background:#0c0a11;border-bottom:1px solid var(--edge);
+    font:9px/1 ui-monospace,monospace;letter-spacing:.1em;color:var(--dim)}
+  .clockbar b{color:var(--gold2)}
+  .clockbar .day{margin-left:auto}
+  .clockbar .night{color:var(--h2)}
+
+  /* --------------------------------------------------------- the 3D stage */
+  .stage{position:relative;flex:1;overflow:hidden;perspective:900px;
+    perspective-origin:50% 42%;touch-action:none;cursor:grab;
+    user-select:none;-webkit-user-select:none;
+    background:radial-gradient(ellipse at 50% 46%,rgba(6,4,10,.30),rgba(4,3,7,.78) 78%)}
+  .sheet{user-select:text;-webkit-user-select:text}
+  .stage:active{cursor:grabbing}
+  .world{position:absolute;left:50%;top:50%;width:0;height:0;
+    transform-style:preserve-3d;transition:transform .12s linear}
+  .plate{position:absolute;width:460px;height:460px;left:-230px;top:-230px;
+    transform-style:preserve-3d;
+    background:
+      repeating-linear-gradient(0deg,rgba(232,192,105,.10) 0 1px,transparent 1px 46px),
+      repeating-linear-gradient(90deg,rgba(232,192,105,.10) 0 1px,transparent 1px 46px),
+      radial-gradient(circle at 50% 50%,rgba(240,168,60,.16),rgba(20,15,28,.86) 68%);
+    border:1px solid rgba(232,192,105,.28);border-radius:10px;
+    box-shadow:0 0 60px rgba(240,168,60,.18)}
+  .plate::after{content:"";position:absolute;inset:-40px;border-radius:24px;
+    border:1px dashed rgba(232,192,105,.16);transform:translateZ(-26px)}
+
+  .slot{position:absolute;width:84px;height:84px;margin:-42px 0 0 -42px;
+    transform-style:preserve-3d;cursor:pointer}
+  .slot .pad{position:absolute;inset:0;border:1px solid rgba(232,192,105,.3);
+    border-radius:7px;background:rgba(232,192,105,.05)}
+  .slot.locked .pad{border-style:dashed;border-color:rgba(154,143,168,.3);
+    background:rgba(154,143,168,.03)}
+  .slot .tower{position:absolute;left:50%;bottom:50%;width:44px;margin-left:-22px;
+    transform-style:preserve-3d}
+  /* a BOX is one storey: four faces and a lid, at its own width, lifted to its
+     own base. A tower is one or more of them stacked, which is the whole of
+     how three silhouettes come out of one function. */
+  .slot .box{position:absolute;transform-style:preserve-3d}
+  .slot .face{position:absolute;left:0;transform-origin:bottom center;
+    border:1px solid rgba(0,0,0,.5)}
+  .slot .top{position:absolute;left:0;border:1px solid rgba(255,255,255,.22)}
+  /* contact shadow — the one cue that makes a floating box sit on a plate */
+  .slot .ao{position:absolute;left:50%;top:50%;width:96px;height:96px;
+    margin:-48px 0 0 -48px;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(0,0,0,.55),rgba(0,0,0,0) 66%);
+    transform:translateZ(1px);opacity:0;transition:opacity .3s}
+  .slot.built .ao{opacity:1}
+  /* and a light at the crown, so a built sector reads as running rather than
+     merely present */
+  .slot .crown{position:absolute;left:50%;width:70px;height:70px;
+    margin-left:-35px;border-radius:50%;pointer-events:none;opacity:0;
+    transition:opacity .45s}
+  .slot.built .crown{opacity:.5}
+  .slot .cap{position:absolute;left:50%;transform:translate(-50%,0);
+    white-space:nowrap;font:8.5px/1 ui-monospace,monospace;letter-spacing:.06em;
+    color:var(--dim);text-shadow:0 1px 3px #000;pointer-events:none}
+  .slot.built .cap{color:var(--gold2)}
+  .slot.sel .pad{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.35),
+    0 0 26px rgba(232,192,105,.5)}
+  .slot .bar{position:absolute;left:50%;width:52px;height:4px;margin-left:-26px;
+    background:#2a2333;border-radius:3px;overflow:hidden}
+  .slot .bar i{display:block;height:100%;background:var(--gold);width:0}
+
+  /* --------------------------------------------------------------- sheets */
+  .sheet{position:absolute;left:0;right:0;bottom:0;max-height:74%;overflow:auto;
+    background:linear-gradient(180deg,rgba(24,20,32,.97),rgba(16,13,22,.99));
+    border-top:1px solid var(--edge);border-radius:16px 16px 0 0;
+    transform:translateY(101%);transition:transform .22s cubic-bezier(.2,.8,.3,1);
+    z-index:5;padding:12px 14px 16px}
+  .sheet.up{transform:translateY(0)}
+  .sheet .grab{width:36px;height:4px;border-radius:3px;background:#3a3247;
+    margin:0 auto 10px}
+  .sheet h3{margin:0 0 2px;font-size:16px;color:var(--gold2)}
+  .sheet .sub{color:var(--dim);font-size:10.5px;margin:0 0 10px}
+  .sheet .body{font-size:12px;color:#d6cfe0}
+  .sheet .why{border-left:3px solid var(--gold);padding:2px 0 2px 11px;
+    margin:10px 0;color:var(--dim);font-size:11px}
+  .cost{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0;
+    font:10px/1 ui-monospace,monospace}
+  .cost span{color:var(--dim)} .cost b{color:var(--ink)}
+  .needs{margin:9px 0 0;font-size:11px}
+  .needs div{display:flex;gap:8px;align-items:center;padding:4px 0}
+  .needs .tick{width:14px;height:14px;border-radius:4px;flex:none;
+    border:1px solid var(--edge)}
+  .needs .yes .tick{background:var(--ok);border-color:var(--ok)}
+  .needs .no .tick{background:transparent;border-color:var(--bad)}
+  .needs .no{color:var(--bad)}
+  button{font:inherit;font-size:13px;font-weight:650;cursor:pointer;width:100%;
+    padding:12px;border-radius:11px;border:1px solid var(--gold);
+    background:var(--gold);color:#171009;margin-top:10px}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  button.ghost{background:transparent;color:var(--dim);border-color:var(--edge)}
+
+  /* ----------------------------------------------------------------- nav */
+  nav{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#241e2e;
+    border-top:1px solid var(--edge);flex:none}
+  nav button{width:auto;margin:0;border-radius:0;border:0;background:#100d16;
+    color:var(--dim);font-size:10px;font-weight:600;padding:11px 4px 12px;
+    letter-spacing:.06em}
+  nav button.on{color:var(--gold2);background:#171226;
+    box-shadow:inset 0 2px 0 var(--gold)}
+
+  .list{padding:2px 0 8px}
+  .row{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;
+    border-bottom:1px solid #241e2e}
+  .row:last-child{border-bottom:0}
+  .row .dot{width:34px;height:34px;border-radius:9px;flex:none;
+    display:grid;place-items:center;font-size:16px;background:#1a1524;
+    border:1px solid var(--edge)}
+  .row .t{flex:1;min-width:0}
+  .row .t b{display:block;font-size:12.5px;color:var(--ink)}
+  .row .t span{display:block;font-size:10.5px;color:var(--dim);margin-top:2px;
+    line-height:1.45}
+  .row .badge{font:8.5px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;padding:4px 6px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);color:var(--dim)}
+  /* TWO REGISTERS. The kingdom — base and run — is dark, dimensional and lit
+     from a planet. The administrative layers — orders, fleet, codex — get the
+     office view: flat, pale-ruled, papery, no perspective and no glow, because
+     a ledger that looks like a throne room is a ledger nobody checks. */
+  .pane{display:none;flex:1;overflow:auto;
+    background:linear-gradient(180deg,#15131c,#101019);
+    background-image:repeating-linear-gradient(180deg,
+      rgba(255,255,255,.022) 0 1px,transparent 1px 34px)}
+  .pane.on{display:block}
+  .pane .row .dot{background:#1e1b28;border-radius:5px;box-shadow:none}
+  .pane .row .badge{border-radius:3px;background:#1a1824}
+  .stage.off{display:none}
+
+  /* ------------------------------------------------------------- the run
+     Same CSS-3D technique, camera turned to face down the colonnade instead of
+     down at the plate. Segments recycle as they pass the camera. */
+  .run{position:relative;flex:1;overflow:hidden;perspective:520px;
+    perspective-origin:50% 44%;display:none;touch-action:none;
+    user-select:none;-webkit-user-select:none;
+    background:linear-gradient(180deg,#0a0713 0%,#1a1020 46%,#2a1508 100%)}
+  .run.on{display:block}
+  .track{position:absolute;left:50%;top:50%;width:0;height:0;
+    transform-style:preserve-3d}
+  .seg{position:absolute;transform-style:preserve-3d}
+  .floor{position:absolute;left:-150px;width:300px;height:200px;
+    background:linear-gradient(180deg,rgba(232,192,105,.13),rgba(232,192,105,.03));
+    border-top:1px solid rgba(232,192,105,.30);
+    transform:rotateX(90deg);transform-origin:top center}
+  .pil{position:absolute;width:34px;transform-style:preserve-3d}
+  .pil i{position:absolute;left:0;width:34px;display:block;
+    border:1px solid rgba(0,0,0,.5)}
+  .pick{position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;
+    border-radius:50%;background:radial-gradient(circle at 36% 32%,#dffaff,#7fd0e0 60%,#2f7c8c);
+    box-shadow:0 0 14px rgba(127,208,224,.8)}
+  .hz{position:absolute;width:56px;height:44px;margin-left:-28px;
+    background:linear-gradient(180deg,#e0705a,#7a2a1e);border:1px solid #ff9c86;
+    border-radius:4px;box-shadow:0 0 16px rgba(224,112,90,.6)}
+  .runner{position:absolute;left:50%;width:26px;height:34px;margin-left:-13px;
+    border-radius:6px;background:linear-gradient(180deg,#ffe6a8,#e8c069);
+    box-shadow:0 0 20px rgba(232,192,105,.8);transition:transform .11s ease-out}
+  .hud{position:absolute;left:0;right:0;top:0;display:flex;gap:14px;
+    padding:9px 13px;font:10px/1 ui-monospace,monospace;color:var(--dim);
+    background:linear-gradient(180deg,rgba(8,6,12,.9),transparent);z-index:3}
+  .hud b{color:var(--gold2)} .hud .r{margin-left:auto}
+  .over{position:absolute;inset:0;display:none;place-items:center;z-index:6;
+    background:rgba(8,6,12,.9);text-align:center;padding:24px}
+  .over.on{display:grid}
+  .over h3{margin:0 0 6px;font-size:19px;color:var(--gold2)}
+  .over p{margin:0 0 4px;font-size:12px;color:var(--dim);max-width:34ch}
+  .over button{max-width:230px;margin:14px auto 0}
+
+  /* the gate: the run keeps going, you do the thinking */
+  .gate{position:absolute;left:10px;right:10px;bottom:12px;z-index:7;
+    background:linear-gradient(180deg,rgba(26,21,36,.97),rgba(16,12,24,.99));
+    border:1px solid var(--gold);border-radius:14px;padding:13px 14px;
+    transform:translateY(140%);transition:transform .26s cubic-bezier(.2,.8,.3,1)}
+  .gate.up{transform:translateY(0)}
+  .gate .stanza{font:italic 12px/1.55 ui-serif,Georgia,serif;color:var(--gold2);
+    border-left:2px solid var(--gold);padding-left:11px;margin:0 0 10px}
+  .gate .q{font-size:13px;margin:0 0 10px;color:var(--ink)}
+  .gate .opts{display:grid;gap:7px}
+  .gate .opts button{margin:0;padding:10px;font-size:12.5px;background:#221b30;
+    color:var(--ink);border-color:var(--edge);font-weight:600}
+  .gate .opts button:hover{border-color:var(--gold)}
+  .gate .opts button.right{background:var(--ok);color:#07130d;border-color:var(--ok)}
+  .gate .opts button.wrong{background:#3a1c18;color:#ffb3a3;border-color:var(--bad)}
+  .gate .tag{font:8.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+
+  .toast{position:absolute;left:12px;right:12px;bottom:74px;z-index:9;
+    background:rgba(30,24,40,.97);border:1px solid var(--edge);border-radius:11px;
+    padding:10px 12px;font-size:11.5px;color:#e4dcf0;opacity:0;
+    transition:opacity .2s;pointer-events:none}
+  .toast.show{opacity:1}
+  .toast b{color:var(--bad)}
+
+  .hint{position:absolute;left:0;right:0;bottom:8px;text-align:center;
+    font:9px/1.4 ui-monospace,monospace;color:#544a63;pointer-events:none}
+  /* ══════════════════════════════════════════════════════════ THE RELAY
+     Two buttons. That is the whole interface and it is the whole idea.
+
+     Base is a plate you orbit, run is a corridor you read, and this is a
+     thing that flies itself while you watch. You do not steer it. You decide
+     WHEN IT LEAVES, and you can stop it, and there is nothing else — because
+     once a thing is automated the operator is an injector, and an injector
+     has exactly two verbs. */
+  .relay{position:absolute;inset:0;display:none;flex-direction:column;
+    background:linear-gradient(180deg,#05070c,#080c14 60%,#0a0f16)}
+  .relay.on{display:flex}
+  .relay.dead{filter:grayscale(.8) brightness(.55)}
+  .rl-top{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:#1b2836;border-bottom:1px solid #1b2836;flex:none}
+  .rl-top div{background:#0a0f17;padding:8px 10px}
+  .rl-top span{display:block;font:8px/1 ui-monospace,monospace;letter-spacing:.15em;
+    text-transform:uppercase;color:#6a7e92}
+  .rl-top b{display:block;font:15px/1.25 ui-monospace,monospace;color:#e6eef7;
+    margin-top:4px}
+  .rl-top i{font-style:normal;font-size:9.5px;color:#6a7e92}
+  .rl-top .lag b{color:#ffb46b}
+  .rl-top .hand b{color:#ffe9a8;font-size:12.5px}
+
+  .lane{position:relative;flex:1;overflow:hidden;touch-action:none}
+  .corr{position:absolute;left:0;right:0;background:rgba(95,214,164,.09);
+    border-top:1px solid rgba(95,214,164,.42);
+    border-bottom:1px solid rgba(95,214,164,.42)}
+  .corr.out{background:rgba(255,180,107,.10);
+    border-top-color:rgba(255,180,107,.5);border-bottom-color:rgba(255,180,107,.5)}
+  .zone{position:absolute;top:0;bottom:0;width:3px;background:rgba(157,138,224,.30)}
+  .zone::after{content:attr(data-n);position:absolute;top:8px;left:7px;
+    font:8px/1 ui-monospace,monospace;letter-spacing:.14em;color:#9d8ae0;
+    white-space:nowrap}
+  .zone.live{background:rgba(157,138,224,.9);box-shadow:0 0 18px rgba(157,138,224,.7)}
+  .end{position:absolute;top:0;bottom:0;width:2px;background:#22303f}
+  .end::after{content:attr(data-n);position:absolute;bottom:10px;left:7px;
+    font:8px/1 ui-monospace,monospace;letter-spacing:.14em;color:#54677c}
+  .end.r::after{left:auto;right:7px}
+  .hull{position:absolute;width:16px;height:11px;margin:-5px 0 0 -8px;
+    border-radius:3px 8px 8px 3px;
+    background:linear-gradient(180deg,#eaf4ff,#9fc4e0);
+    box-shadow:0 0 14px rgba(160,200,235,.55)}
+  .hull.out{background:linear-gradient(180deg,#ffd9b0,#e0a05a);
+    box-shadow:0 0 14px rgba(224,160,90,.6)}
+  .baton{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;
+    border-radius:2px;transform:rotate(45deg);background:#ffe9a8;
+    box-shadow:0 0 12px rgba(255,233,168,.85)}
+  /* the correction the automation has already sent and not yet had answered.
+     It is drawn because the entire mode is about the fact that it exists. */
+  .cmd{position:absolute;width:5px;height:5px;margin:-2px 0 0 -2px;
+    border-radius:50%;background:#6ec6ff;box-shadow:0 0 9px rgba(110,198,255,.9)}
+  /* the trail — where the hull has been, so the hunting at the far end is
+     visible as a shape rather than only as a number */
+  .trail{position:absolute;inset:0;pointer-events:none}
+
+  .rl-note{flex:none;padding:9px 12px;border-top:1px solid #1b2836;
+    background:#070b11;color:#6a7e92;font:10px/1.6 ui-monospace,monospace}
+  .rl-note b{color:#cfdae6} .rl-note em{font-style:normal;color:#ffb46b}
+  /* TWO BUTTONS. One go, one stop. There is no third. */
+  .rl-pads{flex:none;display:grid;grid-template-columns:2fr 1fr;gap:9px;
+    padding:10px 12px 12px;border-top:1px solid #1b2836;background:#070b11}
+  .rl-pads button{cursor:pointer;font:11px/1 ui-monospace,monospace;
+    letter-spacing:.18em;padding:17px 0;border-radius:11px;border:1px solid;
+    transition:opacity .2s}
+  #rl-go{border-color:#5fd6a4;background:rgba(95,214,164,.12);color:#5fd6a4}
+  #rl-go:active{background:rgba(95,214,164,.26)}
+  #rl-go[disabled]{opacity:.28;cursor:default}
+  #rl-kill{border-color:#e0705a;background:rgba(224,112,90,.10);color:#e0705a}
+  #rl-kill:active{background:rgba(224,112,90,.28)}
+  #rl-kill[disabled]{opacity:.28;cursor:default}
+  .rl-card{position:absolute;inset:0;display:none;place-items:center;
+    background:rgba(5,7,12,.9);backdrop-filter:blur(3px);text-align:center;
+    padding:26px}
+  .rl-card.on{display:grid}
+  .rl-card h3{margin:0 0 9px;font-size:17px;color:#e8dcc4}
+  .rl-card p{margin:0;max-width:46ch;color:#8fa1b4;font-size:12px;line-height:1.75}
+  .rl-card p b{color:#e6eef7} .rl-card p em{font-style:normal;color:#ffe9a8}
+
+  /* ══════════════════════════════════════════════════════════ THE MANIFEST
+     The sheet a ship's arriving mass opens. Four rows, a remainder, and a
+     commit — because the game's own header has always said the only real
+     decision is what you spend the arriving mass on before the next one, and
+     until now the mass just landed in the pot and converted itself. */
+  .mf{display:grid;gap:8px;margin:12px 0 4px}
+  .mf .r{min-width:0}
+  .mf .r{display:grid;grid-template-columns:1fr auto auto auto;gap:9px;
+    align-items:center;background:#0d141b;border:1px solid #22303f;
+    border-radius:10px;padding:9px 10px}
+  .mf .r b{display:block;font-size:12.5px;color:#e6eef7}
+  .mf .r i{font-style:normal;display:block;font-size:10px;color:#7b8b9c;
+    line-height:1.55;margin-top:2px}
+  .mf .r em{font-style:normal;font:13px/1 ui-monospace,monospace;color:#ffe9a8;
+    min-width:5.5ch;text-align:right}
+  .mf .r button{cursor:pointer;width:34px;height:34px;border-radius:8px;
+    border:1px solid #22303f;background:#111a24;color:#9fb0c2;
+    font:15px/1 ui-monospace,monospace}
+  .mf .r button:active{background:#18242f;color:#eaf2fa}
+  .mf .r button:disabled{opacity:.25;cursor:default}
+  .mf-left{display:flex;align-items:baseline;gap:9px;padding:10px 11px;
+    border:1px dashed #22303f;border-radius:10px;margin-bottom:4px}
+  .mf-left span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:#7b8b9c}
+  .mf-left b{margin-left:auto;font:16px/1 ui-monospace,monospace;color:#ffe9a8}
+  .mf-left.zero b{color:#5fd6a4}
+  .win{display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:9px;
+    border:1px solid #3d5a2a;background:rgba(95,214,164,.10);margin-bottom:9px;
+    font:10px/1.5 ui-monospace,monospace;color:#5fd6a4}
+  .win.held{border-color:#5a4a2a;background:rgba(224,177,85,.10);color:#e0b155}
+
+  /* ══════════════════════════════════════════════════════════ THE FOREST
+     A fifth readout, and the only one denominated in the objective rather
+     than in a stock. It moves slowly on purpose — the whole finding is that
+     it does not move at all while you are shipping. */
+  .forest{display:flex;align-items:center;gap:9px;padding:7px 12px;flex:none;
+    background:#0a0f0b;border-bottom:1px solid var(--edge);
+    font:9px/1 ui-monospace,monospace;letter-spacing:.09em;color:var(--dim)}
+  .forest b{color:#6fc08a}
+  .forest .track{flex:1;height:5px;border-radius:3px;background:#16211a;
+    overflow:hidden;min-width:60px}
+  .forest .track i{display:block;height:100%;width:0;border-radius:3px;
+    background:linear-gradient(90deg,#3f7a55,#6fc08a);transition:width .4s}
+  .forest .rate{color:var(--gold2)}
+  .src{display:grid;gap:8px;margin:11px 0 4px}
+  .src .r{background:#0d141b;border:1px solid #22303f;border-radius:10px;
+    padding:10px 11px;border-left:3px solid #384a5c}
+  .src .r.on{border-left-color:#6fc08a}
+  .src .r b{display:block;font-size:12.5px;color:#e6eef7}
+  .src .r em{font-style:normal;float:right;font:12px/1 ui-monospace,monospace;
+    color:#ffe9a8}
+  .src .r i{font-style:normal;display:block;font-size:10.5px;color:#7b8b9c;
+    line-height:1.6;margin-top:5px}
+  .src .r s{display:block;text-decoration:none;font:9.5px/1.6 ui-monospace,monospace;
+    color:#5f6f80;margin-top:6px;border-top:1px solid #1b2530;padding-top:6px}
+  /* ══════════════════════════════════════════════════════ THE KNOWLEDGE HUB */
+  .hub{padding:11px 12px}
+  .hub .hd{display:flex;align-items:baseline;gap:9px;margin-bottom:10px;
+    font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .hub .hd b{color:var(--gold2);font-size:13px;letter-spacing:0;
+    text-transform:none;font-family:inherit}
+  .hub .hd s{margin-left:auto;text-decoration:none;color:#5f5470}
+  .k{background:#100d16;border:1px solid var(--edge);border-radius:11px;
+    padding:11px 12px;margin-bottom:8px;border-left:3px solid #2f2840}
+  .k.got{border-left-color:#6fc08a}
+  .k h5{margin:0;font-size:13px;color:#5f5470;display:flex;align-items:baseline;
+    gap:8px}
+  .k.got h5{color:var(--gold2)}
+  .k h5 i{font-style:normal;margin-left:auto;font:8px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:#4d4460;
+    border:1px solid #2f2840;border-radius:4px;padding:4px 6px}
+  .k.got h5 i{color:#6fc08a;border-color:#3f6b52}
+  .k .lock{margin:7px 0 0;font-size:10.5px;color:#5f5470;line-height:1.6}
+  .k .lock b{color:#8a7fa0}
+  .k .sh{margin:7px 0 0;font-size:11.5px;color:#d6cfe0;line-height:1.65}
+  .k .tst{margin:9px 0 0;padding:9px 10px;background:#0b0910;border-radius:8px;
+    border-left:2px solid var(--gold);font-size:10.5px;color:var(--dim);
+    line-height:1.65}
+  .k .tst u{display:block;text-decoration:none;font:8px/1 ui-monospace,monospace;
+    letter-spacing:.15em;text-transform:uppercase;color:var(--gold);
+    margin-bottom:5px}
+  .k .ran{margin:8px 0 0;padding:9px 10px;border-radius:8px;font-size:11px;
+    line-height:1.65;background:rgba(111,192,138,.08);
+    border:1px solid rgba(111,192,138,.28);color:#bfe6cd}
+  .k .ran b{color:#eafaf0}
+  .k .ran em{font-style:normal;color:#ffe9a8}
+  /* ═══════════════════════════════════════════════════════════ THE BOOT
+     Six seconds, skippable on anything, and it has one job beyond looking
+     like a machine waking up: it hands you eighteen hundred years and then
+     tells you that none of it counts yet. That is not a flourish, it is the
+     Hub's whole premise stated before you can misread it — twenty-seven
+     entries resident, zero verified, because a download is not a
+     demonstration and the difference is the game. */
+  .boot{position:fixed;inset:0;z-index:50;background:#04050a;overflow:hidden;
+    display:grid;place-items:center;transition:opacity .7s}
+  .boot.gone{opacity:0;pointer-events:none}
+  /* the sweep: a cold start reading its own surface before it trusts it */
+  .boot .sweep{position:absolute;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,rgba(110,198,255,.85),transparent);
+    box-shadow:0 0 26px rgba(110,198,255,.6);animation:bsweep 1.6s ease-in-out 2}
+  @keyframes bsweep{from{top:-2%}to{top:102%}}
+  .boot .grid{position:absolute;inset:-20%;opacity:0;
+    background:
+      repeating-linear-gradient(0deg,rgba(110,198,255,.10) 0 1px,transparent 1px 44px),
+      repeating-linear-gradient(90deg,rgba(110,198,255,.10) 0 1px,transparent 1px 44px);
+    transform:perspective(700px) rotateX(66deg) translateY(14%);
+    animation:bgrid 5.2s ease-out forwards}
+  @keyframes bgrid{15%{opacity:0}45%{opacity:.55}100%{opacity:.12}}
+  .boot .vig{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(circle at 50% 46%,transparent 34%,rgba(4,5,10,.92) 78%)}
+
+  .bwrap{position:relative;width:min(560px,88vw);text-align:left;
+    font:11.5px/1.75 ui-monospace,SFMono-Regular,Menlo,monospace;color:#7f93a8}
+  .bline{opacity:0;animation:bin .5s ease-out forwards}
+  @keyframes bin{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+  .bline b{color:#cfe2f2;font-weight:600}
+  .bline u{text-decoration:none;color:#6ec6ff}
+  .bline em{font-style:normal;color:#ffe9a8}
+  .bhail{margin:14px 0;padding:11px 14px;border-left:2px solid #6ec6ff;
+    background:rgba(110,198,255,.06);color:#bfd6e8;font-size:12px;line-height:1.8}
+  .bhail s{display:block;text-decoration:none;font-size:9px;letter-spacing:.18em;
+    text-transform:uppercase;color:#6ec6ff;margin-bottom:6px}
+
+  /* the stream: eighteen hundred years going past faster than reading */
+  .bstream{height:96px;overflow:hidden;position:relative;margin:12px 0;
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 22%,#000 74%,transparent);
+    mask-image:linear-gradient(180deg,transparent,#000 22%,#000 74%,transparent)}
+  .bstream div{white-space:nowrap;font-size:10.5px;color:#54697e;
+    padding:1px 0;letter-spacing:.02em}
+  .bstream div span{color:#8fb4cf}
+  .bstream .roll{position:absolute;left:0;right:0;top:0;will-change:transform}
+  .bbar{height:3px;border-radius:2px;background:#16222e;overflow:hidden;margin-top:9px}
+  .bbar i{display:block;height:100%;width:0;border-radius:2px;
+    background:linear-gradient(90deg,#2f6f8f,#6ec6ff)}
+  .bcount{display:flex;gap:10px;align-items:baseline;margin-top:9px;font-size:10.5px}
+  .bcount b{color:#6ec6ff;font:14px/1 ui-monospace,monospace}
+  .bcount s{margin-left:auto;text-decoration:none;color:#54697e}
+
+  .bverdict{margin-top:16px;padding:13px 15px;border:1px solid #2a3a48;
+    border-left:3px solid #ffe9a8;border-radius:0 10px 10px 0;
+    background:rgba(255,233,168,.05);color:#cfe2f2;font-size:12px;line-height:1.8;
+    opacity:0;animation:bin .6s ease-out forwards}
+  .bverdict b{color:#ffe9a8}
+  .bskip{position:absolute;right:16px;bottom:14px;font-size:9.5px;
+    letter-spacing:.14em;text-transform:uppercase;color:#3f5061;cursor:pointer;
+    border:1px solid #22303f;border-radius:7px;padding:8px 12px}
+  .bskip:hover{color:#9fb4c6;border-color:#3a4c5e}
+  @media (prefers-reduced-motion:reduce){
+    .boot .sweep,.boot .grid{animation:none;opacity:.2}}
+</style>
+
+<canvas id="sky"></canvas>
+
+<div class="boot" id="boot">
+  <div class="grid"></div><div class="sweep"></div><div class="vig"></div>
+  <div class="bwrap" id="bwrap"></div>
+  <div class="bskip" id="bskip">skip</div>
+</div>
+<div class="phone">
+  <div class="res">
+    <div class="r-h2"><span>hydrogen</span><b id="v-h2">0</b><i id="d-h2">kg · ship only</i></div>
+    <div class="r-pw"><span>power</span><b id="v-pw">0</b><i id="d-pw">MW</i></div>
+    <div class="r-wa"><span>water</span><b id="v-wa">0</b><i>kg</i></div>
+    <div class="r-co"><span>commons</span><b id="v-co">100</b><i>%</i></div>
+  </div>
+
+  <div class="clockbar">
+    <span>day <b id="v-day">1</b></span>
+    <span id="v-phase">daylight</span>
+    <span class="day">next ship <b id="v-ship">584</b>d</span>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="world" id="world">
+      <div class="plate" id="plate"></div>
+    </div>
+    <div class="hint">drag to orbit &middot; tap a pad to build</div>
+    <div class="sheet" id="sheet"><div class="grab"></div><div id="sheetBody"></div></div>
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <div class="run" id="run">
+    <div class="hud">
+      <span>run <b id="r-dist">0</b> m</span>
+      <span>recovered <b id="r-h2">0</b> kg</span>
+      <span class="r" id="r-tip">&larr; &rarr; or swipe</span>
+    </div>
+    <div class="track" id="track"></div>
+    <div class="runner" id="runner"></div>
+    <div class="over" id="over"><div>
+      <h3 id="over-t">The colonnade</h3>
+      <p id="over-p"></p>
+      <button onclick="startRun()">run</button>
+    </div></div>
+  </div>
+
+  <div class="relay" id="relay">
+    <div class="rl-top">
+      <div><span id="rl-l1">next window in</span><b id="rl-day">584</b><i id="rl-u">d</i></div>
+      <div class="lag"><span>light delay</span><b id="rl-lag">0.00</b><i> min one way</i></div>
+      <div class="hand"><span>the baton</span><b id="rl-hand">aboard</b><i id="rl-corr"></i></div>
+    </div>
+    <div class="lane" id="lane">
+      <canvas class="trail" id="trail"></canvas>
+      <div class="corr" id="corr"></div>
+      <div class="end" data-n="EARTH" style="left:0"></div>
+      <div class="end r" data-n="VENUS" style="right:0"></div>
+      <div class="zone" id="z1" data-n="EXCHANGE · P2P"></div>
+      <div class="zone" id="z2" data-n="EXCHANGE · 2B"></div>
+      <div class="hull" id="hull"></div>
+      <div class="baton" id="baton"></div>
+      <div class="rl-card" id="rl-card"><div>
+        <h3 id="rl-h">The relay</h3>
+        <p id="rl-p"></p>
+      </div></div>
+    </div>
+    <div class="rl-note" id="rl-note"></div>
+    <div class="rl-pads">
+      <button id="rl-go">START</button>
+      <button id="rl-kill" disabled>SHUTDOWN</button>
+    </div>
+  </div>
+  <div class="pane" id="pane-roster"><div class="list" id="rosterList"></div></div>
+  <div class="pane" id="pane-fleet"><div class="list" id="fleetList"></div></div>
+  <div class="pane" id="pane-codex"><div class="list" id="codexList"></div></div>
+  <div class="pane" id="pane-hub"><div class="hub" id="hubList"></div></div>
+
+  <div class="side">
+    <h4>Orders</h4><div class="pane" id="side-roster"></div>
+    <h4>Fleet</h4><div class="pane" id="side-fleet"></div>
+    <h4>Codex</h4><div class="pane" id="side-codex"></div>
+    <h4>Knowledge</h4><div class="pane" id="side-hub"><div class="hub"></div></div>
+  </div>
+
+  <nav>
+    <button class="on" data-tab="base">BASE</button>
+    <button data-tab="run">RUN</button>
+    <button data-tab="relay">RELAY</button>
+    <button data-tab="roster">ORDERS</button>
+    <button data-tab="fleet">FLEET</button>
+    <button data-tab="codex">CODEX</button>
+    <button data-tab="hub">HUB</button>
+  </nav>
+</div>
+
+<script src="bases.js"></script>
+<script src="hub.js"></script>
+<script>
+/* ══════════════════════════════════════════════════════ DATA — all of it real
+   Every sector, dependency and figure below is taken from a page in this
+   repository that worked it out. Nothing is balanced for fun; the difficulty
+   is the physics. */
+
+const SECTORS_DEFAULT = [
+  { id:'aphro', name:'Aphrodite', sector:'demand',    glyph:'❦', root:true,
+    needs:[], cost:{pw:2},              build:20,
+    why:'Desire is a root, not a luxury. Nobody farms without wanting something, and an economy with no demand in it is not early — it is stopped.' },
+  { id:'posei', name:'Poseidon', sector:'water',      glyph:'≋', root:true,
+    needs:[], cost:{pw:8},              build:40,
+    why:'Water and the routes over it. Nothing else is a root because nothing else can be: no agriculture, no settlement, no transport until you have decided where the water is.' },
+  { id:'hesti', name:'Hestia',   sector:'shelter',    glyph:'⌂', root:true,
+    needs:[], cost:{pw:6},              build:35,
+    why:'The hearth. Somewhere warm that is the same place tomorrow. First in the old rites for the same reason it is a root here — everything else needs an address.' },
+  { id:'artem', name:'Artemis',  sector:'commons',    glyph:'⌖', root:true,
+    needs:[], cost:{},                  build:10,
+    why:'The un-farmed. The only sector that does not grow when the others do — she is what the rest are spending, and her health cannot be read off her own activity, because her activity is that nothing is happening.' },
+  { id:'demet', name:'Demeter',  sector:'food',       glyph:'✿',
+    needs:['posei'], cost:{pw:14,wa:400}, build:90,
+    why:'Grain, and therefore surplus, and therefore every hand not growing food. She needs water. Almost everything else needs her.' },
+  { id:'hepha', name:'Hephaestus',sector:'forge',     glyph:'⚒',
+    needs:['demet'], cost:{pw:26},      build:110,
+    why:'Tools, and tools that make tools. Cannot start until somebody has enough food that a pair of hands can be spared from growing it — the forge is paid for in meals somebody else grew.' },
+  { id:'athen', name:'Athena',   sector:'skill',      glyph:'◈',
+    needs:['demet'], cost:{pw:12},      build:80,
+    why:'Craft, and the passing of it on. A day spent teaching is a day not spent growing, and every apprenticeship in history was funded that way whether or not anybody said so.' },
+  { id:'ares',  name:'Ares',     sector:'force',      glyph:'⚔',
+    needs:['demet'], cost:{pw:18},      build:70,
+    why:'Force, under its own name, and downstream of the surplus — it needs something worth taking. A restart that budgets security before it has anything to secure has described a garrison.' },
+  { id:'herme', name:'Hermes',   sector:'trade',      glyph:'⇌',
+    needs:['hepha','demet'], cost:{pw:16}, build:100,
+    why:'Roads, exchange, messages. Needs two producers with different surpluses; with one producer there is no market, only a stall.' },
+  { id:'apoll', name:'Apollo',   sector:'records',    glyph:'☉',
+    needs:['herme'], cost:{pw:10},      build:85,
+    why:'Measure, standards, the written account — and he comes AFTER trade. Cuneiform begins as barley tallies, not poetry. The ledger is downstream of the exchange and the first thing anybody wrote was a receipt.' },
+  { id:'hera',  name:'Hera',     sector:'contract',   glyph:'⊗',
+    needs:['apoll'], cost:{pw:8},       build:75,
+    why:'Oath, and the binding of an agreement past the moment of making it. Needs the record: an oath nobody can produce is a memory, and two memories that disagree is the condition contract law exists to end.' },
+  { id:'zeus',  name:'Zeus',     sector:'authority',  glyph:'⚡',
+    needs:['hera','apoll'], cost:{pw:20}, build:120,
+    why:'The appeal of last resort, and the only sector that contributes nothing until two others are already running. You cannot adjudicate without a rule AND a record — with the rule alone you have authority ruling by memory.' }
+];
+
+const ORDERS = [
+  ['Fireflies','keep time','A clock with nobody holding it. Each runs its own cycle and shifts it toward whatever it just saw flash.','🜂'],
+  ['Owls','decide','Nine and a quorum. The only order that turns a disagreement into a decision that binds — and it abstains.','◑'],
+  ['Wolves','move','Two, coordinated, no debate. Not the villains: the velocity, and the reason the owls’ procedure has to be good.','▲'],
+  ['Peacocks','prove','Costly signalling. The train cannot be faked because affording it IS the evidence.','❋'],
+  ['Flamingos','show','They take their colour from what they eat, so they cannot lie about the food chain.','⌇'],
+  ['Bees','spread','Carriage between things that cannot move, and a dance that says WHERE in a symbol.','✶'],
+  ['Butterflies','inherit','A route longer than any life on it. The one that arrives is generations from the one that left.','❈'],
+  ['Ants','build','The ground is the memory, and it forgets by default — an unrenewed trail evaporates.','⋯'],
+  ['Moths','bear','A straight line held on a distant light. The same rule puts them in the candle.','✧'],
+  ['Spiders','catch','Coverage without patrol. And a spider cannot moult inside its own web.','✳'],
+  ['Beetles','bury','Walking wings — the armour IS the forewings. Seed goes down, not sideways.','⬢'],
+  ['Geckos','retrieve','Goes anywhere, takes one thing, leaves no residue. And the tail comes off on purpose.','◗']
+];
+
+const SHIPS = [
+  ['Hestia','clock','cycler — lands at neither end','∞'],
+  ['Iris','hydrogen','11,400 kg out, 40 kg of rock home','⬡'],
+  ['Atlas','envelope','410 km of membrane, 1,800 km of seam','▤'],
+  ['Demeter','biology','seed, cultures, soil starter','✿'],
+  ['Prometheus','power','and the price charged again daily','⚡'],
+  ['Hermes','relay','2.2 to 14.3 light-minutes','⇌'],
+  ['Charon','the lift','55 km down. Six minutes at the bottom.','↓']
+];
+
+const CODEX = [
+  ['Hydrogen is the only scarcity','Carbon, oxygen, nitrogen and sunlight are effectively unlimited here. Water vapour runs 20–30 ppm and sulfuric acid is 2.06% hydrogen by mass against water’s 11.19% — about 136,000 m³ of cloud swept per kilogram of water. You cannot produce it. It arrives or it does not.'],
+  ['The day is four days long','The band super-rotates and laps the planet in about four Earth days, so the platform’s day is four days and half of that is night. The surface below has a day of 116.75. Two clocks, differing by twenty-nine.'],
+  ['55 km, not 50','1.00 bar is at 49.5 km where it is 82 °C. 0–50 °C is at 53–58 km where it is 0.36–0.75 bar. You cannot have both, and water at 27 °C holds 7.9 mg/L of oxygen against 2.6 at 75 °C. The waterway picked the altitude.'],
+  ['Gravity is not a commodity','8.87 m/s², 90.4% of Earth’s, against Mars at 38% and the Moon at 17%. It cannot be shipped, stored or traded — a premium attached to a location, which cannot be cornered because it cannot change hands.'],
+  ['The forest is 0.005% of Venus','9,000 sq mi against 177.7 million. One part in 19,744, and 197 such forests to reach a single per cent. Drawn as a pie chart it is a solid circle.'],
+  ['Writing was invented for accounting','Cuneiform begins as commodity tallies pressed into clay. Tokens in envelopes, then the envelope marked outside so it need not be broken to be read, then the tokens inside were redundant. Literature is a later use of the same tool.']
+];
+
+/* ═══════════════════════════════════════════════════════════════════ STATE */
+const S = {
+  day: 1, tick: 0, phase: 'day',
+  h2: 11400, pw: 0, wa: 2000, co: 100,
+  built: {}, building: {}, sel: null,
+  shipIn: 584, tab: 'base',
+  /* the supply line. `held` is windows whose baton did not get through —
+     never a loss, only later, so the next delivery carries them all. */
+  held: 0, windowOpen: false, pending: 0, stock: 0, lift: 0,
+  alloc: { wa: 0, st: 0, li: 0, se: 0, pl: 0 },
+  /* the forest, in kilograms of hydrogen banked toward it, and the plant
+     that banks them. Ships do not appear in this line and cannot. */
+  forest: 0, skim: 0, dive: 0, plant: 0,
+  yaw: -0.62, pitch: 0.92, drag: null
+};
+
+/* ══════════════════════════════════════════════════════ THE BASE TEMPLATE
+   Everybody builds their own base, which means the roster cannot live in
+   this file. It lives in templates-base/*.json, gets checked by bases.mjs
+   for duplicate ids, unresolved needs, cycles, missing palette colours and
+   rootlessness, and arrives here as window.BASES.
+
+   A template carries four things and all four are yours to change:
+     the SECTORS   what can be built, what it needs, what it costs, and why
+     the PALETTE   a colour per sector kind
+     the PLATE     columns, spacing, size
+     the TOWER     block, drum or spire — the extrusion the game draws
+
+   The generator refuses to emit a broken one rather than shipping a board
+   that looks buildable and is not, because a sector that needs something
+   with a typo in it is unbuildable forever and nothing on screen says so. */
+let TPL = (window.BASES || []).find(b => b.id === 'hellenic') || {
+  id:'hellenic', name:'The Hellenic Twelve', sectors:SECTORS_DEFAULT,
+  plate:{cols:4,gap:108,size:460,tower:'block'},
+  palette:{demand:'rgb(201,138,127)',water:'rgb(110,198,255)',shelter:'rgb(232,192,105)',
+    commons:'rgb(111,192,138)',food:'rgb(159,214,120)',forge:'rgb(224,140,90)',
+    skill:'rgb(157,138,224)',force:'rgb(224,112,90)',trade:'rgb(110,198,255)',
+    records:'rgb(232,192,105)',contract:'rgb(180,170,200)',authority:'rgb(240,200,90)'}
+};
+let SECTORS = TPL.sectors;
+let byId = Object.fromEntries(SECTORS.map(s => [s.id, s]));
+const $ = id => document.getElementById(id);
+
+/* ═════════════════════════════════════════════════════════════════ THE SKY */
+const sky = $('sky'), sctx = sky.getContext('2d');
+
+/* The galactic backdrop is painted ONCE to an offscreen canvas and blitted
+   every frame. Three thousand stars redrawn sixty times a second is a way to
+   make a phone hot for no reason; the sky does not move and neither should the
+   work. Only Venus is repainted, because only Venus turns.
+
+   The stars are Earth's. From Venus they would be: 0.28 AU is nothing at
+   stellar distances, so the constellations are unchanged and the Milky Way
+   runs where it always did. What differs is the Sun, at 1.91x, and the fact
+   that Earth is the morning star — which is drawn, and labelled, because it is
+   the one detail on this page that is worth stopping at. */
+const bg = document.createElement('canvas');
+const bctx = bg.getContext('2d');
+
+/* a rough Harvard sequence, weighted the way the sky actually is: mostly dim
+   and red, a scatter of white, very few blue */
+const CLASS = [
+  ['#9db4ff', .006], ['#aabfff', .013], ['#cad7ff', .03],
+  ['#f8f7ff', .075], ['#fff4ea', .12],  ['#ffd2a1', .25], ['#ffb56b', 1]
+];
+function starColour() {
+  const r = Math.random();
+  for (const [c, p] of CLASS) if (r < p) return c;
+  return '#ffb56b';
+}
+
+function paintGalaxy(W, H) {
+  bctx.setTransform(1, 0, 0, 1, 0, 0);
+  bctx.clearRect(0, 0, W, H);
+  bctx.fillStyle = '#040307'; bctx.fillRect(0, 0, W, H);
+
+  const tilt = -0.42, cx = W * .5, cy = H * .34;
+  const bandW = Math.hypot(W, H) * 1.2, bandH = H * .30;
+
+  // the band's diffuse light, before any individual star
+  bctx.save();
+  bctx.translate(cx, cy); bctx.rotate(tilt);
+  for (let i = 0; i < 3; i++) {
+    const h = bandH * (1 - i * 0.28);
+    const g = bctx.createLinearGradient(0, -h, 0, h);
+    g.addColorStop(0, 'rgba(120,110,170,0)');
+    g.addColorStop(.5, 'rgba(150,140,200,' + (0.045 + i * 0.03) + ')');
+    g.addColorStop(1, 'rgba(120,110,170,0)');
+    bctx.fillStyle = g;
+    bctx.fillRect(-bandW / 2, -h, bandW, h * 2);
+  }
+  // dust lanes: the dark half of a galaxy, which is most of what you see
+  for (let i = 0; i < 14; i++) {
+    const y = (Math.random() - .5) * bandH * .8;
+    const w = bandW * (.25 + Math.random() * .5);
+    const x = (Math.random() - .5) * bandW * .7;
+    bctx.globalAlpha = .5;
+    bctx.fillStyle = '#040307';
+    bctx.beginPath();
+    bctx.ellipse(x, y, w / 2, bandH * (.03 + Math.random() * .07), 0, 0, 7);
+    bctx.fill();
+  }
+  bctx.globalAlpha = 1;
+  bctx.restore();
+
+  // nebulae, sparse and desaturated — bright ones would be a lie
+  const NEB = [['#5b7fc7', .05], ['#c9578f', .04], ['#4fb3a6', .035]];
+  for (let i = 0; i < 5; i++) {
+    const [c, a] = NEB[i % NEB.length];
+    const nx = Math.random() * W, ny = cy + (Math.random() - .5) * bandH * 1.6;
+    const r = 60 + Math.random() * 190;
+    const g = bctx.createRadialGradient(nx, ny, 0, nx, ny, r);
+    g.addColorStop(0, c.replace(')', '') + '');
+    bctx.globalAlpha = a;
+    const gg = bctx.createRadialGradient(nx, ny, 0, nx, ny, r);
+    gg.addColorStop(0, c); gg.addColorStop(1, 'rgba(0,0,0,0)');
+    bctx.fillStyle = gg;
+    bctx.beginPath(); bctx.arc(nx, ny, r, 0, 7); bctx.fill();
+  }
+  bctx.globalAlpha = 1;
+
+  // the field: concentrated in the band, thin away from it
+  const N = Math.round(W * H / 620);
+  for (let i = 0; i < N; i++) {
+    let x, y;
+    if (Math.random() < .62) {
+      const t = (Math.random() - .5) * bandW;
+      const u = (Math.random() + Math.random() + Math.random() - 1.5) * bandH * .8;
+      x = cx + t * Math.cos(tilt) - u * Math.sin(tilt);
+      y = cy + t * Math.sin(tilt) + u * Math.cos(tilt);
+    } else { x = Math.random() * W; y = Math.random() * H; }
+    if (x < -20 || x > W + 20 || y < -20 || y > H + 20) continue;
+    const mag = Math.pow(Math.random(), 2.6);
+    bctx.globalAlpha = .18 + mag * .8;
+    bctx.fillStyle = starColour();
+    bctx.beginPath(); bctx.arc(x, y, .25 + mag * 1.25, 0, 7); bctx.fill();
+  }
+  bctx.globalAlpha = 1;
+
+  // a dozen bright ones, with spikes
+  for (let i = 0; i < 12; i++) {
+    const x = Math.random() * W, y = Math.random() * H * .8;
+    const r = 1.4 + Math.random() * 1.1, c = starColour();
+    const g = bctx.createRadialGradient(x, y, 0, x, y, r * 9);
+    g.addColorStop(0, c); g.addColorStop(.18, c.replace('#', 'rgba(') === c ? c : c);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    bctx.globalAlpha = .5; bctx.fillStyle = g;
+    bctx.beginPath(); bctx.arc(x, y, r * 9, 0, 7); bctx.fill();
+    bctx.globalAlpha = .85; bctx.strokeStyle = c; bctx.lineWidth = .7;
+    bctx.beginPath();
+    bctx.moveTo(x - r * 7, y); bctx.lineTo(x + r * 7, y);
+    bctx.moveTo(x, y - r * 7); bctx.lineTo(x, y + r * 7);
+    bctx.stroke();
+    bctx.globalAlpha = 1; bctx.fillStyle = '#fff';
+    bctx.beginPath(); bctx.arc(x, y, r * .8, 0, 7); bctx.fill();
+  }
+
+  /* Earth, which from here is the morning star. Placed high and to the right,
+     away from Venus, and labelled — it is the only object in this sky that
+     anybody reading has stood on. */
+  const ex = W * .78, ey = H * .17;
+  const eg = bctx.createRadialGradient(ex, ey, 0, ex, ey, 26);
+  eg.addColorStop(0, 'rgba(190,225,255,.95)');
+  eg.addColorStop(.25, 'rgba(120,180,255,.45)');
+  eg.addColorStop(1, 'rgba(120,180,255,0)');
+  bctx.fillStyle = eg; bctx.beginPath(); bctx.arc(ex, ey, 26, 0, 7); bctx.fill();
+  bctx.fillStyle = '#eaf4ff';
+  bctx.beginPath(); bctx.arc(ex, ey, 1.9, 0, 7); bctx.fill();
+  bctx.globalAlpha = .55;
+  bctx.strokeStyle = 'rgba(150,190,240,.5)'; bctx.lineWidth = 1;
+  bctx.beginPath(); bctx.moveTo(ex + 9, ey + 5); bctx.lineTo(ex + 24, ey + 15); bctx.stroke();
+  bctx.fillStyle = '#9dc4e8';
+  bctx.font = '10px ui-monospace, monospace';
+  bctx.fillText('EARTH', ex + 28, ey + 19);
+  bctx.font = '8px ui-monospace, monospace';
+  bctx.fillStyle = '#5f7690';
+  bctx.fillText('the morning star, from here', ex + 28, ey + 31);
+  bctx.globalAlpha = 1;
+}
+
+function sizeSky() {
+  const d = window.devicePixelRatio || 1;
+  sky.width = Math.round(innerWidth * d); sky.height = Math.round(innerHeight * d);
+  sky.style.width = innerWidth + 'px'; sky.style.height = innerHeight + 'px';
+  sctx.setTransform(d, 0, 0, d, 0, 0);
+  bg.width = innerWidth; bg.height = innerHeight;
+  paintGalaxy(innerWidth, innerHeight);
+}
+addEventListener('resize', sizeSky); sizeSky();
+
+let spin = 0;
+function drawSky() {
+  const W = innerWidth, H = innerHeight;
+  sctx.clearRect(0, 0, W, H);
+  sctx.drawImage(bg, 0, 0, W, H);
+
+  // Venus, low and enormous, turning the wrong way
+  const R = Math.max(W, H) * 0.52, cx = W * .17, cy = H * .92;
+  const g = sctx.createRadialGradient(cx - R * .3, cy - R * .45, R * .05, cx, cy, R);
+  g.addColorStop(0, '#ffe7ae'); g.addColorStop(.45, '#f0a83c');
+  g.addColorStop(.82, '#b4671d'); g.addColorStop(1, '#5d3210');
+  sctx.fillStyle = g; sctx.beginPath(); sctx.arc(cx, cy, R, 0, 7); sctx.fill();
+
+  // cloud bands, retrograde
+  spin -= 0.00035;
+  sctx.save(); sctx.beginPath(); sctx.arc(cx, cy, R, 0, 7); sctx.clip();
+  for (let i = 0; i < 9; i++) {
+    const t = i / 9, y = cy - R + t * R * 2;
+    sctx.globalAlpha = .10 + .05 * Math.sin(i);
+    sctx.fillStyle = i % 2 ? '#fff3d2' : '#c07a24';
+    const off = Math.sin(spin * (1 + i * .12) + i) * R * .5;
+    sctx.beginPath();
+    sctx.ellipse(cx + off, y, R * 1.1, R * (.05 + .02 * Math.cos(i)), 0, 0, 7);
+    sctx.fill();
+  }
+  sctx.restore(); sctx.globalAlpha = 1;
+
+  const glow = sctx.createRadialGradient(cx, cy, R * .88, cx, cy, R * 1.4);
+  glow.addColorStop(0, 'rgba(240,168,60,.28)'); glow.addColorStop(1, 'rgba(240,168,60,0)');
+  sctx.fillStyle = glow; sctx.beginPath(); sctx.arc(cx, cy, R * 1.4, 0, 7); sctx.fill();
+  // the band we are floating in, edge-on
+  sctx.globalAlpha = .5;
+  const band = sctx.createLinearGradient(0, H * .40, 0, H * .60);
+  band.addColorStop(0, 'rgba(232,213,168,0)');
+  band.addColorStop(.5, 'rgba(232,213,168,.16)');
+  band.addColorStop(1, 'rgba(232,213,168,0)');
+  sctx.fillStyle = band; sctx.fillRect(0, H * .40, W, H * .20);
+  sctx.globalAlpha = 1;
+}
+
+/* ═══════════════════════════════════════════════════ THE PLATE, IN 3D (CSS) */
+const plate = $('plate'), world = $('world');
+
+/* the plate is rebuilt, not written once, because the template can change */
+function buildPlate() {
+  const P = TPL.plate || {}, COLS = P.cols || 4, GAP = P.gap || 108,
+        SIZE = P.size || 460, half = SIZE / 2;
+  plate.style.width = plate.style.height = SIZE + 'px';
+  plate.style.left = plate.style.top = (-half) + 'px';
+  plate.innerHTML = '';
+  const rows = Math.ceil(SECTORS.length / COLS);
+  SECTORS.forEach((s, i) => {
+    const x = (i % COLS - (COLS - 1) / 2) * GAP;
+    const y = (Math.floor(i / COLS) - (rows - 1) / 2) * GAP;
+    const el = document.createElement('div');
+    el.className = 'slot locked';
+    el.id = 'slot-' + s.id;
+    el.style.left = (half + x) + 'px';
+    el.style.top = (half + y) + 'px';
+    el.innerHTML =
+      '<div class="pad"></div>' +
+      '<div class="tower"></div>' +
+      '<div class="bar" style="transform:translateZ(2px) rotateX(-90deg);bottom:-9px"><i></i></div>' +
+      '<div class="cap" style="bottom:-30px">' + s.name + '</div>';
+    el.onclick = () => openSheet(s.id);
+    plate.appendChild(el);
+  });
+}
+buildPlate();
+
+/* ─── switching template resets the run, and says so before it does */
+function useTemplate(id) {
+  const t = (window.BASES || []).find(b => b.id === id);
+  if (!t || t.id === TPL.id) return;
+  TPL = t; SECTORS = t.sectors;
+  byId = Object.fromEntries(SECTORS.map(s => [s.id, s]));
+  S.built = {}; S.building = {}; S.sel = null; S._done = false;
+  S.day = 1; S.pw = 0; S.wa = 2000; S.co = 100;
+  buildPlate(); closeSheet(); render();
+  toast('<b>' + t.name + '</b> &mdash; ' + SECTORS.length + ' sectors, depth ' +
+    (t._stats ? t._stats.depth : '?') + '. The plate is cleared: a different ' +
+    'roster is a different graph, not a reskin.');
+}
+window.useTemplate = useTemplate;
+
+function openTemplates() {
+  const B = window.BASES || [];
+  $('sheetBody').innerHTML =
+    '<h3>Base templates</h3><p class="sub">' + B.length +
+    ' available &middot; templates-base/*.json</p>' +
+    '<div class="why">The roster, the palette, the plate geometry and the tower ' +
+    'shape are all data. Copy <code>blank.json</code>, add rows, run ' +
+    '<code>node bases.mjs</code> &mdash; it checks for duplicate ids, needs that ' +
+    'point at nothing, cycles, missing colours and boards with no roots, and it ' +
+    '<b>refuses to build a broken one</b> rather than shipping a plate that looks ' +
+    'buildable and is not.</div>' +
+    '<div class="src">' + B.map(t =>
+      '<div class="r' + (t.id === TPL.id ? ' on' : '') + '">' +
+      '<em>' + (t._stats ? t._stats.sectors + ' &middot; d' + t._stats.depth : '') + '</em>' +
+      '<b>' + t.name + '</b><i>' + (t.note || '').slice(0, 260) +
+      ((t.note || '').length > 260 ? '&hellip;' : '') + '</i>' +
+      '<s>' + (t.id === TPL.id ? 'running' :
+        '<a href="#" onclick="useTemplate(\'' + t.id + '\');return false" ' +
+        'style="color:#6fc08a">load it &mdash; clears the plate</a>') +
+      ' &middot; ' + (t.plate ? t.plate.tower : 'block') + ' towers &middot; ' +
+      (t._stats ? t._stats.roots + ' roots, widest rank ' + t._stats.width : '') +
+      '</s></div>').join('') + '</div>' +
+    '<button class="ghost" onclick="closeSheet()">close</button>';
+  $('sheet').classList.add('up');
+}
+window.openTemplates = openTemplates;
+
+/* an extruded block, four faces and a top, in real 3D transforms */
+/* ═════════════════════════════════════════════════════════ THE TOWER, IN 3D
+   THREE SHAPES OUT OF ONE BOX. A storey is four faces and a lid; a tower is
+   a stack of storeys, and the stack is the whole difference:
+
+     block   one storey, full width, flat lid.
+     drum    three storeys of falling width and falling height. A ziggurat,
+             which is the right building for the Sumerian roster and is also
+             just what a stack does when you shrink each course.
+     spire   a narrow shaft and a cap, taller than it is anything else.
+
+   A base built from a different roster should not look like the one before
+   it, and it does not — the silhouette changes before you have read a label. */
+function storey(w, base, h, colour, glyph, lidBright) {
+  const half = w / 2, off = (44 - w) / 2;
+  const dark = colour.replace('rgb(', 'rgba(').replace(')', ',.55)');
+  const faces =
+    [[0, half, 'rotateY(0deg)'], [0, -half, 'rotateY(180deg)'],
+     [-half, 0, 'rotateY(-90deg)'], [half, 0, 'rotateY(90deg)']]
+    .map(([tx, tz, rot], i) =>
+      '<div class="face" style="width:' + w + 'px;height:' + h + 'px;bottom:0;' +
+      'background:linear-gradient(180deg,' + colour + ',' + dark + ');' +
+      'transform:translate3d(' + tx + 'px,0,' + tz + 'px) ' + rot +
+      ' translateZ(' + half + 'px);opacity:' + (i < 2 ? .95 : .78) + '">' +
+      (i === 0 && glyph
+        ? '<div style="position:absolute;left:0;right:0;top:5px;text-align:center;' +
+          'font-size:' + Math.max(10, Math.min(16, w * .34)) + 'px;color:#fff;' +
+          'text-shadow:0 1px 4px #000">' + glyph + '</div>'
+        : '') + '</div>').join('');
+  return '<div class="box" style="left:' + off + 'px;bottom:' + base + 'px;' +
+    'width:' + w + 'px;height:' + h + 'px">' + faces +
+    '<div class="top" style="width:' + w + 'px;height:' + w + 'px;' +
+    'background:' + colour + ';filter:brightness(' + lidBright + ');' +
+    'transform:translate3d(0,' + (-h) + 'px,0) rotateX(-90deg)"></div></div>';
+}
+
+function tower(el, h, colour, glyph) {
+  const shape = (TPL.plate && TPL.plate.tower) || 'block';
+  const t = el.querySelector('.tower');
+  let crown = el.querySelector('.crown');
+  if (!crown) {
+    crown = document.createElement('div'); crown.className = 'crown';
+    el.appendChild(crown);
+    const ao = document.createElement('div'); ao.className = 'ao';
+    el.insertBefore(ao, el.firstChild);
+  }
+  if (!h) { t.innerHTML = ''; t.style.height = '0px'; crown.style.opacity = 0; return; }
+
+  let html, top = h;
+  if (shape === 'drum') {
+    /* a ziggurat: three courses, each narrower and shorter than the one under
+       it, which is what the building actually did and why it reads as ancient
+       from any angle without a single texture */
+    const hs = [h * .46, h * .32, h * .22], ws = [44, 33, 22];
+    let base = 0; html = '';
+    for (let i = 0; i < 3; i++) {
+      html += storey(ws[i], base, hs[i], colour, i === 0 ? glyph : '', 1.2 + i * .18);
+      base += hs[i];
+    }
+    top = base;
+  } else if (shape === 'spire') {
+    const shaft = h * 1.55, cap = h * .5;
+    html = storey(26, 0, shaft, colour, glyph, 1.15) +
+           storey(11, shaft, cap, colour, '', 1.7);
+    top = shaft + cap;
+  } else {
+    html = storey(44, 0, h, colour, glyph, 1.35);
+  }
+  t.style.height = top + 'px';
+  t.innerHTML = html;
+
+  /* the crown sits at the height the tower actually reached, which differs by
+     shape — so it is computed rather than assumed */
+  crown.style.bottom = (top - 35) + 'px';
+  crown.style.background = 'radial-gradient(circle,' +
+    colour.replace('rgb(', 'rgba(').replace(')', ',.55)') + ',transparent 62%)';
+}
+
+const HUE_FALLBACK = { demand:'rgb(201,138,127)', water:'rgb(110,198,255)', shelter:'rgb(232,192,105)',
+  commons:'rgb(127,201,138)', food:'rgb(143,191,122)', forge:'rgb(224,144,60)',
+  skill:'rgb(154,127,208)', force:'rgb(224,112,90)', trade:'rgb(95,211,224)',
+  records:'rgb(255,230,168)', contract:'rgb(169,183,201)', authority:'rgb(240,224,140)' };
+/* the palette is the template's, and falls back per key rather than wholesale
+   so a template that names five colours still draws the other seven */
+const HUE = new Proxy({}, { get: (_, k) =>
+  (TPL.palette && TPL.palette[k]) || HUE_FALLBACK[k] || 'rgb(150,140,170)' });
+
+function applyCam() {
+  world.style.transform =
+    'rotateX(' + (S.pitch * 57.3) + 'deg) rotateZ(' + (S.yaw * 57.3) + 'deg)';
+  /* Billboard: the world is rotateX then rotateZ, so a label that should face
+     the viewer has to undo them in the opposite order. Without this the names
+     lie flat on the plate and read backwards through half the orbit. */
+  const bb = 'translate(-50%,0) rotateZ(' + (-S.yaw * 57.3) + 'deg) rotateX(' +
+             (-S.pitch * 57.3) + 'deg)';
+  document.querySelectorAll('.slot .cap').forEach(c => { c.style.transform = bb; });
+}
+applyCam();
+
+const stage = $('stage');
+stage.addEventListener('pointerdown', e => {
+  if (e.target.closest('.sheet')) return;
+  S.drag = { x: e.clientX, y: e.clientY, yaw: S.yaw, pitch: S.pitch, moved: 0 };
+  stage.setPointerCapture(e.pointerId);
+});
+stage.addEventListener('pointermove', e => {
+  if (!S.drag) return;
+  const dx = e.clientX - S.drag.x, dy = e.clientY - S.drag.y;
+  S.drag.moved = Math.max(S.drag.moved, Math.abs(dx) + Math.abs(dy));
+  S.yaw = S.drag.yaw + dx * 0.006;
+  S.pitch = Math.max(0.35, Math.min(1.35, S.drag.pitch + dy * 0.005));
+  applyCam();
+});
+stage.addEventListener('pointerup', () => { S.drag = null; });
+
+/* ═════════════════════════════════════════════════════════════ THE SHEET */
+function unmet(s) { return s.needs.filter(n => !S.built[n]); }
+function affordable(s) {
+  return (!s.cost.pw || S.pw >= s.cost.pw) && (!s.cost.wa || S.wa >= s.cost.wa);
+}
+
+function openSheet(id) {
+  if (S.drag && S.drag.moved > 6) return;
+  const s = byId[id];
+  S.sel = id;
+  document.querySelectorAll('.slot').forEach(e => e.classList.remove('sel'));
+  $('slot-' + id).classList.add('sel');
+
+  const miss = unmet(s), done = !!S.built[id], busy = S.building[id];
+  const needs = s.needs.length
+    ? '<div class="needs">' + s.needs.map(n =>
+        '<div class="' + (S.built[n] ? 'yes' : 'no') + '"><i class="tick"></i>' +
+        byId[n].name + ' &mdash; ' + byId[n].sector + '</div>').join('') + '</div>'
+    : '<div class="needs"><div class="yes"><i class="tick"></i>a root &mdash; nothing upstream</div></div>';
+
+  const cost = '<div class="cost">' +
+    (s.cost.pw ? '<span>power <b>' + s.cost.pw + ' MW</b></span>' : '') +
+    (s.cost.wa ? '<span>water <b>' + s.cost.wa + ' kg</b></span>' : '') +
+    '<span>build <b>' + s.build + 'd</b></span></div>';
+
+  let action;
+  if (done) action = '<button class="ghost" disabled>running</button>';
+  else if (busy) action = '<button class="ghost" disabled>building &mdash; ' +
+    Math.ceil(s.build - busy.p) + ' days left</button>';
+  else if (miss.length) action = '<button disabled>needs ' +
+    miss.map(m => byId[m].name).join(' and ') + '</button>';
+  else if (!affordable(s)) action = '<button disabled>not enough ' +
+    (s.cost.pw && S.pw < s.cost.pw ? 'power' : 'water') + '</button>';
+  else action = '<button onclick="startBuild(\'' + id + '\')">build</button>';
+
+  $('sheetBody').innerHTML =
+    '<h3>' + s.name + '</h3><p class="sub">' + s.sector +
+    (s.root ? ' &middot; root' : '') + '</p>' +
+    '<div class="why">' + s.why + '</div>' + cost + needs + action +
+    '<button class="ghost" onclick="closeSheet()">close</button>';
+  $('sheet').classList.add('up');
+}
+function closeSheet() {
+  $('sheet').classList.remove('up'); S.sel = null;
+  document.querySelectorAll('.slot').forEach(e => e.classList.remove('sel'));
+}
+function toast(html) {
+  const t = $('toast'); t.innerHTML = html; t.classList.add('show');
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 3400);
+}
+function startBuild(id) {
+  const s = byId[id];
+  if (unmet(s).length || !affordable(s) || S.built[id] || S.building[id]) return;
+  if (s.cost.pw) S.pw -= s.cost.pw;
+  if (s.cost.wa) S.wa -= s.cost.wa;
+  S.building[id] = { p: 0 };
+  closeSheet();
+  toast('<b>' + s.name + '</b> laid down. ' + s.build + ' days.');
+}
+window.startBuild = startBuild; window.closeSheet = closeSheet;
+
+/* ═════════════════════════════════════════════════════════════════ THE LOOP
+   One tick is one Venus-band day. The band's day is four Earth days and half
+   of it is night, so power comes in a two-on two-off square wave, which is the
+   single most awkward fact about living there and is not smoothed out here. */
+function step() {
+  S.day++;
+  S.phase = (Math.floor((S.day - 1) / 2) % 2 === 0) ? 'day' : 'night';
+
+  const built = Object.keys(S.built);
+  const gen = S.phase === 'day' ? 6 + built.length * 2 : 0;
+  S.pw = Math.min(999, S.pw + gen);
+
+  // water: made from hydrogen, and only if Poseidon is running
+  if (S.built.posei && S.h2 > 0 && S.pw >= 4) {
+    const made = Math.min(9, S.h2 * 9);          // 1 kg H2 -> ~9 kg water
+    S.h2 = Math.max(0, S.h2 - made / 9);
+    S.wa += made; S.pw -= 4;
+  }
+  /* THE PLANT. It banks hydrogen against the forest and it is the only thing
+     that does — no delivery, no manifest line and no sector puts a kilogram
+     into S.forest except this. */
+  const rate = forestRate();
+  if (rate) {
+    S.forest += rate;
+    S.pw -= (S.skim && S.pw >= 6 ? 6 : 0) + (S.dive && S.built.hepha && S.pw >= 24 ? 24 : 0);
+    if (S.pw < 0) S.pw = 0;
+  }
+  // the commons is spent by everything that is not Artemis
+  const spend = built.filter(b => b !== 'artem').length * 0.012;
+  S.co = Math.max(0, S.co - spend + (S.built.artem ? 0.006 : 0));
+
+  for (const [id, b] of Object.entries(S.building)) {
+    b.p += 1;
+    if (b.p >= byId[id].build) {
+      delete S.building[id]; S.built[id] = true;
+      toast('<b>' + byId[id].name + '</b> running.');
+    }
+  }
+
+  /* THE WINDOW OPENS. It does not deliver — flying the leg delivers, and
+     that is the relay. A window that passes unflown is held, not lost. */
+  hubWatch();
+  /* the Hub's checks read the board, so they have to be re-read. Every twelfth
+     tick is about five seconds and is cheap enough not to matter. */
+  if (S.day % 12 === 0) renderHub();
+  S.shipIn--;
+  if (S.shipIn <= 0) {
+    S.shipIn = 584;
+    if (S.windowOpen) S.held++;          /* the last one went unflown */
+    S.windowOpen = true;
+    toast('<b>Window open.</b> 584 days to the next one. ' +
+      'Fly the leg on <b>RELAY</b> &mdash; the baton is the hydrogen.');
+  }
+  render();
+}
+
+/* ══════════════════════════════════════════════════════ THE SUPPLY LINE
+   The base and the relay were two modes that did not know about each other.
+   They do now, and it is the same object joining them: the baton in the relay
+   IS the hydrogen in the base.
+
+     the window opens        every 584 days, on the base clock
+     you fly the leg         RELAY — one press, and the delay does the rest
+     the baton reaches Venus the base gets a manifest
+     the baton is held       the base gets nothing THIS window and everything
+                             next one, because a held baton is later, not lost
+
+   Not flying at all is the same as a held baton. `held` counts windows whose
+   mass has not arrived yet, and the next delivery carries all of them, so
+   there is no way to fall permanently behind and nothing to lose by ignoring
+   the relay for a while. The cost of a held window is time, and time is the
+   only thing this game has ever charged. */
+
+const MASS = 11400;
+
+function baseDeliver() {
+  const windows = 1 + S.held;
+  S.pending = Math.round((MASS + S.lift) * windows);
+  S.held = 0; S.windowOpen = false;
+  S.alloc = { wa: 0, st: 0, li: 0, se: 0, pl: 0 };
+  if (S.stock) { S.pending += S.stock; S.stock = 0; }
+  toast('<b>' + S.pending.toLocaleString() + ' kg</b> alongside' +
+        (windows > 1 ? ' &mdash; ' + windows + ' windows at once' : '') +
+        '. The manifest is open.');
+  if (S.tab === 'base') openManifest();
+  render();
+}
+
+/* ─── the manifest. Four destinations, and they pay back over different
+   spans, which is the only reason it is a decision at all. */
+const DEST = [
+  { k:'wa', n:'Water',  i:'Cracked and banked. 1 kg of hydrogen makes about 9 of water, and water is what a build costs.' },
+  { k:'st', n:'Stock',  i:'Held back for the next window. Does nothing now; arrives on top of whatever comes next.' },
+  { k:'li', n:'Lift',   i:'Spent on the return mass, which buys a bigger hull. Every 1,000 kg here adds 400 kg to every delivery after this one, forever.' },
+  { k:'se', n:'Seed',   i:'Straight into the commons. The only line that puts anything back into the thing everything else is spending.' },
+  { k:'pl', n:'Plant',  i:'Skimming gear for the cloud deck. Every 1,000 kg is a unit doing 4,200 kg of hydrogen a day — which is 215 times what the ship that carried it does. This is the only line that touches the forest.' }
+];
+const STEP = 500;
+
+function mfLeft() {
+  return S.pending - DEST.reduce((a, d) => a + S.alloc[d.k], 0);
+}
+function mfSet(k, dir) {
+  const v = S.alloc[k] + dir * STEP;
+  if (v < 0) return;
+  if (dir > 0 && mfLeft() < STEP) return;
+  S.alloc[k] = v; openManifest();
+}
+function mfCommit() {
+  const a = S.alloc;
+  S.h2    += a.wa;
+  S.stock += a.st;
+  S.lift  += Math.round(a.li * 0.4);
+  S.co     = Math.min(100, S.co + a.se / 900);
+  S.skim  += Math.floor(a.pl / 1000);
+  const rest = mfLeft();
+  if (rest) S.stock += rest;                    /* unallocated is not burned */
+  S.pending = 0; S.alloc = { wa:0, st:0, li:0, se:0, pl:0 };
+  closeSheet();
+  toast('Manifest signed. ' + (rest ? rest.toLocaleString() +
+        ' kg unallocated went to stock &mdash; nothing here is ever burned.' :
+        'All of it placed.'));
+  render();
+}
+function openManifest() {
+  if (!S.pending) return;
+  const left = mfLeft();
+  $('sheetBody').innerHTML =
+    '<h3>Manifest</h3><p class="sub">' + S.pending.toLocaleString() +
+    ' kg alongside &middot; ' + STEP + ' kg a press</p>' +
+    '<div class="why">This is the decision the whole cadence exists for. ' +
+    'Hydrogen cannot be made here at any price &mdash; it arrives or it does ' +
+    'not &mdash; so what is standing on the deck now is the entire budget ' +
+    'until the next window. Nothing is lost if you leave some: it goes to ' +
+    'stock.</div>' +
+    '<div class="mf-left' + (left ? '' : ' zero') + '"><span>unallocated</span>' +
+    '<b>' + left.toLocaleString() + ' kg</b></div>' +
+    '<div class="mf">' + DEST.map(d =>
+      '<div class="r"><span><b>' + d.n + '</b><i>' + d.i + '</i></span>' +
+      '<button onclick="mfSet(\'' + d.k + '\',-1)"' +
+        (S.alloc[d.k] ? '' : ' disabled') + '>&minus;</button>' +
+      '<em>' + S.alloc[d.k].toLocaleString() + '</em>' +
+      '<button onclick="mfSet(\'' + d.k + '\',1)"' +
+        (left >= STEP ? '' : ' disabled') + '>+</button></div>').join('') +
+    '</div>' +
+    '<button onclick="mfCommit()">sign the manifest</button>' +
+    '<button class="ghost" onclick="closeSheet()">later</button>';
+  $('sheet').classList.add('up');
+}
+window.mfSet = mfSet; window.mfCommit = mfCommit; window.openManifest = openManifest;
+
+/* ─── the commons, read rather than scored. Nothing happens at zero except
+   that it reads spent. There is no failure state in this game and there was
+   never going to be one. */
+function commonsReading(v) {
+  if (v >= 92) return ['un-farmed', 'Nothing is happening on it, which is the whole of what it is for.'];
+  if (v >= 70) return ['worked',    'In use and keeping up. This is where a commons normally sits and it is fine.'];
+  if (v >= 40) return ['thin',      'Still there. Recovering slower than it is being spent, and the gap is widening.'];
+  if (v >= 15) return ['spent',     'Running on what is left. Artemis slows this and seed on the manifest is the only thing that reverses it.'];
+  return ['bare', 'Bare. Nothing stops, nothing fails, and nothing is coming to take the plate away — it simply reads bare, and it will read bare until somebody spends a window on it.'];
+}
+
+/* ═══════════════════════════════════════════════════════ THE FOREST, COSTED
+   Every figure below is computed from the two lines marked ASSUMED and from
+   published Venus data. None of it is tuned for play, and the ratios are the
+   whole lesson rather than a difficulty setting.
+
+     area            90,000 sq mi = 2.331e11 m²
+                     (terraform.html's site is 9,000 — a tenth of this. The
+                     objective here is the larger figure and the smaller one
+                     is printed beside it, because they are different claims
+                     and quietly picking one would hide that.)
+     biomass         ASSUMED 200 t/ha above and below ground = 20 kg/m²
+                     -> 4,662 Mt dry, and dry biomass is ~6% hydrogen
+                        (cellulose C6H10O5 is 6.2%)          ->    280 Mt H
+     held water      ASSUMED 100 kg/m² in soil moisture and living tissue,
+                     which is conservative — a metre of soil at 30% moisture
+                     is 390 on its own
+                     -> 23,310 Mt water, 11.2% hydrogen      ->  2,608 Mt H
+                                                                ─────────
+     TOTAL                                                       2,888 Mt H
+
+   AND WHAT THE THREE SOURCES CAN DO ABOUT THAT
+
+     SHIP   11,400 kg a window, one window every 584 days = 19.5 kg/day.
+            2,888 Mt at that rate is 2.5e8 windows, or four hundred million
+            years. THE SHIPS ARE NOT A SUPPLY LINE FOR THIS AND CANNOT BE
+            MADE INTO ONE. What they carry is the plant.
+     SKIM   cloud sulphuric acid at the altitude you are already at. 2.06% H
+            by mass. The deck holds somewhere between 2,100 and 21,000 Mt of
+            hydrogen depending on droplet density (10–100 mg/m³, genuinely
+            uncertain) — so it is enough, and at the low end of that range it
+            is only enough by a factor of less than one.
+     DIVE   water vapour in the bulk atmosphere, 20–30 ppmv, which is 445,000
+            Mt of hydrogen and effectively unlimited. It is also hot, dense,
+            and down. Ten times the rate at four times the power.
+
+   The relationship between the ships and the forest is the point and it is
+   not a restriction: YOU SHIP THE THING THAT HARVESTS, NEVER THE HARVEST. */
+
+const F_AREA_MI2 = 90000, F_TARGET = 2.888e9;   /* kg of hydrogen */
+const F_SMALL    = 2.89e8;                      /* the 9,000 sq mi site */
+const SKIM_UNIT  = 4200, DIVE_UNIT = 42000;     /* kg/day per plant unit */
+const CLOUD_H    = 6.38e9;                      /* Mt->kg, 30 mg/m³ midpoint */
+
+function forestPct() { return Math.min(100, 100 * S.forest / F_TARGET); }
+function forestRate() {                          /* kg of H a day */
+  let r = 0;
+  if (S.skim && S.pw >= 6) r += S.skim * SKIM_UNIT;
+  if (S.dive && S.pw >= 24 && S.built.hepha) r += S.dive * DIVE_UNIT;
+  return r;
+}
+function fmtKg(k) {
+  if (k >= 1e9) return (k / 1e9).toFixed(2) + ' Mt';
+  if (k >= 1e6) return (k / 1e6).toFixed(1) + ' kt';
+  if (k >= 1e3) return (k / 1e3).toFixed(1) + ' t';
+  return Math.round(k) + ' kg';
+}
+function yearsAt(rate) {
+  if (!rate) return '\u221e';
+  const y = (F_TARGET - S.forest) / rate / 365.25;
+  return y >= 1e6 ? (y / 1e6).toFixed(0) + 'M yr'
+       : y >= 1e3 ? (y / 1e3).toFixed(0) + 'k yr'
+       : y.toFixed(0) + ' yr';
+}
+
+/* the sources sheet — the arithmetic, on the board, openable */
+function openSources() {
+  const shipRate = 11400 / 584;
+  const row = (on, name, rate, why, note) =>
+    '<div class="r' + (on ? ' on' : '') + '"><em>' + (rate ? fmtKg(rate) + '/d' : 'idle') +
+    '</em><b>' + name + '</b><i>' + why + '</i><s>' + note + '</s></div>';
+  $('sheetBody').innerHTML =
+    '<h3>Hydrogen</h3><p class="sub">three sources, and the ratios are the finding</p>' +
+    '<div class="why">The forest needs <b>' + fmtKg(F_TARGET) + '</b> of hydrogen for ' +
+    F_AREA_MI2.toLocaleString() + ' square miles &mdash; 4,662 Mt of biomass at 6% ' +
+    'hydrogen plus 23,310 Mt of held water at 11.2%. terraform.html&rsquo;s site is ' +
+    '9,000 sq mi and would need ' + fmtKg(F_SMALL) + '; both are printed because they ' +
+    'are different claims.</div>' +
+    '<div class="src">' +
+    row(false, 'Ship', shipRate,
+      '11,400 kg a window, one window every 584 days. Whatever else it is, it is ' +
+      '19.5 kg a day.',
+      'the forest at this rate: 400 million years &middot; the ships are not a supply ' +
+      'line for mass and cannot be made into one') +
+    row(S.skim, 'Skim &mdash; cloud acid', S.skim * SKIM_UNIT,
+      'Sulphuric acid droplets at the altitude you are already at. 2.06% hydrogen by ' +
+      'mass. Needs 6 MW and daylight.',
+      'deck reserve ' + fmtKg(CLOUD_H) + ' &middot; enough, at a droplet density ' +
+      'nobody has measured better than 10&ndash;100 mg/m³ &middot; ' + S.skim + ' units') +
+    row(S.dive, 'Dive &mdash; bulk atmosphere', S.dive * DIVE_UNIT,
+      'Water vapour at 20&ndash;30 ppmv in the deep atmosphere. 445,000 Mt of hydrogen ' +
+      'and effectively unlimited. Hot, dense, and down. Needs 24 MW and a forge.',
+      (S.built.hepha ? 'Hephaestus running' : 'needs Hephaestus') + ' &middot; ten times ' +
+      'the rate at four times the power &middot; ' + S.dive + ' units') +
+    '</div>' +
+    '<div class="why"><b>You ship the thing that harvests, never the harvest.</b> ' +
+    'Ship mass buys plant on the manifest; plant buys forest. There is no line ' +
+    'anywhere that turns a delivery into a tree.</div>' +
+    '<button class="ghost" onclick="closeSheet()">close</button>';
+  $('sheet').classList.add('up');
+}
+window.openSources = openSources;
+
+/* ══════════════════════════════════════════════════════ THE KNOWLEDGE HUB
+   Eleven of the knowledge base's twenty-seven entries have a trigger in this
+   game. An entry unlocks when the board has actually demonstrated it — not
+   when you walk past it, not when you buy it.
+
+   AND THEN IT BECOMES AN INSTRUMENT. Every entry in that base carries a TEST:
+   the thing you could do that would show it false. Printing the test is worth
+   nothing. So the Hub RUNS it, against your board, and reports what it found —
+   your dependency graph, your counters, your held windows, your commons.
+
+   Unlocking grants nothing. No bonus, no multiplier, no gated mechanic. A
+   knowledge system that pays out makes knowing a currency, and a currency you
+   cannot refuse is the thing that base spends its whole length arguing
+   against. It is a record and an instrument, and those are enough. */
+
+const HUBGOT = {};
+
+/* the live checks, keyed by entry id. Each answers the entry's own test
+   against the state as it stands right now. */
+const HUBRUN = {
+  'the-minimum-cycle': () => {
+    const built = Object.keys(S.built);
+    const roots = SECTORS.filter(x => !(x.needs || []).length).map(x => x.id);
+    const nonRoot = built.filter(b => !roots.includes(b));
+    const fed = SECTORS.filter(x => (x.needs || []).length &&
+      (x.needs || []).every(n => S.built[n])).length;
+    return 'Your board: <b>' + built.length + '</b> built, of which <b>' +
+      nonRoot.length + '</b> are downstream of anything. ' +
+      (nonRoot.length ? '<b>' + fed + '</b> more can start now — you have a loop.'
+        : 'Nothing downstream is running, so nothing is feeding anything: ' +
+          '<em>you have roots, not a start.</em>');
+  },
+  'hydrogen': () => 'Banked: <b>' + fmtKg(S.h2) + '</b> of hydrogen, <b>' +
+    fmtKg(S.stock) + '</b> in stock. The forest needs <b>' + fmtKg(F_TARGET) +
+    '</b>. Trace anything you want to build back along its inputs and it ends here.',
+  'the-window': () => S.windowOpen
+    ? 'A window is <b>open now</b>. It will not deliver by itself.'
+    : 'Next window in <b>' + S.shipIn + ' days</b>. Nothing shortens it — ' +
+      'not power, not lift, not anything on this plate.',
+  'the-passage': () => 'Legs flown: <b>' + RL.legs + '</b>. Batons at Venus: <b>' +
+    RL.delivered + '</b>. Minimum-energy passage is 146 days; leaving off the top ' +
+    'of the window costs about 0.45 days for every day early or late.',
+  'the-light-delay': () => 'Corrections in flight right now: <b>' + RL.queue.length +
+    '</b>. At arrival the lag is <b>4.94 minutes</b> and the autopilot is steering ' +
+    'on a picture that old. <em>Count the procedures that need an answer faster ' +
+    'than that — that is the authority you have to send with it.</em>',
+  'the-exchange': () => 'The baton is <b>' + (RL.batonAt === 'hull' ? 'aboard' :
+    RL.batonAt === 'venus' ? 'at Venus' : 'held at exchange ' + (RL.batonAt + 1)) +
+    '</b>. Held is not lost: the next hull collects it in passing. Ask when ' +
+    'responsibility changed hands — on this board there is an answer to the second.',
+  'the-relay': () => 'Windows held: <b>' + S.held + '</b>. The next delivery carries ' +
+    'all of them at once (' + fmtKg((11400 + S.lift) * (1 + S.held)) + '). ' +
+    'The hull is not the baton and does not wait with the cargo.',
+  'the-injector': () => 'Your verbs on the relay: <b>two</b> — start, and stop. ' +
+    'Mid-run adjustment is not one of them, which is what makes it automated ' +
+    'rather than assisted. Legs flown: <b>' + RL.legs + '</b>.',
+  'the-baton': () => {
+    const carriers = ['power', 'water', 'commons', 'day'];
+    return 'Your dashboard measures <b>' + carriers.length + '</b> carriers (' +
+      carriers.join(', ') + ') and <b>one</b> baton: the forest, at <b>' +
+      forestPct().toFixed(4) + '%</b>. Plant units: <b>' + S.skim + ' skim, ' +
+      S.dive + ' dive</b>. <em>Everything except the forest line goes home at the ' +
+      'end of the shift.</em>';
+  },
+  'fungibility': () => {
+    const cr = commonsReading(S.co);
+    return 'Commons reads <b>' + cr[0] + '</b> at ' + S.co.toFixed(1) + '. ' +
+      'There is no rule anywhere in this file that ends a run, subtracts a life, ' +
+      'or takes the plate away &mdash; <em>try to write the function that would ' +
+      'rank two of your days against each other.</em>';
+  },
+  'the-prior-condition': () => 'Running <b>' + TPL.name + '</b>: ' + SECTORS.length +
+    ' sectors, depth ' + (TPL._stats ? TPL._stats.depth : '?') + '. The same board, ' +
+    'read against a different roster, produces a different graph &mdash; ' +
+    '<em>not a reskin, a different shape.</em>'
+};
+
+function hubUnlock(id) {
+  if (HUBGOT[id] || !(window.HUB || []).some(e => e.id === id)) return;
+  HUBGOT[id] = true;
+  const e = window.HUB.find(x => x.id === id);
+  toast('<b>Hub &mdash; ' + e.term + '</b> unlocked. It grants nothing; it is ' +
+    'an instrument. HUB tab.');
+  renderHub();
+}
+function hubWatch() {
+  const roots = SECTORS.filter(x => !(x.needs || []).length);
+  if (roots.length && roots.every(r => S.built[r.id]) &&
+      Object.keys(S.built).length === roots.length) hubUnlock('the-minimum-cycle');
+  if (S.h2 > 0 || S.stock > 0) hubUnlock('hydrogen');
+  if (S.windowOpen || S.held) hubUnlock('the-window');
+  if (RL.legs) { hubUnlock('the-passage'); hubUnlock('the-injector'); }
+  if (RL.f > 0.75) hubUnlock('the-light-delay');
+  if (typeof RL.batonAt === 'number') hubUnlock('the-exchange');
+  if (S.held >= 1 && S.pending) hubUnlock('the-relay');
+  if (S.skim || S.dive) hubUnlock('the-baton');
+  if (S.co < 15) hubUnlock('fungibility');
+  if (TPL.id !== 'hellenic') hubUnlock('the-prior-condition');
+}
+function renderHub() {
+  const H = window.HUB || [], got = Object.keys(HUBGOT).length;
+  const html =
+    '<div class="hd"><b>Knowledge</b><span>' + got + ' of ' + H.length +
+    '</span><s>unlocking grants nothing</s></div>' +
+    H.map(e => {
+      const on = !!HUBGOT[e.id];
+      return '<div class="k' + (on ? ' got' : '') + '">' +
+        '<h5>' + (on ? e.term : '&mdash;&mdash;&mdash;') +
+        '<i>' + (on ? e.cls : 'locked') + '</i></h5>' +
+        (on ? '<p class="sh">' + e.short + '</p>' +
+              '<div class="tst"><u>the test</u>' + e.test + '</div>' +
+              '<div class="ran">' + (HUBRUN[e.id] ? HUBRUN[e.id]() :
+                'No live check for this one yet.') + '</div>'
+            : '<p class="lock"><b>To unlock:</b> ' + e.unlock + '</p>') +
+      '</div>';
+    }).join('') +
+    '<p class="lock" style="padding:4px 2px 0">Generated from <b>kb.json</b> by ' +
+    'hub.mjs. Sixteen more entries in the base have no trigger &mdash; they are ' +
+    'read, not earned, and that is correct for most of them.</p>';
+  document.querySelectorAll('#hubList, #side-hub .hub').forEach(n => n.innerHTML = html);
+}
+window.renderHub = renderHub;
+
+function render() {
+  $('v-h2').textContent = Math.round(S.h2).toLocaleString();
+  $('v-pw').textContent = Math.round(S.pw);
+  $('v-wa').textContent = Math.round(S.wa).toLocaleString();
+  $('v-co').textContent = S.co.toFixed(1);
+  $('v-h2').classList.toggle('low', S.h2 < 500);
+  $('v-co').classList.toggle('low', S.co < 40);
+  $('v-day').textContent = S.day;
+  $('v-ship').textContent = S.windowOpen ? 'NOW' : S.shipIn;
+  $('v-ship').classList.toggle('low', S.windowOpen);
+  /* the forest strip, above the plate and below the clock */
+  let fs = $('forest');
+  if (!fs) {
+    fs = document.createElement('div');
+    fs.id = 'forest'; fs.className = 'forest';
+    fs.innerHTML = '<span>forest</span><span class="track"><i></i></span>' +
+      '<b></b><span class="rate"></span>' +
+      '<a href="#" onclick="openSources();return false" style="color:#6a7e92">sources</a>';
+    $('stage').insertAdjacentElement('beforebegin', fs);
+  }
+  const rt = forestRate();
+  fs.querySelector('i').style.width = forestPct().toFixed(4) + '%';
+  fs.querySelector('b').textContent = fmtKg(S.forest) + ' / ' + fmtKg(F_TARGET);
+  fs.querySelector('.rate').textContent = rt
+    ? fmtKg(rt) + '/d \u00b7 ' + yearsAt(rt) : 'no plant \u00b7 \u221e';
+
+  const ph = $('v-phase');
+  const cr = commonsReading(S.co);
+  ph.textContent = (S.phase === 'day' ? 'daylight' : 'night') + ' · ' + cr[0];
+  ph.className = S.phase === 'day' ? '' : 'night';
+  ph.title = cr[1];
+
+  /* the supply strip, above the plate: window, held windows, stock, lift */
+  let strip = $('supply');
+  if (!strip) {
+    strip = document.createElement('div');
+    strip.id = 'supply'; strip.className = 'win';
+    $('stage').insertAdjacentElement('beforebegin', strip);
+  }
+  const bits = [];
+  if (S.pending) bits.push('<b>' + S.pending.toLocaleString() +
+    ' kg on the deck</b> &mdash; <a href="#" onclick="openManifest();return false" ' +
+    'style="color:inherit">open the manifest</a>');
+  else if (S.windowOpen) bits.push('<b>WINDOW OPEN</b> &mdash; fly the leg on RELAY');
+  else bits.push('next window in <b>' + S.shipIn + ' d</b>');
+  if (S.held)  bits.push(S.held + ' window' + (S.held === 1 ? '' : 's') + ' held');
+  if (S.stock) bits.push('stock ' + S.stock.toLocaleString() + ' kg');
+  if (S.lift)  bits.push('lift +' + S.lift.toLocaleString() + ' kg/window');
+  strip.innerHTML = bits.join(' &nbsp;·&nbsp; ');
+  strip.className = 'win' + (S.held || (!S.pending && !S.windowOpen) ? ' held' : '');
+
+  for (const s of SECTORS) {
+    const el = $('slot-' + s.id);
+    const done = !!S.built[s.id], busy = S.building[s.id];
+    el.classList.toggle('built', done);
+    el.classList.toggle('locked', !done && unmet(s).length > 0);
+    const bar = el.querySelector('.bar'), fill = el.querySelector('.bar i');
+    bar.style.display = busy ? 'block' : 'none';
+    if (busy) fill.style.width = Math.min(100, 100 * busy.p / s.build) + '%';
+    const want = done ? 26 + s.build / 4 : 0;
+    if (el._h !== want) { el._h = want; tower(el, want, HUE[s.sector], s.glyph); }
+  }
+
+  /* THE TWELVE FINISH. THE GAME DOES NOT.
+     There is no completion screen here and there is not going to be one. When
+     every sector is running, the only thing still moving is the commons, which
+     eleven of them are spending and one of them is slowing — and the only
+     thing that puts any back is a line on a manifest that arrives every 584
+     days. That is not an endgame bolted on. It is the same loop with the
+     scaffolding taken away, and it is the one this yard has been arguing for
+     since theory.md: the thing with no completion state is the un-farmed. */
+  if (Object.keys(S.built).length === SECTORS.length && !S._done) {
+    S._done = true;
+    toast('All twelve running. <b>Nothing ends.</b> The commons is the only ' +
+      'thing still moving, and seed on the manifest is the only thing that ' +
+      'moves it back.');
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════ PANES */
+$('rosterList').innerHTML = ORDERS.map(([n, job, d, g]) =>
+  '<div class="row"><div class="dot">' + g + '</div><div class="t"><b>' + n +
+  '</b><span>' + d + '</span></div><span class="badge">' + job + '</span></div>').join('');
+
+$('fleetList').innerHTML = SHIPS.map(([n, c, d, g]) =>
+  '<div class="row"><div class="dot">' + g + '</div><div class="t"><b>' + n +
+  '</b><span>' + d + '</span></div><span class="badge">' + c + '</span></div>').join('');
+
+renderHub();
+$('codexList').innerHTML = CODEX.map(([t, d]) =>
+  '<div class="row"><div class="t"><b>' + t + '</b><span>' + d + '</span></div></div>').join('') +
+  '<div class="row"><div class="t"><span style="color:#5f5470">Every figure in this game is ' +
+  'taken from a page in this repository that worked it out first. Nothing is balanced for ' +
+  'fun &mdash; the difficulty is the physics.</span></div></div>';
+
+['roster','fleet','codex'].forEach(t => {
+  const src = $('pane-' + t), dst = $('side-' + t);
+  if (src && dst) dst.innerHTML = src.innerHTML;
+});
+
+document.querySelectorAll('nav button').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('nav button').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    S.tab = b.dataset.tab;
+    stage.classList.toggle('off', S.tab !== 'base');
+    /* the supply strip belongs to the plate; it is not a global HUD */
+    const sup = $('supply');
+    if (sup) sup.style.display = S.tab === 'base' ? '' : 'none';
+    runView.classList.toggle('on', S.tab === 'run');
+    $('relay').classList.toggle('on', S.tab === 'relay');
+    if (S.tab === 'run' && !R.on && !$('over').classList.contains('on')) {
+      const n = SECTORS.filter(x => S.built[x.id]).length;
+      $('over-t').textContent = 'The colonnade';
+      $('over-p').innerHTML = n
+        ? 'You run through what you built. ' + n + ' temple' + (n === 1 ? '' : 's') +
+          ' stand along this route.<br><br>It runs itself. What you do at a gate is answer.'
+        : 'Nothing is built yet, so the colonnade is bare columns.<br><br>' +
+          'Build on the base and they become temples.';
+      $('over').classList.add('on');
+    }
+    ['roster', 'fleet', 'codex'].forEach(t =>
+      $('pane-' + t).classList.toggle('on', S.tab === t));
+    $('pane-hub').classList.toggle('on', S.tab === 'hub');
+    if (S.tab === 'hub') renderHub();
+    if (S.tab !== 'base') closeSheet();
+  };
+});
+
+/* ══════════════════════════════════════════════════════ THE RUN — automated
+   The colonnade is the base you built, seen from the floor. It runs itself:
+   the runner dodges on its own, and what you actually do at a gate is answer
+   a question. That is the inversion — the reflexes are automated and the
+   thinking is not, which is the same arrangement as every other board here.
+
+   Every question is drawn from something this repository worked out. Getting
+   them right is the upgrade path; there is no currency for it. */
+
+const STANZAS = [
+  ['Hestia',    'The fire is not the flame you see,\nbut the hour it is kept.'],
+  ['Demeter',   'What is sown is a promise made to a season\nthat has not agreed to it.'],
+  ['Hephaestus','The tool is the second thing.\nThe hands that were spared to make it are the first.'],
+  ['Hermes',    'A road is an argument that two places\nshould be able to disagree.'],
+  ['Apollo',    'Measure first the thing you will be asked for.\nThe rest is decoration on a tally.'],
+  ['Hera',      'An oath no one can produce\nis a memory wearing a crown.'],
+  ['Athena',    'The craft outlives the hand\nonly if a second hand was fed.'],
+  ['Artemis',   'Count what is not being spent.\nIt is the only account nobody keeps.'],
+  ['Poseidon',  'Water goes first and decides everything after,\nand is thanked for none of it.'],
+  ['Ares',      'The guard is a debt the granary took out\nbefore it was full.'],
+  ['Aphrodite', 'Want is not the reward at the end.\nIt is the reason the first furrow was cut.'],
+  ['Zeus',      'Authority is the last thing installed\nand the first thing claimed.']
+];
+
+const PUZZLES = [
+  { kind:'order', q:'Zeus can adjudicate only when two others run. Which two?',
+    a:['Hera and Apollo','Ares and Hera','Apollo and Hermes'], c:0,
+    note:'A rule and a record. With the rule alone you have authority ruling by memory.' },
+  { kind:'order', q:'Writing was invented for which of these first?',
+    a:['Accounting','Law','Poetry'], c:0,
+    note:'Cuneiform begins as barley and livestock tallies. Apollo comes after Hermes.' },
+  { kind:'math',  q:'Five Venus synodic cycles at 583.92 days is closest to:',
+    a:['2,920 days','1,460 days','4,380 days'], c:0,
+    note:'2,919.6 — and thirteen Venus years is 2,921.1, and eight Earth years 2,922.' },
+  { kind:'math',  q:'Venus surface gravity is 8.87 m/s². As a share of Earth\u2019s 9.81:',
+    a:['about 90%','about 62%','about 38%'], c:0,
+    note:'90.4%. Mars is 38% and the Moon 17%, which is the whole argument for Venus.' },
+  { kind:'order', q:'Which sector is a root — needing nothing upstream of it?',
+    a:['Aphrodite','Hephaestus','Apollo'], c:0,
+    note:'Demand is a root, not a luxury. Nobody farms without wanting something.' },
+  { kind:'math',  q:'Water at 27 °C holds 7.9 mg/L of oxygen. At 75 °C it holds:',
+    a:['2.6 mg/L','7.1 mg/L','11.4 mg/L'], c:0,
+    note:'Which is why the settlement sits at 55 km and not at 50.' },
+  { kind:'word',  q:'Which god stands for records, measure and standards?',
+    a:['Apollo','Hermes','Athena'], c:0,
+    note:'Measure, medicine and prophecy — which is standards, health and the written account.' },
+  { kind:'word',  q:'One order in the wood forgets by default. Which?',
+    a:['Ants','Owls','Bees'], c:0,
+    note:'An unrenewed trail evaporates, so a route that stopped being useful stops existing.' },
+  { kind:'math',  q:'9,000 sq mi against Venus\u2019s 177.7 million is about:',
+    a:['0.005%','0.5%','5%'], c:0,
+    note:'One part in 19,744. It takes 197 such forests to reach a single per cent.' },
+  { kind:'order', q:'Force is downstream of which sector?',
+    a:['Demeter — the surplus','Zeus — authority','Hephaestus — the forge'], c:0,
+    note:'Force needs something worth taking. Security is a response to having food.' },
+  { kind:'word',  q:'What can a beetle NOT do while its armour is shut?',
+    a:['Fly','Bury seed','Walk'], c:0,
+    note:'The elytra are its forewings. Protection and movement are the same structure.' },
+  { kind:'math',  q:'Light from Venus takes 2.2 to 14.3 minutes. Mass takes:',
+    a:['4 to 6 months','2 to 3 weeks','the same'], c:0,
+    note:'About 45,000 times slower on the identical route. Atoms visit; light commutes.' }
+];
+
+const R = { on:false, dist:0, h2:0, speed:1, lane:1, tier:1, seg:[], nextGate:260,
+            gate:null, best:0, upgrades:0 };
+const LANEX = [-84, 0, 84];
+const SEGLEN = 200, SEGS = 9;
+
+const track = $('track'), runner = $('runner'), runView = $('run');
+
+function buildTrack() {
+  track.innerHTML = '';
+  R.seg = [];
+  for (let i = 0; i < SEGS; i++) R.seg.push(makeSeg(-i * SEGLEN));
+}
+function makeSeg(z) {
+  const el = document.createElement('div');
+  el.className = 'seg';
+  const built = SECTORS.filter(x => S.built[x.id]);
+  let html = '<div class="floor" style="transform:rotateX(90deg) translateZ(60px)"></div>';
+  // a column each side; a temple when the sector behind it is built
+  for (const side of [-1, 1]) {
+    const pick = built.length ? built[Math.floor(Math.random() * built.length)] : null;
+    const h = pick ? 70 + pick.build / 3 : 44;
+    const col = pick ? HUE[pick.sector] : 'rgb(70,60,86)';
+    html += '<div class="pil" style="left:' + (side * 150 - 17) + 'px;bottom:60px;height:' + h + 'px">' +
+      ['0,26px,rotateY(0deg)', '0,-26px,rotateY(180deg)',
+       '-17px,0,rotateY(-90deg)', '17px,0,rotateY(90deg)'].map(sp => {
+        const [tx, tz, rot] = sp.split(',');
+        return '<i style="height:' + h + 'px;bottom:0;background:linear-gradient(180deg,' + col +
+          ',rgba(0,0,0,.75));transform:translate3d(' + tx + ',0,' + tz + ') ' + rot +
+          ' translateZ(17px)"></i>';
+      }).join('') + '</div>';
+  }
+  // one hazard and one pickup, on random lanes
+  const hl = Math.floor(Math.random() * 3), pl = (hl + 1 + Math.floor(Math.random() * 2)) % 3;
+  html += '<div class="hz" data-lane="' + hl + '" style="left:' + LANEX[hl] +
+    'px;bottom:60px;transform:translateZ(-40px)"></div>';
+  html += '<div class="pick" data-lane="' + pl + '" style="left:' + LANEX[pl] +
+    'px;bottom:96px;transform:translateZ(40px)"></div>';
+  el.innerHTML = html;
+  el.dataset.z = z;
+  place(el, z);
+  track.appendChild(el);
+  return el;
+}
+function place(el, z) { el.style.transform = 'translate3d(0,0,' + z + 'px)'; el.dataset.z = z; }
+
+function startRun() {
+  R.on = true; R.dist = 0; R.h2 = 0; R.speed = 1; R.lane = 1;
+  R.nextGate = 260; R.gate = null;
+  $('over').classList.remove('on');
+  buildTrack(); paintRunner();
+  const g = $('gate'); if (g) g.classList.remove('up');
+}
+window.startRun = startRun;
+
+function paintRunner() {
+  runner.style.transform = 'translateX(' + LANEX[R.lane] + 'px) translateZ(0)';
+  runner.style.bottom = (runView.clientHeight * 0.30) + 'px';
+}
+
+/* the automated part: it steers itself away from the nearest hazard */
+function autopilot() {
+  let danger = null, dz = 1e9;
+  for (const el of R.seg) {
+    const z = +el.dataset.z;
+    for (const h of el.querySelectorAll('.hz')) {
+      const hz = z - 40;
+      if (hz < -30 && hz > -320 && -hz < dz) { dz = -hz; danger = +h.dataset.lane; }
+    }
+  }
+  if (danger !== null && danger === R.lane) {
+    const opts = [0, 1, 2].filter(l => l !== danger);
+    R.lane = opts[Math.floor(Math.random() * opts.length)];
+    paintRunner();
+  }
+}
+
+function runStep(dt) {
+  if (!R.on || R.gate) return;
+  const v = (0.19 + R.tier * 0.05) * R.speed * dt;
+  R.dist += v * 0.06;
+
+  for (const el of R.seg) {
+    let z = +el.dataset.z + v;
+    if (z > 220) {
+      z -= SEGS * SEGLEN;
+      const fresh = makeSeg(z);
+      track.replaceChild(fresh, el);
+      R.seg[R.seg.indexOf(el)] = fresh;
+      continue;
+    }
+    place(el, z);
+    // pickups collected when they reach the runner's plane, in lane
+    for (const pk of el.querySelectorAll('.pick')) {
+      const pz = z + 40;
+      if (pz > -20 && pz < 40 && +pk.dataset.lane === R.lane && !pk._got) {
+        pk._got = true; pk.style.display = 'none';
+        R.h2 += 4 + R.tier * 2;
+      }
+    }
+  }
+  autopilot();
+
+  $('r-dist').textContent = Math.round(R.dist);
+  $('r-h2').textContent = Math.round(R.h2);
+
+  if (R.dist > R.nextGate) { R.nextGate += 300; openGate(); }
+}
+
+/* ─────────────────────────────────────────────────────────── the gate */
+function openGate() {
+  const p = PUZZLES[Math.floor(Math.random() * PUZZLES.length)];
+  const st = STANZAS[Math.floor(Math.random() * STANZAS.length)];
+  R.gate = p;
+  let g = $('gate');
+  if (!g) { g = document.createElement('div'); g.className = 'gate'; g.id = 'gate'; runView.appendChild(g); }
+  g.innerHTML =
+    '<div class="tag">' + p.kind + ' &middot; ' + st[0] + '</div>' +
+    '<p class="stanza">' + st[1].replace('\n', '<br>') + '</p>' +
+    '<p class="q">' + p.q + '</p><div class="opts">' +
+    p.a.map((t, i) => '<button data-i="' + i + '">' + t + '</button>').join('') + '</div>';
+  g.querySelectorAll('button').forEach(b => {
+    b.onclick = () => answer(+b.dataset.i, b, p);
+  });
+  requestAnimationFrame(() => g.classList.add('up'));
+}
+function answer(i, btn, p) {
+  const right = i === p.c;
+  btn.className = right ? 'right' : 'wrong';
+  const g = $('gate');
+  g.querySelectorAll('button').forEach(b => b.disabled = true);
+  if (right) {
+    R.tier++; R.upgrades++; R.speed = Math.min(2.6, R.speed + 0.14);
+    S.upgrades = (S.upgrades || 0) + 1;
+  } else {
+    R.speed = Math.max(0.6, R.speed - 0.18);
+  }
+  g.insertAdjacentHTML('beforeend',
+    '<p class="stanza" style="border-color:' + (right ? 'var(--ok)' : 'var(--bad)') +
+    ';color:var(--dim);margin:10px 0 0;font-style:normal;font-family:inherit;font-size:11px">' +
+    (right ? 'Tier ' + R.tier + '. ' : 'Slower. ') + p.note + '</p>');
+  setTimeout(() => {
+    g.classList.remove('up');
+    setTimeout(() => { R.gate = null; }, 240);
+  }, 2100);
+}
+
+function endRun(why) {
+  R.on = false;
+  R.best = Math.max(R.best, R.dist);
+  S.h2 += R.h2;
+  $('over-t').textContent = 'Run ended';
+  $('over-p').innerHTML = why + '<br><br>' + Math.round(R.dist) + ' m &middot; ' +
+    Math.round(R.h2) + ' kg recovered and banked &middot; tier ' + R.tier +
+    '<br>best ' + Math.round(R.best) + ' m';
+  $('over').classList.add('on');
+  render();
+}
+window.endRun = endRun;
+
+/* ═══════════════════════════════════════════════════════════════════ START */
+render();
+let acc = 0, last = performance.now();
+
+/* ══════════════════════════════════════════════════════════ THE RELAY MODE
+   Two buttons. START, and SHUTDOWN. There is no third control anywhere in
+   this mode and there is not going to be one.
+
+   ONCE IT IS AUTOMATED YOU ARE AN INJECTOR
+   You do not fly the hull. The hull flies itself, badly, for a reason that is
+   not its fault. Everything you get to decide is WHEN IT LEAVES — and that is
+   not a small thing, it is the whole Venus problem, because the window comes
+   round every 583.92 days and geometry does not negotiate.
+
+   THE AUTOPILOT IS A CONTROL LOOP WITH DEAD TIME, AND THE DEAD TIME IS REAL
+   Each frame it compares the corridor against the hull — but only as they
+   were one light delay ago, because that is the most recent picture that
+   exists anywhere. It corrects on stale data and the staleness grows the
+   whole way:
+
+     departure   0.000 AU        0.00 min      solved from Kepler, per frame
+     quarter     0.050 AU        0.42 min      M = pi + 2pi t/T
+     halfway     0.117 AU        0.97 min      Newton on M = E - e sinE
+     three-q     0.290 AU        2.41 min      r = a(1 - e cosE)
+     arrival     0.594 AU        4.94 min      law of cosines against Earth
+
+   The delay is worst at arrival. Not by design — it falls out of where the
+   two planets are when the window puts you there. So the loop is clean for
+   three quarters of the passage and visibly hunts in the last one, and there
+   is nothing to be done about it from here. Simulated before it was written:
+   gain 8e-7 with 0.994 damping holds the corridor 100% of the first three
+   quarters and 87% of the last, with the tracking error going up four-fold
+   and never diverging. It always arrives. It just arrives untidily.
+
+   THE ONE DECISION
+   The window runs 583.92 days and the transfer is cheapest at the top of it.
+   Leave at the top and it is the 146-day minimum-energy passage. Leave off
+   the top and it is longer, because you are aiming at a meeting point that is
+   no longer where you are going. The extra days here are MODELLED, not
+   derived — 0.45 days of passage per day off the optimum, and the light-delay
+   profile shown is the minimum-energy one stretched, which is not what an
+   off-optimum transfer would really look like. Said plainly rather than
+   quietly, because the 146 and the 4.94 are computed and this one is not.
+
+   A RELAY DOES NOT DECIDE A WINNER OR A LOSER
+   There is no score here and nothing that reads as one. Not a percentage, not
+   a grade, not two columns with your name over them. The only thing reported
+   is WHERE THE BATON IS, which is a fact about the cargo and not a verdict on
+   anybody. Reach an exchange inside the corridor and it stays aboard; reach
+   it outside and it is HELD at that station, and the next hull through
+   collects it in passing. A bad leg does not end anything and does not even
+   end that baton's journey — it moves it later, on the next window.
+
+   Two things count and both only go up: legs flown, and batons at Venus.
+   Neither is compared to anything. There is no subtraction in this mode.
+
+   SHUTDOWN IS THE ONE STOP AND IT IS FOR EMERGENCIES
+   It does not pause and it does not reset. It stops: the loop, the clock, the
+   corrections still in flight, all of it, and the lane goes grey. Nothing is
+   lost by pressing it and nothing is undone. Press START and the next window
+   comes round like it always does. */
+
+const RL = {
+  tab:false, state:'window',        /* window · flying · arrived · dead */
+  wnd:0, t:0, day:0, f:0, passage:146.1, offset:0, lagMult:1,
+  y:0.5, vy:0, cy:0.5, cw:0.15, inside:true, hist:[],
+  queue:[], elapsed:0, legs:0, delivered:0,
+  batonAt:'hull', zoneDone:[false,false], run:1
+};
+
+const TR_A = (1.0 + 0.7233) / 2, TR_E = (1.0 - 0.7233) / (1.0 + 0.7233);
+const TR_T = Math.pow(TR_A, 1.5) * 365.256, TR_HALF = TR_T / 2;
+const AU_KM = 149597870.7, C_KMS = 299792.458, SYNODIC = 583.92;
+const LANE_MS = 96000, LAG_SCALE = 500, GAIN = 8e-7, DAMP = 0.994;
+
+/* one-way light minutes, Earth to ship, t days into a minimum-energy transfer */
+function lightMin(t) {
+  const M = Math.PI + 2 * Math.PI * t / TR_T;
+  let E = M;
+  for (let i = 0; i < 24; i++) E = E - (E - TR_E * Math.sin(E) - M) / (1 - TR_E * Math.cos(E));
+  const nu = 2 * Math.atan2(Math.sqrt(1 + TR_E) * Math.sin(E / 2),
+                            Math.sqrt(1 - TR_E) * Math.cos(E / 2));
+  const r = TR_A * (1 - TR_E * Math.cos(E));
+  const th = nu - Math.PI, thE = 2 * Math.PI * t / 365.256;
+  return Math.sqrt(r * r + 1 - 2 * r * Math.cos(th - thE)) * AU_KM / C_KMS / 60;
+}
+const lagNow = () => lightMin(RL.f * TR_HALF) * RL.lagMult;
+
+/* the corridor: three sines off the run number. Deterministic, so a leg is
+   repeatable and nobody is fighting a random number generator. */
+const corridorAt = (f, run) =>
+  0.5 + 0.20 * Math.sin(f * 6.283 * 1.6 + run * 1.7)
+      + 0.10 * Math.sin(f * 6.283 * 3.3 + run * 3.57)
+      + 0.05 * Math.sin(f * 6.283 * 5.1 + run * 1.19);
+
+const rlCard = (t, h) => { $('rl-h').textContent = t; $('rl-p').innerHTML = h;
+                           $('rl-card').classList.add('on'); };
+const rlHide = () => $('rl-card').classList.remove('on');
+
+function relayStart() {
+  if (RL.state === 'flying') return;
+  RL.offset  = Math.min(RL.wnd, SYNODIC - RL.wnd);
+  RL.passage = TR_HALF + RL.offset * 0.45;          /* modelled — see above */
+  RL.lagMult = 1 + RL.offset / SYNODIC * 0.8;       /* modelled */
+  RL.state = 'flying'; RL.elapsed = 0; RL.f = 0; RL.t = 0;
+  RL.y = corridorAt(0, RL.run); RL.vy = 0;
+  RL.hist.length = 0; RL.queue.forEach(q => q.el.remove()); RL.queue.length = 0;
+  RL.zoneDone = [false, false];
+  if (RL.batonAt === 'venus') RL.batonAt = 'hull';
+  $('relay').classList.remove('dead');
+  $('rl-go').disabled = true; $('rl-kill').disabled = false;
+  const tc = $('trail'); tc.getContext('2d').clearRect(0, 0, tc.width, tc.height);
+  rlHide();
+}
+
+function relayKill() {
+  if (RL.state !== 'flying') return;
+  RL.state = 'dead';
+  RL.queue.forEach(q => q.el.remove()); RL.queue.length = 0;
+  $('relay').classList.add('dead');
+  $('rl-go').disabled = false; $('rl-kill').disabled = true;
+  rlCard('Shutdown. Everything.',
+    'The loop, the clock, and every correction that was still on its way. ' +
+    'It is the one stop and it is kept for emergencies, so it does not pause ' +
+    'and it does not reset &mdash; the baton is exactly where it was a second ' +
+    'ago and the legs you have flown are still flown.<br><br>' +
+    '<em>Nothing is undone by stopping.</em> Press START and the window comes ' +
+    'round like it always does.');
+}
+
+function relayStep(dt) {
+  const lane = $('lane'), W = lane.clientWidth, H = lane.clientHeight;
+
+  if (RL.state === 'window' || RL.state === 'arrived') {
+    RL.wnd = (RL.wnd + dt / LANE_MS * SYNODIC * 0.5) % SYNODIC;
+  } else if (RL.state === 'flying') {
+    RL.elapsed += dt;
+    RL.f = Math.min(1, RL.elapsed / (LANE_MS * RL.passage / TR_HALF));
+    RL.day = RL.f * RL.passage;
+    RL.cy = corridorAt(RL.f, RL.run);
+    RL.cw = 0.15 - 0.055 * RL.f;
+
+    /* THE AUTOPILOT. It corrects against the picture it has, which is one
+       light delay old, which is the only picture that exists. */
+    RL.hist.push({ t: RL.elapsed, y: RL.y, cy: RL.cy });
+    if (RL.hist.length > 5000) RL.hist.shift();
+    const lagMs = lagNow() * LAG_SCALE, want = RL.elapsed - lagMs;
+    let seen = RL.hist[0];
+    for (let i = RL.hist.length - 1; i >= 0; i--) if (RL.hist[i].t <= want) { seen = RL.hist[i]; break; }
+    const err = seen.cy - seen.y;
+    RL.vy += err * GAIN * dt;
+    RL.vy *= Math.pow(DAMP, dt / 16);
+    RL.y += RL.vy * dt;
+    if (RL.y < 0.04) { RL.y = 0.04; RL.vy = Math.abs(RL.vy) * 0.4; }
+    if (RL.y > 0.96) { RL.y = 0.96; RL.vy = -Math.abs(RL.vy) * 0.4; }
+    RL.inside = Math.abs(RL.y - RL.cy) < RL.cw;
+
+    /* a correction, drawn, roughly one every third of a second */
+    if (Math.abs(err) > 0.004 && RL.elapsed - (RL.lastCmd || -1e9) > 340) {
+      RL.lastCmd = RL.elapsed;
+      const el = document.createElement('div'); el.className = 'cmd';
+      lane.appendChild(el);
+      RL.queue.push({ at: RL.elapsed + lagMs, sent: RL.elapsed, dir: Math.sign(err), el });
+    }
+    for (let i = RL.queue.length - 1; i >= 0; i--)
+      if (RL.elapsed >= RL.queue[i].at) { RL.queue[i].el.remove(); RL.queue.splice(i, 1); }
+
+    /* the exchanges — positions, not verdicts */
+    [[1 / 3, 0], [2 / 3, 1]].forEach(([at, k]) => {
+      if (RL.f < at) return;
+      if (RL.batonAt === k) RL.batonAt = 'hull';               /* collected */
+      else if (!RL.zoneDone[k]) {
+        RL.zoneDone[k] = true;
+        if (!RL.inside && RL.batonAt === 'hull') RL.batonAt = k;
+      }
+    });
+
+    if (RL.f >= 1) {
+      RL.legs++; RL.run++; RL.state = 'arrived'; RL.wnd = 0;
+      $('rl-go').disabled = false; $('rl-kill').disabled = true;
+      let where;
+      if (RL.batonAt === 'hull') { RL.batonAt = 'venus'; RL.delivered++;
+        where = 'The baton is <b>at Venus</b>.';
+        baseDeliver();                       /* the base gets its manifest */ }
+      else { where = 'The baton is <b>held at exchange ' + (RL.batonAt + 1) +
+        '</b>, and the next hull collects it on the way past.';
+        S.held++; S.windowOpen = false; }
+      rlCard('Arrived in ' + Math.round(RL.passage) + ' days. The hull goes home.',
+        where + ' Nothing was lost and nothing was decided &mdash; a relay does ' +
+        'not pick a winner, it moves a baton, and the baton is where it is.' +
+        '<br><br>The hull is not the baton: it hands over and cycles on its own ' +
+        'clock while the cargo carries on. <em>You go home and start off right.</em>');
+    }
+  }
+  relayPaint(W, H);
+}
+
+function relayPaint(W, H) {
+  const flying = RL.state === 'flying';
+  const corr = $('corr');
+  corr.style.top = ((RL.cy - RL.cw) * H) + 'px';
+  corr.style.height = (RL.cw * 2 * H) + 'px';
+  corr.classList.toggle('out', flying && !RL.inside);
+
+  const x = RL.f * W, hull = $('hull');
+  hull.style.left = x + 'px'; hull.style.top = RL.y * H + 'px';
+  hull.classList.toggle('out', flying && !RL.inside);
+
+  const baton = $('baton');
+  if (RL.batonAt === 'hull')       { baton.style.left = (x - 14) + 'px';
+                                     baton.style.top  = RL.y * H + 'px'; }
+  else if (RL.batonAt === 'venus') { baton.style.left = (W - 11) + 'px';
+                                     baton.style.top  = (H * 0.5) + 'px'; }
+  else                             { baton.style.left = (W * (RL.batonAt + 1) / 3) + 'px';
+                                     baton.style.top  = (H * 0.5) + 'px'; }
+
+  $('z1').style.left = (W / 3) + 'px';
+  $('z2').style.left = (W * 2 / 3) + 'px';
+  $('z1').classList.toggle('live', flying && RL.f > 0.30 && RL.f < 0.37);
+  $('z2').classList.toggle('live', flying && RL.f > 0.63 && RL.f < 0.70);
+
+  /* the trail, so the hunting at the far end is a shape and not only a number */
+  const tc = $('trail'), d = window.devicePixelRatio || 1;
+  if (tc.width !== W * d || tc.height !== H * d) { tc.width = W * d; tc.height = H * d; }
+  tc.style.width = W + 'px'; tc.style.height = H + 'px';
+  if (flying) {
+    const g = tc.getContext('2d'); g.setTransform(d, 0, 0, d, 0, 0);
+    g.fillStyle = RL.inside ? 'rgba(160,200,235,.30)' : 'rgba(224,160,90,.42)';
+    g.fillRect(x, RL.y * H, 1.4, 1.4);
+  }
+
+  RL.queue.forEach(q => {
+    const pr = (RL.elapsed - q.sent) / Math.max(1, q.at - q.sent);
+    q.el.style.left = (x - 30 + 30 * pr) + 'px';
+    q.el.style.top = (RL.y * H - q.dir * 18 * (1 - pr)) + 'px';
+    q.el.style.opacity = 0.3 + 0.7 * pr;
+  });
+
+  const lm = flying ? lagNow() : 0;
+  $('rl-lag').textContent = lm.toFixed(2);
+  $('rl-hand').textContent =
+    RL.batonAt === 'hull'  ? 'aboard' :
+    RL.batonAt === 'venus' ? 'at Venus' : 'held at exchange ' + (RL.batonAt + 1);
+  $('rl-corr').textContent = ' · ' + RL.legs + ' legs · ' + RL.delivered + ' at Venus';
+
+  if (flying) {
+    $('rl-l1').textContent = 'day of passage';
+    $('rl-day').textContent = Math.round(RL.day);
+    $('rl-u').textContent = ' / ' + Math.round(RL.passage);
+    $('rl-note').innerHTML =
+      'The autopilot is correcting against the picture from <em>' +
+      (lm * LAG_SCALE / 1000).toFixed(1) + 's</em> ago (' + lm.toFixed(2) +
+      ' light-min &times; ' + (LAG_SCALE / 1000) + 's). <b>' + RL.queue.length +
+      '</b> corrections still on their way. It hunts near Venus because the ' +
+      'delay is worst at arrival, and there is nothing to press about it.';
+  } else if (RL.state === 'dead') {
+    $('rl-l1').textContent = 'stopped at day';
+    $('rl-day').textContent = Math.round(RL.day);
+    $('rl-u').textContent = '';
+    $('rl-note').innerHTML = 'Shut down. <b>One stop, for emergencies.</b> ' +
+      'Nothing is undone and nothing resets.';
+  } else {
+    const off = Math.min(RL.wnd, SYNODIC - RL.wnd);
+    const days = Math.round(TR_HALF + off * 0.45);
+    $('rl-l1').textContent = 'window';
+    $('rl-day').textContent = Math.round(RL.wnd);
+    $('rl-u').textContent = ' / 584 d';
+    $('rl-note').innerHTML = 'Leave now and the passage is <b>' + days + ' days</b>' +
+      (off < 12 ? ' &mdash; <em>the minimum-energy transfer</em>. This is the top of the window.'
+                : ', because you are <b>' + Math.round(off) + ' days</b> off the top of ' +
+                  'the window and aiming at a meeting point that has moved. Wait, or go.') +
+      ' <b>Waiting costs nothing but the wait.</b>';
+  }
+}
+
+$('rl-go').addEventListener('click', relayStart);
+$('rl-kill').addEventListener('click', relayKill);
+addEventListener('keydown', e => {
+  if (S.tab !== 'relay') return;
+  if (e.key === ' ') { relayStart(); e.preventDefault(); }
+  if (e.key === 'Escape') { relayKill(); e.preventDefault(); }
+});
+
+rlCard('The relay',
+  'One button starts it and one button stops it. There is no third control ' +
+  'in this mode, because once a thing is automated the operator is an ' +
+  '<em>injector</em> &mdash; you inject the start, and you can stop it, and ' +
+  'that is the job.<br><br>' +
+  'The hull flies itself, on a correction loop reading a picture one light ' +
+  'delay old. That delay is nothing at departure and <b>4.94 minutes</b> at ' +
+  'Venus, so it holds its line for three quarters of the way and hunts at the ' +
+  'end. Nothing to press about it.<br><br>' +
+  'Your one decision is <b>when to leave</b>. The window is 583.92 days and ' +
+  'the transfer is cheapest at the top of it.');
+
+/* ══════════════════════════════════════════════════════════════ THE BOOT
+   A base-building simulator powers on. It is greeted. It is handed eighteen
+   hundred years of history in a microsecond — and the last thing it is told
+   is that none of that counts.
+
+   THE POINT OF THE SEQUENCE IS THE LAST LINE. Twenty-seven entries resident,
+   zero verified. A download is not a demonstration, and the whole Hub is
+   built on that distinction: you arrive knowing everything and having shown
+   nothing, and the only way an entry stops being a file and starts being
+   knowledge is that the board does the thing in front of you.
+
+   The voice is Remus, because the yard already built the right character for
+   greeting something that has just switched on. Romulus is one thing, a
+   wallet. Remus is everything not Romulus, and it turns out that includes
+   hospitality.
+
+   Six seconds. Skippable on any key, any click, any tap. */
+function boot() {
+  const w = $('bwrap'), b = $('boot');
+  if (!w) return;
+  let done = false;
+  const end = () => {
+    if (done) return; done = true;
+    b.classList.add('gone');
+    setTimeout(() => b.remove(), 800);
+  };
+  $('bskip').onclick = end;
+  addEventListener('keydown', end, { once: true });
+  b.addEventListener('click', end);
+
+  /* the eighteen hundred years, and every line in it is something this
+     repository worked out rather than something written for the montage */
+  const HIST = [
+    ['c. 3200 BC', 'Nisaba holds grain and writing in one hand'],
+    ['c. 3000 BC', 'the first thing anybody wrote down was a receipt'],
+    ['c. 1200 BC', 'a boy raised on a mountain is asked to judge a beauty'],
+    ['509 BC', 'SPQR — the Senate AND the People, and the conjunction does the work'],
+    ['c. 240 BC', 'Vulgar Latin leaves on the roads with the soldiers'],
+    ['1066', 'the peasant keeps the cow and the master eats the beef'],
+    ['c. 1150', 'troubadours put the love into a language named for an army'],
+    ['1610', 'the sky gets a lens and the stars get counted'],
+    ['1761', 'Lomonosov sees an arc of light and calls it an atmosphere'],
+    ['1962', 'Mariner 2 makes Venus the first planet anybody visited'],
+    ['1966', 'Venera 3 arrives, in the way things arrive at Venus'],
+    ['1975', 'a quiet storm, and the format has no last record'],
+    ['1976', 'WHUR-FM, and the rule is that nothing is announced'],
+    ['1978', 'Pioneer measures 243.02 days, backwards'],
+    ['1985', 'VeGa floats two balloons in the deck for 46 hours'],
+    ['1986', 'Rapture, Elektra — and the phrase turns out to be literal'],
+    ['2006', 'Venus Express, and the superrotation still has no agreed cause'],
+    ['today', '583.92 days between one chance and the next']
+  ];
+  const KB = (window.HUB || []).map(e => e.term);
+  const EXTRA = ['fungibility', 'decentralization', 'the minimum cycle', 'the rename',
+    'the retainer', 'the attribution gap', 'the baton', 'the exchange', 'the ledger',
+    'the gas', 'the wallet', 'smart contracts', 'the injector', 'the orbit',
+    'the window', 'the passage', 'the light delay', 'the relay', 'superrotation',
+    'hydrogen', 'cascade order', 'the lookup table', 'the zero counter',
+    'the query string', 'the prior condition', 'caught up', 'the constant judge'];
+  const NAMES = KB.length ? KB.concat(EXTRA) : EXTRA;
+
+  const say = (html, cls) => {
+    const d = document.createElement('div');
+    d.className = cls || 'bline'; d.innerHTML = html; w.appendChild(d); return d;
+  };
+  const at = (ms, fn) => setTimeout(() => { if (!done) fn(); }, ms);
+
+  at(220,  () => say('<u>&#9679;</u> cold start &middot; aerostat 55 km &middot; 0.52 bar &middot; 27&nbsp;&deg;C'));
+  at(700,  () => say('<u>&#9679;</u> base-building simulator <b>online</b>'));
+  at(1150, () => say('<u>&#9679;</u> incoming hail'));
+  at(1500, () => say(
+    '<s>Remus &middot; autonomous, and not the wallet</s>' +
+    'Welcome to Venus. You are eighteen hundred years late and exactly on time, ' +
+    'which is the only way anybody arrives here &mdash; the window does not care ' +
+    'and it does not move.<br><br>Romulus is the wallet. I am everything else, ' +
+    'including this. I am going to hand you all of it at once, and then I am ' +
+    'going to tell you what it is worth.', 'bhail'));
+
+  at(2500, () => {
+    say('<u>&#9679;</u> transferring <b>1,800 years</b> &middot; elapsed 1&thinsp;&micro;s');
+    const box = say('<div class="roll"></div>', 'bstream');
+    const roll = box.querySelector('.roll');
+    const rows = [];
+    for (let i = 0; i < 46; i++) {
+      const h = HIST[i % HIST.length], n = NAMES[i % NAMES.length];
+      rows.push('<div><span>' + h[0] + '</span> &nbsp; ' + h[1] + '</div>');
+      rows.push('<div>&nbsp;&nbsp;&nbsp;&nbsp; &middot; ' + n + '</div>');
+    }
+    roll.innerHTML = rows.join('');
+    const bar = say('<div class="bbar"><i></i></div>', 'bline').querySelector('i');
+    const cnt = say('<b>0</b> entries resident <s>verified 0</s>', 'bcount');
+    const num = cnt.querySelector('b');
+    const total = 27; let t0 = null;
+    const run = (ts) => {
+      if (done) return;
+      if (t0 === null) t0 = ts;
+      const k = Math.min(1, (ts - t0) / 1900);
+      roll.style.transform = 'translateY(' + (-k * (roll.scrollHeight - 96)) + 'px)';
+      bar.style.width = (k * 100) + '%';
+      num.textContent = Math.round(k * total);
+      if (k < 1) requestAnimationFrame(run);
+    };
+    requestAnimationFrame(run);
+  });
+
+  at(4700, () => say(
+    '<b>27 entries resident. 0 verified.</b><br>' +
+    'You have the history and you have demonstrated none of it. Every one of ' +
+    'those carries a test &mdash; the thing you could do that would show it ' +
+    'false &mdash; and a file is not a finding until the board in front of you ' +
+    'does the thing.<br><br>There is no score here, nothing to lose, and no ' +
+    'ending. <b>Build something. The window is 584 days.</b>', 'bverdict'));
+
+  at(6400, end);
+}
+boot();
+
+function frame(now) {
+  const dt = Math.min(now - last, 200); last = now;
+  drawSky();
+  if (S.tab === 'base') { acc += dt; while (acc > 420) { acc -= 420; step(); } }
+  if (S.tab === 'run') runStep(dt);
+  if (S.tab === 'relay') relayStep(dt);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+toast('Four roots can be laid immediately. They are <b>not enough to survive on</b> — ' +
+  'Demeter is not a root, and she needs Poseidon first.');
+</script>
+
+<!-- ─────────────────────────────────────────────────────── THE SCRIPT LAYER
+  Inert. automat.js reads the query string and nothing else, and the query
+  string is the half of a URL CSS cannot see. Open this file plainly and it
+  is the board it always was, deciding everything in the stylesheet. Open
+  it as game.html?run and the same board gets a hand on it: tribes on prime
+  cadences pressing the controls forever, with no score and no ending.
+  See automat.html. -->
+<script src="patron.js"></script>
+<script src="automat.js"></script>
+<script src="devmode.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->

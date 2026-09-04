@@ -1,0 +1,646 @@
+<title>TEMPLATE &middot; The Pulse · a circulatory vote</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TEMPLATE, extracted from pulse.html by templatise.mjs.
+
+     source            pulse.html
+     radio groups      4 (r, c, h, a)
+     checkboxes        3
+     counters          aye, nay, abst, ayew, nayw, castw, rite
+     stored states     none — this page forgets everything on reload
+     :has() rules      225, 82 of them compound
+     script            YES — the source page runs script; this template does not carry it
+
+  WHAT IS STILL HERE
+  The whole stylesheet, and every input id from the source. That means this
+  file WORKS as it stands: the counters count, the :has() rules fire, the
+  controls light. Open it and press things before you change anything.
+
+  WHAT WAS TAKEN OUT
+  The prose. Titles, arguments, the ships and the myths. Everywhere you see
+  TODO, that is content the source page had and this one does not.
+
+  WHAT NOT TO DO
+  Do not rename the ids. Every rule in the stylesheet points at them by name,
+  and a renamed id fails silently — no error, nothing happens, and it looks
+  like the property is unsupported. That is mistake one in learn.html and it
+  is the most common way these pages break.
+
+  THE ONE RULE
+  A counter can only be printed after the things that increment it. Inputs
+  first in the DOM, totals after. Rearrange with grid, never with source order.
+-->
+<style>
+  :root{
+    --void:#07090e; --card:#121a24; --card2:#18222e; --edge:#2a3646;
+    --ink:#e9f0f5; --dim:#8b9aa9; --gold:#e0b155;
+    --pulse:#e2555f; --good:#65d6a8; --warn:#e0705a; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px 16px 44px;color:var(--ink);background:var(--void);
+    font:13.5px/1.62 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 50% -8%,rgba(226,85,95,.16),transparent 46%),
+      radial-gradient(circle at 88% 92%,rgba(224,177,85,.10),transparent 44%)}
+  .wrap{max-width:1040px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:11px;margin-bottom:16px}
+  h1{margin:0;font-size:21px;letter-spacing:-.015em}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:70ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:24px 0 9px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--gold);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.68;margin:10px 0 0;
+    max-width:98ch}
+  .note b{color:var(--ink)}
+  .lbl{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+  code{font:10.5px ui-monospace,monospace;color:var(--ink);background:#0b1219;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--gold)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:14px 15px}
+  .two{display:grid;gap:14px;grid-template-columns:1.05fr .95fr;align-items:start}
+  @media (max-width:880px){.two{grid-template-columns:1fr}}
+
+  .opts{display:flex;gap:6px;flex-wrap:wrap}
+  .opts input,.stack input{position:absolute;opacity:0;width:0;height:0}
+  .opts label{cursor:pointer;font:11.5px/1 ui-monospace,monospace;padding:10px 13px;
+    border-radius:8px;border:1px solid var(--edge);color:var(--dim)}
+  .opts label:hover{color:var(--ink)}
+  .opts input:checked+label{border-color:var(--gold);color:var(--gold);
+    background:rgba(224,177,85,.12);font-weight:700}
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .stack label{display:flex;align-items:baseline;gap:11px;cursor:pointer;
+    padding:11px 13px;border-radius:10px;border:1px solid var(--edge);font-size:12.5px}
+  .stack label .tick{width:15px;height:15px;border-radius:5px;flex:none;
+    border:1px solid var(--edge);position:relative;top:2px}
+  .stack label .amt{margin-left:auto;font:10px/1 ui-monospace,monospace;color:var(--dim);
+    letter-spacing:.1em;text-transform:uppercase;padding-left:10px}
+  .stack input:checked+label{border-color:var(--pulse);background:rgba(226,85,95,.10)}
+  .stack input:checked+label .tick{background:var(--pulse);border-color:var(--pulse);
+    box-shadow:inset 0 0 0 3px var(--card)}
+  .stack input:checked+label .amt{color:var(--pulse)}
+  .opts input:focus-visible+label,.stack input:focus-visible+label
+    {outline:2px solid var(--cool);outline-offset:2px}
+
+  /* ------------------------------------------------------------- the ring */
+  .dia{position:relative;width:100%;max-width:290px;aspect-ratio:1;margin:2px auto 0}
+  .dia .circle{position:absolute;inset:15%;border-radius:50%;
+    border:1px dashed rgba(226,85,95,.42);animation:beat 2.4s ease-in-out infinite}
+  @keyframes beat{50%{transform:scale(1.03);border-color:rgba(226,85,95,.9)}}
+  .orbit{position:absolute;inset:15%;animation:spin 11s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .beat{position:absolute;top:-8px;left:50%;width:15px;height:15px;margin-left:-7.5px;
+    border-radius:50%;background:var(--pulse);box-shadow:0 0 16px var(--pulse)}
+  .node{position:absolute;transform:translate(-50%,-50%);width:29px;height:29px;
+    border-radius:50%;display:grid;place-items:center;background:#0c141d;
+    border:1px solid var(--edge);font:10px/1 ui-monospace,monospace;color:var(--dim)}
+  .p1{left:50%;top:4%}     .p2{left:71%;top:10%}   .p3{left:87%;top:26%}
+  .p4{left:93%;top:50%}    .p5{left:87%;top:74%}   .p6{left:71%;top:90%}
+  .p7{left:50%;top:96%}    .p8{left:29%;top:90%}   .p9{left:13%;top:74%}
+  .p10{left:7%;top:50%}    .p11{left:13%;top:26%}  .p12{left:29%;top:10%}
+  @media (prefers-reduced-motion:reduce){.orbit,.circle{animation:none}}
+
+  /* ------------------------------------------------------------- the seats */
+  .seats{display:grid;gap:9px;grid-template-columns:repeat(4,1fr)}
+  @media (max-width:1000px){.seats{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:760px){.seats{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:480px){.seats{grid-template-columns:1fr}}
+  .seat{background:#0d151d;border:1px solid var(--edge);border-radius:11px;
+    padding:10px 11px}
+  .seat.hat{border-color:rgba(224,177,85,.45)}
+  .seat .who{display:flex;align-items:baseline;gap:7px}
+  .seat .who i{font:8.5px/1 ui-monospace,monospace;color:var(--dim);font-style:normal;
+    border:1px solid var(--edge);border-radius:4px;padding:3px 5px}
+  .seat .who b{font-size:12.5px}
+  .seat .prac{color:var(--dim);font-size:10px;line-height:1.58;margin:6px 0 8px;
+    min-height:6.3em}
+  .seat .row{display:flex;align-items:baseline;justify-content:space-between;
+    border-top:1px solid var(--edge);padding-top:7px;gap:8px}
+  .seat .w{font:8.5px/1 ui-monospace,monospace;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim)}
+  .cast{font:13px/1 ui-monospace,Menlo,monospace;font-weight:700;color:var(--dim)}
+
+  /* ===================================== 1 · THE TALLY IS COUNTED, NOT SAID
+     Seven counters, declared once on body. Every increment below sits on a
+     seat's .cast, and every .cast is in the DOM before the tally that prints
+     it. That is the one rule you cannot break and the page is arranged around
+     it and nothing else. */
+  body{counter-reset:aye 0 nay 0 abst 0 ayew 0 nayw 0 castw 0 rite 0}
+
+  /* SEAT 1 · THE YARDMASTER — the reading, and nothing else. Weight 2, and 4
+     when the pulse enters at his chair, which is what sunwise means. */
+  .ring:has(#r-pl:checked) .s1 .cast::after{content:"AYE"}
+  .ring:has(#r-te:checked) .s1 .cast::after{content:"AYE"}
+  .ring:has(#r-ce:checked) .s1 .cast::after{content:"NAY"}
+  .ring:has(#r-pl:checked):has(#c-su:checked) .s1 .cast{counter-increment:aye 1 ayew 4 castw 4}
+  .ring:has(#r-te:checked):has(#c-su:checked) .s1 .cast{counter-increment:aye 1 ayew 4 castw 4}
+  .ring:has(#r-ce:checked):has(#c-su:checked) .s1 .cast{counter-increment:nay 1 nayw 4 castw 4}
+  .ring:has(#r-pl:checked):has(#c-wi:checked) .s1 .cast{counter-increment:aye 1 ayew 2 castw 2}
+  .ring:has(#r-te:checked):has(#c-wi:checked) .s1 .cast{counter-increment:aye 1 ayew 2 castw 2}
+  .ring:has(#r-ce:checked):has(#c-wi:checked) .s1 .cast{counter-increment:nay 1 nayw 2 castw 2}
+
+  /* SEAT 2 · THE PURSER — the hour. Weight 2. Also sits at 5. */
+  .ring:has(#h-da:checked) .s2 .cast::after{content:"NAY"}
+  .ring:has(#h-du:checked) .s2 .cast::after{content:"AYE"}
+  .ring:has(#h-da:checked) .s2 .cast{counter-increment:nay 1 nayw 2 castw 2}
+  .ring:has(#h-du:checked) .s2 .cast{counter-increment:aye 1 ayew 2 castw 2}
+
+  /* SEAT 3 · THE SURGEON — nothing moves her. Weight 1, always the same 1. */
+  .s3 .cast::after{content:"AYE"}
+  .s3 .cast{counter-increment:aye 1 ayew 1 castw 1}
+
+  /* SEAT 4 · THE RATINGS' DELEGATE — the circuit. Weight 1. Also sits at 10,
+     at the far end of the ring, and never speaks from both. */
+  .ring:has(#c-su:checked) .s4 .cast::after{content:"AYE"}
+  .ring:has(#c-wi:checked) .s4 .cast::after{content:"ABSTAIN"}
+  .ring:has(#c-su:checked) .s4 .cast{counter-increment:aye 1 ayew 1 castw 1}
+  .ring:has(#c-wi:checked) .s4 .cast{counter-increment:abst 1}
+
+  /* ============================= 3 · COMPOUND :has() IS LOOKUP — SEAT 5
+     THE UNDERWRITER. Neither the reading nor the hour states his vote alone;
+     the PAIR states it. Six rules for three readings by two hours, and no
+     shorter way to say it in a language with no multiplication. Weight 3. */
+  .ring:has(#r-pl:checked):has(#h-da:checked) .s5 .cast::after{content:"NAY"}
+  .ring:has(#r-pl:checked):has(#h-du:checked) .s5 .cast::after{content:"AYE"}
+  .ring:has(#r-te:checked):has(#h-da:checked) .s5 .cast::after{content:"AYE"}
+  .ring:has(#r-te:checked):has(#h-du:checked) .s5 .cast::after{content:"AYE"}
+  .ring:has(#r-ce:checked):has(#h-da:checked) .s5 .cast::after{content:"NAY"}
+  .ring:has(#r-ce:checked):has(#h-du:checked) .s5 .cast::after{content:"NAY"}
+  .ring:has(#r-pl:checked):has(#h-da:checked) .s5 .cast{counter-increment:nay 1 nayw 3 castw 3}
+  .ring:has(#r-pl:checked):has(#h-du:checked) .s5 .cast{counter-increment:aye 1 ayew 3 castw 3}
+  .ring:has(#r-te:checked):has(#h-da:checked) .s5 .cast{counter-increment:aye 1 ayew 3 castw 3}
+  .ring:has(#r-te:checked):has(#h-du:checked) .s5 .cast{counter-increment:aye 1 ayew 3 castw 3}
+  .ring:has(#r-ce:checked):has(#h-da:checked) .s5 .cast{counter-increment:nay 1 nayw 3 castw 3}
+  .ring:has(#r-ce:checked):has(#h-du:checked) .s5 .cast{counter-increment:nay 1 nayw 3 castw 3}
+
+  /* SEAT 6 · THE CHAIR — the circuit. Silent sunwise; widdershins the pulse
+     enters at her chair and she speaks at 3. She holds the casting vote. */
+  .ring:has(#c-su:checked) .s6 .cast::after{content:"ABSTAIN"}
+  .ring:has(#c-wi:checked) .s6 .cast::after{content:"AYE"}
+  .ring:has(#c-su:checked) .s6 .cast{counter-increment:abst 1}
+  .ring:has(#c-wi:checked) .s6 .cast{counter-increment:aye 1 ayew 3 castw 3}
+
+  /* SEAT 7 · THE CHAPLAIN — the text. The standing still WAS the motion, and
+     he will not vote for a version of it with the waiting taken out. Weight 1. */
+  .ring:has(#a-tb:checked) .s7 .cast::after{content:"AYE"}
+  .ring:has(#a-am:checked) .s7 .cast::after{content:"NAY"}
+  .ring:has(#a-tb:checked) .s7 .cast{counter-increment:aye 1 ayew 1 castw 1}
+  .ring:has(#a-am:checked) .s7 .cast{counter-increment:nay 1 nayw 1 castw 1}
+
+  /* SEAT 8 · THE FOREMAN — the text, from the other end. He costed the
+     standing still in hours and the number was the whole objection. Weight 3. */
+  .ring:has(#a-tb:checked) .s8 .cast::after{content:"NAY"}
+  .ring:has(#a-am:checked) .s8 .cast::after{content:"AYE"}
+  .ring:has(#a-tb:checked) .s8 .cast{counter-increment:nay 1 nayw 3 castw 3}
+  .ring:has(#a-am:checked) .s8 .cast{counter-increment:aye 1 ayew 3 castw 3}
+
+  /* ============================= 3 · COMPOUND :has() IS LOOKUP — SEAT 9
+     THE CLERK. Reads the text against the hour: he is the one who has to
+     write the minute, and at dawn an unamended motion is a day he cannot
+     staff. Four cells for two texts by two hours. Weight 1. */
+  .ring:has(#a-tb:checked):has(#h-da:checked) .s9 .cast::after{content:"NAY"}
+  .ring:has(#a-tb:checked):has(#h-du:checked) .s9 .cast::after{content:"AYE"}
+  .ring:has(#a-am:checked):has(#h-da:checked) .s9 .cast::after{content:"AYE"}
+  .ring:has(#a-am:checked):has(#h-du:checked) .s9 .cast::after{content:"AYE"}
+  .ring:has(#a-tb:checked):has(#h-da:checked) .s9 .cast{counter-increment:nay 1 nayw 1 castw 1}
+  .ring:has(#a-tb:checked):has(#h-du:checked) .s9 .cast{counter-increment:aye 1 ayew 1 castw 1}
+  .ring:has(#a-am:checked):has(#h-da:checked) .s9 .cast{counter-increment:aye 1 ayew 1 castw 1}
+  .ring:has(#a-am:checked):has(#h-du:checked) .s9 .cast{counter-increment:aye 1 ayew 1 castw 1}
+
+  /* SEAT 10 · THE HARBOUR WATCH — the circuit, and the same hand as seat 4.
+     Whichever end the pulse reaches first is the chair she answers from. */
+  .ring:has(#c-su:checked) .s10 .cast::after{content:"ABSTAIN"}
+  .ring:has(#c-wi:checked) .s10 .cast::after{content:"AYE"}
+  .ring:has(#c-su:checked) .s10 .cast{counter-increment:abst 1}
+  .ring:has(#c-wi:checked) .s10 .cast{counter-increment:aye 1 ayew 1 castw 1}
+
+  /* SEAT 11 · THE DOCK STEWARD — the reading. Will vote for a thing spelled
+     out in full and for nothing else, plain or ceremonial. Weight 2. */
+  .ring:has(#r-pl:checked) .s11 .cast::after{content:"NAY"}
+  .ring:has(#r-te:checked) .s11 .cast::after{content:"AYE"}
+  .ring:has(#r-ce:checked) .s11 .cast::after{content:"NAY"}
+  .ring:has(#r-pl:checked) .s11 .cast{counter-increment:nay 1 nayw 2 castw 2}
+  .ring:has(#r-te:checked) .s11 .cast{counter-increment:aye 1 ayew 2 castw 2}
+  .ring:has(#r-ce:checked) .s11 .cast{counter-increment:nay 1 nayw 2 castw 2}
+
+  /* SEAT 12 · THE ABSENT MEMBER — has not attended. Weight 0 by the fact of
+     it, counted in the roll and in nothing else. The quorum is 8 of 12 and it
+     is 8 rather than 9 because of this chair, which is the ordinary way a
+     standing rule remembers a person nobody has seen. */
+  .s12 .cast::after{content:"— ABSENT —"}
+  .s12 .cast{counter-increment:abst 1;font-size:10px;color:var(--dim)}
+
+  /* ==================================== 4 · CASCADE ORDER IS AUTHORITY (i)
+     The Chair does not vote in a ceremonial reading — she is presiding over
+     it, and with her goes the casting vote. Same specificity as the two
+     circuit rules above; it wins because it is written after them. Move it up
+     and she votes again, silently, and every ceremonial tally is wrong while
+     staying perfectly self-consistent. */
+  .ring:has(#r-ce:checked) .s6 .cast::after{content:"ABSTAIN"}
+  .ring:has(#r-ce:checked) .s6 .cast{counter-increment:abst 1}
+
+  /* colour, after every rule that sets a word */
+  .cast{color:var(--dim)}
+  .s3 .cast,
+  .ring:has(#r-pl:checked) .s1 .cast, .ring:has(#r-te:checked) .s1 .cast,
+  .ring:has(#h-du:checked) .s2 .cast,
+  .ring:has(#c-su:checked) .s4 .cast,
+  .ring:has(#r-pl:checked):has(#h-du:checked) .s5 .cast,
+  .ring:has(#r-te:checked) .s5 .cast,
+  .ring:has(#a-tb:checked) .s7 .cast,
+  .ring:has(#a-am:checked) .s8 .cast,
+  .ring:has(#a-tb:checked):has(#h-du:checked) .s9 .cast,
+  .ring:has(#a-am:checked) .s9 .cast,
+  .ring:has(#c-wi:checked) .s10 .cast,
+  .ring:has(#r-te:checked) .s11 .cast{color:var(--good)}
+  .ring:has(#r-ce:checked) .s1 .cast,
+  .ring:has(#h-da:checked) .s2 .cast,
+  .ring:has(#r-pl:checked):has(#h-da:checked) .s5 .cast,
+  .ring:has(#r-ce:checked) .s5 .cast,
+  .ring:has(#a-am:checked) .s7 .cast,
+  .ring:has(#a-tb:checked) .s8 .cast,
+  .ring:has(#a-tb:checked):has(#h-da:checked) .s9 .cast,
+  .ring:has(#r-pl:checked) .s11 .cast,
+  .ring:has(#r-ce:checked) .s11 .cast{color:var(--warn)}
+  .ring:has(#c-wi:checked) .s6 .cast{color:var(--good)}
+  .ring:has(#r-ce:checked) .s6 .cast{color:var(--dim)}
+
+  /* ------------------------------------------------------------- the tally */
+  .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .tally .head{background:#0d151d;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .tally .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .tally .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--gold);margin-top:5px}
+  .tally .head.a b{color:var(--good)} .tally .head.n b{color:var(--warn)}
+  @media (max-width:640px){.tally{grid-template-columns:repeat(2,1fr)}}
+  .n-aye::after{content:counter(aye)} .n-nay::after{content:counter(nay)}
+  .n-abst::after{content:counter(abst)}
+  .n-ayew::after{content:counter(ayew)} .n-nayw::after{content:counter(nayw)}
+  .n-castw::after{content:counter(castw)} .n-rite::after{content:counter(rite)}
+  #ce-g:checked+label{counter-increment:rite 1}
+  #ce-r:checked+label{counter-increment:rite 1}
+  #ce-s:checked+label{counter-increment:rite 1}
+
+  /* ================================================ 2 · THE TEXT ON THE TABLE */
+  .txt{display:none}
+  .ring:has(#a-tb:checked) .t-tb{display:block}
+  .ring:has(#a-am:checked) .t-am{display:block}
+  .struck{text-decoration:line-through;color:var(--warn);opacity:.75}
+
+  /* ===================================================== 2 · THE REGISTER
+     Seats 2 and 5 are one hand. On these two circuits the two hats disagree
+     and the chamber counts both, at a combined weight of five. */
+  .split{display:none}
+  .ring:has(#r-te:checked):has(#h-da:checked) .split{display:block}
+  .ring:has(#r-ce:checked):has(#h-du:checked) .split{display:block}
+
+  /* ======================================================= 2 · THE DIVISION
+     Twenty-four circuits, twenty-four rules. Carried at 14 of the weight cast,
+     and the ayes must outweigh the nays. CSS compares nothing, so nothing was
+     compared: each circuit was worked out once by hand and the seven counters
+     above are what let you audit it rather than take it. */
+  .vst{display:none}
+  .vst.panel{margin-top:2px}
+  .vst .vh{font:11px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:700}
+  .st-carr .vh{color:var(--good)} .st-short .vh,.st-hung .vh{color:var(--gold)}
+  .st-lost .vh{color:var(--warn)} .st-uns .vh{color:var(--pulse)}
+  .vst p{margin:8px 0 0;font-size:12.5px;max-width:84ch}
+
+  /* --- plain */
+  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-da:checked):has(#a-tb:checked) .st-lost {display:block}
+  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-da:checked):has(#a-am:checked) .st-short{display:block}
+  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-du:checked):has(#a-tb:checked) .st-short{display:block}
+  .ring:has(#r-pl:checked):has(#c-su:checked):has(#h-du:checked):has(#a-am:checked) .st-carr {display:block}
+  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-tb:checked) .st-lost {display:block}
+  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-am:checked) .st-short{display:block}
+  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-tb:checked) .st-carr {display:block}
+  .ring:has(#r-pl:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-am:checked) .st-carr {display:block}
+  /* --- technical */
+  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-da:checked):has(#a-tb:checked) .st-short{display:block}
+  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-da:checked):has(#a-am:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-du:checked):has(#a-tb:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-su:checked):has(#h-du:checked):has(#a-am:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-tb:checked) .st-short{display:block}
+  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-am:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-tb:checked) .st-carr {display:block}
+  .ring:has(#r-te:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-am:checked) .st-carr {display:block}
+  /* --- ceremonial */
+  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-da:checked):has(#a-tb:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-da:checked):has(#a-am:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-du:checked):has(#a-tb:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-su:checked):has(#h-du:checked):has(#a-am:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-tb:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-da:checked):has(#a-am:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-tb:checked) .st-lost{display:block}
+  .ring:has(#r-ce:checked):has(#c-wi:checked):has(#h-du:checked):has(#a-am:checked) .st-hung{display:block}
+
+  /* the circuit reverses the way the pulse travels round the ring */
+  .ring:has(#c-wi:checked) .orbit{animation-direction:reverse}
+
+  /* ==================================== 4 · CASCADE ORDER IS AUTHORITY (ii)
+     THE SEAL. Nothing below this line, ever. Until all three ceremonial acts
+     are done, no verdict panel is a verdict — including the one the
+     twenty-four rules above just chose. The specificity here is higher than
+     any single division rule, which is deliberate: this stop must not depend
+     on being the last thing anybody happened to type. It is last as well.
+     Belt and braces is the correct amount of engineering for a stop rule. */
+  .ring:not(:has(#ce-g:checked):has(#ce-r:checked):has(#ce-s:checked)) .vst{display:none}
+  .ring:not(:has(#ce-g:checked):has(#ce-r:checked):has(#ce-s:checked)) .st-uns{display:block}
+
+  /* ═══════════════════════════════════════════════════ THE GALACTIC BACKDROP
+     On every interface, and still no script: this is the same technique the
+     yard's front door already used for its handful of stars, taken as far as
+     it goes. One hundred and ninety of them, weighted the way the real sky is
+     — mostly dim and warm, a scatter of white, almost no blue — laid along a
+     band twenty-four degrees off horizontal, with the dust lane cut back out
+     of the band in the background colour, because the dark half of a galaxy is
+     most of what you see.
+
+     The stars are Earth's, because they would be. Venus is 0.28 AU away and
+     that is nothing at stellar distances: the constellations are unchanged and
+     the Milky Way runs where it always did.
+
+     It sits on <html> and fixed, so it does not scroll and does not move when
+     the page does. Each page keeps its own colour wash on <body> over the top;
+     only the background COLOUR is cleared, so nothing that was there before is
+     lost. Generated by sky_all.py from a fixed seed, which is why every page in
+     the yard is showing the same sky rather than 51 different ones. */
+  html{background-color:#07090e;background-attachment:fixed;
+    background-repeat:no-repeat;background-size:cover;
+    background-image:
+      radial-gradient(0.35px 0.35px at 63.60% 61.37%,rgba(202,215,255,0.16),transparent),
+      radial-gradient(0.54px 0.54px at 31.73% 56.60%,rgba(255,210,161,0.26),transparent),
+      radial-gradient(1.30px 1.30px at 68.42% 62.26%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(0.96px 0.96px at 44.46% 53.88%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(0.36px 0.36px at 16.19% 41.87%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.12% 16.25%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 61.37% 49.53%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.66px 0.66px at 89.13% 49.03%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.52px 0.52px at 23.10% 65.23%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 81.55% 90.93%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.35px 0.35px at 1.99% 39.17%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.67px 0.67px at 88.33% 64.79%,rgba(255,210,161,0.32),transparent),
+      radial-gradient(0.65px 0.65px at 52.00% 41.82%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.84px 0.84px at 59.58% 82.02%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(1.72px 1.72px at 97.52% 67.89%,rgba(255,210,161,0.86),transparent),
+      radial-gradient(0.44px 0.44px at 55.83% 49.97%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.45px 0.45px at 61.17% 3.50%,rgba(202,215,255,0.21),transparent),
+      radial-gradient(0.48px 0.48px at 92.68% 74.19%,rgba(255,181,107,0.23),transparent),
+      radial-gradient(0.41px 0.41px at 44.55% 40.37%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.80px 0.80px at 33.50% 52.15%,rgba(255,181,107,0.39),transparent),
+      radial-gradient(0.70px 0.70px at 15.53% 74.11%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.69px 0.69px at 83.20% 49.99%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.86px 0.86px at 14.02% 0.25%,rgba(255,181,107,0.42),transparent),
+      radial-gradient(1.27px 1.27px at 29.09% 44.54%,rgba(255,181,107,0.63),transparent),
+      radial-gradient(0.35px 0.35px at 8.46% 26.75%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 16.18% 29.77%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(1.25px 1.25px at 0.41% 98.24%,rgba(255,181,107,0.62),transparent),
+      radial-gradient(0.57px 0.57px at 46.77% 49.71%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(1.12px 1.12px at 48.27% 61.45%,rgba(255,181,107,0.55),transparent),
+      radial-gradient(1.62px 1.62px at 21.27% 82.41%,rgba(255,181,107,0.81),transparent),
+      radial-gradient(0.58px 0.58px at 80.94% 96.51%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.44px 0.44px at 46.92% 31.31%,rgba(255,181,107,0.20),transparent),
+      radial-gradient(1.13px 1.13px at 32.91% 34.63%,rgba(255,181,107,0.56),transparent),
+      radial-gradient(0.37px 0.37px at 34.69% 85.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.42px 0.42px at 56.44% 46.68%,rgba(255,210,161,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 7.58% 26.10%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.48px 0.48px at 16.83% 84.69%,rgba(202,215,255,0.22),transparent),
+      radial-gradient(1.56px 1.56px at 71.19% 43.86%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(0.53px 0.53px at 9.16% 5.95%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.57px 0.57px at 41.82% 44.48%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.90px 0.90px at 74.31% 45.97%,rgba(255,210,161,0.44),transparent),
+      radial-gradient(0.40px 0.40px at 64.18% 49.64%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 5.25% 39.37%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.53px 0.53px at 9.07% 72.19%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.78px 0.78px at 64.06% 69.96%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.37px 0.37px at 8.76% 35.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 57.68% 27.55%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 98.05% 7.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.66px 0.66px at 44.51% 72.98%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.46px 0.46px at 37.26% 1.54%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.59px 0.59px at 90.42% 72.27%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.57px 0.57px at 98.13% 10.35%,rgba(248,247,255,0.27),transparent),
+      radial-gradient(0.91px 0.91px at 94.93% 71.89%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.36px 0.36px at 4.64% 11.86%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(1.40px 1.40px at 6.85% 52.24%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(0.56px 0.56px at 46.09% 50.65%,rgba(255,210,161,0.27),transparent),
+      radial-gradient(0.72px 0.72px at 98.16% 60.72%,rgba(255,181,107,0.35),transparent),
+      radial-gradient(1.14px 1.14px at 86.46% 83.26%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(0.90px 0.90px at 23.45% 18.12%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(1.10px 1.10px at 71.95% 42.90%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(0.53px 0.53px at 13.29% 38.54%,rgba(248,247,255,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 48.20% 58.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 93.26% 70.43%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(1.42px 1.42px at 36.96% 17.89%,rgba(255,181,107,0.71),transparent),
+      radial-gradient(0.77px 0.77px at 98.31% 71.27%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.51px 0.51px at 91.86% 57.08%,rgba(255,210,161,0.24),transparent),
+      radial-gradient(0.76px 0.76px at 3.22% 18.38%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(1.13px 1.13px at 4.31% 1.17%,rgba(170,191,255,0.56),transparent),
+      radial-gradient(0.45px 0.45px at 67.24% 79.63%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.44px 0.44px at 4.49% 37.24%,rgba(255,210,161,0.20),transparent),
+      radial-gradient(0.35px 0.35px at 19.05% 44.87%,rgba(248,247,255,0.16),transparent),
+      radial-gradient(1.31px 1.31px at 41.52% 51.61%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(1.46px 1.46px at 76.09% 66.82%,rgba(255,244,234,0.72),transparent),
+      radial-gradient(0.43px 0.43px at 80.57% 75.11%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.38px 0.38px at 84.40% 42.68%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.44px 0.44px at 84.04% 97.87%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.65px 0.65px at 16.48% 27.55%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(1.78px 1.78px at 26.72% 43.06%,rgba(255,181,107,0.89),transparent),
+      radial-gradient(0.75px 0.75px at 84.52% 73.60%,rgba(255,210,161,0.36),transparent),
+      radial-gradient(0.63px 0.63px at 50.13% 6.86%,rgba(248,247,255,0.30),transparent),
+      radial-gradient(0.78px 0.78px at 87.51% 70.49%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.76px 0.76px at 16.34% 26.34%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(1.69px 1.69px at 22.68% 46.22%,rgba(170,191,255,0.84),transparent),
+      radial-gradient(0.35px 0.35px at 58.85% 56.40%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(1.76px 1.76px at 30.20% 97.65%,rgba(255,181,107,0.88),transparent),
+      radial-gradient(0.68px 0.68px at 4.52% 56.48%,rgba(255,181,107,0.33),transparent),
+      radial-gradient(0.46px 0.46px at 86.45% 52.09%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.39px 0.39px at 91.92% 82.50%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(1.38px 1.38px at 99.58% 76.98%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(0.36px 0.36px at 6.83% 33.67%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.10% 7.69%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 63.59% 62.73%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(1.08px 1.08px at 15.38% 27.05%,rgba(255,244,234,0.53),transparent),
+      radial-gradient(0.95px 0.95px at 42.39% 32.32%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.57px 1.57px at 58.49% 81.25%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(0.39px 0.39px at 72.64% 55.47%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.57px 0.57px at 1.57% 22.68%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.35px 0.35px at 20.24% 40.59%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.94px 0.94px at 48.37% 39.34%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.41px 1.41px at 91.19% 97.04%,rgba(255,210,161,0.70),transparent),
+      radial-gradient(0.68px 0.68px at 81.60% 86.38%,rgba(255,244,234,0.33),transparent),
+      radial-gradient(0.75px 0.75px at 1.01% 89.43%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(1.37px 1.37px at 7.79% 44.56%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(0.50px 0.50px at 1.89% 45.85%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(1.07px 1.07px at 89.66% 36.01%,rgba(255,181,107,0.53),transparent),
+      radial-gradient(0.36px 0.36px at 86.06% 69.70%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.46px 0.46px at 54.27% 84.12%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(1.69px 1.69px at 67.50% 93.44%,rgba(255,181,107,0.84),transparent),
+      radial-gradient(0.35px 0.35px at 68.88% 69.99%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 51.92% 44.11%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(1.15px 1.15px at 57.27% 40.78%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.58px 1.58px at 33.10% 45.94%,rgba(255,181,107,0.79),transparent),
+      radial-gradient(0.37px 0.37px at 83.56% 88.23%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.61px 0.61px at 48.63% 32.82%,rgba(248,247,255,0.29),transparent),
+      radial-gradient(0.46px 0.46px at 3.14% 19.70%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(1.04px 1.04px at 83.01% 82.39%,rgba(255,181,107,0.51),transparent),
+      radial-gradient(1.56px 1.56px at 88.42% 66.83%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.29px 1.29px at 24.78% 0.51%,rgba(255,181,107,0.64),transparent),
+      radial-gradient(1.09px 1.09px at 6.07% 6.69%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.32px 1.32px at 53.40% 80.43%,rgba(255,210,161,0.65),transparent),
+      radial-gradient(0.35px 0.35px at 91.65% 60.72%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 39.35% 42.18%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.60px 0.60px at 96.63% 57.34%,rgba(255,210,161,0.29),transparent),
+      radial-gradient(1.19px 1.19px at 76.80% 81.97%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(0.36px 0.36px at 93.19% 66.52%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.94px 0.94px at 69.80% 57.79%,rgba(255,244,234,0.46),transparent),
+      radial-gradient(0.52px 0.52px at 91.66% 53.83%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.53px 0.53px at 37.09% 33.98%,rgba(255,210,161,0.25),transparent),
+      radial-gradient(1.10px 1.10px at 7.00% 33.07%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(0.36px 0.36px at 7.69% 48.04%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.76px 0.76px at 40.92% 77.22%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.62px 0.62px at 53.18% 55.13%,rgba(255,181,107,0.30),transparent),
+      radial-gradient(0.52px 0.52px at 36.16% 17.06%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(1.22px 1.22px at 76.56% 52.71%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(0.96px 0.96px at 85.29% 63.59%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.18px 1.18px at 17.44% 43.04%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(0.42px 0.42px at 7.30% 10.90%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 98.83% 35.83%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(1.51px 1.51px at 36.81% 57.97%,rgba(255,210,161,0.75),transparent),
+      radial-gradient(0.57px 0.57px at 32.25% 40.39%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.77px 0.77px at 68.97% 58.36%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.35px 0.35px at 98.16% 72.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 49.07% 50.45%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.59px 0.59px at 36.73% 46.36%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(1.37px 1.37px at 98.28% 82.40%,rgba(248,247,255,0.68),transparent),
+      radial-gradient(0.37px 0.37px at 59.16% 52.43%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 5.87% 47.43%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(1.65px 1.65px at 78.05% 82.63%,rgba(248,247,255,0.82),transparent),
+      radial-gradient(1.20px 1.20px at 59.28% 41.45%,rgba(248,247,255,0.60),transparent),
+      radial-gradient(1.55px 1.55px at 40.98% 18.58%,rgba(255,181,107,0.77),transparent),
+      radial-gradient(1.02px 1.02px at 82.66% 66.73%,rgba(255,181,107,0.50),transparent),
+      radial-gradient(1.20px 1.20px at 0.68% 23.74%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(0.35px 0.35px at 28.92% 42.34%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.84px 0.84px at 38.15% 61.03%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.35px 0.35px at 17.08% 95.56%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.56px 0.56px at 72.12% 52.35%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(1.15px 1.15px at 57.32% 67.46%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(0.43px 0.43px at 10.79% 34.15%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.36px 0.36px at 90.72% 54.28%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(1.34px 1.34px at 6.29% 37.15%,rgba(255,244,234,0.66),transparent),
+      radial-gradient(0.36px 0.36px at 0.22% 39.29%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.38px 0.38px at 66.88% 43.63%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(1.39px 1.39px at 63.56% 50.69%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(0.76px 0.76px at 85.24% 53.71%,rgba(255,210,161,0.37),transparent),
+      radial-gradient(1.59px 1.59px at 80.48% 31.89%,rgba(202,215,255,0.79),transparent),
+      radial-gradient(1.52px 1.52px at 40.22% 51.94%,rgba(255,210,161,0.76),transparent),
+      radial-gradient(0.45px 0.45px at 76.84% 68.26%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.82px 0.82px at 20.88% 36.67%,rgba(255,181,107,0.40),transparent),
+      radial-gradient(1.52px 1.52px at 78.35% 77.94%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(1.70px 1.70px at 33.95% 56.66%,rgba(255,181,107,0.85),transparent),
+      radial-gradient(0.53px 0.53px at 72.59% 59.70%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.82px 0.82px at 99.56% 61.97%,rgba(248,247,255,0.40),transparent),
+      radial-gradient(1.16px 1.16px at 77.09% 41.34%,rgba(255,210,161,0.58),transparent),
+      radial-gradient(1.67px 1.67px at 39.69% 60.56%,rgba(255,210,161,0.83),transparent),
+      radial-gradient(0.37px 0.37px at 43.04% 22.87%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.38px 0.38px at 62.75% 36.42%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.64px 0.64px at 11.37% 52.16%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(1.47px 1.47px at 12.24% 30.52%,rgba(255,181,107,0.73),transparent),
+      radial-gradient(0.35px 0.35px at 65.28% 54.10%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 23.22% 51.57%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(1.11px 1.11px at 80.16% 93.71%,rgba(255,210,161,0.55),transparent),
+      radial-gradient(1.52px 1.52px at 11.04% 44.84%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(0.41px 0.41px at 7.86% 15.80%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 1.16% 17.03%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.94px 0.94px at 59.58% 30.37%,rgba(255,210,161,0.46),transparent),
+      radial-gradient(0.36px 0.36px at 24.23% 36.88%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(1.53px 1.53px at 0.35% 42.03%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(0.37px 0.37px at 67.85% 71.10%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.87px 0.87px at 21.22% 9.64%,rgba(255,181,107,0.43),transparent),
+      radial-gradient(2.6px 2.6px at 11.38% 48.06%,rgba(255,255,255,.95),transparent),
+      radial-gradient(16px 16px at 11.38% 48.06%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(2.6px 2.6px at 66.59% 41.28%,rgba(255,255,255,.95),transparent),
+      radial-gradient(16px 16px at 66.59% 41.28%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(2.6px 2.6px at 40.80% 23.68%,rgba(255,255,255,.95),transparent),
+      radial-gradient(16px 16px at 40.80% 23.68%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(2.6px 2.6px at 41.01% 67.29%,rgba(255,255,255,.95),transparent),
+      radial-gradient(16px 16px at 41.01% 67.29%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(2.6px 2.6px at 31.18% 27.63%,rgba(255,255,255,.95),transparent),
+      radial-gradient(16px 16px at 31.18% 27.63%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(2.6px 2.6px at 10.81% 18.20%,rgba(255,255,255,.95),transparent),
+      radial-gradient(16px 16px at 10.81% 18.20%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(2.6px 2.6px at 3.23% 54.03%,rgba(255,255,255,.95),transparent),
+      radial-gradient(16px 16px at 3.23% 54.03%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(30% 30% at 22% 30%,rgba(91,127,199,0.055),transparent 70%),
+      radial-gradient(26% 26% at 74% 58%,rgba(201,87,143,0.040),transparent 70%),
+      radial-gradient(22% 22% at 46% 18%,rgba(79,179,166,0.035),transparent 70%),
+      linear-gradient(66deg,transparent 34%,rgba(148,138,196,.045) 43%,rgba(172,162,214,.085) 50%,rgba(148,138,196,.045) 57%,transparent 66%),
+      linear-gradient(66deg,transparent 46%,rgba(4,3,7,.55) 49.4%,rgba(4,3,7,.62) 50.6%,transparent 54%)}
+  body{background-color:transparent}
+</style>
+
+<div class="wrap board desk deck app v h">
+  <header>
+    <h1>TODO title</h1>
+    <span class="sub lede">TODO one sentence on what this board is for &mdash;
+      say what it computes and where the numbers come from.</span>
+    <span class="tag">no script</span>
+  </header>
+
+    <h2>TODO group name <b>3 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="r" id="r-pl" checked><label for="r-pl">Plain</label>
+      <input type="radio" name="r" id="r-te"><label for="r-te">Technical</label>
+      <input type="radio" name="r" id="r-ce"><label for="r-ce">Ceremonial</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="c" id="c-su" checked><label for="c-su">Sunwise</label>
+      <input type="radio" name="c" id="c-wi"><label for="c-wi">Widdershins</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="h" id="h-da" checked><label for="h-da">Dawn</label>
+      <input type="radio" name="h" id="h-du"><label for="h-du">Dusk</label>
+    </div>
+
+    <h2>TODO group name <b>2 options</b></h2>
+    <div class="opts seg row">
+      <input type="radio" name="a" id="a-tb" checked><label for="a-tb">As tabled</label>
+      <input type="radio" name="a" id="a-am"><label for="a-am">As amended</label>
+    </div>
+    <h2>TODO checkbox set <b>3</b></h2>
+    <div class="opts stack row">
+      <input type="checkbox" id="ce-g"><label for="ce-g">The gavel — the sitting is opened act i</label>
+      <input type="checkbox" id="ce-r"><label for="ce-r">The reading aloud — the motion is said in </label>
+      <input type="checkbox" id="ce-s"><label for="ce-s">The seal — the result is entered in the da</label>
+    </div>
+    <h2>Totals <b>counted, not declared</b></h2>
+    <div class="heads meter">
+      <div class="head m"><span>aye</span><b class="n-aye"></b></div>
+      <div class="head m"><span>nay</span><b class="n-nay"></b></div>
+      <div class="head m"><span>abst</span><b class="n-abst"></b></div>
+      <div class="head m"><span>ayew</span><b class="n-ayew"></b></div>
+      <div class="head m"><span>nayw</span><b class="n-nayw"></b></div>
+      <div class="head m"><span>castw</span><b class="n-castw"></b></div>
+      <div class="head m"><span>rite</span><b class="n-rite"></b></div>
+    </div>
+
+  <div class="panel">
+    <p class="note">TODO. The stylesheet above is the source page's, unchanged,
+      so anything it could do this can do. Add markup that its rules already
+      target &mdash; look for class names in the CSS that nothing here uses yet.</p>
+  </div>
+</div>

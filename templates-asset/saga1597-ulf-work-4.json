@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-ulf-work-4",
+ "kind": "work",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "house": "Kiln",
+ "resource": "silicate",
+ "period": 5,
+ "tier": 4,
+ "yield": 22,
+ "cost": 10560,
+ "name": "Kiln 4 of Ulfsson",
+ "text": "Four, and the bank outlasts the night with margin. Yields 22 silicate every 5 days.",
+ "wovenBy": "ulf",
+ "saga": 1597
+}

@@ -1,0 +1,16 @@
+{
+ "id": "saga41-sigrid-band-7",
+ "kind": "band",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "period": 7,
+ "name": "housecarls of Sigrdrifa",
+ "strength": 5,
+ "raids": false,
+ "cost": 576,
+ "upkeep": 1,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 5; eats 1 biomass a day.",
+ "wovenBy": "sigrid",
+ "saga": 41
+}

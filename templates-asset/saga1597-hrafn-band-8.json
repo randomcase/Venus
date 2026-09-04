@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-hrafn-band-8",
+ "kind": "band",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "name": "night raiders of Hrafnsson",
+ "strength": 6,
+ "raids": true,
+ "cost": 603,
+ "upkeep": 1,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 6; eats 1 hydrogen a day.",
+ "wovenBy": "hrafn",
+ "saga": 1597
+}

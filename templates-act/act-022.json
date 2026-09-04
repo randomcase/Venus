@@ -1,0 +1,17 @@
+{
+ "id": "act-022",
+ "order": 22,
+ "year": 3,
+ "day": 766,
+ "parties": [
+  "agamemnon",
+  "odysseus"
+ ],
+ "actor": "Agamemnon",
+ "with": "Odysseus",
+ "verb": "refused",
+ "object": "the ransom for Chryseis",
+ "place": "before the Scaean gate",
+ "side": "fleet",
+ "text": "Agamemnon and Odysseus refused the ransom for Chryseis, before the Scaean gate, in the third year."
+}

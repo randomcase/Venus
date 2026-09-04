@@ -1,0 +1,9 @@
+{
+ "id": "free",
+ "name": "Free",
+ "kind": "prose",
+ "order": 1,
+ "note": "No form at all. The room still counts, because counting is not judging, but nothing here is held against a shape.",
+ "ground": "A form is a decision made in advance so you can stop making it. Sometimes the decision you need to make is the one the form would have made for you, and then the form is in the way.",
+ "ask": "What are you avoiding by not choosing a form? It may be a good reason."
+}

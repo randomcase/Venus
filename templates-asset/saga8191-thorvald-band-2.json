@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-thorvald-band-2",
+ "kind": "band",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "period": 11,
+ "name": "wardens of the ford of Thorvaldsson",
+ "strength": 3,
+ "raids": true,
+ "cost": 416,
+ "upkeep": 1,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 3; eats 1 signal a day.",
+ "wovenBy": "thorvald",
+ "saga": 8191
+}

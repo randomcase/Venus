@@ -1,0 +1,129 @@
+{
+  "title": "The First Blade",
+  "tagline": "One blade of grass. The Tao does nothing, and nothing is left undone.",
+  "primary": "grass",
+  "powerName": "sun",
+  "tap": 3,
+  "growth": 1.15,
+  "offlineCap": 28800,
+  "natural": { "grass": 0.15 },
+  "stillness": { "max": 100, "regen": 1, "tapCost": 10, "floor": 0.25, "note": "Acting spends stillness. Everything that grows, grows at floor + (1 - floor) × stillness. The more you do, the less gets done." },
+  "day": { "length": 240, "night": 0.5, "dayName": "day", "nightName": "night" },
+  "lift": { "name": "ground", "base": 900, "crewMass": 120 },
+  "crew": { "name": "creatures", "start": 4, "lowMorale": 0.5, "needs": { "water": 0.004, "grass": 0.002 } },
+  "ship": {
+    "name": "The rains", "cadence": 584, "lock": 292, "cargo": 11400, "crewMass": 150,
+    "plan": { "rain": 0.7, "crew": 0.1, "stone": 0.1, "wood": 0.1 },
+    "note": "The rains come when they come, every 584 days, and nothing you do hurries them. The clouds gather 292 days before they break; what they carry is settled then. They bring what the meadow cannot make: rain, and the creatures that follow it."
+  },
+  "resources": [
+    { "id": "grass",     "name": "grass",     "unit": "", "color": "#9ad36a", "start": 1,  "desc": "One blade, then the meadow. It grows by itself if you let it." },
+    { "id": "soil",      "name": "soil",      "unit": "", "color": "#8a6a44", "start": 0,  "desc": "What grass becomes when it dies back. Everything is built on it." },
+    { "id": "rain",      "name": "rain",      "unit": "", "color": "#9cc6e8", "start": 40, "desc": "Cannot be made. The sky gives it or does not." },
+    { "id": "water",     "name": "water",     "unit": "", "color": "#5fb0e0", "start": 60, "desc": "The highest good is like water. The ground holds the rain and lets it out slowly, nine to one." },
+    { "id": "wood",      "name": "wood",      "unit": "", "color": "#c9a06a", "start": 40, "desc": "From the grove. Slow, and worth waiting for." },
+    { "id": "stone",     "name": "stone",     "unit": "", "color": "#b8b8c0", "start": 10, "desc": "Uncarved. Water wears it; the rains carry it." },
+    { "id": "crew",      "name": "creatures", "unit": "", "color": "#ffe1a8", "start": 4,  "desc": "Frogs, birds, deer, foxes. They drink, they graze, and some things need them." },
+    { "id": "science",   "name": "te",        "unit": "", "color": "#c8b8ff", "start": 0,  "desc": "Virtue: the power of the Way, found by sitting still. Buys sayings." }
+  ],
+  "machines": [
+    { "id": "meadow",   "sector": "blade",    "name": "The meadow spreads", "desc": "Let it.", "cost": { "grass": 15 }, "mass": 30, "draw": 15, "out": { "grass": 0.6 } },
+    { "id": "sky",      "sector": "blade",    "name": "Open sky",          "desc": "Sun on the grass, half the day.", "cost": { "grass": 40 }, "mass": 10, "out": { "power": 100 }, "solar": true },
+    { "id": "mulch",    "sector": "blade",    "name": "Dying back",        "desc": "Grass into soil. Nothing is wasted.", "cost": { "grass": 150 }, "mass": 60, "draw": 80, "in": { "grass": 0.5 }, "out": { "soil": 0.25 } },
+    { "id": "ground",   "sector": "blade",    "name": "Bare ground",       "desc": "Room for the next thing. +300 ground.", "cost": { "soil": 20 }, "mass": 15, "lift": 300 },
+    { "id": "spring",   "sector": "water",    "name": "The spring",        "desc": "The ground holds the rain and lets it out. One of rain, nine of water.", "cost": { "grass": 500, "soil": 30 }, "mass": 120, "draw": 200, "in": { "rain": 0.01 }, "out": { "water": 0.09 } },
+    { "id": "bend",     "sector": "water",    "name": "The river bends",   "desc": "+800 ground on the inside of the curve, and the river drinks a little rain to keep it.", "cost": { "soil": 60 }, "mass": 15, "lift": 800, "in": { "rain": 0.0005 } },
+    { "id": "grove",    "sector": "root",     "name": "The grove",         "desc": "Trees, in time. Birds carry the seed.", "cost": { "grass": 800, "soil": 80 }, "mass": 200, "draw": 300, "crew": 1, "in": { "water": 0.03 }, "out": { "wood": 0.05 } },
+    { "id": "block",    "sector": "block",    "name": "The uncarved block", "desc": "What grass becomes given time enough. Stone, unshaped.", "cost": { "grass": 5000, "soil": 300 }, "mass": 600, "draw": 1500, "crew": 2, "in": { "grass": 4 }, "out": { "stone": 0.03 } },
+    { "id": "moon",     "sector": "block",    "name": "The moon pool",     "desc": "Holds the day's light and gives it back at night.", "cost": { "grass": 1200, "stone": 5 }, "mass": 150, "out": { "power": 250 }, "night": true, "requires": "moon" },
+    { "id": "reeds",    "sector": "soft",     "name": "Reeds",             "desc": "They bend in the wind and are not broken. A little sun, always.", "cost": { "grass": 2500, "stone": 8 }, "mass": 80, "out": { "power": 60 } },
+    { "id": "pool",     "sector": "decrease", "name": "The quiet pool",    "desc": "Sit by it. Te comes to whoever waits.", "cost": { "grass": 3000, "soil": 200, "stone": 10 }, "mass": 250, "draw": 400, "crew": 1, "out": { "science": 0.4 } },
+    { "id": "path",     "sector": "journey",  "name": "The path",          "desc": "Wood laid down; feet wear the stone smooth.", "cost": { "grass": 8000, "stone": 20 }, "mass": 300, "draw": 200, "in": { "wood": 1 }, "out": { "stone": 0.02 } },
+    { "id": "silence",  "sector": "nameless", "name": "Silence",           "desc": "The name that can be named is not the name. Te, in quantity.", "cost": { "grass": 40000, "stone": 60 }, "mass": 500, "draw": 900, "crew": 2, "out": { "science": 2 } },
+    { "id": "hoard",    "sector": "blade",    "name": "The hoard",         "desc": "The dragon sleeps on what it keeps. +1500 ground under the wings.", "cost": { "stone": 40 }, "mass": 0, "lift": 1500, "requires": "dragon" },
+    { "id": "breath",   "sector": "blade",    "name": "Dragon's breath",   "desc": "Warm through the night.", "cost": { "grass": 3000, "stone": 15 }, "mass": 100, "out": { "power": 200 }, "night": true, "requires": "dragon" },
+    { "id": "longhouse","sector": "blade",    "name": "The longhouse",     "desc": "They cut, they burn, and the grass comes back thicker.", "cost": { "wood": 100, "stone": 10 }, "mass": 200, "draw": 200, "in": { "wood": 0.5 }, "out": { "grass": 5 }, "requires": "viking" },
+    { "id": "ring",     "sector": "blade",    "name": "The fairy ring",    "desc": "Mushrooms in a circle. The grass inside grows wrong, and fast.", "cost": { "soil": 200 }, "mass": 40, "in": { "water": 0.02 }, "out": { "grass": 3 }, "requires": "fae" },
+    { "id": "scales",   "sector": "blade",    "name": "The scales",        "desc": "Ma'at weighs. The feather is the measure.", "cost": { "stone": 30 }, "mass": 120, "draw": 300, "crew": 1, "out": { "science": 1.5 }, "requires": "egyptian" }
+  ],
+  "sectors": [
+    { "id": "blade",    "name": "The first blade",             "role": "ch. 64", "built": true, "desc": "A tree that fills the arms grows from a tiny shoot. This is the shoot." },
+    { "id": "water",    "name": "Water",                       "role": "ch. 8",  "cost": { "grass": 300, "soil": 20 }, "desc": "The highest good is like water. It benefits all things and does not compete." },
+    { "id": "valley",   "name": "The valley spirit",           "role": "ch. 6",  "cost": { "soil": 150 }, "desc": "The valley spirit never dies. It is the low place everything runs to. Ground ×1.25.", "effects": [ { "type": "mul", "target": "lift", "x": 1.25 } ] },
+    { "id": "hub",      "name": "The empty hub",               "role": "ch. 11", "cost": { "grass": 2000, "soil": 100 }, "desc": "Thirty spokes share one hub; it is the hole that makes the wheel useful. Everything ×1.25.", "effects": [ { "type": "mul", "target": "all", "x": 1.25 } ] },
+    { "id": "root",     "name": "Returning to the root",       "role": "ch. 16", "needs": ["water"], "cost": { "grass": 1500, "soil": 120, "crew": 2 }, "desc": "The ten thousand things rise and fall while the root stays. Needs water. The grove starts here." },
+    { "id": "block",    "name": "The uncarved block",          "role": "ch. 28", "needs": ["root"], "cost": { "grass": 6000, "soil": 400, "crew": 4 }, "desc": "When the block is carved it becomes useful. Left alone it becomes everything." },
+    { "id": "decrease", "name": "Daily decrease",              "role": "ch. 48", "needs": ["root"], "cost": { "grass": 5000, "soil": 300, "crew": 3 }, "desc": "In the pursuit of the Way, every day something is dropped. Sayings cost ×0.9.", "effects": [ { "type": "mul", "target": "researchCost", "x": 0.9 } ] },
+    { "id": "soft",     "name": "The soft overcomes the hard", "role": "ch. 78", "needs": ["root"], "cost": { "grass": 8000, "stone": 20, "crew": 4 }, "desc": "Nothing is softer than water and nothing wears stone better. The weather reaches you half as hard.", "effects": [ { "type": "mul", "target": "storm", "x": 0.5 } ] },
+    { "id": "journey",  "name": "The thousand-li journey",     "role": "ch. 64", "needs": ["block", "root"], "cost": { "grass": 20000, "stone": 50, "crew": 5 }, "desc": "Begins beneath one's feet. The rains carry ×1.2.", "effects": [ { "type": "mul", "target": "cargo", "x": 1.2 } ] },
+    { "id": "nameless", "name": "The nameless",                "role": "ch. 1",  "needs": ["journey"], "cost": { "grass": 60000, "stone": 150, "crew": 6 }, "desc": "The Way that can be spoken is not the Way. Te ×1.5, sayings cost ×0.8.", "effects": [ { "type": "mul", "target": "science", "x": 1.5 }, { "type": "mul", "target": "researchCost", "x": 0.8 } ] },
+    { "id": "country",  "name": "The small country",           "role": "ch. 80", "needs": ["nameless"], "cost": { "grass": 150000, "stone": 300, "crew": 8 }, "desc": "Few people; they hear the dogs of the next village and never go. Creatures travel light: 100 to a seat.", "effects": [ { "type": "mul", "target": "crewMass", "x": 0.667 } ] },
+    { "id": "nothing",  "name": "Doing nothing",               "role": "ch. 37", "needs": ["country", "soft"], "cost": { "grass": 500000, "stone": 800, "crew": 12 }, "desc": "The Tao does nothing, and nothing is left undone. Everything ×1.5. Opens the return.", "effects": [ { "type": "mul", "target": "all", "x": 1.5 } ] }
+  ],
+  "research": [
+    { "id": "roots",   "name": "Deep roots",             "cost": 20,   "desc": "Meadow ×2", "effects": [ { "type": "mul", "target": "machine:meadow", "x": 2 } ] },
+    { "id": "clear",   "name": "Clear sky",              "cost": 30,   "desc": "Sun ×1.5", "effects": [ { "type": "mul", "target": "machine:sky", "x": 1.5 } ] },
+    { "id": "moon",    "name": "The moon pool",          "cost": 50,   "needs": ["clear"], "desc": "Opens the pool; the night runs at 40%", "effects": [ { "type": "unlock", "id": "moon" }, { "type": "add", "target": "night", "x": 0.4 } ] },
+    { "id": "yield",   "name": "Yield and overcome",     "cost": 60,   "desc": "Ground ×1.25", "effects": [ { "type": "mul", "target": "lift", "x": 1.25 } ] },
+    { "id": "hold",    "name": "The ground holds",       "cost": 80,   "desc": "Spring ×2", "effects": [ { "type": "mul", "target": "machine:spring", "x": 2 } ] },
+    { "id": "enough",  "name": "Knowing what is enough", "cost": 100,  "needs": ["hold"], "desc": "Creatures need half", "effects": [ { "type": "mul", "target": "crewWater", "x": 0.5 } ] },
+    { "id": "valley",  "name": "Be the valley",          "cost": 120,  "needs": ["yield"], "desc": "Ground ×1.6", "effects": [ { "type": "mul", "target": "lift", "x": 1.6 } ] },
+    { "id": "sit",     "name": "Sitting quietly",        "cost": 150,  "desc": "Stillness returns ×1.5", "effects": [ { "type": "mul", "target": "stillness", "x": 1.5 } ] },
+    { "id": "unlit",   "name": "The unlit lamp",         "cost": 300,  "needs": ["moon"], "desc": "Things need ×0.7 sun", "effects": [ { "type": "mul", "target": "draw", "x": 0.7 } ] },
+    { "id": "clouds",  "name": "Clouds gather",          "cost": 200,  "needs": ["valley"], "desc": "The rains carry ×1.3", "effects": [ { "type": "mul", "target": "cargo", "x": 1.3 } ] },
+    { "id": "wuwei",   "name": "Wu wei",                 "cost": 250,  "needs": ["unlit"], "desc": "Things need half the creatures", "effects": [ { "type": "mul", "target": "crewNeed", "x": 0.5 } ] },
+    { "id": "stone",   "name": "Water wears stone",      "cost": 400,  "needs": ["wuwei"], "desc": "Block ×3", "effects": [ { "type": "mul", "target": "machine:block", "x": 3 } ] },
+    { "id": "tao",     "name": "The Tao does nothing",   "cost": 1000, "needs": ["stone", "clouds", "enough"], "desc": "And nothing is left undone. Everything ×2", "effects": [ { "type": "mul", "target": "all", "x": 2 } ] }
+  ],
+  "events": [
+    { "id": "dragon",   "name": "A dragon overhead",          "p": 0.003, "dur": 45, "fx": "shadow", "color": "#2a1a3a", "desc": "Its shadow crosses the meadow. Sun ×0.3.", "effects": [ { "type": "mul", "target": "machine:sky", "x": 0.3 } ] },
+    { "id": "longships","name": "Longships on the river",     "p": 0.003, "dur": 30, "fx": "sparks", "color": "#e06f5a", "desc": "They land, they trample, they leave. Meadow ×0.4.", "effects": [ { "type": "mul", "target": "machine:meadow", "x": 0.4 } ] },
+    { "id": "fairies",  "name": "Lights in the grass",        "p": 0.004, "dur": 25, "fx": "sparks", "color": "#c8f0a0", "desc": "The fae are dancing. Meadow ×3, and do not ask what it costs.", "effects": [ { "type": "mul", "target": "machine:meadow", "x": 3 } ] },
+    { "id": "weighing", "name": "The weighing of the heart",  "p": 0.002, "dur": 20, "fx": "gold", "color": "#f2c98a", "desc": "Anubis holds the scales; the feather is light today. Te ×3.", "effects": [ { "type": "mul", "target": "science", "x": 3 } ] },
+    { "id": "fire",     "name": "Grass fire",                 "p": 0.002, "dur": 40, "fx": "rain", "color": "#8a8a8a", "desc": "Ash on the wind. Grove ×0.3, everything wants more sun.", "effects": [ { "type": "mul", "target": "machine:grove", "x": 0.3 }, { "type": "mul", "target": "draw", "x": 1.3 } ] }
+  ],
+  "milestones": [
+    { "id": "t1", "kind": "total", "res": "grass", "at": 1000,  "text": "A thousand blades. A meadow, if you squint.", "effects": [ { "type": "mul", "target": "all", "x": 1.05 } ] },
+    { "id": "t2", "kind": "total", "res": "grass", "at": 1e5,   "text": "A hundred thousand. The deer have found it.", "effects": [ { "type": "mul", "target": "all", "x": 1.05 } ] },
+    { "id": "t3", "kind": "total", "res": "grass", "at": 1e7,   "text": "Ten million. From the river to the forest.", "effects": [ { "type": "mul", "target": "all", "x": 1.1 } ] },
+    { "id": "t4", "kind": "total", "res": "grass", "at": 1e9,   "text": "The ten thousand things.", "effects": [ { "type": "mul", "target": "all", "x": 1.1 } ] },
+    { "id": "c1", "kind": "res",   "res": "crew",  "at": 10,    "text": "Ten creatures.", "effects": [ { "type": "mul", "target": "science", "x": 1.1 } ] },
+    { "id": "c2", "kind": "res",   "res": "crew",  "at": 30,    "text": "Thirty. The fox and the hare have an arrangement.", "effects": [ { "type": "mul", "target": "all", "x": 1.05 } ] },
+    { "id": "r1", "kind": "research", "at": 6,               "text": "Half the sayings.", "effects": [ { "type": "mul", "target": "researchCost", "x": 0.9 } ] },
+    { "id": "s1", "kind": "sectors",  "at": 12,              "text": "All twelve chapters. Now do nothing." }
+  ],
+  "playstyles": [
+    { "id": "dragon",   "name": "The dragon",         "desc": "It sleeps on what it keeps. Stillness returns ×1.5, acting does half; the hoard and the breath.", "effects": [ { "type": "unlock", "id": "dragon" }, { "type": "mul", "target": "stillness", "x": 1.5 }, { "type": "mul", "target": "tap", "x": 0.5 } ] },
+    { "id": "viking",   "name": "The longship crew",  "desc": "They act. Acting ×4, the weather reaches you twice as hard; the longhouse.", "effects": [ { "type": "unlock", "id": "viking" }, { "type": "mul", "target": "tap", "x": 4 }, { "type": "mul", "target": "storm", "x": 2 } ] },
+    { "id": "fae",      "name": "The fae",            "desc": "Glamour. Everything ×1.2, creatures need ×1.5; the fairy ring.", "effects": [ { "type": "unlock", "id": "fae" }, { "type": "mul", "target": "all", "x": 1.2 }, { "type": "mul", "target": "crewWater", "x": 1.5 } ] },
+    { "id": "egyptian", "name": "The house of Ma'at", "desc": "Order. Te ×1.5, sayings cost ×0.8; the scales.", "effects": [ { "type": "unlock", "id": "egyptian" }, { "type": "mul", "target": "science", "x": 1.5 }, { "type": "mul", "target": "researchCost", "x": 0.8 } ] }
+  ],
+  "prestige": {
+    "name": "Return to the root", "requires": "nothing", "min": 1000000, "perPoint": 0.1,
+    "note": "Everything returns to the root. The meadow goes back to one blade and keeps what it learned. Points = √(total grass / 1M). Each point is +10% to everything, forever. Each return also keeps one saying close, and they stack.",
+    "doctrines": [
+      { "id": "water",     "name": "Like water",         "desc": "Water ×1.3, creatures need ×0.8.", "effects": [ { "type": "mul", "target": "res:water", "x": 1.3 }, { "type": "mul", "target": "crewWater", "x": 0.8 } ] },
+      { "id": "valley",    "name": "The low place",      "desc": "Ground ×1.3.", "effects": [ { "type": "mul", "target": "lift", "x": 1.3 } ] },
+      { "id": "block",     "name": "Uncarved",           "desc": "Everything ×1.15.", "effects": [ { "type": "mul", "target": "all", "x": 1.15 } ] },
+      { "id": "stillness", "name": "Stillness",          "desc": "Stillness returns ×1.4.", "effects": [ { "type": "mul", "target": "stillness", "x": 1.4 } ] }
+    ]
+  },
+  "avatar": {
+    "note": "The first blade, yours. Nothing on it looks back. Every field is a template: add an option here and it appears in the builder and on the bank.",
+    "fields": [
+      { "id": "name",   "name": "Name",        "type": "text", "default": "The first blade" },
+      { "id": "kind",   "name": "Kind",        "type": "choice", "options": ["meadow grass", "reed", "bamboo", "wheat", "sedge", "wild oat", "foxtail", "ryegrass"] },
+      { "id": "height", "name": "Height (cm)", "type": "range", "min": 5, "max": 200, "default": 40 },
+      { "id": "width",  "name": "Blade",       "type": "choice", "options": ["fine", "narrow", "broad", "flat"] },
+      { "id": "green",  "name": "Green",       "type": "color", "options": ["#9ad36a", "#5fa84a", "#3f8a3a", "#b8d97a", "#7fc98a", "#c9d46a", "#4f7a4a", "#8fb56a"] },
+      { "id": "tip",    "name": "Tip",         "type": "color", "options": ["#e8e0a0", "#f2c98a", "#c9d46a", "#b23a2a", "#f0f0f0", "#9ad36a"] },
+      { "id": "lean",   "name": "Lean",        "type": "choice", "options": ["upright", "leaning", "bowed", "wind-bent"] },
+      { "id": "head",   "name": "Seed head",   "type": "choice", "options": ["none", "wheat ear", "foxtail plume", "oat panicle", "reed plume", "seed tuft"] },
+      { "id": "headColor", "name": "Head colour", "type": "color", "options": ["#e8d9a0", "#c9a06a", "#f2c98a", "#8a6a44", "#d0c0e0", "#f0f0f0"] },
+      { "id": "dew",    "name": "Dew",         "type": "choice", "options": ["none", "a little", "heavy"] },
+      { "id": "clump",  "name": "Clump",       "type": "choice", "options": ["one blade", "three", "five", "a tuft"] },
+      { "id": "mood",   "name": "Wind",        "type": "choice", "options": ["still", "swaying", "restless"] },
+      { "id": "root",   "name": "At the root", "type": "choice", "options": ["bare earth", "moss", "a snail shell", "a cowrie", "a pearl", "a whole lot of shells", "a smooth stone"] }
+    ]
+  }
+}

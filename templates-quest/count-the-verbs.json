@@ -1,0 +1,13 @@
+{
+ "id": "count-the-verbs",
+ "layer": "decentralization",
+ "entry": "the-injector",
+ "giver": "An operator who has been told the system is automated and has never counted.",
+ "object": "List every action the operator of some running system can take, and sort them into start, stop, and adjust-mid-run.",
+ "done": "You have a count, and a verdict: automated if the third pile is empty, assisted if it is not.",
+ "produces": [
+  "a classification"
+ ],
+ "requires": [],
+ "note": "Both verdicts are fine. Assisted is a good design. The failure is calling one the other."
+}

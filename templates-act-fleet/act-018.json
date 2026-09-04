@@ -1,0 +1,17 @@
+{
+ "id": "act-018",
+ "bench": "fleet",
+ "order": 18,
+ "year": 2,
+ "day": 614,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "withdrew",
+ "object": "from the field and sat down",
+ "place": "in the assembly by the ships",
+ "side": "fleet",
+ "text": "Achilles withdrew from the field and sat down, in the assembly by the ships, in the second year."
+}

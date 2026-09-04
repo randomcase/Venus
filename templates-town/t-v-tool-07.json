@@ -1,0 +1,17 @@
+{
+ "kind": "manufactory",
+ "name": "the smith's manufactory of the harrow",
+ "mul": 1.39,
+ "cost": 4200,
+ "text": "Dues ×1.39.",
+ "id": "t-v-tool-07",
+ "wovenBy": "v-tool-07",
+ "chain": [
+  "v-tool-07",
+  "tool-07",
+  "l2-tool-1-1",
+  "l3-tool-1",
+  "l4-tool",
+  "loom.mjs"
+ ]
+}

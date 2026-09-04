@@ -1,0 +1,12 @@
+{
+ "id": "ulf-pile-2",
+ "kind": "pile",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "name": "a stone chest for silicate",
+ "holds": 800,
+ "cost": 960,
+ "text": "Holds 800 silicate. What is not piled is not yours by morning.",
+ "wovenBy": "ulf"
+}

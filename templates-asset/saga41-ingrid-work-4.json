@@ -1,0 +1,16 @@
+{
+ "id": "saga41-ingrid-work-4",
+ "kind": "work",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "house": "Scriptorium",
+ "resource": "record",
+ "period": 13,
+ "tier": 4,
+ "yield": 6,
+ "cost": 2880,
+ "name": "Scriptorium 4 of Ingridsdottir",
+ "text": "The register is now cheaper than the searching it prevents. Yields 6 record every 13 days.",
+ "wovenBy": "ingrid",
+ "saga": 41
+}

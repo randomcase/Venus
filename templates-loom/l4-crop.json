@@ -1,0 +1,34 @@
+{
+ "id": "l4-crop",
+ "depth": 4,
+ "wovenBy": "loom.mjs",
+ "kind": "crop",
+ "name": "The crop loom",
+ "slots": {
+  "plant": [
+   "barley",
+   "oats",
+   "rye",
+   "flax",
+   "beans",
+   "millet",
+   "hemp",
+   "rice",
+   "vetch",
+   "buckwheat"
+  ],
+  "season": [
+   "spring",
+   "summer",
+   "autumn"
+  ],
+  "days": [
+   40,
+   60,
+   90,
+   120
+  ]
+ },
+ "gives": "a harvest in HEZE at the end of its days",
+ "weaves": 2
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-015",
+ "order": 15,
+ "year": 2,
+ "day": 505,
+ "parties": [
+  "helenus",
+  "hector"
+ ],
+ "actor": "Helenus",
+ "with": "Hector",
+ "verb": "took",
+ "object": "Briseis from the tent",
+ "place": "by the river",
+ "side": "troy",
+ "text": "Helenus and Hector took Briseis from the tent, by the river, in the second year."
+}

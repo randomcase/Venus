@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-pantoum",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of pantoum",
+ "text": "Lines two and four of each stanza become lines one and three of the next.",
+ "wovenBy": "pantoum",
+ "bay": 7
+}

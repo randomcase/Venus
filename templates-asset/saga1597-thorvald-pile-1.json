@@ -1,0 +1,13 @@
+{
+ "id": "saga1597-thorvald-pile-1",
+ "kind": "pile",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "name": "jars in the cold store for signal",
+ "holds": 50,
+ "cost": 60,
+ "text": "Holds 50 signal. What is not piled is not yours by morning.",
+ "wovenBy": "thorvald",
+ "saga": 1597
+}

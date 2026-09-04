@@ -1,0 +1,42 @@
+{
+ "id": "ulf",
+ "order": 3,
+ "name": "Ulfsson",
+ "house": "Kiln",
+ "resource": "silicate",
+ "period": 5,
+ "base": 4,
+ "saga": "Lifting half a metre of basalt over a site costs three days of the site’s own sunlight. That is the whole substrate argument and it is why the Ulfssons are never the bottleneck and never the story: the material is under everybody’s feet and the energy is overhead.",
+ "tiers": [
+  {
+   "n": 1,
+   "houses": 1,
+   "note": "One kiln, fired on daylight.",
+   "yield": 4
+  },
+  {
+   "n": 2,
+   "houses": 2,
+   "note": "A second kiln banked against the night, which is fifty-eight days long.",
+   "yield": 9
+  },
+  {
+   "n": 3,
+   "houses": 3,
+   "note": "Banking is the technology. The kilns are just kilns.",
+   "yield": 15
+  },
+  {
+   "n": 4,
+   "houses": 4,
+   "note": "Four, and the bank outlasts the night with margin.",
+   "yield": 22
+  },
+  {
+   "n": 5,
+   "houses": 5,
+   "note": "The margin is now the product. Nothing here is ever short.",
+   "yield": 30
+  }
+ ]
+}

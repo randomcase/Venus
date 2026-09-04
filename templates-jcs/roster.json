@@ -1,0 +1,313 @@
+{
+ "id": "roster",
+ "kind": "jcs-roster",
+ "name": "The Joint Chiefs of Staff, 1953–1978",
+ "office": "The Joint Staff, the Pentagon, Arlington, Virginia. The Chairman’s office is on the E-ring, second floor, river side; the Chiefs meet in the “Tank”, Room 2E924, and from 1972 in the Gold Room next to it.",
+ "seats": [
+  {
+   "order": 1,
+   "seat": "Chairman",
+   "who": "Adm. Arthur W. Radford",
+   "from": 1953,
+   "to": 1957,
+   "note": "Proposed Operation Vulture at Dien Bien Phu; the domino theory in uniform."
+  },
+  {
+   "order": 2,
+   "seat": "Chairman",
+   "who": "Gen. Nathan F. Twining",
+   "from": 1957,
+   "to": 1960,
+   "note": ""
+  },
+  {
+   "order": 3,
+   "seat": "Chairman",
+   "who": "Gen. Lyman L. Lemnitzer",
+   "from": 1960,
+   "to": 1962,
+   "note": "Pressed Kennedy for troops in 1961.",
+   "kennedy": "Carried over from Eisenhower. Assured Kennedy the Bay of Pigs plan was sound; signed the Northwoods proposal in March 1962, which Kennedy rejected; sent to NATO that autumn. His duty to Kennedy lasted twenty-one months and ended in distrust on both sides."
+  },
+  {
+   "order": 4,
+   "seat": "Chairman",
+   "who": "Gen. Maxwell D. Taylor",
+   "from": 1962,
+   "to": 1964,
+   "note": "The 1961 mission, then the chairmanship, then the embassy.",
+   "kennedy": "Kennedy’s own choice, brought in over the Chiefs after the Bay of Pigs inquiry.",
+   "lastDays": "Chairman on 22 November 1963. Had returned from Saigon with McNamara seven weeks earlier with the plan to withdraw 1,000 advisers; four days after Dallas signed on to NSAM 273, which kept the numbers and dropped the plan."
+  },
+  {
+   "order": 5,
+   "seat": "Chairman",
+   "who": "Gen. Earle G. Wheeler",
+   "from": 1964,
+   "to": 1970,
+   "note": "The escalation chairman; the 206,000 request after Tet."
+  },
+  {
+   "order": 6,
+   "seat": "Chairman",
+   "who": "Adm. Thomas H. Moorer",
+   "from": 1970,
+   "to": 1974,
+   "note": "Linebacker, the mining of Haiphong, the Christmas bombing."
+  },
+  {
+   "order": 7,
+   "seat": "Chairman",
+   "who": "Gen. George S. Brown",
+   "from": 1974,
+   "to": 1978,
+   "note": "In the chair when Saigon fell."
+  },
+  {
+   "order": 8,
+   "seat": "Army",
+   "who": "Gen. Matthew B. Ridgway",
+   "from": 1953,
+   "to": 1955,
+   "note": "The staff study that kept the US out in 1954."
+  },
+  {
+   "order": 9,
+   "seat": "Army",
+   "who": "Gen. Maxwell D. Taylor",
+   "from": 1955,
+   "to": 1959,
+   "note": ""
+  },
+  {
+   "order": 10,
+   "seat": "Army",
+   "who": "Gen. Lyman L. Lemnitzer",
+   "from": 1959,
+   "to": 1960,
+   "note": ""
+  },
+  {
+   "order": 11,
+   "seat": "Army",
+   "who": "Gen. George H. Decker",
+   "from": 1960,
+   "to": 1962,
+   "note": "Carried over from Eisenhower.",
+   "kennedy": "Told Kennedy in 1961 that the Army could not win in Vietnam without going into the North; not reappointed."
+  },
+  {
+   "order": 12,
+   "seat": "Army",
+   "who": "Gen. Earle G. Wheeler",
+   "from": 1962,
+   "to": 1964,
+   "note": "",
+   "kennedy": "Kennedy’s Army Chief from October 1962.",
+   "lastDays": "Army Chief on 22 November 1963; Chairman eight months later, and for the whole escalation."
+  },
+  {
+   "order": 13,
+   "seat": "Army",
+   "who": "Gen. Harold K. Johnson",
+   "from": 1964,
+   "to": 1968,
+   "note": "Considered resigning over the 1965 decisions and did not; said so for the rest of his life."
+  },
+  {
+   "order": 14,
+   "seat": "Army",
+   "who": "Gen. William C. Westmoreland",
+   "from": 1968,
+   "to": 1972,
+   "note": "From MACV to the Chief’s office."
+  },
+  {
+   "order": 15,
+   "seat": "Army",
+   "who": "Gen. Creighton W. Abrams",
+   "from": 1972,
+   "to": 1974,
+   "note": "Died in office, September 1974."
+  },
+  {
+   "order": 16,
+   "seat": "Army",
+   "who": "Gen. Fred C. Weyand",
+   "from": 1974,
+   "to": 1976,
+   "note": "Last MACV commander; sent to Saigon in April 1975 to report whether it could hold."
+  },
+  {
+   "order": 17,
+   "seat": "Navy",
+   "who": "Adm. Robert B. Carney",
+   "from": 1953,
+   "to": 1955,
+   "note": ""
+  },
+  {
+   "order": 18,
+   "seat": "Navy",
+   "who": "Adm. Arleigh A. Burke",
+   "from": 1955,
+   "to": 1961,
+   "note": "Three terms; the longest-serving CNO.",
+   "kennedy": "Carried over from Eisenhower for Kennedy’s first seven months; the Bay of Pigs was in his last."
+  },
+  {
+   "order": 19,
+   "seat": "Navy",
+   "who": "Adm. George W. Anderson Jr.",
+   "from": 1961,
+   "to": 1963,
+   "note": "",
+   "kennedy": "Ran the quarantine in October 1962 and quarrelled with McNamara in Flag Plot over who commanded it; sent to Lisbon as ambassador."
+  },
+  {
+   "order": 20,
+   "seat": "Navy",
+   "who": "Adm. David L. McDonald",
+   "from": 1963,
+   "to": 1967,
+   "note": "",
+   "kennedy": "CNO from August 1963.",
+   "lastDays": "CNO on 22 November 1963, three months in."
+  },
+  {
+   "order": 21,
+   "seat": "Navy",
+   "who": "Adm. Thomas H. Moorer",
+   "from": 1967,
+   "to": 1970,
+   "note": ""
+  },
+  {
+   "order": 22,
+   "seat": "Navy",
+   "who": "Adm. Elmo R. Zumwalt Jr.",
+   "from": 1970,
+   "to": 1974,
+   "note": "Had commanded the brown-water navy in Vietnam and ordered the Agent Orange spraying along its rivers."
+  },
+  {
+   "order": 23,
+   "seat": "Navy",
+   "who": "Adm. James L. Holloway III",
+   "from": 1974,
+   "to": 1978,
+   "note": "CNO during Frequent Wind, the helicopter evacuation."
+  },
+  {
+   "order": 24,
+   "seat": "Air Force",
+   "who": "Gen. Nathan F. Twining",
+   "from": 1953,
+   "to": 1957,
+   "note": ""
+  },
+  {
+   "order": 25,
+   "seat": "Air Force",
+   "who": "Gen. Thomas D. White",
+   "from": 1957,
+   "to": 1961,
+   "note": "",
+   "kennedy": "Carried over from Eisenhower for six months."
+  },
+  {
+   "order": 26,
+   "seat": "Air Force",
+   "who": "Gen. Curtis E. LeMay",
+   "from": 1961,
+   "to": 1965,
+   "note": "“Bomb them back into the Stone Age” was attributed to him; he said the ghostwriter put it in.",
+   "kennedy": "Kennedy’s Air Force Chief. On 19 October 1962 told him the quarantine was “almost as bad as the appeasement at Munich”; Kennedy kept him and did not take the advice.",
+   "lastDays": "Air Force Chief on 22 November 1963. Stayed through the start of Rolling Thunder."
+  },
+  {
+   "order": 27,
+   "seat": "Air Force",
+   "who": "Gen. John P. McConnell",
+   "from": 1965,
+   "to": 1969,
+   "note": "Rolling Thunder’s chief."
+  },
+  {
+   "order": 28,
+   "seat": "Air Force",
+   "who": "Gen. John D. Ryan",
+   "from": 1969,
+   "to": 1973,
+   "note": "Relieved Gen. Lavelle in 1972 for unauthorised strikes on the North."
+  },
+  {
+   "order": 29,
+   "seat": "Air Force",
+   "who": "Gen. George S. Brown",
+   "from": 1973,
+   "to": 1974,
+   "note": "Had commanded Seventh Air Force in Vietnam, 1968–70."
+  },
+  {
+   "order": 30,
+   "seat": "Air Force",
+   "who": "Gen. David C. Jones",
+   "from": 1974,
+   "to": 1978,
+   "note": ""
+  },
+  {
+   "order": 31,
+   "seat": "Marine Corps",
+   "who": "Gen. Lemuel C. Shepherd Jr.",
+   "from": 1952,
+   "to": 1955,
+   "note": "Commandant on the opening date. The Commandant sat with the Chiefs only for Marine matters until 1978."
+  },
+  {
+   "order": 32,
+   "seat": "Marine Corps",
+   "who": "Gen. Randolph McC. Pate",
+   "from": 1956,
+   "to": 1959,
+   "note": ""
+  },
+  {
+   "order": 33,
+   "seat": "Marine Corps",
+   "who": "Gen. David M. Shoup",
+   "from": 1960,
+   "to": 1963,
+   "note": "Opposed the war openly after retiring.",
+   "kennedy": "Carried over from Eisenhower; the one Chief who told Kennedy, with a map, how small Cuba was compared with the island he had taken at Tarawa, and how much it had cost.",
+   "lastDays": "Commandant on 22 November 1963, five weeks from retirement."
+  },
+  {
+   "order": 34,
+   "seat": "Marine Corps",
+   "who": "Gen. Wallace M. Greene Jr.",
+   "from": 1964,
+   "to": 1967,
+   "note": "Pushed for the Marines at Da Nang and for pacification, the “ink blot”."
+  },
+  {
+   "order": 35,
+   "seat": "Marine Corps",
+   "who": "Gen. Leonard F. Chapman Jr.",
+   "from": 1968,
+   "to": 1971,
+   "note": ""
+  },
+  {
+   "order": 36,
+   "seat": "Marine Corps",
+   "who": "Gen. Robert E. Cushman Jr.",
+   "from": 1972,
+   "to": 1975,
+   "note": "Had commanded III MAF at Khe Sanh and Hue; Commandant when Saigon fell."
+  }
+ ],
+ "text": "Every seat on the Joint Chiefs from the year before the opening to the years after the fall, with each chief’s duty to Kennedy and, for the five in office on 22 November 1963, his last days.",
+ "wovenBy": "the bridge"
+}

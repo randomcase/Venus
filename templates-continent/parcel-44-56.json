@@ -1,0 +1,16 @@
+{
+ "id": "parcel-44-56",
+ "kind": "parcel",
+ "x": 44,
+ "y": 56,
+ "region": "Diana Chasma",
+ "clan": "thorvald",
+ "resource": "signal",
+ "period": 11,
+ "terrain": "plains",
+ "fertility": 1,
+ "yield": 2.12,
+ "text": "volcanic plains, the easy ground, in Diana Chasma, sown from the temple store for signal.",
+ "wovenBy": "thorvald-pile-9",
+ "chain": "seven deep"
+}

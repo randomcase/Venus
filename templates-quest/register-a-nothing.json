@@ -1,0 +1,13 @@
+{
+ "id": "register-a-nothing",
+ "layer": "method",
+ "entry": "the-exchange-rate",
+ "giver": "The blue light, which has six nothings on its register and expects more.",
+ "object": "Search for something and fail to find it. Record what you searched, over what range, at what sensitivity, and what is therefore ruled out.",
+ "done": "Another person can read your line and know not to repeat the search. The sensitivity is stated as a number.",
+ "produces": [
+  "a register line"
+ ],
+ "requires": [],
+ "note": "EXPLICITLY NOT a knowledge-base entry, and this is the anti-recursion rule doing visible work: a nothing goes on the register, and the register is not a quest board. If this quest produced an entry, the entry would produce a quest, and the board would grow by being read."
+}

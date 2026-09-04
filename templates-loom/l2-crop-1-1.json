@@ -1,0 +1,14 @@
+{
+ "id": "l2-crop-1-1",
+ "depth": 2,
+ "wovenBy": "l3-crop-1",
+ "kind": "crop",
+ "name": "The crop mould 1.1: barley, spring",
+ "fixed": {
+  "plant": "barley",
+  "season": "spring"
+ },
+ "open": [
+  "days"
+ ]
+}

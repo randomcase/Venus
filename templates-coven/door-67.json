@@ -1,0 +1,11 @@
+{
+ "id": "door-67",
+ "kind": "door",
+ "door": 67,
+ "syndicate": "syn-8",
+ "tranche": 8,
+ "keeper": "p-22",
+ "share": 100000,
+ "text": "Door 67 of 200. Draws on the 8th tranche, kept by Caelith Keleth, signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door 200.",
+ "wovenBy": "syn-8"
+}

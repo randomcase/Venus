@@ -1,0 +1,16 @@
+{
+ "id": "deck-gravity",
+ "order": 1,
+ "quantity": "Gravity at the deck",
+ "value": 8.71,
+ "unit": "m/s2",
+ "uncertainty": 0.02,
+ "kind": "derived",
+ "method": "Surface gravity from GM and the mean radius, then reduced by the inverse square to 55 km. Both inputs are known to far better than the figure needs, so the error here is the altitude, not the mass.",
+ "used_for": "Everything about the weight-versus-inertia argument: settling velocity, sediment carriage, and whether a person can work.",
+ "boards": [
+  "paper.html",
+  "castle.html"
+ ],
+ "wrong_if": "The deck is not held at 55 km. Every tenth of a kilometre moves this in the fourth decimal, so drift in station-keeping is a bigger error source than the constants."
+}

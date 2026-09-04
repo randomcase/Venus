@@ -1,0 +1,9 @@
+{
+ "id": "library-chair-ectfe",
+ "kind": "chair",
+ "room": "library",
+ "name": "a reading chair in ectfe and pvdf",
+ "text": "Upholstered in ectfe and pvdf, which survives Venus by not reacting to anything. Inert to sulfuric, tougher and stiffer than PTFE, and weldable.",
+ "wovenBy": "ectfe",
+ "seat": 5
+}

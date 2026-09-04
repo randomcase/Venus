@@ -1,0 +1,17 @@
+{
+ "id": "act-036",
+ "bench": "fleet",
+ "order": 36,
+ "year": 4,
+ "day": 1270,
+ "parties": [
+  "thersites"
+ ],
+ "actor": "Thersites",
+ "with": null,
+ "verb": "tested",
+ "object": "the army by ordering it home",
+ "place": "before Achilles' tent",
+ "side": "fleet",
+ "text": "Thersites tested the army by ordering it home, before Achilles' tent, in the fourth year."
+}

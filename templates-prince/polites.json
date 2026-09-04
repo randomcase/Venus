@@ -1,0 +1,18 @@
+{
+ "id": "polites",
+ "order": 7,
+ "name": "Polites",
+ "kind": "lookout",
+ "glyph": "◬",
+ "colour": "#7fc5e8",
+ "cost": 12000,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 80,
+  "damage": 1.2,
+  "rate": 1.0,
+  "buffRange": 1.5
+ },
+ "does": "Stands high and calls the ranges. Neighbouring towers reach half again as far.",
+ "text": "The fast one, the watcher on the mound of Aesyetes. He sees the ships first."
+}

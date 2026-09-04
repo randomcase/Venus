@@ -1,0 +1,15 @@
+{
+ "id": "BED.003323",
+ "kind": "tranche",
+ "farm": "BED",
+ "farmName": "Bed of Sigrdrifa",
+ "resource": "biomass",
+ "period": 7,
+ "degree": 6,
+ "path": "003323",
+ "weight": 0.843,
+ "price": 0.02,
+ "volatility": 0.124,
+ "text": "Tranche 0.0.3.3.2.3 of Bed of Sigrdrifa, the sixth degree: a quarter of the one above, weighted 0.84.",
+ "wovenBy": "BED.00332"
+}

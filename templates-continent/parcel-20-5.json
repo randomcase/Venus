@@ -1,0 +1,16 @@
+{
+ "id": "parcel-20-5",
+ "kind": "parcel",
+ "x": 20,
+ "y": 5,
+ "region": "Ovda Regio",
+ "clan": "hrafn",
+ "resource": "hydrogen",
+ "period": 2,
+ "terrain": "plains",
+ "fertility": 1,
+ "yield": 1.95,
+ "text": "volcanic plains, the easy ground, in Ovda Regio, sown from a sealed cistern for hydrogen.",
+ "wovenBy": "hrafn-pile-8",
+ "chain": "seven deep"
+}

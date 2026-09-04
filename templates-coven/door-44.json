@@ -1,0 +1,11 @@
+{
+ "id": "door-44",
+ "kind": "door",
+ "door": 44,
+ "syndicate": "syn-5",
+ "tranche": 5,
+ "keeper": "p-13",
+ "share": 111111.11,
+ "text": "Door 44 of 200. Draws on the 5th tranche, kept by Umbrune Vessur, signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door 200.",
+ "wovenBy": "syn-5"
+}

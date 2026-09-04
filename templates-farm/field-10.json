@@ -1,0 +1,12 @@
+{
+ "id": "field-10",
+ "depth": 1,
+ "wovenBy": "l2-field-2-2",
+ "kind": "field",
+ "soil": "sand",
+ "lie": "high",
+ "size": 3,
+ "name": "the high sand field of 3",
+ "cost": 1200,
+ "yield": 0.63
+}

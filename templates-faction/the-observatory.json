@@ -1,0 +1,16 @@
+{
+ "id": "the-observatory",
+ "name": "The Observatory",
+ "patron": "The yard, out of the commons line on every manifest.",
+ "holds": "Two people and an instrument, watching the ten-mile traverse.",
+ "because": "Somebody has to keep looking at a thing that has not changed in a hundred years, on the chance that it does. Nobody will fund this against a deliverable, because the honest deliverable is a century of nothing with one entry in it.",
+ "produces_mostly": "nothings, on the register",
+ "study": "What the cloud deck does over a span longer than any single career. Every measurement is worth more in fifty years than it is today, which is exactly the property that makes it unfundable by anybody expecting a return.",
+ "stream": {
+  "cadence": "every window",
+  "term": "perpetual"
+ },
+ "ends_when": "never",
+ "unconditional": true,
+ "anchor": "Tycho Brahe held Hven from Frederick II for twenty years and produced no product at all — only the most accurate positional data anybody had, which Kepler then used to find the ellipse. The patron was dead before the return arrived and the return was not his."
+}

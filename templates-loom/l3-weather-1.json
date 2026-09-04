@@ -1,0 +1,14 @@
+{
+ "id": "l3-weather-1",
+ "depth": 3,
+ "wovenBy": "l4-weather",
+ "kind": "weather",
+ "name": "The weather pattern 1: fog",
+ "fixed": {
+  "sky": "fog"
+ },
+ "open": [
+  "lasts"
+ ],
+ "weaves": 2
+}

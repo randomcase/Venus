@@ -1,0 +1,31 @@
+{
+ "id": "p-30",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Orric Josswyn",
+ "syndicate": "syn-10",
+ "tranche": 10,
+ "doors": [
+  86,
+  95
+ ],
+ "house": "the quiet lamp",
+ "sigil": {
+  "ring": 1,
+  "bars": 5,
+  "chord": 5,
+  "turn": 319
+ },
+ "keeps": "the crossing, and the six months between",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "François Makandal",
+ "readsId": "makandal",
+ "reason": "Organised a poisoning campaign against planters.",
+ "spell": "Bind",
+ "spellId": "bind",
+ "glyph": "⛓",
+ "share": "200af9",
+ "text": "Orric josswyn of the quiet lamp, carries between for the 10th tranche, doors 86 to 95. Keeps the crossing, and the six months between. Reads François Makandal.",
+ "wovenBy": "makandal"
+}

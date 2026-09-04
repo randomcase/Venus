@@ -1,0 +1,10 @@
+{
+ "kind": "room",
+ "id": "loom-hall",
+ "name": "The loom hall",
+ "km2": 9000,
+ "light": "daylight from the corn side",
+ "what": "The ten looms that weave the templates, and benches to watch them from.",
+ "pieces": 20,
+ "wovenBy": "the bridge"
+}

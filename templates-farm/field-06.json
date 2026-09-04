@@ -1,0 +1,12 @@
+{
+ "id": "field-06",
+ "depth": 1,
+ "wovenBy": "l2-field-3-2",
+ "kind": "field",
+ "soil": "silt",
+ "lie": "high",
+ "size": 8,
+ "name": "the high silt field of 8",
+ "cost": 3200,
+ "yield": 1.08
+}

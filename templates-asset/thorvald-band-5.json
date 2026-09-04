@@ -1,0 +1,15 @@
+{
+ "id": "thorvald-band-5",
+ "kind": "band",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "period": 11,
+ "name": "thralls with spears of Thorvaldsson",
+ "strength": 8,
+ "raids": false,
+ "cost": 917,
+ "upkeep": 2,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 8; eats 2 signal a day.",
+ "wovenBy": "thorvald"
+}

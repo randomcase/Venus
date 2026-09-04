@@ -1,0 +1,31 @@
+{
+ "id": "p-59",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Lumeen Irmax",
+ "syndicate": "syn-20",
+ "tranche": 20,
+ "doors": [
+  181,
+  190
+ ],
+ "house": "the ninth arch",
+ "sigil": {
+  "ring": 1,
+  "bars": 5,
+  "chord": 0,
+  "turn": 353
+ },
+ "keeps": "the arithmetic nobody else wants to do",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Giordano Bruno",
+ "readsId": "bruno",
+ "reason": "Held that the stars were suns with worlds of their own.",
+ "spell": "Summon",
+ "spellId": "summon",
+ "glyph": "☾",
+ "share": "379de4",
+ "text": "Lumeen irmax of the ninth arch, keeps the book for the 20th tranche, doors 181 to 190. Keeps the arithmetic nobody else wants to do. Reads Giordano Bruno.",
+ "wovenBy": "bruno"
+}

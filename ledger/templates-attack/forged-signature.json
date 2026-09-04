@@ -1,0 +1,16 @@
+{
+ "id": "forged-signature",
+ "kind": "attack",
+ "order": 3,
+ "target": "a custodian",
+ "name": "A signature that isn't theirs",
+ "tactic": "Take a signature from one event and staple it onto another, or claim a key id that never signed anything at all — either way, put a name to an event that name never actually approved.",
+ "requires": [],
+ "expect": "rejected",
+ "response": {
+  "pass": "{{ledger}} caught it: the signature does not verify against the claimed key over this event's own bytes. {{detail}}",
+  "fail": "{{ledger}} accepted a signature that does not belong to the event it is attached to. This must never happen — it would mean anyone could speak as any custodian."
+ },
+ "text": "Ed25519 signs the event's own hash, not just a name next to it, so a signature copied from elsewhere fails the moment it is checked against different bytes. A custodian's word is the one thing on this chain that cannot be reused out of context.",
+ "wovenBy": "ledger.mjs"
+}

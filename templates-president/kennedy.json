@@ -1,0 +1,280 @@
+{
+ "id": "kennedy",
+ "kind": "president",
+ "order": 2,
+ "name": "John F. Kennedy",
+ "term": [
+  1961,
+  1963
+ ],
+ "party": "Democratic",
+ "role": "Managed early involvement: turned the adviser mission into a 16,000-man shadow army with helicopters and Special Forces, refused the combat troops his advisers asked for in 1961, and approved the coup that removed Diem.",
+ "numbers": [
+  {
+   "k": "US troops in Vietnam at end of term",
+   "v": "16,300 (Dec 1963)"
+  },
+  {
+   "k": "US deaths during term",
+   "v": "~190 (1961–1963)"
+  },
+  {
+   "k": "Advisers on arrival",
+   "v": "about 900"
+  },
+  {
+   "k": "Helicopter companies sent",
+   "v": "first two arrived December 1961, the Core"
+  }
+ ],
+ "decisions": [
+  [
+   "1961-05",
+   "Sends 400 Special Forces and 100 more advisers; approves covert operations against the North (NSAM 52)."
+  ],
+  [
+   "1961-11",
+   "After the Taylor–Rostow mission recommends 8,000 combat troops, sends advisers, helicopters and aircraft instead (NSAM 111). The one time combat troops were formally asked for and refused."
+  ],
+  [
+   "1962-02",
+   "MACV created under Harkins; the adviser mission becomes a command."
+  ],
+  [
+   "1963-05",
+   "Buddhist crisis begins at Hue; the regime's brutality becomes a nightly American story."
+  ],
+  [
+   "1963-08-24",
+   "Cable 243: the administration signals it will not oppose a coup. Kennedy later calls the way it was sent a mistake, and does not withdraw it."
+  ],
+  [
+   "1963-10-11",
+   "NSAM 263: plans to withdraw 1,000 advisers by the end of the year and most of the rest by 1965, 'without impairment of the war effort'."
+  ],
+  [
+   "1963-11-01",
+   "Diem and Nhu overthrown and killed. Kennedy is shaken by the killings and not by the coup."
+  ],
+  [
+   "1963-11-22",
+   "Assassinated. Whether he would have left in 1965 is the war's most argued counterfactual."
+  ]
+ ],
+ "advisers": [
+  {
+   "who": "Dean Rusk",
+   "post": "Secretary of State",
+   "from": 1961,
+   "to": 1969,
+   "note": "Served both Kennedy and Johnson; the steadiest hawk in either cabinet."
+  },
+  {
+   "who": "Robert S. McNamara",
+   "post": "Secretary of Defense",
+   "from": 1961,
+   "to": 1968,
+   "note": "The numbers man; believed the war could be measured and later wrote that he had been wrong, terribly wrong."
+  },
+  {
+   "who": "McGeorge Bundy",
+   "post": "National Security Adviser",
+   "from": 1961,
+   "to": 1966,
+   "note": "Ran the NSC; drafted the escalation memoranda of early 1965 under Johnson."
+  },
+  {
+   "who": "Walt W. Rostow",
+   "post": "Deputy National Security Adviser; State policy planning",
+   "from": 1961,
+   "to": 1966,
+   "note": "Co-author of the 1961 mission report; wanted to bomb the North from the start."
+  },
+  {
+   "who": "Gen. Maxwell D. Taylor",
+   "post": "Military Representative to the President; Chairman JCS from 1962",
+   "from": 1961,
+   "to": 1964,
+   "note": "Kennedy's general; led the 1961 mission; later ambassador in Saigon."
+  },
+  {
+   "who": "Gen. Lyman Lemnitzer",
+   "post": "Chairman, Joint Chiefs",
+   "from": 1960,
+   "to": 1962,
+   "note": "Pressed for troops; moved to NATO after the Bay of Pigs."
+  },
+  {
+   "who": "Gen. Paul D. Harkins",
+   "post": "Commander, MACV",
+   "from": 1962,
+   "to": 1964,
+   "note": "Reported the war was being won; the reporters in Saigon called it the 'Harkins line'."
+  },
+  {
+   "who": "Frederick Nolting",
+   "post": "Ambassador to South Vietnam",
+   "from": 1961,
+   "to": 1963,
+   "note": "Diem's defender; replaced when Washington turned."
+  },
+  {
+   "who": "Henry Cabot Lodge Jr.",
+   "post": "Ambassador to South Vietnam",
+   "from": 1963,
+   "to": 1964,
+   "note": "Arrived in August, encouraged the generals, and was in the chair for the coup."
+  },
+  {
+   "who": "Roger Hilsman",
+   "post": "Assistant Secretary of State, Far East",
+   "from": 1963,
+   "to": 1964,
+   "note": "Drafted Cable 243 on a Saturday when the principals were out of town."
+  },
+  {
+   "who": "W. Averell Harriman",
+   "post": "Under Secretary of State",
+   "from": 1961,
+   "to": 1965,
+   "note": "Negotiated Laos neutrality (1962); a signer of Cable 243."
+  },
+  {
+   "who": "Michael Forrestal",
+   "post": "NSC staff, Far East",
+   "from": 1962,
+   "to": 1965,
+   "note": "A signer of Cable 243; Kennedy's man on Vietnam at the White House."
+  },
+  {
+   "who": "George Ball",
+   "post": "Under Secretary of State",
+   "from": 1961,
+   "to": 1966,
+   "note": "Told Kennedy in 1961 the country would have 300,000 men in the jungle within five years. Kennedy said he was crazy."
+  },
+  {
+   "who": "John McCone",
+   "post": "Director of Central Intelligence",
+   "from": 1961,
+   "to": 1965,
+   "note": "Opposed the coup; his agency's estimates were darker than the Pentagon's."
+  },
+  {
+   "who": "Robert F. Kennedy",
+   "post": "Attorney General",
+   "from": 1961,
+   "to": 1964,
+   "note": "In every room; his views on the war changed after his brother's death."
+  },
+  {
+   "who": "John Kenneth Galbraith",
+   "post": "Ambassador to India",
+   "from": 1961,
+   "to": 1963,
+   "note": "Wrote to Kennedy from Delhi arguing for disengagement, one of the few who did."
+  },
+  {
+   "who": "Gen. Edward Lansdale",
+   "post": "Adviser, Office of the Secretary of Defense",
+   "from": 1961,
+   "to": 1963,
+   "note": "Wanted to go back to Saigon; was kept for Cuba instead."
+  },
+  {
+   "who": "Lyndon B. Johnson",
+   "post": "Vice President",
+   "from": 1961,
+   "to": 1963,
+   "note": "Sent to Saigon in May 1961 and called Diem the Churchill of Asia."
+  }
+ ],
+ "text": "Kennedy: sixteen thousand advisers, one refused request for troops, one approved coup, and the question of what he would have done in 1965.",
+ "wovenBy": "the bridge",
+ "leanedOn": [
+  {
+   "nation": "Soviet Union",
+   "who": "Khrushchev",
+   "when": "1961–1963",
+   "what": "Vienna, June 1961: bullied over Berlin for two days and said afterward it was the worst thing in his life. Accepted the Wall in August rather than fight for East Berlin. Won October 1962, and gave up the Jupiters in secret to do it. Signed the test ban in 1963."
+  },
+  {
+   "nation": "Cuba",
+   "who": "Castro",
+   "when": "1961–1962",
+   "what": "Let the invasion go and refused the second air strike; paid $53 million in food and medicine for the prisoners; then the missiles. A separate nation with its own room, project 56."
+  },
+  {
+   "nation": "Laos",
+   "who": "Souvanna Phouma, the Pathet Lao",
+   "when": "1961–1962",
+   "what": "The crisis Eisenhower warned him about. Chose a neutral coalition at Geneva (July 1962) over intervention; the Trail ran through the neutral country from then on. The test moved to Vietnam because he had declined it in Laos."
+  },
+  {
+   "nation": "South Vietnam",
+   "who": "Ngo Dinh Diem",
+   "when": "1961–1963",
+   "what": "Diem took the money and the advisers and refused the reforms attached; Kennedy leaned back once, in the autumn of 1963, and Diem was dead within three months."
+  },
+  {
+   "nation": "France",
+   "who": "de Gaulle",
+   "when": "May 1961",
+   "what": "Told him in Paris that Vietnam was a bottomless military and political swamp. Not heeded; France was then leaned on in turn over NATO and the British entry to Europe."
+  },
+  {
+   "nation": "United Kingdom",
+   "who": "Macmillan",
+   "when": "Dec 1962",
+   "what": "Nassau: when Skybolt was cancelled Macmillan asked for Polaris and got it, keeping Britain’s deterrent at America’s expense and provoking de Gaulle’s veto of British entry into the Common Market."
+  },
+  {
+   "nation": "West Germany",
+   "who": "Adenauer",
+   "when": "1961–1963",
+   "what": "Wanted a harder line on Berlin and got the Wall accepted instead; got the speech in June 1963."
+  },
+  {
+   "nation": "Turkey",
+   "who": "İnönü",
+   "when": "1962–1963",
+   "what": "The Jupiters were traded away over Ankara’s head and removed in April 1963 with a Polaris submarine offered in their place."
+  },
+  {
+   "nation": "Indonesia",
+   "who": "Sukarno",
+   "when": "1962",
+   "what": "Pressed the Netherlands to hand over West New Guinea (August 1962) to keep Sukarno from Moscow; the Papuans were not asked."
+  },
+  {
+   "nation": "India",
+   "who": "Nehru",
+   "when": "Oct–Nov 1962",
+   "what": "When China attacked, Nehru asked for arms and aircraft and Kennedy airlifted them within days; non-alignment leaned, and was caught."
+  },
+  {
+   "nation": "Israel",
+   "who": "Ben-Gurion",
+   "when": "1962–1963",
+   "what": "Sold the Hawk missiles, the first major US arms sale to Israel (August 1962), and asked for inspections at Dimona that he did not get."
+  },
+  {
+   "nation": "Egypt",
+   "who": "Nasser",
+   "when": "1961–1963",
+   "what": "Wheat under PL-480 to keep Nasser talking; recognised the Yemeni republic in December 1962 against Saudi and British objection."
+  },
+  {
+   "nation": "Pakistan",
+   "who": "Ayub Khan",
+   "when": "1962",
+   "what": "Furious over the arms to India; leaned on Washington and was given assurances rather than arms."
+  },
+  {
+   "nation": "Canada",
+   "who": "Diefenbaker",
+   "when": "1962–1963",
+   "what": "Refused to put Canadian forces on alert during the missile crisis for two days and refused nuclear warheads for the Bomarcs; a State Department press release in January 1963 helped bring his government down."
+  }
+ ]
+}

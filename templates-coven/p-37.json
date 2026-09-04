@@ -1,0 +1,31 @@
+{
+ "id": "p-37",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Tarnwyn Umbra",
+ "syndicate": "syn-13",
+ "tranche": 13,
+ "doors": [
+  115,
+  123
+ ],
+ "house": "the fourth watch",
+ "sigil": {
+  "ring": 2,
+  "bars": 3,
+  "chord": 2,
+  "turn": 350
+ },
+ "keeps": "the names of everyone who came through",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "Giordano Bruno",
+ "readsId": "bruno",
+ "reason": "Held that the stars were suns with worlds of their own.",
+ "spell": "Bolt",
+ "spellId": "bolt",
+ "glyph": "⟊",
+ "share": "cfeca1",
+ "text": "Tarnwyn umbra of the fourth watch, keeps a door for the 13th tranche, doors 115 to 123. Keeps the names of everyone who came through. Reads Giordano Bruno.",
+ "wovenBy": "bruno"
+}

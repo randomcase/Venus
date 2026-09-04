@@ -1,0 +1,15 @@
+{
+ "id": "ulf-band-11",
+ "kind": "band",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "name": "shieldwall of Ulfsson",
+ "strength": 8,
+ "raids": false,
+ "cost": 861,
+ "upkeep": 2,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 8; eats 2 silicate a day.",
+ "wovenBy": "ulf"
+}

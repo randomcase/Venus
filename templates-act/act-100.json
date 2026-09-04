@@ -1,0 +1,16 @@
+{
+ "id": "act-100",
+ "order": 100,
+ "year": 10,
+ "day": 3566,
+ "parties": [
+  "antenor"
+ ],
+ "actor": "Antenor",
+ "with": null,
+ "verb": "ransomed",
+ "object": "a son from the ships",
+ "place": "in the assembly",
+ "side": "troy",
+ "text": "Antenor ransomed a son from the ships, in the assembly, in the tenth year."
+}

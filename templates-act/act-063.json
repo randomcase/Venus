@@ -1,0 +1,17 @@
+{
+ "id": "act-063",
+ "order": 63,
+ "year": 7,
+ "day": 2242,
+ "parties": [
+  "achilles",
+  "agamemnon"
+ ],
+ "actor": "Achilles",
+ "with": "Agamemnon",
+ "verb": "buried",
+ "object": "a companion under a mound",
+ "place": "before the Scaean gate",
+ "side": "fleet",
+ "text": "Achilles and Agamemnon buried a companion under a mound, before the Scaean gate, in the seventh year."
+}

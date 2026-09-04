@@ -1,0 +1,16 @@
+{
+ "id": "parcel-50-15",
+ "kind": "parcel",
+ "x": 50,
+ "y": 15,
+ "region": "Atla Regio",
+ "clan": "ulf",
+ "resource": "silicate",
+ "period": 5,
+ "terrain": "lava",
+ "fertility": 0,
+ "yield": 0,
+ "text": "a young lava flow; nothing takes, in Atla Regio, sown from a pit for silicate.",
+ "wovenBy": "ulf-pile-7",
+ "chain": "seven deep"
+}

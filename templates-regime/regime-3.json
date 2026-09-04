@@ -1,0 +1,13 @@
+{
+ "id": "regime-3",
+ "kind": "regime",
+ "degree": 3,
+ "tickers": 256,
+ "aFarm": 64,
+ "pxACell": 64,
+ "named": true,
+ "visual": false,
+ "name": "Degree 3, 256.",
+ "text": "The last degree where a ticker carries a name. Read it while you can.",
+ "wovenBy": "market.mjs"
+}

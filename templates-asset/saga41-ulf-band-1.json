@@ -1,0 +1,16 @@
+{
+ "id": "saga41-ulf-band-1",
+ "kind": "band",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "period": 5,
+ "name": "night raiders of Ulfsson",
+ "strength": 15,
+ "raids": false,
+ "cost": 1979,
+ "upkeep": 4,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 15; eats 4 silicate a day.",
+ "wovenBy": "ulf",
+ "saga": 41
+}

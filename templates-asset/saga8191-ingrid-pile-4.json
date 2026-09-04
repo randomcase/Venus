@@ -1,0 +1,13 @@
+{
+ "id": "saga8191-ingrid-pile-4",
+ "kind": "pile",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "name": "a tally on the mast for record",
+ "holds": 250,
+ "cost": 300,
+ "text": "Holds 250 record. What is not piled is not yours by morning.",
+ "wovenBy": "ingrid",
+ "saga": 8191
+}

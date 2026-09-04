@@ -1,0 +1,18 @@
+{
+ "id": "act-047",
+ "bench": "fleet",
+ "order": 47,
+ "year": 5,
+ "day": 1685,
+ "parties": [
+  "diomedes",
+  "odysseus"
+ ],
+ "actor": "Diomedes",
+ "with": "Odysseus",
+ "verb": "refused",
+ "object": "the ransom for Chryseis",
+ "place": "by the river",
+ "side": "fleet",
+ "text": "Diomedes and Odysseus refused the ransom for Chryseis, by the river, in the fifth year."
+}

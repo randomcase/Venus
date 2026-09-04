@@ -1,0 +1,9 @@
+{
+ "id": "workshop-bench-spica-latitude",
+ "kind": "workbench",
+ "room": "workshop",
+ "name": "the spica, ecliptic latitude bench",
+ "text": "A bench for one figure: Spica, ecliptic latitude, 2.05 degrees give or take 0.01. Wrong if nothing plausible.",
+ "wovenBy": "spica-latitude",
+ "bay": 3
+}

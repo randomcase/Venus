@@ -1,0 +1,17 @@
+{
+ "id": "act-064",
+ "bench": "fleet",
+ "order": 64,
+ "year": 7,
+ "day": 2273,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "stole",
+ "object": "the horses of Rhesus by night",
+ "place": "by the river",
+ "side": "fleet",
+ "text": "Agamemnon stole the horses of Rhesus by night, by the river, in the seventh year."
+}

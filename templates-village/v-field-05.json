@@ -1,0 +1,16 @@
+{
+ "kind": "holding",
+ "name": "the smallholding on south-facing silt field of 5",
+ "grows": 14,
+ "cost": 2000,
+ "text": "A household grows 14 of its own a day and asks for nothing.",
+ "id": "v-field-05",
+ "wovenBy": "field-05",
+ "chain": [
+  "field-05",
+  "l2-field-3-1",
+  "l3-field-3",
+  "l4-field",
+  "loom.mjs"
+ ]
+}

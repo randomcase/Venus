@@ -1,0 +1,11 @@
+{
+ "id": "code-scala",
+ "name": "Scala",
+ "kind": "code",
+ "order": 15,
+ "language": "scala",
+ "note": "For venus-core. Written here, run elsewhere — this drawer has no JVM in it and says so rather than pretending.",
+ "ground": "The Scala under venus-core is the ledger and queue work, and the walkthrough is in docs/scala-ledger-queue-book.md. It is the one part of this repository where the computation is not a page.",
+ "ask": "What invariant holds after this runs that did not hold before?",
+ "template": "package io.cityoflight.virgo.scala\n\n/** State the invariant first. The point of the type is that the bad value\n  * cannot be constructed, not that it is caught later. */\nfinal case class Entry private (id: String, amount: Long)\n\nobject Entry:\n  /** Refuses rather than throws: the caller has to look at the result. */\n  def of(id: String, amount: Long): Either[String, Entry] =\n    if id.isEmpty then Left(\"an entry with no id cannot be reconciled\")\n    else if amount == 0 then Left(\"a zero entry is a row that says nothing\")\n    else Right(Entry(id, amount))\n\n/** The invariant: a ledger sums to zero, or it is not a ledger. */\nfinal class Ledger private (val entries: Vector[Entry]):\n  def total: Long = entries.map(_.amount).sum\n  def balanced: Boolean = total == 0\n\n  def add(e: Entry): Ledger = Ledger(entries :+ e)\n\nobject Ledger:\n  val empty: Ledger = Ledger(Vector.empty)\n  def apply(es: Vector[Entry]): Ledger = new Ledger(es)\n"
+}

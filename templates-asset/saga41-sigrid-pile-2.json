@@ -1,0 +1,13 @@
+{
+ "id": "saga41-sigrid-pile-2",
+ "kind": "pile",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "name": "a stone chest for biomass",
+ "holds": 350,
+ "cost": 420,
+ "text": "Holds 350 biomass. What is not piled is not yours by morning.",
+ "wovenBy": "sigrid",
+ "saga": 41
+}

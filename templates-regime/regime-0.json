@@ -1,0 +1,13 @@
+{
+ "id": "regime-0",
+ "kind": "regime",
+ "degree": 0,
+ "tickers": 4,
+ "aFarm": 1,
+ "pxACell": 512,
+ "named": true,
+ "visual": false,
+ "name": "Degree 0, four tickers.",
+ "text": "Four farms, four cells, four names. A list would do.",
+ "wovenBy": "market.mjs"
+}

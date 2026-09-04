@@ -1,0 +1,73 @@
+{
+ "id": "deck-keep",
+ "order": 3,
+ "name": "The Deck Keep",
+ "era": "not yet",
+ "kind": "sealed",
+ "ground": "Fifty-five kilometres up, at one bar and about the temperature of a warm afternoon, with 574 g/cm² of atmosphere overhead doing the job a curtain wall used to do. There is nothing to besiege and nothing to see from a distance.",
+ "motte": {
+  "diameter": 48,
+  "height": 6,
+  "note": "Not for defence. It is the substrate lift — half a metre of basalt over the site costs three days of the site’s own sunlight, and the mound is where it goes."
+ },
+ "keep": {
+  "name": "The Seed Vault",
+  "diameter": 24,
+  "height": 14,
+  "shape": "round",
+  "note": "Round for pressure, not for siege. The only structure here that would be defended, and what it holds is a library."
+ },
+ "wards": [
+  {
+   "id": "inner",
+   "name": "The Sealed Ward",
+   "w": 140,
+   "d": 140,
+   "wall": 6,
+   "note": "The biome. The wall is a pressure boundary and holds nothing out."
+  },
+  {
+   "id": "outer",
+   "name": "The Working Ward",
+   "w": 220,
+   "d": 160,
+   "wall": 4,
+   "note": "Kilns, beds, masts, scriptorium. Where the six clans actually live."
+  }
+ ],
+ "towers": 8,
+ "axis": {
+  "name": "The Long Deck",
+  "length_m": 900,
+  "note": "Nine hundred metres, and it points at nothing. The sun does not set along it because a solar day here is 116.75 Earth days."
+ },
+ "gallery": {
+  "name": "The Long Gallery",
+  "length_m": 73,
+  "width_m": 10.5,
+  "height_m": 12.3,
+  "bays": 17,
+  "mirrors": 357,
+  "windows": 17,
+  "note": "The same room as Versailles, to the millimetre, and for the opposite reason: with a fifty-eight-day night outside, mirrors multiplying the lamps is not a flourish, it is the lighting budget."
+ },
+ "figures": [
+  {
+   "what": "gravity at the deck",
+   "value": "8.71 m/s² — 88.8% of Earth"
+  },
+  {
+   "what": "shielding overhead",
+   "value": "574 g/cm², 56% of Earth at sea level, at no mass cost"
+  },
+  {
+   "what": "the night",
+   "value": "58 Earth days of it, every 116.75"
+  },
+  {
+   "what": "what the walls are for",
+   "value": "pressure. Nothing out there wants in."
+  }
+ ],
+ "lesson": "A castle where the wall holds air rather than people out. Every defensive form here has been kept and repurposed, which is either lazy or the whole point depending on how you feel about the fact that a round tower resists pressure for exactly the same reason it resists undermining."
+}

@@ -1,0 +1,16 @@
+{
+ "id": "parcel-40-12",
+ "kind": "parcel",
+ "x": 40,
+ "y": 12,
+ "region": "Atla Regio",
+ "clan": "ulf",
+ "resource": "silicate",
+ "period": 5,
+ "terrain": "plains",
+ "fertility": 1,
+ "yield": 1.35,
+ "text": "volcanic plains, the easy ground, in Atla Regio, sown from a longhouse loft for silicate.",
+ "wovenBy": "ulf-pile-1",
+ "chain": "seven deep"
+}

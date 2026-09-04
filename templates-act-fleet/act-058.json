@@ -1,0 +1,17 @@
+{
+ "id": "act-058",
+ "bench": "fleet",
+ "order": 58,
+ "year": 6,
+ "day": 2057,
+ "parties": [
+  "ajax"
+ ],
+ "actor": "Ajax",
+ "with": null,
+ "verb": "refused",
+ "object": "the ransom for Chryseis",
+ "place": "at the wall round the camp",
+ "side": "fleet",
+ "text": "Ajax refused the ransom for Chryseis, at the wall round the camp, in the sixth year."
+}

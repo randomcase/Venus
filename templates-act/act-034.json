@@ -1,0 +1,16 @@
+{
+ "id": "act-034",
+ "order": 34,
+ "year": 4,
+ "day": 1191,
+ "parties": [
+  "aeneas"
+ ],
+ "actor": "Aeneas",
+ "with": null,
+ "verb": "gave back",
+ "object": "a body for its weight in gold",
+ "place": "on the mound of Aesyetes",
+ "side": "troy",
+ "text": "Aeneas gave back a body for its weight in gold, on the mound of Aesyetes, in the fourth year."
+}

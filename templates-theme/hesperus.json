@@ -1,0 +1,87 @@
+{
+ "id": "hesperus",
+ "kind": "theme",
+ "name": "Hesperus",
+ "text": "The late-night broadcast block, with fireflies. Black-indigo space, neon cyan and magenta on the edges, scanlines over everything, uppercase display type with a glow, and warm yellow-green points that drift and blink. Nothing in it has a face.",
+ "palette": {
+  "void": "#04050b",
+  "panel": "#0a0d1c",
+  "panel2": "#0f1430",
+  "edge": "#22307a",
+  "ink": "#e9f1ff",
+  "dim": "#8291c9",
+  "gold": "#ffd23f",
+  "venus": "#ff7a1a",
+  "ok": "#7dff9a",
+  "bad": "#ff4f6d",
+  "sea": "#3fd4ff",
+  "magenta": "#ff4fd8"
+ },
+ "type": {
+  "serif": "\"Bahnschrift\",\"Eurostile\",\"Rajdhani\",\"Segoe UI\",system-ui,sans-serif",
+  "titleTransform": "uppercase",
+  "titleSpacing": ".1em",
+  "titleWeight": "700",
+  "titleColor": "#fff",
+  "headingSpacing": ".08em",
+  "headingSize": "14px",
+  "labelSpacing": ".14em",
+  "labelSize": "10px"
+ },
+ "sky": {
+  "top": "#151b45",
+  "stop": "62%",
+  "width": "1400px",
+  "height": "700px"
+ },
+ "glow": {
+  "edge": "rgba(63,212,255,.07)",
+  "inner": "rgba(63,212,255,.05)",
+  "button": "rgba(63,212,255,.35)",
+  "primary": "rgba(255,79,216,.35)",
+  "title": "rgba(63,212,255,.45)",
+  "canvas": "rgba(63,212,255,.12)"
+ },
+ "fireflies": {
+  "hues": [
+   ["217,255,90", "#d9ff5a"],
+   ["255,230,107", "#ffe66b"],
+   ["182,255,122", "#b6ff7a"],
+   ["255,243,160", "#fff3a0"],
+   ["200,255,74", "#c8ff4a"]
+  ],
+  "sizeMin": 1.2,
+  "sizeSpan": 1.4,
+  "halo": 7,
+  "core": 2.6,
+  "coreAlpha": ".28",
+  "spread": "-8%",
+  "layers": [
+   { "seed": 11, "count": 14, "drift": "tn-drift-a 41s", "blink": "tn-blink-a 5.3s", "delay": "0s" },
+   { "seed": 23, "count": 14, "drift": "tn-drift-b 47s", "blink": "tn-blink-b 6.7s", "delay": "1.3s" },
+   { "seed": 37, "count": 12, "drift": "tn-drift-c 53s", "blink": "tn-blink-a 4.3s", "delay": "2.1s" },
+   { "seed": 41, "count": 12, "drift": "tn-drift-b 37s reverse", "blink": "tn-blink-b 7.9s", "delay": ".7s" }
+  ],
+  "blinkA": "0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}",
+  "blinkB": "0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}",
+  "reducedOpacity": ".5"
+ },
+ "glass": {
+  "scanlineColor": "rgba(0,0,0,.2)",
+  "scanlineOn": "2px",
+  "scanlineOff": "4px",
+  "vignetteStart": "55%",
+  "vignetteColor": "rgba(0,0,0,.5)"
+ },
+ "standard": {
+  "text": "SPQR",
+  "sub": "the ship Hesperus &middot; the senate and the people of it",
+  "color": "#ffd23f",
+  "border": "#7a5a1e",
+  "glow": "rgba(255,210,63,.55)",
+  "corner": "left:14px;bottom:12px",
+  "spacing": ".38em"
+ },
+ "wovenBy": "the bridge",
+ "note": "Edit this file and run node toonami-all.mjs; every page in the yard is repainted. Change _active.json to put a different theme on the ship."
+}

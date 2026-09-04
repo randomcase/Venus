@@ -1,0 +1,13 @@
+{
+ "id": "regime-9",
+ "kind": "regime",
+ "degree": 9,
+ "tickers": 1048576,
+ "aFarm": 262144,
+ "pxACell": 1,
+ "named": false,
+ "visual": true,
+ "name": "Degree 9, 1,048,576.",
+ "text": "One ticker per pixel on a 1024-pixel board. This is the ninth degree: the board is exactly as complex as the display can be, and no more complex than it was at the fifth.",
+ "wovenBy": "market.mjs"
+}

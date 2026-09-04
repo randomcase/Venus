@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-blank-verse",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of blank verse",
+ "text": "Unrhymed iambic pentameter, no fixed length.",
+ "wovenBy": "blank-verse",
+ "bay": 4
+}

@@ -1,0 +1,15 @@
+{
+ "id": "ingrid-band-6",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "berserks of Ingridsdottir",
+ "strength": 15,
+ "raids": true,
+ "cost": 1915,
+ "upkeep": 4,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 15; eats 4 record a day.",
+ "wovenBy": "ingrid"
+}

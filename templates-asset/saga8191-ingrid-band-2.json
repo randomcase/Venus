@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-ingrid-band-2",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "housecarls of Ingridsdottir",
+ "strength": 6,
+ "raids": true,
+ "cost": 838,
+ "upkeep": 2,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 6; eats 2 record a day.",
+ "wovenBy": "ingrid",
+ "saga": 8191
+}

@@ -1,0 +1,42 @@
+{
+ "id": "hrafn",
+ "order": 1,
+ "name": "Hrafnsson",
+ "house": "Cracking house",
+ "resource": "hydrogen",
+ "period": 2,
+ "base": 3,
+ "saga": "They crack hydrogen out of whatever will give it up, and there is very little on Venus that will. Four hundred million years to ship what a forest needs, so nobody ships it — the Hrafnssons exist because the constraint is real and somebody has to sit on it.",
+ "tiers": [
+  {
+   "n": 1,
+   "houses": 1,
+   "note": "One house, one still, and a queue.",
+   "yield": 3
+  },
+  {
+   "n": 2,
+   "houses": 2,
+   "note": "A second still, and the first one stops being the bottleneck.",
+   "yield": 7
+  },
+  {
+   "n": 3,
+   "houses": 3,
+   "note": "Waste heat from the second feeds the first. Nothing is added; something is stopped from being wasted.",
+   "yield": 12
+  },
+  {
+   "n": 4,
+   "houses": 4,
+   "note": "Four houses. The queue is now the storage and not the cracking.",
+   "yield": 18
+  },
+  {
+   "n": 5,
+   "houses": 5,
+   "note": "The bottleneck has moved off this clan entirely, which is the only real completion there is.",
+   "yield": 25
+  }
+ ]
+}

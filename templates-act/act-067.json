@@ -1,0 +1,16 @@
+{
+ "id": "act-067",
+ "order": 67,
+ "year": 7,
+ "day": 2385,
+ "parties": [
+  "priam"
+ ],
+ "actor": "Priam",
+ "with": null,
+ "verb": "burned",
+ "object": "the first of the ships",
+ "place": "on the plain of Scamander",
+ "side": "troy",
+ "text": "Priam burned the first of the ships, on the plain of Scamander, in the seventh year."
+}

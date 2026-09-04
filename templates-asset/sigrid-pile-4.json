@@ -1,0 +1,12 @@
+{
+ "id": "sigrid-pile-4",
+ "kind": "pile",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "name": "a longhouse loft for biomass",
+ "holds": 650,
+ "cost": 780,
+ "text": "Holds 650 biomass. What is not piled is not yours by morning.",
+ "wovenBy": "sigrid"
+}

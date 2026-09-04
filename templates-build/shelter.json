@@ -1,0 +1,211 @@
+{
+ "id": "shelter",
+ "grow": [
+  1.0,
+  1.1,
+  1.2,
+  1.3
+ ],
+ "name": "The hearth",
+ "tiers": [
+  "longhouse",
+  "mead hall",
+  "keep",
+  "citadel"
+ ],
+ "note": "The line that was asked for by name. At one and two it is a roof; at three the roof becomes a storey and the walls get teeth; at four it is a compound with a second tower and a curtain wall.",
+ "parts": [
+  {
+   "s": "box",
+   "at": [
+    -0.9,
+    -0.7,
+    0
+   ],
+   "size": [
+    1.8,
+    1.4,
+    0.62
+   ],
+   "win": 2
+  },
+  {
+   "s": "roof",
+   "at": [
+    -1,
+    -0.8,
+    0.62
+   ],
+   "size": [
+    2,
+    1.6,
+    0.74
+   ],
+   "ridge": true,
+   "upto": 2
+  },
+  {
+   "s": "box",
+   "at": [
+    0.42,
+    -0.16,
+    1.2
+   ],
+   "size": [
+    0.24,
+    0.24,
+    0.4
+   ],
+   "glow": [
+    255,
+    200,
+    140
+   ],
+   "upto": 2
+  },
+  {
+   "s": "box",
+   "at": [
+    -1.5,
+    0.5,
+    0
+   ],
+   "size": [
+    0.5,
+    0.5,
+    0.34
+   ],
+   "from": 2
+  },
+  {
+   "s": "roof",
+   "at": [
+    -1.55,
+    0.45,
+    0.34
+   ],
+   "size": [
+    0.6,
+    0.6,
+    0.28
+   ],
+   "from": 2
+  },
+  {
+   "s": "box",
+   "at": [
+    -0.75,
+    -0.55,
+    0.62
+   ],
+   "size": [
+    1.5,
+    1.1,
+    0.6
+   ],
+   "win": 3,
+   "from": 3
+  },
+  {
+   "s": "merlons",
+   "at": [
+    0,
+    0,
+    1.22
+   ],
+   "r": 0.78,
+   "n": 5,
+   "from": 3
+  },
+  {
+   "s": "box",
+   "at": [
+    0.55,
+    -0.5,
+    0
+   ],
+   "size": [
+    0.46,
+    0.46,
+    2.05
+   ],
+   "win": 3,
+   "from": 3
+  },
+  {
+   "s": "merlons",
+   "at": [
+    0.78,
+    -0.27,
+    2.05
+   ],
+   "r": 0.3,
+   "n": 3,
+   "from": 3
+  },
+  {
+   "s": "flag",
+   "at": [
+    0.78,
+    -0.27,
+    2.29
+   ],
+   "h": 0.95,
+   "from": 3
+  },
+  {
+   "s": "box",
+   "at": [
+    -1.05,
+    0.15,
+    0
+   ],
+   "size": [
+    0.46,
+    0.46,
+    2.45
+   ],
+   "win": 4,
+   "from": 4
+  },
+  {
+   "s": "merlons",
+   "at": [
+    -0.82,
+    0.38,
+    2.45
+   ],
+   "r": 0.3,
+   "n": 3,
+   "from": 4
+  },
+  {
+   "s": "box",
+   "at": [
+    -1.3,
+    -1.0,
+    0
+   ],
+   "size": [
+    2.6,
+    0.2,
+    0.8
+   ],
+   "from": 4
+  },
+  {
+   "s": "box",
+   "at": [
+    -1.3,
+    -1.0,
+    0
+   ],
+   "size": [
+    0.2,
+    1.9,
+    0.8
+   ],
+   "from": 4
+  }
+ ]
+}

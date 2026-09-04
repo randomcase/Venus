@@ -1,0 +1,15 @@
+{
+ "id": "FIX.0111",
+ "kind": "tranche",
+ "farm": "FIX",
+ "farmName": "Fixing bed of Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "degree": 4,
+ "path": "0111",
+ "weight": 0.846,
+ "price": 3.28,
+ "volatility": 0.096,
+ "text": "Tranche 0.1.1.1 of Fixing bed of Bjornsdottir, the fourth degree: a quarter of the one above, weighted 0.85.",
+ "wovenBy": "FIX.011"
+}

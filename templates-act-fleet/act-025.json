@@ -1,0 +1,18 @@
+{
+ "id": "act-025",
+ "bench": "fleet",
+ "order": 25,
+ "year": 3,
+ "day": 884,
+ "parties": [
+  "diomedes",
+  "odysseus"
+ ],
+ "actor": "Diomedes",
+ "with": "Odysseus",
+ "verb": "sent",
+ "object": "the embassy with gifts",
+ "place": "among the ships",
+ "side": "fleet",
+ "text": "Diomedes and Odysseus sent the embassy with gifts, among the ships, in the third year."
+}

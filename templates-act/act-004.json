@@ -1,0 +1,17 @@
+{
+ "id": "act-004",
+ "order": 4,
+ "year": 1,
+ "day": 110,
+ "parties": [
+  "sarpedon",
+  "odysseus"
+ ],
+ "actor": "Sarpedon",
+ "with": "Odysseus",
+ "verb": "counted",
+ "object": "the ships by contingent",
+ "place": "before the Scaean gate",
+ "side": "troy",
+ "text": "Sarpedon and Odysseus counted the ships by contingent, before the Scaean gate, in the first year."
+}

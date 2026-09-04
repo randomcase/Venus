@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-sigrid-band-8",
+ "kind": "band",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "period": 7,
+ "name": "bowmen of Sigrdrifa",
+ "strength": 5,
+ "raids": true,
+ "cost": 573,
+ "upkeep": 1,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 5; eats 1 biomass a day.",
+ "wovenBy": "sigrid",
+ "saga": 1597
+}

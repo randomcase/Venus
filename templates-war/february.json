@@ -1,0 +1,62 @@
+{
+ "id": "february",
+ "kind": "war-room",
+ "order": 12,
+ "name": "February Revolution",
+ "also": "the fall of the Romanovs, 23 February – 3 March 1917 Old Style (8–16 March New Style); the room upstream of October, and the one nobody ordered",
+ "theatre": "Petrograd: the Vyborg side and the Putilov works, the Nevsky Prospekt, the Znamenskaya Square, the barracks of the Guards reserve regiments, the Tauride Palace; and a train stopped short of the capital, at Pskov",
+ "from": "1917-02-23",
+ "to": "1917-03-03",
+ "sides": [
+  { "side": "The street, then the garrison", "who": "women textile workers of the Vyborg side on International Women's Day; the Putilov strikers, locked out on the 22nd; about 200,000 on the 23rd, 250,000 on the 25th; the Volynsky, Pavlovsky, Semyonovsky, Preobrazhensky and Moskovsky reserve regiments from the 26th–27th; about 40,000 rifles out of the Peter and Paul Fortress", "backed": "no party led it; the Bolshevik leaders were abroad or in Siberia; the socialists at the Tauride made a Soviet of what had already happened" },
+  { "side": "The autocracy", "who": "Nicholas II, at Stavka in Mogilev, then on a train; General Khabalov commanding a garrison of about 160,000 reservists, mostly untrained peasants; 3,500 police; by the 28th, 600 infantry and 500 cavalry still loyal", "backed": "the Duma, until Rodzianko's telegrams went unanswered and the Duma made itself a Provisional Committee instead" }
+ ],
+ "chain": [
+  { "who": "The women of the Vyborg side", "role": "the beginning", "from": 1917, "to": 1917, "did": "Came out on the 23rd for bread and against the war, across the ice of the Neva when the bridges were held, and brought the metalworkers with them. No committee had called it; the Bolshevik district committee had asked them to wait." },
+  { "who": "General Sergei Khabalov", "role": "the order to fire", "from": 1917, "to": 1917, "did": "Received the Tsar's telegram on the 25th to end the disorders by the next day; ordered the troops to shoot on the 26th; the Pavlovsky's fourth company fired on the police instead. By the 28th he had eleven hundred men and no building to hold." },
+  { "who": "Sergeant Timofei Kirpichnikov", "role": "the mutiny", "from": 1917, "to": 1917, "did": "Of the Volynsky training detachment, which had fired on the crowd on the 26th. On the morning of the 27th the detachment refused to go out again and shot its captain; by evening the Guards reserve regiments were in the street with it. Kirpichnikov was decorated by the Provisional Government and shot by the Whites in 1918." },
+  { "who": "Mikhail Rodzianko", "role": "the Duma", "from": 1917, "to": 1917, "did": "Telegraphed the Tsar on the 26th that the capital was in anarchy and the government paralysed. The Tsar's reply, to his brother, was that Rodzianko had written him nonsense he would not answer. On the 27th the Duma, prorogued, made a Provisional Committee and by night was the government because 25,000 soldiers had come to it." },
+  { "who": "The Petrograd Soviet", "role": "the other power", "from": 1917, "to": 1917, "did": "Formed in the Tauride's other wing on the 27th by socialist deputies out of prison that morning; issued Order No. 1 on the 1st of March, which gave the garrison to the Soviet's committees and not to the officers. Dual power dates from that order, not from any vote." },
+  { "who": "Alexander Bublikov", "role": "the railways", "from": 1917, "to": 1917, "did": "A Duma engineer who took the Ministry of Ways on the 28th with a few soldiers and telegraphed every station: no trains within 265 kilometres of Petrograd. The Tsar's train and General Ivanov's punitive expedition were stopped by a telegram." },
+  { "who": "Nicholas II", "role": "the ending", "from": 1917, "to": 1917, "did": "Left Mogilev on the 28th for Tsarskoe Selo, was turned at Malaya Vishera, reached Pskov on the 1st; the front commanders, polled by Alekseev, all advised abdication; abdicated on the 2nd for himself and, against the law, for his son, in favour of his brother. Michael, on the 3rd, declined unless a Constituent Assembly asked him. It never did." }
+ ],
+ "phases": [
+  { "from": 1917, "to": 1917, "name": "Bread", "text": "23–25 February: strikes and crowds, bread queues in a city of frozen railways; the Cossacks would not charge; the police were stoned. Nobody yet called it a revolution." },
+  { "from": 1917, "to": 1917, "name": "The order to fire", "text": "26 February: Khabalov's troops fired on Znamenskaya Square, about forty dead; that evening one company of the Pavlovsky mutinied and was disarmed. The Tsar prorogued the Duma the same day." },
+  { "from": 1917, "to": 1917, "name": "The garrison goes over", "text": "27 February: the Volynsky at dawn, then the regiments, then the arsenal and the prisons; the Tauride Palace filled with soldiers; two bodies made themselves in its two wings. By night the capital had no government but them." },
+  { "from": 1917, "to": 1917, "name": "The train", "text": "28 February – 3 March: the railways closed by telegram, the Tsar's train turned back, the generals' answers at Pskov, the abdication, Michael's refusal. A dynasty of three hundred and four years ended in a railway carriage in four days." }
+ ],
+ "gauge": { "unit": "Troops still obeying the garrison commander, approximate, by day of February–March 1917 (Old Style)", "series": [[23, 160000], [25, 160000], [26, 150000], [27, 20000], [28, 1100], [1, 0]] },
+ "prediction": {
+  "ending": "1917-03-02",
+  "endingName": "The abdication, at Pskov, about 11:40 p.m. (Old Style)",
+  "unit": "troops still obeying Khabalov, by day; a line fitted from the 26th, the day of the order to fire",
+  "series": [["1917-02-26", 150000], ["1917-02-27", 20000], ["1917-02-28", 1100]],
+  "fitFrom": "1917-02-26",
+  "marks": [["1917-02-23", "International Women's Day; the Vyborg women come out"], ["1917-02-25", "250,000 on strike; the Tsar telegraphs Khabalov to end it"], ["1917-02-26", "Znamenskaya Square; the Pavlovsky company fires on the police"], ["1917-02-27", "the Volynsky at dawn; 40,000 rifles; the Tauride fills"], ["1917-02-28", "Bublikov's telegram; Khabalov reports 1,100 loyal"], ["1917-03-01", "Order No. 1; the Tsar's train reaches Pskov"], ["1917-03-02", "the abdication"], ["1917-03-03", "Michael refuses"]],
+  "note": "The line through the garrison's obedience from the order to fire reaches zero on the 27th, the day the garrison went over; Khabalov still had eleven hundred men on the 28th. The Tsar abdicated three days after the line said the army was gone, because he was not in the city and the news reached him by the trains he could no longer take. The error is the distance from Petrograd to Pskov, measured in telegrams."
+ },
+ "cost": [
+  { "k": "Killed in Petrograd", "v": "1,443 by the infobox; over 1,300 by the text; most of them on the 26th and 27th, and many of them police" },
+  { "k": "The garrison", "v": "about 160,000 reservists at the start; 1,100 obeying by the 28th" },
+  { "k": "Rifles out of the fortress", "v": "about 40,000, on the 27th" },
+  { "k": "The dynasty", "v": "304 years, 1613–1917; ended by two signatures on two days" },
+  { "k": "What it opened", "v": "eight months of dual power, then October (project 64), then the civil war; the Vietnam range of 1.4–3.8 million is two rooms downstream" }
+ ],
+ "outcome": "The monarchy fell in eight days to a crowd that no party had called and a garrison that would not fire on it. The Duma and the Soviet each took a wing of the same palace, and the eight months between this room and the next were the argument over which wing was the government. October answered it.",
+ "open": [
+  "Whether it was spontaneous: the workers' districts had committees and the strike had a date, but the mutiny had none; the honest answer is that the street was organised and the revolution was not.",
+  "Whether the war did it: a city of two and a half million with the railways frozen and the bread at half ration is a sufficient cause; the war is why the railways were frozen.",
+  "Whether Michael's refusal on 3 March, not Nicholas's abdication on the 2nd, is the ending: the standard says the ending is the fixed point, and this room picks the abdication because it was signed; Michael's was conditional, and the condition was never met."
+ ],
+ "sources": [
+  "Wikipedia, February Revolution (fetched 2026-09-03), and the sources it cites",
+  "Tsuyoshi Hasegawa, The February Revolution, Petrograd, 1917 (1981; 2nd ed. 2017), the hour-by-hour account",
+  "Orlando Figes, A People's Tragedy (1996)",
+  "Richard Pipes, The Russian Revolution (1990)",
+  "Trotsky, History of the Russian Revolution (1930), chapter 7, 'Five Days'",
+  "Nikolai Sukhanov, The Russian Revolution 1917: A Personal Record (1922), a witness in the Tauride"
+ ],
+ "text": "The February Revolution as a war room to the standard: eight days from the bread queues to the abdication, the garrison's obedience by day, the telegram that stopped the trains, and a fitted line that reaches zero two days before the Tsar signed, because he was not there.",
+ "wovenBy": "the bridge"
+}

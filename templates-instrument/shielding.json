@@ -1,0 +1,16 @@
+{
+ "id": "shielding",
+ "order": 2,
+ "quantity": "Atmospheric shielding above 55 km",
+ "value": 570,
+ "unit": "g/cm2",
+ "uncertainty": 25,
+ "kind": "derived",
+ "method": "Integrated column mass above 55 km from a standard Venus atmosphere model. The uncertainty is the model, not the integration. Rounded: rounded from 574: a ±25 bar owns the tens digit.",
+ "used_for": "The claim that radiation is not the problem on the deck.",
+ "boards": [
+  "paper.html"
+ ],
+ "wrong_if": "The atmosphere model is wrong above 55 km, which it may be — the density profile there is less well constrained than lower down, and a systematic error would move all of it one way.",
+ "rounded_from": 574
+}

@@ -1,0 +1,17 @@
+{
+ "id": "syndication",
+ "kind": "heze-slide",
+ "order": 9,
+ "kicker": "09 · lesson four, syndication",
+ "heading": "Carrying a chain to another chain, and proving it later",
+ "lede": "Bridging one ledger's history into another's is one of the oldest sources of real losses in crypto — a forged root, waved through because nobody on the receiving side could actually check it. HEZE's syndication is the same idea, built with the check included rather than assumed.",
+ "grid": [
+  { "span": "Every six months", "b": "The interval", "p": "Whatever a syndicate's doors signed since the last carry crosses at the interval, whether or not anything was ready — the checkpoint is taken either way, so a quiet interval is provable too." },
+  { "span": "A checkpoint, chained", "b": "SHA-256 over the last", "sm": true, "p": "Each syndication hashes the events it carried together with the previous checkpoint's own hash, so breaking one checkpoint without breaking every one after it is not possible." },
+  { "span": "The far side, at scale", "b": "Reconciles, does not answer", "sm": true, "p": "The other world's chain arrives with orders of magnitude more volume than these doors did and reconciles without comment — not contempt, just scale, and the same scale is what keeps any one door from being singled out." }
+ ],
+ "rule": true,
+ "note": { "strong": "The check that actually matters.", "text": "A checkpoint you cannot recompute is a claim, not a proof. Verifying a crossing means holding both chains and recomputing the source's own Merkle root at the exact sequence the checkpoint names — that is the one thing a forged root cannot survive, and it is the templated attack this design was tested against on purpose, not the one left out of the test suite." },
+ "text": "Syndication taught through the real risk it addresses: bridging one ledger's history to another, and the recompute-both-sides check that a forged checkpoint cannot pass.",
+ "wovenBy": "the bridge"
+}

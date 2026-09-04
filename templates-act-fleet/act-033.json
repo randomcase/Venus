@@ -1,0 +1,17 @@
+{
+ "id": "act-033",
+ "bench": "fleet",
+ "order": 33,
+ "year": 4,
+ "day": 1170,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "tested",
+ "object": "the army by ordering it home",
+ "place": "in Agamemnon's hut",
+ "side": "fleet",
+ "text": "Achilles tested the army by ordering it home, in Agamemnon's hut, in the fourth year."
+}

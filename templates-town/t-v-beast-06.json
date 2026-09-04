@@ -1,0 +1,17 @@
+{
+ "kind": "stall",
+ "name": "the honey stall",
+ "feeds": 3,
+ "cost": 1912,
+ "text": "honey in the market. Feeds three households.",
+ "id": "t-v-beast-06",
+ "wovenBy": "v-beast-06",
+ "chain": [
+  "v-beast-06",
+  "beast-06",
+  "l2-beast-1-2",
+  "l3-beast-1",
+  "l4-beast",
+  "loom.mjs"
+ ]
+}

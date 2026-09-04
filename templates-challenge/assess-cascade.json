@@ -1,0 +1,23 @@
+{
+ "id": "assess-cascade",
+ "type": "assess",
+ "tier": 1,
+ "title": "Which rule wins, and why it is not order",
+ "unlocks": "cascade-order",
+ "ground": "Two rules set the same property on the same element. One is written two hundred lines later than the other.",
+ "task": "Given six selector pairs, compute both specificity triples, name the winner, and name the column that decided it. Then find the pair where the loser would win under @layer and explain what changed.",
+ "rubric": [
+  {
+   "band": "Six correct triples",
+   "test": "Are all six correct, including the :has(), :is() and :where() cases?"
+  },
+  {
+   "band": "The deciding column is named",
+   "test": "Does the answer name which of a, b or c decided it, rather than only the winner?"
+  },
+  {
+   "band": "The layer case is understood",
+   "test": "Does the explanation put layers BEFORE specificity in the cascade order, rather than treating them as a tiebreak?"
+  }
+ ]
+}

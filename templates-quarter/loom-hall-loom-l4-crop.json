@@ -1,0 +1,9 @@
+{
+ "id": "loom-hall-loom-l4-crop",
+ "kind": "loom",
+ "room": "loom-hall",
+ "name": "The crop loom",
+ "text": "One of the ten looms at the top of the chain. It weaves crops, and what it weaves weaves the rest.",
+ "wovenBy": "l4-crop",
+ "bay": 1
+}

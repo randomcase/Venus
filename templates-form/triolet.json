@@ -1,0 +1,28 @@
+{
+ "id": "triolet",
+ "name": "Triolet",
+ "kind": "verse",
+ "order": 4,
+ "lines": 8,
+ "stanzas": [
+  8
+ ],
+ "rhyme": "ABaAabAB",
+ "repeats": [
+  {
+   "line": 4,
+   "same_as": 1
+  },
+  {
+   "line": 7,
+   "same_as": 1
+  },
+  {
+   "line": 8,
+   "same_as": 2
+  }
+ ],
+ "note": "Eight lines, five of them yours. Two repeat immediately, which means the form is short enough that a refrain cannot hide — it is either doing new work three lines later or it is padding.",
+ "ground": "Medieval French. It is the smallest of the fixed repeating forms, and it is the honest place to learn what a refrain costs.",
+ "ask": "Is line four already tired?"
+}

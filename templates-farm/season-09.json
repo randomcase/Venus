@@ -1,0 +1,11 @@
+{
+ "id": "season-09",
+ "depth": 1,
+ "wovenBy": "l2-season-2-1",
+ "kind": "season",
+ "turn": "deep winter",
+ "length": 30,
+ "name": "deep winter, 30 days",
+ "grows": [],
+ "mul": 0.1
+}

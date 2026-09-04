@@ -1,0 +1,12 @@
+{
+ "id": "thorvald-pile-3",
+ "kind": "pile",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "name": "a longhouse loft for signal",
+ "holds": 550,
+ "cost": 660,
+ "text": "Holds 550 signal. What is not piled is not yours by morning.",
+ "wovenBy": "thorvald"
+}

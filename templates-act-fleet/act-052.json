@@ -1,0 +1,18 @@
+{
+ "id": "act-052",
+ "bench": "fleet",
+ "order": 52,
+ "year": 6,
+ "day": 1863,
+ "parties": [
+  "ajax",
+  "agamemnon"
+ ],
+ "actor": "Ajax",
+ "with": "Agamemnon",
+ "verb": "struck",
+ "object": "the one who spoke",
+ "place": "at Aulis",
+ "side": "fleet",
+ "text": "Ajax and Agamemnon struck the one who spoke, at Aulis, in the sixth year."
+}

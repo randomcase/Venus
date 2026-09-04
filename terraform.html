@@ -1,0 +1,878 @@
+<title>Terraform · 9,000 square miles, and both layers of it</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  TERRAFORM — the forest, sited, with the arithmetic done.
+
+  THE FOOTPRINT
+  9,000 square miles is 23,310 km². Venus is 460.2 million km², which is 177.7
+  million square miles. So the forest is 0.00506% of the planet — one part in
+  19,744. Drawn as a pie chart it is a solid circle with a label pointing at
+  nothing, and that is the correct picture rather than a failure of the chart.
+
+  For scale on the other side: New Hampshire is 9,349 square miles and Belize is
+  8,867. The forest is a small country.
+
+  BOTH LAYERS, BECAUSE VENUS HAS TWO PLACES AND THEY ARE NOT ALIKE
+  This page does not choose between the floating city and the surface dome. It
+  sites the canopy in one and the floor in the other, because that is what the
+  ecosystem already is and Venus happens to separate them by fifty kilometres of
+  altitude.
+
+  THE BAND, 50 to 55 km
+  Pressure and temperature up there are genuinely ordinary: about 1.07 bar and
+  75 °C at 50 km, about 0.53 bar and 27 °C at 55 km. And breathable air is a
+  LIFTING GAS on Venus. An envelope of ordinary nitrogen-oxygen air at 50 km
+  masses about 1.067 kg/m³ against an outside atmosphere of about 1.594, so
+  every cubic metre of habitable volume lifts roughly half a kilogram of
+  structure. The envelope is the atmosphere you were going to need anyway.
+
+  THE SURFACE
+  475 °C, 92 bar, 96.5% CO₂, and a sulfuric acid cloud deck overhead. 92 bar is
+  the pressure at about 910 metres of Earth ocean. Anything down there is
+  actively cooled and heavily built, and it is where the floor has to be,
+  because burial, decomposition and soil are floor jobs and a balloon has no
+  ground.
+
+  THE THING THAT MAKES THIS INTERESTING RATHER THAN MERELY HARD
+  The two layers are on different clocks, by a factor of twenty-nine.
+
+  Venus's solar day is 116.75 Earth days — sunrise to sunrise, on the ground.
+  But the atmosphere at 50 km super-rotates: it laps the whole planet in about
+  four Earth days, carrying anything floating in it around with it. A free
+  aerostat therefore experiences a day of about four days. The surface below it
+  experiences one of a hundred and seventeen.
+
+  So the canopy and the floor of this forest cannot share a calendar, and the
+  reason is not politics or distance or protocol. It is altitude. That is the
+  same problem as the assembly's table and the relay's fourteen light-minutes,
+  arriving from a third direction, inside a single wood.
+
+  No script.
+-->
+<style>
+  :root{
+    --void:#0b0805; --card:#1a1410; --card2:#211a14; --edge:#3b2f24;
+    --ink:#f2ece2; --dim:#a3927f; --bone:#eadfc6;
+    --band:#8fc2e0; --deck:#e8c07a; --surf:#e0703c; --acid:#d8d06a;
+    --good:#7fc9a0; --cool:#6ec6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 48px;color:var(--ink);background:var(--void);
+    font:13.5px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 50% -8%,rgba(232,192,122,.16),transparent 46%),
+      radial-gradient(circle at 12% 96%,rgba(224,112,60,.12),transparent 44%)}
+  .wrap{max-width:1020px;margin:0 auto}
+  header{border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:18px}
+  h1{margin:0 0 5px;font-size:22px;letter-spacing:-.015em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:74ch;margin:0}
+  header .tag{float:right;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--good);border:1px solid var(--good);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:28px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;
+    text-transform:none;font-size:10.5px;font-weight:600}
+  p{max-width:82ch}
+  .note{color:var(--dim);font-size:10.5px;line-height:1.7;margin:10px 0 0;max-width:98ch}
+  .note b{color:var(--ink)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#120d09;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  a{color:var(--deck)}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:12px;padding:15px 16px}
+
+  /* --------------------------------------------------------- the altitude */
+  .column{display:grid;grid-template-columns:76px 1fr;gap:0;margin-top:12px;
+    border:1px solid var(--edge);border-radius:12px;overflow:hidden}
+  .column .alt{font:9.5px/1 ui-monospace,monospace;color:var(--dim);
+    padding:14px 10px;text-align:right;border-right:1px solid var(--edge);
+    display:flex;align-items:center;justify-content:flex-end}
+  .column .row{padding:13px 15px}
+  .column > *{border-bottom:1px solid var(--edge)}
+  .column > *:nth-last-child(-n+2){border-bottom:0}
+  .l-space{background:linear-gradient(180deg,#0a0910,#100c14)}
+  .l-band{background:linear-gradient(180deg,#12202a,#162a36)}
+  .l-acid{background:linear-gradient(180deg,#231f14,#2b2617)}
+  .l-deep{background:linear-gradient(180deg,#2a1a10,#33200f)}
+  .l-surf{background:linear-gradient(180deg,#3a1d0e,#48230d)}
+  .column .row b{display:block;font-size:13.5px;color:var(--bone);margin-bottom:5px}
+  .column .row span{font-size:11px;color:var(--dim);line-height:1.6;display:block}
+  .column .row .num{font:10px/1.6 ui-monospace,monospace;color:var(--deck);
+    margin-top:7px;display:block}
+
+  .fig{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+  @media (max-width:760px){.fig{grid-template-columns:repeat(2,1fr)}}
+  .fig div{background:#120d09;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .fig span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);display:block}
+  .fig b{display:block;font:15px/1.3 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:6px}
+  .fig i{display:block;font-style:normal;font-size:10.5px;color:var(--dim);
+    margin-top:6px;line-height:1.55}
+  .fig div.hot b{color:var(--surf)} .fig div.cold b{color:var(--band)}
+
+  /* ------------------------------------------------------------ the choice */
+  .siting{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-top:12px}
+  @media (max-width:760px){.siting{grid-template-columns:1fr}}
+  .siting input{position:absolute;opacity:0;width:0;height:0}
+  .siting label{display:block;cursor:pointer;background:#120d09;
+    border:1px solid var(--edge);border-radius:11px;padding:12px 13px}
+  .siting label:hover{border-color:var(--bone)}
+  .siting input:focus-visible+label{outline:2px solid var(--cool);outline-offset:2px}
+  .siting label .nm{display:flex;align-items:baseline;gap:8px}
+  .siting label b{font-size:14px;color:var(--dim)}
+  .siting label .at{margin-left:auto;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:#6b5a48}
+  .siting label .d{font-size:10.5px;line-height:1.58;color:var(--dim);margin-top:8px}
+  .siting label .st{margin-top:9px;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.14em;text-transform:uppercase;color:#6b5a48}
+  .siting label .st::after{content:"not built"}
+  .siting input:checked+label .st::after{content:"built"}
+  #aero:checked+label{border-color:var(--band);background:rgba(143,194,224,.10)}
+  #aero:checked+label b,#aero:checked+label .st{color:var(--band)}
+  #dome:checked+label{border-color:var(--surf);background:rgba(224,112,60,.10)}
+  #dome:checked+label b,#dome:checked+label .st{color:var(--surf)}
+
+  /* ============================================ 1 · COUNTERS ARE ARITHMETIC */
+  body{counter-reset:built 0 holds 0}
+  #aero:checked+label{counter-increment:built 1}
+  #dome:checked+label{counter-increment:built 1}
+  .hold .mk{counter-increment:holds 1}
+  .n-built::after{content:counter(built)}
+  .n-holds::after{content:counter(holds)}
+
+  /* ================================================ 2 · WHAT EACH SITE HOLDS */
+  .hold{display:none}
+  .hold.panel{margin-top:10px}
+  .hh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:8px;margin-bottom:10px}
+  .hh b{font-size:14px;color:var(--bone)}
+  .hh .req{margin-left:auto;font:9px/1 ui-monospace,monospace;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+  .hold p{margin:0;font-size:12.5px} .hold p+p{margin-top:9px}
+
+  .site:has(#aero:checked) .h-canopy{display:block}
+  .site:has(#dome:checked) .h-floor{display:block}
+  .site:has(#aero:checked):has(#dome:checked) .h-lift{display:block}
+  .site:has(#aero:checked):has(#dome:checked) .h-clock{display:block}
+  .h-canopy{border-color:rgba(143,194,224,.45)}
+  .h-floor{border-color:rgba(224,112,60,.45)}
+  .h-lift{border-color:rgba(232,192,122,.45)}
+  .h-clock{border-color:rgba(127,201,160,.45)}
+
+  .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .head{background:#120d09;border:1px solid var(--edge);border-radius:10px;
+    padding:10px 11px}
+  .head span{font:9px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim)}
+  .head b{display:block;font:21px/1.2 ui-monospace,Menlo,monospace;
+    color:var(--bone);margin-top:5px}
+  .head.g b{color:var(--good)}
+  @media (max-width:560px){.tally{grid-template-columns:repeat(2,1fr)}}
+
+  .empty{display:none}
+  .site:not(:has(input:checked)) .empty{display:block}
+
+    /* ═══════════════════════════════════════════════════ THE GALACTIC BACKDROP
+     A window, not a wallpaper. Still no script.
+
+     69 bright stars and 139 dim ones, weighted the way the real sky is —
+     mostly dim and warm, a scatter of white, almost no blue — laid along a band
+     twenty-four degrees off horizontal with the dust lane cut back out of it in
+     the background colour, because the dark half of a galaxy is most of what
+     you see. The stars are Earth's, because they would be: Venus is 0.28 AU
+     away and that is nothing at stellar distances.
+
+     WE ARE TRAVELLING, so the sky does. It sits on two fixed pseudo-elements
+     rather than one background, and each one moves by TRANSFORM — which the
+     compositor does on its own thread, without repainting 208 gradients a
+     frame. Animating background-position instead would have cost the frame
+     budget of every board in the yard, and that is the only reason this is
+     built out of two layers instead of one.
+
+     AND WE ARE EXPANDING, so the near layer runs faster and scales harder than
+     the far one. That difference is parallax and parallax is the entire cue:
+     hold still and the bright stars slide past the dim ones, which is what a
+     window does and what a backdrop cannot. 21 minutes and 34 — coprime, so the
+     two never fall back into the arrangement they started in.
+
+     Both sit at z-index:-1 behind everything, each page keeps its own colour
+     wash on <body> over the top, and prefers-reduced-motion stops the travel
+     dead while leaving every star exactly where it is. */
+  html{background-color:#0b0805}
+  body{background-color:transparent}
+  html::before,html::after{content:"";position:fixed;z-index:-1;
+    inset:-18%;pointer-events:none;background-repeat:no-repeat;
+    background-size:cover;will-change:transform}
+  html::before{background-image:
+      radial-gradient(0.35px 0.35px at 63.60% 61.37%,rgba(202,215,255,0.16),transparent),
+      radial-gradient(0.54px 0.54px at 31.73% 56.60%,rgba(255,210,161,0.26),transparent),
+      radial-gradient(0.36px 0.36px at 16.19% 41.87%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.12% 16.25%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 61.37% 49.53%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.66px 0.66px at 89.13% 49.03%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.52px 0.52px at 23.10% 65.23%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 81.55% 90.93%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.35px 0.35px at 1.99% 39.17%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.67px 0.67px at 88.33% 64.79%,rgba(255,210,161,0.32),transparent),
+      radial-gradient(0.65px 0.65px at 52.00% 41.82%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.84px 0.84px at 59.58% 82.02%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.44px 0.44px at 55.83% 49.97%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.45px 0.45px at 61.17% 3.50%,rgba(202,215,255,0.21),transparent),
+      radial-gradient(0.48px 0.48px at 92.68% 74.19%,rgba(255,181,107,0.23),transparent),
+      radial-gradient(0.41px 0.41px at 44.55% 40.37%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.80px 0.80px at 33.50% 52.15%,rgba(255,181,107,0.39),transparent),
+      radial-gradient(0.70px 0.70px at 15.53% 74.11%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.69px 0.69px at 83.20% 49.99%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.86px 0.86px at 14.02% 0.25%,rgba(255,181,107,0.42),transparent),
+      radial-gradient(0.35px 0.35px at 8.46% 26.75%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 16.18% 29.77%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.57px 0.57px at 46.77% 49.71%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.58px 0.58px at 80.94% 96.51%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.44px 0.44px at 46.92% 31.31%,rgba(255,181,107,0.20),transparent),
+      radial-gradient(0.37px 0.37px at 34.69% 85.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.42px 0.42px at 56.44% 46.68%,rgba(255,210,161,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 7.58% 26.10%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.48px 0.48px at 16.83% 84.69%,rgba(202,215,255,0.22),transparent),
+      radial-gradient(0.53px 0.53px at 9.16% 5.95%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.57px 0.57px at 41.82% 44.48%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.90px 0.90px at 74.31% 45.97%,rgba(255,210,161,0.44),transparent),
+      radial-gradient(0.40px 0.40px at 64.18% 49.64%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 5.25% 39.37%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.53px 0.53px at 9.07% 72.19%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.78px 0.78px at 64.06% 69.96%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.37px 0.37px at 8.76% 35.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 57.68% 27.55%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 98.05% 7.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.66px 0.66px at 44.51% 72.98%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.46px 0.46px at 37.26% 1.54%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.59px 0.59px at 90.42% 72.27%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.57px 0.57px at 98.13% 10.35%,rgba(248,247,255,0.27),transparent),
+      radial-gradient(0.91px 0.91px at 94.93% 71.89%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.36px 0.36px at 4.64% 11.86%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.56px 0.56px at 46.09% 50.65%,rgba(255,210,161,0.27),transparent),
+      radial-gradient(0.72px 0.72px at 98.16% 60.72%,rgba(255,181,107,0.35),transparent),
+      radial-gradient(0.90px 0.90px at 23.45% 18.12%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.53px 0.53px at 13.29% 38.54%,rgba(248,247,255,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 48.20% 58.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 93.26% 70.43%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.77px 0.77px at 98.31% 71.27%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.51px 0.51px at 91.86% 57.08%,rgba(255,210,161,0.24),transparent),
+      radial-gradient(0.76px 0.76px at 3.22% 18.38%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 67.24% 79.63%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.44px 0.44px at 4.49% 37.24%,rgba(255,210,161,0.20),transparent),
+      radial-gradient(0.35px 0.35px at 19.05% 44.87%,rgba(248,247,255,0.16),transparent),
+      radial-gradient(0.43px 0.43px at 80.57% 75.11%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.38px 0.38px at 84.40% 42.68%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.44px 0.44px at 84.04% 97.87%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.65px 0.65px at 16.48% 27.55%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.75px 0.75px at 84.52% 73.60%,rgba(255,210,161,0.36),transparent),
+      radial-gradient(0.63px 0.63px at 50.13% 6.86%,rgba(248,247,255,0.30),transparent),
+      radial-gradient(0.78px 0.78px at 87.51% 70.49%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.76px 0.76px at 16.34% 26.34%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.35px 0.35px at 58.85% 56.40%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 4.52% 56.48%,rgba(255,181,107,0.33),transparent),
+      radial-gradient(0.46px 0.46px at 86.45% 52.09%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.39px 0.39px at 91.92% 82.50%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.36px 0.36px at 6.83% 33.67%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.10% 7.69%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 63.59% 62.73%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 72.64% 55.47%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.57px 0.57px at 1.57% 22.68%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.35px 0.35px at 20.24% 40.59%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 81.60% 86.38%,rgba(255,244,234,0.33),transparent),
+      radial-gradient(0.75px 0.75px at 1.01% 89.43%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.50px 0.50px at 1.89% 45.85%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.36px 0.36px at 86.06% 69.70%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.46px 0.46px at 54.27% 84.12%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.35px 0.35px at 68.88% 69.99%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 51.92% 44.11%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.37px 0.37px at 83.56% 88.23%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.61px 0.61px at 48.63% 32.82%,rgba(248,247,255,0.29),transparent),
+      radial-gradient(0.46px 0.46px at 3.14% 19.70%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.35px 0.35px at 91.65% 60.72%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 39.35% 42.18%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.60px 0.60px at 96.63% 57.34%,rgba(255,210,161,0.29),transparent),
+      radial-gradient(0.36px 0.36px at 93.19% 66.52%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 91.66% 53.83%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.53px 0.53px at 37.09% 33.98%,rgba(255,210,161,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 7.69% 48.04%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.76px 0.76px at 40.92% 77.22%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.62px 0.62px at 53.18% 55.13%,rgba(255,181,107,0.30),transparent),
+      radial-gradient(0.52px 0.52px at 36.16% 17.06%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.42px 0.42px at 7.30% 10.90%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 98.83% 35.83%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.57px 0.57px at 32.25% 40.39%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.77px 0.77px at 68.97% 58.36%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.35px 0.35px at 98.16% 72.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 49.07% 50.45%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.59px 0.59px at 36.73% 46.36%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.37px 0.37px at 59.16% 52.43%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 5.87% 47.43%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.35px 0.35px at 28.92% 42.34%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.84px 0.84px at 38.15% 61.03%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.35px 0.35px at 17.08% 95.56%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.56px 0.56px at 72.12% 52.35%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.43px 0.43px at 10.79% 34.15%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.36px 0.36px at 90.72% 54.28%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.36px 0.36px at 0.22% 39.29%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.38px 0.38px at 66.88% 43.63%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.76px 0.76px at 85.24% 53.71%,rgba(255,210,161,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 76.84% 68.26%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.82px 0.82px at 20.88% 36.67%,rgba(255,181,107,0.40),transparent),
+      radial-gradient(0.53px 0.53px at 72.59% 59.70%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.82px 0.82px at 99.56% 61.97%,rgba(248,247,255,0.40),transparent),
+      radial-gradient(0.37px 0.37px at 43.04% 22.87%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.38px 0.38px at 62.75% 36.42%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.64px 0.64px at 11.37% 52.16%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.35px 0.35px at 65.28% 54.10%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 23.22% 51.57%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.41px 0.41px at 7.86% 15.80%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 1.16% 17.03%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 24.23% 36.88%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 67.85% 71.10%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.87px 0.87px at 21.22% 9.64%,rgba(255,181,107,0.43),transparent),
+      radial-gradient(16px 16px at 11.38% 48.06%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 66.59% 41.28%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 40.80% 23.68%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 41.01% 67.29%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 31.18% 27.63%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 10.81% 18.20%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 3.23% 54.03%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(30% 30% at 22% 30%,rgba(91,127,199,0.055),transparent 70%),
+      radial-gradient(26% 26% at 74% 58%,rgba(201,87,143,0.040),transparent 70%),
+      radial-gradient(22% 22% at 46% 18%,rgba(79,179,166,0.035),transparent 70%),
+      linear-gradient(66deg,transparent 34%,rgba(148,138,196,.045) 43%,rgba(172,162,214,.085) 50%,rgba(148,138,196,.045) 57%,transparent 66%),
+      linear-gradient(66deg,transparent 46%,rgba(4,3,7,.55) 49.4%,rgba(4,3,7,.62) 50.6%,transparent 54%);
+    animation:au-far 2040s ease-in-out infinite alternate}
+  html::after{background-image:
+      radial-gradient(1.30px 1.30px at 68.42% 62.26%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(0.96px 0.96px at 44.46% 53.88%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.72px 1.72px at 97.52% 67.89%,rgba(255,210,161,0.86),transparent),
+      radial-gradient(1.27px 1.27px at 29.09% 44.54%,rgba(255,181,107,0.63),transparent),
+      radial-gradient(1.25px 1.25px at 0.41% 98.24%,rgba(255,181,107,0.62),transparent),
+      radial-gradient(1.12px 1.12px at 48.27% 61.45%,rgba(255,181,107,0.55),transparent),
+      radial-gradient(1.62px 1.62px at 21.27% 82.41%,rgba(255,181,107,0.81),transparent),
+      radial-gradient(1.13px 1.13px at 32.91% 34.63%,rgba(255,181,107,0.56),transparent),
+      radial-gradient(1.56px 1.56px at 71.19% 43.86%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.40px 1.40px at 6.85% 52.24%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.14px 1.14px at 86.46% 83.26%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.10px 1.10px at 71.95% 42.90%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.42px 1.42px at 36.96% 17.89%,rgba(255,181,107,0.71),transparent),
+      radial-gradient(1.13px 1.13px at 4.31% 1.17%,rgba(170,191,255,0.56),transparent),
+      radial-gradient(1.31px 1.31px at 41.52% 51.61%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(1.46px 1.46px at 76.09% 66.82%,rgba(255,244,234,0.72),transparent),
+      radial-gradient(1.78px 1.78px at 26.72% 43.06%,rgba(255,181,107,0.89),transparent),
+      radial-gradient(1.69px 1.69px at 22.68% 46.22%,rgba(170,191,255,0.84),transparent),
+      radial-gradient(1.76px 1.76px at 30.20% 97.65%,rgba(255,181,107,0.88),transparent),
+      radial-gradient(1.38px 1.38px at 99.58% 76.98%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.08px 1.08px at 15.38% 27.05%,rgba(255,244,234,0.53),transparent),
+      radial-gradient(0.95px 0.95px at 42.39% 32.32%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.57px 1.57px at 58.49% 81.25%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(0.94px 0.94px at 48.37% 39.34%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.41px 1.41px at 91.19% 97.04%,rgba(255,210,161,0.70),transparent),
+      radial-gradient(1.37px 1.37px at 7.79% 44.56%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.07px 1.07px at 89.66% 36.01%,rgba(255,181,107,0.53),transparent),
+      radial-gradient(1.69px 1.69px at 67.50% 93.44%,rgba(255,181,107,0.84),transparent),
+      radial-gradient(1.15px 1.15px at 57.27% 40.78%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.58px 1.58px at 33.10% 45.94%,rgba(255,181,107,0.79),transparent),
+      radial-gradient(1.04px 1.04px at 83.01% 82.39%,rgba(255,181,107,0.51),transparent),
+      radial-gradient(1.56px 1.56px at 88.42% 66.83%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.29px 1.29px at 24.78% 0.51%,rgba(255,181,107,0.64),transparent),
+      radial-gradient(1.09px 1.09px at 6.07% 6.69%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.32px 1.32px at 53.40% 80.43%,rgba(255,210,161,0.65),transparent),
+      radial-gradient(1.19px 1.19px at 76.80% 81.97%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(0.94px 0.94px at 69.80% 57.79%,rgba(255,244,234,0.46),transparent),
+      radial-gradient(1.10px 1.10px at 7.00% 33.07%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.22px 1.22px at 76.56% 52.71%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(0.96px 0.96px at 85.29% 63.59%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.18px 1.18px at 17.44% 43.04%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(1.51px 1.51px at 36.81% 57.97%,rgba(255,210,161,0.75),transparent),
+      radial-gradient(1.37px 1.37px at 98.28% 82.40%,rgba(248,247,255,0.68),transparent),
+      radial-gradient(1.65px 1.65px at 78.05% 82.63%,rgba(248,247,255,0.82),transparent),
+      radial-gradient(1.20px 1.20px at 59.28% 41.45%,rgba(248,247,255,0.60),transparent),
+      radial-gradient(1.55px 1.55px at 40.98% 18.58%,rgba(255,181,107,0.77),transparent),
+      radial-gradient(1.02px 1.02px at 82.66% 66.73%,rgba(255,181,107,0.50),transparent),
+      radial-gradient(1.20px 1.20px at 0.68% 23.74%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(1.15px 1.15px at 57.32% 67.46%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.34px 1.34px at 6.29% 37.15%,rgba(255,244,234,0.66),transparent),
+      radial-gradient(1.39px 1.39px at 63.56% 50.69%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.59px 1.59px at 80.48% 31.89%,rgba(202,215,255,0.79),transparent),
+      radial-gradient(1.52px 1.52px at 40.22% 51.94%,rgba(255,210,161,0.76),transparent),
+      radial-gradient(1.52px 1.52px at 78.35% 77.94%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(1.70px 1.70px at 33.95% 56.66%,rgba(255,181,107,0.85),transparent),
+      radial-gradient(1.16px 1.16px at 77.09% 41.34%,rgba(255,210,161,0.58),transparent),
+      radial-gradient(1.67px 1.67px at 39.69% 60.56%,rgba(255,210,161,0.83),transparent),
+      radial-gradient(1.47px 1.47px at 12.24% 30.52%,rgba(255,181,107,0.73),transparent),
+      radial-gradient(1.11px 1.11px at 80.16% 93.71%,rgba(255,210,161,0.55),transparent),
+      radial-gradient(1.52px 1.52px at 11.04% 44.84%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(0.94px 0.94px at 59.58% 30.37%,rgba(255,210,161,0.46),transparent),
+      radial-gradient(1.53px 1.53px at 0.35% 42.03%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(2.6px 2.6px at 11.38% 48.06%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 66.59% 41.28%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 40.80% 23.68%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 41.01% 67.29%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 31.18% 27.63%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 10.81% 18.20%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 3.23% 54.03%,rgba(255,255,255,.95),transparent);
+    animation:au-near 1260s ease-in-out infinite alternate}
+  @keyframes au-far{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-3.0%,1.6%,0) scale(1.09)}}
+  @keyframes au-near{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-8.5%,4.4%,0) scale(1.26)}}
+  @media (prefers-reduced-motion:reduce){
+    html::before,html::after{animation:none}}
+</style>
+
+<div class="site wrap">
+  <header>
+    <span class="tag">no script<a href="automat.html" style="color:inherit;text-decoration:none;opacity:.62" title="Still true: this board decides everything in its stylesheet. It also ships two inert script tags — automat.js and devmode.js — which do nothing unless the URL carries ?run or ?dev, a half of the address CSS cannot read. See automat.html.">&nbsp;&dagger;</a></span>
+    <h1>Terraform</h1>
+    <p class="sub">Nine thousand square miles, sited on a planet that has two
+      places and no shared clock between them. Every number on this page is
+      computed rather than described, and the first one is the one that matters
+      least flatteringly.</p>
+  </header>
+
+  <div class="panel" style="border-color:rgba(224,112,60,.45)">
+    <h2 style="margin-top:0">The footprint <b>said before anything else</b></h2>
+    <div class="fig">
+      <div><span>the forest</span><b>23,310 km²</b><i>9,000 square miles. About New Hampshire, or Belize.</i></div>
+      <div><span>Venus</span><b>460.2M km²</b><i>177.7 million square miles. Almost exactly Earth's.</i></div>
+      <div class="hot"><span>the fraction</span><b>0.00506%</b><i>One part in 19,744.</i></div>
+      <div><span>to reach 1%</span><b>197 forests</b><i>To reach a tenth of the planet, 1,974 of them.</i></div>
+    </div>
+    <p class="note"><b>Drawn as a pie chart it is a solid circle</b> with a label
+      pointing at nothing, and that is the chart working rather than failing.
+      Nothing on this page is a plan to terraform Venus. It is a plan to make one
+      small country's worth of it habitable, which is a different claim, is
+      achievable in a way the other is not, and should not borrow the other's
+      name without saying so.</p>
+  </div>
+
+  <h2>The ladder <b>because the number keeps moving, and it should</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">Nine thousand is one choice and not an
+      obvious one. Here is what each order of magnitude buys &mdash; and the
+      transit time is the figure that changes the character of the thing, since
+      the band moves at about 100 m/s and a platform takes that long to pass any
+      given point on the planet below.</p>
+    <div class="fig">
+      <div><span>9,000 sq mi</span><b>0.0051%</b><i>95 mi across. Belize. Passes a point in 25 minutes. One weather, one clock, one room.</i></div>
+      <div><span>90,000 sq mi</span><b>0.051%</b><i>300 mi across. The United Kingdom. 80 minutes. It has regions now and cannot all be in one room.</i></div>
+      <div><span>900,000 sq mi</span><b>0.51%</b><i>949 mi across, 4% of the circumference. Four hours. A country.</i></div>
+      <div><span>9,000,000 sq mi</span><b>5.06%</b><i>3,000 mi across, 12.7% of the way round, thirteen hours. Not a raft &mdash; a band.</i></div>
+    </div>
+    <p class="note"><b>The qualitative break is between the first two.</b> At
+      9,000 square miles everything on <a href="ecosystem.html">the ecosystem
+      page</a> works, because the settlement can hold one conversation. At 90,000
+      it needs <a href="assembly.html">the assembly</a>: parts of it are hours
+      apart in local conditions and cannot be governed as a single room. At
+      9,000,000 it is a twelfth of the way around the planet and the two ends
+      have genuinely different weather. Envelope volume scales linearly &mdash;
+      ten times the area is ten times the envelope, no worse and no better
+      &mdash; so the hard part of scaling is not lift. It is agreement.</p>
+  </div>
+
+  <h2>The cruise <b>and why slow is correct</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">The instinct is that a faster transfer
+      is a better one, and for cargo it is exactly backwards. <b>The
+      minimum-energy path is the slow one</b>: a Hohmann transfer to Venus takes
+      around 146 days and costs less propellant than any alternative, and buying
+      that time back costs fuel at a rate which climbs steeply the harder you
+      push.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">And there is nothing to buy.
+      Light crosses the same gap in 2.3 to 14.5 minutes depending on the season
+      &mdash; about 4.8 at the moment &mdash; so anything urgent was never going
+      in the hold. <b>Mass is roughly 45,000 times slower than information on
+      the identical route</b>, and taking a month off five does not change which
+      side of that ratio you are on.</p>
+    <p class="note"><b>So the cruise should be as leisurely as it can be made.</b>
+      Launch it cheap, launch it often, let transfers stack up in flight; a
+      permanent cycler on a repeating orbit is the limit case of the same idea,
+      where the ship never stops and you pay only to match it. The supply line
+      carries designs at the speed of light and atoms at the speed of patience,
+      and confusing the two is the expensive mistake.</p>
+  </div>
+
+  <h2>A weak Earth <b>and the fingerprint of what it lost</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">Venus is 95% of Earth&rsquo;s diameter,
+      81.5% of its mass and 90.4% of its surface gravity, made of the same
+      material, at the same age. By bulk properties it is the closest thing to a
+      twin in the solar system and it is not a younger Earth &mdash; it is the
+      same age exactly. <b>Not a proto-Earth. A fork.</b></p>
+    <p style="margin:9px 0 0;font-size:12.5px">And it is weak in one specific
+      way that matters here: no intrinsic magnetic field. Earth&rsquo;s dynamo
+      deflects the solar wind; Venus has only an induced magnetosphere, so the
+      wind has been stripping its upper atmosphere for billions of years.</p>
+    <p style="margin:9px 0 0;font-size:12.5px"><b>The fingerprint is in the
+      hydrogen.</b> The ratio of deuterium to ordinary hydrogen on Venus is on
+      the order of a hundred times Earth&rsquo;s. Deuterium is heavier and
+      escapes more slowly, so an enriched ratio is what is left behind when a
+      great deal of hydrogen has gone to space. That is direct evidence Venus
+      once had far more water than it has, and lost it.</p>
+    <p class="note"><b>Which changes what this project is.</b> The hydrogen
+      figures on this page &mdash; 20 to 30 ppm of water vapour, 2.06% hydrogen
+      in the acid, 136,000 m&sup3; of cloud per kilogram of water &mdash; are not
+      the readings of a place that was always dry. They are the readings of a
+      place that had an ocean and does not any more. Bringing water to Venus is
+      not adding something foreign to it. It is putting back the one element the
+      planet could not hold on to, and the reason it could not is that it never
+      had the field to keep it.</p>
+  </div>
+
+  <h2>The column <b>where the two places are</b></h2>
+  <div class="column">
+    <div class="alt l-space">70 km</div>
+    <div class="row l-space"><b>Cloud top</b>
+      <span>The upper deck of the sulfuric acid cloud, and the outside of the
+        planet as seen from anywhere else.</span></div>
+
+    <div class="alt l-band">55 km</div>
+    <div class="row l-band"><b>The band, upper</b>
+      <span>Ordinary conditions. This is the part of Venus that is not trying to
+        kill you and it is the reason any of this is worth costing.</span>
+      <span class="num">0.53 bar · +27 °C</span></div>
+
+    <div class="alt l-band">50 km</div>
+    <div class="row l-band"><b>The band, lower</b>
+      <span>Still ordinary, and warm. Breathable air floats here: an envelope of
+        nitrogen-oxygen at these conditions is lighter than the CO₂ around
+        it.</span>
+      <span class="num">1.07 bar · +75 °C · outside 1.594 kg/m³</span></div>
+
+    <div class="alt l-acid">45 km</div>
+    <div class="row l-acid"><b>Cloud base</b>
+      <span>Below the acid. Pressure and heat both climbing hard from here
+        down, and nothing above the surface to stand on.</span></div>
+
+    <div class="alt l-deep">10 km</div>
+    <div class="row l-deep"><b>The deep atmosphere</b>
+      <span>Supercritical CO₂, hot enough to glow in the infrared. This part of
+        the column is not a place, it is a distance.</span></div>
+
+    <div class="alt l-surf">0 km</div>
+    <div class="row l-surf"><b>The surface</b>
+      <span>Where the floor has to be, because burial, decomposition and soil
+        are floor jobs and a balloon has no ground.</span>
+      <span class="num">92 bar · 475 °C · 96.5% CO₂</span></div>
+  </div>
+  <p class="note"><b>92 bar is the pressure at about 910 metres of Earth
+    ocean</b>, and 475 °C is above the melting point of lead. The two sites are
+    fifty kilometres apart and they are not variations on one problem. They are
+    two different engineering disciplines that happen to share a planet.</p>
+
+  <h2>Site both <b>because the ecosystem already has two layers</b></h2>
+  <div class="siting">
+    <input type="checkbox" id="aero" checked>
+    <label for="aero">
+      <span class="nm"><b>The aerostat</b><span class="at">50–55 km</span></span>
+      <span class="d">A floating platform in the habitable band. The envelope is
+        breathable air, which is a lifting gas here &mdash; so the habitat volume
+        and the buoyancy are the same cubic metres, bought once. It rides the
+        super-rotating atmosphere and circles the planet with it.</span>
+      <span class="st"></span>
+    </label>
+
+    <input type="checkbox" id="dome" checked>
+    <label for="dome">
+      <span class="nm"><b>The dome</b><span class="at">surface</span></span>
+      <span class="d">Actively cooled, pressure-rated, acid-proof, and heavy.
+        Everything about it is expensive and it is not optional, because the
+        floor is where soil is made and there is no version of a forest that is
+        only canopy.</span>
+      <span class="st"></span>
+    </label>
+  </div>
+
+  <h2>What each site holds <b>counted from the panels, not declared</b></h2>
+
+  <div class="hold panel h-canopy">
+    <span class="mk"></span>
+    <div class="hh"><b>The canopy</b><span class="req">the aerostat</span></div>
+    <p>Everything that works in the air: the fireflies keeping the fast clock,
+      the moths holding a bearing, the butterflies on a route, the bees running
+      carriage, the spiders strung across the gap. All of it is at home in a
+      volume rather than on a surface, which is fortunate, because a volume is
+      what a floating platform is.</p>
+    <p class="note" style="margin-top:9px">The band is warm rather than
+      temperate &mdash; 75 °C at 50 km, 27 °C at 55. The comfortable altitude is
+      between the two, and choosing it is choosing between lift and heat: lower
+      is more buoyant and hotter, higher is cooler and thinner.</p>
+  </div>
+
+  <div class="hold panel h-floor">
+    <span class="mk"></span>
+    <div class="hh"><b>The floor</b><span class="req">the dome</span></div>
+    <p>The beetles, the ants, the burial, the litter, the soil. This is the half
+      that gets called the boring one and it is the half that decides whether
+      there is a forest in fifty years, because the canopy is what the floor is
+      currently spending.</p>
+    <p>It is also the half that has to be built against 92 bar and 475 °C, so
+      the cheap layer biologically is the ruinous one structurally. That
+      inversion is worth sitting with rather than designing around.</p>
+  </div>
+
+  <div class="hold panel h-lift">
+    <span class="mk"></span>
+    <div class="hh"><b>The lift</b><span class="req">both sites</span></div>
+    <p>Fifty kilometres of vertical distance between the canopy and the floor,
+      and material has to move both ways: seed and litter down, soil and
+      minerals up. There is no ecosystem where those two layers are not in
+      contact, and on Venus the contact is a freight problem measured in
+      kilometres of hot column.</p>
+    <p class="note" style="margin-top:9px"><b>The buoyancy arithmetic, since it
+      is the one number people assume is hopeless.</b> At 50 km, breathable air
+      inside masses about 1.067 kg/m³ against 1.594 outside, so net lift is
+      about 0.53 kg per cubic metre. A platform covering the full 23,310 km² at
+      5 kg/m² of structure needs roughly 2.2 × 10¹¹ m³ of envelope &mdash; which
+      is about nine metres of mean depth spread over the footprint. Not a
+      trivial build. Not an absurd one either, and the volume is the habitat
+      rather than a tank bolted to it.</p>
+  </div>
+
+  <div class="hold panel h-clock">
+    <span class="mk"></span>
+    <div class="hh"><b>Two clocks, and they differ by twenty-nine</b><span class="req">both sites</span></div>
+    <p><b>The surface solar day on Venus is 116.75 Earth days.</b> Sunrise to
+      sunrise, on the ground, four months.</p>
+    <p><b>The atmosphere at 50 km laps the planet in about four days.</b> It
+      super-rotates &mdash; it goes round vastly faster than the body beneath it
+      &mdash; and anything floating freely in it goes round too. A drifting
+      aerostat therefore has a day of roughly four days, and the dome directly
+      below it has one of a hundred and seventeen.</p>
+    <p>So the canopy and the floor of this forest cannot share a calendar, and
+      the reason is not distance, politics or protocol. It is altitude. It is the
+      same problem as <a href="assembly.html">the assembly's table</a> and the
+      relay's fourteen light-minutes, arriving from a third direction, inside one
+      wood &mdash; and the answer is the same one: do not negotiate a clock,
+      agree on something outside that neither layer owns.</p>
+    <p class="note" style="margin-top:9px">There is a candidate already on the
+      page. Venus returns to the same place relative to the sun every 583.92
+      days, and both layers can see the sun. The fast clock stays local, the
+      slow one is shared, and nothing has to be synchronised across fifty
+      kilometres of supercritical CO₂ to make a date stick.</p>
+  </div>
+
+  <div class="empty panel" style="border-color:var(--edge);margin-top:10px">
+    <div class="hh"><b>Nothing sited</b><span class="req">neither built</span></div>
+    <p style="margin:0;font-size:12.5px">Venus as found: 460 million square
+      kilometres of it, 475 °C, 92 bar, and not one square metre arranged for
+      anybody. This is the starting state and the honest one to design from,
+      because every number above is a departure from it and none of them is a
+      departure from a blank page.</p>
+  </div>
+
+  <h2>The tally</h2>
+  <div class="tally">
+    <div class="head"><span>Sites built</span><b class="n-built"></b></div>
+    <div class="head"><span>Of</span><b>2</b></div>
+    <div class="head g"><span>Holds</span><b class="n-holds"></b></div>
+    <div class="head"><span>Of</span><b>4</b></div>
+  </div>
+
+  <h2>Two things the summaries get wrong <b>and one of them matters</b></h2>
+  <div class="panel" style="border-color:rgba(224,112,60,.45)">
+    <p style="margin:0;font-size:12.5px"><b>One. You cannot have one atmosphere
+      and room temperature at the same altitude.</b> Nearly every description of
+      the sweet spot says 50&ndash;60 km gives "exactly 1 bar" and
+      "0&nbsp;to&nbsp;50&nbsp;&deg;C". Both figures are real and they are five
+      kilometres apart.</p>
+    <div class="fig" style="grid-template-columns:repeat(3,1fr)">
+      <div><span>1.00 bar is at</span><b>49.5 km</b><i>and it is about 82 &deg;C there.</i></div>
+      <div><span>0&ndash;50 &deg;C is at</span><b>53–58 km</b><i>and it is 0.36 to 0.75 bar there.</i></div>
+      <div><span>so you choose</span><b>pressure or comfort</b><i>Lower is denser, more buoyant, hotter. Higher is cooler, thinner, less lift.</i></div>
+    </div>
+    <p class="note">It is not a fatal correction &mdash; 0.5 bar is a perfectly
+      workable habitat pressure and cooling 82 &deg;C is easier than cooling 475.
+      It is the sort of thing that gets averaged away in a summary and then
+      designed against as though both numbers were available at once, and this
+      page would rather state the gradient than a headline.</p>
+  </div>
+
+  <h2>Hydrogen <b>the scarcity that is not manufactured</b></h2>
+  <div class="panel" style="border-color:rgba(143,194,224,.45)">
+    <p style="margin:0;font-size:12.5px">Everything else there is effectively
+      unlimited. Carbon and oxygen from a 96.5% CO&#8322; atmosphere, nitrogen at
+      3.5% of an atmosphere ninety times Earth's, and sunlight at 2,601 W/m&sup2;,
+      which is 1.91 times what Earth gets. A floating platform sits near the top
+      of the most reflective cloud deck in the solar system and is lit from below
+      as well as above.</p>
+    <p style="margin:9px 0 0;font-size:12.5px"><b>And Venus is bone dry.</b>
+      Atmospheric water vapour runs around 20 to 30 parts per million. The
+      hydrogen is in the sulfuric acid droplets, and sulfuric acid is only 2.06%
+      hydrogen by mass against water's 11.19%, so the acid is a poor ore for the
+      one element you cannot do without.</p>
+    <div class="fig">
+      <div class="cold"><span>H&#8322;SO&#8324; is</span><b>2.06% H</b><i>by mass. Water is 11.19%.</i></div>
+      <div><span>droplet loading</span><b>~50 mg/m³</b><i>in the cloud deck, order of magnitude.</i></div>
+      <div class="hot"><span>to get 1 kg of water</span><b>~136,000 m³</b><i>of cloud swept, at that loading.</i></div>
+      <div><span>everything else</span><b>unlimited</b><i>C, O, N and energy are not the problem and never were.</i></div>
+    </div>
+    <p class="note"><b>That is what a real scarcity looks like.</b> Nobody
+      arranged it, nobody is holding it back, and no amount of restructuring the
+      market changes the number &mdash; it is 2.06% because of what a sulfate
+      is. <a href="theory.md">theory.md</a> argues that scarcity in a core
+      ecosystem is a physical fact and scarcity in a speculative one is
+      manufactured by making fungible things particular. Venus is the clean case
+      of the first: one element, genuinely short, in a place otherwise drowning
+      in raw material.</p>
+    <p class="note"><b>So the chemistry runs one way.</b> Sabatier and Bosch
+      both take CO&#8322; and hydrogen and give back water &mdash; they are ways
+      of <i>spending</i> hydrogen to move oxygen and carbon around, not ways of
+      getting hydrogen. Every gram of it is either lifted from Earth once or
+      wrung out of acid droplets forever. Design the loop closed or do not
+      design it.</p>
+  </div>
+
+  <h2>The envelope <b>and the property that makes it safe</b></h2>
+  <div class="panel">
+    <div class="fig" style="grid-template-columns:repeat(2,1fr)">
+      <div><span>outer layer</span><b>PTFE / fluoropolymer</b><i>Immune to concentrated sulfuric acid, which is what the cloud is made of.</i></div>
+      <div><span>structural layer</span><b>Vectran / carbon fibre</b><i>Holds the shape. Vectran has already done this on Mars airbags.</i></div>
+    </div>
+    <p class="note" style="margin-top:12px"><b>Inside pressure equals outside
+      pressure, and that is the whole safety case.</b> The envelope is not a
+      pressure vessel &mdash; it is a bag of one gas floating in another at the
+      same pressure, so there is no explosive stress across the skin and a
+      puncture is a slow exchange rather than a decompression. A tear in
+      something this size leaks over hours or days. You can walk the outside
+      decks in an acid suit and an oxygen mask rather than a pressure suit.</p>
+    <p class="note"><b>And gravity is 90.4% of Earth's</b> &mdash; 8.87 against
+      9.81 m/s&sup2; &mdash; which quietly removes the entire category of problem
+      that makes the Moon and Mars hard to live on for decades. It is the least
+      discussed advantage and probably the largest.</p>
+    <p class="note"><b>Station-keeping is formation flying, not anchoring.</b>
+      Nothing at 50 km holds a position over the ground; the whole band is moving
+      at speed. A 23,310 km&sup2; platform is therefore thousands of linked
+      aerostats holding formation with each other while the entire assembly rides
+      the super-rotation &mdash; which is also why its day is four days long and
+      the dome underneath it has one of a hundred and seventeen.</p>
+  </div>
+
+  <h2>Oxygen <b>and who gets to name a thing</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">The oxygen for all of this comes out of
+      CO&#8322;, which the planet has in quantities that make the word abundant
+      look shy. That part is settled engineering. What is worth a paragraph is
+      the history of the word.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">Carl Wilhelm Scheele isolated
+      oxygen around 1771 and did not get it into print for years. Joseph
+      Priestley isolated it independently and published in 1774. Antoine
+      Lavoisier, who was neither first to isolate it nor first to publish,
+      worked out what it actually did &mdash; that combustion is combination
+      with this gas rather than the loss of a substance &mdash; and named it.
+      The name stuck. Scheele also discovered chlorine, in 1774, and it was
+      named by somebody else too, decades later.</p>
+    <p style="margin:9px 0 0;font-size:12.5px"><b>Three different acts.</b>
+      Finding a thing, publishing a thing, and explaining a thing are not the
+      same work and they do not have to be done by the same person &mdash; and
+      only one of the three attaches a name. This is not a story about Scheele
+      being robbed: Lavoisier's explanation was the harder and more important
+      piece, and saying otherwise would be its own distortion. It is a story
+      about which act the record keeps.</p>
+    <p class="note">Which is the argument in <a href="theory.md">theory.md</a>
+      arriving from chemistry rather than from myth: the thing gets named after
+      whoever held the countable half, and the split gets re-explained
+      afterwards as merit. Scheele died at forty-three, probably from handling
+      the substances he was first to isolate. He is the patron of every part of
+      this system that works and is not the part anybody names.</p>
+  </div>
+
+  <h2>What you cannot bring <b>a footnote about bleach</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">Sodium hypochlorite is the ordinary
+      answer to keeping a closed habitat clean, and it is the wrong answer here
+      twice over.</p>
+    <p style="margin:9px 0 0;font-size:12.5px"><b>It is mostly water.</b>
+      Household bleach is roughly a tenth NaOCl and the rest solution &mdash; it
+      does not exist as a dry solid you can ship, and it decomposes on standing
+      even when you keep it wet. On a planet where hydrogen is the one scarce
+      element, a disinfectant that is ninety per cent water is a disinfectant
+      made of the most expensive thing available.</p>
+    <p style="margin:9px 0 0;font-size:12.5px"><b>And the outside air is acid.</b>
+      Hypochlorite and acid together release chlorine, which is first-week
+      chemistry and is the reason the two are never stored near each other. The
+      clouds this platform floats in are concentrated sulfuric acid, and the
+      hull is designed on the assumption that some of it gets in. That is an
+      unforced hazard: pick an oxidiser that has no chlorine in it and the whole
+      interaction stops existing.</p>
+    <p class="note"><b>Sodium itself is not the problem.</b> The element is
+      abundant in basalt and Venus has a great deal of basalt, so it is a surface
+      resource rather than an import. It is the compound, and specifically the
+      water it is dissolved in, that does not survive contact with the actual
+      constraints. Which is the same lesson as everything else on this page: on
+      Venus the question is never whether you can make a thing. It is what the
+      thing costs in hydrogen, and whether it can share a hull with acid.</p>
+  </div>
+
+  <h2>What this is not <b>the last honest line</b></h2>
+  <div class="panel">
+    <p style="margin:0;font-size:12.5px">This is not terraforming Venus. It is
+      making 0.005% of it habitable in two layers, and calling that terraforming
+      would be exactly the move the rest of this repository objects to &mdash;
+      taking a real, checkable, modest number and letting it borrow the name of
+      an enormous one. One part in nineteen thousand seven hundred and
+      forty-four.</p>
+    <p style="margin:9px 0 0;font-size:12.5px">The 197 figure is the honest
+      horizon: that is how many of these you would need for one per cent. It is
+      not offered as a discouragement. It is offered because a plan that states
+      its own scale can be believed about everything else, and the forest is
+      real at nine thousand square miles whether or not it is ever nine
+      hundred thousand.</p>
+  </div>
+
+  <p class="note" style="margin-top:22px">Also in this system:
+    <a href="ecosystem.html">the ecosystem</a>, which is what gets sited &middot;
+    <a href="assembly.html">the assembly</a>, which has the same clock problem
+    &middot; <a href="mycelium.html">the fungus</a> &middot;
+    <a href="theory.md">theory.md</a> &middot; <a href="index.html">the yard</a></p>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── THE SCRIPT LAYER
+  Inert. automat.js reads the query string and nothing else, and the query
+  string is the half of a URL CSS cannot see. Open this file plainly and it
+  is the board it always was, deciding everything in the stylesheet. Open
+  it as terraform.html?run and the same board gets a hand on it: tribes on prime
+  cadences pressing the controls forever, with no score and no ending.
+  See automat.html. -->
+<script src="patron.js"></script>
+<script src="automat.js"></script>
+<script src="devmode.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->

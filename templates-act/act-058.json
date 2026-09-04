@@ -1,0 +1,17 @@
+{
+ "id": "act-058",
+ "order": 58,
+ "year": 6,
+ "day": 2081,
+ "parties": [
+  "odysseus",
+  "diomedes"
+ ],
+ "actor": "Odysseus",
+ "with": "Diomedes",
+ "verb": "gave back",
+ "object": "a body for its weight in gold",
+ "place": "on the mound of Aesyetes",
+ "side": "fleet",
+ "text": "Odysseus and Diomedes gave back a body for its weight in gold, on the mound of Aesyetes, in the sixth year."
+}

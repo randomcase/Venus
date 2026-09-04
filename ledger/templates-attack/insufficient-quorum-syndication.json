@@ -1,0 +1,16 @@
+{
+ "id": "insufficient-quorum-syndication",
+ "kind": "attack",
+ "order": 5,
+ "target": "a crossing",
+ "name": "A crossing recorded on one signature",
+ "tactic": "Record a syndication event — a claim that history crossed from another chain — with only one custodian's signature instead of the quorum, hoping it reads as routine bookkeeping rather than the assertion it actually is.",
+ "requires": [],
+ "expect": "rejected",
+ "response": {
+  "pass": "{{ledger}} refused: {{detail}}",
+  "fail": "{{ledger}} accepted a syndication on one signature. This must never happen — recording what another chain contains is exactly as consequential as amending the rules, and is gated the same way."
+ },
+ "text": "A syndication event is quorum-gated like amend and checkpoint, not merely signed like a note, because it changes what this ledger asserts about a chain it cannot itself verify. That assertion should never rest on one custodian's word.",
+ "wovenBy": "ledger.mjs"
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-022",
+ "bench": "fleet",
+ "order": 22,
+ "year": 3,
+ "day": 778,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "read",
+ "object": "the omen of the snake and the sparrows",
+ "place": "before Achilles' tent",
+ "side": "fleet",
+ "text": "Agamemnon read the omen of the snake and the sparrows, before Achilles' tent, in the third year."
+}

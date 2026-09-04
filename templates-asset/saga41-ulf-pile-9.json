@@ -1,0 +1,13 @@
+{
+ "id": "saga41-ulf-pile-9",
+ "kind": "pile",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "name": "a buried hoard for silicate",
+ "holds": 300,
+ "cost": 360,
+ "text": "Holds 300 silicate. What is not piled is not yours by morning.",
+ "wovenBy": "ulf",
+ "saga": 41
+}

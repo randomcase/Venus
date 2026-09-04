@@ -1,0 +1,12 @@
+{
+ "id": "croft-syn-2",
+ "kind": "croft",
+ "syndicate": "syn-2",
+ "tranche": 2,
+ "seat": "the quiet lamp",
+ "period": 3,
+ "yield": 3,
+ "cap": 30,
+ "text": "The croft at the quiet lamp, growing sealing wax for the 2nd syndicate every 3 days.",
+ "wovenBy": "syn-2"
+}

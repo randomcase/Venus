@@ -1,0 +1,9 @@
+{
+ "id": "workshop-bench-solar-day",
+ "kind": "workbench",
+ "room": "workshop",
+ "name": "the venus solar day bench",
+ "text": "A bench for one figure: Venus solar day, 116.75 Earth days give or take 0.01. Wrong if nothing.",
+ "wovenBy": "solar-day",
+ "bay": 9
+}

@@ -1,0 +1,31 @@
+{
+ "id": "p-57",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Ashis Dornor",
+ "syndicate": "syn-19",
+ "tranche": 19,
+ "doors": [
+  172,
+  180
+ ],
+ "house": "the salt stair",
+ "sigil": {
+  "ring": 3,
+  "bars": 2,
+  "chord": 1,
+  "turn": 298
+ },
+ "keeps": "the crossing, and the six months between",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Ge Hong",
+ "readsId": "gehong",
+ "reason": "The Baopuzi contains the earliest known description of smallpox symptoms and practical chemistry alongside the immortality material.",
+ "spell": "Bolt",
+ "spellId": "bolt",
+ "glyph": "⟊",
+ "share": "305b78",
+ "text": "Ashis dornor of the salt stair, carries between for the 19th tranche, doors 172 to 180. Keeps the crossing, and the six months between. Reads Ge Hong.",
+ "wovenBy": "gehong"
+}

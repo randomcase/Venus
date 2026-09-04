@@ -1,0 +1,9 @@
+{
+ "id": "library-chair-acrylic",
+ "kind": "chair",
+ "room": "library",
+ "name": "a reading chair in acrylic",
+ "text": "Upholstered in acrylic, which survives Venus fairly. Decent acid resistance; poor everything else.",
+ "wovenBy": "acrylic",
+ "seat": 1
+}

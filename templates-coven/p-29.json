@@ -1,0 +1,31 @@
+{
+ "id": "p-29",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Dornael Lumeur",
+ "syndicate": "syn-10",
+ "tranche": 10,
+ "doors": [
+  86,
+  95
+ ],
+ "house": "the ninth arch",
+ "sigil": {
+  "ring": 2,
+  "bars": 3,
+  "chord": 4,
+  "turn": 346
+ },
+ "keeps": "the two hashes, and the disagreement between them",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Paracelsus",
+ "readsId": "paracelsus",
+ "reason": "\"The dose makes the poison\" is his, and it is the founding sentence of toxicology.",
+ "spell": "Shut the gate",
+ "spellId": "gate",
+ "glyph": "◫",
+ "share": "23e9b7",
+ "text": "Dornael lumeur of the ninth arch, keeps the book for the 10th tranche, doors 86 to 95. Keeps the two hashes, and the disagreement between them. Reads Paracelsus.",
+ "wovenBy": "paracelsus"
+}

@@ -1,0 +1,16 @@
+{
+ "kind": "fair",
+ "name": "the fair of harvest",
+ "mul": 1.4,
+ "text": "Prosperity ×1.40 for the season.",
+ "id": "t-v-season-06",
+ "wovenBy": "v-season-06",
+ "chain": [
+  "v-season-06",
+  "season-06",
+  "l2-season-3-2",
+  "l3-season-3",
+  "l4-season",
+  "loom.mjs"
+ ]
+}

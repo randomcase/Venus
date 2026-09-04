@@ -1,0 +1,100 @@
+{
+ "id": "b2p2p2b",
+ "order": 2,
+ "subject": "economy",
+ "title": "The b2p2p2b model",
+ "one_line": "Two businesses at the ends, peers in the middle, and one question that decides whether the middle is real.",
+ "needs": [],
+ "sections": [
+  {
+   "heading": "Read the name as a path",
+   "body": [
+    "Business to peer, peer to peer, peer to business. Four positions and three hops. A business issues something to a person; people move it among themselves; a business takes it back.",
+    "Compare it to what it is not. Business to business is one hop and no people. Business to consumer is one hop and no second hop — whatever the consumer has, they have until they consume it. The middle p2p hop is the entire difference, and it is the only hop with no company standing in it."
+   ]
+  },
+  {
+   "heading": "What the middle buys",
+   "body": [
+    "In the middle nobody needs permission. That is not a slogan; it is a structural fact about how many parties can refuse. On a b2b hop either party can refuse and the transaction dies. On a p2p hop between many peers, a refusal by one peer routes around them, because there is more than one peer.",
+    "This is the layer where the guild is a bank to an amateur and a farm to a journeyman: both positions profit and it is stable, but it is stable because the guild is on the path. Move the guild off the middle hop and it stops being able to price the middle."
+   ]
+  },
+  {
+   "heading": "The question that decides it",
+   "body": [
+    "Ask: is there any single party whose removal disconnects the issuer from the redeemer?",
+    "If there is, the middle is not peer to peer. It has a choke point, and whoever sits on it has a discretion, and a discretion is exactly where a syndicate attaches — the same finding the factions layer is built on. The whole model turns on one graph property, and it is a property you can compute rather than argue about."
+   ]
+  },
+  {
+   "heading": "What the routine cannot see",
+   "body": [
+    "Run chokes() on the arrangement below and it comes back empty. Two peers, either one removable, the path survives. By the test you have just written, that is a clean bill.",
+    "Now remove BOTH. The path is cut. There was never a single party who could stop it and there was always a pair who could, and the routine you built cannot see that, because it only ever deletes one thing at a time.",
+    "This is not a bug in the routine, it is the definition of a different object. One party who can stop everything is a monopoly. Two or more who individually cannot and jointly can — and who move together — are a syndicate. Every single-deletion test in existence returns clean on one, which is most of why they are hard to find and all of why they are comfortable to be in.",
+    "And the search does not scale. Four parties give you four things to delete and six pairs. Ten give you ten and forty-five. The number of combinations outruns the number of parties immediately, so nobody checks, so the arrangement that would fail a pair test never gets one.",
+    "Which leaves a second question after the shape, and it is not a graph question: do the members of that pair actually MOVE TOGETHER? A minimal cutting pair who price and refuse independently is thin redundancy, and thin redundancy is fine. The same pair moving in step is the other thing. No member of it has to know."
+   ],
+   "show": {
+    "lang": "js",
+    "code": "const TWO_PEERS = {\n  issuer: ['a', 'b'],\n  a:      ['issuer', 'shop'],\n  b:      ['issuer', 'shop'],\n  shop:   ['a', 'b']\n};\n\nchokes(TWO_PEERS, 'issuer', 'shop')   // []      <- a clean bill\npairs(TWO_PEERS,  'issuer', 'shop')   // [['a','b']]\n\n// neither alone. both together. the routine above only deletes one."
+   }
+  },
+  {
+   "heading": "And the ends",
+   "body": [
+    "The middle can be perfectly peer to peer and the model still fails, because a token nobody will redeem is a token that stops moving. If the redeeming b is a single party, the freedom of the middle is bounded by that party's willingness, and it has simply moved the choke point to the end where it is harder to see.",
+    "So b2p2p2b is decentralised only when the b's are plural. The first b being plural means more than one issuer; the last b being plural means more than one place to spend. Neither is optional, and the check below will find either failure because both are the same graph property."
+   ]
+  }
+ ],
+ "practice": {
+  "form": "code-js",
+  "brief": "Write chokes(graph, from, to) — the sorted list of nodes whose removal disconnects from and to. Then write pairs(graph, from, to): the MINIMAL cutting pairs, which is the thing chokes cannot see. Minimal means neither member is already a choke point on its own. Then type check.",
+  "starter": "/* Given the hop graph, find every party who could stop it alone.\n   Brute force is the right answer here: remove each node, see\n   whether the two ends are still connected. */\n\nfunction reaches(graph, from, to, without) {\n  // breadth first, skipping the removed node\n  return null;   // <- your answer here\n}\n\nfunction chokes(graph, from, to) {\n  // every node that is not an end and whose removal cuts the path\n  return null;   // <- your answer here\n}\n\n/* every pair that cuts, and that no single member of already cuts.\n   This is the one chokes() is blind to. */\nfunction pairs(graph, from, to) {\n  return null;   // <- your answer here\n}\n\n/* the shapes worth trying */\nconst ONE_MIDDLEMAN = { issuer:['g'], g:['issuer','shop'], shop:['g'] };\nconst MANY_PEERS = { issuer:['a','b'], a:['issuer','shop'],\n                     b:['issuer','shop'], shop:['a','b'] };\n/* chokes says MANY_PEERS is clean. pairs does not. */\n",
+  "checks": [
+   {
+    "name": "a single middleman is found",
+    "test": "JSON.stringify(chokes({issuer:['g'],g:['issuer','shop'],shop:['g']},'issuer','shop')) === '[\"g\"]'"
+   },
+   {
+    "name": "two independent peers leave no choke point",
+    "test": "JSON.stringify(chokes({issuer:['a','b'],a:['issuer','shop'],b:['issuer','shop'],shop:['a','b']},'issuer','shop')) === '[]'"
+   },
+   {
+    "name": "a chain of two middlemen names both",
+    "test": "JSON.stringify(chokes({issuer:['g'],g:['issuer','h'],h:['g','shop'],shop:['h']},'issuer','shop')) === '[\"g\",\"h\"]'"
+   },
+   {
+    "name": "the ends are never themselves choke points",
+    "test": "chokes({issuer:['a','b'],a:['issuer','shop'],b:['issuer','shop'],shop:['a','b']},'issuer','shop').every(n => n !== 'issuer' && n !== 'shop')"
+   },
+   {
+    "name": "a peer with no route to the shop is not a choke point either",
+    "test": "JSON.stringify(chokes({issuer:['a','b','c'],a:['issuer','shop'],b:['issuer','shop'],c:['issuer'],shop:['a','b']},'issuer','shop')) === '[]'"
+   },
+   {
+    "name": "reaches can tell connected from disconnected",
+    "test": "reaches({a:['b'],b:['a']},'a','b',null) === true && reaches({a:['b'],b:['a','c'],c:['b']},'a','c','b') === false"
+   },
+   {
+    "name": "the pair that chokes cannot see is found",
+    "test": "JSON.stringify(pairs({issuer:['a','b'],a:['issuer','shop'],b:['issuer','shop'],shop:['a','b']},'issuer','shop')) === '[[\"a\",\"b\"]]'"
+   },
+   {
+    "name": "three independent routes cannot be cut by any pair",
+    "test": "pairs({issuer:['a','b','c'],a:['issuer','shop'],b:['issuer','shop'],c:['issuer','shop'],shop:['a','b','c']},'issuer','shop').length === 0"
+   },
+   {
+    "name": "a pair containing a party that already cuts alone is not minimal",
+    "test": "pairs({issuer:['g'],g:['issuer','a','b'],a:['g','shop'],b:['g','shop'],shop:['a','b']},'issuer','shop').length === 1"
+   },
+   {
+    "name": "and the two answers disagree on the same graph, which is the lesson",
+    "test": "(() => { const G = {issuer:['a','b'],a:['issuer','shop'],b:['issuer','shop'],shop:['a','b']}; return chokes(G,'issuer','shop').length === 0 && pairs(G,'issuer','shop').length === 1; })()"
+   }
+  ]
+ },
+ "ask": "Run both on your own arrangement. chokes tells you who can stop you alone. pairs tells you who could stop you together — and then you have to go and find out whether they do."
+}

@@ -1,0 +1,16 @@
+{
+ "id": "venus-albedo",
+ "order": 6,
+ "quantity": "Bond albedo of Venus",
+ "value": 0.77,
+ "unit": "fraction",
+ "uncertainty": 0.02,
+ "kind": "measured",
+ "method": "Spacecraft radiometry, integrated over the sphere and the spectrum.",
+ "used_for": "The inversion: that Venus absorbs less sunlight than Earth. This single number is what carries that finding.",
+ "boards": [
+  "paper.html",
+  "cistern.html"
+ ],
+ "wrong_if": "It is nearer 0.75 or 0.80, which is within argument. At 0.70 the inversion narrows sharply, and the finding is more sensitive to this figure than to anything else in it."
+}

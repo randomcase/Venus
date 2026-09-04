@@ -1,0 +1,13 @@
+{
+ "id": "saga8191-ingrid-pile-2",
+ "kind": "pile",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "name": "a raft of barrels for record",
+ "holds": 100,
+ "cost": 120,
+ "text": "Holds 100 record. What is not piled is not yours by morning.",
+ "wovenBy": "ingrid",
+ "saga": 8191
+}

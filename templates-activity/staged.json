@@ -1,0 +1,19 @@
+{
+ "id": "staged",
+ "kind": "activity",
+ "label": "Staged",
+ "color": "#e06f5a",
+ "weight": 10,
+ "steal": {
+  "chance": 70,
+  "min": 500,
+  "max": 1500
+ },
+ "lookingInto": [
+  "the ready pile, at capacity and waiting",
+  "a warlock about to travel",
+  "the six-month gate, and how far off it is",
+  "nothing — it is already decided"
+ ],
+ "text": "Signed and staged, waiting on the interval to carry it across. Move first, and it never goes."
+}

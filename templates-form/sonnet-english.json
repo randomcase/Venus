@@ -1,0 +1,22 @@
+{
+ "id": "sonnet-english",
+ "name": "Sonnet, English",
+ "kind": "verse",
+ "order": 9,
+ "lines": 14,
+ "stanzas": [
+  4,
+  4,
+  4,
+  2
+ ],
+ "rhyme": "ababcdcdefefgg",
+ "meter": {
+  "name": "iambic pentameter",
+  "syllables": 10
+ },
+ "turn": 9,
+ "note": "Three quatrains that can each hold a different angle on the same thing, and a couplet that has to pay for all three. The couplet is the danger: it is short enough to be glib and positioned to sound like a verdict.",
+ "ground": "Surrey and Wyatt brought the Italian sonnet into English and found that English does not have enough rhyme-words to run four on one sound. The English form is a workaround for a shortage in the language, and it produced a different instrument: seven rhyme sounds instead of four or five, and a turn that can be delayed to the last two lines.",
+ "ask": "Where is your turn, and did you put it at nine because the form says so?"
+}

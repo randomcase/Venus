@@ -1,0 +1,18 @@
+{
+ "id": "ghazal",
+ "name": "Ghazal",
+ "kind": "verse",
+ "order": 6,
+ "lines": 10,
+ "stanzas": [
+  2,
+  2,
+  2,
+  2,
+  2
+ ],
+ "radif": true,
+ "note": "Independent couplets, each one able to stand alone, held together by a repeated end-word or phrase and the rhyme just before it. There is no narrative continuity and looking for one is the commonest mistake in English ghazals. The unity is sonic, not argumentative.",
+ "ground": "Arabic origin, Persian development, Urdu perfection. Traditionally the poet signs the last couplet with their own name, which is an unusual permission: the form invites you into it by name at the end.",
+ "ask": "Could you reorder your couplets without loss? In this form that is a pass, not a fail."
+}

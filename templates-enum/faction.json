@@ -1,0 +1,45 @@
+{
+ "id": "enum-faction",
+ "kind": "enum",
+ "family": "faction",
+ "path": "templates-enum/faction.json",
+ "note": "The fixed vocabulary of templates-faction/, mined from 5 of its 5 templates by enums.mjs. Kept in templates-enum/, never inside templates-faction/ itself, so nothing that scans templates-faction/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 5,
+ "sampledFiles": 5,
+ "fields": {
+  "stream.cadence": {
+   "type": "string",
+   "distinct": 2,
+   "samples": 5,
+   "values": [
+    "continuous",
+    "every window"
+   ]
+  },
+  "stream.term": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 5,
+   "values": [
+    "perpetual"
+   ]
+  },
+  "ends_when": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 5,
+   "values": [
+    "never"
+   ]
+  },
+  "unconditional": {
+   "type": "boolean",
+   "distinct": 1,
+   "samples": 5,
+   "values": [
+    true
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

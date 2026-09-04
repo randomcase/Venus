@@ -1,0 +1,16 @@
+{
+ "id": "act-032",
+ "order": 32,
+ "year": 4,
+ "day": 1141,
+ "parties": [
+  "nestor"
+ ],
+ "actor": "Nestor",
+ "with": null,
+ "verb": "stripped",
+ "object": "the arms from a body",
+ "place": "at the tomb of Ilus",
+ "side": "fleet",
+ "text": "Nestor stripped the arms from a body, at the tomb of Ilus, in the fourth year."
+}

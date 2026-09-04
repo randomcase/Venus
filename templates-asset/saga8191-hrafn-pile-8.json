@@ -1,0 +1,13 @@
+{
+ "id": "saga8191-hrafn-pile-8",
+ "kind": "pile",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "name": "a stone chest for hydrogen",
+ "holds": 150,
+ "cost": 180,
+ "text": "Holds 150 hydrogen. What is not piled is not yours by morning.",
+ "wovenBy": "hrafn",
+ "saga": 8191
+}

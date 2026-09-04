@@ -1,0 +1,13 @@
+{
+ "id": "regime-2",
+ "kind": "regime",
+ "degree": 2,
+ "tickers": 64,
+ "aFarm": 16,
+ "pxACell": 128,
+ "named": true,
+ "visual": false,
+ "name": "Degree 2, sixty-four.",
+ "text": "The board is a board now; every cell keeps its name.",
+ "wovenBy": "market.mjs"
+}

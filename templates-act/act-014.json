@@ -1,0 +1,17 @@
+{
+ "id": "act-014",
+ "order": 14,
+ "year": 2,
+ "day": 472,
+ "parties": [
+  "agamemnon",
+  "odysseus"
+ ],
+ "actor": "Agamemnon",
+ "with": "Odysseus",
+ "verb": "dragged",
+ "object": "a body three times round the wall",
+ "place": "in the assembly",
+ "side": "fleet",
+ "text": "Agamemnon and Odysseus dragged a body three times round the wall, in the assembly, in the second year."
+}

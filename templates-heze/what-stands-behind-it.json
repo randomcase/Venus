@@ -1,0 +1,31 @@
+{
+ "id": "what-stands-behind-it",
+ "kind": "heze-slide",
+ "order": 3,
+ "kicker": "03 · what stands behind it",
+ "heading": "A costed fleet, not a promise",
+ "lede": "Every hull in the forge is priced from the geometry that was actually drawn: cubic metres of oak, metres of seam to caulk, square metres of cloth, kilos of ironwork, and shipwright hours. Change a strake count and the timber volume changes, so the price changes, because there is more boat.",
+ "table": {
+  "headers": ["Hull", "Displacement", "Build cost"],
+  "rows": [
+   ["Dhow · 18 m", "90 t", "$117,081"],
+   ["Umiak · 9 m", "21 t", "$78,400"],
+   ["Waka · 20 m", "58 t", "$126,812"],
+   ["Longship · 24 m", "91 t", "$162,092"],
+   ["Caravel · 23 m", "162 t", "$194,883"],
+   ["Reed barge · 26 m", "148 t", "$204,600"],
+   ["Junk · 30 m", "333 t", "$286,371"],
+   ["Trireme · 37 m", "195 t", "$286,487"],
+   ["Galleon · 40 m", "937 t", "$477,946"],
+   ["Ironclad · 52 m", "1,993 t", "$3,630,161"]
+  ],
+  "sumRow": ["Fleet of ten", "4,028 t", "$20,387,410"]
+ },
+ "grid": [
+  { "span": "Fleet cost ÷ 21,000,000", "b": "$0.97", "p": "Arithmetic on a costing. It is a ratio between two numbers on this page, not a price, not a valuation, and not a forecast." },
+  { "span": "Rates behind it", "b": "Editable", "sm": true, "p": "Oak $/m³, shipwright $/hr, canvas $/m², yard overhead %. Move any of them and every figure above moves. They are defaults to argue with." }
+ ],
+ "gridCols": 2,
+ "text": "The fleet of ten hulls, costed from real geometry, and the ratio that falls out of dividing that cost by the supply.",
+ "wovenBy": "the bridge"
+}

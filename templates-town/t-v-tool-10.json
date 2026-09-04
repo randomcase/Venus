@@ -1,0 +1,17 @@
+{
+ "kind": "manufactory",
+ "name": "the smith's manufactory of the hoe",
+ "mul": 1.1,
+ "cost": 900,
+ "text": "Dues ×1.10.",
+ "id": "t-v-tool-10",
+ "wovenBy": "v-tool-10",
+ "chain": [
+  "v-tool-10",
+  "tool-10",
+  "l2-tool-2-2",
+  "l3-tool-2",
+  "l4-tool",
+  "loom.mjs"
+ ]
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-038",
+ "bench": "fleet",
+ "order": 38,
+ "year": 4,
+ "day": 1355,
+ "parties": [
+  "patroclus"
+ ],
+ "actor": "Patroclus",
+ "with": null,
+ "verb": "called",
+ "object": "the assembly and named the cause",
+ "place": "by the river",
+ "side": "fleet",
+ "text": "Patroclus called the assembly and named the cause, by the river, in the fourth year."
+}

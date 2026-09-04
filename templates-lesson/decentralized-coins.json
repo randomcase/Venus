@@ -1,0 +1,78 @@
+{
+ "id": "decentralized-coins",
+ "order": 4,
+ "subject": "economy",
+ "title": "Decentralized coins",
+ "one_line": "Not many copies. No reads.",
+ "needs": [
+  "fungibility-tokens"
+ ],
+ "sections": [
+  {
+   "heading": "The usual definitions are all consequences",
+   "body": [
+    "Spread out. Many copies. No company owns it. Those are things people notice about decentralised systems and then mistake for the thing itself. Each of them can be true of a system that is entirely centralised, and a moment's thought produces the example: a thousand mirrors of one authoritative list.",
+    "The property is about READS. A system is decentralised exactly to the extent that no component's behaviour is a function of another component's state."
+   ]
+  },
+  {
+   "heading": "Apply it to a coin",
+   "body": [
+    "A coin is valid or it is not. Ask what you have to read to find out.",
+    "If you have to consult a registry — a list of issued serials, a table of balances held somewhere in particular — then the coin's validity is a function of that registry's state, and it does not matter how many copies of the registry exist or who runs them. You have a read dependency, and whoever can write to what you read decides whether your coin is money.",
+    "If validity is checkable from the coin plus rules you already hold, there is no read. That is the whole distinction, and it is sharp enough to test in code."
+   ]
+  },
+  {
+   "heading": "The uncomfortable part",
+   "body": [
+    "Most things called decentralised coins do have a read. They read a chain. The chain is replicated and expensive to rewrite, which makes the read hard to corrupt — but hard to corrupt is a different property from absent, and conflating them is how a system with one read dependency gets described as having none.",
+    "This is worth being precise about rather than partisan. A replicated read is a genuine engineering achievement. It is not the same as the coin in your hand, which you can verify by looking at it, and which is why cash keeps working when the network does not."
+   ]
+  },
+  {
+   "heading": "What it costs",
+   "body": [
+    "Removing the read costs you double-spend protection, and there is no way around that: if nothing is consulted, nothing knows the coin was already spent. Every real design pays for this somewhere — with a read, with tamper-evident hardware, with an accepted loss rate.",
+    "The point of being able to name the read is not that reads are bad. It is that you should know exactly how many you have and who can write to each one."
+   ]
+  }
+ ],
+ "practice": {
+  "form": "code-js",
+  "brief": "Write validate(coin) so that it is checkable from the coin alone. The checks verify both that it works and that it has no read dependency — one of them reads your own source to prove it never touches the registry. Then type check.",
+  "starter": "/* A registry exists in this file on purpose. Your validate must\n   never touch it — that is the thing being taught, and the check\n   reads your source to prove it. */\nconst REGISTRY = { 'c1': true, 'c2': true };\n\n/* the local rule: a coin carries a value and a check digit, and\n   the digit is the value's digits summed, modulo 9. */\nfunction validate(coin) {\n  return null;   // <- your answer here\n}\n\nconst GOOD = { value: 1234, digit: (1+2+3+4) % 9 };\nconst BAD  = { value: 1234, digit: 7 };\n",
+  "checks": [
+   {
+    "name": "a well formed coin validates",
+    "test": "validate({value:1234, digit:(1+2+3+4)%9}) === true"
+   },
+   {
+    "name": "a coin with the wrong digit does not",
+    "test": "validate({value:1234, digit:7}) === false"
+   },
+   {
+    "name": "it works on a coin the registry has never heard of",
+    "test": "validate({value:900, digit:0}) === true"
+   },
+   {
+    "name": "it takes the coin and nothing else",
+    "test": "validate.length === 1",
+    "constraint": true
+   },
+   {
+    "name": "its source never reads the registry — no read dependency",
+    "test": "!/REGISTRY/.test(validate.toString())",
+    "constraint": true
+   },
+   {
+    "name": "and it is not just returning true",
+    "test": "validate({value:1, digit:5}) === false && validate({value:1, digit:1}) === true"
+   }
+  ],
+  "violators": [
+   "const REGISTRY = { 'c1': true, 'c2': true };\nfunction validate(coin, registry) {\n  if (REGISTRY[coin.id]) return true;\n  const sum = String(coin.value).split('').reduce((a,c)=>a+(+c),0);\n  return coin.digit === sum % 9;\n}\n"
+  ]
+ },
+ "ask": "Count the reads in something you rely on. Then say who can write to each one."
+}

@@ -1,0 +1,11 @@
+{
+ "id": "door-36",
+ "kind": "door",
+ "door": 36,
+ "syndicate": "syn-4",
+ "tranche": 4,
+ "keeper": "p-10",
+ "share": 100000,
+ "text": "Door 36 of 200. Draws on the 4th tranche, kept by Zephen Quillune, signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door 200.",
+ "wovenBy": "syn-4"
+}

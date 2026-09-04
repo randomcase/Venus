@@ -1,0 +1,12 @@
+{
+ "id": "drovers",
+ "kind": "guild",
+ "order": 4,
+ "name": "The drovers",
+ "makes": "stock",
+ "takes": "a bushel of corn and its stalks",
+ "gives": "a week of a beast's feed",
+ "feeds": "the farm's byres and beasts",
+ "text": "Corn into fodder into stock. Stalks, husks and the poor ears go to the byres; the byres give back milk, hide, manure for the fields, and the plough beast.",
+ "wovenBy": "the corn"
+}

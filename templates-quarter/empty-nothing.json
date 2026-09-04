@@ -1,0 +1,8 @@
+{
+ "id": "empty-nothing",
+ "kind": "nothing",
+ "room": "empty",
+ "name": "nothing",
+ "text": "This room has no furniture, and this file exists so that the absence is on the record as a decision rather than an oversight.",
+ "wovenBy": "the bridge"
+}

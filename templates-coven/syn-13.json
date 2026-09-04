@@ -1,0 +1,22 @@
+{
+ "id": "syn-13",
+ "kind": "syndicate",
+ "tranche": 13,
+ "holds": 1000000,
+ "doors": [
+  115,
+  123
+ ],
+ "doorCount": 9,
+ "custodians": [
+  "p-37",
+  "p-38",
+  "p-39"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 13th syndicate",
+ "seat": "the fourth watch",
+ "text": "Holds one tranche of a million against doors 115 to 123. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "p-8",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Jossith Yarra",
+ "syndicate": "syn-3",
+ "tranche": 3,
+ "doors": [
+  20,
+  28
+ ],
+ "house": "the turned key",
+ "sigil": {
+  "ring": 1,
+  "bars": 4,
+  "chord": 2,
+  "turn": 328
+ },
+ "keeps": "the two hashes, and the disagreement between them",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Roger Bacon",
+ "readsId": "bacon",
+ "reason": "Argued for experiment and mathematics against argument from authority.",
+ "spell": "Summon",
+ "spellId": "summon",
+ "glyph": "☾",
+ "share": "6ed843",
+ "text": "Jossith yarra of the turned key, keeps the book for the 3rd tranche, doors 20 to 28. Keeps the two hashes, and the disagreement between them. Reads Roger Bacon.",
+ "wovenBy": "bacon"
+}

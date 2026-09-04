@@ -1,0 +1,17 @@
+{
+ "kind": "tenement",
+ "name": "the tenement on flat sand field of 3",
+ "rent": 8,
+ "cost": 2400,
+ "text": "Rent of 8 HEZE a day from 4 of yield that used to be free.",
+ "id": "t-v-field-09",
+ "wovenBy": "v-field-09",
+ "chain": [
+  "v-field-09",
+  "field-09",
+  "l2-field-2-1",
+  "l3-field-2",
+  "l4-field",
+  "loom.mjs"
+ ]
+}

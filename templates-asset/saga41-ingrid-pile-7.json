@@ -1,0 +1,13 @@
+{
+ "id": "saga41-ingrid-pile-7",
+ "kind": "pile",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "name": "a stone chest for record",
+ "holds": 950,
+ "cost": 1140,
+ "text": "Holds 950 record. What is not piled is not yours by morning.",
+ "wovenBy": "ingrid",
+ "saga": 41
+}

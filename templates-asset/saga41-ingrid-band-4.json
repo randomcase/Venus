@@ -1,0 +1,16 @@
+{
+ "id": "saga41-ingrid-band-4",
+ "kind": "band",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "resource": "record",
+ "period": 13,
+ "name": "sworn men of Ingridsdottir",
+ "strength": 7,
+ "raids": true,
+ "cost": 907,
+ "upkeep": 2,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 7; eats 2 record a day.",
+ "wovenBy": "ingrid",
+ "saga": 41
+}

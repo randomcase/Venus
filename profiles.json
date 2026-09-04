@@ -1,0 +1,638 @@
+{
+  "manifest": "venus.yard/profiles/1",
+  "$note": "The source of truth for every requirement. profiles.mjs reads this and writes profiles/. Edit here, never there. Numbers carry their units and their provenance; anything unverified says so in `status` and the generator counts it.",
+  "status_key": {
+    "solid": "school-level physics or chemistry, not in doubt",
+    "measured": "a real measurement from a real system, cited on its page",
+    "derived": "computed here from solid inputs; the arithmetic is checkable",
+    "unvalidated": "correct in kind, never demonstrated at this scale",
+    "unknown": "we do not have this and are not pretending to",
+    "endowment_note": "a class, not a status: something the place has that cannot be shipped, bought or manufactured"
+  },
+  "profiles": [
+    {
+      "id": "hydrogen",
+      "name": "Hydrogen",
+      "class": "consumable",
+      "one_line": "The only scarce element on Venus, and the constraint everything else is measured against.",
+      "status": "solid",
+      "figures": [
+        [
+          "atmospheric water vapour",
+          "20–30 ppm",
+          "Venus is bone dry"
+        ],
+        [
+          "H in sulfuric acid",
+          "2.06% by mass",
+          "against water's 11.19%"
+        ],
+        [
+          "cloud droplet loading",
+          "~50 mg/m³",
+          "order of magnitude"
+        ],
+        [
+          "cloud swept per kg of water",
+          "~136,000 m³",
+          "derived from the two above"
+        ],
+        [
+          "D/H ratio vs Earth",
+          "~100×",
+          "the fingerprint of an ocean that escaped"
+        ]
+      ],
+      "depends_on": [],
+      "provides": [
+        "water",
+        "biology"
+      ],
+      "open_question": "Is atmospheric extraction ever cheaper than shipping it? Nobody has costed sweeping cloud at industrial scale, and the answer decides whether the colony is self-sufficient or permanently supplied.",
+      "pages": [
+        "terraform.html",
+        "water.html"
+      ]
+    },
+    {
+      "id": "gravity",
+      "name": "Gravity",
+      "class": "endowment",
+      "one_line": "The one thing Venus has that cannot be shipped, cornered or manufactured — and the reason it beats Mars and the Moon outright.",
+      "status": "solid",
+      "figures": [
+        [
+          "surface gravity",
+          "8.87 m/s²",
+          "90.4% of Earth's 9.81"
+        ],
+        [
+          "Mars, for comparison",
+          "3.72 m/s²",
+          "38%"
+        ],
+        [
+          "the Moon",
+          "1.62 m/s²",
+          "17%"
+        ],
+        [
+          "what it costs to install",
+          "nothing, and it cannot be",
+          "it is the place, not a system in it"
+        ],
+        [
+          "what it prevents",
+          "decades of bone and muscle loss",
+          "the whole category Mars and the Moon cannot solve"
+        ]
+      ],
+      "depends_on": [],
+      "provides": [
+        "site",
+        "waterway",
+        "habitat"
+      ],
+      "open_question": "None physical, and one economic. Gas on Venus is a commodity — CO₂ and N₂ are unlimited, fungible and worth nothing per unit, and nobody can corner them. Gravity is the opposite: not transferable, not storable, not tradeable, and therefore not a commodity at all. It is a premium attached to a location, which means it cannot be de-fungibilised because it was never fungible, and cannot be speculated on because it cannot change hands. The only way to hold it is to be standing there.",
+      "pages": [
+        "terraform.html",
+        "water.html",
+        "theory.md"
+      ]
+    },
+    {
+      "id": "power",
+      "name": "Power",
+      "class": "service",
+      "one_line": "Solar, and there is a great deal of it — the one input that is not a problem.",
+      "status": "solid",
+      "figures": [
+        [
+          "solar constant at Venus",
+          "2,601 W/m²",
+          "1.91× Earth's 1,361"
+        ],
+        [
+          "Bond albedo",
+          "0.77",
+          "the platform sits near the top of the reflector"
+        ],
+        [
+          "lit from",
+          "above and below",
+          "cloud deck reflects upward too"
+        ]
+      ],
+      "depends_on": [
+        "envelope"
+      ],
+      "provides": [
+        "separation",
+        "cooling",
+        "station_keeping",
+        "lift_shaft"
+      ],
+      "open_question": "The four-day day means four-day nights. Storage sized for 48 hours of darkness is a different problem from Earth's twelve.",
+      "pages": [
+        "terraform.html"
+      ]
+    },
+    {
+      "id": "envelope",
+      "name": "The envelope",
+      "class": "structure",
+      "one_line": "A bag of breathable air floating in CO₂ — the habitat volume and the buoyancy are the same cubic metres, bought once.",
+      "status": "derived",
+      "figures": [
+        [
+          "net lift at 50 km",
+          "0.53 kg/m³",
+          "1.067 inside against 1.594 outside"
+        ],
+        [
+          "envelope for 23,310 km² at 5 kg/m²",
+          "2.2 × 10¹¹ m³",
+          "≈ 9 m mean depth over the footprint"
+        ],
+        [
+          "outer layer",
+          "PTFE / fluoropolymer",
+          "immune to concentrated sulfuric acid"
+        ],
+        [
+          "structural layer",
+          "Vectran / carbon fibre",
+          "flown on Mars airbags"
+        ],
+        [
+          "pressure differential across skin",
+          "~0",
+          "which is the entire safety case"
+        ]
+      ],
+      "depends_on": [],
+      "provides": [
+        "habitat",
+        "lift",
+        "power"
+      ],
+      "open_question": "Nobody has made a fluoropolymer membrane at square-kilometre scale, and the seam count is the number that decides the leak rate.",
+      "pages": [
+        "terraform.html"
+      ]
+    },
+    {
+      "id": "site",
+      "name": "The site",
+      "class": "decision",
+      "one_line": "55 km, not 50 — chosen by the dissolved oxygen budget of the water rather than by the pressure.",
+      "status": "derived",
+      "figures": [
+        [
+          "altitude",
+          "55 km",
+          "0.53 bar, 27 °C"
+        ],
+        [
+          "dissolved oxygen there",
+          "7.9 mg/L",
+          "healthy for anything"
+        ],
+        [
+          "at 50 km instead",
+          "2.6 mg/L at 75 °C",
+          "hypoxic"
+        ],
+        [
+          "1.00 bar is at",
+          "49.5 km",
+          "where it is 82 °C — you cannot have both"
+        ],
+        [
+          "gravity",
+          "90.4% of Earth's",
+          "8.87 against 9.81 m/s²"
+        ]
+      ],
+      "depends_on": [
+        "envelope",
+        "gravity"
+      ],
+      "provides": [
+        "waterway",
+        "habitat"
+      ],
+      "open_question": "0.53 bar is a workable habitat pressure but it is not sea level. Long-term physiology at half an atmosphere with normal partial-pressure oxygen is thinly studied.",
+      "pages": [
+        "water.html",
+        "terraform.html"
+      ]
+    },
+    {
+      "id": "waterway",
+      "name": "The waterway",
+      "class": "process",
+      "one_line": "A closed loop that has to go anoxic in one specific place or it poisons itself with its own cleaning.",
+      "status": "unvalidated",
+      "figures": [
+        [
+          "stages",
+          "6",
+          "condense, riffle, pool, bed, anoxic pocket, siphon"
+        ],
+        [
+          "nitrification",
+          "aerobic",
+          "ammonia → nitrite → nitrate"
+        ],
+        [
+          "denitrification",
+          "anaerobic",
+          "nitrate → N₂, and it must not share water with the above"
+        ],
+        [
+          "siphon",
+          "no pump",
+          "a height difference and 0.9 g"
+        ],
+        [
+          "largest prior attempt",
+          "Biosphere 2, 3.14 acres",
+          "and its oxygen fell"
+        ]
+      ],
+      "depends_on": [
+        "hydrogen",
+        "site",
+        "floor",
+        "gravity"
+      ],
+      "provides": [
+        "biology",
+        "habitat"
+      ],
+      "open_question": "Correct in kind, unvalidated in size. Nobody has run a closed water loop at 23,310 km² and every number that would follow from the stages at scale is deliberately not printed.",
+      "pages": [
+        "water.html"
+      ]
+    },
+    {
+      "id": "floor",
+      "name": "The floor",
+      "class": "structure",
+      "one_line": "Soil, litter and burial — the half that decides whether there is a forest in fifty years, and the half that ate Biosphere 2's oxygen.",
+      "status": "measured",
+      "figures": [
+        [
+          "Biosphere 2 O₂",
+          "20.9% → 14.2% in 16 months",
+          "soil respiration outpaced photosynthesis"
+        ],
+        [
+          "cause, second half",
+          "curing concrete absorbed the CO₂",
+          "so the carbon never came back round"
+        ],
+        [
+          "surface conditions",
+          "475 °C, 92 bar",
+          "equivalent to ~910 m of Earth ocean"
+        ],
+        [
+          "also serves as",
+          "the waterway's filter",
+          "the bed is the same structure"
+        ]
+      ],
+      "depends_on": [
+        "dome",
+        "biology"
+      ],
+      "provides": [
+        "waterway",
+        "soil",
+        "burial"
+      ],
+      "open_question": "The floor is metabolically active and it eats. Sizing photosynthesis against soil respiration is the calculation Biosphere 2 got wrong, and getting it right requires knowing the soil's respiration rate before you install it.",
+      "pages": [
+        "water.html",
+        "mycelium.html",
+        "ecosystem.html"
+      ]
+    },
+    {
+      "id": "dome",
+      "name": "The surface dome",
+      "class": "structure",
+      "one_line": "Actively cooled, pressure-rated, acid-proof and heavy — the cheap layer biologically is the ruinous one structurally.",
+      "status": "unvalidated",
+      "figures": [
+        [
+          "external pressure",
+          "92 bar",
+          "≈ 910 m of Earth ocean"
+        ],
+        [
+          "external temperature",
+          "475 °C",
+          "above the melting point of lead"
+        ],
+        [
+          "atmosphere",
+          "96.5% CO₂",
+          "supercritical at the surface"
+        ],
+        [
+          "longest surface mission to date",
+          "Venera 13, 127 minutes",
+          "in 1982"
+        ]
+      ],
+      "depends_on": [
+        "power",
+        "lift_shaft"
+      ],
+      "provides": [
+        "floor"
+      ],
+      "open_question": "The longest anything has survived down there is a little over two hours. Everything about a permanent structure is extrapolation from that.",
+      "pages": [
+        "terraform.html"
+      ]
+    },
+    {
+      "id": "lift_shaft",
+      "name": "The lift",
+      "class": "service",
+      "one_line": "Fifty-five kilometres of tether between the canopy and the floor. Strength was never the problem; heat is, and heat is gradable.",
+      "status": "derived",
+      "figures": [
+        [
+          "length",
+          "55 km",
+          "canopy to surface"
+        ],
+        [
+          "breaking length, Zylon at Venus g",
+          "419 km",
+          "55 km is a safety factor of 7.6"
+        ],
+        [
+          "breaking length, basalt fibre",
+          "146 km",
+          "factor of 2.7, and it takes 700 °C"
+        ],
+        [
+          "breaking length, steel",
+          "29 km",
+          "the one material that cannot do it"
+        ],
+        [
+          "cable mass for a 2 t car at 4×",
+          "~1,050 kg",
+          "Zylon, untapered first-order"
+        ],
+        [
+          "surface atmospheric density",
+          "~65 kg/m³",
+          "a 2 t car floats on it in 31 m³"
+        ],
+        [
+          "longest surface survival to date",
+          "127 minutes",
+          "Venera 13, 1982"
+        ]
+      ],
+      "depends_on": [
+        "power",
+        "envelope"
+      ],
+      "provides": [
+        "dome",
+        "floor"
+      ],
+      "open_question": "Not strength and not buoyancy. Time at depth. The record for anything surviving down there is a little over two hours, set in 1982, and every figure above is the easy half of a problem whose hard half is a cooling system that runs for years against a 475 °C sink. The tether is derived. The car is not.",
+      "pages": [
+        "terraform.html",
+        "ships/charon.html"
+      ]
+    },
+    {
+      "id": "atmosphere",
+      "name": "The atmosphere",
+      "class": "consumable",
+      "one_line": "Breathable air, which on Venus is also the lifting gas — one purchase, two jobs.",
+      "status": "solid",
+      "figures": [
+        [
+          "source of oxygen",
+          "CO₂, 96.5% of the outside air",
+          "effectively unlimited"
+        ],
+        [
+          "source of nitrogen",
+          "3.5% of a 92-bar atmosphere",
+          "more N₂ than Earth has"
+        ],
+        [
+          "Sabatier / Bosch",
+          "spend hydrogen",
+          "they move C and O; they do not make H"
+        ],
+        [
+          "leak behaviour",
+          "hours to days",
+          "no pressure differential across the skin"
+        ]
+      ],
+      "depends_on": [
+        "power",
+        "envelope"
+      ],
+      "provides": [
+        "habitat",
+        "lift"
+      ],
+      "open_question": "Oxygen partial pressure at 0.53 bar total means a richer mix, and a richer mix in a fluoropolymer envelope is a fire question nobody has answered at this scale.",
+      "pages": [
+        "terraform.html"
+      ]
+    },
+    {
+      "id": "station_keeping",
+      "name": "Station keeping",
+      "class": "service",
+      "one_line": "Formation flying, not anchoring — nothing at 55 km holds a position over the ground.",
+      "status": "unvalidated",
+      "figures": [
+        [
+          "super-rotation",
+          "~100 m/s",
+          "the band laps the planet in ~4 days"
+        ],
+        [
+          "9,000 sq mi platform",
+          "153 km across",
+          "passes a point below in 25 minutes"
+        ],
+        [
+          "90,000 sq mi",
+          "483 km",
+          "80 minutes"
+        ],
+        [
+          "9,000,000 sq mi",
+          "4,828 km",
+          "12.7% of the circumference, 13 hours"
+        ]
+      ],
+      "depends_on": [
+        "power",
+        "envelope"
+      ],
+      "provides": [
+        "habitat"
+      ],
+      "open_question": "Thousands of linked aerostats holding formation in a shear layer, for decades. The failure mode is not one module falling; it is the whole raft slowly tearing.",
+      "pages": [
+        "terraform.html"
+      ]
+    },
+    {
+      "id": "clock",
+      "name": "The clocks",
+      "class": "process",
+      "one_line": "Two of them, differing by twenty-nine — and the reason is altitude rather than politics.",
+      "status": "solid",
+      "figures": [
+        [
+          "surface solar day",
+          "116.75 Earth days",
+          "sunrise to sunrise on the ground"
+        ],
+        [
+          "the band's day",
+          "~4 Earth days",
+          "carried by the super-rotation"
+        ],
+        [
+          "ratio",
+          "29×",
+          ""
+        ],
+        [
+          "the shared reference",
+          "583.92 days",
+          "the synodic period, which nobody owns"
+        ],
+        [
+          "the resonance",
+          "5 synodic : 13 Venus years : 8 Earth years",
+          "all within 2 days of 2,920"
+        ]
+      ],
+      "depends_on": [],
+      "provides": [
+        "relay",
+        "schedule"
+      ],
+      "open_question": "None outstanding. This one is settled, and it is the only requirement on the list that is.",
+      "pages": [
+        "assembly.html",
+        "terraform.html",
+        "pulse.html"
+      ]
+    },
+    {
+      "id": "relay",
+      "name": "The relay",
+      "class": "service",
+      "one_line": "Venus is not a haul, it is a node — information commutes and atoms visit.",
+      "status": "solid",
+      "figures": [
+        [
+          "light, closest",
+          "2.2 min each way",
+          "39.5 million km"
+        ],
+        [
+          "light, now (Aug 2026)",
+          "~4.8 min",
+          "86.4 million km"
+        ],
+        [
+          "light, farthest",
+          "14.3 min",
+          "258 million km"
+        ],
+        [
+          "mass",
+          "4–6 months",
+          "Hohmann transfer ~146 days"
+        ],
+        [
+          "ratio, mass to light",
+          "~45,000 : 1",
+          "on the identical route"
+        ]
+      ],
+      "depends_on": [
+        "power",
+        "clock"
+      ],
+      "provides": [
+        "supply"
+      ],
+      "open_question": "None physical. The design question is what you agree to decide locally, given that any question you send home is answered nine minutes and a decision-cycle later.",
+      "pages": [
+        "assembly.html",
+        "terraform.html"
+      ]
+    },
+    {
+      "id": "biology",
+      "name": "The ecosystem",
+      "class": "process",
+      "one_line": "Twelve orders, twenty-one capabilities, and every capability a conjunction of the ones it needs.",
+      "status": "unvalidated",
+      "figures": [
+        [
+          "orders",
+          "12",
+          "fireflies through geckos"
+        ],
+        [
+          "capabilities",
+          "21",
+          "each a conjunction, none stored"
+        ],
+        [
+          "fungible within an order",
+          "yes",
+          "a bee is a bee"
+        ],
+        [
+          "substitutable between orders",
+          "no",
+          "no number of bees is a beetle"
+        ]
+      ],
+      "depends_on": [
+        "waterway",
+        "floor",
+        "atmosphere",
+        "site"
+      ],
+      "provides": [
+        "floor",
+        "food",
+        "air"
+      ],
+      "open_question": "Everything. The ecosystem page is a dependency graph, not a demonstration, and no closed ecology has ever run for more than two years at three acres.",
+      "pages": [
+        "ecosystem.html",
+        "mycelium.html"
+      ]
+    }
+  ]
+}

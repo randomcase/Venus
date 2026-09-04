@@ -1,0 +1,304 @@
+{
+ "id": "air",
+ "kind": "war-room",
+ "order": 6,
+ "respondsTo": "vietnam",
+ "name": "Bomb warfare",
+ "also": "the air war over Indochina, 1964–1973: the heaviest aerial bombardment in history, examined campaign by campaign",
+ "theatre": "North Vietnam, South Vietnam, Laos, Cambodia; the bases in Thailand and Guam; the carriers at Yankee Station",
+ "from": "1964-08-05",
+ "to": "1973-08-15",
+ "sides": [
+  {
+   "side": "United States and allies",
+   "who": "USAF (Seventh Air Force, SAC), US Navy (Task Force 77), US Marine air, VNAF, RAAF Canberras",
+   "backed": "Thailand’s bases, Guam, Okinawa, the Philippines"
+  },
+  {
+   "side": "North Vietnam",
+   "who": "Air Defence Force: SA-2 regiments, MiG-17/19/21 regiments, some 8,000 anti-aircraft guns; Chinese anti-aircraft troops 1965–69; Soviet crews and advisers",
+   "backed": "USSR (SAMs, MiGs, radar), China (guns, troops, rail repair)"
+  }
+ ],
+ "chain": [
+  {
+   "who": "Strategic bombing",
+   "role": "role 1 of 3",
+   "from": 1965,
+   "to": 1972,
+   "did": "Fixed targets deep in enemy territory — power, ports, rail, POL, factories — to destroy capacity and will. Rolling Thunder tried it on an agrarian country that imported its weapons; Linebacker II tried it for eleven days on the two cities and got a signature."
+  },
+  {
+   "who": "Interdiction bombing",
+   "role": "role 2 of 3",
+   "from": 1964,
+   "to": 1973,
+   "did": "Moving targets and routes — the Trail, bridges, trucks, the passes. Barrel Roll and Steel Tiger in Laos, Commando Hunt from 1968, Menu in Cambodia. The largest share of the tonnage and the least effect per ton: trucks were hidden, roads repaired overnight, bridges built under water."
+  },
+  {
+   "who": "Tactical bombing, close air support",
+   "role": "role 3 of 3",
+   "from": 1965,
+   "to": 1973,
+   "did": "Onto the battlefield, for the ground troops: forward air controllers, F-4s and A-1s, the B-52 Arc Light strikes around Khe Sanh and An Loc. The role that worked, at the price of most of the civilian dead in the South."
+  },
+  {
+   "who": "Lyndon B. Johnson",
+   "role": "target selection, Tuesday lunches",
+   "from": 1965,
+   "to": 1968,
+   "did": "Chose Rolling Thunder targets personally with Rusk and McNamara; kept Hanoi, Haiphong and the Chinese buffer off-limits to avoid a wider war; halted it in October 1968."
+  },
+  {
+   "who": "Richard Nixon",
+   "role": "the unrestricted campaigns",
+   "from": 1969,
+   "to": 1973,
+   "did": "Menu in secret; Linebacker I and the mining in May 1972; Linebacker II at Christmas; then Cambodia alone until Congress stopped it on 15 August 1973."
+  }
+ ],
+ "phases": [
+  {
+   "from": 1964,
+   "to": 1965,
+   "name": "Reprisal",
+   "text": "Pierce Arrow after Tonkin (5 Aug 1964); Flaming Dart after Pleiku (Feb 1965); Barrel Roll over Laos begins in December 1964, and never gets a name in public."
+  },
+  {
+   "from": 1965,
+   "to": 1968,
+   "name": "Rolling Thunder",
+   "text": "Sustained, graduated, politically restricted; 864,000 tons on the North; 922 aircraft lost; the North’s air defence grew under it from nothing to the densest in the world. Halted 31 October 1968 with nothing to show but the talks."
+  },
+  {
+   "from": 1968,
+   "to": 1972,
+   "name": "The Trail and Cambodia",
+   "text": "Commando Hunt on the Trail — sensors, gunships, and about 3 million tons on Laos in all; Menu on the Cambodian sanctuaries, 3,875 secret sorties, then Freedom Deal; the interdiction never cut the flow below what Hanoi needed."
+  },
+  {
+   "from": 1972,
+   "to": 1973,
+   "name": "Linebacker",
+   "text": "Linebacker I (May–Oct 1972) with laser-guided bombs and the mined harbour, against a conventional offensive it could actually hit; Linebacker II (18–29 Dec), 741 B-52 sorties, 15 B-52s lost, about 1,600 dead in Hanoi and Haiphong, and the Accords signed four weeks later. Then Cambodia until the law ran out."
+  }
+ ],
+ "gauge": {
+  "unit": "US bomb tonnage on Indochina, by year, thousands of tons (approximate)",
+  "series": [
+   [
+    1965,
+    315
+   ],
+   [
+    1966,
+    512
+   ],
+   [
+    1967,
+    932
+   ],
+   [
+    1968,
+    1431
+   ],
+   [
+    1969,
+    1388
+   ],
+   [
+    1970,
+    977
+   ],
+   [
+    1971,
+    763
+   ],
+   [
+    1972,
+    1110
+   ],
+   [
+    1973,
+    400
+   ]
+  ]
+ },
+ "prediction": {
+  "ending": "1973-08-15",
+  "endingName": "Last US bombs, Cambodia",
+  "unit": "tonnage per year, thousands, fitted from the 1968 peak through 1971 (the withdrawal slope), Linebacker excluded",
+  "series": [
+   [
+    "1968-07-01",
+    1431
+   ],
+   [
+    "1969-07-01",
+    1388
+   ],
+   [
+    "1970-07-01",
+    977
+   ],
+   [
+    "1971-07-01",
+    763
+   ]
+  ],
+  "fitFrom": "1968-07-01",
+  "marks": [
+   [
+    "1965-03-02",
+    "Rolling Thunder begins"
+   ],
+   [
+    "1968-10-31",
+    "bombing of the North halted"
+   ],
+   [
+    "1969-03-18",
+    "Menu, in secret"
+   ],
+   [
+    "1972-05-10",
+    "Linebacker I; Haiphong mined"
+   ],
+   [
+    "1972-12-18",
+    "Linebacker II"
+   ],
+   [
+    "1973-01-27",
+    "Paris Accords"
+   ],
+   [
+    "1973-08-15",
+    "Case–Church: the last bomb"
+   ]
+  ],
+  "note": "Fitted to the drawdown from the 1968 peak, the line reaches zero in the middle of 1974. The ending came a year earlier because Congress wrote a date. The line also cannot see 1972, when the tonnage went back up by a third for one year to get a signature: bomb warfare in this war was not a curve, it was a lever pulled twice."
+ },
+ "cost": [
+  {
+   "k": "Tonnage, all Indochina 1964–1973",
+   "v": "about 7.6 million tons; WWII, all sides, all theatres, about 2.1 million — more than triple"
+  },
+  {
+   "k": "On Laos",
+   "v": "about 2 million tons in 580,000 sorties, a planeload every eight minutes for nine years; the most bombed country per head in history"
+  },
+  {
+   "k": "On Cambodia",
+   "v": "about 500,000 tons, most after the ceasefire in Vietnam"
+  },
+  {
+   "k": "On the North (Rolling Thunder)",
+   "v": "864,000 tons; an estimated 52,000–182,000 civilian dead over the war’s bombing of the North"
+  },
+  {
+   "k": "US aircraft lost",
+   "v": "about 3,700 fixed-wing and 5,600 helicopters, all causes; 31 B-52s; 922 in Rolling Thunder alone"
+  },
+  {
+   "k": "Aircrew",
+   "v": "about 2,600 airmen killed; 591 POWs returned in Homecoming (Feb–Apr 1973), most of them aircrew shot down over the North"
+  },
+  {
+   "k": "North Vietnamese air defence",
+   "v": "about 5,800 SA-2s fired for some 200 kills; 8,000 guns; MiGs claimed about 130 US aircraft and lost about 190"
+  },
+  {
+   "k": "Unexploded ordnance",
+   "v": "about 30% of cluster submunitions failed to explode; some 80 million left in Laos; 20,000 Lao killed or injured since 1975; 100,000 Vietnamese casualties from UXO since the war, still counting"
+  },
+  {
+   "k": "Napalm and Agent Orange",
+   "v": "388,000 tons of napalm; 19 million gallons of herbicide over 4.5 million acres; the numbers that are not bombs but are counted with them"
+  }
+ ],
+ "outcome": "A strategic failure by its own measures: the North did not surrender, did not stop supporting the South’s insurgency, and never lost the Trail. Two things worked — close air support for troops in contact, and eleven days over Hanoi to move a signature that had been agreed in October anyway. Everything in between fell on peasants, trucks and jungle, and on Laos.",
+ "open": [
+  "Whether Linebacker II changed Hanoi’s terms at all, or only Saigon’s willingness to sign; the January text is almost the October text.",
+  "Whether an unrestricted campaign in 1965 — the Chiefs’ ninety-four targets in sixteen days — would have worked or brought China in; nobody knows, and the restraint was the point.",
+  "Why interdiction was kept up for eight years after its own analysts (the Jason group, 1966–67) reported it could not cut the flow."
+ ],
+ "sources": [
+  "Mark Clodfelter, The Limits of Air Power (1989)",
+  "Earl Tilford, Setup: What the Air Force Did in Vietnam and Why (1991)",
+  "Wayne Thompson, To Hanoi and Back (2000)",
+  "Ben Kiernan and Taylor Owen, Bombs over Cambodia (2006), the THOR database",
+  "Legacies of War; Mines Advisory Group; Vietnam National Mine Action Centre — UXO figures",
+  "US Air Force Historical Research Agency, sortie and tonnage tables; Pentagon Papers, vol. IV, Rolling Thunder"
+ ],
+ "text": "Bomb warfare in Vietnam, examined by role — strategic, interdiction, tactical — and by campaign, with the tonnage by year, the losses on both sides, the ordnance still in the ground, and a fitted line that shows the bombing was a lever, not a curve.",
+ "wovenBy": "the bridge",
+ "stations": [
+  {
+   "where": "Yankee Station",
+   "what": "carrier station, Gulf of Tonkin, off the northeast coast",
+   "who": "Task Force 77: two to four carriers on rotation — Enterprise, Constellation, Oriskany, Coral Sea, Kitty Hawk, Midway among them",
+   "did": "The Navy half of Rolling Thunder and Linebacker, and the Trail; the carriers cycled to Subic Bay and Yokosuka and back for years"
+  },
+  {
+   "where": "Dixie Station",
+   "what": "carrier station, South China Sea, off Cam Ranh Bay, 1965–1966",
+   "who": "one carrier",
+   "did": "Close air support inside South Vietnam until enough land bases were built to take it over"
+  },
+  {
+   "where": "The gunline",
+   "what": "the coastal strip off South Vietnam and the DMZ",
+   "who": "cruisers and destroyers; the battleship New Jersey for six months in 1968–69",
+   "did": "Naval gunfire on inland targets on call; Sea Dragon raids north of the DMZ"
+  },
+  {
+   "where": "Da Nang",
+   "what": "air base, northern South Vietnam, near the DMZ",
+   "who": "Marine and Air Force fighter squadrons, F-4s and A-4s; the Helgoland hospital ship offshore",
+   "did": "One of the busiest airfields in the world; the first Marines landed to guard it in March 1965"
+  },
+  {
+   "where": "Tan Son Nhut",
+   "what": "air base, Saigon",
+   "who": "Seventh Air Force headquarters; MACV next door; VNAF",
+   "did": "The headquarters of the air war and the last runway out; rockets on 29 April 1975 ended fixed-wing evacuation"
+  },
+  {
+   "where": "Bien Hoa, Cam Ranh Bay, Phu Cat, Phan Rang, Tuy Hoa, Nha Trang, Pleiku",
+   "what": "air bases, South Vietnam",
+   "who": "attack squadrons, C-130 and C-123 transports, the Ranch Hand defoliant flights from Bien Hoa",
+   "did": "Tactical support and the airlift; the bases were rocketed often, which is why the bombers were in Thailand"
+  },
+  {
+   "where": "U-Tapao",
+   "what": "Royal Thai Navy airfield, Sattahip",
+   "who": "B-52s and KC-135 tankers from 1967",
+   "did": "Arc Light and Linebacker II without the twelve-hour round trip from Guam"
+  },
+  {
+   "where": "Korat, Takhli",
+   "what": "Royal Thai Air Force bases",
+   "who": "F-105 Thunderchief wings; the Wild Weasels",
+   "did": "The Rolling Thunder strikes into the Red River delta; the F-105 lost about 40% of its production run over the North"
+  },
+  {
+   "where": "Udorn, Ubon, Nakhon Phanom",
+   "what": "Royal Thai Air Force bases",
+   "who": "F-4s, reconnaissance, gunships; the Igloo White sensor centre at Nakhon Phanom",
+   "did": "The Trail campaign was flown and computed from here; Udorn was also Air America and the Laos war"
+  },
+  {
+   "where": "Andersen",
+   "what": "air base, Guam",
+   "who": "up to 150 B-52s in 1972",
+   "did": "Arc Light from 1965 at twelve hours a round trip; half of Linebacker II"
+  },
+  {
+   "where": "Kadena, Clark, Subic Bay, Yokosuka",
+   "what": "Okinawa, the Philippines, Japan",
+   "who": "tankers, repair, the fleet",
+   "did": "The rear that made the front possible; none of it in a country at war"
+  }
+ ]
+}

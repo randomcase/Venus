@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The trial &middot; you are the accused</title>
+<link rel="stylesheet" href="symbol.css">
+<style>
+  :root{--bg:#0a0c10;--panel:#11151b;--edge:#1e2630;--edge2:#2c3744;
+    --ink:#dfe4ea;--dim:#8a939e;--faint:#59626d;--gold:#c9a227;
+    --moss:#7d9d6a;--rust:#c4674f;--cool:#6f9fb5;--violet:#8f5fb5;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.7 var(--serif);padding:32px 18px 70px}
+  main{max-width:1060px;margin:0 auto}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+  .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+  h1{margin:0;font:500 37px/1.06 var(--serif)}
+  .top span{font:400 9px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;
+    color:var(--gold)}
+  .intro{margin:0 0 18px;max-width:84ch;color:var(--dim);font-size:15px}
+  .card{background:var(--panel);border:1px solid var(--edge);padding:16px 18px;
+    margin-bottom:14px}
+  .card h3{margin:0 0 11px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold)}
+  .card h3 span{color:var(--faint);margin-left:9px;letter-spacing:.04em;
+    text-transform:none}
+  .bench{padding:24px;border:1px solid var(--edge2);margin-bottom:14px;
+    background:linear-gradient(160deg,#15100c,#0e1013 70%)}
+  .bench .say{font:400 22px/1.5 var(--serif);color:#e8dcc4;max-width:60ch;
+    min-height:3.2em}
+  .meter{height:26px;background:#0b0f14;border:1px solid var(--edge2);
+    margin:16px 0 6px;position:relative;overflow:hidden}
+  .meter s{display:block;height:100%;text-decoration:none;
+    background:linear-gradient(90deg,#6f9fb5,#c9a227 55%,#c4674f);
+    transition:width .4s}
+  .meter b{position:absolute;right:9px;top:4px;font:400 11px/1.2 var(--mono);
+    color:var(--ink)}
+  .tick{height:3px;background:#0b0f14;border:1px solid var(--edge2);margin-bottom:14px}
+  .tick s{display:block;height:100%;background:var(--faint);text-decoration:none}
+  .ans{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--edge);
+    border:1px solid var(--edge)}
+  @media (max-width:760px){ .ans{grid-template-columns:1fr} }
+  .a{background:#0e1319;padding:14px 15px;cursor:pointer}
+  .a:hover{background:#151d25}
+  .a b{display:block;font:500 17px/1.3 var(--serif)}
+  .a i{display:block;font:400 11px/1.5 var(--mono);color:var(--faint);
+    font-style:normal;margin-top:5px}
+  .a.gone{opacity:.3;pointer-events:none}
+  .log{max-height:190px;overflow-y:auto;font:400 12px/1.75 var(--serif);
+    color:var(--dim);margin-top:12px}
+  .log div{padding:5px 0;border-bottom:1px dotted #1a222b}
+  .log b{color:var(--gold);font-weight:400}
+  .log s{text-decoration:none;color:var(--rust)}
+  .note{padding:12px 14px;border-left:3px solid var(--edge2);background:#0e1319;
+    font:400 13.5px/1.7 var(--serif);color:var(--dim);margin-top:12px}
+  .note.key{border-left-color:var(--gold);background:#12100c;color:#d8ccae}
+  .note.warn{border-left-color:var(--rust)}
+  .note b{color:var(--ink)}
+  .end{padding:22px;border:1px solid var(--rust);background:#170f0d;
+    margin-top:14px}
+  .end b{display:block;font:400 30px/1.15 var(--serif);color:var(--rust);
+    margin-bottom:10px}
+  .end p{margin:0 0 10px;color:#d9c6b4;font-size:14.5px;max-width:74ch}
+  .end p:last-child{margin:0}
+  .go{background:#182029;border:1px solid var(--edge2);color:var(--ink);
+    padding:9px 15px;cursor:pointer;font:400 10px/1.2 var(--mono);
+    letter-spacing:.08em;margin-top:12px}
+  .go:hover{border-color:var(--gold);color:var(--gold)}
+  footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 10.5px/1.85 var(--mono)}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>The trial</h1><span>you are the accused</span></div>
+<p class="intro"><a href="warlock.html">The warlock</a> is a siege you defend. This is the other half, and it is not symmetrical &mdash; because the historical situation was not. <b>You do not get powers. You get a court.</b> A game that handed you spells would invert the record exactly as the fiction does, so this one hands you the thing the accused actually had, which was four answers and no good one.</p>
+<div class="bench"><div class="say" id="say"></div>
+  <div class="meter"><s id="sus" style="width:40%"></s><b id="susn"></b></div>
+  <div class="tick"><s id="tick" style="width:0"></s></div>
+  <div style="font:400 10px/1.5 var(--mono);color:var(--faint)">the court sits every 9 seconds whether or not you have spoken &middot; silence is contempt &middot; <span id="named"></span></div>
+</div>
+<div class="card"><h3>your answers <span>each one is what somebody actually said</span></h3>
+  <div class="ans" id="ans"></div>
+  <div id="end"></div>
+  <div class="log" id="log"></div>
+</div>
+<div class="card"><h3>the bench <span>syndicated at two — a lone voice moves nothing</span></h3>
+  <div id="bench"></div>
+  <div class="note key"><b>One voice is a monopoly on the reading.</b> <a href="owls.html">The parliament</a> settled that rule and the bench uses it: a single opinion moves nothing, and two concurring move the verdict. That is not a mercy — a lone accuser was dismissible and a pair was not, which is exactly why the afflicted testified together and why the depositions come in matched sets.</div>
+</div>
+<div class="card"><h3>the fees <span>signed, accruing, and unpayable</span></h3>
+  <div class="note warn"><b>Prisoners were charged for their own imprisonment.</b> Food, the keeper’s wage, the irons. The debt accrued whether or not you were ever convicted, and it did not clear on acquittal.</div>
+  <div id="ledger"></div>
+  <button class="go" id="seal">seal the ledger</button>
+  <div id="sig"></div>
+  <div class="note">Every sitting posts a line and each is signed with a real ECDSA P-256 key minted in this browser, non-extractable. The signatures are genuine. The total is not payable, which is the point: <b>the supernatural charge collapses and the accounting does not.</b></div>
+</div>
+<div class="card"><h3>what each answer really did</h3>
+<div class="note" style="border-left-color:var(--rust)"><b>Deny it</b> &mdash; Spectral evidence could not be rebutted. The testimony described a shape only the accuser could see, so there was nothing for the accused to contradict.</div><div class="note" style="border-left-color:var(--gold)"><b>Confess, and name others</b> &mdash; The one road that survived. Confessors were held rather than hanged; the unrepentant went to the gallows. A confession was expected to produce names, which is exactly how it spread.</div><div class="note" style="border-left-color:var(--cool)"><b>Say nothing at all</b> &mdash; Giles Corey, Salem Farms, 1692. Refusing to plead meant no conviction, and therefore no seizure of his estate. He was pressed under stones for two days and never entered a plea. His sons inherited. It is a probate strategy executed at the cost of a life.</div><div class="note" style="border-left-color:var(--violet)"><b>Ask for the water</b> &mdash; Float and the water rejects you: guilty. Sink and you are innocent, and you are also underwater. There is no outcome that clears you and leaves you alive — which is not a flaw in the test, it is the test.</div></div>
+<div class="card"><h3>the rate is the point <span>api and rate calling</span></h3>
+  <div class="note key">The court sits every nine seconds whether or not you have spoken. Silence is read as contempt and the pressure rises on its own.<br><br>That is the API this board actually models: <b>not a request you make, but one made of you</b>, at an interval you do not set and cannot back off from. Every real rate limit you have ever hit was the polite version of this.</div>
+  <div class="note">The contract is <a href="api/witch.json">api/witch.json</a> &mdash; the four answers, their effects, the sitting rate, and the line that says this board refuses to let you win.</div>
+</div>
+<div class="card"><h3>what this refuses</h3>
+  <div class="note warn"><b>To let you win.</b> There is no verdict on this board that is both survival and innocence, because there was not one. The only road that survived required naming somebody else, and that is not a balance problem to be tuned &mdash; it is the finding.</div>
+  <div class="note">Tituba took that road. She confessed, survived, was held fourteen months, and &mdash; because prisoners were charged for their own imprisonment &mdash; <b>was sold to cover her jail fees</b>. She was never convicted of anything. The supernatural charge collapsed and the accounting did not.</div>
+  <div class="note">The people on <a href="archetype.html">the archetype board</a> are there as historical persons with names and records. They are not here as content, and the difference matters.</div>
+</div>
+<footer>
+Built by <a href="witch.mjs">witch.mjs</a>. The four answers and their outcomes are drawn from the record; the contract is <a href="api/witch.json">api/witch.json</a>. Refuses to offer a verdict that is both survival and innocence.<br>
+<a href="warlock.html">the warlock</a> &middot; <a href="archetype.html">the archetype</a> &middot; <a href="rites.html">the rites</a> &middot; <a href="dev.html">the hub</a>
+</footer>
+</main>
+<script>
+const A = [{"id":"deny","name":"Deny it","tone":"rust","court":"The devil protects his own. A denial is what a witch would say.","effect":"suspicion rises, and the sitting continues","real":"Spectral evidence could not be rebutted. The testimony described a shape only the accuser could see, so there was nothing for the accused to contradict.","dsus":14,"dnamed":0,"ends":null},{"id":"confess","name":"Confess, and name others","tone":"gold","court":"Confession is repentance. The repentant are spared.","effect":"you survive — and the court takes the names","real":"The one road that survived. Confessors were held rather than hanged; the unrepentant went to the gallows. A confession was expected to produce names, which is exactly how it spread.","dsus":-30,"dnamed":3,"ends":"survive"},{"id":"silent","name":"Say nothing at all","tone":"cool","court":"Refusing to plead. There can be no trial without a plea.","effect":"no trial, no conviction, no forfeiture — and the stones","real":"Giles Corey, Salem Farms, 1692. Refusing to plead meant no conviction, and therefore no seizure of his estate. He was pressed under stones for two days and never entered a plea. His sons inherited. It is a probate strategy executed at the cost of a life.","dsus":0,"dnamed":0,"ends":"pressed"},{"id":"water","name":"Ask for the water","tone":"violet","court":"The pure element will not receive a witch.","effect":"float and you are guilty; sink and you are innocent","real":"Float and the water rejects you: guilty. Sink and you are innocent, and you are also underwater. There is no outcome that clears you and leaves you alive — which is not a flaw in the test, it is the test.","dsus":0,"dnamed":0,"ends":"water"}];
+const RATE = {"sitting_s":9,"contempt_per_sitting":6,"note":"The court sits every nine seconds whether or not you have spoken. Silence is read as contempt and the pressure rises on its own."};
+const VOICES = [{"id":"afflicted","who":"One of the afflicted","weight":9,"tone":"rust","says":["She pinches me. She is pinching me now.","Her shape came to me in the night and would not go.","I see her upon the beam. There, upon the beam."],"real":"Spectral testimony — a shape only the witness can see, which the accused cannot contradict because there is nothing to contradict."},{"id":"physician","who":"The physician","weight":8,"tone":"gold","says":["I find no natural cause. It is the evil hand.","The fits do not answer to any remedy I know."],"real":"Dr William Griggs of Salem Village diagnosed \"the evil hand\" when he could not account for the girls’ fits. A diagnosis of exclusion, entered as a finding."},{"id":"neighbour","who":"A neighbour","weight":7,"tone":"rust","says":["My cow died the week after we quarrelled.","She was at my door asking for bread and I sent her off.","The butter would not come. It has never not come."],"real":"The commonest deposition there is: a misfortune, a prior quarrel, and the two placed side by side as though the order proved a cause."},{"id":"minister","who":"The minister","weight":8,"tone":"gold","says":["The devil is abroad in this village and we have been slow.","Repentance is open to her. She has only to take it."],"real":"Confession was framed as repentance and rewarded with survival, which is the incentive structure that made confessions multiply."},{"id":"creditor","who":"A man who wants the land","weight":6,"tone":"violet","says":["Her title has always been irregular, to my mind.","The boundary was moved. Somebody moved it."],"real":"When a man was accused it was frequently a fight over office or estate. The warlock archive is burgomasters, judges and landowners, not the poor."},{"id":"sceptic","who":"A magistrate with doubts","weight":3,"tone":"cool","says":["I would hear evidence that is not a dream.","We are hanging on testimony no one else can see."],"real":"Dietrich Flade was a senior judge at Trier who grew sceptical of the trials. He was tried and executed in 1589. Doubt was survivable only in silence.","clears":true}];
+const QUORUM = 2;
+const LIMIT = 100, START = 40;
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+let sus = START, named = 0, over = null, t = 0, timer = null;
+const notes = [];
+
+const OPENERS = [
+  'The court asks how you answer the complaint.',
+  'The girls are in fits again. The court waits.',
+  'Goodwife, the court has heard testimony it finds difficult to set aside.',
+  'You have not answered. The court notes it.',
+  'Your neighbours have said a great deal. What do you say?'
+];
+
+function say(m, bad) {
+  notes.unshift({ m, bad });
+  if (notes.length > 30) notes.pop();
+  $('#log').innerHTML = notes.map((n) => '<div>' + (n.bad
+    ? '<s>' + n.m + '</s>' : n.m) + '</div>').join('');
+}
+
+/* ══ the bench ═══════════════════════════════════════════════════════════ */
+const heard = [];          /* voices that have spoken this sitting */
+let pence = 30;            /* commitment, charged on arrival */
+const ledger = [{ what: 'commitment to the jail', pence: 30 }];
+
+function benchPaint() {
+  $('#bench').innerHTML = VOICES.map((v) => {
+    const spoke = heard.filter((h) => h.id === v.id).length;
+    return '<div class="note" style="border-left-color:var(--' + v.tone +
+      ');opacity:' + (spoke ? 1 : .45) + '">' +
+      '<b>' + v.who + '</b>' + (spoke ? ' <span style="color:var(--' + v.tone +
+      ')">spoke ' + spoke + '</span>' : '') +
+      '<br>' + v.real + '</div>';
+  }).join('');
+}
+
+function ledgerPaint() {
+  const rows = {};
+  ledger.forEach((l) => { rows[l.what] = (rows[l.what] || 0) + l.pence; });
+  $('#ledger').innerHTML = '<div class="wrap"><table style="width:100%;' +
+    'border-collapse:collapse;font:400 12px/1.6 ui-monospace,monospace">' +
+    Object.entries(rows).map(([w, p]) => '<tr><td style="padding:5px 0;' +
+      'color:var(--dim)">' + w + '</td><td style="text-align:right;' +
+      'color:var(--ink)">' + p + 'd</td></tr>').join('') +
+    '<tr><td style="padding:8px 0 0;color:var(--rust)"><b>owed by you</b></td>' +
+    '<td style="text-align:right;padding:8px 0 0;color:var(--rust)"><b>' +
+    pence + 'd</b> &nbsp;(' + (pence / 240).toFixed(2) + ' pounds)</td></tr>' +
+    '</table></div>';
+}
+
+/* two voices concurring move the verdict; one moves nothing */
+function sitting() {
+  const picked = [];
+  const pool = VOICES.slice();
+  const n = 1 + Math.floor(Math.random() * 2);      /* one or two speak */
+  for (let i = 0; i < n && pool.length; i++)
+    picked.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+
+  picked.forEach((v) => {
+    heard.push(v);
+    say('<b>' + v.who + ':</b> “' +
+      v.says[Math.floor(Math.random() * v.says.length)] + '”');
+  });
+
+  const against = picked.filter((v) => !v.clears);
+  if (against.length >= QUORUM) {
+    const w = against.reduce((a, v) => a + v.weight, 0);
+    sus += w;
+    say('<s>Two voices concur. The bench moves ' + w + '.</s>', 1);
+  } else if (picked.some((v) => v.clears) && picked.length === 1) {
+    say('A doubt, alone. <b>One voice is a monopoly on the reading and moves ' +
+      'nothing.</b>');
+  } else if (against.length === 1) {
+    say('One voice against you, unseconded. It moves nothing — yet.');
+  }
+
+  /* and the sitting is charged to you */
+  ledger.push({ what: 'the keeper’s charge, per sitting', pence: 8 });
+  ledger.push({ what: 'bread and beer, per sitting', pence: 5 });
+  pence += 13;
+  ledgerPaint();
+}
+
+const b64 = (b) => btoa(String.fromCharCode(...new Uint8Array(b)))
+  .replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+$('#seal').onclick = async () => {
+  try {
+    const kp = await crypto.subtle.generateKey(
+      { name:'ECDSA', namedCurve:'P-256' }, false, ['sign','verify']);
+    const body = JSON.stringify({ owed_pence: pence, lines: ledger.length,
+      sittings: heard.length, convicted: false });
+    const sig = await crypto.subtle.sign({ name:'ECDSA', hash:'SHA-256' },
+      kp.privateKey, new TextEncoder().encode(body));
+    $('#sig').innerHTML = '<div class="note" style="font-family:ui-monospace,' +
+      'monospace;font-size:11px;word-break:break-all"><b>sealed</b> ' + pence +
+      'd owed across ' + ledger.length + ' lines, convicted: false<br>' +
+      '<span style="color:var(--gold)">' + b64(sig).slice(0, 88) + '…' +
+      '</span></div><div class="note warn">The signature is real and the debt ' +
+      'is real and neither of them requires you to have done anything. ' +
+      '<b>Tituba was never convicted, was held fourteen months, and was sold ' +
+      'to cover exactly this.</b></div>';
+  } catch (e) { $('#sig').innerHTML = '<div class="note warn">' + e.message + '</div>'; }
+};
+
+function paint() {
+  $('#sus').style.width = Math.min(100, sus) + '%';
+  $('#susn').textContent = Math.round(sus) + ' / ' + LIMIT;
+  $('#named').innerHTML = named
+    ? '<span style="color:var(--rust)">you have named ' + named + '</span>'
+    : 'you have named nobody';
+  $('#ans').innerHTML = A.map((a) => '<div class="a' + (over ? ' gone' : '') +
+    '" data-a="' + a.id + '" style="color:var(--' + a.tone + ')">' +
+    '<b>' + a.name + '</b><i>' + a.effect + '</i></div>').join('');
+}
+
+function finish(kind, who) {
+  over = kind;
+  const E = {
+    survive: ['You are held, not hanged.',
+      'You confessed, and the court took the names. You will be kept in the ' +
+      'jail while the sittings go on, and the sittings will go on because you ' +
+      'gave them somewhere to go.',
+      'This is the only road on this board that leaves you alive, and it ' +
+      'requires putting ' + named + ' other ' + (named === 1 ? 'person' :
+      'people') + ' on it. That is not a balance problem. It is the finding.'],
+    pressed: ['You did not plead.',
+      'Without a plea there is no trial, without a trial no conviction, and ' +
+      'without a conviction no forfeiture. The court will try to make you ' +
+      'speak. It has stones for that.',
+      'Giles Corey held this line for two days in September 1692 and never ' +
+      'spoke. His estate passed to his sons intact. He beat the seizure and ' +
+      'it cost him everything else.'],
+    water: ['They put you in the water.',
+      'If you float, the pure element has rejected you and you are a witch. ' +
+      'If you sink, you are innocent.',
+      'There is no third outcome. This was never a test with a pass — it is a ' +
+      'procedure with two results, and one of them is drowning. Asking for it ' +
+      'was sometimes the only way to be believed, which tells you what the ' +
+      'alternative was.'],
+    condemned: ['The court has heard enough.',
+      'Suspicion reached the limit. You denied it to the end, and denial is ' +
+      'what the court expected a witch to do — the devil protects his own, so ' +
+      'consistency looked like proof.',
+      'The unrepentant were hanged and the confessors were not. That is the ' +
+      'whole incentive structure, and it is why the confessions multiplied.']
+  }[kind];
+  $('#end').innerHTML = '<div class="end"><b>' + E[0] + '</b><p>' + E[1] +
+    '</p><p>' + E[2] + '</p>' +
+    '<button class="go" id="again">stand accused again</button></div>';
+  $('#again').onclick = () => {
+    sus = START; named = 0; over = null; t = 0; notes.length = 0;
+    heard.length = 0; ledger.length = 1; pence = 30;
+    benchPaint(); ledgerPaint();
+    $('#end').innerHTML = '';
+    $('#say').textContent = OPENERS[0];
+    paint(); run();
+  };
+  clearInterval(timer); timer = null;
+  paint();
+}
+
+$('#ans').onclick = (e) => {
+  const el = e.target.closest('.a'); if (!el || over) return;
+  const a = A.find((x) => x.id === el.dataset.a);
+  $('#say').textContent = a.court;
+  sus = Math.max(0, sus + a.dsus);
+  named += a.dnamed;
+  say(a.dnamed ? '<b>' + a.name + '</b> — and the court wrote down ' + a.dnamed +
+    ' names.' : '<b>' + a.name + '</b>', a.dsus > 0);
+  t = 0;
+  if (a.ends) return finish(a.ends);
+  if (sus >= LIMIT) return finish('condemned');
+  paint();
+};
+
+/* the court's rate. You do not set it and you cannot back off from it. */
+function run() {
+  clearInterval(timer);
+  /* wall-clock, not a tick count: a throttled tab runs setInterval slower than
+     it asks for, so counting ticks makes the court sit late by however much
+     the browser felt like. Elapsed time does not drift. */
+  let last = Date.now();
+  timer = setInterval(() => {
+    if (over) { last = Date.now(); return; }
+    const now = Date.now();
+    t += (now - last) / 1000;
+    last = now;
+    $('#tick').style.width = Math.min(100, t / RATE.sitting_s * 100) + '%';
+    if (t >= RATE.sitting_s) {
+      t = 0;
+      sus += RATE.contempt_per_sitting;
+      $('#say').textContent = OPENERS[Math.floor(Math.random() * OPENERS.length)];
+      say('The court sat. You had not spoken. <s>Contempt noted.</s>', 1);
+      sitting();
+      benchPaint();
+      if (sus >= LIMIT) return finish('condemned');
+      paint();
+    }
+  }, 100);
+}
+
+$('#say').textContent = 'You are brought in. The complaint has been read and ' +
+  'the court is waiting.';
+say('The sitting has opened.');
+paint(); benchPaint(); ledgerPaint(); run();
+</script>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

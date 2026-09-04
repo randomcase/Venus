@@ -1,0 +1,14 @@
+{
+ "id": "l3-season-2",
+ "depth": 3,
+ "wovenBy": "l4-season",
+ "kind": "season",
+ "name": "The season pattern 2: deep winter",
+ "fixed": {
+  "turn": "deep winter"
+ },
+ "open": [
+  "length"
+ ],
+ "weaves": 2
+}

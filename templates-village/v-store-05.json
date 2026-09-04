@@ -1,0 +1,16 @@
+{
+ "kind": "hall",
+ "name": "the hall over a loft",
+ "houses": 4,
+ "cost": 2000,
+ "text": "Rooms over a loft: 4 households.",
+ "id": "v-store-05",
+ "wovenBy": "store-05",
+ "chain": [
+  "store-05",
+  "l2-store-3-1",
+  "l3-store-3",
+  "l4-store",
+  "loom.mjs"
+ ]
+}

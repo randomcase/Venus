@@ -1,0 +1,59 @@
+{
+ "id": "krak",
+ "order": 4,
+ "name": "Krak des Chevaliers",
+ "era": "1142 to 1271",
+ "kind": "concentric",
+ "ground": "A spur in the Homs Gap, the one pass between the coast and the interior. The site is the whole strategy: hold this and you hold the road, and there is no second road.",
+ "motte": null,
+ "keep": {
+  "name": "The inner keep",
+  "diameter": 0,
+  "height": 27,
+  "shape": "block",
+  "note": "Not a lone tower. The whole inner ring is the keep."
+ },
+ "wards": [
+  {
+   "id": "outer",
+   "name": "Outer enceinte",
+   "w": 200,
+   "d": 140,
+   "wall": 9,
+   "note": "A complete ring. Taking it gains you a corridor and nothing else."
+  },
+  {
+   "id": "inner",
+   "name": "Inner enceinte",
+   "w": 140,
+   "d": 100,
+   "wall": 25,
+   "note": "A second complete ring, higher, so the outer wall is overlooked from inside and an attacker who takes it is standing in a trap."
+  }
+ ],
+ "towers": 17,
+ "axis": {
+  "name": "The bent entry",
+  "length_m": 137,
+  "note": "A hundred and thirty-seven metres of covered ramp that turns back on itself, so a ram can never build up a run at anything."
+ },
+ "figures": [
+  {
+   "what": "garrison",
+   "value": "about 2,000, which is why it could hold"
+  },
+  {
+   "what": "the talus",
+   "value": "a sloping stone skirt, so a mined wall collapses outward and buries the miners"
+  },
+  {
+   "what": "taken by assault",
+   "value": "never, in 129 years"
+  },
+  {
+   "what": "how it fell",
+   "value": "1271, to a forged letter ordering surrender"
+  }
+ ],
+ "lesson": "The best-defended building of its century was never breached and was lost anyway, to a piece of paper. Concentric rings solve the problem of force completely and do nothing at all about the problem of authority — the garrison obeyed an order because orders were obeyed. Every choke point in a command tree has this exact shape: it is not the wall that fails."
+}

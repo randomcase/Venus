@@ -1,0 +1,16 @@
+{
+ "id": "act-088",
+ "order": 88,
+ "year": 9,
+ "day": 3160,
+ "parties": [
+  "deiphobus"
+ ],
+ "actor": "Deiphobus",
+ "with": null,
+ "verb": "counted",
+ "object": "the ships by contingent",
+ "place": "under the wall",
+ "side": "troy",
+ "text": "Deiphobus counted the ships by contingent, under the wall, in the ninth year."
+}

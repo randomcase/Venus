@@ -1,0 +1,14 @@
+{
+ "id": "l3-store-2",
+ "depth": 3,
+ "wovenBy": "l4-store",
+ "kind": "store",
+ "name": "The store pattern 2: a rick",
+ "fixed": {
+  "roof": "a rick"
+ },
+ "open": [
+  "holds"
+ ],
+ "weaves": 2
+}

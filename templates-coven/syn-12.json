@@ -1,0 +1,22 @@
+{
+ "id": "syn-12",
+ "kind": "syndicate",
+ "tranche": 12,
+ "holds": 1000000,
+ "doors": [
+  105,
+  114
+ ],
+ "doorCount": 10,
+ "custodians": [
+  "p-34",
+  "p-35",
+  "p-36"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 12th syndicate",
+ "seat": "the open ledger",
+ "text": "Holds one tranche of a million against doors 105 to 114. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

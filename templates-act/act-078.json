@@ -1,0 +1,16 @@
+{
+ "id": "act-078",
+ "order": 78,
+ "year": 8,
+ "day": 2778,
+ "parties": [
+  "paris"
+ ],
+ "actor": "Paris",
+ "with": null,
+ "verb": "ransomed",
+ "object": "a son from the ships",
+ "place": "under the wall",
+ "side": "troy",
+ "text": "Paris ransomed a son from the ships, under the wall, in the eighth year."
+}

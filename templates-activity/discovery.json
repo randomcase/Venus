@@ -1,0 +1,21 @@
+{
+ "id": "discovery",
+ "kind": "activity",
+ "label": "Discovery",
+ "color": "#e0a13f",
+ "weight": 20,
+ "steal": {
+  "chance": 15,
+  "min": 300,
+  "max": 900
+ },
+ "lookingInto": [
+  "a discrepancy between two tallies",
+  "why the last checkpoint hash did not match on the first try",
+  "a carry the warlock swears he made",
+  "a door that signed twice in one day",
+  "a share that does not reconcile",
+  "a proposal nobody remembers writing"
+ ],
+ "text": "Auditing something that does not add up. Alert, and a bad time to be noticed near a door."
+}

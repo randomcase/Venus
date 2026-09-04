@@ -1,0 +1,17 @@
+{
+ "id": "act-059",
+ "bench": "fleet",
+ "order": 59,
+ "year": 6,
+ "day": 2091,
+ "parties": [
+  "neoptolemus"
+ ],
+ "actor": "Neoptolemus",
+ "with": null,
+ "verb": "held",
+ "object": "the ships against the fire",
+ "place": "at the wall round the camp",
+ "side": "fleet",
+ "text": "Neoptolemus held the ships against the fire, at the wall round the camp, in the sixth year."
+}

@@ -1,0 +1,16 @@
+{
+ "id": "act-073",
+ "order": 73,
+ "year": 8,
+ "day": 2615,
+ "parties": [
+  "hector"
+ ],
+ "actor": "Hector",
+ "with": null,
+ "verb": "held",
+ "object": "the gate against the fleet",
+ "place": "at the fig tree",
+ "side": "troy",
+ "text": "Hector held the gate against the fleet, at the fig tree, in the eighth year."
+}

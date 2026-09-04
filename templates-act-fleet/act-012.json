@@ -1,0 +1,17 @@
+{
+ "id": "act-012",
+ "bench": "fleet",
+ "order": 12,
+ "year": 2,
+ "day": 415,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "built",
+ "object": "the Horse",
+ "place": "on the beach at dawn",
+ "side": "fleet",
+ "text": "Achilles built the Horse, on the beach at dawn, in the second year."
+}

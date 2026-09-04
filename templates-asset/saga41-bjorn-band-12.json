@@ -1,0 +1,16 @@
+{
+ "id": "saga41-bjorn-band-12",
+ "kind": "band",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "name": "sworn men of Bjornsdottir",
+ "strength": 8,
+ "raids": true,
+ "cost": 747,
+ "upkeep": 2,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 8; eats 2 nitrogen a day.",
+ "wovenBy": "bjorn",
+ "saga": 41
+}

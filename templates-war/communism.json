@@ -1,0 +1,57 @@
+{
+ "id": "communism",
+ "kind": "after",
+ "order": 5,
+ "name": "Communism, after Saigon",
+ "also": "what happened after the war; where the idea went next; what became of every nation that defended Saigon and withdrew",
+ "premise": "Full stop on Saigon. The rooms end there. This page begins there: the Americans left, every nation that had contributed to the funded war effort in the defence of Saigon withdrew with them, and then communism — the thing the whole manner of resistance had been built to contain — went on, both in Vietnam and in the world, until it did not.",
+ "vietnam": [
+  ["1975-05", "Re-education: about 200,000–300,000 former ARVN officers, officials and professionals sent to camps; some for months, some for seventeen years."],
+  ["1975-12", "Laos: the monarchy abolished; the Pathet Lao take the state without a battle. The Hmong who fought for the CIA are hunted for a decade."],
+  ["1976-07", "Reunification: the Socialist Republic of Vietnam; Saigon renamed; collectivisation in the South begins and fails."],
+  ["1975-04 to 1979-01", "Cambodia: the Khmer Rouge empty the cities on the first day and kill 1.5–2 million of 8 million in four years."],
+  ["1978-12", "Vietnam invades Cambodia and ends the Khmer Rouge in two weeks; the world, including the United States and China, keeps recognising the Khmer Rouge at the UN until 1991."],
+  ["1979-02", "China invades Vietnam to punish it for Cambodia; a month, tens of thousands dead on each side; two communist states at war, which the domino theory had not allowed for."],
+  ["1975–1995", "The boat people: about 800,000 reach other shores; perhaps 200,000–400,000 do not. The Orderly Departure Program from 1979; the refugees resettle in the United States, Australia, Canada, France."],
+  ["1986-12", "Doi Moi, renovation: the party keeps the state and gives up the economy. Vietnam becomes a market with a politburo."],
+  ["1994-02", "The US embargo lifted; 1995-07, diplomatic relations; 2000, Clinton in Hanoi; 2016, the arms embargo lifted; 2023, a comprehensive strategic partnership. Vietnam is now, by treaty, a partner of the nation it defeated, against the neighbour that armed it."],
+  ["still", "The party rules. The camps are closed. The Wall in Washington has 58,000 names and Vietnam has no wall, and the toll on its side is still a range, not a number."]
+ ],
+ "contributors": [
+  { "nation": "United States", "withdrew": "1973-03-29; the last helicopter 1975-04-30", "after": "The draft ended; the War Powers Resolution; the Weinberger–Powell doctrine; the “Vietnam syndrome” declared over in 1991 and not over. Normalised relations 1995." },
+  { "nation": "South Korea", "withdrew": "1973-03", "after": "Came home to a dictatorship it had fought for abroad; democracy in 1987; the Korean veterans’ Agent Orange claims recognised in the 1990s; now the largest foreign investor in Vietnam." },
+  { "nation": "Australia", "withdrew": "1972-12 (Whitlam’s first act)", "after": "Ended conscription the same week; recognised Hanoi in 1973; took 200,000 Vietnamese refugees over the next decades, the beginning of the end of White Australia." },
+  { "nation": "New Zealand", "withdrew": "1972-12", "after": "The veterans got an apology from Parliament in 2008 for how they were received." },
+  { "nation": "Thailand", "withdrew": "1972-02; US bases closed 1976", "after": "Held the line the dominoes were supposed to cross: a communist insurgency in the northeast peaked in the late 1970s and was amnestied away by 1983; took in a million refugees from three countries." },
+  { "nation": "Philippines", "withdrew": "1969-12", "after": "Marcos’s martial law in 1972; the New People’s Army, a communist insurgency, still in the field fifty years later." },
+  { "nation": "Taiwan", "withdrew": "1975", "after": "Lost the American recognition to Beijing in 1979, four years after Saigon." },
+  { "nation": "Cambodia and Laos", "withdrew": "did not; were taken", "after": "The two dominoes that fell. Cambodia’s fall killed a quarter of its people; Laos is still a one-party state." },
+  { "nation": "France", "withdrew": "1956", "after": "Kept its embassy in Hanoi throughout, and its schools in Saigon to the end." }
+ ],
+ "spread": {
+  "unit": "States governed by a communist party, by year (approximate)",
+  "series": [[1917, 1], [1945, 3], [1950, 12], [1960, 14], [1975, 19], [1980, 25], [1985, 25], [1989, 20], [1991, 5], [2026, 5]]
+ },
+ "next": [
+  ["1974-09", "Ethiopia: the Derg."],
+  ["1975-11", "Angola: the MPLA, with Cuban troops; a proxy war for sixteen years."],
+  ["1975-06", "Mozambique: FRELIMO."],
+  ["1978-04", "Afghanistan: the Saur coup; the Soviet invasion in December 1979; the American answer through the mujahideen, the war after this war."],
+  ["1979-07", "Nicaragua: the Sandinistas; the contras; the Boland amendments, written by the Congress that had learned from Vietnam; Iran–Contra, the executive learning nothing."],
+  ["1979-03", "Grenada: the New Jewel Movement; the American invasion of October 1983, the first ground war after Vietnam, four days long, chosen for the length."],
+  ["1980-08", "Poland: Solidarity — the first crack from inside."],
+  ["1989-06", "Tiananmen; and the same month Poland votes; November, the Wall."],
+  ["1991-12", "The Soviet Union dissolves. Of the twenty-five, five remain: China, Vietnam, Laos, Cuba, North Korea — three of them the parties to this war."],
+  ["now", "The five are still five. Two of them, China and Vietnam, are the world’s factory and its fastest-growing partner respectively, and each other’s adversary. The idea outlived its containment by being, in the end, less contained than adapted."]
+ ],
+ "neighbours": "Neighbours are not harbours. Every nation on the contributors’ list was a neighbour of the war before it was a party to it, and every one that took refugees afterward became a harbour by choice rather than by geography. The exception is the rule’s proof: Cambodia and Laos, the nearest neighbours, could be neither, and were taken. In the ledger this repository keeps, that is the difference between a syndicate that can audit its neighbour and one that can only be carried across by it.",
+ "sources": [
+  "Nayan Chanda, Brother Enemy: The War After the War (1986)",
+  "Ben Kiernan, The Pol Pot Regime (1996)",
+  "Odd Arne Westad, The Global Cold War (2005)",
+  "Archie Brown, The Rise and Fall of Communism (2009)",
+  "UNHCR, The State of the World’s Refugees 2000, chapter 4, the Indochinese exodus"
+ ],
+ "text": "After Saigon: the re-education camps, the boat people, the two communist wars of 1978–79, Doi Moi, the partnership with the enemy; what became of every nation that defended Saigon and withdrew; and where communism went next, from Angola to the Wall to the five that remain.",
+ "wovenBy": "the bridge"
+}

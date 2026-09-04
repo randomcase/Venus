@@ -1,0 +1,16 @@
+{
+ "id": "saga41-thorvald-work-3",
+ "kind": "work",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "house": "Relay mast",
+ "resource": "signal",
+ "period": 11,
+ "tier": 3,
+ "yield": 21,
+ "cost": 7560,
+ "name": "Relay mast 3 of Thorvaldsson",
+ "text": "Three. The graph stops having a cut vertex in it. Yields 21 signal every 11 days.",
+ "wovenBy": "thorvald",
+ "saga": 41
+}

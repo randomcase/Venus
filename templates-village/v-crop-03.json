@@ -1,0 +1,18 @@
+{
+ "kind": "trade",
+ "name": "the bakehouse",
+ "good": "dark bread",
+ "eats": 13,
+ "pays": 56,
+ "cost": 1286,
+ "text": "dark bread from rye. Eats 13 of the harvest a day, pays 56 HEZE a day, feeds two households.",
+ "id": "v-crop-03",
+ "wovenBy": "crop-03",
+ "chain": [
+  "crop-03",
+  "l2-crop-2-1",
+  "l3-crop-2",
+  "l4-crop",
+  "loom.mjs"
+ ]
+}

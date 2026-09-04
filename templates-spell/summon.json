@@ -1,0 +1,13 @@
+{
+ "id": "summon",
+ "order": 3,
+ "name": "Summon",
+ "glyph": "☾",
+ "cost": 5,
+ "cooldown": 8,
+ "kind": "summon",
+ "colour": "#8f5fb5",
+ "turns": 0.15,
+ "does": "Binds a demon to a tower. It fights what comes and it fights well, because it is the same kind of thing.",
+ "costs": "FIFTEEN PER CENT OF SUMMONS TURN. Not on a timer and not when you are ready — on the roll. A turned summon keeps the tower and stops being yours, and you now have a defended position held against you."
+}

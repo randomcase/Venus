@@ -1,0 +1,16 @@
+{
+ "id": "parcel-43-23",
+ "kind": "parcel",
+ "x": 43,
+ "y": 23,
+ "region": "Artemis Chasma",
+ "clan": "sigrid",
+ "resource": "biomass",
+ "period": 7,
+ "terrain": "plains",
+ "fertility": 1,
+ "yield": 1.42,
+ "text": "volcanic plains, the easy ground, in Artemis Chasma, sown from the temple store for biomass.",
+ "wovenBy": "sigrid-pile-9",
+ "chain": "seven deep"
+}

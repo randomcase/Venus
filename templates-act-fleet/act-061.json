@@ -1,0 +1,17 @@
+{
+ "id": "act-061",
+ "bench": "fleet",
+ "order": 61,
+ "year": 7,
+ "day": 2167,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "quarrelled",
+ "object": "over the arms of Achilles",
+ "place": "at the wall round the camp",
+ "side": "fleet",
+ "text": "Agamemnon quarrelled over the arms of Achilles, at the wall round the camp, in the seventh year."
+}

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Consistency &middot; does the yard still agree with itself</title>
+<style>
+  :root{--bg:#0a0c10;--panel:#11151b;--edge:#1e2630;--edge2:#2c3744;
+    --ink:#dfe4ea;--dim:#8a939e;--faint:#59626d;--gold:#c9a227;
+    --moss:#7d9d6a;--rust:#c4674f;--acid:#c9b037;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.7 var(--serif);padding:34px 18px 80px}
+  main{max-width:1040px;margin:0 auto}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+  .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+  h1{margin:0;font:500 38px/1.06 var(--serif)}
+  .top span{font:400 9px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;
+    color:var(--gold)}
+  .intro{margin:0 0 22px;max-width:86ch;color:var(--dim);font-size:15px}
+  .figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));
+    gap:1px;background:var(--edge);border:1px solid var(--edge);margin-bottom:16px}
+  .fig{background:var(--panel);padding:15px 16px}
+  .fig b{display:block;font:400 30px/1.1 var(--serif);font-variant-numeric:tabular-nums}
+  .fig i{display:block;font:400 8px/1.5 var(--mono);letter-spacing:.13em;
+    text-transform:uppercase;color:var(--faint);font-style:normal;margin-top:5px}
+  .fig.ok b{color:var(--moss)} .fig.bad b{color:var(--rust)}
+  .fig.warn b{color:var(--acid)}
+  .card{background:var(--panel);border:1px solid var(--edge);padding:16px 18px;
+    margin-bottom:14px}
+  .card h3{margin:0 0 11px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold)}
+  .card h3 span{color:var(--faint);margin-left:10px;letter-spacing:.04em;
+    text-transform:none}
+  .row{display:grid;grid-template-columns:26px 190px minmax(0,1fr);gap:11px;
+    padding:9px 0;border-bottom:1px solid #161c23;align-items:baseline}
+  .row:last-child{border-bottom:none}
+  .row i{font-style:normal;font:400 9px/1.4 var(--mono);letter-spacing:.1em;
+    padding:3px 0;text-align:center;border:1px solid var(--edge2);color:var(--faint)}
+  .row.f i{color:var(--rust);border-color:#4a2b22}
+  .row.g i{color:var(--acid);border-color:#463d1c}
+  .row b{font:400 12px/1.5 var(--mono);color:var(--dim);font-weight:400;
+    word-break:break-word}
+  .row p{margin:0;font:400 13.5px/1.6 var(--serif);color:var(--ink)}
+  .note{padding:12px 14px;border-left:3px solid var(--edge2);background:#0e1319;
+    font:400 13.5px/1.7 var(--serif);color:var(--dim);margin-top:12px}
+  .note.good{border-left-color:var(--moss);color:#bdd0b0}
+  .note b{color:var(--ink)}
+  .wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font:400 12px/1.5 var(--mono)}
+  th{text-align:left;padding:0 11px 8px 0;color:var(--faint);font-weight:400;
+    font-size:8px;letter-spacing:.14em;text-transform:uppercase;
+    border-bottom:1px solid var(--edge2)}
+  td{padding:7px 11px 7px 0;border-bottom:1px solid #161c23;color:var(--dim)}
+  td b{color:var(--ink);font-weight:400}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 10.5px/1.85 var(--mono)}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>Consistency</h1><span>does the yard still agree with itself</span></div>
+<p class="intro">Every layer here is checked by its own generator. Nothing was checking whether the layers agree with <em>each other</em> &mdash; and across 219 pages, 30 data layers and 60 generators, that is now the likelier failure. A knowledge-base entry that quotes a figure has <b>copied</b> it: add forty houses and the prose is quietly false, the entry keeps its settled badge, and nothing objects. Prose does not recompute. This does.</p>
+<div class="figs"><div class="fig ok"><b>0</b><i>faults</i></div><div class="fig warn"><b>13</b><i>known gaps</i></div><div class="fig"><b>8</b><i>figures watched</i></div><div class="fig"><b>95</b><i>places prose lives</i></div><div class="fig"><b>30</b><i>data layers</i></div></div>
+<div class="note good"><b>No faults.</b> Every watched figure quoted in prose matches the layer that owns it, every page anything cites exists, and the book is priced in a coin that is actually defined. A <b>gap</b> is different and is not a bug: something incomplete that the yard already knows about and reports rather than hides. The distinction is the whole value of this page &mdash; a checker that calls everything an error gets switched off, so this one exits clean and never halts a build.</div>
+<div class="card"><h3>E &middot; layers the hub cannot attribute <span>13</span></h3><div class="row g"><i>gap</i><b>templates-base</b><p>read by arcade.mjs, bases.mjs, consistency.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div><div class="row g"><i>gap</i><b>templates-build</b><p>read by arcade.mjs, builds.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div><div class="row g"><i>gap</i><b>templates-challenge</b><p>read by arcade.mjs, challenges.mjs, journal.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div><div class="row g"><i>gap</i><b>templates-demon</b><p>read by arcade.mjs, warlock.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div><div class="row g"><i>gap</i><b>templates-district</b><p>read by arcade.mjs, reconcile.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div><div class="row g"><i>gap</i><b>templates-enterprise</b><p>read by arcade.mjs, enterprise.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div><div class="row g"><i>gap</i><b>templates-faction</b><p>read by arcade.mjs, factions.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div><div class="row g"><i>gap</i><b>templates-form</b><p>read by arcade.mjs, writing.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div><div class="row g"><i>gap</i><b>templates-github</b><p>read by arcade.mjs, github.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div><div class="row g"><i>gap</i><b>templates-instrument</b><p>read by arcade.mjs, instruments.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div><div class="row g"><i>gap</i><b>templates-quest</b><p>read by arcade.mjs, guild.mjs, quests.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div><div class="row g"><i>gap</i><b>templates-sheet</b><p>read by arcade.mjs, owls.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div><div class="row g"><i>gap</i><b>templates-spell</b><p>read by arcade.mjs, warlock.mjs through a variable, so the hub cannot attribute it — the path has to be a literal to be seen</p></div></div><div class="card"><h3>the watched figures <span>recomputed from the layer that owns each one</span></h3>
+<div class="wrap"><table><tr><th>figure</th><th>value now</th><th>owned by</th></tr><tr><td><b>house count</b></td><td>544</td><td>templates-house</td></tr><tr><td><b>house count</b></td><td>544</td><td>templates-house</td></tr><tr><td><b>watches serial %</b></td><td>100</td><td>templates-house</td></tr><tr><td><b>jewelry serial %</b></td><td>85</td><td>templates-house</td></tr><tr><td><b>leather serial %</b></td><td>86</td><td>templates-house</td></tr><tr><td><b>fabric count</b></td><td>26</td><td>templates-fabric</td></tr><tr><td><b>coin count</b></td><td>6</td><td>templates-coin</td></tr><tr><td><b>crew</b></td><td>20</td><td>venus-facts.mjs</td></tr></table></div>
+<div class="note">These are not stored. Each is computed from its layer on every run, then hunted for in the prose of 95 knowledge-base entries and generator headers. Change a layer and whoever wrote the old number down is named here on the next build.</div>
+</div>
+<footer>
+Built by <a href="consistency.mjs">consistency.mjs</a>, which reads every layer and refuses nothing on purpose &mdash; a consistency check that halts the build turns every disagreement into an emergency and gets switched off. Also writes <a href="consistency.json">consistency.json</a>, which the notebook reads.<br>
+<a href="writing.html">the notebook</a> &middot; <a href="kb.html">the base</a> &middot; <a href="dev.html">the hub</a>
+</footer>
+</main>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

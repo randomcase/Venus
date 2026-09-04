@@ -1,0 +1,12 @@
+{
+ "id": "croft-syn-11",
+ "kind": "croft",
+ "syndicate": "syn-11",
+ "tranche": 11,
+ "seat": "the thin wall",
+ "period": 31,
+ "yield": 3,
+ "cap": 30,
+ "text": "The croft at the thin wall, growing sealing wax for the 11th syndicate every 31 days.",
+ "wovenBy": "syn-11"
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-084",
+ "bench": "fleet",
+ "order": 84,
+ "year": 9,
+ "day": 3013,
+ "parties": [
+  "diomedes"
+ ],
+ "actor": "Diomedes",
+ "with": null,
+ "verb": "sacrificed",
+ "object": "at Aulis for a wind",
+ "place": "at the pyre",
+ "side": "fleet",
+ "text": "Diomedes sacrificed at Aulis for a wind, at the pyre, in the ninth year."
+}

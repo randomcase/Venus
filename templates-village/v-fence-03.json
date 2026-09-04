@@ -1,0 +1,16 @@
+{
+ "kind": "lane",
+ "name": "the lane along the wattle",
+ "keep": 0.87,
+ "cost": 254,
+ "text": "A lane that keeps the geese in; the village loses ×0.87 less to the road.",
+ "id": "v-fence-03",
+ "wovenBy": "fence-03",
+ "chain": [
+  "fence-03",
+  "l2-fence-2-1",
+  "l3-fence-2",
+  "l4-fence",
+  "loom.mjs"
+ ]
+}

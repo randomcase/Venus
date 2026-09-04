@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-ingrid-work-1",
+ "kind": "work",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "house": "Scriptorium",
+ "resource": "record",
+ "period": 13,
+ "tier": 1,
+ "yield": 1,
+ "cost": 120,
+ "name": "Scriptorium 1 of Ingridsdottir",
+ "text": "One scribe. One book. Mostly blank, on purpose. Yields 1 record every 13 days.",
+ "wovenBy": "ingrid",
+ "saga": 1597
+}

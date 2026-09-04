@@ -1,0 +1,16 @@
+{
+ "id": "parcel-37-23",
+ "kind": "parcel",
+ "x": 37,
+ "y": 23,
+ "region": "Artemis Chasma",
+ "clan": "sigrid",
+ "resource": "biomass",
+ "period": 7,
+ "terrain": "tessera",
+ "fertility": 0.6,
+ "yield": 1.02,
+ "text": "tessera, folded highland that holds less, in Artemis Chasma, sown from a longhouse loft for biomass.",
+ "wovenBy": "sigrid-pile-4",
+ "chain": "seven deep"
+}

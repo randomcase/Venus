@@ -1,0 +1,13 @@
+{
+ "id": "saga41-bjorn-pile-3",
+ "kind": "pile",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "name": "a tally on the mast for nitrogen",
+ "holds": 900,
+ "cost": 1080,
+ "text": "Holds 900 nitrogen. What is not piled is not yours by morning.",
+ "wovenBy": "bjorn",
+ "saga": 41
+}

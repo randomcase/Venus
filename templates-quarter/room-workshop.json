@@ -1,0 +1,10 @@
+{
+ "kind": "room",
+ "id": "workshop",
+ "name": "The workshop",
+ "km2": 8000,
+ "light": "bright and even",
+ "what": "A bench for every figure the yard leans on, and the whiteboard.",
+ "pieces": 13,
+ "wovenBy": "the bridge"
+}

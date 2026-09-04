@@ -1,0 +1,17 @@
+{
+ "id": "act-050",
+ "order": 50,
+ "year": 5,
+ "day": 1774,
+ "parties": [
+  "achilles",
+  "agamemnon"
+ ],
+ "actor": "Achilles",
+ "with": "Agamemnon",
+ "verb": "ransomed",
+ "object": "a son from the ships",
+ "place": "before the Scaean gate",
+ "side": "fleet",
+ "text": "Achilles and Agamemnon ransomed a son from the ships, before the Scaean gate, in the fifth year."
+}

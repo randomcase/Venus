@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The bench &middot; build your own keep</title>
+<!-- No off-origin requests. The validator is castle-rules.mjs, embedded verbatim. -->
+<style>
+  :root{
+    --sky:#0c0f13; --panel:#141a20; --edge:#212b34; --edge2:#2e3b47;
+    --ink:#e3ddcf; --dim:#8c8778; --faint:#5d5951;
+    --stone:#c8bda6; --gold:#c9a227; --bad:#c4674f; --good:#7d9d6a; --cool:#5f92a8;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--sky);color:var(--ink);font:16px/1.68 var(--serif);
+    padding:34px 18px 80px}
+  main{max-width:1240px;margin:0 auto}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+  .top{display:flex;align-items:baseline;gap:15px;flex-wrap:wrap;margin-bottom:4px}
+  h1{margin:0;font:500 38px/1.08 var(--serif)}
+  .top span{font:400 9px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;
+    color:var(--gold)}
+  .intro{margin:0 0 22px;max-width:82ch;color:var(--dim);font-size:15.5px}
+
+  .rig{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px}
+  @media (max-width:1000px){ .rig{grid-template-columns:1fr} }
+
+  .stage{background:linear-gradient(180deg,#161d24,#0e1318);border:1px solid var(--edge);
+    position:relative}
+  canvas{display:block;width:100%;height:auto}
+  .cap{position:absolute;left:12px;bottom:10px;right:12px;
+    font:400 9px/1.55 var(--mono);color:var(--faint);pointer-events:none}
+
+  aside{display:flex;flex-direction:column;gap:12px}
+  .card{background:var(--panel);border:1px solid var(--edge);padding:14px 15px}
+  .card h3{margin:0 0 10px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold)}
+  .card.bill h3{color:var(--cool)} .card.judge h3{color:var(--bad)}
+  .card.judge.ok h3{color:var(--good)}
+
+  .k{margin-bottom:11px}
+  .k label{display:flex;justify-content:space-between;align-items:baseline;
+    font:400 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+    color:var(--faint);margin-bottom:6px}
+  .k label b{color:var(--gold);font-weight:400;font-size:12px}
+  .k input[type=range]{width:100%;accent-color:var(--gold)}
+  .k input[type=text]{width:100%;background:#0e1318;border:1px solid var(--edge2);
+    color:var(--ink);padding:7px 8px;font:400 12px/1.3 var(--mono);outline:none}
+  .k input[type=text]:focus{border-color:var(--gold)}
+
+  .wards{display:flex;flex-direction:column;gap:9px}
+  .ward{border:1px solid var(--edge2);padding:10px 11px;background:#0f151a}
+  .ward .hd{display:flex;align-items:baseline;gap:8px;margin-bottom:9px}
+  .ward .hd b{font:400 11px/1 var(--mono);color:var(--ink)}
+  .ward .hd button{margin-left:auto;background:none;border:1px solid var(--edge2);
+    color:var(--faint);cursor:pointer;padding:3px 7px;font:400 9px/1 var(--mono)}
+  .ward .hd button:hover{color:var(--bad);border-color:var(--bad)}
+  .row{display:flex;gap:7px}
+  .row .k{flex:1;margin-bottom:8px}
+  .add{width:100%;background:#182029;border:1px solid var(--edge2);color:var(--ink);
+    padding:9px;cursor:pointer;font:400 10px/1 var(--mono);letter-spacing:.11em}
+  .add:hover{border-color:var(--gold);color:var(--gold)}
+
+  .bill dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:6px 10px;
+    font:400 11.5px/1.35 var(--mono)}
+  .bill dt{color:var(--faint)} .bill dd{margin:0;text-align:right;
+    font-variant-numeric:tabular-nums}
+  .bill .tot{margin-top:10px;padding-top:10px;border-top:1px solid var(--edge)}
+  .bill .tot u{display:block;text-decoration:none;font:400 8px/1.3 var(--mono);
+    letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:5px}
+  .bill .tot b{font:400 26px/1 var(--mono);color:var(--cool);font-weight:400}
+  .bill .tot s{display:block;text-decoration:none;margin-top:6px;
+    font:400 11px/1.5 var(--serif);color:var(--dim)}
+
+  .judge ul{margin:0;padding:0;list-style:none}
+  .judge li{display:flex;gap:8px;padding:7px 0;border-bottom:1px dotted #232c35;
+    font:400 12px/1.5 var(--serif);color:var(--dim)}
+  .judge li:last-child{border-bottom:none}
+  .judge li b{flex:none;color:var(--bad)}
+  .judge .stands{font:400 13px/1.6 var(--serif);color:var(--good);margin:0}
+  .judge .stands b{color:var(--good)}
+
+  .out{display:flex;gap:8px;flex-wrap:wrap}
+  .out button{flex:1;background:#182029;border:1px solid var(--edge2);color:var(--ink);
+    padding:10px 8px;cursor:pointer;font:400 10px/1 var(--mono);letter-spacing:.1em}
+  .out button:hover{border-color:var(--gold);color:var(--gold)}
+  .out button:disabled{color:var(--faint);border-color:#1c242c;cursor:default}
+  #json{width:100%;height:150px;margin-top:10px;background:#0a0e12;
+    border:1px solid var(--edge2);color:var(--dim);padding:10px;
+    font:400 10px/1.5 var(--mono);resize:vertical;display:none}
+  #json.on{display:block}
+
+  #from{width:100%;background:#0e1318;border:1px solid var(--edge2);color:var(--ink);
+    padding:8px;font:400 11px/1.2 var(--mono);cursor:pointer;margin-bottom:11px}
+
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 10px/1.9 var(--mono)}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>The bench</h1><span>build your own keep</span></div>
+<p class="intro">The castle board shows seven plans somebody else arrived at. This is a bench. Move the walls and the drawing follows, and <b>the same validator that refuses a bad plan file refuses yours</b> &mdash; live, while you are still holding the slider. It is not a copy of those rules: <a href="castle-rules.mjs">castle-rules.mjs</a> is embedded here verbatim, so what judges your plan under your mouse is the same function that judges one at build time. The bill moves as you build, because the cost of a castle is settled in the ten minutes somebody spends deciding how big to make it.</p>
+<div class="rig">
+  <div class="stage"><canvas id="c" width="1080" height="620"></canvas><div class="cap" id="cap"></div></div>
+  <aside>
+    <div class="card judge" id="judge"><h3>the judgement</h3><div id="jbody"></div></div>
+    <div class="card bill"><h3>what it costs to keep</h3><div id="bill"></div></div>
+    <div class="card"><h3>start from</h3>
+      <select id="from"></select>
+      <div class="k"><label>name</label><input type="text" id="f-name"></div>
+      <div class="k"><label>motte height <b id="v-mh"></b></label><input type="range" id="k-mh" min="0" max="30" step="1"></div>
+      <div class="k"><label>keep height <b id="v-kh"></b></label><input type="range" id="k-kh" min="6" max="70" step="1"></div>
+      <div class="k"><label>towers <b id="v-tw"></b></label><input type="range" id="k-tw" min="0" max="28" step="1"></div>
+      <div class="k"><label>sun <b id="v-sun"></b></label><input type="range" id="k-sun" min="0" max="3" step="1"></div>
+    </div>
+    <div class="card"><h3>the wards</h3>
+      <div class="wards" id="wards"></div>
+      <button class="add" id="addward">+ another ward</button>
+    </div>
+    <div class="card"><h3>take it away</h3>
+      <div class="out">
+        <button id="show">show the json</button>
+        <button id="save">save</button>
+        <button id="dl">download</button>
+      </div>
+      <textarea id="json" readonly spellcheck="false"></textarea>
+    </div>
+  </aside>
+</div>
+<footer>
+Built by <a href="keep.mjs">keep.mjs</a>. Rules and costing from <a href="castle-rules.mjs">castle-rules.mjs</a>, embedded verbatim rather than restated &mdash; the same functions run in <a href="castle.html">castle.html</a> and <a href="estate.html">estate.html</a>. Drawn with iso, depth and tone from <a href="writing.html">lesson one</a>. Saved in this browser only.<br>
+<a href="dev.html">the hub</a> &middot; <a href="arcade.html">the arcade</a>
+</footer>
+</main>
+
+<script>
+/* ── castle-rules.mjs, embedded verbatim. Not a translation. ─────────── */
+
+/* every rate is an assumption and every one of them is arguable */
+const RATE = {
+  repoint_m2: 300,        /* lime mortar, specialist rate, per m² of wall face */
+  repoint_years: 90,      /* the cycle it comes round on */
+  roof_m2: 420,
+  roof_years: 80,
+  heat_m2_yr: 26,         /* per m² of heated floor, thick stone, poor envelope */
+  reinstate_m2: 4200,     /* like-for-like heritage rebuild, per m² of floor */
+  insure_pc: 0.0035,
+  warden_yr: 62000,
+  wardens_per_ha: 0.9
+};
+
+/* ── what a plan must satisfy ──────────────────────────────────────────
+   Returns a list of complaints. Empty means it stands. */
+function checkPlan(c) {
+  const errs = [];
+  if (!c) return ['there is no plan'];
+
+  for (const k of ['id', 'name', 'kind', 'era', 'ground', 'wards', 'axis', 'lesson'])
+    if (c[k] === undefined || c[k] === '') errs.push('missing ' + k);
+
+  const wards = c.wards || [];
+  if (!wards.length) errs.push('a castle with no ward is a tower');
+  for (const w of wards) {
+    if (!w.w || !w.d) errs.push('ward "' + (w.id || '?') + '" has no dimensions');
+    if (w.wall === undefined) errs.push('ward "' + (w.id || '?') + '" does not say whether it is walled');
+  }
+
+  /* a mound you can see over is a step */
+  if (c.motte) {
+    const tallestWall = Math.max(0, ...wards.map((w) => w.wall || 0));
+    if (c.motte.height < tallestWall)
+      errs.push('the motte is ' + c.motte.height + ' m and the wall is ' + tallestWall +
+        ' m — a mound you can see over is not a mound');
+  }
+
+  /* a curtain wall with an undefended corner is a wall with a door in it */
+  const walled = wards.filter((w) => w.wall > 0);
+  if (c.towers > 0 && c.towers < walled.length * 4)
+    errs.push(c.towers + ' towers for ' + walled.length + ' walled ward(s) — that is ' +
+      (walled.length * 4 - c.towers) + ' corner(s) with nothing on them');
+
+  if (c.gallery) {
+    const g = c.gallery;
+    if (!g.bays) errs.push('a gallery with no bays');
+    else if (g.mirrors % g.bays !== 0)
+      errs.push(g.mirrors + ' mirrors across ' + g.bays + ' bays leaves ' +
+        (g.mirrors % g.bays) + ' over — somebody ran out of wall');
+    if (g.windows !== g.bays)
+      errs.push(g.windows + ' windows facing ' + g.bays + ' bays; the whole device ' +
+        'is that they answer one another');
+  }
+  return errs;
+}
+
+/* ── the physical quantities, from what the plan declares ───────────── */
+function fabric(c) {
+  const wards = c.wards || [];
+  const footprint = wards.reduce((a, w) => a + w.w * w.d, 0);
+  const walled = wards.filter((w) => w.wall > 0);
+  const wallRun = walled.reduce((a, w) => a + 2 * (w.w + w.d), 0);
+  /* ×2 because a wall has two faces and both get pointed */
+  const wallFace = walled.reduce((a, w) => a + 2 * (w.w + w.d) * w.wall * 2, 0);
+
+  const keepH = c.keep ? c.keep.height : 0;
+  const keepFloor = c.keep && c.keep.diameter
+    ? Math.PI * (c.keep.diameter / 2) ** 2 * Math.max(1, Math.round(keepH / 4))
+    : (c.keep ? 900 * Math.max(1, Math.round(keepH / 4)) : 0);
+  const floor = footprint * 0.34 + keepFloor;
+  const roofArea = floor * 0.42;
+  return { footprint, ha: footprint / 10000, wallRun, wallFace, floor, roofArea };
+}
+
+/* ── and what that costs to keep standing, every year ───────────────── */
+function upkeep(c) {
+  const f = fabric(c);
+  const repoint = f.wallFace / RATE.repoint_years * RATE.repoint_m2;
+  const roof = f.roofArea / RATE.roof_years * RATE.roof_m2;
+  const heat = f.floor * 0.55 * RATE.heat_m2_yr;
+  const reinstate = f.floor * RATE.reinstate_m2;
+  const insure = reinstate * RATE.insure_pc;
+  const staff = Math.ceil(f.ha * RATE.wardens_per_ha) * RATE.warden_yr;
+  return { ...f, repoint, roof, heat, reinstate, insure, staff,
+           outflow: repoint + roof + heat + insure + staff };
+}
+
+/* ── bricks, from wall volume rather than from a round number ───────── */
+const BRICK = { per_m3: 500, wall_t: 0.6, kg: 2.3 };
+function bricks(c) {
+  const wards = c.wards || [];
+  const walled = wards.filter((w) => w.wall > 0);
+  const wallVol = walled.reduce((a, w) => a + 2 * (w.w + w.d) * w.wall * BRICK.wall_t, 0);
+  const f = fabric(c);
+  const rangeVol = f.floor * 0.18;
+  const n = (wallVol + rangeVol) * BRICK.per_m3;
+  return { count: n, tonnes: n * BRICK.kg / 1000, wallVol, rangeVol };
+}
+
+const PLANS = [{"id":"windsor","order":1,"name":"Windsor","era":"1070 onward","kind":"accreted","ground":"A chalk bluff above the Thames, chosen because it is thirty metres higher than everything around it and a day’s march from London. Every other decision here follows from those two facts and nothing follows from taste.","motte":{"diameter":60,"height":15,"note":"Thrown up in the 1070s. The Round Tower sits on it."},"keep":{"name":"The Round Tower","diameter":30,"height":20,"shape":"round","note":"Round because a round tower has no corner to undermine."},"wards":[{"id":"upper","name":"Upper Ward","w":180,"d":120,"wall":8,"note":"The private side. State apartments along the north."},{"id":"lower","name":"Lower Ward","w":200,"d":110,"wall":8,"note":"The public side. The chapel, and everybody who is not the household."}],"towers":14,"axis":{"name":"The Long Walk","length_m":4260,"note":"Four and a quarter kilometres, dead straight, and it exists so that the castle is the only thing at the end of it."},"figures":[{"what":"the site","value":"about 13 acres inside the walls"},{"what":"the motte","value":"15 m of piled chalk, dug from the ditch around it"},{"what":"the Long Walk","value":"4.26 km — 2.65 miles"},{"what":"continuously occupied","value":"since the 1070s, which no other castle manages"}],"lesson":"It is not symmetrical and was never meant to be. Two wards of different sizes either side of a mound, because the mound came first and everything else went where there was room. A plan like this cannot be designed; it can only be arrived at."},{"id":"versailles","order":2,"name":"Versailles","era":"1661 to 1715","kind":"axial","ground":"Flat, marshy, and with no strategic value whatsoever, which was the point: nothing about the site constrains the plan, so the plan is purely an argument.","motte":null,"keep":{"name":"The Corps de Logis","diameter":0,"height":24,"shape":"block","note":"No keep. There is nothing to defend against, and saying so is the message."},"wards":[{"id":"cour","name":"Cour de Marbre","w":60,"d":40,"wall":0,"note":"The narrowest point, so that arriving feels like a funnel."},{"id":"corps","name":"Corps de Logis","w":180,"d":60,"wall":0,"note":"The block the whole axis runs through."},{"id":"parterre","name":"Parterre d’Eau","w":240,"d":140,"wall":0,"note":"Water, held flat, so the sky is doubled and the axis keeps going."}],"towers":0,"axis":{"name":"The Grand Axis","length_m":3000,"note":"East to west, so the sun sets along it. That is not a coincidence and it was the single most expensive decision."},"gallery":{"name":"Hall of Mirrors","length_m":73,"width_m":10.5,"height_m":12.3,"bays":17,"mirrors":357,"windows":17,"note":"Seventeen mirrored arches facing seventeen windows. The mirrors are there to put the garden on the wall that has no garden behind it."},"figures":[{"what":"the Hall","value":"73 m long, 10.5 m wide, 12.3 m high"},{"what":"mirrors","value":"357, in 17 arches"},{"what":"per arch","value":"exactly 21 — the division is why the room reads calm"},{"what":"proportion","value":"the hall is about 7 times as long as it is wide"}],"lesson":"One axis, laid out at once, and everything placed to be seen from a point on it. The opposite of Windsor in every way, and equally correct — which is the whole reason both are here. A base is either arrived at or argued, and you should know which one you are doing."},{"id":"deck-keep","order":3,"name":"The Deck Keep","era":"not yet","kind":"sealed","ground":"Fifty-five kilometres up, at one bar and about the temperature of a warm afternoon, with 574 g/cm² of atmosphere overhead doing the job a curtain wall used to do. There is nothing to besiege and nothing to see from a distance.","motte":{"diameter":48,"height":6,"note":"Not for defence. It is the substrate lift — half a metre of basalt over the site costs three days of the site’s own sunlight, and the mound is where it goes."},"keep":{"name":"The Seed Vault","diameter":24,"height":14,"shape":"round","note":"Round for pressure, not for siege. The only structure here that would be defended, and what it holds is a library."},"wards":[{"id":"inner","name":"The Sealed Ward","w":140,"d":140,"wall":6,"note":"The biome. The wall is a pressure boundary and holds nothing out."},{"id":"outer","name":"The Working Ward","w":220,"d":160,"wall":4,"note":"Kilns, beds, masts, scriptorium. Where the six clans actually live."}],"towers":8,"axis":{"name":"The Long Deck","length_m":900,"note":"Nine hundred metres, and it points at nothing. The sun does not set along it because a solar day here is 116.75 Earth days."},"gallery":{"name":"The Long Gallery","length_m":73,"width_m":10.5,"height_m":12.3,"bays":17,"mirrors":357,"windows":17,"note":"The same room as Versailles, to the millimetre, and for the opposite reason: with a fifty-eight-day night outside, mirrors multiplying the lamps is not a flourish, it is the lighting budget."},"figures":[{"what":"gravity at the deck","value":"8.71 m/s² — 88.8% of Earth"},{"what":"shielding overhead","value":"574 g/cm², 56% of Earth at sea level, at no mass cost"},{"what":"the night","value":"58 Earth days of it, every 116.75"},{"what":"what the walls are for","value":"pressure. Nothing out there wants in."}],"lesson":"A castle where the wall holds air rather than people out. Every defensive form here has been kept and repurposed, which is either lazy or the whole point depending on how you feel about the fact that a round tower resists pressure for exactly the same reason it resists undermining."},{"id":"krak","order":4,"name":"Krak des Chevaliers","era":"1142 to 1271","kind":"concentric","ground":"A spur in the Homs Gap, the one pass between the coast and the interior. The site is the whole strategy: hold this and you hold the road, and there is no second road.","motte":null,"keep":{"name":"The inner keep","diameter":0,"height":27,"shape":"block","note":"Not a lone tower. The whole inner ring is the keep."},"wards":[{"id":"outer","name":"Outer enceinte","w":200,"d":140,"wall":9,"note":"A complete ring. Taking it gains you a corridor and nothing else."},{"id":"inner","name":"Inner enceinte","w":140,"d":100,"wall":25,"note":"A second complete ring, higher, so the outer wall is overlooked from inside and an attacker who takes it is standing in a trap."}],"towers":17,"axis":{"name":"The bent entry","length_m":137,"note":"A hundred and thirty-seven metres of covered ramp that turns back on itself, so a ram can never build up a run at anything."},"figures":[{"what":"garrison","value":"about 2,000, which is why it could hold"},{"what":"the talus","value":"a sloping stone skirt, so a mined wall collapses outward and buries the miners"},{"what":"taken by assault","value":"never, in 129 years"},{"what":"how it fell","value":"1271, to a forged letter ordering surrender"}],"lesson":"The best-defended building of its century was never breached and was lost anyway, to a piece of paper. Concentric rings solve the problem of force completely and do nothing at all about the problem of authority — the garrison obeyed an order because orders were obeyed. Every choke point in a command tree has this exact shape: it is not the wall that fails."},{"id":"himeji","order":5,"name":"Himeji","era":"1333, rebuilt 1609","kind":"spiral","ground":"A hill on the road west out of the capital. Flat country around it, so the defence has to be in the plan rather than in the ground.","motte":{"diameter":90,"height":23,"note":"A stone base, battered, curving outward at the foot — the curve sheds an earthquake rather than resisting it."},"keep":{"name":"The great keep","diameter":36,"height":46,"shape":"block","note":"Six storeys reading as five from outside. Whitewashed against fire."},"wards":[{"id":"ni","name":"Ni-no-maru","w":180,"d":150,"wall":12,"note":"The second circle."},{"id":"hon","name":"Hon-maru","w":120,"d":100,"wall":14,"note":"The first circle, at the top of the spiral."}],"towers":12,"axis":{"name":"The spiral approach","length_m":1600,"note":"The path to the keep winds through twenty-one gates and doubles back repeatedly. It is longer than the castle is wide by a factor of ten, and every metre of it is overlooked."},"figures":[{"what":"buildings","value":"83 still standing"},{"what":"the approach","value":"deliberately confusing — a spiral, not a line"},{"what":"survived","value":"the 1945 bombing and the 1995 Kobe earthquake"},{"what":"never taken","value":"in seven centuries"}],"lesson":"Where Krak makes you go through the wall, Himeji makes you go the long way. The approach is the weapon: a spiral turns an assault into a queue, and a queue can be dealt with a few at a time. If you cannot make the wall thicker, make the route longer."},{"id":"malbork","order":6,"name":"Malbork","era":"1274 onward","kind":"three-ward","ground":"A flat bank of the Nogat, chosen for the river rather than the height. Brick, because there is no building stone for a hundred miles and the clay is underfoot.","motte":null,"keep":{"name":"The High Castle","diameter":0,"height":30,"shape":"block","note":"A closed quadrangle around a courtyard — a keep you can live an entire administration inside."},"wards":[{"id":"high","name":"High Castle","w":160,"d":160,"wall":20,"note":"The convent."},{"id":"middle","name":"Middle Castle","w":220,"d":180,"wall":14,"note":"The Grand Master."},{"id":"outer","name":"Outer Bailey","w":300,"d":200,"wall":10,"note":"Everything that works."}],"towers":20,"axis":{"name":"The river frontage","length_m":700,"note":"Seven hundred metres of brick along the water, which is the view, the wharf and the argument all at once."},"figures":[{"what":"land area","value":"about 21 hectares — the largest castle in the world by area"},{"what":"material","value":"brick, roughly 4.5 million of them"},{"what":"built by","value":"the Teutonic Order, as a headquarters and not a fort"},{"what":"reconstructed","value":"after 1945, from photographs and rubble"}],"lesson":"The largest castle in the world is made of the cheapest material available at the site. That is not a compromise, it is the reason it could be that large — a stone Malbork was never possible and a brick one was inevitable. Build with what is under your feet and the size takes care of itself."},{"id":"neuschwanstein","order":7,"name":"Neuschwanstein","era":"1869 to 1886","kind":"theatrical","ground":"A crag in the Bavarian Alps with no road, no water supply, and no strategic value of any kind, selected entirely for how it would look from below.","motte":null,"keep":{"name":"The Palas","diameter":0,"height":65,"shape":"block","note":"A keep in silhouette only. There is nothing to keep."},"wards":[{"id":"court","name":"Upper Court","w":90,"d":60,"wall":0,"note":"A courtyard shaped like a bailey that never enclosed anything."}],"towers":0,"axis":{"name":"The view from the Marienbrücke","length_m":800,"note":"The whole building is composed for one viewpoint on a bridge across the gorge. Stand anywhere else and it does not resolve."},"figures":[{"what":"begun","value":"1869, six centuries after castles stopped working"},{"what":"defensive value","value":"none, and none intended"},{"what":"machicolations","value":"carved, decorative, with no opening through them"},{"what":"nights the king slept there","value":"11, before he died and it opened to visitors"}],"lesson":"The glossary gives you the tool to date this one at a glance: machicolations are floor openings for dropping things through, and these have no openings. They are a carving of a function. That is the whole building — a nineteenth-century theatre set quoting a form whose reasons had been dead for six hundred years, and it is the most visited castle on earth. Worth knowing which one you are building."},{"id":"theodosian","order":8,"name":"The Theodosian Walls","era":"408 to 1453","kind":"triple-line","ground":"The landward neck of a peninsula, which is the only side that can be walked to. Six and a half kilometres of it, and the sea does the rest.","motte":null,"keep":{"name":"The city","diameter":0,"height":14,"shape":"block","note":"There is no keep. The city is what the wall is for."},"wards":[{"id":"outer","name":"Outer wall and terrace","w":6500,"d":20,"wall":9,"note":"The first line, and the one meant to be taken — losing it puts an attacker in a terrace overlooked from above."},{"id":"inner","name":"Inner wall","w":6500,"d":15,"wall":12,"note":"Five metres thick at the base. Ninety-six towers, none of them more than a bowshot from the next."}],"towers":96,"axis":{"name":"The moat","length_m":6500,"note":"Twenty metres wide and fed from cisterns, so the ground in front of the outer wall could be flooded on demand."},"figures":[{"what":"built","value":"408 to 413, under Theodosius II, in five years"},{"what":"the three lines","value":"moat, outer wall, inner wall — an attacker fights the same battle three times"},{"what":"towers","value":"96 on the inner line, spaced within bowshot"},{"what":"held","value":"1,040 years"}],"lesson":"Krak was never breached and fell to a forged letter. This was never breached by assault in a thousand years and fell to artillery — to a gun that made thickness irrelevant rather than to anybody getting over it. Put the two together and you have the whole of it: the best wall ever built lost twice, once to authority and once to a change in what a wall was up against, and neither time to the thing it was designed to stop. Design for the assault you can imagine and you will be defeated by the one you cannot."}];
+const BLANK = {"id":"my-keep","name":"My keep","kind":"yours","era":"now","ground":"Say where it is and why there.","motte":{"diameter":50,"height":8,"note":"piled from the ditch"},"keep":{"name":"The keep","diameter":22,"height":18,"shape":"round","note":""},"wards":[{"id":"inner","name":"Inner ward","w":110,"d":90,"wall":8,"note":""}],"towers":4,"axis":{"name":"The approach","length_m":400,"note":""},"gallery":null,"figures":[],"lesson":"Say what this plan teaches that another one does not."};
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const money = (n) => n >= 1e6 ? '$' + (n / 1e6).toFixed(2) + 'M' : '$' + Math.round(n / 1000) + 'k';
+const n0 = (n) => Math.round(n).toLocaleString();
+
+const KEY = 'venus.keep.v1';
+let P = load() || JSON.parse(JSON.stringify(BLANK));
+let SUN = 0;
+
+function load() {
+  try { const g = JSON.parse(localStorage.getItem(KEY) || 'null'); if (g && g.wards) return g; }
+  catch (e) { /* private window, cleared data */ }
+  return null;
+}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (e) {} };
+
+/* ══ the three functions from lesson one, unchanged ═══════════════════ */
+const HALF_W = 15, HALF_H = 7.5, UNIT_Z = 8;
+const iso = (x, y, z) => [(x - y) * HALF_W, (x + y) * HALF_H - z * UNIT_Z];
+const depth = (x, y, z) => x + y + z;
+const tone = (face) => face === 'top' ? 1 : face === 'lit' ? 0.72 : 0.52;
+
+const cv = $('#c'), ctx = cv.getContext('2d');
+const SCALE = 4;
+
+function box(L, x, y, z, w, d, h, rgb) {
+  L.push({ x, y, z, w, d, h, rgb, o: depth(x, y, z) });
+}
+function drawBox(b) {
+  const [r, g, bl] = b.rgb;
+  const put = (t) => ctx.fillStyle = 'rgb(' + [r, g, bl]
+    .map((c) => Math.min(255, Math.round(c * tone(t)))).join(',') + ')';
+  const P2 = (x, y, z) => iso(x, y, z);
+  const { x, y, z, w, d, h } = b;
+  const lit = SUN % 2 === 0 ? 'lit' : 'dark';
+  const dark = SUN % 2 === 0 ? 'dark' : 'lit';
+  const poly = (pts, t) => {
+    put(t); ctx.beginPath();
+    pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]));
+    ctx.closePath(); ctx.fill();
+  };
+  poly([P2(x, y + d, z), P2(x, y + d, z + h), P2(x + w, y + d, z + h), P2(x + w, y + d, z)], lit);
+  poly([P2(x + w, y, z), P2(x + w, y, z + h), P2(x + w, y + d, z + h), P2(x + w, y + d, z)], dark);
+  poly([P2(x, y, z + h), P2(x + w, y, z + h), P2(x + w, y + d, z + h), P2(x, y + d, z + h)], 'top');
+}
+function drum(L, cx, cy, z, r, h, rgb) {
+  for (let i = 0; i < 5; i++) {
+    const t = i / 5, rr = r * (1 - t * 0.07);
+    box(L, cx - rr, cy - rr, z + h * t, rr * 2, rr * 2, h / 5 + 0.02, rgb);
+  }
+  box(L, cx - r * 0.8, cy - r * 0.8, z + h, r * 1.6, r * 1.6, r * 0.5, [95, 108, 118]);
+}
+
+function scene() {
+  const L = [];
+  const STONE = [200, 189, 166], LEAD = [111, 123, 132];
+  const wards = P.wards || [];
+  const gw = 48, gd = 36;
+  box(L, -2, -2, -1.2, gw, gd, 1.2, [58, 76, 48]);
+
+  const ax = Math.min(26, (P.axis ? P.axis.length_m : 0) / 200);
+  if (ax > 0) box(L, gw / 2 - 3, gd - 2, 0, 6, ax, 0.18, [122, 116, 94]);
+
+  let cursor = 3;
+  const walledN = wards.filter((w) => w.wall > 0).length || 1;
+  wards.forEach((w) => {
+    const ww = Math.max(5, w.w / (SCALE * 2.2)), wd = Math.max(5, w.d / (SCALE * 2.2));
+    const y0 = 4;
+    box(L, cursor, y0, 0, ww, wd, 0.25, [78, 100, 64]);
+    if (w.wall > 0) {
+      const t = 0.9, h = w.wall;
+      box(L, cursor, y0, 0, ww, t, h, STONE);
+      box(L, cursor, y0 + wd - t, 0, ww, t, h, STONE);
+      box(L, cursor, y0, 0, t, wd, h, STONE);
+      box(L, cursor + ww - t, y0, 0, t, wd, h, STONE);
+      const spots = [[cursor, y0], [cursor + ww - t, y0],
+                     [cursor, y0 + wd - t], [cursor + ww - t, y0 + wd - t]];
+      const share = Math.round((P.towers || 0) / walledN);
+      for (let k = 4; k < share; k++) {
+        const f = (k - 3) / Math.max(1, share - 3);
+        spots.push(k % 2 ? [cursor + ww * f, y0] : [cursor + ww * f, y0 + wd - t]);
+      }
+      spots.slice(0, Math.max(0, share)).forEach((s) =>
+        drum(L, s[0] + 0.45, s[1] + 0.45, 0, 1.5, h * 1.45, STONE));
+    } else {
+      box(L, cursor + 1, y0 + wd * 0.15, 0.25, Math.max(1, ww - 2), wd * 0.35, 5.2, [206, 196, 172]);
+      box(L, cursor + 1, y0 + wd * 0.15, 5.45, Math.max(1, ww - 2), wd * 0.35, 1.1, LEAD);
+    }
+    cursor += ww + 2;
+  });
+
+  if (P.motte && P.motte.height > 0) {
+    const mr = P.motte.diameter / (SCALE * 4), mh = P.motte.height / SCALE;
+    const cx = 8, cy = 11;
+    for (let i = 0; i < 6; i++) {
+      const t = i / 6, rr = mr * (1 - t * 0.34);
+      box(L, cx - rr, cy - rr, mh * t, rr * 2, rr * 2, mh / 6 + 0.02,
+          [84 - i * 3, 108 - i * 4, 66 - i * 2]);
+    }
+    drum(L, cx, cy, mh, (P.keep && P.keep.diameter) / (SCALE * 5) || 2,
+         (P.keep ? P.keep.height : 12) / SCALE, [210, 199, 176]);
+  } else if (P.keep) {
+    box(L, 9, 10, 0.25, 12, 4, P.keep.height / SCALE, [212, 203, 180]);
+    box(L, 9, 10, 0.25 + P.keep.height / SCALE, 12, 4, 1.2, LEAD);
+  }
+  return L;
+}
+
+function draw() {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  const L = scene();
+  L.sort((a, b) => a.o - b.o);
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const b of L)
+    for (const cx of [b.x, b.x + b.w]) for (const cy of [b.y, b.y + b.d])
+      for (const cz of [b.z, b.z + b.h]) {
+        const q = iso(cx, cy, cz);
+        if (q[0] < x0) x0 = q[0]; if (q[0] > x1) x1 = q[0];
+        if (q[1] < y0) y0 = q[1]; if (q[1] > y1) y1 = q[1];
+      }
+  const pad = 30;
+  const k = Math.min((cv.width - pad * 2) / (x1 - x0), (cv.height - pad * 2) / (y1 - y0));
+  ctx.setTransform(k, 0, 0, k, cv.width / 2 - k * (x0 + x1) / 2,
+                                cv.height / 2 - k * (y0 + y1) / 2);
+  L.forEach(drawBox);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  $('#cap').textContent = L.length + ' solids, painted far to near, camera at ' +
+    k.toFixed(2) + '\u00d7. Sort key is x + y + z — the order IS the depth.';
+}
+
+/* ══ the judgement — the imported rules, not a restatement ═══════════ */
+function judge() {
+  const errs = checkPlan(P);
+  const card = $('#judge');
+  card.classList.toggle('ok', errs.length === 0);
+  $('#jbody').innerHTML = errs.length
+    ? '<ul>' + errs.map((e) => '<li><b>\u00d7</b><span>' + esc(e) + '</span></li>').join('') + '</ul>'
+    : '<p class="stands"><b>\u2713 it stands.</b> Every rule the reference plans ' +
+      'are held to, this passes. Download it and it will load.</p>';
+  $('#dl').disabled = errs.length > 0;
+  return errs;
+}
+
+function bill() {
+  const u = upkeep(P), b = bricks(P);
+  $('#bill').innerHTML =
+    '<dl>' +
+    '<dt>footprint</dt><dd>' + u.ha.toFixed(2) + ' ha</dd>' +
+    '<dt>wall face</dt><dd>' + n0(u.wallFace) + ' m&sup2;</dd>' +
+    '<dt>floor</dt><dd>' + n0(u.floor) + ' m&sup2;</dd>' +
+    '<dt>pointing</dt><dd>' + money(u.repoint) + '</dd>' +
+    '<dt>roof</dt><dd>' + money(u.roof) + '</dd>' +
+    '<dt>heat</dt><dd>' + money(u.heat) + '</dd>' +
+    '<dt>insurance</dt><dd>' + money(u.insure) + '</dd>' +
+    '<dt>custodians</dt><dd>' + money(u.staff) + '</dd>' +
+    '</dl>' +
+    '<div class="tot"><u>every year, forever</u><b>' + money(u.outflow) + '</b>' +
+    '<s>and <b>' + (b.count / 1e6).toFixed(2) + 'M bricks</b> to build it &mdash; ' +
+    n0(b.tonnes) + ' tonnes, about ' + n0(b.tonnes / 25) + ' truckloads. Make them ' +
+    'where the clay is.</s></div>';
+}
+
+/* ══ the controls ════════════════════════════════════════════════════ */
+function wardCards() {
+  $('#wards').innerHTML = (P.wards || []).map((w, i) =>
+    '<div class="ward" data-i="' + i + '">' +
+      '<div class="hd"><b>' + esc(w.name || w.id || ('ward ' + (i + 1))) + '</b>' +
+      (P.wards.length > 1 ? '<button data-del="' + i + '">remove</button>' : '') + '</div>' +
+      '<div class="row">' +
+        '<div class="k"><label>width <b>' + w.w + ' m</b></label>' +
+          '<input type="range" data-f="w" data-i="' + i + '" min="20" max="320" step="5" value="' + w.w + '"></div>' +
+        '<div class="k"><label>depth <b>' + w.d + ' m</b></label>' +
+          '<input type="range" data-f="d" data-i="' + i + '" min="20" max="260" step="5" value="' + w.d + '"></div>' +
+      '</div>' +
+      '<div class="k"><label>wall <b>' + w.wall + ' m</b>' +
+        (w.wall === 0 ? ' <span style="color:var(--faint)">unwalled &mdash; a ch&acirc;teau</span>' : '') +
+        '</label><input type="range" data-f="wall" data-i="' + i + '" min="0" max="30" step="1" value="' + w.wall + '"></div>' +
+    '</div>').join('');
+
+  document.querySelectorAll('#wards input[type=range]').forEach((el) => {
+    el.oninput = () => {
+      P.wards[+el.dataset.i][el.dataset.f] = +el.value;
+      refresh();
+    };
+  });
+  document.querySelectorAll('#wards [data-del]').forEach((b) => {
+    b.onclick = () => { P.wards.splice(+b.dataset.del, 1); refresh(true); };
+  });
+}
+
+function refresh(rebuild) {
+  $('#v-mh').textContent = (P.motte ? P.motte.height : 0) + ' m';
+  $('#v-kh').textContent = (P.keep ? P.keep.height : 0) + ' m';
+  $('#v-tw').textContent = P.towers;
+  $('#v-sun').textContent = ['south-west', 'north-west', 'north-east', 'south-east'][SUN];
+  if (rebuild) wardCards();
+  judge(); bill(); draw(); save();
+  if ($('#json').classList.contains('on')) $('#json').value = JSON.stringify(P, null, 1);
+}
+
+$('#from').innerHTML = '<option value="-1">a blank plot</option>' +
+  PLANS.map((p, i) => '<option value="' + i + '">' + esc(p.name) + '</option>').join('');
+$('#from').onchange = (e) => {
+  const i = +e.target.value;
+  P = JSON.parse(JSON.stringify(i < 0 ? BLANK : PLANS[i]));
+  if (i >= 0) { P.id = P.id + '-mine'; P.name = P.name + ' (mine)'; }
+  syncInputs(); refresh(true);
+};
+
+function syncInputs() {
+  $('#f-name').value = P.name || '';
+  $('#k-mh').value = P.motte ? P.motte.height : 0;
+  $('#k-kh').value = P.keep ? P.keep.height : 12;
+  $('#k-tw').value = P.towers || 0;
+}
+
+$('#f-name').oninput = (e) => { P.name = e.target.value; refresh(); };
+$('#k-mh').oninput = (e) => {
+  const h = +e.target.value;
+  if (h === 0) P.motte = null;
+  else P.motte = Object.assign({ diameter: 50, note: 'piled from the ditch' },
+                               P.motte || {}, { height: h });
+  refresh();
+};
+$('#k-kh').oninput = (e) => {
+  P.keep = Object.assign({ name: 'The keep', diameter: 22, shape: 'round', note: '' },
+                         P.keep || {}, { height: +e.target.value });
+  refresh();
+};
+$('#k-tw').oninput = (e) => { P.towers = +e.target.value; refresh(); };
+$('#k-sun').oninput = (e) => { SUN = +e.target.value; refresh(); };
+
+$('#addward').onclick = () => {
+  const n = P.wards.length + 1;
+  P.wards.push({ id: 'ward' + n, name: 'Ward ' + n, w: 140, d: 110, wall: 8,
+                 note: 'say what happens in here' });
+  refresh(true);
+};
+
+$('#show').onclick = () => {
+  const t = $('#json');
+  t.classList.toggle('on');
+  if (t.classList.contains('on')) t.value = JSON.stringify(P, null, 1);
+};
+$('#save').onclick = () => { save(); $('#save').textContent = 'saved';
+  setTimeout(() => { $('#save').textContent = 'save'; }, 1400); };
+$('#dl').onclick = () => {
+  if (checkPlan(P).length) return;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(P, null, 1) + '\n'],
+    { type: 'application/json' }));
+  a.download = (P.id || 'my-keep') + '.json';
+  a.click(); URL.revokeObjectURL(a.href);
+};
+
+syncInputs();
+refresh(true);
+</script>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

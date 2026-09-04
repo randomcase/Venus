@@ -1,0 +1,15 @@
+{
+ "id": "BED",
+ "kind": "farm",
+ "farm": "BED",
+ "farmName": "Bed of Sigrdrifa",
+ "resource": "biomass",
+ "period": 7,
+ "degree": 0,
+ "path": "",
+ "weight": 1,
+ "price": 160,
+ "volatility": 0.04,
+ "text": "Bed of Sigrdrifa, the whole farm: biomass every 7 days.",
+ "wovenBy": "sigrid"
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-090",
+ "bench": "fleet",
+ "order": 90,
+ "year": 9,
+ "day": 3223,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "gave back",
+ "object": "a body for its weight in gold",
+ "place": "by the river",
+ "side": "fleet",
+ "text": "Agamemnon gave back a body for its weight in gold, by the river, in the ninth year."
+}

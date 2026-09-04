@@ -1,0 +1,17 @@
+{
+ "kind": "aqueduct",
+ "name": "the aqueduct from rain barrels",
+ "waters": 15,
+ "cost": 2000,
+ "text": "Water, free, for 15 households. Still nobody pays for water.",
+ "id": "t-v-water-04",
+ "wovenBy": "v-water-04",
+ "chain": [
+  "v-water-04",
+  "water-04",
+  "l2-water-2-2",
+  "l3-water-2",
+  "l4-water",
+  "loom.mjs"
+ ]
+}

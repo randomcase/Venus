@@ -1,0 +1,31 @@
+{
+ "id": "p-62",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Umbra Wendwyn",
+ "syndicate": "syn-21",
+ "tranche": 21,
+ "doors": [
+  191,
+  200
+ ],
+ "house": "the thin wall",
+ "sigil": {
+  "ring": 1,
+  "bars": 1,
+  "chord": 0,
+  "turn": 37
+ },
+ "keeps": "the checkpoint, and what it was taken over",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Jabir ibn Hayyan (Geber)",
+ "readsId": "jabir",
+ "reason": "The word alchemy carries an Arabic article on the front of it because of this tradition.",
+ "spell": "Shut the gate",
+ "spellId": "gate",
+ "glyph": "◫",
+ "share": "7b5e1f",
+ "text": "Umbra wendwyn of the thin wall, keeps the book for the 21st tranche, doors 191 to 200. Keeps the checkpoint, and what it was taken over. Reads Jabir ibn Hayyan (Geber).",
+ "wovenBy": "jabir"
+}

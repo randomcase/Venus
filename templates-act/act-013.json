@@ -1,0 +1,17 @@
+{
+ "id": "act-013",
+ "order": 13,
+ "year": 2,
+ "day": 432,
+ "parties": [
+  "agamemnon",
+  "odysseus"
+ ],
+ "actor": "Agamemnon",
+ "with": "Odysseus",
+ "verb": "sacked",
+ "object": "a city on the coast",
+ "place": "among the ships",
+ "side": "fleet",
+ "text": "Agamemnon and Odysseus sacked a city on the coast, among the ships, in the second year."
+}

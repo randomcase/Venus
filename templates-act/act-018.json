@@ -1,0 +1,17 @@
+{
+ "id": "act-018",
+ "order": 18,
+ "year": 2,
+ "day": 614,
+ "parties": [
+  "paris",
+  "deiphobus"
+ ],
+ "actor": "Paris",
+ "with": "Deiphobus",
+ "verb": "sacked",
+ "object": "a city on the coast",
+ "place": "before the Scaean gate",
+ "side": "troy",
+ "text": "Paris and Deiphobus sacked a city on the coast, before the Scaean gate, in the second year."
+}

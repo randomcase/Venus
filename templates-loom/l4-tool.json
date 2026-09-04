@@ -1,0 +1,27 @@
+{
+ "id": "l4-tool",
+ "depth": 4,
+ "wovenBy": "loom.mjs",
+ "kind": "tool",
+ "name": "The tool loom",
+ "slots": {
+  "thing": [
+   "plough",
+   "harrow",
+   "scythe",
+   "flail",
+   "hoe",
+   "sickle",
+   "drill",
+   "roller"
+  ],
+  "metal": [
+   "iron",
+   "bronze",
+   "wood",
+   "flint"
+  ]
+ },
+ "gives": "a multiplier on one kind of field",
+ "weaves": 3
+}

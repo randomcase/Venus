@@ -1,0 +1,1144 @@
+#!/usr/bin/env node
+/* ═══════════════════════════════════════════════════════════════════════════
+   hall.mjs — builds hall.html: the entrance hall, in one-point perspective.
+
+   THE EXTERIOR IS ISOMETRIC AND THE INTERIOR IS NOT, on purpose. Isometric has
+   no vanishing point, which is exactly what you want when the question is
+   "what is the plan" and exactly wrong when the question is "what does it feel
+   like to walk in". A hall is experienced from one position, standing in the
+   door, and one-point perspective is that position drawn.
+
+   So this board uses a different projection from castle.html and steading.html
+   and says so rather than quietly switching. Everything recedes to a single
+   vanishing point on the far wall, at eye height, and eye height is the only
+   reason the composition works: the stair rises past it, the gallery sits
+   above it, and the window on the half-landing is placed so that it is the
+   first thing you see.
+
+   ── the honest part ─────────────────────────────────────────────────────
+   This room is VICTORIAN. Scottish baronial is a revival style of roughly
+   1830 to 1900 quoting sixteenth-century tower houses — the same move
+   Neuschwanstein makes, and the castle glossary already gives you the tool to
+   spot it. Saying so is not a demotion. What a 1560 hall was optimised for
+   was defence and smoke; what this one is optimised for is ARRIVING, and it
+   is very good at that because arriving was the entire brief.
+
+   Every element below is drawn to do one job in that brief, and the page says
+   which job as you hover it.
+
+       node hall.mjs
+   ═══════════════════════════════════════════════════════════════════════════ */
+import { writeFileSync } from 'node:fs';
+
+const esc = (s) => String(s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+/* ── what the room is made of, and what each part is for ─────────────── */
+const PARTS = [
+  ['The stair', 'It turns. A straight run would show you the whole climb at once ' +
+   'and a dog-leg with a half-landing hides the top, so the house keeps something ' +
+   'back. The turn is also where the light is.'],
+  ['The entablature at each level', 'Architrave, frieze, cornice, repeated at ' +
+   'every storey. This is what makes three studies read as three rooms stacked ' +
+   'rather than as one tall room with shelves in it — a building without one at ' +
+   'each level has no layers, only height. The cornice oversails, and the shadow ' +
+   'it throws is doing more of the separating than the mouldings are.'],
+  ['Doric, which is not a mood', 'Vitruvius proportioned this order on the body ' +
+   'of a man — thicker, plainer, six diameters and later seven — and the Ionic ' +
+   'on a woman\u2019s, more slender and voluted. So the instruction has a ' +
+   'specification: heavier members, wider spacing, no volutes, and ornament by ' +
+   'rhythm rather than by carving. The triglyph frieze is the whole of the ' +
+   'decoration and it is a repeated block with three grooves in it. Nothing here ' +
+   'was added to make it masculine. Things were made heavier and fewer.'],
+  ['The alcoves', 'Bookcases projecting from the wall at intervals, so the space ' +
+   'between two of them is a small room with its own window and its own desk. ' +
+   'This is the stall system, and the alternative — shelves flat against the ' +
+   'wall — is not a style choice. Flat shelving gives you one large room with ' +
+   'books on it. Projecting cases give you eight small ones, each private and ' +
+   'each lit, which is what you build when people are going to read there ' +
+   'rather than walk past.'],
+  ['Light over the books', 'The window sits above the case, not beside it. That ' +
+   'is the whole reason the system works: light comes in over the shelves and ' +
+   'lands on the desk in the alcove, so the books never shade the person ' +
+   'reading them. Put the window at eye level instead and every case throws a ' +
+   'shadow across the one thing it exists to serve.'],
+  ['Three studies', 'A study, with a study on top of a study. The volume is not ' +
+   'a hall containing a library — it is study all the way up, and the stair is ' +
+   'what threads the levels rather than what the room is for. You are already ' +
+   'working the moment you are through the door.'],
+  ['The gallery walkway', 'It is not a balcony for looking down from. A shelf ' +
+   'above about two metres cannot be reached, and every gallery in every room ' +
+   'like this is that single constraint made into architecture. The desk is up ' +
+   'there because once you have built the walkway you have built a floor.'],
+  ['The bough', 'Greenery fixed to the highest point of a finished frame is a ' +
+   'real tradition and it means the structure is complete. So the arrangement ' +
+   'above the top study is not decoration standing in for done. It is the sign ' +
+   'for done, in the place the sign goes.'],
+  ['The runner', 'Red, held by brass rods. The rods are not decoration — a runner ' +
+   'that is not held slides, and a stair carpet that slides is how people fall. ' +
+   'Every ornamental thing in this room started as a fixing.'],
+  ['The half-landing window', 'Placed at the turn, which is the one point in the ' +
+   'room where you are looking up and stationary. Stained glass needs you to stop, ' +
+   'and the stair is what stops you.'],
+  ['The panelling', 'Floor to ceiling, in oak. It is doing acoustics as much as ' +
+   'anything: a stone hall rings, and a room this size with hard walls would make ' +
+   'conversation impossible at the exact moment you are meant to be greeted.'],
+  ['The hearth, on the axis', 'It heats a fraction of the volume and that is not ' +
+   'its job. Its job is to give the room a centre for people to stand at while ' +
+   'they wait, and a centre has to be something you walk TOWARD. On a side wall ' +
+   'it is something you pass, which is where it was and which broke the whole ' +
+   'sequence. Centred under the landing, the returning flights come down either ' +
+   'side of it and the hall has an end.'],
+  ['The library, through the arch', 'A reading room beyond the hall, and the thing ' +
+   'worth taking from the great oval rooms is not the shelving \u2014 it is where ' +
+   'the light comes from. A glazed oculus directly overhead means nothing in the ' +
+   'room casts a long shadow and the shelves stay legible the whole way round. ' +
+   'Windows down one side would have given you a bright wall and a dark one.'],
+  ['The gallery', 'A balcony over the entrance. It exists so that the household can ' +
+   'see who has arrived before deciding to come down, and that is not sinister, it ' +
+   'is just what a big house needs.'],
+  ['The parquet', 'Geometric, in two woods. It is laid on the diagonal, which makes ' +
+   'the floor read as wider than it is and gives the eye something to travel along ' +
+   'toward the stair.'],
+  ['The coffered ceiling', 'Squares getting smaller as they recede. Nothing else in ' +
+   'the room tells you how big it is so directly — a flat ceiling has no scale, ' +
+   'and a coffered one is a ruler.']
+];
+
+/* ── the choices that are actually yours ─────────────────────────────── */
+const PANELS = [
+  ['library', 'Half-library', 'Shelves rather than panels, floor to ceiling on ' +
+   'every wall at every level. The room stops being something you pass through ' +
+   'and becomes somewhere you are already working.'],
+  ['linenfold', 'Linenfold', 'Carved to look like folded cloth. Early Tudor, and by ' +
+   'the 1870s a quotation rather than a technique. Warm, busy, and it reads as old.'],
+  ['arcaded', 'Arcaded', 'Blind arches in a row. More architectural, more severe, and ' +
+   'it makes the walls read as a colonnade rather than as furniture.'],
+  ['fielded', 'Fielded', 'Plain raised panels with a bevel. The quietest of the three ' +
+   'and the only one that does not announce a century.']
+];
+const GLASS = [
+  ['heraldic', 'Heraldic', 'Shields and mottoes. It says who lives here before anybody ' +
+   'has spoken, which is the whole point of putting it where you stop.'],
+  ['landscape', 'Landscape', 'A scene in glass. Softer, later, and it makes the window ' +
+   'a picture rather than a claim.'],
+  ['plain', 'Leaded plain', 'Clear quarries in lead. Most light, least statement, and ' +
+   'the only option that lets you see the weather.']
+];
+const HOUR = [
+  ['day', 'Daylight', 'The window does the work and the lamps are off.'],
+  ['dusk', 'Dusk', 'Both at once. The glass goes flat and the fire takes over.'],
+  ['night', 'Night', 'The window is a dark shape and the room is entirely lamplight.']
+];
+
+const html = '<!doctype html>\n<html lang="en">\n<head>\n' +
+'<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
+'<title>The entrance hall &middot; one-point perspective</title>\n' +
+'<!-- No off-origin requests. Drawn from a projection, not an image. -->\n' +
+'<style>\n' +
+`  :root{
+    --dark:#120d08; --panel:#1a130c; --edge:#2c2116; --edge2:#3d2e1f;
+    --ink:#e8dcc6; --dim:#a4907a; --faint:#6f6153;
+    --oak:#7a5230; --amber:#d9a441; --ember:#c85a2b; --stone:#b9a78c;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--dark);color:var(--ink);
+    font:16px/1.7 var(--serif);padding:30px 18px 70px}
+  main{max-width:1300px;margin:0 auto}
+  a{color:var(--amber);text-decoration:none} a:hover{text-decoration:underline}
+  .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:3px}
+  h1{margin:0;font:500 37px/1.08 var(--serif)}
+  .top span{font:400 9px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;
+    color:var(--amber)}
+  .intro{margin:0 0 18px;max-width:84ch;color:var(--dim);font-size:15px}
+
+  .rig{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px}
+  @media (max-width:1040px){ .rig{grid-template-columns:1fr} }
+  .stage{background:#0b0704;border:1px solid var(--edge);position:relative}
+  svg#hall{width:100%;height:auto;display:block}
+  .cap{position:absolute;left:12px;bottom:10px;right:12px;
+    font:400 9px/1.5 var(--mono);color:#5a4a3a;pointer-events:none}
+  /* the layer you draw on. It sits over the render and never touches it. */
+  #ink{position:absolute;inset:0;width:100%;height:100%;cursor:crosshair;
+    touch-action:none}
+  .pens{position:absolute;right:10px;top:10px;display:flex;gap:5px;
+    background:rgba(12,8,4,.82);padding:6px;border:1px solid var(--edge2)}
+  .pens button{width:22px;height:22px;border:1px solid #3d2e1f;cursor:pointer;
+    padding:0;background:#000}
+  .pens button.on{border-color:#fff;box-shadow:0 0 0 1px #fff}
+  .pens button.w{width:auto;padding:0 9px;color:var(--dim);background:#1a130c;
+    font:400 9px/20px var(--mono)}
+  .pens button.w:hover{color:var(--amber);border-color:var(--amber)}
+
+  aside{display:flex;flex-direction:column;gap:12px}
+  .card{background:var(--panel);border:1px solid var(--edge);padding:14px 15px}
+  .card h3{margin:0 0 11px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--amber)}
+  .opt{display:flex;flex-direction:column;gap:6px}
+  .opt label{display:flex;gap:9px;align-items:flex-start;cursor:pointer;
+    padding:8px 10px;border:1px solid transparent;background:#150f09}
+  .opt label:hover{border-color:var(--edge2)}
+  .opt label.on{border-color:var(--amber);background:#1e150c}
+  .opt input{margin:4px 0 0}
+  .opt b{display:block;font:600 14px/1.3 var(--serif)}
+  .opt s{display:block;text-decoration:none;margin-top:3px;
+    font:400 11.5px/1.55 var(--serif);color:var(--faint)}
+  .opt label.on s{color:var(--dim)}
+
+  .parts{margin:0;padding:0;list-style:none}
+  .parts li{padding:9px 0;border-bottom:1px dotted #2a2018}
+  .parts li:last-child{border-bottom:none}
+  .parts b{display:block;font:600 15px/1.3 var(--serif);color:var(--ink);cursor:default}
+  .parts s{display:block;text-decoration:none;margin-top:4px;
+    font:400 12.5px/1.6 var(--serif);color:var(--faint)}
+
+  .said{margin:26px 0;padding:20px 22px;background:#170f08;
+    border-left:3px solid var(--amber)}
+  .said h4{margin:0 0 9px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--amber)}
+  .said p{margin:0 0 12px;max-width:80ch} .said p:last-child{margin:0}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 10px/1.9 var(--mono)}
+</style>\n</head>\n<body>\n<main>\n` +
+
+'<div class="top"><h1>The entrance hall</h1><span>one-point perspective</span></div>\n' +
+'<p class="intro">The exterior boards are isometric because isometric has no ' +
+'vanishing point, which is what you want when the question is <em>what is the ' +
+'plan</em>. A hall is not a plan. It is experienced from one position, standing ' +
+'in the door, and this is that position drawn &mdash; everything receding to a ' +
+'single point on the far wall at eye height, which is the only reason the ' +
+'composition works.</p>\n' +
+
+'<div class="rig">\n' +
+'  <div class="stage"><svg id="hall" viewBox="0 0 1200 660"></svg>' +
+'<canvas id="ink" width="1200" height="660"></canvas>' +
+'<div class="cap" id="cap"></div>' +
+'<div class="pens" id="pens"></div></div>\n' +
+'  <aside>\n' +
+'    <div class="card"><h3>where you are standing</h3>' +
+'<div class="opt" id="o-view"></div></div>\n' +
+'    <div class="card"><h3>the panelling</h3><div class="opt" id="o-panel"></div></div>\n' +
+'    <div class="card"><h3>the window at the turn</h3><div class="opt" id="o-glass"></div></div>\n' +
+'    <div class="card"><h3>the hour</h3><div class="opt" id="o-hour"></div></div>\n' +
+'    <div class="card"><h3>the fire</h3><div class="opt" id="o-fire"></div></div>\n' +
+'  </aside>\n' +
+'</div>\n' +
+
+'<div class="said">\n' +
+'  <h4>the honest part</h4>\n' +
+'  <p>This room is <b>Victorian</b>. Scottish baronial is a revival of roughly ' +
+'1830 to 1900 quoting sixteenth-century tower houses, and the castle ' +
+'glossary already hands you the tool to spot the move: ' +
+'<a href="castle.html">machicolations with no opening through them</a> are a ' +
+'carving of a function, and a baronial hall is the same trick indoors.</p>\n' +
+'  <p>That is not a demotion. A 1560 hall was optimised for defence and smoke ' +
+'and it was a miserable room. This one is optimised for <b>arriving</b>, and it ' +
+'is extremely good at it, because arriving was the entire brief. Every element ' +
+'in the panel on the right is doing a job in that brief rather than quoting one, ' +
+'and the jobs are worth knowing.</p>\n' +
+'</div>\n' +
+
+'<h2 style="margin:44px 0 8px;font:500 25px/1.2 var(--serif)">What each part is for</h2>\n' +
+'<ul class="parts">\n' +
+PARTS.map(([n, w]) => '  <li><b>' + esc(n) + '</b><s>' + esc(w) + '</s></li>').join('\\n') +
+'\n</ul>\n' +
+
+'<footer>\n' +
+'Built by <a href="hall.mjs">hall.mjs</a>. One-point perspective: every point ' +
+'projected as x&middot;k&middot;f/(f+z) about a vanishing point at eye height, ' +
+'so the room is drawn rather than drawn over. Deliberately a different ' +
+'projection from <a href="castle.html">the plans</a> and ' +
+'<a href="steading.html">the steading</a>, which are isometric because they ' +
+'answer a different question.<br>\n' +
+'<a href="explorer.html">edit it</a> &middot; <a href="dev.html">the hub</a> ' +
+'&middot; <a href="arcade.html">the arcade</a>\n' +
+'</footer>\n</main>\n\n' +
+
+'<script>\n' +
+'const PANELS = ' + JSON.stringify(PANELS) + ';\n' +
+'const GLASS = ' + JSON.stringify(GLASS) + ';\n' +
+'const HOUR = ' + JSON.stringify(HOUR) + ';\n' +
+`
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+/* ══ the projection ═══════════════════════════════════════════════════
+   One point. x is metres right of centre, y is metres above EYE height,
+   z is metres away from where you are standing. Everything shrinks by
+   f/(f+z), which is the whole of perspective and is four characters. */
+const W = 1200, H = 660;
+let VPX = W * 0.56, VPY = H * 0.47;       /* the vanishing point */
+const K = 62, F = 13;                      /* pixels per metre, focal distance */
+
+/* THE CAMERA. The first pass had it nailed to the doorway, which is why the
+   drawing order worked: it was correct for exactly one position. Everything
+   below is now expressed relative to wherever you are standing. */
+const CAM = { x: 0, y: 0, z: 0, face: 'z' };
+
+/* Camera space: where a world point sits relative to you, and which way you
+   are facing. Four directions, and the right-hand vector follows from the
+   forward one by the same quarter turn each time — forward +z gives right
+   +x, forward +x gives right -z. Turning round negates BOTH, or the room
+   comes out mirrored, which is the one thing that is not obvious here. */
+function cam(x, y, z) {
+  const ax = x - CAM.x, ay = y - CAM.y, az = z - CAM.z;
+  switch (CAM.face) {
+    case '-z': return [-ax, ay, -az];
+    case 'x':  return [-az, ay,  ax];   /* facing across the room */
+    case '-x': return [ az, ay, -ax];
+    default:   return [ ax, ay,  az];
+  }
+}
+/* clamped, because a point level with your eye is a division by zero and a
+   point behind you is worse than that */
+const s = (z) => F / (F + Math.max(0.4, z));
+function P(x, y, z) {
+  const c = cam(x, y, z), k = K * s(c[2]);
+  return [VPX + c[0] * k, VPY - c[1] * k];
+}
+/* the depth key: how far away, for the sort */
+const dep = (x, y, z) => cam(x, y, z)[2];
+const pts = (arr) => arr.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+
+/* the room */
+const HALF = 6.2, EYE = 1.62, TALL = 9.2, DEEP = 13;
+
+/* THE STAIR, in the two dimensions that decide how it feels. Rise is the
+   height of a step, going is the depth of the tread, and their ratio is the
+   pitch. A service stair is about 0.20 by 0.22 and climbs at 42 degrees,
+   which is fast and makes you watch your feet. This is a processional stair:
+   shallow, deep-treaded, spending floor to buy the time to look up. */
+const STAIR = { rise: 0.153, going: 0.36, width: 2.5, top: 2.75 };
+STAIR.risers = Math.round(STAIR.top / STAIR.rise);
+STAIR.run = (STAIR.risers - 1) * STAIR.going;
+STAIR.pitch = Math.atan(STAIR.rise / STAIR.going) * 180 / Math.PI;
+/* the builders' rule: two rises plus a going lands near 630 mm on a
+   comfortable stair, and a grand one sits deliberately above it */
+STAIR.rule = Math.round((2 * STAIR.rise + STAIR.going) * 1000);
+const FLOOR = -EYE, CEIL = TALL - EYE;
+
+const state = { panel: 'library', glass: 'heraldic', hour: 'dusk', fire: 'lit',
+                view: 'door' };
+
+/* Four places to stand. Each is a real position in the room rather than an
+   angle on a model, which is why they show you different things and not the
+   same thing turned. */
+const VIEWS = [
+  ['door', 'In the door', { x: 0, y: 0, z: 0, back: false, vx: 0.56, vy: 0.47 },
+   'Arriving. What the room was composed for, and the only view where the ' +
+   'window at the turn is the first thing you see.'],
+  ['landing', 'The half-landing, looking back',
+   { x: 2.4, y: 2.6 - 1.62, z: 12.2, back: true, vx: 0.46, vy: 0.55 },
+   'Where the household stands. You are above the room and looking at whoever ' +
+   'has just come in, which is the position the stair exists to create.'],
+  ['gallery', 'The gallery, looking down',
+   { x: 0.4, y: 4.5 - 1.62, z: 2.2, back: false, vx: 0.54, vy: 0.62 },
+   'Over the entrance. From here you can see who has arrived before deciding ' +
+   'to come down, and that is what a balcony over a door is for.'],
+  ['alcove', 'In an alcove',
+   { x: -5.35, y: -0.18, z: 6.3, face: 'x', vx: 0.5, vy: 0.52 },
+   'Sitting at one of the desks with the wall behind you and a case to either ' +
+   'side, looking out at the hall framed between them. This is the position ' +
+   'the whole stall system exists to make, and it is why the cases project ' +
+   'instead of lying flat: from here the room is somebody else\u2019s.'],
+  ['fire', 'At the fire, looking across',
+   { x: -4.3, y: -0.1, z: 5.9, back: false, vx: 0.66, vy: 0.49 },
+   'Where you wait. The chimneypiece is at your shoulder and the stair is ' +
+   'across the room — the view most people in this hall actually had.']
+];
+function setView(id) {
+  const v = VIEWS.find((x) => x[0] === id) || VIEWS[0];
+  state.view = id;
+  CAM.x = v[2].x; CAM.y = v[2].y; CAM.z = v[2].z; CAM.face = v[2].face || (v[2].back ? '-z' : 'z');
+  VPX = W * v[2].vx; VPY = H * v[2].vy;
+}
+
+/* ══ drawing ══════════════════════════════════════════════════════════ */
+function draw() {
+  const warm = state.hour === 'night' ? 1 : state.hour === 'dusk' ? 0.72 : 0.34;
+  const day = state.hour === 'day' ? 1 : state.hour === 'dusk' ? 0.45 : 0.06;
+  /* Every shape goes in with the camera-space depth of whatever it belongs
+     to, and the whole list is sorted far-to-near before it is written. SVG
+     has no depth buffer; paint order IS depth, which the first pass got away
+     with only because there was one camera. */
+  const o = [];
+  const add = (t, d) => o.push({ t: t, d: d === undefined ? 0 : d });
+  const poly = (a, fill, extra, d) => add('<polygon points="' + pts(a) + '" fill="' +
+    fill + '"' + (extra || '') + '/>', d);
+  const line = (a, b, st, wd, d) => add('<line x1="' + a[0].toFixed(1) + '" y1="' +
+    a[1].toFixed(1) + '" x2="' + b[0].toFixed(1) + '" y2="' + b[1].toFixed(1) +
+    '" stroke="' + st + '" stroke-width="' + (wd || 1) + '"/>', d);
+  const mix = (a, b, t) => a.map((c, i) => Math.round(c + (b[i] - c) * t));
+  const rgb = (c) => 'rgb(' + c.join(',') + ')';
+
+  /* --- the shell ------------------------------------------------------ */
+  const backTL = P(-HALF, CEIL, DEEP), backTR = P(HALF, CEIL, DEEP);
+  const backBL = P(-HALF, FLOOR, DEEP), backBR = P(HALF, FLOOR, DEEP);
+  const nearTL = P(-HALF, CEIL, 0), nearTR = P(HALF, CEIL, 0);
+  const nearBL = P(-HALF, FLOOR, 0), nearBR = P(HALF, FLOOR, 0);
+
+  const oakBase = [92, 60, 34];
+  const lit = (t) => rgb(mix([26, 18, 12], oakBase, t));
+
+  /* floor: parquet on the diagonal, drawn as a receding grid */
+  poly([nearBL, nearBR, backBR, backBL], '#2a1c11', '', dep(0, FLOOR, DEEP / 2));
+  const step = 1.15;
+  for (let z = 0; z <= DEEP; z += step) {
+    const a = P(-HALF, FLOOR, z), b = P(HALF, FLOOR, z);
+    line(a, b, 'rgba(200,160,110,' + (0.10 + 0.16 * s(dep(0, FLOOR, z))) + ')', 1, dep(0, FLOOR, z));
+  }
+  for (let x = -HALF; x <= HALF + 0.01; x += step) {
+    line(P(x, FLOOR, 0), P(x, FLOOR, DEEP), 'rgba(200,160,110,.09)', 1, dep(x, FLOOR, DEEP / 2));
+  }
+  /* the diagonal that makes it parquet rather than boards */
+  for (let x = -HALF * 2; x <= HALF * 2; x += step * 2) {
+    const a = P(Math.max(-HALF, x), FLOOR, Math.max(0, -x));
+    const b = P(Math.min(HALF, x + DEEP), FLOOR, Math.min(DEEP, DEEP - x));
+    line(a, b, 'rgba(190,150,100,.055)', 1, dep(0, FLOOR, DEEP / 2));
+  }
+
+  /* ceiling: coffers, which are the only ruler in the room */
+  poly([nearTL, nearTR, backTR, backTL], '#170f09', '', dep(0, CEIL, DEEP / 2));
+  for (let z = 0; z <= DEEP; z += step * 1.4)
+    line(P(-HALF, CEIL, z), P(HALF, CEIL, z), 'rgba(150,110,70,.20)', 1.4, dep(0, CEIL, z));
+  for (let x = -HALF; x <= HALF + 0.01; x += step * 1.4)
+    line(P(x, CEIL, 0), P(x, CEIL, DEEP), 'rgba(150,110,70,.14)', 1.4, dep(x, CEIL, DEEP / 2));
+
+  /* the two side walls, panelled */
+  poly([nearTL, backTL, backBL, nearBL], '#20170e', '', dep(-HALF, 0, DEEP / 2));
+  poly([nearTR, backTR, backBR, nearBR], '#1b130c', '', dep(HALF, 0, DEEP / 2));
+  const bays = 9;
+  for (let i = 0; i <= bays; i++) {
+    const z = (i / bays) * DEEP;
+    const t = 0.30 + 0.55 * s(z) * (warm * 0.8 + 0.35);
+    line(P(-HALF, FLOOR, z), P(-HALF, CEIL, z), lit(t), 1.6, dep(-HALF, 0, z));
+    line(P(HALF, FLOOR, z), P(HALF, CEIL, z), lit(t * 0.8), 1.6, dep(HALF, 0, z));
+    if (i < bays) {
+      const z2 = ((i + 0.5) / bays) * DEEP;
+      panelBay(-HALF, z, ((i + 1) / bays) * DEEP, add, lit, warm, s);
+      panelBay(HALF, z, ((i + 1) / bays) * DEEP, add, lit, warm * 0.75, s);
+    }
+  }
+  /* ─── the entablature at every level ──────────────────────────────────
+     What divides a storey from the one above it. Architrave below, frieze
+     with its triglyphs in the middle, cornice oversailing on top — and a
+     building without one at each level has no layers, only height, which is
+     what was wrong here.
+
+     The frieze is Doric: triglyphs at a fixed rhythm with plain metopes
+     between. Vitruvius proportioned this order on a man's body — thicker,
+     plainer, no volutes — which is what "masculine principles" specifies in
+     the tradition, and it specifies weight rather than ornament. */
+  const entablature = (y) => {
+    const ARCH = 0.20, FRIEZE = 0.46, CORN = 0.26, OVER = 0.30;
+    for (const wx of [-HALF, HALF]) {
+      const inward = wx > 0 ? -1 : 1;
+      const d0 = dep(wx, y, DEEP / 2);
+      /* the architrave: one plain band, and plain is the point */
+      poly([P(wx, y, 0), P(wx, y, DEEP), P(wx, y + ARCH, DEEP), P(wx, y + ARCH, 0)],
+           lit(0.42), '', d0 + 0.2);
+      /* the frieze */
+      poly([P(wx, y + ARCH, 0), P(wx, y + ARCH, DEEP),
+            P(wx, y + ARCH + FRIEZE, DEEP), P(wx, y + ARCH + FRIEZE, 0)],
+           lit(0.30), '', d0 + 0.19);
+      /* the triglyphs, on a fixed rhythm. Three grooves each, which is the
+         whole of the ornament and is why it never looks fussy. */
+      for (let z = 0.55; z < DEEP; z += 1.45) {
+        const td = dep(wx, y, z) + 0.1;
+        poly([P(wx, y + ARCH, z), P(wx, y + ARCH, z + 0.34),
+              P(wx, y + ARCH + FRIEZE, z + 0.34), P(wx, y + ARCH + FRIEZE, z)],
+             lit(0.5), '', td);
+        for (let k = 1; k <= 2; k++)
+          line(P(wx, y + ARCH + 0.04, z + k * 0.113),
+               P(wx, y + ARCH + FRIEZE - 0.04, z + k * 0.113),
+               'rgba(20,13,8,.75)', 1.5, td - 0.01);
+      }
+      /* the cornice, oversailing — the shadow it throws is what actually
+         separates one storey from the next */
+      poly([P(wx, y + ARCH + FRIEZE, 0), P(wx, y + ARCH + FRIEZE, DEEP),
+            P(wx + inward * OVER, y + ARCH + FRIEZE + CORN, DEEP),
+            P(wx + inward * OVER, y + ARCH + FRIEZE + CORN, 0)],
+           lit(0.62), '', d0 + 0.18);
+      poly([P(wx + inward * OVER, y + ARCH + FRIEZE, 0),
+            P(wx + inward * OVER, y + ARCH + FRIEZE, DEEP),
+            P(wx + inward * OVER, y + ARCH + FRIEZE + CORN, DEEP),
+            P(wx + inward * OVER, y + ARCH + FRIEZE + CORN, 0)],
+           'rgba(12,8,5,.55)', '', d0 + 0.17);
+    }
+  };
+  entablature(FLOOR + 3.35);
+  entablature(FLOOR + 6.05);
+
+  /* the dado and the cornice run the length of both walls */
+  for (const x of [-HALF, HALF]) {
+    for (const y of [FLOOR + 1.15, CEIL - 0.75])
+      line(P(x, y, 0), P(x, y, DEEP), lit(0.55), 1.5, dep(x, y, DEEP / 2));
+  }
+
+  /* --- the back wall, the stair, the window --------------------------- */
+  poly([backTL, backTR, backBR, backBL], '#1d150d', '', dep(0, 0, DEEP) + 0.4);
+
+  /* the half-landing: a platform at 2.6 m, right of centre */
+  const LY = 2.6 - EYE, LZ = DEEP - 0.6;
+  const lx0 = -0.4, lx1 = HALF;
+  poly([P(lx0, LY, LZ), P(lx1, LY, LZ), P(lx1, LY, LZ - 2.4), P(lx0, LY, LZ - 2.4)],
+       lit(0.5));
+
+  /* the window above it — this is the thing you see first */
+  drawGlass(add, poly, line, P, lit, day, state.glass, LY, DEEP - 0.02);
+
+  /* ─── the three tiers ────────────────────────────────────────────────
+     You walk in. A study at the bottom. The fireplace. The stair, which
+     splits. A study at the top flanked by both flights. A bough above it.
+
+     This is an IMPERIAL staircase, and the form was already the answer: one
+     flight up to a central landing, two returning from it left and right, so
+     the landing is flanked by stair on both sides and is the one place in the
+     room where you stand and are seen by everybody. A desk there is unusual,
+     and that is the idea — the most public position in the house, given to
+     the most private thing anybody does in it. */
+  const LX = 0.0;                         /* the axis everything is built on */
+  const zTop = LZ - 1.8;
+
+  /* --- tier one: the study at the bottom of the stairs ---------------- */
+  {
+    const dx = -3.9, dz = 4.6, dd = dep(dx, FLOOR, dz);
+    /* the desk: a top, and legs you only half see */
+    poly([P(dx - 1.05, FLOOR + 0.76, dz - 0.55), P(dx + 1.05, FLOOR + 0.76, dz - 0.55),
+          P(dx + 1.05, FLOOR + 0.76, dz + 0.55), P(dx - 1.05, FLOOR + 0.76, dz + 0.55)],
+         lit(0.46), '', dd);
+    poly([P(dx - 1.05, FLOOR, dz + 0.55), P(dx + 1.05, FLOOR, dz + 0.55),
+          P(dx + 1.05, FLOOR + 0.76, dz + 0.55), P(dx - 1.05, FLOOR + 0.76, dz + 0.55)],
+         lit(0.22), '', dd - 0.01);
+    /* the chair, back to you, because somebody is working */
+    poly([P(dx - 0.3, FLOOR, dz + 1.15), P(dx + 0.3, FLOOR, dz + 1.15),
+          P(dx + 0.3, FLOOR + 1.05, dz + 1.15), P(dx - 0.3, FLOOR + 1.05, dz + 1.15)],
+         lit(0.3), '', dd - 0.4);
+    /* a lamp, which is the reason the corner exists */
+    add('<defs><radialGradient id="deskA"><stop offset="0" stop-color="#ffe0a8" ' +
+        'stop-opacity=".62"/><stop offset="1" stop-color="#c8873a" ' +
+        'stop-opacity="0"/></radialGradient></defs>', 1e9);
+    const lc = P(dx + 0.6, FLOOR + 1.0, dz - 0.2);
+    add('<ellipse cx="' + lc[0].toFixed(1) + '" cy="' + lc[1].toFixed(1) +
+        '" rx="46" ry="34" fill="url(#deskA)"/>', dd - 0.02);
+    /* papers, which is what tells you it is a study and not a hall table */
+    for (let k = 0; k < 4; k++)
+      poly([P(dx - 0.5 + k * 0.22, FLOOR + 0.775, dz - 0.2),
+            P(dx - 0.32 + k * 0.22, FLOOR + 0.775, dz - 0.2),
+            P(dx - 0.32 + k * 0.22, FLOOR + 0.775, dz + 0.1),
+            P(dx - 0.5 + k * 0.22, FLOOR + 0.775, dz + 0.1)],
+           'rgba(232,220,198,.5)', '', dd - 0.03);
+  }
+
+  /* --- tier two: the stair, one flight up and two returning ----------- */
+  const flight = (x0, x1, zStart, dirn, half) => {
+    const n = half ? Math.round(STAIR.risers / 2) : STAIR.risers;
+    const base = half ? STAIR.rise * Math.round(STAIR.risers / 2) : 0;
+    for (let i = 0; i < n; i++) {
+      const y1 = FLOOR + base + STAIR.rise * (i + 1);
+      const z1 = zStart + dirn * i * STAIR.going;
+      const z0 = z1 + dirn * STAIR.going;
+      const d = dep((x0 + x1) / 2, y1, z1);
+      poly([P(x0, y1, z1), P(x1, y1, z1), P(x1, y1, z0), P(x0, y1, z0)],
+           lit(0.26 + 0.36 * s(d)), '', d);
+      const r0 = x0 + 0.42, r1 = x1 - 0.42;
+      poly([P(r0, y1, z1), P(r1, y1, z1), P(r1, y1, z0), P(r0, y1, z0)],
+           'rgb(' + mix([84, 24, 20], [156, 48, 36], s(d)).join(',') + ')', '', d - 0.01);
+      line(P(r0, y1 + 0.015, z0), P(r1, y1 + 0.015, z0),
+           'rgba(214,178,96,.55)', 1.3, d - 0.02);
+      poly([P(x0, y1 - STAIR.rise, z0), P(x1, y1 - STAIR.rise, z0),
+            P(x1, y1, z0), P(x0, y1, z0)], lit(0.13 + 0.2 * s(d)), '', d - 0.03);
+    }
+    /* the balustrade on the open side */
+    /* square piers rather than turned balusters, and one to every other
+       tread rather than every one. Doric spacing: fewer, thicker, further
+       apart. A wire every step is the squeamish version. */
+    for (let i = 0; i <= n; i += 2) {
+      const y1 = FLOOR + base + STAIR.rise * i;
+      const z0 = zStart + dirn * i * STAIR.going;
+      const bx = dirn > 0 ? x0 : x1;
+      const bd = dep(bx, y1, z0) - 0.05;
+      poly([P(bx - 0.075, y1, z0 - 0.075), P(bx + 0.075, y1, z0 - 0.075),
+            P(bx + 0.075, y1 + 0.92, z0 - 0.075), P(bx - 0.075, y1 + 0.92, z0 - 0.075)],
+           lit(0.5), '', bd);
+      /* a plain capital, which is all a Doric one is */
+      poly([P(bx - 0.12, y1 + 0.92, z0 - 0.075), P(bx + 0.12, y1 + 0.92, z0 - 0.075),
+            P(bx + 0.12, y1 + 1.02, z0 - 0.075), P(bx - 0.12, y1 + 1.02, z0 - 0.075)],
+           lit(0.66), '', bd - 0.01);
+    }
+  };
+
+  /* the lower flight, coming toward you on the axis */
+  flight(LX - STAIR.width / 2, LX + STAIR.width / 2,
+         zTop - STAIR.run / 2, -1, false);
+
+  /* --- the central landing, and the study on it ----------------------- */
+  const LANDY = FLOOR + STAIR.rise * STAIR.risers;
+  const lz0 = zTop - 0.4, lz1 = zTop + 2.9;
+  poly([P(-3.5, LANDY, lz0), P(3.5, LANDY, lz0), P(3.5, LANDY, lz1), P(-3.5, LANDY, lz1)],
+       lit(0.42), '', dep(0, LANDY, (lz0 + lz1) / 2));
+
+  /* the two returning flights, which is what flanks the study */
+  flight(-4.9, -4.9 + STAIR.width * 0.7, lz0 + 0.3, 1, true);
+  flight(4.9 - STAIR.width * 0.7, 4.9, lz0 + 0.3, 1, true);
+
+  /* the upper study, on the axis, between them */
+  {
+    const dz = zTop + 1.1, dd = dep(0, LANDY, dz) - 0.2;
+    poly([P(-1.15, LANDY + 0.76, dz - 0.5), P(1.15, LANDY + 0.76, dz - 0.5),
+          P(1.15, LANDY + 0.76, dz + 0.5), P(-1.15, LANDY + 0.76, dz + 0.5)],
+         lit(0.5), '', dd);
+    poly([P(-1.15, LANDY, dz + 0.5), P(1.15, LANDY, dz + 0.5),
+          P(1.15, LANDY + 0.76, dz + 0.5), P(-1.15, LANDY + 0.76, dz + 0.5)],
+         lit(0.24), '', dd - 0.01);
+    poly([P(-0.32, LANDY, dz - 1.0), P(0.32, LANDY, dz - 1.0),
+          P(0.32, LANDY + 1.05, dz - 1.0), P(-0.32, LANDY + 1.05, dz - 1.0)],
+         lit(0.32), '', dd - 0.02);
+    const lc = P(0.62, LANDY + 1.0, dz - 0.2);
+    add('<ellipse cx="' + lc[0].toFixed(1) + '" cy="' + lc[1].toFixed(1) +
+        '" rx="44" ry="32" fill="url(#deskA)"/>', dd - 0.03);
+  }
+
+  /* --- tier three: a study on top of a study --------------------------
+     The gallery walkway is not a balcony for looking down from. It exists
+     because a shelf above about two metres cannot be reached, and every
+     gallery in every room like this is that constraint made into
+     architecture. The desk is there because once you have built the walkway
+     you have built a floor. */
+  {
+    const gy = LANDY + 2.65;
+    const gz0 = zTop - 0.2, gz1 = zTop + 3.1;
+    poly([P(-3.1, gy, gz0), P(3.1, gy, gz0), P(3.1, gy, gz1), P(-3.1, gy, gz1)],
+         lit(0.38), '', dep(0, gy, (gz0 + gz1) / 2));
+    /* the rail, one baluster every 40 cm, which is what a rail is */
+    /* the same piers on the gallery: 60 cm apart and square, not 40 and thin */
+    for (let x = -3.1; x <= 3.1; x += 0.6) {
+      const bd = dep(x, gy, gz0) - 0.05;
+      poly([P(x - 0.08, gy, gz0), P(x + 0.08, gy, gz0),
+            P(x + 0.08, gy + 0.92, gz0), P(x - 0.08, gy + 0.92, gz0)], lit(0.48), '', bd);
+      poly([P(x - 0.13, gy + 0.92, gz0), P(x + 0.13, gy + 0.92, gz0),
+            P(x + 0.13, gy + 1.02, gz0), P(x - 0.13, gy + 1.02, gz0)], lit(0.64), '', bd - 0.01);
+    }
+    line(P(-3.1, gy + 0.95, gz0), P(3.1, gy + 0.95, gz0), lit(0.62), 2.6,
+         dep(0, gy, gz0) - 0.06);
+    /* the third desk */
+    const dz = zTop + 1.35, dd = dep(0, gy, dz) - 0.2;
+    poly([P(-1.0, gy + 0.74, dz - 0.45), P(1.0, gy + 0.74, dz - 0.45),
+          P(1.0, gy + 0.74, dz + 0.45), P(-1.0, gy + 0.74, dz + 0.45)],
+         lit(0.48), '', dd);
+    poly([P(-1.0, gy, dz + 0.45), P(1.0, gy, dz + 0.45),
+          P(1.0, gy + 0.74, dz + 0.45), P(-1.0, gy + 0.74, dz + 0.45)],
+         lit(0.23), '', dd - 0.01);
+    const lc = P(0.55, gy + 0.98, dz - 0.2);
+    add('<ellipse cx="' + lc[0].toFixed(1) + '" cy="' + lc[1].toFixed(1) +
+        '" rx="40" ry="30" fill="url(#deskA)"/>', dd - 0.02);
+    /* the ladder that reaches the shelves this walkway does not */
+    for (let k = 0; k < 7; k++)
+      line(P(-4.4, gy - 2.2 + k * 0.38, gz1 - 0.3), P(-3.9, gy - 2.2 + k * 0.38, gz1 - 0.3),
+           lit(0.4), 1.6, dep(-4.1, gy, gz1) - 0.1);
+    line(P(-4.4, gy - 2.4, gz1 - 0.3), P(-4.4, gy + 0.4, gz1 - 0.3), lit(0.46), 1.8,
+         dep(-4.4, gy, gz1) - 0.11);
+    line(P(-3.9, gy - 2.4, gz1 - 0.3), P(-3.9, gy + 0.4, gz1 - 0.3), lit(0.46), 1.8,
+         dep(-3.9, gy, gz1) - 0.11);
+  }
+
+  /* --- and the bough, at the highest point, which means finished ------- */
+  {
+    /* A topping-out bough. Greenery fixed to the highest point of a finished
+       frame is a real tradition — Scandinavian and Germanic, still done on
+       steel — and it means the structure is complete. So this is not
+       decoration standing in for "done". It is the sign for done, in the
+       place the sign goes. */
+    const by = LANDY + 5.05, bz = zTop + 1.35, bd = dep(0, by, bz) - 0.5;
+    /* the bracket it hangs from */
+    line(P(0, by + 0.9, bz), P(0, by + 0.35, bz), lit(0.5), 2.2, bd);
+    /* the greenery: a fan of sprigs, warm at the tips */
+    for (let k = 0; k < 22; k++) {
+      const a2 = -Math.PI * 0.06 + (k / 21) * Math.PI * 1.12;
+      const len = 0.42 + 0.30 * Math.sin(k * 1.7) * Math.sin(k * 0.9);
+      const x2 = Math.cos(a2) * len * 1.5, y2 = by + Math.sin(a2) * len;
+      line(P(0, by, bz), P(x2, y2, bz),
+           'rgba(' + Math.round(74 + (k % 4) * 12) + ',' +
+           Math.round(104 + (k % 3) * 16) + ',62,.85)', 2.1, bd - 0.01);
+      /* the flowers, which are the part that says somebody chose to mark it */
+      if (k % 3 === 0) {
+        const fp = P(x2, y2, bz);
+        add('<circle cx="' + fp[0].toFixed(1) + '" cy="' + fp[1].toFixed(1) +
+            '" r="4.2" fill="rgba(226,196,120,.9)"/>', bd - 0.02);
+        add('<circle cx="' + fp[0].toFixed(1) + '" cy="' + fp[1].toFixed(1) +
+            '" r="1.8" fill="rgba(196,103,79,.95)"/>', bd - 0.03);
+      }
+    }
+    /* the ribbon, which is how you know it was hung rather than grown */
+    line(P(-0.22, by - 0.05, bz), P(-0.5, by - 0.75, bz), 'rgba(156,48,36,.8)', 2.4, bd - 0.02);
+    line(P(0.22, by - 0.05, bz), P(0.5, by - 0.8, bz), 'rgba(156,48,36,.8)', 2.4, bd - 0.02);
+  }
+
+
+  /* --- the hearth, on the axis where the sequence puts it -------------
+     It was on the side wall, which made it something you pass rather than
+     something you approach, and the sequence given was walk in, study,
+     fireplace, stairs. You cannot walk toward a thing that is beside you.
+     Centred on the back wall it is also where an imperial-stair hall really
+     puts it: the flights return either side and the hearth is what they
+     return around. */
+  {
+    const hx = 1.9, hz = DEEP - 0.04;
+    const stone = state.fire === 'lit' ? [156, 126, 96] : [118, 102, 86];
+    const hd = dep(0, FLOOR, hz) - 0.6;
+    /* the chimneypiece */
+    poly([P(-hx, FLOOR, hz), P(hx, FLOOR, hz),
+          P(hx, FLOOR + 3.1, hz), P(-hx, FLOOR + 3.1, hz)],
+         rgb(mix([42, 34, 25], stone, 0.6)), '', hd);
+    /* the jambs and the lintel, which are the only mouldings it gets */
+    poly([P(-hx, FLOOR + 2.75, hz), P(hx, FLOOR + 2.75, hz),
+          P(hx, FLOOR + 3.1, hz), P(-hx, FLOOR + 3.1, hz)],
+         rgb(mix([52, 42, 31], stone, 0.85)), '', hd - 0.01);
+    /* the opening */
+    poly([P(-hx + 0.55, FLOOR, hz), P(hx - 0.55, FLOOR, hz),
+          P(hx - 0.55, FLOOR + 2.05, hz), P(-hx + 0.55, FLOOR + 2.05, hz)],
+         state.fire === 'lit' ? '#3d1508' : '#150e08', '', hd - 0.02);
+    if (state.fire === 'lit') {
+      add('<defs><radialGradient id="fire"><stop offset="0" stop-color="#ffd48a"/>' +
+          '<stop offset=".45" stop-color="#e5732a" stop-opacity=".8"/>' +
+          '<stop offset="1" stop-color="#7a2408" stop-opacity="0"/></radialGradient></defs>', 1e9);
+      const c = P(0, FLOOR + 0.6, hz - 0.1);
+      add('<ellipse cx="' + c[0].toFixed(1) + '" cy="' + c[1].toFixed(1) +
+          '" rx="64" ry="42" fill="url(#fire)"/>', hd - 0.03);
+      /* what a fire actually does to a room: throws light on the floor in
+         front of it, which is now the floor you are walking along */
+      const f = P(0, FLOOR, hz - 2.6);
+      add('<ellipse cx="' + f[0].toFixed(1) + '" cy="' + f[1].toFixed(1) +
+          '" rx="190" ry="44" fill="#e5732a" opacity=".08"/>', -1e8);
+    }
+    /* the overmantel, rising to the underside of the landing */
+    for (let i = 0; i < 5; i++) {
+      const x = -hx + 0.35 + i * ((hx * 2 - 0.7) / 4);
+      line(P(x, FLOOR + 3.1, hz), P(x, LANDY - 0.12, hz), lit(0.4), 1.3, hd - 0.04);
+    }
+    line(P(-hx, LANDY - 0.12, hz), P(hx, LANDY - 0.12, hz), lit(0.6), 2.2, hd - 0.05);
+  }
+
+  /* --- the library, through the arch left of the hearth ----------------
+     Drawn from the Salle Ovale. The reason that room reads the way it does
+     is the light: it arrives from a glazed oculus directly overhead rather
+     than from windows, so nothing casts a long shadow and the shelves stay
+     legible the whole way round. That is the thing worth taking, and it is
+     why the glow below sits at the top rather than at the side. */
+  {
+    const ax0 = -5.5, ax1 = -2.5, az = DEEP - 0.03;
+    const ay0 = FLOOR, ay1 = FLOOR + 4.6;
+    const ad = dep((ax0 + ax1) / 2, 0, az);
+    const lz = DEEP + 7.5;                  /* how far back the room reads */
+    const ld = dep(0, 0, lz);
+
+    /* the opening, cut dark so the room beyond is what you see */
+    poly([P(ax0, ay0, az), P(ax1, ay0, az), P(ax1, ay1, az), P(ax0, ay1, az)],
+         '#080604', '', ad - 0.08);
+
+    /* the far wall of the reading room */
+    poly([P(ax0 + 0.2, ay0, lz), P(ax1 - 0.2, ay0, lz),
+          P(ax1 - 0.2, ay1 + 1.4, lz), P(ax0 + 0.2, ay1 + 1.4, lz)],
+         '#241a10', '', ld + 0.2);
+
+    /* two tiers of galleried shelf, which is what says library at distance */
+    for (const tier of [ay0 + 0.3, ay0 + 2.5]) {
+      for (let y = tier; y < tier + 1.85; y += 0.42) {
+        const d2 = ld - 0.01;
+        line(P(ax0 + 0.35, y, lz), P(ax1 - 0.35, y, lz),
+             'rgba(196,156,104,.4)', 1.5, d2);
+        for (let x = ax0 + 0.45; x < ax1 - 0.45; x += 0.1) {
+          const t = ((x * 7.3 + y * 11.7) % 1 + 1) % 1;
+          line(P(x, y + 0.04, lz), P(x, y + 0.33, lz),
+               'rgba(' + Math.round(126 + t * 92) + ',' + Math.round(74 + t * 58) +
+               ',' + Math.round(46 + t * 38) + ',.62)', 1.5, d2 - 0.004);
+        }
+      }
+      /* the gallery rail between the tiers */
+      if (tier > ay0 + 1)
+        line(P(ax0 + 0.3, tier - 0.22, lz), P(ax1 - 0.3, tier - 0.22, lz),
+             lit(0.55), 2.4, ld - 0.02);
+    }
+
+    /* the arcade: columns carrying arches, which is the order of that room */
+    for (let k = 0; k <= 3; k++) {
+      const x = ax0 + 0.4 + (ax1 - ax0 - 0.8) * (k / 3);
+      const cd = ld - 0.05;
+      line(P(x, ay0, lz - 1.2), P(x, ay1 - 0.2, lz - 1.2), lit(0.62), 3, cd);
+      /* a plain capital, and a plain base */
+      line(P(x - 0.14, ay1 - 0.22, lz - 1.2), P(x + 0.14, ay1 - 0.22, lz - 1.2),
+           lit(0.75), 3, cd - 0.01);
+      if (k < 3) {
+        const x2 = ax0 + 0.4 + (ax1 - ax0 - 0.8) * ((k + 1) / 3);
+        const l0 = P(x, ay1 - 0.22, lz - 1.2), r0 = P(x2, ay1 - 0.22, lz - 1.2);
+        const m = P((x + x2) / 2, ay1 + 0.42, lz - 1.2);
+        add('<path d="M' + l0[0].toFixed(1) + ' ' + l0[1].toFixed(1) + ' Q' +
+            m[0].toFixed(1) + ' ' + m[1].toFixed(1) + ' ' + r0[0].toFixed(1) +
+            ' ' + r0[1].toFixed(1) + '" fill="none" stroke="' + lit(0.6) +
+            '" stroke-width="2.4"/>', cd - 0.02);
+      }
+    }
+
+    /* the reading table, and the lamps that are the whole picture of it */
+    const ty = ay0 + 0.76, tz = lz - 3.2, td = dep(0, ty, tz) - 0.1;
+    poly([P(ax0 + 0.7, ty, tz - 0.5), P(ax1 - 0.7, ty, tz - 0.5),
+          P(ax1 - 0.7, ty, tz + 0.5), P(ax0 + 0.7, ty, tz + 0.5)],
+         lit(0.5), '', td);
+    add('<defs><radialGradient id="lamp2"><stop offset="0" stop-color="#c8e4c0" ' +
+        'stop-opacity=".9"/><stop offset="1" stop-color="#6f9d63" ' +
+        'stop-opacity="0"/></radialGradient></defs>', 1e9);
+    for (let k = 0; k < 4; k++) {
+      const x = ax0 + 0.95 + k * ((ax1 - ax0 - 1.9) / 3);
+      const c = P(x, ty + 0.34, tz);
+      add('<ellipse cx="' + c[0].toFixed(1) + '" cy="' + c[1].toFixed(1) +
+          '" rx="13" ry="8" fill="url(#lamp2)"/>', td - 0.01);
+    }
+
+    /* the coved ceiling and its oculus. Light from straight overhead is why
+       nothing in that room casts a shadow worth the name. */
+    const oy = ay1 + 1.5, od = ld - 0.3;
+    add('<defs><radialGradient id="ocul" cx="50%" cy="40%">' +
+        '<stop offset="0" stop-color="#f6f1e2" stop-opacity=".85"/>' +
+        '<stop offset=".6" stop-color="#e7dcc0" stop-opacity=".28"/>' +
+        '<stop offset="1" stop-color="#cbb98f" stop-opacity="0"/></radialGradient></defs>', 1e9);
+    const oc = P((ax0 + ax1) / 2, oy, lz - 2.2);
+    add('<ellipse cx="' + oc[0].toFixed(1) + '" cy="' + oc[1].toFixed(1) +
+        '" rx="76" ry="30" fill="url(#ocul)"/>', od);
+    /* the glazing bars across it, which is what makes it read as a roof
+       light and not a lamp */
+    for (let k = -3; k <= 3; k++) {
+      const x = (ax0 + ax1) / 2 + k * 0.34;
+      line(P(x, oy - 0.28, lz - 2.2), P(x, oy + 0.28, lz - 2.2),
+           'rgba(70,58,38,.5)', 1.1, od - 0.01);
+    }
+    /* and the ring of round lights around it */
+    for (let k = 0; k < 5; k++) {
+      const x = ax0 + 0.55 + (ax1 - ax0 - 1.1) * (k / 4);
+      const c = P(x, ay1 + 0.75, lz - 1.0);
+      add('<circle cx="' + c[0].toFixed(1) + '" cy="' + c[1].toFixed(1) +
+          '" r="7" fill="#efe6cd" opacity=".5"/>', od - 0.02);
+      add('<circle cx="' + c[0].toFixed(1) + '" cy="' + c[1].toFixed(1) +
+          '" r="7" fill="none" stroke="' + lit(0.6) + '" stroke-width="1.4"/>', od - 0.03);
+    }
+
+    /* the arch head over the opening, in stone */
+    const hl = P(ax0, ay1, az), hr = P(ax1, ay1, az);
+    const hm = P((ax0 + ax1) / 2, ay1 + 0.9, az);
+    add('<path d="M' + hl[0].toFixed(1) + ' ' + hl[1].toFixed(1) + ' Q' +
+        hm[0].toFixed(1) + ' ' + hm[1].toFixed(1) + ' ' + hr[0].toFixed(1) + ' ' +
+        hr[1].toFixed(1) + '" fill="none" stroke="' + lit(0.66) +
+        '" stroke-width="5"/>', ad - 0.1);
+    /* and the light it spills onto the hall floor, which is the only reason
+       you would know the room was there from the door */
+    const sp = P((ax0 + ax1) / 2, FLOOR, DEEP - 1.6);
+    add('<ellipse cx="' + sp[0].toFixed(1) + '" cy="' + sp[1].toFixed(1) +
+        '" rx="86" ry="20" fill="#e7dcc0" opacity=".09"/>', -1e8 - 2);
+  }
+
+
+  /* --- the gallery over the entrance ---------------------------------- */
+  const gy = 4.5 - EYE;
+  poly([P(-HALF, gy, 1.2), P(HALF, gy, 1.2), P(HALF, gy, 2.6), P(-HALF, gy, 2.6)],
+       lit(0.34));
+  for (let x = -HALF; x <= HALF; x += 0.42)
+    line(P(x, gy, 1.2), P(x, gy + 0.95, 1.2), lit(0.46), 1.1);
+  line(P(-HALF, gy + 0.98, 1.2), P(HALF, gy + 0.98, 1.2), lit(0.6), 2.4);
+
+  /* --- the light ------------------------------------------------------ */
+  const ch = P(0.2, CEIL - 1.6, 5.4);
+  line(P(0.2, CEIL, 5.4), ch, 'rgba(180,140,90,.5)', 1.4);
+  add('<defs><radialGradient id="lamp"><stop offset="0" stop-color="#ffe6ae" ' +
+      'stop-opacity="' + (0.5 + warm * 0.5) + '"/><stop offset="1" ' +
+      'stop-color="#d9a441" stop-opacity="0"/></radialGradient></defs>', 1e9);
+  add('<ellipse cx="' + ch[0].toFixed(1) + '" cy="' + ch[1].toFixed(1) +
+      '" rx="' + (60 + warm * 55) + '" ry="' + (44 + warm * 40) + '" fill="url(#lamp)"/>', -1e8);
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2;
+    const p = [ch[0] + Math.cos(a) * 34, ch[1] + Math.sin(a) * 15];
+    add('<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) +
+        '" r="3.2" fill="#ffe6ae" opacity="' + (0.35 + warm * 0.6) + '"/>', -1e8 - 1);
+  }
+
+  /* the whole room sits under one warm wash, because one light source is
+     what makes a painted interior read as a place rather than a diagram */
+  add('<rect width="' + W + '" height="' + H + '" fill="#d9a441" opacity="' +
+      (0.035 + warm * 0.05).toFixed(3) + '" style="mix-blend-mode:overlay"/>', -1e9);
+  add('<rect width="' + W + '" height="' + H + '" fill="url(#vig)"/>', -1e9 - 1);
+  add('<defs><radialGradient id="vig" cx="52%" cy="47%" r="72%">' +
+    '<stop offset=".55" stop-color="#000" stop-opacity="0"/>' +
+    '<stop offset="1" stop-color="#000" stop-opacity=".62"/></radialGradient></defs>', 1e9);
+
+  /* far to near. This is the painter's algorithm from lesson one, in a
+     different projection, and it is the whole reason four cameras work
+     where the first pass only ever worked from one. */
+  o.sort((a, b) => b.d - a.d);
+  $('#hall').innerHTML = o.map((x) => x.t).join('');
+  $('#cap').textContent = 'vanishing point at eye height, ' + EYE.toFixed(2) +
+    ' m · room ' + (HALF * 2) + ' by ' + DEEP + ' by ' + TALL +
+    ' m · everything scaled by ' + F + '/(' + F + '+z)';
+}
+
+/* one bay of panelling, in whichever pattern */
+function panelBay(x, z0, z1, add, lit, warm, s) {
+  const D = dep(x, 0, (z0 + z1) / 2);
+  const P2 = (y, z) => P(x, y, z);
+  const t = 0.24 + 0.4 * s(z0) * (warm + 0.4);
+  const y0 = FLOOR + 1.2, y1 = CEIL - 0.85;
+  const box = (a, b) => add('<polygon points="' + pts([P2(a, z0 + 0.12), P2(b, z0 + 0.12),
+    P2(b, z1 - 0.12), P2(a, z1 - 0.12)]) + '" fill="none" stroke="' + lit(t) +
+    '" stroke-width="1"/>', D);
+  if (state.panel === 'library') {
+    /* THE STALL SYSTEM. A case projects from the wall at each bay boundary,
+       and the space between two cases is an alcove: a small room with its
+       own light and its own desk. This is the arrangement you build when
+       people are going to read there. Shelves flat against the wall — which
+       is what this used to draw — give you one big room with books on it.
+       These give you eight small ones. */
+    const inward = x > 0 ? -1 : 1;          /* which way is into the room */
+    const CASE = 1.05;                       /* how far a case projects */
+    const CASETOP = FLOOR + 2.55;            /* Wren put the windows above */
+    const xi = x + inward * CASE;
+
+    /* the case itself, standing out from the wall at the near boundary */
+    const cd = dep(x + inward * CASE / 2, 0, z0);
+    add('<polygon points="' + pts([P(x, FLOOR, z0), P(xi, FLOOR, z0),
+        P(xi, CASETOP, z0), P(x, CASETOP, z0)]) + '" fill="' + lit(t * 0.92) +
+        '"/>', cd);
+    /* a base and a plain capital on the case end. Doric: the mouldings are
+       square, there are two of them, and that is the entire vocabulary. */
+    add('<polygon points="' + pts([P(x, FLOOR, z0), P(xi, FLOOR, z0),
+        P(xi, FLOOR + 0.22, z0), P(x, FLOOR + 0.22, z0)]) + '" fill="' +
+        lit(t * 1.3) + '"/>', cd - 0.005);
+    add('<polygon points="' + pts([P(x, CASETOP - 0.16, z0), P(xi, CASETOP - 0.16, z0),
+        P(xi, CASETOP, z0), P(x, CASETOP, z0)]) + '" fill="' + lit(t * 1.35) +
+        '"/>', cd - 0.006);
+
+    /* its shelves, which is the only thing that says it is a case and not a
+       partition */
+    for (let y = FLOOR + 0.34; y < CASETOP - 0.16; y += 0.42) {
+      add('<line x1="' + P(x, y, z0)[0].toFixed(1) + '" y1="' + P(x, y, z0)[1].toFixed(1) +
+          '" x2="' + P(xi, y, z0)[0].toFixed(1) + '" y2="' + P(xi, y, z0)[1].toFixed(1) +
+          '" stroke="' + lit(t * 1.25) + '" stroke-width="1.4"/>', cd - 0.01);
+    }
+
+    /* the recess: the wall between the cases, shelved to the same height.
+       It sits BEHIND the case, which is what makes the alcove read. */
+    const rd = dep(x, 0, (z0 + z1) / 2) + 0.3;
+    for (let y = FLOOR + 0.34; y < CASETOP - 0.16; y += 0.42) {
+      add('<line x1="' + P(x, y, z0 + 0.1)[0].toFixed(1) + '" y1="' +
+          P(x, y, z0 + 0.1)[1].toFixed(1) + '" x2="' + P(x, y, z1 - 0.1)[0].toFixed(1) +
+          '" y2="' + P(x, y, z1 - 0.1)[1].toFixed(1) + '" stroke="' + lit(t * 0.8) +
+          '" stroke-width="1.4"/>', rd);
+      /* the books, as ticks — at this distance the rhythm of the shelf reads
+         as a library and the individual spines do not */
+      for (let z = z0 + 0.18; z < z1 - 0.18; z += 0.112) {
+        const q = ((z * 7.3 + y * 11.7) % 1 + 1) % 1;
+        const a2 = P(x, y + 0.045, z), b2 = P(x, y + 0.33, z);
+        add('<line x1="' + a2[0].toFixed(1) + '" y1="' + a2[1].toFixed(1) +
+            '" x2="' + b2[0].toFixed(1) + '" y2="' + b2[1].toFixed(1) +
+            '" stroke="rgba(' + Math.round(108 + q * 94) + ',' +
+            Math.round(64 + q * 56) + ',' + Math.round(41 + q * 37) + ',' +
+            (0.26 + t * 0.5).toFixed(2) + ')" stroke-width="1.6"/>', rd - 0.004);
+      }
+    }
+
+    /* the window above the case, which is the move the whole system exists
+       for: light comes in over the books and lands in the alcove, so the
+       shelves never shade the desk under them */
+    const wy0 = CASETOP + 0.45, wy1 = wy0 + 2.3;
+    const wd = rd - 0.02;
+    add('<polygon points="' + pts([P(x, wy0, z0 + 0.35), P(x, wy0, z1 - 0.35),
+        P(x, wy1, z1 - 0.35), P(x, wy1, z0 + 0.35)]) + '" fill="rgba(' +
+        (state.hour === 'night' ? '18,22,30,.9' : '206,222,230,' +
+         (0.10 + (state.hour === 'day' ? 0.5 : 0.2))) + ')"/>', wd);
+    for (let k = 0; k <= 3; k++) {
+      const zz = z0 + 0.35 + (z1 - z0 - 0.7) * (k / 3);
+      add('<line x1="' + P(x, wy0, zz)[0].toFixed(1) + '" y1="' + P(x, wy0, zz)[1].toFixed(1) +
+          '" x2="' + P(x, wy1, zz)[0].toFixed(1) + '" y2="' + P(x, wy1, zz)[1].toFixed(1) +
+          '" stroke="rgba(24,17,10,.8)" stroke-width="1.3"/>', wd - 0.01);
+    }
+
+    /* and the desk in the alcove, because an alcove without one is a gap */
+    const mz = (z0 + z1) / 2, dd2 = dep(x + inward * 0.5, FLOOR, mz) - 0.05;
+    add('<polygon points="' + pts([P(x + inward * 0.12, FLOOR + 0.74, mz - 0.62),
+        P(x + inward * 0.88, FLOOR + 0.74, mz - 0.62),
+        P(x + inward * 0.88, FLOOR + 0.74, mz + 0.62),
+        P(x + inward * 0.12, FLOOR + 0.74, mz + 0.62)]) + '" fill="' +
+        lit(t * 1.05) + '"/>', dd2);
+    add('<polygon points="' + pts([P(x + inward * 0.12, FLOOR, mz + 0.62),
+        P(x + inward * 0.88, FLOOR, mz + 0.62),
+        P(x + inward * 0.88, FLOOR + 0.74, mz + 0.62),
+        P(x + inward * 0.12, FLOOR + 0.74, mz + 0.62)]) + '" fill="' +
+        lit(t * 0.55) + '"/>', dd2 - 0.01);
+  } else if (state.panel === 'linenfold') {
+    for (let y = y0; y < y1 - 0.3; y += 0.62) box(y, y + 0.5);
+  } else if (state.panel === 'arcaded') {
+    box(y0, y1);
+    const mid = (y0 + y1) / 2;
+    const a = P2(mid, z0 + 0.12), b = P2(mid, z1 - 0.12), top = P2(y1 - 0.25, (z0 + z1) / 2);
+    add('<path d="M' + a[0].toFixed(1) + ' ' + a[1].toFixed(1) + ' Q' +
+        top[0].toFixed(1) + ' ' + (top[1] - 8).toFixed(1) + ' ' +
+        b[0].toFixed(1) + ' ' + b[1].toFixed(1) + '" fill="none" stroke="' +
+        lit(t) + '" stroke-width="1.1"/>', D);
+  } else {
+    box(y0, (y0 + y1) / 2 - 0.1);
+    box((y0 + y1) / 2 + 0.1, y1);
+  }
+}
+
+/* the window at the turn */
+function drawGlass(add, poly, line, P, lit, day, kind, ly, z) {
+  const x0 = 0.4, x1 = 4.6, y0 = ly + 0.5, y1 = ly + 4.4;
+  const back = [
+    [x0, y0], [x1, y0], [x1, y1], [x0, y1]
+  ].map(([x, y]) => P(x, y, z));
+  const pal = kind === 'heraldic'
+    ? ['#7d1f28', '#1f4a7d', '#c9a227', '#2f6b3a', '#f0e4c8']
+    : kind === 'landscape'
+      ? ['#3f6b4a', '#6d8fa8', '#c9b06a', '#8a6a48', '#dfe6ea']
+      : ['#cfe0e6', '#d9e6ea', '#c6d8e0', '#dde8ec', '#e8f0f2'];
+  poly(back, '#0d0a06');
+  const cols = kind === 'plain' ? 7 : 4, rows = kind === 'plain' ? 10 : 6;
+  for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) {
+    const a = x0 + (x1 - x0) * (i / cols) + 0.05;
+    const b = x0 + (x1 - x0) * ((i + 1) / cols) - 0.05;
+    const c = y0 + (y1 - y0) * (j / rows) + 0.05;
+    const d = y0 + (y1 - y0) * ((j + 1) / rows) - 0.05;
+    const col = pal[(i * 3 + j * 5) % pal.length];
+    poly([P(a, c, z), P(b, c, z), P(b, d, z), P(a, d, z)], col,
+         ' opacity="' + (0.16 + day * 0.8).toFixed(2) + '"');
+  }
+  /* the leading, and the transom */
+  for (let i = 0; i <= cols; i++)
+    line(P(x0 + (x1 - x0) * (i / cols), y0, z), P(x0 + (x1 - x0) * (i / cols), y1, z),
+         'rgba(20,14,8,.85)', 1.4);
+  for (let j = 0; j <= rows; j++)
+    line(P(x0, y0 + (y1 - y0) * (j / rows), z), P(x1, y0 + (y1 - y0) * (j / rows), z),
+         'rgba(20,14,8,.7)', 1.1);
+  /* light landing on the half-landing floor, which is what a window is for */
+  if (day > 0.15) {
+    const c = P((x0 + x1) / 2, ly + 0.05, z - 1.1);
+    add('<ellipse cx="' + c[0].toFixed(1) + '" cy="' + c[1].toFixed(1) +
+        '" rx="' + (70 * day) + '" ry="' + (16 * day) +
+        '" fill="#f4e3b8" opacity="' + (day * 0.22).toFixed(2) + '"/>');
+  }
+}
+
+/* ══ the choices ══════════════════════════════════════════════════════ */
+function group(el, list, key) {
+  $(el).innerHTML = list.map(([id, name, why]) =>
+    '<label class="' + (state[key] === id ? 'on' : '') + '">' +
+    '<input type="radio" name="' + key + '" value="' + id + '"' +
+    (state[key] === id ? ' checked' : '') + '>' +
+    '<span><b>' + esc(name) + '</b><s>' + esc(why) + '</s></span></label>').join('');
+  $(el).oninput = (e) => {
+    state[key] = e.target.value;
+    if (key === 'view') setView(e.target.value);
+    group(el, list, key);
+    draw();
+  };
+}
+group('#o-view', VIEWS.map((v) => [v[0], v[1], v[3]]), 'view');
+group('#o-panel', PANELS, 'panel');
+group('#o-glass', GLASS, 'glass');
+group('#o-hour', HOUR, 'hour');
+group('#o-fire', [
+  ['lit', 'Lit', 'It throws light on the floor and gives the room its centre.'],
+  ['laid', 'Laid, not lit', 'The chimneypiece still does its job. It is a place to stand.']
+], 'fire');
+
+/* ══ the layer you draw on ════════════════════════════════════════════
+   A canvas over the render. It never touches the SVG underneath, and what
+   you draw can be saved — through the app's own save API, as an SVG file in
+   notes/. A sketch in the repository is a sketch I read next session, which
+   is the same channel the dock uses and the only honest way to hand me a
+   drawing. */
+const ink = document.getElementById('ink');
+const ictx = ink.getContext('2d');
+const PENS = ['#e8dcc6', '#d9a441', '#c85a2b', '#5f92a8'];
+let pen = PENS[1], down = false, strokes = [], now = null;
+
+document.getElementById('pens').innerHTML =
+  PENS.map((c, i) => '<button data-c="' + c + '" class="' + (i === 1 ? 'on' : '') +
+    '" style="background:' + c + '"></button>').join('') +
+  '<button class="w" id="undo">undo</button>' +
+  '<button class="w" id="clear">clear</button>' +
+  '<button class="w" id="keep">save</button>';
+
+document.getElementById('pens').onclick = (e) => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  if (b.dataset.c) {
+    pen = b.dataset.c;
+    document.querySelectorAll('#pens button[data-c]').forEach((x) =>
+      x.classList.toggle('on', x === b));
+  }
+  if (b.id === 'undo') { strokes.pop(); repaint(); }
+  if (b.id === 'clear') { strokes = []; repaint(); }
+  if (b.id === 'keep') keep();
+};
+
+function at(e) {
+  const r = ink.getBoundingClientRect();
+  return [(e.clientX - r.left) / r.width * 1200, (e.clientY - r.top) / r.height * 660];
+}
+function repaint() {
+  ictx.clearRect(0, 0, 1200, 660);
+  ictx.lineCap = 'round'; ictx.lineJoin = 'round'; ictx.lineWidth = 3;
+  for (const st of strokes) {
+    ictx.strokeStyle = st.c;
+    ictx.beginPath();
+    st.p.forEach((q, i) => i ? ictx.lineTo(q[0], q[1]) : ictx.moveTo(q[0], q[1]));
+    ictx.stroke();
+  }
+}
+ink.addEventListener('pointerdown', (e) => {
+  down = true; ink.setPointerCapture(e.pointerId);
+  now = { c: pen, p: [at(e)] }; strokes.push(now);
+});
+ink.addEventListener('pointermove', (e) => {
+  if (!down) return; now.p.push(at(e)); repaint();
+});
+addEventListener('pointerup', () => { down = false; now = null; });
+
+/* saving: the strokes as an SVG, through the app's save API */
+async function keep() {
+  const msg = document.getElementById('cap');
+  if (!strokes.length) { msg.textContent = 'nothing drawn yet'; return; }
+  const paths = strokes.map((st) =>
+    '<path fill="none" stroke="' + st.c + '" stroke-width="3" stroke-linecap="round" ' +
+    'stroke-linejoin="round" d="M' + st.p.map((q) =>
+      q[0].toFixed(1) + ' ' + q[1].toFixed(1)).join(' L') + '"/>').join('\\n  ');
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 660">\\n' +
+    '  <rect width="1200" height="660" fill="#0b0704"/>\\n  ' + paths + '\\n</svg>\\n';
+  const when = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+  const name = 'notes/hall-' + state.view + '-' + when + '.svg';
+  try {
+    const r = await fetch('/api/save', { method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ path: name, body: svg }) });
+    const j = await r.json();
+    msg.textContent = r.ok
+      ? 'saved ' + j.path + ' — ' + strokes.length + ' strokes, from the ' + state.view + ' view'
+      : 'not saved: ' + j.error;
+  } catch (e) {
+    msg.textContent = 'not saved — this needs venus-app.mjs running, not a plain server';
+  }
+}
+
+setView('door');
+draw();
+<\/script>\n</body>\n</html>\n`;
+
+writeFileSync('hall.html', html);
+console.log('hall.html · the entrance hall, one-point perspective');
+console.log('  projection: x·k·f/(f+z) about a vanishing point at eye height');
+console.log('  deliberately NOT isometric — the exteriors answer "what is the plan",');
+console.log('  a hall answers "what is it like to walk in", and those want different');
+console.log('  projections');
+console.log('  yours to choose: ' + PANELS.length + ' panellings, ' + GLASS.length +
+  ' windows, ' + HOUR.length + ' hours, fire lit or laid');
+console.log('  = ' + (PANELS.length * GLASS.length * HOUR.length * 2) + ' rooms');
+console.log('  ' + PARTS.length + ' parts, each with what it is actually for');

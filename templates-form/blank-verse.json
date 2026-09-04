@@ -1,0 +1,13 @@
+{
+ "id": "blank-verse",
+ "name": "Blank verse",
+ "kind": "verse",
+ "order": 5,
+ "meter": {
+  "name": "iambic pentameter",
+  "syllables": 10
+ },
+ "note": "Unrhymed iambic pentameter, no fixed length. The whole discipline is the line: it has to be a unit of sense as well as of measure, and when you break the meter it has to be because something happened.",
+ "ground": "Surrey again, translating the Aeneid, and then two centuries of English drama built on it because it is the closest metrical form to how English is actually stressed.",
+ "ask": "Which lines break the meter, and can you say what each break is for?"
+}

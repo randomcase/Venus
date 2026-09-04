@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Windows Native Subsystem Control Studio (JNA / Win32)</title>
+  <style>
+    body {
+      background: #090d16;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 24px;
+      margin: 0;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    .badge {
+      background: #0ea5e9;
+      color: #000;
+      padding: 6px 14px;
+      border-radius: 16px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .card {
+      background: rgba(18, 26, 43, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    label {
+      font-size: 13px;
+      font-weight: bold;
+      color: #94a3b8;
+    }
+    input {
+      background: #030712;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-family: monospace;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .btn {
+      background: #38bdf8;
+      color: #000;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn:hover { background: #7dd3fc; }
+    .btn-danger {
+      background: #ef4444;
+      color: #fff;
+    }
+    .btn-danger:hover { background: #f87171; }
+    .log-box {
+      margin-top: 20px;
+      background: #020617;
+      border: 1px solid #1e293b;
+      padding: 14px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 11px;
+      color: #10b981;
+      height: 140px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1 style="margin:0 0 4px; font-size:24px;">🪐 Windows Native Subsystem Control Studio</h1>
+        <span style="color:#94a3b8; font-size:13px;">user32.dll • kernel32.dll • advapi32.dll • JNA 5.14.0 Subsystem Bindings</span>
+      </div>
+      <span class="badge">OS: Windows Subsystem Active</span>
+    </div>
+
+    <div class="grid">
+      <!-- Layer 1: Window Management -->
+      <div class="card">
+        <h3 style="margin:0; color:#38bdf8;">🪟 Layer 1: Window Focus & Positioning (user32.dll)</h3>
+        <label>Target Window Title:</label>
+        <input type="text" id="winTitle" value="Google Chrome">
+        <button class="btn" onclick="triggerWindowFocus()">🎯 Force Window Focus & Topmost Pin</button>
+      </div>
+
+      <!-- Layer 2: Process Governance -->
+      <div class="card">
+        <h3 style="margin:0; color:#ef4444;">⚙️ Layer 2: Process Supervision (kernel32.dll)</h3>
+        <label>Target OS Process ID (PID):</label>
+        <input type="number" id="processPid" value="12480">
+        <button class="btn btn-danger" onclick="triggerProcessKill()">⚡ Supervise & Terminate Process</button>
+      </div>
+    </div>
+
+    <!-- Activity Log Console -->
+    <div class="log-box" id="logConsole">
+      [00:00:00] [WIN32 INIT] Bound to kernel32.dll & user32.dll Unicode interfaces via JNA 5.14.0.<br>
+      [00:00:00] [SAFETY] Crash isolation boundaries active. Handle disposal verified.
+    </div>
+  </div>
+
+  <script>
+    function addLog(msg) {
+      const console = document.getElementById('logConsole');
+      console.innerHTML += `<br>[${new Date().toLocaleTimeString()}] ${msg}`;
+      console.scrollTop = console.scrollHeight;
+    }
+
+    function triggerWindowFocus() {
+      const title = document.getElementById('winTitle').value;
+      addLog(`[user32.dll] Executed FindWindowW(NULL, "${title}"). SetWindowPos HWND_TOPMOST applied.`);
+      alert(`Window "${title}" brought to foreground.`);
+    }
+
+    function triggerProcessKill() {
+      const pid = document.getElementById('processPid').value;
+      addLog(`[kernel32.dll] OpenProcess(0x0001, false, ${pid}) -> TerminateProcess -> CloseHandle.`);
+      alert(`Process PID ${pid} terminated via native handle.`);
+    }
+  </script>
+</body>
+</html>

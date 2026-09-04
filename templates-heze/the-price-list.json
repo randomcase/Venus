@@ -1,0 +1,30 @@
+{
+ "id": "the-price-list",
+ "kind": "heze-slide",
+ "order": 5,
+ "kicker": "05 · the price list",
+ "heading": "What the yard quotes",
+ "lede": "Ten classes on the order desk, quoted in HEZE. The desk sums them with CSS counters — the running total on the docket is arithmetic done by the layout engine, with no script on the page.",
+ "table": {
+  "headers": ["Class", "Displacement", "Weeks", "HEZE"],
+  "rows": [
+   ["Bucketeer", "900 t", "2", "1,000"],
+   ["Merchant", "9,400 t", "3", "2,100"],
+   ["Auxiliary", "6,800 t", "4", "3,200"],
+   ["Corsair", "2,600 t", "5", "4,600"],
+   ["Destroyer", "8,300 t", "9", "12,400"],
+   ["Cruiser", "14,600 t", "16", "28,000"],
+   ["Monitor", "26,500 t", "22", "47,000"],
+   ["Carrier", "47,000 t", "27", "61,000"],
+   ["Battleship", "64,000 t", "34", "84,000"],
+   ["Yamato · will not fly", "72,800 t", "52", "150,000"]
+  ]
+ },
+ "grid": [
+  { "span": "Distinct orders on the desk", "b": "62,914,560", "p": "Ten classes × slip × drive × flight × escort × four fittings × eleven conventional mounts." },
+  { "span": "Arsenal", "b": "Conventional only", "sm": true, "p": "The yard fits no nuclear weapons and there is no option to order them. Every mount you check is drawn on the band under the hull." }
+ ],
+ "gridCols": 2,
+ "text": "The order desk's ten classes, quoted in HEZE, and how many distinct orders the desk can actually take.",
+ "wovenBy": "the bridge"
+}

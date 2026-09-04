@@ -1,0 +1,16 @@
+{
+ "kind": "lane",
+ "name": "the lane along the ditch and bank",
+ "keep": 0.91,
+ "cost": 364,
+ "text": "A lane that keeps the cow home; the village loses ×0.91 less to the road.",
+ "id": "v-fence-10",
+ "wovenBy": "fence-10",
+ "chain": [
+  "fence-10",
+  "l2-fence-1-2",
+  "l3-fence-1",
+  "l4-fence",
+  "loom.mjs"
+ ]
+}

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The atelier &middot; what survives the deck</title>
+<!-- No off-origin requests. -->
+<style>
+  :root{
+    --bg:#0a0c10; --panel:#11151b; --edge:#1e2630; --edge2:#2c3744;
+    --ink:#dfe4ea; --dim:#8a939e; --faint:#59626d;
+    --gold:#c9a227; --moss:#7d9d6a; --rust:#c4674f; --cool:#6f9fb5;
+    --acid:#c9b037;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.7 var(--serif);padding:34px 18px 80px}
+  main{max-width:1180px;margin:0 auto}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+  .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+  h1{margin:0;font:500 38px/1.06 var(--serif)}
+  .top span{font:400 9px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;
+    color:var(--gold)}
+  .intro{margin:0 0 22px;max-width:86ch;color:var(--dim);font-size:15px}
+  .card{background:var(--panel);border:1px solid var(--edge);padding:16px 18px;
+    margin-bottom:14px}
+  .card h3{margin:0 0 12px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold)}
+  .card h3 span{color:var(--faint);margin-left:10px;letter-spacing:.04em;
+    text-transform:none}
+  .rig{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:14px;align-items:start}
+  .rig>*{min-width:0}
+  @media (max-width:1000px){ .rig{grid-template-columns:minmax(0,1fr)} }
+
+  .verdict{padding:14px 16px;border-left:3px solid var(--rust);background:#12100c;
+    font:400 15px/1.7 var(--serif);color:#d9c6b4;margin-bottom:14px}
+  .verdict b{color:var(--ink)}
+  .verdict.two{border-left-color:var(--moss);background:#0d1310;color:#c3d3bb}
+
+  .band{display:grid;grid-template-columns:88px minmax(0,1fr);gap:1px;
+    background:var(--edge);border:1px solid var(--edge);margin-bottom:10px}
+  .band>i{background:#0d1218;font:400 8.5px/1.4 var(--mono);letter-spacing:.12em;
+    text-transform:uppercase;font-style:normal;padding:12px 10px;color:var(--faint);
+    display:flex;flex-direction:column;justify-content:center}
+  .band>i b{display:block;font-size:19px;color:var(--ink);font-family:var(--serif);
+    letter-spacing:0;text-transform:none;margin-bottom:3px}
+  .band>div{background:var(--panel);padding:11px 13px}
+  .band.inert>i b{color:var(--moss)} .band.good>i b{color:var(--moss)}
+  .band.no>i b{color:var(--rust)}   .band.poor>i b{color:var(--acid)}
+  .fb{padding:7px 0;border-bottom:1px solid #161c23}
+  .fb:last-child{border-bottom:none}
+  .fb b{font:500 14px/1.4 var(--serif);color:var(--ink)}
+  .fb u{text-decoration:none;font:400 9px/1 var(--mono);color:var(--faint);
+    margin-left:9px;letter-spacing:.07em}
+  .fb p{margin:3px 0 0;font:400 12.5px/1.6 var(--serif);color:var(--dim)}
+  .fb p.n{color:var(--faint);font-size:12px}
+
+  table{width:100%;border-collapse:collapse;font:400 13px/1.6 var(--serif)}
+  th{text-align:right;padding:0 10px 8px 0;color:var(--faint);font-weight:400;
+    font-size:8px;letter-spacing:.14em;text-transform:uppercase;
+    border-bottom:1px solid var(--edge2)}
+  th:first-child{text-align:left}
+  td{padding:8px 10px 8px 0;border-bottom:1px solid #161c23;text-align:right;
+    font:400 12px/1.5 var(--mono);font-variant-numeric:tabular-nums;color:var(--dim)}
+  td:first-child{text-align:left;font:400 13px/1.5 var(--serif);color:var(--ink)}
+  td.g{color:var(--cool)}
+  .note{padding:12px 14px;border-left:3px solid var(--edge2);background:#0e1319;
+    font:400 13.5px/1.7 var(--serif);color:var(--dim);margin-top:12px}
+  .note b{color:var(--ink)}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 10.5px/1.85 var(--mono)}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>The atelier</h1><span>what survives the deck</span></div>
+<p class="intro"><a href="houses.html">The houses</a> lists 544 of them and what each one makes. This asks the one question that turns that into a Venus layer rather than an Earth one: does the material survive at 55&thinsp;km. The deck sits inside the cloud layer, the cloud aerosol is concentrated sulfuric acid, and so the answer is chemistry rather than taste.</p>
+<div class="verdict"><b>Of 544 houses, 0 work in a material that survives outside on the deck.</b><br><br>Not a rhetorical zero &mdash; a counted one. Sulfuric acid dehydrates cellulose, so cotton, linen, viscose and lyocell convert to carbon. It hydrolyses the amide bond, so nylon and aramid go. It hydrolyses collagen, so leather goes, and leather is the most valuable material in the houses layer. Hermès, Zimmerli, Loro Piana, Charvet, every Naples tailor and every Northampton laster: all of them make garments that would not last the walk.<br><br><span style="color:var(--faint)">87 houses work only in crafts this board has no fibre mapping for &mdash; beauty, retail, gunmaking &mdash; and are counted as neither.</span></div>
+<div class="verdict two"><b>And then the reason that does not end the subject.</b><br><br>At 55&thinsp;km the pressure is near half a bar and the temperature is near room temperature. Inside a habitation at that altitude you need no suit, no mask and no heating &mdash; which makes it the only place off Earth where an ordinary shirt is the correct garment. So the wardrobe splits absolutely, and the split is the design brief. <b>Outside is fluoropolymer and nothing else. Inside is the whole of Earth&rsquo;s wardrobe</b>, worn at 0.888&thinsp;g.</div>
+<div class="rig">
+<div>
+<div class="band inert"><i><b>4</b>inert</i><div><div class="fb"><b>PTFE</b><u>fluoropolymer &middot; spinnable</u><p>Chemically inert to sulfuric acid at every concentration and temperature the deck offers. Spinnable into fibre and castable into membrane. This is the answer, and it has been the answer since 1938.</p><p class="n">It drapes badly, it does not dye, and it costs. All three are design problems.</p><p class="n">worn as: Gore, industrial membrane</p></div><div class="fb"><b>FEP and PFA</b><u>fluoropolymer</u><p>Melt-processable fluoropolymers — they can be extruded as film where PTFE cannot. Inert. This is what a deck garment is laminated with.</p><p class="n">worn as: film, lining, window glazing</p></div><div class="fb"><b>ECTFE and PVDF</b><u>fluoropolymer &middot; spinnable</u><p>Inert to sulfuric, tougher and stiffer than PTFE, and weldable.</p><p class="n">worn as: Halar, Kynar; chemical plant</p></div><div class="fb"><b>FKM (Viton)</b><u>elastomer</u><p>The elastomer question, which every garment has: a suit is only as good as its wrists, neck and ankles. FKM is the seal that holds where the fabric meets the body.</p><p class="n">worn as: seals, gaskets, cuffs</p></div></div></div><div class="band good"><i><b>5</b>good</i><div><div class="fb"><b>Polypropylene</b><u>polyolefin &middot; spinnable</u><p>A genuinely acid-resistant fibre that can be spun, woven and worn, and the cheapest thing on this list that could go outside. Its limit is heat, not chemistry.</p><p class="n">worn as: industrial felt, filtration, base layers</p></div><div class="fb"><b>Butyl rubber</b><u>elastomer</u><p>Good acid resistance and very low gas permeability. The glove material.</p><p class="n">worn as: gloves, bladders</p></div><div class="fb"><b>Glass fibre</b><u>mineral &middot; spinnable</u><p>E-glass is attacked by acid; C-glass and ECR are formulated against it. The distinction matters and is the kind of thing a specification gets wrong once.</p><p class="n">worn as: industrial cloth</p></div><div class="fb"><b>Basalt fibre</b><u>mineral &middot; spinnable</u><p>Spun from melted rock, better in acid than E-glass, and made from the commonest rock on the Venusian surface. The one material on this list that could in principle be sourced there.</p><p class="n">worn as: industrial cloth</p></div><div class="fb"><b>Carbon fibre</b><u>mineral &middot; spinnable</u><p>Chemically excellent, mechanically a structure rather than a garment.</p><p class="n">worn as: structure, not clothing</p></div></div></div><div class="band fair"><i><b>3</b>fair</i><div><div class="fb"><b>Polyester</b><u>polyester &middot; spinnable</u><p>PET resists dilute acid well and concentrated sulfuric poorly. Better than anything above it and not good enough for the deck.</p><p class="n">worn as: most of what is actually worn</p></div><div class="fb"><b>Acrylic</b><u>vinyl &middot; spinnable</u><p>Decent acid resistance; poor everything else.</p><p class="n">worn as: knitwear substitutes</p></div><div class="fb"><b>PBI</b><u>polymer &middot; spinnable</u><p>Outstanding thermally, only fair in strong acid. Again: heat is not acid.</p><p class="n">worn as: firefighting, flight suits</p></div></div></div><div class="band poor"><i><b>4</b>poor</i><div><div class="fb"><b>Wool</b><u>protein &middot; spinnable</u><p>The interesting one. Wool is CARBONISED with sulfuric acid as a routine industrial step: the bath destroys the burrs and vegetable matter in a fleece and leaves the keratin. That is a direct demonstration that wool outlasts cellulose in the same acid.</p><p class="n">It is not a survival claim. Carbonising is dilute, warm and brief. Cloud aerosol is 75 to 98 per cent and permanent, and keratin does go in that. Wool is in a better class, not a safe one.</p><p class="n">worn as: tailoring, knitwear, every coat</p></div><div class="fb"><b>Cashmere</b><u>protein &middot; spinnable</u><p>Keratin, finer. Same chemistry as wool and less mass to lose.</p><p class="n">worn as: Loro Piana, Barrie, Johnstons, Begg</p></div><div class="fb"><b>Vicuña</b><u>protein &middot; spinnable</u><p>The most expensive fibre on Earth, and keratin like the rest.</p><p class="n">worn as: Loro Piana</p></div><div class="fb"><b>Aramid</b><u>polyamide &middot; spinnable</u><p>Aromatic polyamide. Excellent against heat and cutting, and still an amide — strong sulfuric attacks it, and concentrated sulfuric dissolves it outright. Fire protection is not acid protection.</p><p class="n">worn as: Nomex, Kevlar; protective wear</p></div></div></div><div class="band no"><i><b>10</b>destroyed</i><div><div class="fb"><b>Cotton</b><u>cellulose &middot; spinnable</u><p>Concentrated sulfuric acid dehydrates cellulose. The reaction is the classroom demonstration — sugar to a black carbon column — and cotton is cellulose. It does not weaken; it converts.</p><p class="n">Sea Island cotton is the top of the men’s market and it is still cellulose.</p><p class="n">worn as: most of the yard</p></div><div class="fb"><b>Linen</b><u>cellulose &middot; spinnable</u><p>Flax is cellulose. Same reaction, same result.</p><p class="n">worn as: shirting, summer tailoring</p></div><div class="fb"><b>Hemp</b><u>cellulose &middot; spinnable</u><p>Cellulose.</p><p class="n">worn as: canvas, workwear</p></div><div class="fb"><b>Viscose and rayon</b><u>cellulose &middot; spinnable</u><p>Regenerated cellulose, and regenerating it does not change what it is. Acid takes it faster than cotton because the fibre is weaker wet.</p><p class="n">worn as: lining, drape, most fluid dresses</p></div><div class="fb"><b>Lyocell</b><u>cellulose &middot; spinnable</u><p>Cellulose, solvent-spun. The solvent is the innovation; the chemistry is not.</p><p class="n">worn as: CDLP and most of the new underwear</p></div><div class="fb"><b>Silk</b><u>protein &middot; spinnable</u><p>Fibroin is a protein but not a robust one — acid hydrolyses the peptide backbone and silk loses strength fast. Weaker in acid than wool, which is the reverse of how the two are usually ranked.</p><p class="n">worn as: every lingerie house, Hermès scarves</p></div><div class="fb"><b>Leather</b><u>protein</u><p>Collagen, and tanned collagen at that. Acid strips the tannage and hydrolyses the protein. The single most valuable material in the houses layer and one of the least survivable.</p><p class="n">worn as: Hermès, Vuitton, Delvaux, every bag</p></div><div class="fb"><b>Nylon</b><u>polyamide &middot; spinnable</u><p>Polyamide, and the amide bond is exactly what acid hydrolyses. Nylon is specifically poor against sulfuric — worse than the plant fibres people assume are the fragile ones.</p><p class="n">worn as: Prada’s nylon, outerwear, hosiery</p></div><div class="fb"><b>Natural latex</b><u>elastomer</u><p>Polyisoprene. Concentrated sulfuric attacks the double bonds in the backbone directly — natural rubber hardens, cracks and fails. It is worth listing separately from butyl because the two are constantly confused: butyl is synthetic, saturated, and holds; latex is neither.</p><p class="n">A garment material with a real couture tradition and no future outside.</p><p class="n">worn as: Atsuko Kudo; latex couture</p></div><div class="fb"><b>Elastane</b><u>polyurethane &middot; spinnable</u><p>Segmented polyurethane. The urethane linkage hydrolyses in acid, and the soft segments it joins are polyether or polyester, which go too. It fails faster than whatever fibre it is blended with.</p><p class="n">THE POINT IS THE BLEND. Elastane is rarely more than two to five per cent of a garment by weight and it is load-bearing for fit — take it out and the piece no longer holds a shape. So a polyester-elastane knit does not survive at polyester’s rating. It survives at elastane’s. The weakest fibre in a blend sets the rating, not the majority one, which means the fair band on this board reads better than any real garment does: almost nothing modern is unblended.</p><p class="n">worn as: the stretch in almost everything — lingerie, hosiery, swim, sportswear, and most modern tailoring</p></div></div></div></div>
+<aside>
+  <div class="card"><h3>drape is gravity <span>and gravity is different</span></h3>
+    <div class="note">A hanging length of cloth is a pendulum, and a pendulum&rsquo;s period goes as 1/&radic;g. Nothing about the cloth changes on the deck. The <b>rate at which it moves</b> does, by a factor that depends on nothing but the two gravities.</div>
+    <table><tr><th>hem</th><th>Earth</th><th>deck</th><th>slower</th></tr><tr><td>a shirt tail</td><td>1.00s</td><td class="g">1.06s</td><td>+6.1%</td></tr><tr><td>a jacket skirt</td><td>1.35s</td><td class="g">1.43s</td><td>+6.1%</td></tr><tr><td>a knee-length hem</td><td>1.68s</td><td class="g">1.78s</td><td>+6.1%</td></tr><tr><td>a full-length gown</td><td>2.20s</td><td class="g">2.33s</td><td>+6.1%</td></tr><tr><td>a court train</td><td>3.17s</td><td class="g">3.37s</td><td>+6.1%</td></tr></table>
+    <div class="note">The last column is constant, because the length cancels: &radic;(9.807/8.71) = <b>1.0611</b>. Every hem on Venus swings 6.1% slower than the same hem on Earth, whatever it is cut from and however long it is. A bias-cut gown, a pleated skirt, a cape, a veil &mdash; all of them settle later, and a cutter who has only ever worked at 9.807 will get the timing wrong before they get anything else wrong.</div>
+  </div>
+  <div class="card"><h3>what a deck garment is made of</h3>
+    <div class="note">6 materials here both survive the acid and can be spun or woven. That is the entire palette:</div>
+    <table><tr><td>Polypropylene</td><td class="g">good</td><td>synthetic</td></tr><tr><td>PTFE</td><td class="g">inert</td><td>synthetic</td></tr><tr><td>ECTFE and PVDF</td><td class="g">inert</td><td>synthetic</td></tr><tr><td>Glass fibre</td><td class="g">good</td><td>mineral</td></tr><tr><td>Basalt fibre</td><td class="g">good</td><td>mineral</td></tr><tr><td>Carbon fibre</td><td class="g">good</td><td>synthetic</td></tr></table>
+    <div class="note"><b>Basalt is the one to notice.</b> It is spun from melted rock, it beats E-glass in acid, and it is made from the commonest rock on the Venusian surface. Every other material on this list has to be shipped. That is the difference between a supply line and an industry.</div>
+    <div class="note">A garment is also its openings. Fabric that survives and cuffs that do not is a suit that fails at the wrists, which is why FKM is on the fabric list at all despite not being a fabric.</div>
+  </div>
+  <div class="card"><h3>the blend floor <span>a garment is its weakest fibre</span></h3>
+    <div class="note">Nothing here is worn unblended. Elastane is two to five per cent of almost every modern garment by weight and it is load-bearing for fit &mdash; take it out and the piece stops holding a shape. It is also polyurethane, and the urethane linkage hydrolyses. So a garment rates as the <b>worst</b> of its fibres, never the majority one:</div>
+    <table><tr><th>garment</th><th>best fibre in it</th><th>what it actually rates</th></tr><tr><td>a polyester jersey with elastane</td><td class="g">fair</td><td>no</td></tr><tr><td>a cotton shirt with elastane</td><td class="g">no</td><td>no</td></tr><tr><td>a wool suit with polyester lining</td><td class="g">fair</td><td>poor</td></tr><tr><td>a nylon-elastane swimsuit</td><td class="g">no</td><td>no</td></tr><tr><td>a PTFE shell on a polyester carrier</td><td class="g">inert</td><td>fair</td></tr></table>
+    <div class="note">Which means the bands on the left read better than any real garment does. <b>Polyester is fair; a polyester jersey is not.</b> The one line that survives the blend is the last: a fluoropolymer shell laminated to a carrier fails at the carrier, so a deck garment has to be fluoropolymer <em>through</em> &mdash; seams, thread and all &mdash; or it is only as good as its worst thread.</div>
+  </div>
+  <div class="card"><h3>the craft mapping <span>stated, so it can be argued with</span></h3>
+    <div class="note">The zero above is only as good as the map from a craft to the fibres it implies. That map is written out in <a href="atelier.mjs">atelier.mjs</a> rather than inferred, so it can be checked and disputed. Crafts with no mapping are counted as neither, not as a pass: beauty, crystal, eyewear, gunmaking, home, jewelry, lighters, manufacturing, pens, porcelain, pâtisserie, resale.</div>
+  </div>
+</aside>
+</div>
+<footer>
+Built by <a href="atelier.mjs">atelier.mjs</a> from 26 materials in templates-fabric/, cross-checked against 544 houses in templates-house/. Gravity and the deck altitude come from <a href="venus-facts.mjs">venus-facts.mjs</a>, stated once. The generator refuses a survival rating off the scale, a good rating with no reason, and will not print the zero unless the cross-check produced it.<br>
+<a href="houses.html">the houses</a> &middot; <a href="treasury.html">the treasury</a> &middot; <a href="paper.html">the paper</a> &middot; <a href="dev.html">the hub</a>
+</footer>
+</main>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

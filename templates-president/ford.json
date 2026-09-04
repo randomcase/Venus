@@ -1,0 +1,519 @@
+{
+ "id": "ford",
+ "kind": "president",
+ "order": 5,
+ "name": "Gerald Ford",
+ "term": [
+  1974,
+  1977
+ ],
+ "party": "Republican",
+ "role": "Presided over the Fall of Saigon. Not one of the four who managed the war; the one who managed its ending: asked Congress for the aid Nixon had promised in private, was refused, and ordered the evacuation.",
+ "numbers": [
+  {
+   "k": "US troops in Vietnam on arrival",
+   "v": "about 50, the Defense Attaché Office and the embassy Marines"
+  },
+  {
+   "k": "US deaths during term",
+   "v": "63 (1974–1975), the last two on 29 April 1975"
+  },
+  {
+   "k": "Aid requested, January 1975",
+   "v": "$300 million supplemental; refused"
+  },
+  {
+   "k": "Aid requested, 10 April 1975",
+   "v": "$722 million military, $250 million humanitarian; refused"
+  },
+  {
+   "k": "Evacuated in Frequent Wind, 29–30 April",
+   "v": "about 7,000 in 19 hours by helicopter; about 130,000 Vietnamese by sea and air in April overall"
+  }
+ ],
+ "decisions": [
+  [
+   "1974-08-09",
+   "Sworn in. Writes to Thieu the next day that the commitments of his predecessor still stand; they do not, because Congress holds them."
+  ],
+  [
+   "1975-01-06",
+   "Phuoc Long province falls, the first whole province lost since 1973. No US response; Hanoi reads it as the test it was."
+  ],
+  [
+   "1975-01-28",
+   "Asks Congress for $300 million more for Saigon; hearings, no vote."
+  ],
+  [
+   "1975-03-25",
+   "Sends Weyand to Saigon to assess. Weyand reports on 4 April: it can hold with $722 million and air support; Ford knows the second is illegal and the first is unlikely."
+  ],
+  [
+   "1975-04-03",
+   "Operation Babylift ordered; the first C-5A crashes the next day, 138 dead."
+  ],
+  [
+   "1975-04-10",
+   "Address to Congress asking for the $722 million; several members walk out."
+  ],
+  [
+   "1975-04-23",
+   "Tulane: the war is “finished as far as America is concerned”. The line is applauded; Kissinger was not told it was in the speech."
+  ],
+  [
+   "1975-04-28",
+   "Approves Frequent Wind in principle; Ambassador Martin still resists."
+  ],
+  [
+   "1975-04-29",
+   "Orders the evacuation at 1048 Saigon time after the rocket attack on Tan Son Nhut kills the last two Marines."
+  ],
+  [
+   "1975-04-30",
+   "Saigon falls at 1130 local. Ford’s statement: the evacuation is complete; it “closes a chapter”."
+  ],
+  [
+   "1975-05-12",
+   "The Mayaguez, seized by the Khmer Rouge: 41 Americans die retaking a ship whose crew had already been released. The last names on the Wall."
+  ]
+ ],
+ "days": [
+  [
+   "1975-03-10",
+   "Ban Me Thuot attacked before dawn by three PAVN divisions; falls in two days."
+  ],
+  [
+   "1975-03-11",
+   "Thieu tells his generals the Highlands may have to be given up; Ban Me Thuot lost."
+  ],
+  [
+   "1975-03-13",
+   "Thieu decides at Cam Ranh to withdraw from Pleiku and Kontum down Route 7B, an abandoned road."
+  ],
+  [
+   "1975-03-14",
+   "The order given; General Phu leaves by helicopter before his troops."
+  ],
+  [
+   "1975-03-16",
+   "The Route 7B column of 200,000 soldiers and civilians is caught at the Ba River. The convoy of tears."
+  ],
+  [
+   "1975-03-18",
+   "Quang Tri abandoned. In Washington, Ford’s aid request is still in committee."
+  ],
+  [
+   "1975-03-19",
+   "Thieu reverses the order to hold Hue: hold it. Then reverses again."
+  ],
+  [
+   "1975-03-21",
+   "Route 1 cut south of Hue; the city is isolated."
+  ],
+  [
+   "1975-03-24",
+   "Tam Ky and Quang Ngai fall; the coast is a line of retreats."
+  ],
+  [
+   "1975-03-25",
+   "Hue falls. Ford sends Weyand."
+  ],
+  [
+   "1975-03-26",
+   "Chu Lai evacuated by sea."
+  ],
+  [
+   "1975-03-27",
+   "Weyand arrives in Saigon; the Da Nang airlift begins with 727s landing under fire."
+  ],
+  [
+   "1975-03-28",
+   "Panic at Da Nang; the last World Airways flight leaves with soldiers on the wheel wells."
+  ],
+  [
+   "1975-03-29",
+   "Da Nang falls. A hundred thousand ARVN gone as an army in a week. The gauge now reads about 24 provinces of 44."
+  ],
+  [
+   "1975-03-31",
+   "Hanoi’s Politburo moves the target from 1976 to April 1975: the Ho Chi Minh Campaign."
+  ],
+  [
+   "1975-04-01",
+   "Qui Nhon and Nha Trang fall; Thieu’s cabinet resigns."
+  ],
+  [
+   "1975-04-02",
+   "Tuy Hoa; Weyand’s draft report says the situation is critical and the odds long."
+  ],
+  [
+   "1975-04-03",
+   "Cam Ranh; Ford orders Babylift; refugee ships pulling into Vung Tau with the dead on deck."
+  ],
+  [
+   "1975-04-04",
+   "The C-5A crashes on take-off from Tan Son Nhut, 138 dead, 78 of them children. Weyand reports to Ford at Palm Springs."
+  ],
+  [
+   "1975-04-08",
+   "A South Vietnamese pilot bombs the presidential palace and flies north."
+  ],
+  [
+   "1975-04-09",
+   "Xuan Loc: the PAVN 4th Corps attacks; the 18th Division holds. The one stand."
+  ],
+  [
+   "1975-04-10",
+   "Ford’s address to Congress; the request is not taken up."
+  ],
+  [
+   "1975-04-12",
+   "Operation Eagle Pull: the US embassy in Phnom Penh evacuated by helicopter. Sirik Matak declines the seat: he will die where he is, and does."
+  ],
+  [
+   "1975-04-14",
+   "Ford reads a State Department cable predicting Saigon can hold a month; the CIA says less."
+  ],
+  [
+   "1975-04-17",
+   "Phnom Penh falls to the Khmer Rouge. The dominoes fall in the wrong order."
+  ],
+  [
+   "1975-04-18",
+   "Ford orders the evacuation of all non-essential Americans; Martin slows it, fearing panic."
+  ],
+  [
+   "1975-04-20",
+   "Xuan Loc abandoned after twelve days; the road to Saigon open. Martin tells Thieu it is time to go."
+  ],
+  [
+   "1975-04-21",
+   "Thieu resigns on television, blaming the Americans, in a speech of ninety minutes. Xuan Loc falls."
+  ],
+  [
+   "1975-04-23",
+   "Ford at Tulane: finished. The Senate Armed Services Committee stops hearing the aid request."
+  ],
+  [
+   "1975-04-25",
+   "Thieu flies to Taiwan on a CIA aircraft with what he can carry."
+  ],
+  [
+   "1975-04-26",
+   "The PAVN begins the final assault from five directions; 130,000 troops against the city."
+  ],
+  [
+   "1975-04-27",
+   "Rockets hit Saigon for the first time since 1973; Bien Hoa air base under fire."
+  ],
+  [
+   "1975-04-28",
+   "Duong Van Minh — “Big Minh”, who overthrew Diem in 1963 — sworn in as president to negotiate; Tan Son Nhut bombed by captured A-37s flown by defectors."
+  ],
+  [
+   "1975-04-29",
+   "Rockets at 0358 kill Corporal McMahon and Lance Corporal Judge at the DAO gate. Fixed-wing evacuation ends; Ford orders Frequent Wind at 1048; “White Christmas” on the radio; 81 helicopters, 19 hours."
+  ],
+  [
+   "1975-04-30",
+   "Martin leaves the roof at 0458; the last eleven Marines at 0753. T-54 tank 843 through the palace gate at 1130; Minh surrenders; the city is Ho Chi Minh City by the afternoon. Ford’s statement, 1330 Washington time."
+  ],
+  [
+   "1975-05-01",
+   "Ford asks Congress for $507 million for refugees; it passes on 21 May. The lead-up is over and the after begins in the section below."
+  ]
+ ],
+ "lives": [
+  {
+   "kind": "memoir",
+   "title": "A Rumor of War",
+   "year": 1977,
+   "who": "Philip Caputo",
+   "note": "A Marine lieutenant in the first landing at Da Nang, 1965; the first of the memoirs to say plainly what the war did to the men who fought it."
+  },
+  {
+   "kind": "memoir",
+   "title": "Dispatches",
+   "year": 1977,
+   "who": "Michael Herr",
+   "note": "Esquire’s correspondent; the book that gave the war its prose style and Apocalypse Now its narration."
+  },
+  {
+   "kind": "memoir",
+   "title": "Born on the Fourth of July",
+   "year": 1976,
+   "who": "Ron Kovic",
+   "note": "Paralysed at twenty-one; the wheelchair at the 1972 Republican convention; the film in 1989."
+  },
+  {
+   "kind": "novel",
+   "title": "The Things They Carried",
+   "year": 1990,
+   "who": "Tim O’Brien",
+   "note": "Drafted in 1968, considered Canada, went. Fiction that says at the start it is fiction, so that the true parts can be told."
+  },
+  {
+   "kind": "novel",
+   "title": "Going After Cacciato",
+   "year": 1978,
+   "who": "Tim O’Brien",
+   "note": "A soldier walks to Paris. National Book Award."
+  },
+  {
+   "kind": "novel",
+   "title": "Matterhorn",
+   "year": 2010,
+   "who": "Karl Marlantes",
+   "note": "Thirty years in the writing by a Marine lieutenant with the Navy Cross; the war as work."
+  },
+  {
+   "kind": "novel",
+   "title": "The Sorrow of War",
+   "year": 1990,
+   "who": "Bao Ninh",
+   "note": "From the other side: a PAVN veteran, one of ten survivors of a brigade of five hundred; banned in Vietnam for years."
+  },
+  {
+   "kind": "novel",
+   "title": "The Sympathizer",
+   "year": 2015,
+   "who": "Viet Thanh Nguyen",
+   "note": "Opens with the fall of Saigon from inside the evacuation; the Pulitzer."
+  },
+  {
+   "kind": "history",
+   "title": "A Bright Shining Lie",
+   "year": 1988,
+   "who": "Neil Sheehan",
+   "note": "John Paul Vann and the whole war through one adviser’s life; sixteen years to write."
+  },
+  {
+   "kind": "history",
+   "title": "The Best and the Brightest",
+   "year": 1972,
+   "who": "David Halberstam",
+   "note": "How the advisers of projects 40–43 got it wrong, written while they were still in office."
+  },
+  {
+   "kind": "poetry",
+   "title": "Dien Cai Dau",
+   "year": 1988,
+   "who": "Yusef Komunyakaa",
+   "note": "A Black soldier’s poems; “Facing It”, at the Wall, is the one everyone reads."
+  },
+  {
+   "kind": "poetry",
+   "title": "The Monkey Wars",
+   "year": 1985,
+   "who": "Bruce Weigl",
+   "note": ""
+  },
+  {
+   "kind": "art",
+   "title": "Vietnam Veterans Memorial",
+   "year": 1982,
+   "who": "Maya Lin",
+   "note": "A black granite wall sunk into the Mall with 58,000 names in order of death and no figures. Chosen at twenty-one from 1,421 entries; fought over; then the most visited memorial in Washington. The names are still being added."
+  },
+  {
+   "kind": "art",
+   "title": "The Three Soldiers",
+   "year": 1984,
+   "who": "Frederick Hart",
+   "note": "The figurative statue added by compromise, facing the Wall. This repository does not draw faces; the statue does."
+  },
+  {
+   "kind": "art",
+   "title": "Vietnam Women’s Memorial",
+   "year": 1993,
+   "who": "Glenna Goodacre",
+   "note": "The 265,000 women who served, 11,000 in country."
+  },
+  {
+   "kind": "art",
+   "title": "The Napalm Girl",
+   "year": 1972,
+   "who": "Nick Ut",
+   "note": "Phan Thi Kim Phuc, aged nine, on Route 1 at Trang Bang; the Pulitzer; she lives in Canada."
+  },
+  {
+   "kind": "art",
+   "title": "Saigon Execution",
+   "year": 1968,
+   "who": "Eddie Adams",
+   "note": "General Loan, the second day of Tet. Adams said the photograph killed the general and that two people died in it."
+  },
+  {
+   "kind": "film",
+   "title": "The Deer Hunter",
+   "year": 1978,
+   "who": "Michael Cimino",
+   "note": "The steel town and the Russian roulette that did not happen; Best Picture."
+  },
+  {
+   "kind": "film",
+   "title": "Apocalypse Now",
+   "year": 1979,
+   "who": "Francis Ford Coppola",
+   "note": "Conrad up the river; the film that took the war into myth, and the making of it nearly killed its makers."
+  },
+  {
+   "kind": "film",
+   "title": "Platoon",
+   "year": 1986,
+   "who": "Oliver Stone",
+   "note": "By a veteran of the 25th Infantry; Best Picture; the first the veterans said was theirs."
+  },
+  {
+   "kind": "film",
+   "title": "Full Metal Jacket",
+   "year": 1987,
+   "who": "Stanley Kubrick",
+   "note": "Parris Island and Hue, shot in London."
+  },
+  {
+   "kind": "film",
+   "title": "Hearts and Minds",
+   "year": 1974,
+   "who": "Peter Davis",
+   "note": "The documentary; Westmoreland on the value of life in the Orient, cut against a funeral. Best Documentary while the war was still on."
+  },
+  {
+   "kind": "film",
+   "title": "The Fog of War",
+   "year": 2003,
+   "who": "Errol Morris",
+   "note": "McNamara at eighty-five, eleven lessons, still counting."
+  },
+  {
+   "kind": "film",
+   "title": "The Vietnam War",
+   "year": 2017,
+   "who": "Ken Burns and Lynn Novick",
+   "note": "Eighteen hours; Vietnamese voices from both sides for the first time on American television."
+  },
+  {
+   "kind": "music",
+   "title": "“Fortunate Son”",
+   "year": 1969,
+   "who": "Creedence Clearwater Revival",
+   "note": "Who got drafted and who did not, in two minutes twenty."
+  },
+  {
+   "kind": "music",
+   "title": "“What’s Going On”",
+   "year": 1971,
+   "who": "Marvin Gaye",
+   "note": "Written after his brother came home from Vietnam and told him."
+  },
+  {
+   "kind": "life",
+   "title": "Post-traumatic stress disorder",
+   "year": 1980,
+   "who": "DSM-III",
+   "note": "Named after the veterans’ rap groups and Shatan and Lifton’s work made the case; about 15% of male theatre veterans had it in 1988 and about 30% had had it at some point. It is what the user means by a lifelong conflict."
+  },
+  {
+   "kind": "life",
+   "title": "Agent Orange",
+   "year": 1991,
+   "who": "Agent Orange Act",
+   "note": "Nineteen million gallons; the VA presumes fourteen conditions service-connected; the Vietnamese count some three million affected and the children of the sprayed. The lawsuit settled in 1984 for $180 million."
+  },
+  {
+   "kind": "life",
+   "title": "The boat people",
+   "year": 1975,
+   "who": "about 800,000 arrived; perhaps 200,000–400,000 did not",
+   "note": "The after for the other side; the Orderly Departure Program from 1979; 1.6 million Vietnamese Americans by 2010."
+  },
+  {
+   "kind": "life",
+   "title": "The MIA flag",
+   "year": 1972,
+   "who": "National League of POW/MIA Families",
+   "note": "1,587 still unaccounted for in 2020; the only flag besides the Stars and Stripes to fly over the White House by statute. Some men never came home because they were never found; some never came home because they did."
+  }
+ ],
+ "advisers": [
+  {
+   "who": "Henry Kissinger",
+   "post": "Secretary of State and National Security Adviser",
+   "from": 1973,
+   "to": 1977,
+   "note": "Argued for the aid to the end; argued against the Tulane line; drafted the “chapter” statement."
+  },
+  {
+   "who": "James Schlesinger",
+   "post": "Secretary of Defense",
+   "from": 1973,
+   "to": 1975,
+   "note": "Wanted the evacuation earlier and faster; fired in November."
+  },
+  {
+   "who": "Gen. George S. Brown",
+   "post": "Chairman, Joint Chiefs",
+   "from": 1974,
+   "to": 1978,
+   "note": "Project 50."
+  },
+  {
+   "who": "Gen. Fred C. Weyand",
+   "post": "Army Chief of Staff; the April mission",
+   "from": 1974,
+   "to": 1976,
+   "note": "Project 51."
+  },
+  {
+   "who": "Graham Martin",
+   "post": "Ambassador to South Vietnam",
+   "from": 1973,
+   "to": 1975,
+   "note": "Kept the tamarind tree in the embassy courtyard standing until the afternoon of the 29th so as not to signal panic; it was cut down for the helicopters."
+  },
+  {
+   "who": "Brent Scowcroft",
+   "post": "Deputy National Security Adviser",
+   "from": 1973,
+   "to": 1975,
+   "note": "Ran the evacuation from the Situation Room."
+  },
+  {
+   "who": "William Colby",
+   "post": "Director of Central Intelligence",
+   "from": 1973,
+   "to": 1976,
+   "note": "The station’s estimates were the accurate ones and were not the ones Martin used."
+  },
+  {
+   "who": "Thomas Polgar",
+   "post": "CIA station chief, Saigon",
+   "from": 1972,
+   "to": 1975,
+   "note": "Sent the last cable: “it has been a long fight and we have lost.”"
+  },
+  {
+   "who": "Donald Rumsfeld",
+   "post": "White House Chief of Staff",
+   "from": 1974,
+   "to": 1975,
+   "note": ""
+  },
+  {
+   "who": "Nelson Rockefeller",
+   "post": "Vice President",
+   "from": 1974,
+   "to": 1977,
+   "note": ""
+  },
+  {
+   "who": "Erich von Marbod",
+   "post": "Deputy, Defense Security Assistance Agency",
+   "from": 1975,
+   "to": 1975,
+   "note": "Flew out the ARVN’s aircraft and ships so they would not be captured; the last quartermaster."
+  }
+ ],
+ "text": "Ford: the lead-up to the Fall of Saigon a day at a time from Ban Me Thuot to the palace gate, and the lives after it — the books, the art, the films, the diagnoses — because for a lot of men the conflict did not end on 30 April 1975.",
+ "wovenBy": "the bridge"
+}

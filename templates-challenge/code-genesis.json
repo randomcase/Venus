@@ -1,0 +1,23 @@
+{
+ "id": "code-genesis",
+ "type": "code",
+ "tier": 1,
+ "title": "A genesis block with nothing in it",
+ "unlocks": "the-minimum-cycle",
+ "ground": "Every chain begins with somebody typing a first block. The question is what is in it. A premine is a preference written into the ground state, and a preference is a ranking.",
+ "task": "Write a genesis block whose allocation map is empty, hash it, and link a second block to it. Then write the test that fails if any unit exists at height 0.",
+ "rubric": [
+  {
+   "band": "It runs",
+   "test": "Do two blocks exist, linked, and does the link verify?"
+  },
+  {
+   "band": "The test is real",
+   "test": "Does it fail when you deliberately add one unit to genesis? Prove it by adding one."
+  },
+  {
+   "band": "The press is named",
+   "test": "Does the code or its comment acknowledge that somebody still pressed start? The injector does not disappear because the allocation is empty."
+  }
+ ]
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-097",
+ "bench": "fleet",
+ "order": 97,
+ "year": 10,
+ "day": 3478,
+ "parties": [
+  "neoptolemus"
+ ],
+ "actor": "Neoptolemus",
+ "with": null,
+ "verb": "spoke",
+ "object": "against the kings in the assembly",
+ "place": "before Achilles' tent",
+ "side": "fleet",
+ "text": "Neoptolemus spoke against the kings in the assembly, before Achilles' tent, in the tenth year."
+}

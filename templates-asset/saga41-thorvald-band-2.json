@@ -1,0 +1,16 @@
+{
+ "id": "saga41-thorvald-band-2",
+ "kind": "band",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "resource": "signal",
+ "period": 11,
+ "name": "the jarl's own of Thorvaldsson",
+ "strength": 13,
+ "raids": true,
+ "cost": 1725,
+ "upkeep": 3,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 13; eats 3 signal a day.",
+ "wovenBy": "thorvald",
+ "saga": 41
+}

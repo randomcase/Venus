@@ -1,0 +1,17 @@
+{
+ "id": "act-046",
+ "order": 46,
+ "year": 5,
+ "day": 1622,
+ "parties": [
+  "ajax",
+  "menelaus"
+ ],
+ "actor": "Ajax",
+ "with": "Menelaus",
+ "verb": "sacked",
+ "object": "a city on the coast",
+ "place": "in the assembly",
+ "side": "fleet",
+ "text": "Ajax and Menelaus sacked a city on the coast, in the assembly, in the fifth year."
+}

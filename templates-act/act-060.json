@@ -1,0 +1,16 @@
+{
+ "id": "act-060",
+ "order": 60,
+ "year": 6,
+ "day": 2142,
+ "parties": [
+  "priam"
+ ],
+ "actor": "Priam",
+ "with": null,
+ "verb": "sacked",
+ "object": "a city on the coast",
+ "place": "under the wall",
+ "side": "troy",
+ "text": "Priam sacked a city on the coast, under the wall, in the sixth year."
+}

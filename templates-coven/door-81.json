@@ -1,0 +1,11 @@
+{
+ "id": "door-81",
+ "kind": "door",
+ "door": 81,
+ "syndicate": "syn-9",
+ "tranche": 9,
+ "keeper": "p-25",
+ "share": 111111.11,
+ "text": "Door 81 of 200. Draws on the 9th tranche, kept by Gralor Hespic, signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door 200.",
+ "wovenBy": "syn-9"
+}

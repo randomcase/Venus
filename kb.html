@@ -1,0 +1,1505 @@
+<title>The Venus Knowledge Base</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  THE VENUS KNOWLEDGE BASE — 35 entries, generated from kb.json by kb.mjs.
+
+  Every entry carries a TEST: the thing you could do that would show it false.
+  An entry without one is an opinion with a heading on it, and this base does
+  not accept them. Where an entry has been demonstrated on a board you can open,
+  the board is cited by filename and the generator has checked that the file
+  exists — 41 distinct pages cited, 0 broken.
+
+  0 of the 35 entries are asserted and not
+  demonstrated anywhere. They are named at the foot of the page. A base that
+  hides its own soft spots is a brochure.
+
+  THE FILTERS ARE THE LESSON. Two radio groups, class and confidence, and they
+  compose without a lookup table — which is unusual here and worth the note.
+  Filtering by hiding is an OR over hide-rules, and an OR over hide-rules is an
+  AND over filters, for free. Compare pulse.html, which needed 24 enumerated
+  rows for three axes, and see workbook.html chapter seven for why: enumerate
+  when the outcome is a VALUE, hide when the outcome is a VISIBILITY.
+
+  Entries are :target-addressable — kb.html#fungibility lands on the entry and
+  lights it, so a link into this base can name what it means.
+
+  No script decides anything on this page.
+-->
+<style>
+  :root{
+    --void:#080b0c; --card:#111a1b; --card2:#162122; --edge:#263434;
+    --ink:#e8f0ef; --dim:#8a9d9b; --bone:#e4d9b8;
+    --key:#6ec6ff; --go:#5fd6a4; --warn:#e0a05a; --bad:#e0705a;
+    --gold:#e0b155; --vio:#9d8ae0;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px 16px 56px;color:var(--ink);background:var(--void);
+    font:13.5px/1.66 ui-rounded,system-ui,-apple-system,sans-serif;
+    background-image:
+      radial-gradient(circle at 12% -6%,rgba(110,198,255,.10),transparent 44%),
+      radial-gradient(circle at 90% 100%,rgba(95,214,164,.07),transparent 42%)}
+  .w{max-width:1000px;margin:0 auto}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:12px;margin-bottom:14px}
+  h1{margin:0;font-size:22px;letter-spacing:-.018em;color:var(--bone)}
+  header .sub{color:var(--dim);font-size:11.5px;max-width:68ch}
+  header .tag{margin-left:auto;font:9px/1 ui-monospace,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--key);border:1px solid var(--key);
+    border-radius:4px;padding:4px 9px}
+  h2{font:9.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--dim);margin:26px 0 10px;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  h2 b{color:var(--bone);font-family:inherit;letter-spacing:0;text-transform:none;
+    font-size:10.5px;font-weight:600}
+  p.n{color:var(--dim);font-size:11.5px;line-height:1.72;margin:10px 0 0;max-width:94ch}
+  p.n b{color:var(--ink)} p.n em{font-style:normal;color:var(--gold)}
+  a{color:var(--gold)}
+  code{font:10.5px ui-monospace,monospace;color:var(--bone);background:#0b1112;
+    border:1px solid var(--edge);border-radius:4px;padding:1px 5px}
+  .panel{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:13px;padding:15px 16px}
+
+  /* ─────────────────────────────────────────────────────────── the filters */
+  .filters{display:grid;gap:11px;grid-template-columns:1fr 1fr;margin-top:4px}
+  @media (max-width:800px){.filters{grid-template-columns:1fr}}
+  .fg{background:#0c1314;border:1px solid var(--edge);border-radius:11px;
+    padding:11px 12px}
+  .fg h4{margin:0 0 8px;font:8.5px/1 ui-monospace,monospace;letter-spacing:.17em;
+    text-transform:uppercase;color:var(--dim)}
+  .fg .row{display:flex;gap:5px;flex-wrap:wrap}
+  .fg input{position:absolute;opacity:0;width:0;height:0}
+  .fg label{cursor:pointer;font:10.5px/1 ui-monospace,monospace;padding:9px 11px;
+    border-radius:7px;border:1px solid var(--edge);color:var(--dim);user-select:none}
+  .fg label:hover{color:var(--ink)}
+  .fg input:checked + label{border-color:var(--bone);color:var(--bone);
+    background:rgba(228,217,184,.10);font-weight:700}
+  .fg input:focus-visible + label{outline:2px solid var(--key);outline-offset:2px}
+
+  /* ══ filtering by HIDING composes for free. Two independent groups, two
+     independent hide-rules, and their union is the intersection of the
+     filters — no product, no enumeration. Contrast pulse.html, which needed
+     twenty-four written-out rows for three axes, and workbook.html ch.7 for
+     the distinction: enumerate when the outcome is a VALUE, hide when the
+     outcome is a VISIBILITY. */
+  .kb:has(#f-concept:checked) .e:not(.c-concept){display:none}
+  .kb:has(#f-mechanism:checked) .e:not(.c-mechanism){display:none}
+  .kb:has(#f-figure:checked) .e:not(.c-figure){display:none}
+  .kb:has(#f-number:checked) .e:not(.c-number){display:none}
+  .kb:has(#f-method:checked) .e:not(.c-method){display:none}
+  .kb:has(#g-settled:checked) .e:not(.s-settled){display:none}
+  .kb:has(#g-working:checked) .e:not(.s-working){display:none}
+  .kb:has(#g-contested:checked) .e:not(.s-contested){display:none}
+  .kb:has(#g-open:checked) .e:not(.s-open){display:none}
+
+  /* ─────────────────────────────────────────────────────────── the entries */
+  .e{background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--edge);border-radius:13px;padding:15px 16px;
+    margin-top:13px;scroll-margin-top:14px;counter-increment:shown 1}
+  .e:target{border-color:var(--key);box-shadow:0 0 0 1px rgba(110,198,255,.35)}
+  .e h3{margin:0;font-size:16px;color:var(--bone);letter-spacing:-.01em;
+    display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .e h3 a{color:inherit;text-decoration:none}
+  .e h3 a:hover{color:var(--key)}
+  .e h3 i{font-style:normal;font:8.5px/1 ui-monospace,monospace;letter-spacing:.14em;
+    text-transform:uppercase;border:1px solid var(--edge);border-radius:5px;
+    padding:5px 7px;color:var(--dim)}
+  .e h3 .k{margin-left:auto}
+  .e.s-settled h3 .d{color:var(--go);border-color:var(--go)}
+  .e.s-working h3 .d{color:var(--warn);border-color:var(--warn)}
+  .e.s-contested h3 .d{color:var(--bad);border-color:var(--bad)}
+  .e.s-open h3 .d{color:var(--vio);border-color:var(--vio)}
+  .short{margin:9px 0 0;font-size:13px;color:var(--ink);line-height:1.6;
+    max-width:86ch}
+  .b{margin:10px 0 0;font-size:12px;color:var(--dim);line-height:1.75;max-width:92ch}
+  .b em,.short em{font-style:normal;color:var(--gold)}
+  .test{margin-top:12px;padding:11px 13px;background:#0b1112;
+    border-left:3px solid var(--key);border-radius:0 9px 9px 0}
+  .test span{display:block;font:8.5px/1 ui-monospace,monospace;letter-spacing:.17em;
+    text-transform:uppercase;color:var(--key);margin-bottom:5px}
+  .test p{margin:0;font-size:12px;color:var(--ink);line-height:1.7;max-width:88ch}
+  .ev{margin-top:12px}
+  .ev > span{display:block;font:8.5px/1 ui-monospace,monospace;letter-spacing:.17em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+  .ev a{display:block;text-decoration:none;background:#0b1112;
+    border:1px solid var(--edge);border-radius:9px;padding:8px 10px;
+    margin-bottom:5px;color:var(--dim);font-size:11px;line-height:1.6}
+  .ev a:hover{border-color:var(--go);color:var(--ink)}
+  .ev a b{display:block;font:10px/1.5 ui-monospace,monospace;color:var(--gold);
+    font-weight:400}
+  .ev a.no{cursor:default} .ev a.no:hover{border-color:var(--edge);color:var(--dim)}
+  .ev a.no b{color:var(--bad)}
+  .rel{margin-top:11px;padding-top:10px;border-top:1px solid var(--edge);
+    display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .rel a{font:10px/1 ui-monospace,monospace;text-decoration:none;color:var(--dim);
+    border:1px solid var(--edge);border-radius:6px;padding:6px 8px}
+  .rel a:hover{color:var(--ink);border-color:#3a4a4a}
+  .rel a.in{color:var(--vio);border-color:rgba(157,138,224,.35)}
+  .rel s{text-decoration:none;font:8.5px/1 ui-monospace,monospace;
+    letter-spacing:.15em;text-transform:uppercase;color:#50625f;margin-left:6px}
+
+  /* ═════════════════════════════════════════════════ the counter that filters
+     A hidden element generates no box and increments no counter, so the
+     shown counter counts exactly what survived the filters. Nobody had to write that; it is
+     what display:none already means. workbook.html, chapter five. */
+  body{counter-reset:shown 0}
+  .count{margin-top:12px;padding:11px 13px;border:1px dashed var(--edge);
+    border-radius:10px;color:var(--dim);font-size:11px;line-height:1.7}
+  .count b{color:var(--bone)}
+  .count::before{content:counter(shown);font:16px/1 ui-monospace,monospace;
+    color:var(--go);margin-right:9px}
+
+  .stats{display:grid;gap:8px;grid-template-columns:repeat(4,1fr);margin-top:12px}
+  @media (max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .st{background:#0c1314;border:1px solid var(--edge);border-radius:9px;
+    padding:10px 12px;display:flex;align-items:baseline;gap:9px}
+  .st span{font:8.5px/1 ui-monospace,monospace;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .st b{margin-left:auto;font:16px/1 ui-monospace,monospace;color:var(--bone)}
+  .st.ok b{color:var(--go)} .st.no b{color:var(--bad)}
+
+  .soft{margin-top:14px}
+  .soft a{display:inline-block;font:10.5px/1 ui-monospace,monospace;
+    text-decoration:none;color:var(--vio);border:1px solid rgba(157,138,224,.35);
+    border-radius:7px;padding:8px 10px;margin:0 5px 5px 0}
+
+  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--edge);
+    color:var(--dim);font-size:10.5px;line-height:1.75}
+  /* ═══════════════════════════════════════════════════ THE GALACTIC BACKDROP
+     A window, not a wallpaper. Still no script.
+
+     69 bright stars and 139 dim ones, weighted the way the real sky is —
+     mostly dim and warm, a scatter of white, almost no blue — laid along a band
+     twenty-four degrees off horizontal with the dust lane cut back out of it in
+     the background colour, because the dark half of a galaxy is most of what
+     you see. The stars are Earth's, because they would be: Venus is 0.28 AU
+     away and that is nothing at stellar distances.
+
+     WE ARE TRAVELLING, so the sky does. It sits on two fixed pseudo-elements
+     rather than one background, and each one moves by TRANSFORM — which the
+     compositor does on its own thread, without repainting 208 gradients a
+     frame. Animating background-position instead would have cost the frame
+     budget of every board in the yard, and that is the only reason this is
+     built out of two layers instead of one.
+
+     AND WE ARE EXPANDING, so the near layer runs faster and scales harder than
+     the far one. That difference is parallax and parallax is the entire cue:
+     hold still and the bright stars slide past the dim ones, which is what a
+     window does and what a backdrop cannot. 21 minutes and 34 — coprime, so the
+     two never fall back into the arrangement they started in.
+
+     Both sit at z-index:-1 behind everything, each page keeps its own colour
+     wash on <body> over the top, and prefers-reduced-motion stops the travel
+     dead while leaving every star exactly where it is. */
+  html{background-color:#080b0c}
+  body{background-color:transparent}
+  html::before,html::after{content:"";position:fixed;z-index:-1;
+    inset:-18%;pointer-events:none;background-repeat:no-repeat;
+    background-size:cover;will-change:transform}
+  html::before{background-image:
+      radial-gradient(0.35px 0.35px at 63.60% 61.37%,rgba(202,215,255,0.16),transparent),
+      radial-gradient(0.54px 0.54px at 31.73% 56.60%,rgba(255,210,161,0.26),transparent),
+      radial-gradient(0.36px 0.36px at 16.19% 41.87%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.12% 16.25%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 61.37% 49.53%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.66px 0.66px at 89.13% 49.03%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.52px 0.52px at 23.10% 65.23%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 81.55% 90.93%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.35px 0.35px at 1.99% 39.17%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.67px 0.67px at 88.33% 64.79%,rgba(255,210,161,0.32),transparent),
+      radial-gradient(0.65px 0.65px at 52.00% 41.82%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.84px 0.84px at 59.58% 82.02%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.44px 0.44px at 55.83% 49.97%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.45px 0.45px at 61.17% 3.50%,rgba(202,215,255,0.21),transparent),
+      radial-gradient(0.48px 0.48px at 92.68% 74.19%,rgba(255,181,107,0.23),transparent),
+      radial-gradient(0.41px 0.41px at 44.55% 40.37%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.80px 0.80px at 33.50% 52.15%,rgba(255,181,107,0.39),transparent),
+      radial-gradient(0.70px 0.70px at 15.53% 74.11%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.69px 0.69px at 83.20% 49.99%,rgba(255,181,107,0.34),transparent),
+      radial-gradient(0.86px 0.86px at 14.02% 0.25%,rgba(255,181,107,0.42),transparent),
+      radial-gradient(0.35px 0.35px at 8.46% 26.75%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 16.18% 29.77%,rgba(255,244,234,0.16),transparent),
+      radial-gradient(0.57px 0.57px at 46.77% 49.71%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.58px 0.58px at 80.94% 96.51%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.44px 0.44px at 46.92% 31.31%,rgba(255,181,107,0.20),transparent),
+      radial-gradient(0.37px 0.37px at 34.69% 85.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.42px 0.42px at 56.44% 46.68%,rgba(255,210,161,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 7.58% 26.10%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.48px 0.48px at 16.83% 84.69%,rgba(202,215,255,0.22),transparent),
+      radial-gradient(0.53px 0.53px at 9.16% 5.95%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.57px 0.57px at 41.82% 44.48%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.90px 0.90px at 74.31% 45.97%,rgba(255,210,161,0.44),transparent),
+      radial-gradient(0.40px 0.40px at 64.18% 49.64%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 5.25% 39.37%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.53px 0.53px at 9.07% 72.19%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.78px 0.78px at 64.06% 69.96%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.37px 0.37px at 8.76% 35.75%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 57.68% 27.55%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 98.05% 7.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.66px 0.66px at 44.51% 72.98%,rgba(255,181,107,0.32),transparent),
+      radial-gradient(0.46px 0.46px at 37.26% 1.54%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.59px 0.59px at 90.42% 72.27%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.57px 0.57px at 98.13% 10.35%,rgba(248,247,255,0.27),transparent),
+      radial-gradient(0.91px 0.91px at 94.93% 71.89%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.36px 0.36px at 4.64% 11.86%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.56px 0.56px at 46.09% 50.65%,rgba(255,210,161,0.27),transparent),
+      radial-gradient(0.72px 0.72px at 98.16% 60.72%,rgba(255,181,107,0.35),transparent),
+      radial-gradient(0.90px 0.90px at 23.45% 18.12%,rgba(255,181,107,0.44),transparent),
+      radial-gradient(0.53px 0.53px at 13.29% 38.54%,rgba(248,247,255,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 48.20% 58.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 93.26% 70.43%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.77px 0.77px at 98.31% 71.27%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.51px 0.51px at 91.86% 57.08%,rgba(255,210,161,0.24),transparent),
+      radial-gradient(0.76px 0.76px at 3.22% 18.38%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 67.24% 79.63%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.44px 0.44px at 4.49% 37.24%,rgba(255,210,161,0.20),transparent),
+      radial-gradient(0.35px 0.35px at 19.05% 44.87%,rgba(248,247,255,0.16),transparent),
+      radial-gradient(0.43px 0.43px at 80.57% 75.11%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.38px 0.38px at 84.40% 42.68%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.44px 0.44px at 84.04% 97.87%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.65px 0.65px at 16.48% 27.55%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.75px 0.75px at 84.52% 73.60%,rgba(255,210,161,0.36),transparent),
+      radial-gradient(0.63px 0.63px at 50.13% 6.86%,rgba(248,247,255,0.30),transparent),
+      radial-gradient(0.78px 0.78px at 87.51% 70.49%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.76px 0.76px at 16.34% 26.34%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.35px 0.35px at 58.85% 56.40%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 4.52% 56.48%,rgba(255,181,107,0.33),transparent),
+      radial-gradient(0.46px 0.46px at 86.45% 52.09%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.39px 0.39px at 91.92% 82.50%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.36px 0.36px at 6.83% 33.67%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 6.10% 7.69%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 63.59% 62.73%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 72.64% 55.47%,rgba(255,181,107,0.18),transparent),
+      radial-gradient(0.57px 0.57px at 1.57% 22.68%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.35px 0.35px at 20.24% 40.59%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.68px 0.68px at 81.60% 86.38%,rgba(255,244,234,0.33),transparent),
+      radial-gradient(0.75px 0.75px at 1.01% 89.43%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.50px 0.50px at 1.89% 45.85%,rgba(255,181,107,0.24),transparent),
+      radial-gradient(0.36px 0.36px at 86.06% 69.70%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.46px 0.46px at 54.27% 84.12%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.35px 0.35px at 68.88% 69.99%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 51.92% 44.11%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.37px 0.37px at 83.56% 88.23%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.61px 0.61px at 48.63% 32.82%,rgba(248,247,255,0.29),transparent),
+      radial-gradient(0.46px 0.46px at 3.14% 19.70%,rgba(255,181,107,0.22),transparent),
+      radial-gradient(0.35px 0.35px at 91.65% 60.72%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 39.35% 42.18%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.60px 0.60px at 96.63% 57.34%,rgba(255,210,161,0.29),transparent),
+      radial-gradient(0.36px 0.36px at 93.19% 66.52%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.52px 0.52px at 91.66% 53.83%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.53px 0.53px at 37.09% 33.98%,rgba(255,210,161,0.25),transparent),
+      radial-gradient(0.36px 0.36px at 7.69% 48.04%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.76px 0.76px at 40.92% 77.22%,rgba(255,181,107,0.37),transparent),
+      radial-gradient(0.62px 0.62px at 53.18% 55.13%,rgba(255,181,107,0.30),transparent),
+      radial-gradient(0.52px 0.52px at 36.16% 17.06%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.42px 0.42px at 7.30% 10.90%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.38px 0.38px at 98.83% 35.83%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.57px 0.57px at 32.25% 40.39%,rgba(255,181,107,0.27),transparent),
+      radial-gradient(0.77px 0.77px at 68.97% 58.36%,rgba(255,181,107,0.38),transparent),
+      radial-gradient(0.35px 0.35px at 98.16% 72.23%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 49.07% 50.45%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.59px 0.59px at 36.73% 46.36%,rgba(255,210,161,0.28),transparent),
+      radial-gradient(0.37px 0.37px at 59.16% 52.43%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.39px 0.39px at 5.87% 47.43%,rgba(255,244,234,0.18),transparent),
+      radial-gradient(0.35px 0.35px at 28.92% 42.34%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.84px 0.84px at 38.15% 61.03%,rgba(255,181,107,0.41),transparent),
+      radial-gradient(0.35px 0.35px at 17.08% 95.56%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.56px 0.56px at 72.12% 52.35%,rgba(255,244,234,0.27),transparent),
+      radial-gradient(0.43px 0.43px at 10.79% 34.15%,rgba(248,247,255,0.20),transparent),
+      radial-gradient(0.36px 0.36px at 90.72% 54.28%,rgba(255,210,161,0.16),transparent),
+      radial-gradient(0.36px 0.36px at 0.22% 39.29%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.38px 0.38px at 66.88% 43.63%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.76px 0.76px at 85.24% 53.71%,rgba(255,210,161,0.37),transparent),
+      radial-gradient(0.45px 0.45px at 76.84% 68.26%,rgba(255,181,107,0.21),transparent),
+      radial-gradient(0.82px 0.82px at 20.88% 36.67%,rgba(255,181,107,0.40),transparent),
+      radial-gradient(0.53px 0.53px at 72.59% 59.70%,rgba(255,181,107,0.25),transparent),
+      radial-gradient(0.82px 0.82px at 99.56% 61.97%,rgba(248,247,255,0.40),transparent),
+      radial-gradient(0.37px 0.37px at 43.04% 22.87%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.38px 0.38px at 62.75% 36.42%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.64px 0.64px at 11.37% 52.16%,rgba(255,181,107,0.31),transparent),
+      radial-gradient(0.35px 0.35px at 65.28% 54.10%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.35px 0.35px at 23.22% 51.57%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.41px 0.41px at 7.86% 15.80%,rgba(255,181,107,0.19),transparent),
+      radial-gradient(0.37px 0.37px at 1.16% 17.03%,rgba(255,210,161,0.17),transparent),
+      radial-gradient(0.36px 0.36px at 24.23% 36.88%,rgba(255,181,107,0.16),transparent),
+      radial-gradient(0.37px 0.37px at 67.85% 71.10%,rgba(255,181,107,0.17),transparent),
+      radial-gradient(0.87px 0.87px at 21.22% 9.64%,rgba(255,181,107,0.43),transparent),
+      radial-gradient(16px 16px at 11.38% 48.06%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 66.59% 41.28%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 40.80% 23.68%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 41.01% 67.29%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 31.18% 27.63%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 10.81% 18.20%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(16px 16px at 3.23% 54.03%,rgba(200,215,255,.10),transparent 70%),
+      radial-gradient(30% 30% at 22% 30%,rgba(91,127,199,0.055),transparent 70%),
+      radial-gradient(26% 26% at 74% 58%,rgba(201,87,143,0.040),transparent 70%),
+      radial-gradient(22% 22% at 46% 18%,rgba(79,179,166,0.035),transparent 70%),
+      linear-gradient(66deg,transparent 34%,rgba(148,138,196,.045) 43%,rgba(172,162,214,.085) 50%,rgba(148,138,196,.045) 57%,transparent 66%),
+      linear-gradient(66deg,transparent 46%,rgba(4,3,7,.55) 49.4%,rgba(4,3,7,.62) 50.6%,transparent 54%);
+    animation:au-far 2040s ease-in-out infinite alternate}
+  html::after{background-image:
+      radial-gradient(1.30px 1.30px at 68.42% 62.26%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(0.96px 0.96px at 44.46% 53.88%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.72px 1.72px at 97.52% 67.89%,rgba(255,210,161,0.86),transparent),
+      radial-gradient(1.27px 1.27px at 29.09% 44.54%,rgba(255,181,107,0.63),transparent),
+      radial-gradient(1.25px 1.25px at 0.41% 98.24%,rgba(255,181,107,0.62),transparent),
+      radial-gradient(1.12px 1.12px at 48.27% 61.45%,rgba(255,181,107,0.55),transparent),
+      radial-gradient(1.62px 1.62px at 21.27% 82.41%,rgba(255,181,107,0.81),transparent),
+      radial-gradient(1.13px 1.13px at 32.91% 34.63%,rgba(255,181,107,0.56),transparent),
+      radial-gradient(1.56px 1.56px at 71.19% 43.86%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.40px 1.40px at 6.85% 52.24%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.14px 1.14px at 86.46% 83.26%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.10px 1.10px at 71.95% 42.90%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.42px 1.42px at 36.96% 17.89%,rgba(255,181,107,0.71),transparent),
+      radial-gradient(1.13px 1.13px at 4.31% 1.17%,rgba(170,191,255,0.56),transparent),
+      radial-gradient(1.31px 1.31px at 41.52% 51.61%,rgba(255,181,107,0.65),transparent),
+      radial-gradient(1.46px 1.46px at 76.09% 66.82%,rgba(255,244,234,0.72),transparent),
+      radial-gradient(1.78px 1.78px at 26.72% 43.06%,rgba(255,181,107,0.89),transparent),
+      radial-gradient(1.69px 1.69px at 22.68% 46.22%,rgba(170,191,255,0.84),transparent),
+      radial-gradient(1.76px 1.76px at 30.20% 97.65%,rgba(255,181,107,0.88),transparent),
+      radial-gradient(1.38px 1.38px at 99.58% 76.98%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.08px 1.08px at 15.38% 27.05%,rgba(255,244,234,0.53),transparent),
+      radial-gradient(0.95px 0.95px at 42.39% 32.32%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.57px 1.57px at 58.49% 81.25%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(0.94px 0.94px at 48.37% 39.34%,rgba(255,181,107,0.46),transparent),
+      radial-gradient(1.41px 1.41px at 91.19% 97.04%,rgba(255,210,161,0.70),transparent),
+      radial-gradient(1.37px 1.37px at 7.79% 44.56%,rgba(255,210,161,0.68),transparent),
+      radial-gradient(1.07px 1.07px at 89.66% 36.01%,rgba(255,181,107,0.53),transparent),
+      radial-gradient(1.69px 1.69px at 67.50% 93.44%,rgba(255,181,107,0.84),transparent),
+      radial-gradient(1.15px 1.15px at 57.27% 40.78%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.58px 1.58px at 33.10% 45.94%,rgba(255,181,107,0.79),transparent),
+      radial-gradient(1.04px 1.04px at 83.01% 82.39%,rgba(255,181,107,0.51),transparent),
+      radial-gradient(1.56px 1.56px at 88.42% 66.83%,rgba(255,181,107,0.78),transparent),
+      radial-gradient(1.29px 1.29px at 24.78% 0.51%,rgba(255,181,107,0.64),transparent),
+      radial-gradient(1.09px 1.09px at 6.07% 6.69%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.32px 1.32px at 53.40% 80.43%,rgba(255,210,161,0.65),transparent),
+      radial-gradient(1.19px 1.19px at 76.80% 81.97%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(0.94px 0.94px at 69.80% 57.79%,rgba(255,244,234,0.46),transparent),
+      radial-gradient(1.10px 1.10px at 7.00% 33.07%,rgba(255,181,107,0.54),transparent),
+      radial-gradient(1.22px 1.22px at 76.56% 52.71%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(0.96px 0.96px at 85.29% 63.59%,rgba(255,181,107,0.47),transparent),
+      radial-gradient(1.18px 1.18px at 17.44% 43.04%,rgba(255,181,107,0.59),transparent),
+      radial-gradient(1.51px 1.51px at 36.81% 57.97%,rgba(255,210,161,0.75),transparent),
+      radial-gradient(1.37px 1.37px at 98.28% 82.40%,rgba(248,247,255,0.68),transparent),
+      radial-gradient(1.65px 1.65px at 78.05% 82.63%,rgba(248,247,255,0.82),transparent),
+      radial-gradient(1.20px 1.20px at 59.28% 41.45%,rgba(248,247,255,0.60),transparent),
+      radial-gradient(1.55px 1.55px at 40.98% 18.58%,rgba(255,181,107,0.77),transparent),
+      radial-gradient(1.02px 1.02px at 82.66% 66.73%,rgba(255,181,107,0.50),transparent),
+      radial-gradient(1.20px 1.20px at 0.68% 23.74%,rgba(255,181,107,0.60),transparent),
+      radial-gradient(1.15px 1.15px at 57.32% 67.46%,rgba(255,181,107,0.57),transparent),
+      radial-gradient(1.34px 1.34px at 6.29% 37.15%,rgba(255,244,234,0.66),transparent),
+      radial-gradient(1.39px 1.39px at 63.56% 50.69%,rgba(255,181,107,0.69),transparent),
+      radial-gradient(1.59px 1.59px at 80.48% 31.89%,rgba(202,215,255,0.79),transparent),
+      radial-gradient(1.52px 1.52px at 40.22% 51.94%,rgba(255,210,161,0.76),transparent),
+      radial-gradient(1.52px 1.52px at 78.35% 77.94%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(1.70px 1.70px at 33.95% 56.66%,rgba(255,181,107,0.85),transparent),
+      radial-gradient(1.16px 1.16px at 77.09% 41.34%,rgba(255,210,161,0.58),transparent),
+      radial-gradient(1.67px 1.67px at 39.69% 60.56%,rgba(255,210,161,0.83),transparent),
+      radial-gradient(1.47px 1.47px at 12.24% 30.52%,rgba(255,181,107,0.73),transparent),
+      radial-gradient(1.11px 1.11px at 80.16% 93.71%,rgba(255,210,161,0.55),transparent),
+      radial-gradient(1.52px 1.52px at 11.04% 44.84%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(0.94px 0.94px at 59.58% 30.37%,rgba(255,210,161,0.46),transparent),
+      radial-gradient(1.53px 1.53px at 0.35% 42.03%,rgba(255,181,107,0.76),transparent),
+      radial-gradient(2.6px 2.6px at 11.38% 48.06%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 66.59% 41.28%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 40.80% 23.68%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 41.01% 67.29%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 31.18% 27.63%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 10.81% 18.20%,rgba(255,255,255,.95),transparent),
+      radial-gradient(2.6px 2.6px at 3.23% 54.03%,rgba(255,255,255,.95),transparent);
+    animation:au-near 1260s ease-in-out infinite alternate}
+  @keyframes au-far{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-3.0%,1.6%,0) scale(1.09)}}
+  @keyframes au-near{
+    from{transform:translate3d(0,0,0) scale(1.00)}
+    to  {transform:translate3d(-8.5%,4.4%,0) scale(1.26)}}
+  @media (prefers-reduced-motion:reduce){
+    html::before,html::after{animation:none}}
+</style>
+
+<div class="kb w">
+  <header>
+    <h1>The Venus Knowledge Base</h1>
+    <span class="sub">Every entry carries a TEST — the thing you could do that would show it false. An entry without one is an opinion with a heading on it. The generator checks that every cited page exists and reports every entry the yard asserts but never demonstrates.</span>
+    <span class="tag">no script</span>
+  </header>
+
+  <div class="panel">
+    <div class="filters">
+      <div class="fg">
+        <h4>by kind</h4>
+        <div class="row">
+          <input type="radio" name="cls" id="f-all" checked><label for="f-all">all 35</label>
+          <input type="radio" name="cls" id="f-concept"><label for="f-concept" title="a claim about how things work">concept 9</label>
+          <input type="radio" name="cls" id="f-mechanism"><label for="f-mechanism" title="a technique, and what it costs">mechanism 13</label>
+          <input type="radio" name="cls" id="f-figure"><label for="f-figure" title="a person or a posture, and what it does">figure 4</label>
+          <input type="radio" name="cls" id="f-number"><label for="f-number" title="a measured or computed quantity">number 8</label>
+          <input type="radio" name="cls" id="f-method"><label for="f-method" title="a way of checking, and the mistake it prevents">method 1</label>
+        </div>
+      </div>
+      <div class="fg">
+        <h4>by how sure</h4>
+        <div class="row">
+          <input type="radio" name="conf" id="g-all" checked><label for="g-all">all</label>
+          <input type="radio" name="conf" id="g-settled"><label for="g-settled" title="demonstrated on a board you can open, and the demonstration is checkable">settled 30</label>
+          <input type="radio" name="conf" id="g-working"><label for="g-working" title="used throughout, argued for, not independently verified">working 4</label>
+          <input type="radio" name="conf" id="g-contested"><label for="g-contested" title="the yard has said two things about it and has not reconciled them">contested 1</label>
+          <input type="radio" name="conf" id="g-open"><label for="g-open" title="stated, not demonstrated anywhere yet">open 0</label>
+        </div>
+      </div>
+    </div>
+    <p class="n"><b>The two filters compose and there is no table behind them.</b>
+      Filtering by hiding is an OR over hide-rules, and an OR over hide-rules is
+      an AND over filters &mdash; so 5 kinds by 4
+      confidences costs 9 rules rather than
+      20. Contrast <a href="pulse.html">pulse.html</a>,
+      which needed twenty-four written-out rows for three axes. The distinction is
+      in <a href="workbook.html#c7">the workbook, chapter seven</a>: <em>enumerate
+      when the outcome is a value, hide when the outcome is a visibility.</em></p>
+  </div>
+
+  <h2>The entries <b>every one carries a test</b></h2>
+    <section class="e c-concept s-settled" id="decentralization">
+      <h3><a href="#decentralization">Decentralization</a>
+        <i class="k">concept</i><i class="d">settled</i></h3>
+      <p class="short">No participant reads any other. Removing one changes nothing for the rest.</p>
+      <p class="b">Not &quot;spread out&quot;, not &quot;many copies&quot;, not &quot;no company owns it&quot;. Those are consequences people notice and then mistake for the thing. The property is about <em>READS</em>: a system is decentralised exactly to the extent that no component's behaviour is a function of another component's state.</p>
+      <p class="b">The automat is the cleanest instance in this yard because it was built to have nothing else in it. Each tribe keeps its own beat, off its own prime, and advances on beats that divide its own period. No tribe queries another. There is no coordinator, no scheduler with a policy, no leader election, no consensus round — the pattern you see on the board is not produced by anything, it is what falls out of several bands not talking.</p>
+      <p class="b">Which is why removing one is a non-event. Delete a tribe and the remaining ones do not slow down, re-balance, or notice. That is not resilience bolted on afterwards; there is no failure mode to be resilient to, because there was never a dependency to break.</p>
+      <div class="test"><span>the test</span><p>Delete one component. If any other component's behaviour changes — timing, output, ordering, anything — it was not decentralised, and the coupling you just found is the real architecture.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="automat.html"><b>automat.html</b>140-odd tribes across 45 boards; no tribe reads another, and the orbit is the lcm rather than a schedule</a>
+        <a href="ecosystem.html"><b>ecosystem.html</b>twelve orders; take one out and the board shows exactly which capabilities stop and which genuinely do not</a>
+        <a href="mycelium.html"><b>mycelium.html</b>the network that routes around a cut rather than reporting it</a>
+      </div>
+      <div class="rel">
+        <a href="#fungibility">Fungibility</a>
+        <a href="#the-orbit">The orbit</a>
+        <a href="#the-minimum-cycle">What it takes to start something</a>
+        <s>cited by</s>
+        <a class="in" href="#fungibility">Fungibility</a>
+        <a class="in" href="#the-minimum-cycle">What it takes to start something</a>
+        <a class="in" href="#the-injector">The injector</a>
+        <a class="in" href="#the-query-string">The half of the URL CSS cannot read</a>
+        <a class="in" href="#the-orbit">The orbit</a>
+        <a class="in" href="#syndication">Syndication</a>
+      </div>
+    </section>
+    <section class="e c-concept s-settled" id="fungibility">
+      <h3><a href="#fungibility">Fungibility</a>
+        <i class="k">concept</i><i class="d">settled</i></h3>
+      <p class="short">No unit is worth more than another, and there is no way to write the function that would prefer one.</p>
+      <p class="b">The test is constructive and it is the whole of the idea: try to write the preference. If you can write a function that ranks two units, they are not fungible, and the ranking is where the rent will be collected. If you cannot write it — not &quot;choose not to&quot;, cannot — they are.</p>
+      <p class="b">This is why the automat has no scoring function. Not as restraint, as a structural fact: there is no goal state to compare an arrangement against, so there is nothing for a ranking to be a ranking of. Every arrangement is reachable from every other and none is worth more, which means there is no arrangement anybody can be induced to reach and none anybody can be charged to leave.</p>
+      <p class="b">The correction that produced this entry is worth keeping. Early in this repository's life the advice was to add a loss condition and a scarcity to make a game feel like a game. That advice was wrong in a specific way: fungibility exists to remove exactly those two things, and putting them back is not balancing a system, it is un-building it.</p>
+      <div class="test"><span>the test</span><p>Write the preference function over two units. If it compiles, they are not fungible. If it does not, ask what the syndicate would have to add before it could — that addition is the attack.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="theory.md"><b>theory.md</b>the argument in full: fungibility removes the individual loss condition and the scarcity rent</a>
+        <a href="buddha.html"><b>buddha.html</b>one substance, two nouns; the matter counter reads 1 on both sides and the capability counter does not</a>
+        <a href="automat.html"><b>automat.html</b>no scoring function, no goal state, no termination test anywhere in the file</a>
+      </div>
+      <div class="rel">
+        <a href="#the-rename">The rename</a>
+        <a href="#decentralization">Decentralization</a>
+        <a href="#the-wallet">The wallet</a>
+        <s>cited by</s>
+        <a class="in" href="#decentralization">Decentralization</a>
+        <a class="in" href="#smart-contracts">Smart contracts</a>
+        <a class="in" href="#the-wallet">The wallet</a>
+        <a class="in" href="#the-rename">The rename</a>
+        <a class="in" href="#the-prior-condition">The prior condition</a>
+        <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
+        <a class="in" href="#the-bag">Fish in a bag</a>
+        <a class="in" href="#syndication">Syndication</a>
+        <a class="in" href="#the-serial">The serial</a>
+      </div>
+    </section>
+    <section class="e c-concept s-settled" id="the-minimum-cycle">
+      <h3><a href="#the-minimum-cycle">What it takes to start something</a>
+        <i class="k">concept</i><i class="d">settled</i></h3>
+      <p class="short">Not the most important thing. The smallest closed loop in which every part is fed by another part.</p>
+      <p class="b">The instinct is to start with the root — the biggest, the most depended-upon, the one everything else needs. This yard tested that instinct and it fails, visibly, on a board you can open. Turn on Zeus alone in the twelve-sector economy: nought working, one broken. Add Hera: still nought, still broken. Turn on all four roots — the four sectors with the most downstream dependents — and you get two capabilities and nobody eating.</p>
+      <p class="b">A root is not a start, because a root is defined by what depends on IT and a start is defined by what feeds IT. Those are different arrows. Something with no inputs produces nothing on its own; it only becomes productive once the things that consume its output exist and return something to it.</p>
+      <p class="b">So the thing you need is a <em>CYCLE</em>: the smallest set whose members feed each other with no external input required. Not the most important sector — the shortest closed loop. In practice that loop is nearly always unglamorous and involves food, water, and somebody keeping time, because those are the three that everything else quietly assumes. The dependency graph will tell you which loop is shortest; it will not tell you which node is most important, and it does not need to.</p>
+      <p class="b">The same shape appears in the fourteen terraforming profiles. The envelope has ten downstream dependents — the most of anything on the board — and its own status is only &quot;derived&quot;. The most-depended-on thing in the system is a thing nobody has independently established. That is normal, and it is exactly why you do not start there.</p>
+      <div class="test"><span>the test</span><p>Invert the dependency graph and look for cycles, not for maxima. If your proposed start has no path back to itself, it is a root and not a start, and it will sit idle producing nothing until you build the return arrow.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="economy.html"><b>economy.html</b>Zeus alone: 0 working, 1 broken. All four roots: 2 capabilities, nobody eating</a>
+        <a href="sumer.html"><b>sumer.html</b>the same twelve, 1,500 years earlier — Nisaba holds grain AND writing, which collapses two nodes into one and shortens the loop</a>
+        <a href="profiles/index.html"><b>profiles/index.html</b>14 requirements, 6 settled; the envelope has 10 downstream and is only derived</a>
+      </div>
+      <div class="rel">
+        <a href="#decentralization">Decentralization</a>
+        <a href="#hydrogen">Hydrogen is the only scarcity</a>
+        <a href="#the-substrate">The substrate</a>
+        <s>cited by</s>
+        <a class="in" href="#decentralization">Decentralization</a>
+        <a class="in" href="#superrotation">Superrotation</a>
+        <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
+        <a class="in" href="#the-exchange-rate">The exchange rate</a>
+        <a class="in" href="#the-substrate">The substrate</a>
+        <a class="in" href="#the-bag">Fish in a bag</a>
+      </div>
+    </section>
+    <section class="e c-number s-settled" id="the-window">
+      <h3><a href="#the-window">The window</a>
+        <i class="k">number</i><i class="d">settled</i></h3>
+      <p class="short">583.92 days between one departure and the next. Nothing you can spend shortens the wait.</p>
+      <p class="b">The window is the synodic period — how long it takes Earth and Venus to return to the same relative position — and it comes straight out of the two orbital periods with nothing else in it:</p>
+      <p class="b">1 ÷ (1÷224.701 − 1÷365.256) = 583.9 days. Venus goes round in 224.701 days, Earth in 365.256, and the difference in angular rate is the whole calculation. Call it 584 days, nineteen and a bit months, one year seven months.</p>
+      <p class="b">The windows themselves nearly repeat on a longer cycle, and this is the useful part for anybody planning more than one: five synodic periods is 2,919.6 days, eight Earth years is 2,922.0, and thirteen Venus years is 2,921.1. All three land within two and a half days of each other. So the pattern of departures you get in one eight-year block is very close to the pattern you get in the next, which means a schedule can be written once and reused, and the drift is small enough to absorb.</p>
+      <p class="b">The operational fact is that this is a deadline nobody negotiated. Most schedules can be bought forward with more money, more people, or a different contractor. This one is set by two orbital periods, and a launch that is not ready waits 584 days — not for a review, not for a decision, for geometry.</p>
+      <div class="test"><span>the test</span><p>Ask what would shorten it. If the answer offered is budget, headcount, or a better vendor, that is a different constraint being described. The only thing that moves a departure inside the window is propellant, and what it buys is a worse transfer, not an earlier arrival.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="supply.html"><b>supply.html</b>both paths, and a departure window only when the alignment allows it</a>
+        <a href="ships/index.html"><b>ships/index.html</b>seven logs against a 584-day window</a>
+        <a href="profiles/clock.html"><b>profiles/clock.html</b>the clocks requirement — 116.75 d solar day against the transit cadence</a>
+        <a href="cruise-control.html"><b>cruise-control.html</b>one lane, one file of hulls, one control</a>
+      </div>
+      <div class="rel">
+        <a href="#the-passage">The passage</a>
+        <a href="#the-relay">The relay</a>
+        <a href="#superrotation">Superrotation</a>
+        <s>cited by</s>
+        <a class="in" href="#the-passage">The passage</a>
+        <a class="in" href="#the-relay">The relay</a>
+        <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
+      </div>
+    </section>
+    <section class="e c-number s-settled" id="the-passage">
+      <h3><a href="#the-passage">The passage</a>
+        <i class="k">number</i><i class="d">settled</i></h3>
+      <p class="short">146 days out, on the minimum-energy path. The fast way there is not the straight one.</p>
+      <p class="b">The minimum-energy transfer is half an ellipse with Earth's orbit at one end and Venus's at the other, and its duration falls out of one line of Kepler:</p>
+      <p class="b">semi-major axis = (1.0000 + 0.7233) ÷ 2 = 0.86165 AU. Orbital period = 0.86165^1.5 = 0.7998 years = 292.1 days. You fly half of it: 146 days. About 3.5 km/s from low Earth orbit to get on it.</p>
+      <p class="b"><em>IT IS A STRAIGHT SHOT AND IT IS NOT A STRAIGHT LINE</em>, and the difference is why it is quick. You are not driving to Venus; you are letting go and falling toward the Sun, and Venus arrives at the far end of the fall. A straight line at constant speed would need thrust the whole way and propellant to match. The ellipse costs one burn and then nothing.</p>
+      <p class="b">For scale, since the Moon is the only trip anybody has a feel for: the Moon is 384,400 km, and Venus at its closest is about 99 Earth–Moon distances. Apollo took roughly three days to the Moon; at that average speed Venus would take the better part of a year. It takes 146 days instead, because falling beats driving.</p>
+      <p class="b">The three-to-five months quoted in the ships' logs is the same number with the variants included — 146 days is 4.8 months on the minimum-energy path, and the shorter figures are bought with propellant.</p>
+      <div class="test"><span>the test</span><p>Compute the transfer period from the two semi-major axes and halve it. If a quoted passage time is much shorter than that, it is not a minimum-energy transfer, and the difference is propellant somebody has to launch. Ask for the delta-v alongside the duration; a duration on its own is not a plan.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="supply.html"><b>supply.html</b>the long arc — about 146 days, roughly 3.5 km/s from low Earth orbit</a>
+        <a href="ships/index.html"><b>ships/index.html</b>seven ships, 23 log entries, 146-day passage</a>
+        <a href="convoy.html"><b>convoy.html</b>eight hulls in four pairs; a pair is the unit and sails together</a>
+        <a href="chain.html"><b>chain.html</b>the three legs of a run, and what each can still say</a>
+      </div>
+      <div class="rel">
+        <a href="#the-window">The window</a>
+        <a href="#the-relay">The relay</a>
+        <a href="#the-light-delay">The light delay</a>
+        <s>cited by</s>
+        <a class="in" href="#the-window">The window</a>
+        <a class="in" href="#the-light-delay">The light delay</a>
+        <a class="in" href="#the-relay">The relay</a>
+        <a class="in" href="#superrotation">Superrotation</a>
+      </div>
+    </section>
+    <section class="e c-number s-settled" id="the-light-delay">
+      <h3><a href="#the-light-delay">The light delay</a>
+        <i class="k">number</i><i class="d">settled</i></h3>
+      <p class="short">2.2 minutes at closest, 14.3 at furthest, one way. There is no live conversation with Venus.</p>
+      <p class="b">Venus and Earth run between about 39.5 and 258 million km apart on actual approaches — the geometric extremes are 38.2 and 261.0, from Earth's perihelion minus Venus's aphelion and both aphelia added, but the orbits are not aligned to deliver those often.</p>
+      <p class="b">Divide by 299,792.458 km/s: 39.5 million gives 131.8 seconds, 2.20 minutes. 258 million gives 860.6 seconds, 14.34 minutes. Those are one way. A question and its answer is 4.4 minutes at best and 28.7 at worst.</p>
+      <p class="b"><em>THAT NUMBER IS AN OPERATIONS CONSTRAINT BEFORE IT IS A COMMUNICATIONS ONE</em>. Any procedure whose correct response has to arrive in under about four and a half minutes cannot be run from Earth, at any point in the cycle, ever. Not with better equipment and not with more staff. It has to be decided at the far end, which means the authority to decide it has to be there before the situation is.</p>
+      <p class="b">The Moon is 1.28 light-seconds. Apollo could be talked through a problem in real time and repeatedly was. Venus cannot be, and every procedure written on the assumption that somebody can be asked needs rewriting for a place where they cannot.</p>
+      <p class="b">The practical shape of this is already in the yard. Signals are built to be read by weight before colour resolves, because a code for a channel with no back-channel has to survive being read badly. The bridge recomputes the derived figures from an incoming manifest rather than believing them, because there is nobody to query about a discrepancy inside a quarter of an hour.</p>
+      <div class="test"><span>the test</span><p>Time your loops. List every procedure whose correct response must arrive in under 4.4 minutes. That list is not a communications problem — it is the exact scope of the authority you have to delegate to the far end before departure, and it is the same list whether Venus is near or far.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="signals.html"><b>signals.html</b>sixteen states sorted by how many lamps are lit — weight first, because that is what a person reads at distance in bad light</a>
+        <a href="chain.html"><b>chain.html</b>three legs, each further from the authority that can say no, and each able to say less</a>
+        <a href="bridge.html"><b>bridge.html</b>a manifest comes in and the derived figures are recomputed rather than believed</a>
+        <a href="supply.html"><b>supply.html</b>the two paths, and what each commits before anyone can be asked</a>
+      </div>
+      <div class="rel">
+        <a href="#the-relay">The relay</a>
+        <a href="#the-passage">The passage</a>
+        <a href="#superrotation">Superrotation</a>
+        <a href="#the-injector">The injector</a>
+        <s>cited by</s>
+        <a class="in" href="#the-passage">The passage</a>
+        <a class="in" href="#the-relay">The relay</a>
+        <a class="in" href="#the-injector">The injector</a>
+        <a class="in" href="#superrotation">Superrotation</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-relay">
+      <h3><a href="#the-relay">The relay</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">A relay race, not a haul. The baton crosses the whole distance; no runner does. Nothing is lost at the exchange and the runner goes home and starts again.</p>
+      <p class="b">A haul is one carrier from origin to destination, and its cost is the whole distance every time. A relay is stations and handoffs, each leg sized to what that leg can actually do, and the baton is the only thing that goes the whole way.</p>
+      <p class="b"><em>THE EXCHANGE IS THE INSTRUMENT AND NOTHING MAY BE DROPPED IN IT</em>. In a relay race the exchange zone is the only place the baton can be lost, which is why it is the part that gets practised — the running is fitness, the handoff is skill. Same here: a leg that arrives is not the achievement, a leg that transfers cleanly is. Convoy releases in pairs and the markup does not offer half a pair, which is a stronger guarantee than a rule saying not to.</p>
+      <p class="b"><em>AND THE RUNNER GOES HOME AND STARTS OFF RIGHT</em>. The hull is not the baton. It hands over and cycles back on its own clock, which is a different clock from the cargo's — outbound is 146 days, the return is set by the same synodic geometry rather than by the ship, so a hull either waits at the far end for its alignment or spends propellant to shorten the wait. Either way the cargo does not wait with it. That is the whole reason to relay rather than shuttle: the baton keeps moving while the runners reset.</p>
+      <p class="b">The legs are not equal and are not meant to be. Earth departure carries sixteen states and can refuse. The middle leg carries eight and can only pace. Arrival carries four and can only receive. Each is further from the authority that can say no, and that is the light delay drawn as a chain rather than described — by the time a decision could be sent, the leg it applied to has already run.</p>
+      <p class="b">The practical payoff is scheduling. A haul has to catch the 584-day window whole. A relay only needs each leg to catch its own, so the cadence becomes a pipeline with more than one thing in flight at a time rather than a gate that opens twice in three years.</p>
+      <div class="test"><span>the test</span><p>Ask who is responsible for the cargo at the midpoint. If it is the same party as at departure, it is a haul with extra stops and you are paying the whole distance. In a relay the answer is a station, with different authority from the one before it, and there is a defined moment when responsibility changed hands.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="chain.html"><b>chain.html</b>B2 / P2P / 2B — three legs, 16 / 8 / 4 states, strictly decreasing in what each can say</a>
+        <a href="convoy.html"><b>convoy.html</b>eight hulls in four pairs; nothing on the board can release half a pair</a>
+        <a href="supply.html"><b>supply.html</b>two paths that diverge at departure and reconverge in the cloud layer</a>
+        <a href="cruise-control.html"><b>cruise-control.html</b>one lane, one file of hulls, and no stop on a hull any more</a>
+      </div>
+      <div class="rel">
+        <a href="#the-window">The window</a>
+        <a href="#the-passage">The passage</a>
+        <a href="#the-light-delay">The light delay</a>
+        <a href="#the-injector">The injector</a>
+        <a href="#the-baton">The baton</a>
+        <a href="#the-exchange">The exchange</a>
+        <s>cited by</s>
+        <a class="in" href="#the-window">The window</a>
+        <a class="in" href="#the-passage">The passage</a>
+        <a class="in" href="#the-light-delay">The light delay</a>
+        <a class="in" href="#the-baton">The baton</a>
+        <a class="in" href="#the-exchange">The exchange</a>
+        <a class="in" href="#the-injector">The injector</a>
+        <a class="in" href="#caught-up">Caught up</a>
+        <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
+        <a class="in" href="#syndication">Syndication</a>
+      </div>
+    </section>
+    <section class="e c-concept s-settled" id="the-baton">
+      <h3><a href="#the-baton">The baton</a>
+        <i class="k">concept</i><i class="d">settled</i></h3>
+      <p class="short">The only object in the system whose journey is the point. The hull is not the baton, and confusing the two is the commonest error there is.</p>
+      <p class="b">Everything else in a relay exists to move it. The runners, the stations, the schedule, the exchange zones — none of those are going anywhere in the sense that matters; they cycle, they reset, they go home. One object crosses the whole distance and it is not any of them.</p>
+      <p class="b"><em>MOST SYSTEMS CANNOT NAME THEIR BATON</em>, and that is why they optimise runners. Hull utilisation, desk throughput, cases disposed, seats filled, uptime — every one of those is a measurement of a carrier, and a system can improve all of them at once while the baton sits at a station. The relay reports one thing for exactly this reason: where the baton is. Not how the hull did.</p>
+      <p class="b"><em>THE BATON HAS NO STATE EXCEPT POSITION</em>. It does not accumulate merit from a clean handoff or wear from a late one. A baton that waited a full 584-day window at an exchange and a baton that went straight through are the same baton when they reach Venus, differing only in when. That is fungibility applied to cargo, and it is the whole reason a held baton is not a loss: held and handed produce an identical object at the far end.</p>
+      <p class="b"><em>AND IT IS THE ONE THING THAT MUST NOT BE DROPPED</em>, which is why the exchange is the part that gets practised. The running is fitness. The handoff is skill. A relay does not fail in the middle of a leg — it fails in the two seconds where the object is in nobody's hand, and every design decision worth making is about that moment. convoy.html releases in pairs and the markup does not offer half a pair, which is a stronger guarantee than a rule saying not to.</p>
+      <p class="b"><em>NAMING YOURS IS A DECISION AND IT TELLS YOU WHAT TO MEASURE</em>. In this yard the supply line's baton is hydrogen — it cannot be made at Venus at any price, so everything wet is downstream of whether it arrives. The court's baton is the opinion, not the disposal: forty disposals a day and twelve opinions, and the twelve are what binds. The ledger's baton is the record itself. Three different systems, three different objects, and in each case the metrics that felt natural were about the carriers.</p>
+      <div class="test"><span>the test</span><p>Name the baton, then read your own dashboard. If what it measures is carriers — utilisation, throughput, disposals, uptime — and not the baton's position, you are optimising the things that go home at the end of the shift. Ask where the baton is and how long it has been there; if nobody owns that number, nobody is watching the only journey in the system.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="game.html"><b>game.html</b>the relay reports one thing — aboard, held at an exchange, or at Venus — and the hull cycles on its own clock</a>
+        <a href="convoy.html"><b>convoy.html</b>eight hulls in four pairs, and nothing on the board can release half a pair</a>
+        <a href="profiles/hydrogen.html"><b>profiles/hydrogen.html</b>the supply line's actual baton: 2.06% H in H2SO4, ~136,000 m3 of cloud per kg of water, and it cannot be made there at any price</a>
+        <a href="bench.html"><b>bench.html</b>forty disposals and twelve opinions — the disposal is the runner and the opinion is what crosses</a>
+      </div>
+      <div class="rel">
+        <a href="#the-relay">The relay</a>
+        <a href="#the-injector">The injector</a>
+        <a href="#hydrogen">Hydrogen is the only scarcity</a>
+        <a href="#the-wallet">The wallet</a>
+        <a href="#the-exchange">The exchange</a>
+        <a href="#the-exchange-rate">The exchange rate</a>
+        <s>cited by</s>
+        <a class="in" href="#the-relay">The relay</a>
+        <a class="in" href="#the-exchange">The exchange</a>
+        <a class="in" href="#the-injector">The injector</a>
+        <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
+        <a class="in" href="#the-exchange-rate">The exchange rate</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-exchange">
+      <h3><a href="#the-exchange">The exchange</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">The only place a relay fails, and the only place authority changes. For the length of it the object has either two owners or none.</p>
+      <p class="b">A relay does not fail in the middle of a leg. The legs are long, visible and measured, and they are not where anything goes wrong. It fails in the seconds where the baton is in nobody's hand — and that is where the design attention belongs and almost never goes, because the exchange is short and looks like nothing.</p>
+      <p class="b"><em>THE HAZARD IS THAT RESPONSIBILITY DOES NOT TRANSFER AT AN INSTANT</em>. It transfers over an interval, and inside the interval there are only two possibilities and both are bad. Two owners: each is entitled to assume the other has it, and both assumptions are reasonable. No owner: nobody is watching and nobody is wrong for not watching. Every dropped baton in any system is one of those two, and neither is a competence failure — they are the arithmetic of an undefined boundary.</p>
+      <p class="b"><em>SO THE FIX IS A DEFINED MOMENT</em>, checkable after the fact by somebody who was not there. Not a period, not a handover process, not a shared understanding: an event, with a name. convoy.html releases in pairs and the markup does not offer half a pair, which is a defined moment enforced by structure rather than by a rule anybody has to remember. contract.html states the boundary as an inequality — gas within budget, or escalate, or burn — so the disposition of any form is a fact rather than a judgement. persist.html gives every state a name you can type, which means the moment it changed is in the URL.</p>
+      <p class="b"><em>AND THE EXCHANGE IS WHERE AUTHORITY CHANGES</em>, not the leg. The chain's three legs carry sixteen, eight and four states, and the decrease does not happen gradually along the way — it happens AT the handoffs, because that is the only place a decision about who may say what can actually be taken. A leg is a period during which nothing is decided.</p>
+      <p class="b">The court has three handoffs in it and only two of them have a defined moment. The Master disposes: that is an event, dated, on the list. A clerk drafts and a judge signs: that is an event, and the signature is on the page. But the moment the reasoning became the <em>JUDGE'S</em> reasoning rather than the drafter's has no name, no date and no record, and that is exactly why the name never appears anywhere.</p>
+      <div class="test"><span>the test</span><p>Ask both parties when responsibility changed hands and check whether they name the same event. If either names a period rather than an event, or if they name different events, you have found the gap — and it is the same gap whether or not anything has fallen through it yet. Then ask who could verify the answer without having been present.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="game.html"><b>game.html</b>two exchange zones, and the baton is either aboard or held at one — never in between</a>
+        <a href="convoy.html"><b>convoy.html</b>a pair is the unit and the markup cannot release half of one; structure rather than a rule</a>
+        <a href="chain.html"><b>chain.html</b>16 / 8 / 4 states — the decrease happens at the handoffs, not along the legs</a>
+        <a href="contract.html"><b>contract.html</b>gas within budget, escalate, or burn — the disposition is a fact and not a judgement</a>
+        <a href="bench.html"><b>bench.html</b>three handoffs, two with a defined moment; the third is why no drafter is named</a>
+      </div>
+      <div class="rel">
+        <a href="#the-baton">The baton</a>
+        <a href="#the-relay">The relay</a>
+        <a href="#the-attribution-gap">The attribution gap</a>
+        <a href="#the-gas">The gas</a>
+        <s>cited by</s>
+        <a class="in" href="#the-relay">The relay</a>
+        <a class="in" href="#the-baton">The baton</a>
+        <a class="in" href="#the-attribution-gap">The attribution gap</a>
+      </div>
+    </section>
+    <section class="e c-figure s-settled" id="the-injector">
+      <h3><a href="#the-injector">The injector</a>
+        <i class="k">figure</i><i class="d">settled</i></h3>
+      <p class="short">What the operator of an automated thing actually is. Two verbs: start it, and stop it. Steering is not on the list.</p>
+      <p class="b">Automation does not remove the operator. It changes the operator's verbs, and the change is bigger than it looks: a continuous control surface — many small corrections, made constantly, each one cheap and each one revisable — collapses into a handful of discrete injections. Fewer decisions, and every one of them heavier, because each is now committed for the whole duration of a run.</p>
+      <p class="b"><em>THE MIDDLE IS THE PART THAT CHANGED</em>. In the relay you cannot correct once it is flying, and the reason is physical rather than a design choice: by arrival your picture of the hull is 4.94 minutes old and anything you send is 4.94 minutes from landing. Most automated systems are in the same position and disguise it. The operator believes intervention is available, and it is, and it is useless — by the time a problem is perceived the system has already acted on it several times. Calling yourself an injector is not a diminishment. It is admitting the thing that was true anyway.</p>
+      <p class="b"><em>SO THE SKILL IS TIMING</em>, <em>NOT INTERVENTION</em>. The relay has exactly one decision in it and it is when to leave: at the top of the window the passage is 146 days, and two hundred days off the top it is 236. Ninety days, bought or lost, in the one press you actually get. An injector who spends their attention wishing they could steer is spending it on the one thing they do not have, and not on the one thing they do.</p>
+      <p class="b"><em>AND THE STOP IS NOT A CONTROL</em>, <em>IT IS A REFUSAL</em>. Shutdown does not adjust, tune, pause or reset — it stops, and nothing it stops is undone. That is a different verb from adjustment and the difference is the diagnostic: if mid-run adjustment is on the operator's list, the thing is not automated, it is <em>ASSISTED</em>. Assisted is a perfectly good design. It simply has different failure modes, needs different training, and should not be described with the other word.</p>
+      <p class="b">The same shape is already elsewhere in this yard. The automat has four lights and one stop, and the stop resets nothing. The contract desk can complete, escalate, or burn — three verbs, and the third one only refuses. The chain's three legs carry sixteen, eight and four states, strictly decreasing, and the arrival leg can only receive. None of those were built from this entry; the entry is what they have in common.</p>
+      <div class="test"><span>the test</span><p>Count the operator's verbs and check whether mid-run adjustment is one of them. If it is, the system is assisted rather than automated and somebody is still flying it. If it is not, find the last moment a decision could have changed the outcome — that moment is the operator's entire job, and if the interface gives it the same weight as everything else, the interface is wrong.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="game.html"><b>game.html</b>the relay — two buttons, an autopilot correcting on a picture up to 4.94 minutes old, and one decision that is worth ninety days</a>
+        <a href="automat.html"><b>automat.html</b>four lights and one stop; the stop resets nothing and there is no reset in the file</a>
+        <a href="chain.html"><b>chain.html</b>16 / 8 / 4 states across three legs, and the arrival leg can only receive</a>
+        <a href="contract.html"><b>contract.html</b>complete, escalate, or burn — and the third verb only refuses</a>
+      </div>
+      <div class="rel">
+        <a href="#the-relay">The relay</a>
+        <a href="#the-light-delay">The light delay</a>
+        <a href="#the-gas">The gas</a>
+        <a href="#decentralization">Decentralization</a>
+        <a href="#the-baton">The baton</a>
+        <s>cited by</s>
+        <a class="in" href="#the-light-delay">The light delay</a>
+        <a class="in" href="#the-relay">The relay</a>
+        <a class="in" href="#the-baton">The baton</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-contested" id="smart-contracts">
+      <h3><a href="#smart-contracts">Smart contracts</a>
+        <i class="k">mechanism</i><i class="d">contested</i></h3>
+      <p class="short">Code that guarantees execution, not truth. It enforces the terms it was handed and never asks whether they are fair.</p>
+      <p class="b">What a smart contract actually promises is narrow and worth stating plainly: given these inputs, this code runs, deterministically, and everyone can check that it ran. That is a real guarantee and it is the only one. It says nothing about whether the inputs were true, whether the terms were reasonable, or whether the parties understood them.</p>
+      <p class="b">Everything the contract knows about the world arrived through somebody's hand. That is the oracle problem and it is not a rough edge to be engineered away — it is structural. A contract that pays on delivery cannot see a crate; it sees a signature asserting a crate. So the discretion did not disappear when the code went on-chain. It moved to whoever signs, and to whoever wrote the terms, and to whoever gets to say what the words in the terms refer to.</p>
+      <p class="b"><em>THIS ENTRY IS MARKED CONTESTED BECAUSE THIS REPOSITORY HAS SAID TWO THINGS</em>. One position: there are no blockers, smart contracts prevent syndication — if allocation is in code and no human chooses who receives what, the classic move of matriculating funds upward and promoting within has nowhere to happen. The other, from theory.md: a syndicate's only move is de-fungibilisation, and de-fungibilisation happens in the noun, off-chain, before anything reaches a contract at all.</p>
+      <p class="b">The reconciliation, as far as it goes: <em>A CONTRACT CAN CLOSE THE DISCRETIONARY PATH AND CANNOT CLOSE THE SEMANTIC ONE</em>. Where the allocation is genuinely mechanical, the first position holds and it holds strongly — that route really is shut, and shutting it is not nothing. But the rename is upstream of the contract, and a contract handed the renamed thing will execute against it faithfully and irreversibly, which is worse than a clerk who might have hesitated. Neither position is wrong about its own half and the yard has not shown a board where both halves are in view at once. Until it does, this stays contested.</p>
+      <p class="b">One scope rule this yard did adopt and does keep: <em>SMART CONTRACTS ARE FOR WALLET TRANSACTIONS</em>. Not membership, not governance, not adjudication. The moment a contract is asked to decide who belongs, it has become a bench — and a bench that cannot be appealed is strictly worse than one that can, because appeal is the only mechanism anybody has ever built for the case where the rule was right and the outcome was wrong.</p>
+      <p class="b">And a contract is only as good as the checks somebody paid for. contract.html gives that cost a name: gas. A check nobody paid for is a check nobody ran, and an unpaid check looks exactly like a passed one from the outside.</p>
+      <div class="test"><span>the test</span><p>Follow the value and find the last point where a human chose. If there is one, the contract automated the disbursement and not the decision — syndication lives at the choice, not the transfer. If there genuinely is none, stop looking there and ask two questions instead: who wrote the terms, and who gets to say what the nouns in the terms refer to.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="contract.html"><b>contract.html</b>gas, and the burn — a form is complete when every check has been performed, and checking costs something</a>
+        <a href="chain.html"><b>chain.html</b>B2 / P2P / 2B — strictly decreasing authority, and the arrival leg can only receive</a>
+        <a href="vault.html"><b>vault.html</b>dual control and a time lock; the reserve has never once been taken by somebody without keys</a>
+        <a href="syndicate.html"><b>syndicate.html</b>six indicators, each a structural fact you can check on paper rather than a vibe</a>
+      </div>
+      <div class="rel">
+        <a href="#the-wallet">The wallet</a>
+        <a href="#the-rename">The rename</a>
+        <a href="#fungibility">Fungibility</a>
+        <a href="#the-harvest-guarantee">The harvest guarantee</a>
+        <s>cited by</s>
+        <a class="in" href="#the-harvest-guarantee">The harvest guarantee</a>
+        <a class="in" href="#the-wallet">The wallet</a>
+        <a class="in" href="#the-gas">The gas</a>
+        <a class="in" href="#the-rename">The rename</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-working" id="the-harvest-guarantee">
+      <h3><a href="#the-harvest-guarantee">The harvest guarantee</a>
+        <i class="k">mechanism</i><i class="d">working</i></h3>
+      <p class="short">A guild is a bank to an amateur and an amateur farm to a journeyman. The one term that breaks it says the contributor keeps harvesting what they brought.</p>
+      <p class="b"><em>A GUILD IS TWO INSTRUMENTS WEARING ONE NAME</em>, and which one you are holding depends entirely on where you stand in it.</p>
+      <p class="b"><em>TO AN AMATEUR IT IS A BANK</em>. You arrive with no tools, no customers, no standing and no way to get any of the three, and the guild fronts you all of it against output you have not produced yet. That is credit, it is genuinely useful, and pretending otherwise is how critiques of these structures get dismissed by the people inside them — because the people inside them are correct that they were helped.</p>
+      <p class="b"><em>TO A JOURNEYMAN THE SAME INSTITUTION IS AN AMATEUR FARM</em>. Once you have the skill, what the guild supplies is no longer capital, it is a standing crop of people who have to work under somebody and it may as well be you. The word for managing a living thing for yield is <em>HUSBANDRY</em>, and it is the same word for caring for it. That is not a coincidence of English and it is the entire ambiguity: the man husbanding the crop is not lying when he says he looks after it.</p>
+      <p class="b"><em>WHICH IS WHY THE SHAPE IS STABLE</em>, <em>AND THIS IS THE PART THE REST OF THIS BASE COULD NOT EXPLAIN</em>. Both positions profit. The amateur needs the bank and will defend it. The journeyman needs the farm and will defend it. Nobody inside has an incentive to break it, so it does not need enforcement, secrecy or bad faith to persist for centuries — and it explains why spotting a syndicate from the inside is so hard. The people being farmed are being banked at the same moment by the same institution, and both halves are true, and the true half is the one they will cite.</p>
+      <p class="b"><em>THE TERM THAT BREAKS IT IS NARROW</em>. Not ownership of the commons, not a vote, not a share of the whole: a guaranteed claim on the stream produced by what YOU brought, which cannot be voted away, diluted, reassigned on somebody's promotion, or made to lapse by leaving. You continue to harvest your own contribution for as long as it produces.</p>
+      <p class="b"><em>AND IT IS THE RIGHT USE OF A SMART CONTRACT</em>, precisely because it stays inside the scope rule this base already keeps: it is a wallet transaction. It decides no membership, no governance and no dispute. It says one thing — this address receives this stream, and no majority reassigns it — which is the one kind of statement code can actually enforce without becoming a bench that cannot be appealed.</p>
+      <p class="b"><em>WHAT IT REMOVES IS THE FARM AND NOT THE BANK</em>. The journeyman's return stops arriving from the amateur's contribution and starts arriving from their own, so the crop is gone; but the amateur still gets the tools, the standing and the customers, because that half was never the extraction. A structure that keeps the credit and loses the harvest is a guild that has stopped being a syndicate without anybody having to be expelled from it.</p>
+      <p class="b"><em>THE HONEST LIMIT</em>: <em>IT DOES NOT STOP THE RENAME</em>. Somebody can still redefine what counts as 'what you brought' — reclassify the contribution, split it, call it a work for hire, call it derivative. The contract enforces the transfer and not the definition, the definition sits upstream of the contract, and that is the contested entry arriving again in a different coat. Close the discretionary path and the semantic one is still open.</p>
+      <div class="test"><span>the test</span><p>Follow one unit of a newcomer's output for five years. If any part of it is still reaching somebody who did not contribute to it, and reaching them by virtue of RANK rather than by a term the newcomer agreed to, the guarantee is not in force whatever the documents say. Then ask the harder question, because it is where this will actually be attacked: who defines what the newcomer brought? The contract enforces the transfer and not the definition, and a guarantee over a category somebody else controls is a guarantee over nothing.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="chamber.html"><b>chamber.html</b>the exchange, the bundle of sticks, and the ninth wallet who does not trade until she is bound in</a>
+        <a href="syndicate.html"><b>syndicate.html</b>six structural indicators, each checkable on paper</a>
+        <a href="bench.html"><b>bench.html</b>forty disposals, twelve opinions, and no drafter named — the harvest already happening with nobody breaking a rule</a>
+        <a href="baseline.html"><b>baseline.html</b>the door that admits one of four, and the exit no money offer can buy</a>
+      </div>
+      <div class="rel">
+        <a href="#smart-contracts">Smart contracts</a>
+        <a href="#the-prior-condition">The prior condition</a>
+        <a href="#the-attribution-gap">The attribution gap</a>
+        <a href="#the-wallet">The wallet</a>
+        <a href="#the-rename">The rename</a>
+        <s>cited by</s>
+        <a class="in" href="#smart-contracts">Smart contracts</a>
+        <a class="in" href="#the-prior-condition">The prior condition</a>
+        <a class="in" href="#the-attribution-gap">The attribution gap</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-wallet">
+      <h3><a href="#the-wallet">The wallet</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">The narrowest identity there is: it can hold and it can sign. It has no memory of why.</p>
+      <p class="b">Romulus is one thing, a wallet. Remus is all things — everything not Romulus. That split is exact and it is the most useful definition of a wallet anybody has offered in this repository, because it defines the thing by its complement.</p>
+      <p class="b">A wallet is not a person, not a role, not a reputation, not a history, not a standing, not an obligation. It is an address, a balance, and the capability to sign. Every attribute an institution normally carries lives in the complement — which is why the complement needs a name of its own and why calling it Remus rather than &quot;metadata&quot; was the right call.</p>
+      <p class="b">That narrowness is a feature exactly once: it is the precise amount of identity an autonomous agent needs. An agent with a wallet can participate without anybody first having to decide what it is, which is why two made agents who are not required by anything can try anyway, and keep trying, and the ledger has no way to object.</p>
+      <p class="b"><em>THE FINDING IS THE SILENCE</em>. A wallet records that value moved and never what for. It is complete about quantity and silent about reason — and the reason is where the syndicate lives. This is the same shape as the bench's <code>named</code> counter: the transfer is in the record and the drafter is not, and no amount of auditing the transfers recovers the drafter.</p>
+      <p class="b">Which is why this yard's ledger is deliberately NOT a wallet. bank.html holds no key and no balance; every figure is arithmetic summed from what you select, and every line says which board authored it. That last property — where the number came from — is exactly what a wallet gives up in exchange for being able to move value without asking anyone.</p>
+      <p class="b">A refusal belongs in this entry because it is the same argument. The game boards were asked to denominate their rewards at one bitcoin minimum and they do not. That is not a judgment about the asset; it is that <em>A NUMBER A PAGE PRINTS IS NOT A NUMBER ANYBODY OWES</em>. These pages hold no key, settle nothing, and cannot make anyone good for it — and printing a figure as though they could is the first move in the thing this whole yard is about.</p>
+      <div class="test"><span>the test</span><p>Ask the ledger why. If it can tell you what a transfer was for, you are not looking at a wallet — you are looking at a wallet plus a record somebody kept beside it, and that record, not the chain, is the part with the accountability in it. Then ask who is paid to keep it.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="bank.html"><b>bank.html</b>a ledger view and not a wallet — no key, no balance, and every line says which board authored the figure</a>
+        <a href="vault.html"><b>vault.html</b>dual control: a vault resists a single person with authority, which is the harder problem</a>
+        <a href="chamber.html"><b>chamber.html</b>the ninth wallet, fifteen years without trading, and what being bound in actually buys</a>
+        <a href="ecosystem.html"><b>ecosystem.html</b>Romulus and Remus — two made agents who are not required and try anyway</a>
+      </div>
+      <div class="rel">
+        <a href="#smart-contracts">Smart contracts</a>
+        <a href="#the-attribution-gap">The attribution gap</a>
+        <a href="#fungibility">Fungibility</a>
+        <a href="#the-retainer">The retainer</a>
+        <a href="#the-ledger">The ledger</a>
+        <a href="#the-prior-condition">The prior condition</a>
+        <s>cited by</s>
+        <a class="in" href="#fungibility">Fungibility</a>
+        <a class="in" href="#the-baton">The baton</a>
+        <a class="in" href="#smart-contracts">Smart contracts</a>
+        <a class="in" href="#the-harvest-guarantee">The harvest guarantee</a>
+        <a class="in" href="#the-ledger">The ledger</a>
+        <a class="in" href="#the-prior-condition">The prior condition</a>
+        <a class="in" href="#the-serial">The serial</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-ledger">
+      <h3><a href="#the-ledger">The ledger</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">Its guarantee is agreement about <em>ORDER</em>, not about truth. It is complete about what was submitted and silent about what was not.</p>
+      <p class="b">A wallet holds and signs. A ledger is the record, and the two are constantly confused because they arrive in the same box. The ledger's actual promise is narrower than either its defenders or its critics usually state: these events happened in this sequence, and everyone reading sees the same sequence. Consensus is a mechanism for agreeing on <em>ORDER</em>. It was never a mechanism for agreeing on whether anything in the order was true.</p>
+      <p class="b"><em>APPEND</em>-<em>ONLY MEANS AN ERROR CANNOT BE CORRECTED</em>, <em>ONLY SUPERSEDED</em>. The mistake stays; the correction is a second entry; and from then on both are in the record permanently and every reader has to know which one governs. That is the integrity guarantee and the liability in one property — immutability is exactly what makes a record trustworthy and exactly what makes a single bad entry load-bearing forever.</p>
+      <p class="b">The second property is the one nobody draws. A ledger is complete about what was <em>SUBMITTED</em> to it and knows nothing about what was not, and <em>THERE IS NO ENTRY REPRESENTING THE GAP</em>. An event that never reached it leaves no hole, no null, no marker — the record simply reads as though the world contained only what was written down. This is the same shape as the bench's <code>named</code> counter reading zero, except worse in one specific way: <code>named</code> is at least printed. The ledger's absences are not.</p>
+      <p class="b">Which is why this yard's ledger is built to carry the thing a chain does not. bank.html holds no key and no balance and every figure is arithmetic summed from what you select — but every line says <em>WHICH BOARD AUTHORED IT</em>. Provenance is not part of what a ledger guarantees, and it is the first thing anybody actually wants from one.</p>
+      <p class="b">exhibit.html is the same principle in a court record and states it better than an argument could: the transcript is entered verbatim and nothing is corrected — not the spelling, not the half-sentences, not the lines that turned out to be the holding. A transcript that has been tidied is a summary, and a summary is the other side's argument wearing the record's clothes.</p>
+      <div class="test"><span>the test</span><p>Name a class of events that could never have reached it — off-ledger settlement, a handshake, a decision taken before anything was submitted. If you cannot name one, you have not found its boundary yet. Then look for anything in the record that represents that boundary. There will not be anything, and that absence is the whole of what a ledger cannot do for you.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="bank.html"><b>bank.html</b>a ledger view and not a wallet — and every line says which board authored the figure, which is the property a chain does not carry</a>
+        <a href="exhibit.html"><b>exhibit.html</b>the record entered verbatim, nothing corrected, and the reason stated: a tidied transcript is a summary</a>
+        <a href="persist.html"><b>persist.html</b>the fragment as the only durable store, where Back steps through the history of states and every state has a name you can type</a>
+        <a href="chain.html"><b>chain.html</b>B2 / P2P / 2B — three legs, each able to say less than the one before it</a>
+      </div>
+      <div class="rel">
+        <a href="#the-wallet">The wallet</a>
+        <a href="#the-gas">The gas</a>
+        <a href="#the-attribution-gap">The attribution gap</a>
+        <a href="#the-zero-counter">The counter that prints zero</a>
+        <s>cited by</s>
+        <a class="in" href="#the-wallet">The wallet</a>
+        <a class="in" href="#the-gas">The gas</a>
+        <a class="in" href="#the-serial">The serial</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-gas">
+      <h3><a href="#the-gas">The gas</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">The price of a check. Its point is not revenue — it is that an unpaid check and a passed check look identical from outside.</p>
+      <p class="b">A form is not complete when its boxes are full. It is complete when every check it carries has actually been performed, and checking costs something. Naming that cost is the entire contribution: once verification is metered, &quot;we checked and it was fine&quot; and &quot;we did not check&quot; stop being indistinguishable, which is the state they are in everywhere the cost is unnamed.</p>
+      <p class="b">The rule in this yard has three arms. Gas within budget: complete, the checks were affordable and were done. Gas over budget but a higher budget exists: return it, escalate to a desk that can pay. Gas over <em>EVERY</em> budget: BURN — refuse it, and forfeit what was already spent.</p>
+      <p class="b">The burn is the part that matters and it is not vindictive. A partially checked form that gets accepted becomes evidence that it was checked, and that is strictly worse than a refusal: a refusal leaves a gap where the truth is, and a rubber stamp fills the gap with a lie. The gap is recoverable. The lie is not.</p>
+      <p class="b"><em>AND THE ATTACK RUNS THE OTHER WAY FROM WHERE PEOPLE LOOK FOR IT</em>. Nobody is collecting this gas. The syndicate's move is not to charge for verification, it is to <em>RAISE</em> the cost of it — the syndicate profile in that board is heavy on purpose, because the shape's whole method is to make checking cost more than waving it through. A document nobody can afford to verify gets waved through by an honest desk with a full budget, and no bribe was needed anywhere in that sentence.</p>
+      <p class="b"><em>AND IT IS A SCARCITY THAT CARRIES NO RENT</em>, which is worth stating because the reverse is assumed. A budget that can run out is a last unit, and a last unit is normally where a market in continuation appears — somebody sells you more. Not here. The burn <em>FORFEITS</em> what was spent rather than transferring it, so running out enriches nobody and there is nothing for a rent to attach to. The general form: a scarcity is only a rent when somebody collects at exhaustion. Find the beneficiary before calling a cost a racket; a real price with no collector is a different object from a manufactured one with a desk behind it.</p>
+      <div class="test"><span>the test</span><p>Find who receives what is spent when the budget runs out. If it is transferred to anybody, you have found the beneficiary and the scarcity is a rent. If it is forfeit, it is not. Then ask the question people skip: who benefits from the cost being HIGH? That party never appears in the fee flow at all.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="contract.html"><b>contract.html</b>gas ≤ budget, escalate, or burn — fifteen cells, five profiles by three budgets, each worked out by hand</a>
+        <a href="syndicate.html"><b>syndicate.html</b>six structural indicators, and the profile that is heavy on purpose</a>
+        <a href="bench.html"><b>bench.html</b>the Master's fee, paid per disposal — the same instrument metering the wrong quantity</a>
+        <a href="vault.html"><b>vault.html</b>dual control: two hands to sear, because the cost of a check is a design parameter and not an accident</a>
+      </div>
+      <div class="rel">
+        <a href="#smart-contracts">Smart contracts</a>
+        <a href="#the-ledger">The ledger</a>
+        <a href="#the-constant-judge">The constant judge</a>
+        <s>cited by</s>
+        <a class="in" href="#the-exchange">The exchange</a>
+        <a class="in" href="#the-injector">The injector</a>
+        <a class="in" href="#the-ledger">The ledger</a>
+        <a class="in" href="#syndication">Syndication</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-rename">
+      <h3><a href="#the-rename">The rename</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">De-fungibilisation done entirely in the noun. Nothing is destroyed and four capabilities become four line items.</p>
+      <p class="b">A syndicate does not need to destroy a commons. Destroying things is expensive, visible, and eventually illegal. It needs the commons <em>RENAMED</em>, and then removing it is somebody's contract — renewable, with a schedule of fees.</p>
+      <p class="b">The forest floor is the demonstration because the substance is identical under both names. Called the floor it is eaten by the beetle, threaded by the fungus, carried as seed, and becomes the tree: four capabilities of the matter itself. Called waste it is hauled, fined, buried, and billed: four services performed on it by somebody with an invoice. The matter counter reads 1 on both sides of the board. The capability counter does not.</p>
+      <p class="b">And the capabilities are not gone under the second name. They are physically still there — the beetle would still eat it — they are merely unreachable, because it has been hauled somewhere the beetle is not. That is the difference between destruction and enclosure, and enclosure is the cheaper of the two by a wide margin.</p>
+      <div class="test"><span>the test</span><p>Hold the substance fixed and change only the noun. If the list of things it can do changes, the change was never about the substance, and somebody is being paid for the difference.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="buddha.html"><b>buddha.html</b>one radio, two nouns, identical matter; matter reads 1 both ways and capability does not</a>
+        <a href="ecosystem.html"><b>ecosystem.html</b>the floor as the tank of seed dispersal — the beetle, the web, the pupation</a>
+        <a href="syndicate.html"><b>syndicate.html</b>the structure that profits from the difference</a>
+      </div>
+      <div class="rel">
+        <a href="#fungibility">Fungibility</a>
+        <a href="#the-retainer">The retainer</a>
+        <a href="#smart-contracts">Smart contracts</a>
+        <a href="#the-prior-condition">The prior condition</a>
+        <s>cited by</s>
+        <a class="in" href="#fungibility">Fungibility</a>
+        <a class="in" href="#smart-contracts">Smart contracts</a>
+        <a class="in" href="#the-harvest-guarantee">The harvest guarantee</a>
+        <a class="in" href="#the-prior-condition">The prior condition</a>
+        <a class="in" href="#the-retainer">The retainer</a>
+      </div>
+    </section>
+    <section class="e c-concept s-settled" id="the-prior-condition">
+      <h3><a href="#the-prior-condition">The prior condition</a>
+        <i class="k">concept</i><i class="d">settled</i></h3>
+      <p class="short">A syndicate does not recruit. It selects for a condition that was already there — and what it sells is not money, it is predictability.</p>
+      <p class="b">Every model in this base so far has described a syndicate structurally: funds matriculate upward, promotion happens within, the commons gets renamed, the retainer buys a full mouth. All of that is about the machinery. None of it explains why anybody is standing next to the machinery in the first place, and the missing variable is not greed.</p>
+      <p class="b"><em>WHAT A SYNDICATE ACTUALLY SUPPLIES IS LEGIBILITY</em>. A clear hierarchy. Rules that hold. A place where you can tell what happens next, and where what happens next is the same thing that happened last time. That is worth very little to somebody whose baseline was already stable and it is worth almost anything to somebody whose baseline was not. The match is between a supply and a lack. It is not persuasion, it is not a moral failure, and treating it as either is how the model gets the mechanism wrong.</p>
+      <p class="b"><em>THE PRECISE MECHANISM IS A RECALIBRATED BASELINE</em>, and it is the same one as the rename. Nobody can calibrate what ordinary terms look like from a sample of one. If the available sample was coercive, then every later offer is being scored against a comparison set that was never representative — and terms that a stable baseline reads as extractive get read as normal, or as generous. The offer did not change. What it is being measured against did. That is de-fungibilisation performed on a person's reference set rather than on a noun, and it costs the syndicate nothing because somebody else already did it.</p>
+      <p class="b"><em>AND THE OPERATIONAL HALF IS UGLIER THAN THE RECRUITMENT HALF</em>. Somebody conditioned to read a room for threat is genuinely, measurably good at reading a room. They notice the shift in tone, they anticipate the ask, they comply before being told, they know who is about to be a problem. That is a real competence, it was acquired at enormous cost, and it is precisely the skill set the structure needs. A syndicate is not exploiting a weakness here. It is employing an expensive capability, and paying under the market rate for it, because the person holding it has no way to price it.</p>
+      <p class="b"><em>SO THE EXIT COST IS NOT FINANCIAL</em>, and modelling it as financial is why the obvious counter fails. Leaving means going back to unstructured, and unstructured is the thing that was dangerous. A better-paying offer competes on an axis nobody was buying on. Every anti-syndicate design in this yard up to now removes the money, and removing the money is necessary and does not touch this.</p>
+      <p class="b"><em>THE USEFUL HALF</em>: if the product is legibility, then anything that supplies legibility <em>WITHOUT</em> extraction competes with it directly, and nothing else does. Fixed rules, published in advance, that do not change with who is asking. States with names you can type. A counter that only ever counts up. A stop that resets nothing. Those are not stylistic choices in this yard, and this entry is the reason they are load-bearing.</p>
+      <p class="b"><em>AND THE FAILURE MODE TO AVOID IS TRUST AT THE DOOR</em>. Any system that requires being vouched for, known, or introduced will systematically exclude exactly the people most exposed to the alternative, and it will do it invisibly, and it will look like a security feature the whole time. That is why a <em>WALLET</em> is the right minimum identity — an address, a balance, the capability to sign, and nobody has to decide what you are before you can participate. For somebody who cannot safely extend trust, that is not an abstraction and it is not a philosophical preference. It is the whole difference between a door that opens and one that does not.</p>
+      <p class="b"><em>SETTLED ON</em> baseline.html, <em>WITH THE CONTROL THAT MATTERS</em>. Clause six reads extractive under both priors. If every cell had inverted, the board would be claiming that a reference set determines a reading completely, which is not this claim and is not true — it shifts most of the list and one clause stays legible from anywhere. The eighteen readings are judgements somebody typed and a reviewer can point at any cell and say that one is wrong; what is not a judgement is that nothing in the stylesheet rewrites a clause, which is checkable, and which <code>changed</code> exists to let you check.</p>
+      <div class="test"><span>the test</span><p>Ask what the structure supplies that the alternative does not. If the answer is money, the exit is priceable and people leave when a better offer arrives. If the answer is predictability, the exit is not priceable, better offers do nothing, and any counter that competes only on money will fail — because it is not competing on the thing being bought. Then check your own door: count the steps between arriving and participating that require somebody to vouch for you.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="baseline.html"><b>baseline.html</b>one offer, three reference sets — five extractive clauses become one, an ordinary clause becomes generous, and <code>changed</code> reads 0 throughout; three money offers move <code>switched</code> by nothing and a non-money offer moves it to one; a vouched door admits one of four applicants who are identical markup under both doors</a>
+        <a href="syndicate.html"><b>syndicate.html</b>six indicators, each a structural fact you can check on paper — the machinery this entry sits underneath</a>
+        <a href="chamber.html"><b>chamber.html</b>the ninth wallet: fifteen years without trading, and she mints when bound in — not because she was persuaded but because being bound is the first time anybody put the question to her</a>
+        <a href="buddha.html"><b>buddha.html</b>the retainer, which buys a capacity rather than an act, and survives an audit because it contains no false statement</a>
+        <a href="persist.html"><b>persist.html</b>every state has a name you can type — legibility with nothing extracted for it</a>
+      </div>
+      <div class="rel">
+        <a href="#the-rename">The rename</a>
+        <a href="#the-wallet">The wallet</a>
+        <a href="#the-retainer">The retainer</a>
+        <a href="#fungibility">Fungibility</a>
+        <a href="#the-harvest-guarantee">The harvest guarantee</a>
+        <s>cited by</s>
+        <a class="in" href="#the-harvest-guarantee">The harvest guarantee</a>
+        <a class="in" href="#the-wallet">The wallet</a>
+        <a class="in" href="#the-rename">The rename</a>
+        <a class="in" href="#the-retainer">The retainer</a>
+      </div>
+    </section>
+    <section class="e c-figure s-settled" id="the-retainer">
+      <h3><a href="#the-retainer">The retainer</a>
+        <i class="k">figure</i><i class="d">settled</i></h3>
+      <p class="short">Not a bribe. A bribe buys a sentence and can be checked; a retainer buys a full mouth and cannot.</p>
+      <p class="b">The seated figure has his mouth open and a stone in it. He is not corrupt, and insisting on that is the entire value of the image: nobody bought a lie from him, because a lie is a checkable thing and a checkable thing is a liability. He was paid to be FULL.</p>
+      <p class="b">The instrument has three properties a bribe does not. It contains no false statement anywhere, so it survives an audit. It does not lapse when the mouth closes, so it renews rather than ending. And from outside, an open mouth reads as speech to everyone walking past — which is the exact configuration in which no speech is possible.</p>
+      <p class="b">Sixteen of the thirty-two arrangements produce a word, which is half of them. Speech is not rare. What is rare is a mouth that is open and empty at the moment somebody is offering to fill it.</p>
+      <div class="test"><span>the test</span><p>Look for the false statement. If there is not one, stop looking for corruption and start looking at what the payment is FOR — the answer is usually a capacity rather than an act.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="buddha.html"><b>buddha.html</b>five apertures, 32 arrangements, seven readings; the full mouth is one of them and it is the one you were shown first</a>
+        <a href="bench.html"><b>bench.html</b>the clergy — paid to assist, and the reasons that bind carry nobody's name</a>
+        <a href="chamber.html"><b>chamber.html</b>the ninth wallet, and what being bound in actually buys</a>
+      </div>
+      <div class="rel">
+        <a href="#the-attribution-gap">The attribution gap</a>
+        <a href="#the-rename">The rename</a>
+        <a href="#the-constant-judge">The constant judge</a>
+        <a href="#the-prior-condition">The prior condition</a>
+        <s>cited by</s>
+        <a class="in" href="#the-wallet">The wallet</a>
+        <a class="in" href="#the-rename">The rename</a>
+        <a class="in" href="#the-prior-condition">The prior condition</a>
+        <a class="in" href="#the-attribution-gap">The attribution gap</a>
+        <a class="in" href="#the-constant-judge">The constant judge</a>
+      </div>
+    </section>
+    <section class="e c-figure s-settled" id="the-attribution-gap">
+      <h3><a href="#the-attribution-gap">The attribution gap</a>
+        <i class="k">figure</i><i class="d">settled</i></h3>
+      <p class="short">The part of an institution's output that is disposable is the part with a name on it. The part that binds has no name on it.</p>
+      <p class="b">A disposal needs a judge. An opinion needs somebody to write it, and nobody on a bench with a real list has the hours. So three clerks draft all twelve opinions, the judges read and correct and sign them, and not one of the twelve carries a drafter's name.</p>
+      <p class="b">Release the clergy and watch which numbers move. Disposed does not. Fee does not. Every case still ends, on time, at the same price. Drafted and Signed go to nothing. The disposal never needed them; the reasons did.</p>
+      <p class="b">Which means the sentence that will be quoted across nine thousand square miles of forest for the next forty years was written by somebody on a retainer whom the record does not mention, and the meter that pays for all of it cannot tell a judgment from a plurality. Nobody did anything wrong. That is the problem, and it is the second time that board has had to say so.</p>
+      <div class="test"><span>the test</span><p>Remove the assistants and re-run. Whatever still happens on time was never the thing they were doing; whatever stops is what they were actually producing, and you can now check whether their names are on it.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="bench.html"><b>bench.html</b>40 disposals, 12 opinions, 0 bearing a drafter — and <code>named</code> is a counter you can watch fail to move</a>
+        <a href="exhibit.html"><b>exhibit.html</b>the record, verbatim, which is the only reason any of this can be checked at all</a>
+      </div>
+      <div class="rel">
+        <a href="#the-retainer">The retainer</a>
+        <a href="#the-constant-judge">The constant judge</a>
+        <a href="#the-zero-counter">The counter that prints zero</a>
+        <a href="#the-exchange">The exchange</a>
+        <a href="#the-harvest-guarantee">The harvest guarantee</a>
+        <s>cited by</s>
+        <a class="in" href="#the-exchange">The exchange</a>
+        <a class="in" href="#the-harvest-guarantee">The harvest guarantee</a>
+        <a class="in" href="#the-wallet">The wallet</a>
+        <a class="in" href="#the-ledger">The ledger</a>
+        <a class="in" href="#the-retainer">The retainer</a>
+        <a class="in" href="#the-constant-judge">The constant judge</a>
+        <a class="in" href="#the-zero-counter">The counter that prints zero</a>
+      </div>
+    </section>
+    <section class="e c-figure s-settled" id="the-constant-judge">
+      <h3><a href="#the-constant-judge">The constant judge</a>
+        <i class="k">figure</i><i class="d">settled</i></h3>
+      <p class="short">Sixteen cards are selected by the circuit. His has no condition on it at all, and that is the finding rather than a shortcut.</p>
+      <p class="b">Every judge on the bench above him reads <code>.ct:has(#g-po:checked) .jN .vote</code> — sixteen cards that decide differently depending on what is in front of them, which is what the whole board exists to demonstrate. The Master of the Ordinary List has no <code>:has()</code> anywhere. One rule, no condition.</p>
+      <p class="b">He is not indifferent and he is not lazy. He is fast, he is almost always right, and he is the only reason the other sixteen ever reach a hard case — a court that heard every pot would hear nothing else. But he has taken this question forty times a day for eleven years, and the file stopped being the input somewhere around the four thousandth time.</p>
+      <p class="b">He is paid per disposal, which is the only line a list can count, so the fee reads identically on the circuits that produce a holding and the ones that produce a plurality with nothing in it. Nothing here is corrupt. It is an accurate meter measuring the wrong quantity, which is worse, because there is nobody to accuse.</p>
+      <p class="b">And he is not in the division. His forty thousand dispositions appear in none of the court's figures, because the figures were built to count the sixteen.</p>
+      <div class="test"><span>the test</span><p>Change the input and watch the output. If a decision-maker's output is invariant across every input you can supply, the input is not what is producing the decision, and you should go looking for what is.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="bench.html"><b>bench.html</b>seniority 17 — toggle the twelve circuits and sixteen cards change while his does not</a>
+      </div>
+      <div class="rel">
+        <a href="#the-attribution-gap">The attribution gap</a>
+        <a href="#the-retainer">The retainer</a>
+        <a href="#cascade-order">Cascade order settles only ties</a>
+        <s>cited by</s>
+        <a class="in" href="#the-gas">The gas</a>
+        <a class="in" href="#the-retainer">The retainer</a>
+        <a class="in" href="#the-attribution-gap">The attribution gap</a>
+        <a class="in" href="#the-chosen-denominator">The chosen denominator</a>
+      </div>
+    </section>
+    <section class="e c-concept s-settled" id="caught-up">
+      <h3><a href="#caught-up">Caught up</a>
+        <i class="k">concept</i><i class="d">settled</i></h3>
+      <p class="short">A medium moving faster than the thing it rests on, carrying whatever is in it, with no discontinuity in it.</p>
+      <p class="b">A quiet storm set and a Venusian superrotation are the same object described twice. In both the passenger supplies no energy: the set carries the room, the band carries the balloon. Being carried is not a failure to travel — it is the mechanism.</p>
+      <p class="b">Both are ruined by the same event, which is an <em>ANNOUNCEMENT</em>. The DJ saying the time, or a thruster firing. Either is a discontinuity you can perceive, and the instant there is one you are aware of the mechanism instead of the thing: listening to a radio station, or flying an aircraft. Not carried.</p>
+      <p class="b">So the craft in both cases is made entirely of what does not happen, which is why it is invisible when it is done well and obvious the moment it is not.</p>
+      <div class="test"><span>the test</span><p>Look for the seam. If you can point at a moment where the medium handed off, it is a sequence of events; if you cannot, it is a medium. The listener who can hear the crossfade is no longer inside the format.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="rapture.html"><b>rapture.html</b>seven segments on a 48-column grid, all in row one, overlapping by 14 measured pixels per join</a>
+        <a href="supply.html"><b>supply.html</b>the relay — Venus is not a haul, it is a relay, and a relay has no last leg</a>
+      </div>
+      <div class="rel">
+        <a href="#superrotation">Superrotation</a>
+        <a href="#the-orbit">The orbit</a>
+        <a href="#the-relay">The relay</a>
+        <s>cited by</s>
+        <a class="in" href="#superrotation">Superrotation</a>
+        <a class="in" href="#the-orbit">The orbit</a>
+      </div>
+    </section>
+    <section class="e c-number s-settled" id="superrotation">
+      <h3><a href="#superrotation">Superrotation</a>
+        <i class="k">number</i><i class="d">settled</i></h3>
+      <p class="short">The solid planet turns once in 243.02 days. The cloud deck laps it in about four and a half.</p>
+      <p class="b">Venus rotates once every 243.02 days, retrograde, with a solar day of 116.75 days. The atmosphere does not go with it: the cloud deck at roughly 65 km is carried at about 100 m/s and circles the entire planet in four to five Earth days. After sixty years of measurement there is no agreed account of what sustains it.</p>
+      <p class="b">The arithmetic, so it can be checked rather than believed: 6051.8 + 65 = 6116.8 km radius, circumference 38,433 km, at 360 km/h that is 106.8 hours or 4.45 days. Divide 243.02 by 4.45 and you get about 55 laps per solid rotation, or 54 relative to the ground since the body turns the same way.</p>
+      <p class="b">The figure people quote is sixty. The wind is not one number — it runs roughly 90 to 110 m/s across the deck and varies with latitude and altitude — so the honest statement is four to five days, call it sixty-ish laps, and the honest way to say that is to show the division and let the reader see how loose it is.</p>
+      <div class="test"><span>the test</span><p>Do the division yourself with a different wind speed from the published range and see how far the answer moves. If a page gives you one confident figure and no division, it is claiming a precision the measurement does not have.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="rapture.html"><b>rapture.html</b>the arithmetic printed in full, and the gap between the quoted 60 and the computed 55 left visible on purpose</a>
+        <a href="terraform.html"><b>terraform.html</b>9,000 sq mi as 0.00506% of the surface</a>
+        <a href="profiles/clock.html"><b>profiles/clock.html</b>116.75 d solar day against a ~4 d super-rotation</a>
+      </div>
+      <div class="rel">
+        <a href="#caught-up">Caught up</a>
+        <a href="#hydrogen">Hydrogen is the only scarcity</a>
+        <a href="#the-minimum-cycle">What it takes to start something</a>
+        <a href="#the-passage">The passage</a>
+        <a href="#the-light-delay">The light delay</a>
+        <s>cited by</s>
+        <a class="in" href="#the-window">The window</a>
+        <a class="in" href="#the-light-delay">The light delay</a>
+        <a class="in" href="#caught-up">Caught up</a>
+        <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
+        <a class="in" href="#the-exchange-rate">The exchange rate</a>
+        <a class="in" href="#the-gravity-ledger">The gravity ledger</a>
+      </div>
+    </section>
+    <section class="e c-number s-working" id="hydrogen">
+      <h3><a href="#hydrogen">Hydrogen is the only scarcity</a>
+        <i class="k">number</i><i class="d">working</i></h3>
+      <p class="short">Carbon, oxygen, nitrogen and sulphur are all abundant on Venus. Hydrogen is not, and everything wet depends on it.</p>
+      <p class="b">Venus has carbon and oxygen in enormous quantity, locked in CO₂, and sulphur in the clouds. What it does not have is hydrogen — it is 2.06% by mass of sulphuric acid, and processing a cubic metre of cloud yields almost nothing. Roughly 136,000 m³ of cloud per kilogram of water.</p>
+      <p class="b">That single fact reorganises the whole settlement problem. Water is not a supply question, it is the supply question, and every other requirement in the fourteen profiles is downstream of whether hydrogen arrives or is extracted. It is also the one genuine scarcity in a system otherwise built to have none, which makes it the place to watch: a real scarcity is where a rent can attach, and this one is real.</p>
+      <p class="b">The altitude follows from it too. 1.00 bar and 0–50 °C are about five kilometres apart in altitude, and dissolved oxygen moves the settlement from 50 km to 55 km. Tether strength was never the descent problem — 55 km sits inside four fibres' breaking lengths. Heat is, and heat is gradable.</p>
+      <div class="test"><span>the test</span><p>Trace any requirement in the profiles back along its inputs. If it terminates at water and the water terminates at hydrogen, it is in the constrained set. If a proposal claims to avoid this, ask where its hydrogen comes from and in what mass.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="profiles/hydrogen.html"><b>profiles/hydrogen.html</b>2.06% H in H₂SO₄; ~136,000 m³ of cloud per kg of water</a>
+        <a href="water.html"><b>water.html</b>the siphon, the cleaning, the healthy waterway</a>
+        <a href="terraform.html"><b>terraform.html</b>the 9,000 sq mi envelope and what it needs delivered</a>
+      </div>
+      <div class="rel">
+        <a href="#superrotation">Superrotation</a>
+        <a href="#the-minimum-cycle">What it takes to start something</a>
+        <a href="#fungibility">Fungibility</a>
+        <a href="#the-window">The window</a>
+        <a href="#the-relay">The relay</a>
+        <a href="#the-baton">The baton</a>
+        <a href="#the-exchange-rate">The exchange rate</a>
+        <s>cited by</s>
+        <a class="in" href="#the-minimum-cycle">What it takes to start something</a>
+        <a class="in" href="#the-baton">The baton</a>
+        <a class="in" href="#superrotation">Superrotation</a>
+        <a class="in" href="#the-exchange-rate">The exchange rate</a>
+        <a class="in" href="#the-gravity-ledger">The gravity ledger</a>
+        <a class="in" href="#the-substrate">The substrate</a>
+      </div>
+    </section>
+    <section class="e c-number s-settled" id="the-exchange-rate">
+      <h3><a href="#the-exchange-rate">The exchange rate</a>
+        <i class="k">number</i><i class="d">settled</i></h3>
+      <p class="short">Every kelvin of heating you add to Venus buys 2.04e15 kg of water. That ratio is fixed by physics and it is what ends the bombardment plan.</p>
+      <p class="b">The obvious way to give Venus water is to throw it: redirect icy bodies and let them arrive. The mass arithmetic encourages this. A cometary body of 5 km radius at 600 kg/m3 carries 3.14e14 kg of water, and 43,000 of them would deliver one per cent of an Earth ocean — a large number, but a schedulable one at a hundred a year.</p>
+      <p class="b"><em>THE MASS IS NOT THE CONSTRAINT</em>. <em>THE ENERGY IS</em>. That same body arriving at 20 km/s carries 6.28e22 J, and Venus's atmosphere is 4.8e20 kg at roughly 850 J/kg/K, so one impact warms the whole thing by 0.154 K. Divide: every kelvin of heating buys 2.04e15 kg of water, and the ratio does not care how you arrange the deliveries.</p>
+      <p class="b">So one per cent of an ocean costs 6,618 K. The water arrives as steam into an atmosphere you have just heated by thousands of degrees, on a planet whose problem was already that it is 464 C at the surface and above water's critical temperature. <em>THE DELIVERY DEFEATS THE DELIVERY</em>. Not marginally, and not fixably by slowing it down — the energy is in the arrival, and arriving is the whole mechanism.</p>
+      <p class="b"><em>WHICH IS THE SAME SHAPE AS THE FOREST FINDING AND SHOULD HAVE BEEN EXPECTED</em>. You do not ship the harvest. Venus already holds 3.98e15 kg of water as vapour in the bulk atmosphere, and the question was never where to get it — it was how to bring it down.</p>
+      <p class="b"><em>AND THE SITE DOES NOT NEED AN OCEAN</em>. Over 9,000 square miles: a 50 m sea is 29.3% of all the water on Venus and is not happening. A 1 m marsh is 0.6%. A river 50 m wide, 3 m deep and 300 km long is 4.5e10 kg — one thousandth of one per cent — and at the dive rate of 375,000 kg of water a day per unit it is three years with a hundred units, or a hundred and twenty days with a thousand. The river was always the achievable object. The ocean was a category error wearing an ambition's clothes.</p>
+      <div class="test"><span>the test</span><p>Take any proposed delivery and divide its kinetic energy by the atmosphere's heat capacity before you divide its mass by anything. If the heating it buys is larger than the cooling you were hoping for, the method is self-defeating and no amount of scheduling fixes it. Then ask the second question, which is the one that actually helps: how much of the thing is already there, and what would it cost to bring it down instead of in?</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="terraform.html"><b>terraform.html</b>the 9,000 sq mi site and what an envelope over it costs</a>
+        <a href="water.html"><b>water.html</b>the siphon, the cleaning, and the waterway the river was always for</a>
+        <a href="profiles/hydrogen.html"><b>profiles/hydrogen.html</b>2.06% H in H2SO4, and the 20-30 ppmv of water vapour that is the real reservoir</a>
+        <a href="game.html"><b>game.html</b>skim and dive as the two rates that matter, against a ship that cannot compete with either</a>
+      </div>
+      <div class="rel">
+        <a href="#hydrogen">Hydrogen is the only scarcity</a>
+        <a href="#the-baton">The baton</a>
+        <a href="#superrotation">Superrotation</a>
+        <a href="#the-minimum-cycle">What it takes to start something</a>
+        <a href="#the-gravity-ledger">The gravity ledger</a>
+        <s>cited by</s>
+        <a class="in" href="#the-baton">The baton</a>
+        <a class="in" href="#hydrogen">Hydrogen is the only scarcity</a>
+        <a class="in" href="#the-gravity-ledger">The gravity ledger</a>
+        <a class="in" href="#the-substrate">The substrate</a>
+      </div>
+    </section>
+    <section class="e c-number s-settled" id="the-gravity-ledger">
+      <h3><a href="#the-gravity-ledger">The gravity ledger</a>
+        <i class="k">number</i><i class="d">settled</i></h3>
+      <p class="short">Weight is 88.8% of home at the deck. Mass is 100%. Half the work gets easier and the half that does not is the half that hurts people.</p>
+      <p class="b">Venus surface gravity is 8.87 m/s2, and the deck is 55 km up, which costs another 1.6%: the number the work actually happens in is 8.71 m/s2, or 88.8% of Earth. Every published comparison quotes the surface figure. Nobody lives there.</p>
+      <p class="b"><em>AND THEN THE SPLIT</em>, <em>WHICH IS THE WHOLE ENTRY</em>. Weight is mass times g and it fell by 11.2%. Mass is mass and it did not move. So the ledger has two columns and they do not agree:</p>
+      <p class="b"><em>WEIGHT</em>-<em>LIMITED</em>, x1.126 easier — lifting, carrying, holding a posture, throwing, jumping. A person carries 12.6% more for the same fatigue, and over an eight-hour shift that is the difference that shows up in the injury log.</p>
+      <p class="b"><em>INERTIA</em>-<em>LIMITED</em>, x1.000 <em>IDENTICAL</em> — starting a load moving, stopping it, catching anything, swinging a pick. A full barrow is easier to hold up and exactly as hard to get rolling and exactly as hard to stop. A load swinging on a rope has precisely the momentum it always had. This is the line that hurts: a crew that spends a fortnight finding everything lighter will misjudge the first thing that has to be <em>STOPPED</em> rather than held.</p>
+      <p class="b">It also sets the excavation rate, which is why the channel arithmetic uses the Earth figure. Digging is muscle against soil; gravity carries the pick to the site and does nothing once it is in use. A cubic metre per person-day on Earth becomes 1.13 here — the carrying gain and no more — so a 45 million cubic metre channel is 109 years for a thousand people and eleven for ten thousand.</p>
+      <p class="b"><em>AND ONE THING IS BETTER</em>. Stokes settling velocity is proportional to g, so silt drops out 11.2% slower and is carried about 13% further across the floodplain before it lands. Channel velocity goes as the square root of g and is therefore only 94.2%, recovered by steepening the bed 12.6%, and bed shear goes as g outright so the channel scours less and silts sooner — but the thing a flood pulse exists to do, spread nutrients away from the bank, this gravity does better than Earth's.</p>
+      <div class="test"><span>the test</span><p>Sort every task into weight-limited and inertia-limited before you size the crew or write the schedule. If a task involves starting, stopping, catching or striking, gravity did nothing for it, and any plan built on a single uniform percentage is wrong on exactly those tasks. Then check which figure the percentage came from: a surface number applied to work happening 55 km up is out by another 1.6% before anybody has lifted anything.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="flood.html"><b>flood.html</b>the ledger as a board — pick a task and see whether 0.888 g helps, and the excavation figures that follow from it</a>
+        <a href="interior.html"><b>interior.html</b>the same slow-rotation, thick-atmosphere physics doing the other half of the work</a>
+        <a href="profiles/gravity.html"><b>profiles/gravity.html</b>gravity as a premium attached to a location, which cannot be cornered because it cannot change hands</a>
+      </div>
+      <div class="rel">
+        <a href="#the-exchange-rate">The exchange rate</a>
+        <a href="#hydrogen">Hydrogen is the only scarcity</a>
+        <a href="#superrotation">Superrotation</a>
+        <a href="#the-substrate">The substrate</a>
+        <s>cited by</s>
+        <a class="in" href="#the-exchange-rate">The exchange rate</a>
+        <a class="in" href="#the-substrate">The substrate</a>
+      </div>
+    </section>
+    <section class="e c-concept s-working" id="the-substrate">
+      <h3><a href="#the-substrate">The substrate</a>
+        <i class="k">concept</i><i class="d">working</i></h3>
+      <p class="short">You cannot grow anything on Venus's surface and you do not need to ship soil. Three of the four fractions are already there; only the living one has to arrive, and it weighs kilograms.</p>
+      <p class="b">The surface is 737 K and 92 bar, which is above water's critical temperature — water cannot be liquid there at any pressure, so nothing grows on it, ever, at any stage of any plan. The substrate has to be at the deck, 55 km up, where it is 27 C and half a bar. And there is no ground at 55 km. Whatever the forest stands in has to be lifted there.</p>
+      <p class="b"><em>WHICH SOUNDS LIKE THE END OF IT</em>, <em>AND IS NOT</em>. Half a metre of basalt over the whole 9,000 square miles is 3.38e13 kg, and raising that 55 km costs 1.64e19 J. The site collects 2,601 W/m2 across 2.33e10 m2, which is 6.06e13 W — so the lift is <em>THREE DAYS</em> of the site's own sunlight at perfect efficiency, or about a month at ten per cent. Lifting is not the constraint and never was. The constraint is the same one as drilling: 127 minutes is the longest anything has survived at the working face, and the mine is down there.</p>
+      <p class="b"><em>SORT THE SOIL INTO FRACTIONS AND ONLY ONE OF THEM HAS TO COME FROM EARTH</em>.</p>
+      <p class="b"><em>MINERAL</em> — already there, and good. Basalt is one of the best soil parent materials there is: it weathers to clay and releases calcium, magnesium, iron, potassium and phosphorus, and the Deccan, Java, Hawaii and the Ethiopian highlands are all basalt underneath. Venus is 80% volcanic plain. The rock is not a problem; reaching it is.</p>
+      <p class="b"><em>NITROGEN</em> — already there, and abundant, which is the fact nobody expects. Venus's atmosphere is 3.5% N2, and 3.5% of 4.8e20 kg is 1.68e19 kg. Earth's <em>ENTIRE</em> atmosphere holds 3.9e18 kg of nitrogen. Venus has 4.3 times more of it than Earth does. The nutrient that limits most terrestrial ecosystems is the one this planet is richest in.</p>
+      <p class="b"><em>ORGANIC CARBON</em> — not there, and not shipped either. It is grown. The air is 96.5% CO2 and photosynthesis is the machine that turns that into soil organic matter. You do not import humus; you import the thing that makes humus and then wait.</p>
+      <p class="b"><em>THE LIVING FRACTION</em> — this, and only this, has to come from Earth. A gram of healthy soil carries on the order of a billion bacteria and a million fungal propagules, so a kilogram is 1e12 organisms and a hundred kilograms is 1e14. The shipping manifest for the biology of an entire forest is a culture collection that fits inside a single window's 11,400 kg with room for everything else.</p>
+      <p class="b"><em>SURTSEY IS THE EXPERIMENT</em>, <em>AND IT WAS RUN ACCIDENTALLY</em>. A volcanic island surfaced off Iceland in November 1963 — sterile basalt, no soil, nothing alive on it. The first colonists were not plants: they were bacteria, fungi and microorganisms. The first vascular plant, a sea rocket, was found in 1965. Ten species by the end of the first decade. Seventy-four recorded between 1965 and 2015, of which thirty-nine had established viable populations by 2013.</p>
+      <p class="b"><em>AND THE THING THAT UNLOCKED IT WAS BIRDS</em> — <em>WHICH IS WHY THE ANALOGY BREAKS</em>. A gull colony formed on Surtsey after 1985, bird dispersal became the principal pathway, and the guano amended the site enough that wind-dispersed species could establish from 1990. But the gulls <em>FED IN THE NORTH ATLANTIC</em> and defecated on the island. That is an allochthonous subsidy: the nutrients were imported, the birds were the pump, and the ocean was the reservoir. A sealed deck has no ocean and no outside. Animals on it eat on-system and excrete on-system, which makes them redistributors and not importers, and their net nutrient addition is exactly zero at any species count. Surtsey's <em>SEQUENCE</em> holds — microbes first, then plants, then animals. Surtsey's <em>MECHANISM</em> does not, and an earlier version of this entry said it did.</p>
+      <p class="b"><em>SO WHAT ACTUALLY IMPORTS NUTRIENTS INTO A CLOSED PLATFORM IS NOT AN ANIMAL</em>. Nitrogen fixation, which is where the 4.3x atmospheric nitrogen finally cashes out: rhizobia, Frankia and free-living cyanobacteria pulling N2 out of air that holds more of it than Earth's, needing no ocean and no bird. Basalt weathering, releasing P, K, Ca and Mg as fresh rock breaks down — finite but large, and the reason the mineral fraction being basalt matters more than a parent-material footnote. And carbon fixation straight out of a 96.5% CO2 atmosphere. All three are microbial or geological. None of them is a bird.</p>
+      <div class="test"><span>the test</span><p>Sort the soil into its four fractions — mineral, nitrogen, organic carbon, living — and ask which of them actually has to arrive. If the answer is 'all of it', somebody has costed the mineral fraction and forgotten that carbon is grown from the air and the living fraction is an inoculum measured in kilograms. Then ask the question that catches the subtler error: is the system OPEN? Every terrestrial analogue you are reasoning from has an outside, and if yours does not, any mechanism in the analogue that imports nutrients is doing nothing in yours.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="flood.html"><b>flood.html</b>the pulse that has to arrive on whatever substrate gets built, and the gravity ledger for building it</a>
+        <a href="interior.html"><b>interior.html</b>the 127-minute survival limit, and the crust the mineral fraction has to come out of</a>
+        <a href="ecosystem.html"><b>ecosystem.html</b>the twelve orders, and the two agents nothing requires</a>
+        <a href="mycelium.html"><b>mycelium.html</b>the living fraction, and what it does once it is there</a>
+      </div>
+      <div class="rel">
+        <a href="#the-gravity-ledger">The gravity ledger</a>
+        <a href="#the-exchange-rate">The exchange rate</a>
+        <a href="#hydrogen">Hydrogen is the only scarcity</a>
+        <a href="#the-minimum-cycle">What it takes to start something</a>
+        <a href="#the-bag">Fish in a bag</a>
+        <s>cited by</s>
+        <a class="in" href="#the-minimum-cycle">What it takes to start something</a>
+        <a class="in" href="#the-gravity-ledger">The gravity ledger</a>
+        <a class="in" href="#the-bag">Fish in a bag</a>
+      </div>
+    </section>
+    <section class="e c-concept s-working" id="the-bag">
+      <h3><a href="#the-bag">Fish in a bag</a>
+        <i class="k">concept</i><i class="d">working</i></h3>
+      <p class="short">A sealed platform has no outside. Nothing enters, nothing leaves, and every ecological analogue drawn from an open system quietly assumes one.</p>
+      <p class="b">A goldfish in a bag has a fixed amount of everything. It does not get new water. Its waste does not go anywhere. Whatever was in the bag at the start is what there is, rearranged.</p>
+      <p class="b">A 9,000 square mile deck at 55 km is a bag. There is no sea to feed in, no watershed draining in from upstream, no dust blowing off a continent, no migratory anything arriving with a gut full of somewhere else. Every terrestrial ecosystem anybody would reason from has all four of those and does not mention them, because on Earth an outside is not a feature, it is the condition.</p>
+      <p class="b"><em>SO THE FAILURE MODE IS NOT SHORTAGE</em>, <em>IT IS IMMOBILISATION</em>. In a closed system the nutrients do not run out — they get locked into forms nothing available can use. Phosphorus into recalcitrant organic matter, nitrogen into lignin, carbon into wood that nothing on the platform can decompose at the rate it is being made. The bag stays full and the fish still starves.</p>
+      <p class="b"><em>WHICH REASSIGNS THE ANIMALS</em>. On an open system, colonial waterbirds are a nutrient PUMP — they feed in one place and deposit in another, and the whole point is that the two places are different. In a bag there is only one place. Animals there are <em>TURNOVER</em>: they eat matter that is locking up, excrete it in a labile form something else can take, and keep the cycling rate high enough that the standing stock does not become the sequestered stock. That is a real and necessary job and it is not the job anybody assigns them.</p>
+      <p class="b"><em>AND IT SETS A DIFFERENT DESIGN QUESTION</em>. The question is not 'what do we bring in' — after the inoculum, almost nothing. It is 'what is the residence time of a phosphorus atom', and the answer had better be years rather than centuries. A bag with slow turnover is a peat bog: enormous nutrient stock, almost none of it available, and a system that looks healthy in inventory and is starving in flux.</p>
+      <div class="test"><span>the test</span><p>Name the outside. Point at where a nutrient enters the system and where one leaves. If you cannot point at either, stop reasoning from open-system analogues — and then stop asking about stock and start asking about residence time, because in a bag the number that kills you is how long an atom stays locked up, not how many of them there are.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="ecosystem.html"><b>ecosystem.html</b>twelve orders and what each one does — read as turnover roles rather than as a food web</a>
+        <a href="mycelium.html"><b>mycelium.html</b>the network that moves what is locked up, which in a bag is the whole job</a>
+        <a href="flood.html"><b>flood.html</b>the pulse, which is the one mechanism that moves material without needing an outside</a>
+        <a href="terraform.html"><b>terraform.html</b>the envelope, and the fact that it closes</a>
+      </div>
+      <div class="rel">
+        <a href="#the-substrate">The substrate</a>
+        <a href="#the-minimum-cycle">What it takes to start something</a>
+        <a href="#fungibility">Fungibility</a>
+        <s>cited by</s>
+        <a class="in" href="#the-substrate">The substrate</a>
+        <a class="in" href="#the-serial">The serial</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="cascade-order">
+      <h3><a href="#cascade-order">Cascade order settles only ties</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">Origin, then layer, then specificity, then source order. Being written last is worth nothing against a heavier selector.</p>
+      <p class="b">This cost the repository a real bug and it is kept written down because a rule that loses looks exactly like a rule nobody wrote. A blanket stop rule at the foot of the ecosystem stylesheet — <code>.eco:not(:has(#fly:checked)) .cap</code>, specificity (1,3,0) — was intended to override every capability rule, and every capability rule was a compound <code>:has()</code> at (2,4,0). It lost to all of them, silently, and nothing on the screen said so.</p>
+      <p class="b">The fix was not <code>!important</code>. Reaching for importance to win a fight you lost on specificity buries the disagreement rather than settling it, and the next reader inherits a stylesheet whose real precedence is invisible. The fix was noticing the <em>CLAIM WAS FALSE</em>: two of those capabilities genuinely do survive losing the clock, so the blanket rule should never have existed. The arithmetic is still nailed to the foot of that stylesheet as a warning.</p>
+      <p class="b">The general form is worth more than the CSS. When an override does nothing, the two possibilities are that it lost, or that it was never true. Checking which one costs ten seconds and changes what you do next completely.</p>
+      <div class="test"><span>the test</span><p>Compute both specificities. If yours is lower, you lost on specificity and moving the rule will not help. If yours is higher and it still does nothing, your selector never matched — the tree is not what you think it is.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="ecosystem.html"><b>ecosystem.html</b>(1,3,0) against (2,4,0), recorded at the foot of the stylesheet rather than quietly fixed</a>
+        <a href="workbook.html"><b>workbook.html</b>chapters three and four, with the drill that computes both triples</a>
+        <a href="automat.html"><b>automat.html</b>devmode's <em>PROBE</em>, which computes the triple live including :has/:is/:where</a>
+      </div>
+      <div class="rel">
+        <a href="#the-lookup-table">A lookup table is auditable</a>
+        <a href="#the-zero-counter">The counter that prints zero</a>
+        <a href="#the-query-string">The half of the URL CSS cannot read</a>
+        <s>cited by</s>
+        <a class="in" href="#the-constant-judge">The constant judge</a>
+        <a class="in" href="#the-lookup-table">A lookup table is auditable</a>
+        <a class="in" href="#the-zero-counter">The counter that prints zero</a>
+        <a class="in" href="#the-query-string">The half of the URL CSS cannot read</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-lookup-table">
+      <h3><a href="#the-lookup-table">A lookup table is auditable</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">CSS has no multiplication over state, so you write the products. That is not only a defeat.</p>
+      <p class="b">When an outcome depends on two or three inputs together, there is no expression available — there is a row per combination, and somebody typed every one. Three inputs by four options is twelve rules. Reading × circuit × hour is twenty-four.</p>
+      <p class="b">The argument for it: every cell is visible, every cell was a decision, and a reviewer can point at row nine and say <em>THAT ONE IS WRONG</em> without reading any logic. An expression hides its cases; a table cannot. When the table gets long enough to hurt, that is information — it means the model has more state than the thing it models deserves, and the answer is usually to cut an input rather than generate the rows.</p>
+      <p class="b">Know the ceiling before starting. The cost is the product, not the sum: two axes of three is nine and pleasant, three of four is sixty-four and needs a build step, four of five is six hundred and twenty-five and you should have reduced the model. Past about twenty rows this repository generates them from JSON — the page stays scriptless; the authoring does not have to be.</p>
+      <p class="b">And check first whether you wanted a count rather than a combination. Half the tables people write by hand were a counter.</p>
+      <div class="test"><span>the test</span><p>Ask whether the outcome depends on <em>WHICH</em> or on <em>HOW MANY</em>. If how many, it is one counter and no table. If which, count the product before you start typing.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="pulse.html"><b>pulse.html</b>24 enumerated circuits — reading × circuit × hour × text</a>
+        <a href="bench.html"><b>bench.html</b>17 judges × 12 circuits, and the one card with no condition on it</a>
+        <a href="workbook.html"><b>workbook.html</b>chapter seven, with the ceiling stated in rows</a>
+      </div>
+      <div class="rel">
+        <a href="#cascade-order">Cascade order settles only ties</a>
+        <a href="#the-zero-counter">The counter that prints zero</a>
+        <a href="#the-query-string">The half of the URL CSS cannot read</a>
+        <s>cited by</s>
+        <a class="in" href="#cascade-order">Cascade order settles only ties</a>
+        <a class="in" href="#the-zero-counter">The counter that prints zero</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-zero-counter">
+      <h3><a href="#the-zero-counter">The counter that prints zero</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">Declare it, increment it with nothing, print it. The only way a stylesheet can state a negative.</p>
+      <p class="b">A sentence saying &quot;no opinion carries a drafter's name&quot; is a claim the reader has to take. A counter named <code>named</code>, declared on the body, incremented by no rule anywhere in the file, and printed in the tally, is the same claim in a form the reader can watch fail to move while they change every control on the page.</p>
+      <p class="b">It is used three times in this yard and it is the same instrument each time: <code>named</code> on the bench, <code>gaps</code> on the quiet storm set, <code>burn</code> on the aerostat riding the air. In each case the interesting number is the one that stays at zero under every setting, and the only way to make a zero legible is to give it somewhere to have gone up.</p>
+      <p class="b">The cost is that a reader must trust the file — a counter incremented nowhere is indistinguishable from a counter someone forgot to wire. Which is why the pages that use it say so in the stylesheet, in the comment next to the declaration, where the person checking is already looking.</p>
+      <div class="test"><span>the test</span><p>Search the stylesheet for the counter's name. If <code>counter-increment</code> mentions it anywhere, the zero is a result; if it does not, the zero is an assertion — and the page should say which.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="bench.html"><b>bench.html</b><code>named</code> — 40 disposed, 12 drafted, 0 bearing a drafter, under every setting</a>
+        <a href="rapture.html"><b>rapture.html</b><code>gaps</code> in a set built out of overlaps</a>
+        <a href="buddha.html"><b>buddha.html</b>the matter counter reading 1 under both nouns while the capability counter moves</a>
+      </div>
+      <div class="rel">
+        <a href="#the-attribution-gap">The attribution gap</a>
+        <a href="#the-lookup-table">A lookup table is auditable</a>
+        <a href="#cascade-order">Cascade order settles only ties</a>
+        <s>cited by</s>
+        <a class="in" href="#the-ledger">The ledger</a>
+        <a class="in" href="#the-attribution-gap">The attribution gap</a>
+        <a class="in" href="#cascade-order">Cascade order settles only ties</a>
+        <a class="in" href="#the-lookup-table">A lookup table is auditable</a>
+        <a class="in" href="#the-chosen-denominator">The chosen denominator</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-query-string">
+      <h3><a href="#the-query-string">The half of the URL CSS cannot read</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">CSS reads the fragment through :target. It cannot read the query. Nothing can. So that is where the script layer lives.</p>
+      <p class="b">A document has exactly one <code>:target</code> at a time, and the fragment is the only durable state a scriptless page has — it survives reload, it is in the bookmark, it goes in a message, Back is undo. The query string is the other half of the same address and it is invisible to the style layer completely.</p>
+      <p class="b">That asymmetry is not a limitation to work around, it is a channel. <code>automat.js</code> and <code>devmode.js</code> are wired into every page in this yard and are inert unless the address carries <code>?run</code> or <code>?dev</code>. Open a board plainly and nothing runs and the stylesheet decides everything, exactly as before. Open it with a query and a script is pressing the controls — and the two layers cannot collide, because they read different halves of the same URL.</p>
+      <p class="b">The claim was never that there is no script file. It was that the logic is the cascade, and that is intact and now checkable from inside the page.</p>
+      <div class="test"><span>the test</span><p>Open any board without a query string and count the script tags that do anything. Then open it with ?dev and use <em>CENSUS</em>, which counts them for you and says which are inert.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="persist.html"><b>persist.html</b>six states, no inputs at all, every control a link — and the query stated as write-only</a>
+        <a href="automat.html"><b>automat.html</b>the channel, and 45 boards driven through it</a>
+        <a href="workbook.html"><b>workbook.html</b>chapter eight, and the honest answer to wanting two independent durable axes</a>
+      </div>
+      <div class="rel">
+        <a href="#the-orbit">The orbit</a>
+        <a href="#cascade-order">Cascade order settles only ties</a>
+        <a href="#decentralization">Decentralization</a>
+        <s>cited by</s>
+        <a class="in" href="#cascade-order">Cascade order settles only ties</a>
+        <a class="in" href="#the-lookup-table">A lookup table is auditable</a>
+      </div>
+    </section>
+    <section class="e c-number s-settled" id="the-orbit">
+      <h3><a href="#the-orbit">The orbit</a>
+        <i class="k">number</i><i class="d">settled</i></h3>
+      <p class="short">lcm over the tribes of (period × steps). The beats before a board is in an arrangement it has held before.</p>
+      <p class="b">It is the honest measure of an endless thing, and it is computed in two places independently — in the HUD at runtime and in the generator that builds the wall — rather than asserted in either.</p>
+      <p class="b">It matters because &quot;endless&quot; is cheap to claim. A run whose components all move on period 1 only ever visits the diagonal of its state space and returns to the start almost immediately; it looks endless and is a short loop. Coprime periods make the combined orbit the lcm, which for a board with a sixteen-checkbox bank leaves the safe integers early enough that the arithmetic has to be done in BigInt.</p>
+      <p class="b">So the number is a claim you can check about a property you would otherwise have to take on faith, which is the same move as the zero counter and the printed division.</p>
+      <div class="test"><span>the test</span><p>Set every period to 1 and compute the orbit again. If a system's endlessness survives that, it was structural; if the orbit collapses to the number of steps in one component, the endlessness was the cadences and not the design.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="automat.html"><b>automat.html</b>an orbit on every tile, computed from the board's own controls</a>
+        <a href="rapture.html"><b>rapture.html</b>a set with no last record and a superrotation with no last lap</a>
+        <a href="clans.html"><b>clans.html</b>six cadences chosen pairwise coprime, so the lcm is their product and the board does not repeat for 30,030 firings — the orbit as a design decision rather than an observation</a>
+      </div>
+      <div class="rel">
+        <a href="#decentralization">Decentralization</a>
+        <a href="#caught-up">Caught up</a>
+        <s>cited by</s>
+        <a class="in" href="#decentralization">Decentralization</a>
+        <a class="in" href="#caught-up">Caught up</a>
+        <a class="in" href="#the-query-string">The half of the URL CSS cannot read</a>
+      </div>
+    </section>
+    <section class="e c-concept s-settled" id="syndication">
+      <h3><a href="#syndication">Syndication</a>
+        <i class="k">concept</i><i class="d">settled</i></h3>
+      <p class="short">Two or more, acting as one, sitting where everything has to pass. Not one — one is a monopoly. It taxes the rate, never the stock.</p>
+      <p class="b"><em>YOU ALONE CANNOT BE A SYNDICATE</em>, and that is not a nicety of usage, it is the whole structure. A single party whose removal disconnects two others is a cut vertex, and a cut vertex is a monopoly or a bottleneck. A syndicate is a <em>COMBINATION</em>: a set of two or more whose members are individually removable and collectively not. They are a cut SET, and they behave as one.</p>
+      <p class="b">The consequence is the useful part and it is not obvious. Remove any single member of a syndicate and nothing happens, because the others cover. Which means the standard test for centralisation — delete one component and see whether anything else moves — is <em>STRUCTURALLY BLIND</em> to syndication. It will return a clean result on an arrangement that is entirely captured. To find a syndicate you have to delete combinations, and combinations are where nobody looks because there are so many more of them.</p>
+      <p class="b">So the procedure has two halves. Find the minimal sets whose removal disconnects: sets where the whole set cuts and no proper subset of it does. Then ask whether the members are <em>CORRELATED</em> — do they price, refuse and time together? A minimal cut set of independent parties is just thin redundancy and it is fine. The same set moving in step is a syndicate, and no member of it has to know that.</p>
+      <p class="b"><em>NOW THE HALF THAT IS USUALLY GOT WRONG</em>. Syndication is a hindrance and not a loss factor. It acts on the RATE at which you gain and never on the <em>STOCK</em> you already hold. A toll makes the road slower and the journey dearer; it does not reach into the cart. Everything a syndicate can do sits in that sentence — slow you, lengthen your path, price your passage, refuse you a turn — and not one of those subtracts what you already brought.</p>
+      <p class="b">Which is why a base can run on a law that nothing ever goes down and still take this seriously. The two do not conflict. Being syndicated means climbing at a worse rate than you otherwise would have, forever, and seeing it requires comparing yourself against a counterfactual rather than against yesterday. That is exactly why it is invisible from inside, and it is the second reason to trust the structural test over the felt experience.</p>
+      <p class="b">A party that takes what you already hold is not a syndicate. That is confiscation: a different mechanism with a different remedy. You can be robbed by somebody holding no position at all, and you can be thoroughly syndicated by people who never take a thing.</p>
+      <div class="test"><span>the test</span><p>Three ways to break this and they are not equally easy. <em>FIRST</em>, the cheap one: find a genuine syndicate that is a single party. If you can, the combination requirement is wrong and the word means something closer to bottleneck. <em>SECOND</em>: find a minimal cut set of two or more whose members demonstrably do NOT move together — independent pricing, independent refusals, independent timing — and which everybody nonetheless agrees is a syndicate. That would mean correlation is not required and the shape alone is enough. <em>THIRD</em>, and this is the load-bearing one: find a case where the set removes what was already earned rather than slowing what is earned next, and show it is syndication rather than confiscation wearing its coat. If that case stands, the hindrance-not-loss claim is false, and this entry and the +1 law cannot both survive it.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="syndicate.html"><b>syndicate.html</b>six indicators, each a structural fact checkable on paper rather than a vibe — and none of them requires anybody to be villainous or even aware</a>
+        <a href="corps.html"><b>corps.html</b>the cut-vertex routine over a command tree names 7 of 20, every node with more than one neighbour — the worked example of what syndication is NOT, since each of those is one party alone</a>
+        <a href="missouri.html"><b>missouri.html</b>ten sites all closing on one revenue model whose ceiling is set by the road: too much of one thing arrived at by choosing on the wrong number, with nobody combining and nobody at fault</a>
+      </div>
+      <div class="rel">
+        <a href="#decentralization">Decentralization</a>
+        <a href="#fungibility">Fungibility</a>
+        <a href="#the-relay">The relay</a>
+        <a href="#the-gas">The gas</a>
+        <s>cited by</s>
+        <a class="in" href="#the-chosen-denominator">The chosen denominator</a>
+      </div>
+    </section>
+    <section class="e c-mechanism s-settled" id="the-serial">
+      <h3><a href="#the-serial">The serial</a>
+        <i class="k">mechanism</i><i class="d">settled</i></h3>
+      <p class="short">The smallest possible piece of memory, and enough on its own to end fungibility. Not a security feature. A pricing one.</p>
+      <p class="b">Fungibility is destroyed by memory and by nothing else. That is lesson three, and it is easy to accept as an abstraction and hard to believe until you watch it happen on a population you did not construct to prove it.</p>
+      <p class="b">houses.html carries 544 luxury houses and records, for each, whether its goods routinely leave the workshop carrying a serial, a movement number, a date code, a blind stamp or a certificate. The board then sorts the crafts by how completely each one remembers. Nobody chose that order; it falls out of the data.</p>
+      <p class="b"><em>WATCHES</em> 100%. Leather 86%. Jewelry 85%. Shoes 85%. Then a long fall, and at the bottom loungewear, hosiery and swim at zero.</p>
+      <p class="b">That order is the finding, and it is the same order as something else entirely: the strength of the resale market. Watches and handbags have deep, liquid, price-discovering secondary markets. Hosiery and swimwear have none. The correspondence is not a coincidence and the direction of causation is the interesting part — a resale market IS a ledger. It is a distributed, adversarial, continuously-updated record of which individual object is which, and once one exists the goods inside it have stopped being interchangeable whether or not the maker intended it.</p>
+      <p class="b">The jewellery figure has already moved once, from 92 per cent to 85, when the African cohort brought in bench jewellers who do not number their work. That is the claim behaving correctly: the ladder is a property of the population, so it changes when the population does, and any figure here that could not move would not be a measurement.</p>
+      <p class="b">So the serial is not primarily an anti-counterfeiting device, though it is sold as one. It is the mechanism by which a house converts a category into a set of individually-priced objects. Hermès blind-stamps the year and the workshop. Patek Philippe keeps an archive going back to 1839 and sells extracts from it — a house running a provenance registry as a product line. Rolex bought Bucherer in 2023 and with it the trade in its own second-hand serials, which is a maker acquiring the ledger that prices its used goods.</p>
+      <p class="b">The houses that sit at zero are not behind. They are selling the one thing luxury otherwise refuses to sell: a fungible good. And it is no accident that they are also the categories where holding a price is hardest, because a fungible good can only compete on price. Ready-to-wear and lingerie live there. So does most of what anybody actually wears.</p>
+      <p class="b">The uncomfortable half: a chain does exactly this, to money. Every argument for provenance on the ledger is an argument for the property that makes a handbag worth more than the identical handbag beside it.</p>
+      <div class="test"><span>the test</span><p>Find a category with a deep secondary market and no per-object identifier, or one with per-object identifiers and no price spread between identical items. Either falsifies the claim that memory and fungibility are the same axis. Bullion is the interesting near-miss: good delivery bars are serialled and assayed, yet trade at a common price — check whether that survives inspection, because if it does it belongs in this entry rather than outside it.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="houses.html"><b>houses.html</b>544 houses sorted by whether their goods carry a serial: watches 100%, leather 86%, jewelry 85%, shoes 85%, and loungewear, hosiery and swim at zero</a>
+        <a href="treasury.html"><b>treasury.html</b>the same claim as a switch — turn the ledger's memory on and two units of one denomination stop being interchangeable while you watch</a>
+        <a href="bank.html"><b>bank.html</b>a ledger view that keeps provenance deliberately, which is the property a chain does not carry</a>
+      </div>
+      <div class="rel">
+        <a href="#fungibility">Fungibility</a>
+        <a href="#the-wallet">The wallet</a>
+        <a href="#the-ledger">The ledger</a>
+        <a href="#the-bag">Fish in a bag</a>
+        <a href="#the-chosen-denominator">The chosen denominator</a>
+        <s>cited by</s>
+        <a class="in" href="#the-chosen-denominator">The chosen denominator</a>
+      </div>
+    </section>
+    <section class="e c-method s-settled" id="the-chosen-denominator">
+      <h3><a href="#the-chosen-denominator">The chosen denominator</a>
+        <i class="k">method</i><i class="d">settled</i></h3>
+      <p class="short">A percentage is a claim about its denominator. If you assembled the population, the figure measures your assembling and reports it as a fact about the world.</p>
+      <p class="b">This entry exists because it was got wrong here, in this repository, by the process that wrote the board it now describes.</p>
+      <p class="b">houses.html holds 544 houses. Eighty-five of them sit in LVMH, Kering, Richemont or Prada. The first version of the board printed 16% and called it concentration. The arithmetic was correct. The sentence was false.</p>
+      <p class="b">It was false because half those cohorts are a group's <em>ACTUAL ROSTER</em> — nobody chose who is inside LVMH, the group did — and the other half are <em>SURVEYS</em>, where the choosing was done by whoever built the list. And the surveys had been built with a deliberate bias toward independents: forty-odd Naples tailors and Northampton lasters, a hundred and forty lingerie houses, every small maker that could be named. Every one of those decisions pushed the denominator up and the percentage down. The figure was not measuring the luxury industry. It was measuring an editorial preference for including small independent houses, and presenting it as market structure.</p>
+      <p class="b">The repair is not a better estimate. It is a smaller claim over a defined population: of the 147 houses here that are held in a group, 85 (58%) are in the big four. That number is defensible because nobody chose its members. And even it is reported on the board as a share of the houses <em>NAMED HERE</em>, because the layer is not the market either.</p>
+      <p class="b"><em>THE GENERAL SHAPE</em>. Any ratio whose denominator you assembled is a measurement of your assembling. This is not a rare failure and it does not require bad faith — it requires only that the same person decide what goes in the population and then compute a percentage over it, which is the ordinary condition of anybody building a dataset. The tell is that the number moves when you add more of what you already have plenty of.</p>
+      <p class="b">It generalises past this yard. Survey response rates, benchmark suites, curated corpora, any 'X% of leading firms' where somebody picked the leading firms, and every league table whose entry criteria are set by the body publishing it. The failure is never in the division.</p>
+      <div class="test"><span>the test</span><p>Take any percentage and ask two questions in order. First: what population does the denominator claim to be? Second: who decided which members it has? If the answer to the second is the same party computing the ratio, the figure is about them until proven otherwise. The falsification is mechanical — add more members of an under-represented kind and see whether the headline number moves. If it does, it was never measuring what it said.</p></div>
+      <div class="ev"><span>demonstrated on</span>
+        <a href="houses.html"><b>houses.html</b>cohorts marked roster or survey, and the big-four share computed over the 147 rostered houses rather than the 519 total</a>
+        <a href="instruments.html"><b>instruments.html</b>every figure carries the bar it was measured to, so a value cannot be quoted finer than it was known</a>
+      </div>
+      <div class="rel">
+        <a href="#the-serial">The serial</a>
+        <a href="#the-constant-judge">The constant judge</a>
+        <a href="#syndication">Syndication</a>
+        <a href="#the-zero-counter">The counter that prints zero</a>
+        <s>cited by</s>
+        <a class="in" href="#the-serial">The serial</a>
+      </div>
+    </section>
+
+  <div class="count">of 35 entries showing. A hidden element generates
+    no box and so increments no counter &mdash; this number is not maintained by
+    anything, it is what <code>display:none</code> already means. <b>Nothing
+    happens at 35.</b></div>
+
+  <h2>What the base knows about itself <b>checked at build time, not claimed</b></h2>
+  <div class="panel">
+    <div class="stats">
+      <div class="st"><span>entries</span><b>35</b></div>
+      <div class="st"><span>boards cited</span><b>41</b></div>
+      <div class="st ok"><span>broken citations</span><b>0</b></div>
+      <div class="st ok"><span>undemonstrated</span><b>0</b></div>
+    </div>
+    <p class="n"><b>Most cited:</b>
+      <a href="bench.html">bench.html</a> &times;9 &middot; <a href="chain.html">chain.html</a> &times;7 &middot; <a href="automat.html">automat.html</a> &times;6 &middot; <a href="ecosystem.html">ecosystem.html</a> &times;6 &middot; <a href="syndicate.html">syndicate.html</a> &times;6.
+      <b>Most depended-on idea:</b> Fungibility, cited by
+      9 other entries. The inbound half of that graph is
+      computed here rather than written in the JSON, because it is the half
+      nobody maintains by hand and the half that says which ideas are actually
+      load-bearing.</p>
+    <p class="n"><b>Every entry cites at least one board you can open.</b>
+      That is the current state and it is not a permanent property &mdash; the
+      next entry written before its demonstration will appear in this paragraph
+      by name, automatically, which is the point of generating the page rather
+      than writing it.</p>
+
+
+  </div>
+
+  <h2>How to add to it <b>one object in kb.json, then re-run</b></h2>
+  <div class="panel">
+    <p class="n">An entry is <code>id</code>, <code>term</code>,
+      <code>class</code>, <code>settled</code>, <code>short</code>,
+      <code>body[]</code>, <code>test</code>, <code>evidence[]</code> and
+      <code>see[]</code>. The generator checks the citations exist, computes the
+      inbound links, recounts the filters, and rebuilds the census. Editing
+      <code>kb.html</code> directly edits a build artefact and will be
+      overwritten.</p>
+    <p class="n"><b>The one non-negotiable field is <code>test</code>.</b> Not
+      because the format demands it &mdash; nothing would break &mdash; but
+      because an entry that cannot say what would show it false is not knowledge,
+      it is a position, and a base full of positions is exactly the thing a
+      syndicate builds when it wants agreement rather than fact. If you cannot
+      write the test, write the entry as <code>open</code> and let it sit in the
+      list at the foot of the page until you can.</p>
+  </div>
+
+  <footer>
+    35 entries &middot; 41 boards cited &middot;
+    0 broken &middot; 0 undemonstrated.
+    Generated by <a href="kb.mjs">kb.mjs</a> from <a href="kb.json">kb.json</a>.
+    <br><a href="theory.md">theory.md</a>, the argument &middot;
+    <a href="workbook.html">the workbook</a>, the technique &middot;
+    <a href="automat.html">the automat</a>, the script layer &middot;
+    <a href="index.html">the yard</a>
+  </footer>
+</div>
+<script src="automat.js"></script>
+<script src="devmode.js"></script>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->

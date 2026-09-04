@@ -1,0 +1,16 @@
+{
+ "id": "act-035",
+ "order": 35,
+ "year": 4,
+ "day": 1235,
+ "parties": [
+  "sarpedon"
+ ],
+ "actor": "Sarpedon",
+ "with": null,
+ "verb": "gave back",
+ "object": "a body for its weight in gold",
+ "place": "on the plain of Scamander",
+ "side": "troy",
+ "text": "Sarpedon gave back a body for its weight in gold, on the plain of Scamander, in the fourth year."
+}

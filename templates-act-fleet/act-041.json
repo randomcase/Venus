@@ -1,0 +1,17 @@
+{
+ "id": "act-041",
+ "bench": "fleet",
+ "order": 41,
+ "year": 5,
+ "day": 1455,
+ "parties": [
+  "priam"
+ ],
+ "actor": "Priam",
+ "with": null,
+ "verb": "refused",
+ "object": "the ransom for Chryseis",
+ "place": "at Aulis",
+ "side": "troy",
+ "text": "Priam refused the ransom for Chryseis, at Aulis, in the fifth year."
+}

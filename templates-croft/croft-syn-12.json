@@ -1,0 +1,12 @@
+{
+ "id": "croft-syn-12",
+ "kind": "croft",
+ "syndicate": "syn-12",
+ "tranche": 12,
+ "seat": "the open ledger",
+ "period": 37,
+ "yield": 5,
+ "cap": 30,
+ "text": "The croft at the open ledger, growing sealing wax for the 12th syndicate every 37 days.",
+ "wovenBy": "syn-12"
+}

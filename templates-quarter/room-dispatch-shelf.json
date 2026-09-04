@@ -1,0 +1,10 @@
+{
+ "kind": "room",
+ "id": "dispatch-shelf",
+ "name": "The dispatch shelf",
+ "km2": 5000,
+ "light": "one lamp over the stand",
+ "what": "A pigeonhole for every sealed dispatch, and a stand to open one on.",
+ "pieces": 27,
+ "wovenBy": "the bridge"
+}

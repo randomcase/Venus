@@ -1,0 +1,17 @@
+{
+ "id": "act-045",
+ "order": 45,
+ "year": 5,
+ "day": 1596,
+ "parties": [
+  "aeneas",
+  "paris"
+ ],
+ "actor": "Aeneas",
+ "with": "Paris",
+ "verb": "buried",
+ "object": "a companion under a mound",
+ "place": "under the wall",
+ "side": "troy",
+ "text": "Aeneas and Paris buried a companion under a mound, under the wall, in the fifth year."
+}

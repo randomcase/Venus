@@ -1,0 +1,19 @@
+{
+ "id": "paris",
+ "order": 2,
+ "name": "Paris the younger",
+ "kind": "archer",
+ "glyph": "➶",
+ "colour": "#e0a060",
+ "cost": 9000,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 170,
+  "damage": 2.2,
+  "rate": 1.4,
+  "crit": 0.1,
+  "critMul": 5
+ },
+ "does": "Long reach, light arrows, and one in ten finds the place nobody armoured.",
+ "text": "The cause of it. He shoots better than the story allows, and you do not know which wedding he is at."
+}

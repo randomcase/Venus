@@ -1,0 +1,14 @@
+{
+ "id": "l3-fence-2",
+ "depth": 3,
+ "wovenBy": "l4-fence",
+ "kind": "fence",
+ "name": "The fence pattern 2: wattle",
+ "fixed": {
+  "wall": "wattle"
+ },
+ "open": [
+  "keeps"
+ ],
+ "weaves": 2
+}

@@ -1,0 +1,16 @@
+{
+ "id": "saga41-hrafn-band-7",
+ "kind": "band",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "name": "skirmishers of Hrafnsson",
+ "strength": 5,
+ "raids": false,
+ "cost": 491,
+ "upkeep": 1,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 5; eats 1 hydrogen a day.",
+ "wovenBy": "hrafn",
+ "saga": 41
+}

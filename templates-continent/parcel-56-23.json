@@ -1,0 +1,16 @@
+{
+ "id": "parcel-56-23",
+ "kind": "parcel",
+ "x": 56,
+ "y": 23,
+ "region": "Ulfrun Regio",
+ "clan": "ingrid",
+ "resource": "record",
+ "period": 13,
+ "terrain": "plains",
+ "fertility": 1,
+ "yield": 2.48,
+ "text": "volcanic plains, the easy ground, in Ulfrun Regio, sown from a longhouse loft for record.",
+ "wovenBy": "ingrid-pile-3",
+ "chain": "seven deep"
+}

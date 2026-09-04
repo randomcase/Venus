@@ -1,0 +1,14 @@
+{
+ "id": "l2-crop-2-2",
+ "depth": 2,
+ "wovenBy": "l3-crop-2",
+ "kind": "crop",
+ "name": "The crop mould 2.2: rye, autumn",
+ "fixed": {
+  "plant": "rye",
+  "season": "autumn"
+ },
+ "open": [
+  "days"
+ ]
+}

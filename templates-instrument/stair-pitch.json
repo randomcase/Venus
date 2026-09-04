@@ -1,0 +1,15 @@
+{
+ "id": "stair-pitch",
+ "order": 12,
+ "quantity": "Pitch of the hall stair",
+ "value": 23.0,
+ "unit": "degrees",
+ "uncertainty": 0.1,
+ "kind": "computed",
+ "method": "atan(rise / going) from the declared 153 mm by 360 mm.",
+ "used_for": "Whether the stair reads as processional or as a ladder, and the comparison against a 42-degree service stair.",
+ "boards": [
+  "hall.html"
+ ],
+ "wrong_if": "Nothing — it is arithmetic on two numbers I chose. This is a DESIGN figure rather than a measurement, and the layer marks it as such so nobody mistakes it for a fact about the world."
+}

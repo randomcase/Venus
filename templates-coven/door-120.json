@@ -1,0 +1,11 @@
+{
+ "id": "door-120",
+ "kind": "door",
+ "door": 120,
+ "syndicate": "syn-13",
+ "tranche": 13,
+ "keeper": "p-37",
+ "share": 111111.11,
+ "text": "Door 120 of 200. Draws on the 13th tranche, kept by Tarnwyn Umbra, signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door 200.",
+ "wovenBy": "syn-13"
+}

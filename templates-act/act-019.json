@@ -1,0 +1,16 @@
+{
+ "id": "act-019",
+ "order": 19,
+ "year": 2,
+ "day": 650,
+ "parties": [
+  "priam"
+ ],
+ "actor": "Priam",
+ "with": null,
+ "verb": "sacked",
+ "object": "a city on the coast",
+ "place": "in Priam's hall",
+ "side": "troy",
+ "text": "Priam sacked a city on the coast, in Priam's hall, in the second year."
+}

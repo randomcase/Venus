@@ -1,0 +1,163 @@
+{
+ "id": "air-workbook",
+ "kind": "workbook",
+ "order": 7,
+ "respondsTo": "air",
+ "name": "Bomb warfare, a workbook",
+ "also": "ten pages, until we understand bomb warfare; each page a lesson, an exercise, and the answer folded under it",
+ "premise": "A workbook is not a war room. The room states; the workbook asks. Ten pages, each one a thing you must be able to do before turning it — count, classify, explain, predict — and the answers folded under the questions, because a workbook you cannot check is a claim.",
+ "pages": [
+  {
+   "n": 1, "title": "Scale",
+   "lesson": "Between 1964 and 1973 the United States and its allies dropped about 7.6 million tons of bombs on Vietnam, Laos and Cambodia. All sides in the Second World War, in every theatre, dropped about 2.1 million. Laos took about 2 million tons in 580,000 sorties. Laos had about 2.7 million people. Numbers this size mean nothing until they are divided by something.",
+   "exercises": [
+    "Divide 7.6 million tons by the days between 5 August 1964 and 15 August 1973. What is the daily rate?",
+    "Divide 2 million tons by 2.7 million Lao. How many tons per person?",
+    "Divide 580,000 sorties over Laos by nine years. How often did a plane drop on Laos?",
+    "Why does the war room say “more than triple” WWII rather than giving the ratio to two decimals?"
+   ],
+   "answers": [
+    "3,298 days; about 2,300 tons a day, every day, for nine years.",
+    "About three-quarters of a ton per person — roughly one 500-pound bomb for every man, woman and child, three times over.",
+    "One sortie every eight minutes, day and night, for nine years.",
+    "Because the WWII figure is itself an estimate (2.0–2.2 million by source) and the Indochina figure is 7.5–7.8 million; a ratio of “3.6” would claim a precision the record does not have. Say what the numbers support."
+   ]
+  },
+  {
+   "n": 2, "title": "The three roles",
+   "lesson": "Bombing has three jobs. Strategic: fixed things deep in the enemy’s country — power, ports, rail, factories — to destroy capacity and will. Interdiction: moving things and the routes they move on — trucks, bridges, passes — to keep the enemy from reaching the front. Tactical, or close air support: the battlefield itself, for the troops in contact. The same aircraft did all three; the results were not the same.",
+   "exercises": [
+    "Classify each target: the Thanh Hoa bridge; the Haiphong docks; a truck park on Route 9 in Laos; a B-52 cell around Khe Sanh in February 1968; the Hanoi thermal power plant; the Mu Gia pass.",
+    "Which role produced most of the tonnage, and which the most result per ton?",
+    "Which role is missing from the list, and why does the room count it anyway?"
+   ],
+   "answers": [
+    "Bridge: interdiction (it was hit 800 times before laser bombs dropped it in 1972). Docks: strategic. Truck park: interdiction. Khe Sanh: tactical. Power plant: strategic. Mu Gia: interdiction.",
+    "Interdiction had the most tonnage (the Trail took the largest share, about 3 million tons on Laos and the panhandle). Tactical had the most result per ton: troops in contact with air on call did not lose fixed battles after 1965. Strategic had the least, once, and the most, once, on page 8.",
+    "Defoliation and napalm: not bombs, but delivered by the same aircraft on the same targets. The room counts them in the cost table because the ground does not distinguish."
+   ]
+  },
+  {
+   "n": 3, "title": "Rolling Thunder, 1965–1968",
+   "lesson": "A sustained, graduated campaign against the North: 864,000 tons in three and a half years, meant to raise the price of supporting the insurgency until Hanoi stopped. It did not. North Vietnam was agrarian; there was little industry to destroy; the weapons came from China and the Soviet Union by rail and by ship; and the price was paid by people who were not consulted about whether to keep paying it. The North’s answer was to disperse, dig, repair, and build the densest air defence in the world under the bombs.",
+   "exercises": [
+    "The campaign was “graduated”: it started small and grew. State the theory behind that, in one sentence, and then state why it fails against a country that has already decided.",
+    "List three things a strategic campaign needs the enemy to have, and check each against North Vietnam in 1965.",
+    "922 aircraft were lost in Rolling Thunder. Was that a high loss rate? Compute it against roughly 300,000 sorties."
+   ],
+   "answers": [
+    "Theory: signal resolve and leave room for the enemy to stop before the worst; each step is a message. Failure: a country that has decided reads each step as proof it can absorb the next one, and gradualism gives it time to build defences that a sudden campaign would not have faced.",
+    "Concentrated industry: no, mostly rice and small plants. Dependence on its own production: no, weapons imported. A population that can pressure the government: no, a party state at war. Three for three against.",
+    "About 0.3% per sortie: low by WWII standards, ruinous over years — a squadron flying 100 sorties a month lost a plane every three months, and the crews became the POWs of page 6."
+   ]
+  },
+  {
+   "n": 4, "title": "The restrictions",
+   "lesson": "Johnson chose Rolling Thunder targets at Tuesday lunches with Rusk, McNamara and Rostow, and kept Hanoi, Haiphong, the dikes and a buffer along the Chinese border off the list for most of the campaign. The Chiefs wanted the ninety-four-target list hit in sixteen days. The restraint was not squeamishness: a Soviet ship sunk at Haiphong or a bomb in China was the road to a wider war, and the Korean lesson of 1950 was that China comes in.",
+   "exercises": [
+    "The airmen’s complaint was that they fought “with one hand tied”. The civilians’ answer was that the other hand was holding off China. Write both cases in two sentences each.",
+    "Name the one target category the restrictions protected that would have killed the most people if struck, and say why it was never hit.",
+    "Which president lifted the restrictions, when, and what had changed that made it safe to?"
+   ],
+   "answers": [
+    "Airmen: gradual, restricted bombing let the North build defences and move supplies through sanctuaries; hit everything at once and the war ends early. Civilians: the war was being fought to contain China without fighting China; every restriction bought that, and the airmen’s early victory was a bet on Chinese restraint that Korea had already lost once.",
+    "The Red River dikes: breaching them would have flooded the delta and drowned or starved hundreds of thousands. Never authorised under either president, because it was recognisably a crime and because it would have ended any negotiation.",
+    "Nixon, May 1972: Linebacker I hit Haiphong and mined it. What had changed was Beijing — he had been there in February — and Moscow, where he went the same month the mines went in. The buffer mattered less when the buffer’s owner was a guest."
+   ]
+  },
+  {
+   "n": 5, "title": "The Trail",
+   "lesson": "The Ho Chi Minh Trail was not a road but a network: 16,000 kilometres of roads, paths and rivers through Laos and Cambodia, with truck parks, fuel pipelines, repair crews and anti-aircraft guns. The interdiction campaigns — Barrel Roll, Steel Tiger, Commando Hunt — dropped about 3 million tons on it and used a sensor field (Igloo White) with a computer in Thailand to find the trucks. The Jason scientists reported in 1966 and 1967 that interdiction could not cut the flow below what Hanoi needed, which was small. It continued for six more years.",
+   "exercises": [
+    "The North needed about 60 tons a day in the South in 1967 — about fifteen truckloads. If the Trail could move 300 tons a day and the bombing destroyed 30% of it, how much arrived?",
+    "Name three adaptations that defeated interdiction from the air.",
+    "Why did the campaign continue after its own analysts said it could not work?"
+   ],
+   "answers": [
+    "210 tons, three and a half times what was needed. The Trail was oversized on purpose; destroying most of it still delivered enough, and the sensors counted trucks that were already surplus.",
+    "Moving at night under canopy; bridges built just under the water’s surface, invisible from the air; road repair by tens of thousands of volunteers overnight; a pipeline; decoy truck parks; and rerouting — the network had more routes than the planners had sorties.",
+    "Because it was measurable — trucks claimed, sorties flown — and the alternative, ground troops into Laos, was forbidden until Lam Son 719 in 1971 proved the ARVN could not do it. A campaign that produces numbers outlives one that produces results."
+   ]
+  },
+  {
+   "n": 6, "title": "Air defence, and the men who fell into it",
+   "lesson": "North Vietnam built the densest integrated air defence yet seen: Soviet SA-2 missiles (some 5,800 fired over the war), MiG-17s, 19s and 21s, and about 8,000 anti-aircraft guns, all tied by radar. The guns killed most aircraft; the SAMs forced aircraft low into the guns; the MiGs forced fighters to carry fewer bombs. The answer was Wild Weasel anti-radar flights, jamming pods, and later laser bombs. About 3,700 US fixed-wing aircraft were lost to all causes; 591 prisoners came home in 1973, most of them aircrew, some after seven years.",
+   "exercises": [
+    "5,800 SA-2s for about 200 kills. Compute the kill rate. Then explain why the missile still worked.",
+    "Rank the three threats — guns, SAMs, MiGs — by aircraft destroyed, and say why the ranking is misleading.",
+    "The POWs were officers, mostly pilots, mostly in the Hanoi Hilton. Why does the room list them under cost rather than under lives on the Ford page?"
+   ],
+   "answers": [
+    "About 3.5%. It worked because a pilot who sees a launch must dive to evade, and the dive puts him in the gun envelope; the missile’s job was to move the aircraft, and the guns did the killing.",
+    "Guns first by a wide margin, then SAMs, then MiGs. Misleading because each layer’s effect was to feed the next: the ranking measures the last cause, not the system.",
+    "Because their captivity ended with the war — Homecoming, February to April 1973 — and the room ends at the ending. What their captivity did to them afterward is on the Ford page, under lives, with the diagnosis that was named for it in 1980."
+   ]
+  },
+  {
+   "n": 7, "title": "Laos and Cambodia, the countries not at war",
+   "lesson": "Laos was neutral by the 1962 Geneva agreement and was bombed from December 1964 to 1973 without the campaign ever being acknowledged. Cambodia was neutral under Sihanouk and was bombed in secret from March 1969 (Menu, with falsified records) and openly after the 1970 coup, until 15 August 1973, when the law Congress had passed took effect. Cambodia took about 500,000 tons; Laos about 2 million. The dominoes that fell were these two.",
+   "exercises": [
+    "Explain how a bombing campaign can be secret for four years from Congress while being obvious to the people under it.",
+    "The 1973 cutoff was written by Congress, not chosen by the President. Find the article of impeachment that concerned this bombing and say what happened to it.",
+    "Historians argue whether the bombing helped make the Khmer Rouge. State the argument for and the argument against in one sentence each."
+   ],
+   "answers": [
+    "Dual reporting: crews were briefed on targets in Vietnam, flew to coordinates in Cambodia on a ground controller’s instruction, and the records were filed under the Vietnamese targets. The people under it knew; the people paying for it did not. Secrecy in bomb warfare is aimed at home, not at the target.",
+    "Article IV, House Judiciary Committee, July 1974: rejected 12–26. Congress had funded the war and would not impeach for a part of it that it had, by then, found out about and stopped.",
+    "For: the bombing drove peasants into the Khmer Rouge and gave it a recruiting story, and the recruitment surged where the bombs fell (Kiernan, Owen). Against: the Khmer Rouge’s ideology and leadership predated the bombing, and Hanoi’s and Beijing’s support mattered more (the counter-case in the same literature). Both are partly right; the tonnage is not in dispute."
+   ]
+  },
+  {
+   "n": 8, "title": "Linebacker, 1972",
+   "lesson": "In March 1972 the North sent tanks across the DMZ: a conventional invasion, with columns, depots and a supply line, which is what bombing is good at. Linebacker I hit it with laser-guided bombs, dropped the bridges that Rolling Thunder had missed for years, and mined Haiphong. The offensive stalled. In December, after the talks broke, Linebacker II sent B-52s over Hanoi and Haiphong for eleven days: 741 sorties, 15 B-52s lost, about 1,600 civilian dead, and the Accords signed four weeks later on terms close to October’s.",
+   "exercises": [
+    "Why did strategic bombing work in 1972 when it had failed in 1965–68? Give the two changes on the ground and the one in the air.",
+    "Linebacker II is credited with “bringing Hanoi back to the table”. Compare the October and January texts and say what the bombing bought, and for whom.",
+    "Fifteen B-52s in eleven days, out of about 200 committed. Was Linebacker II sustainable? Compute the loss rate and project it over a month."
+   ],
+   "answers": [
+    "On the ground: the enemy was a conventional army in the open, and the political constraint was gone after Beijing and Moscow. In the air: precision — laser-guided bombs put one aircraft on one bridge instead of hundreds of sorties. Bombing did not become more powerful; the target became bombable.",
+    "The January terms are the October terms with cosmetic changes; the North’s troops stayed in the South in both. What the bombing bought was Thieu’s signature — it showed Saigon that the United States would still bomb — and a claim, for Washington, that it had not been forced. Hanoi came back because it had already won the text.",
+    "About 2% per sortie for the bomber force at the start, worse on the nights the tactics did not change; over a month at that rate the committed force loses roughly half. It was stopped at eleven days because the targets ran out, and because it could not go on."
+   ]
+  },
+  {
+   "n": 9, "title": "The residue",
+   "lesson": "About 30% of cluster submunitions did not explode. Laos has an estimated 80 million of them in the ground; about 20,000 Lao have been killed or injured by them since 1975, half of them children. Vietnam counts some 100,000 UXO casualties since the war. Nineteen million gallons of herbicide, mostly Agent Orange, went over 4.5 million acres; 388,000 tons of napalm. The clearance in Laos, at the present rate, is measured in centuries.",
+   "exercises": [
+    "If the bombing ended in 1973 and the casualties continue in 2026, when does the war room end? Defend the room’s choice of 15 August 1973.",
+    "Compute: at the current clearance rate in Laos (about 1% of contaminated land per year at the funded pace), how long to finish? What does that number tell you about the ratio of dropping to clearing?",
+    "Which page of this workbook should the herbicide be on, and why is it on this one?"
+   ],
+   "answers": [
+    "The room ends when the dropping ends, because the room is about the decision to drop; the residue is on the Ford page under lives and on this page, because a workbook may follow a consequence past the room’s ending. Both dates are right for what they measure.",
+    "About a century. A nine-year campaign that takes a hundred years to undo: the ratio is roughly eleven years of clearing per year of bombing, and that is the number that belongs in any future room before the first sortie.",
+    "On page 2, as a fourth role, if roles are defined by what is delivered; on this page because it is defined by what remains. Herbicide was the one campaign whose effect was intended to last, and it did."
+   ]
+  },
+  {
+   "n": 10, "title": "The lever",
+   "lesson": "The war room fitted a line to the tonnage from the 1968 peak through 1971 and found it reached zero in mid-1974; the bombing actually ended in August 1973, because a law said so, and in 1972 the tonnage went back up by a third for one year to move a signature. Bomb warfare in this war was not a curve. It was a lever, pulled twice — 1965 and 1972 — and the second pull worked because the target had changed, not the lever. Everything the lever did in between fell on the Trail, Laos and the villages of the South.",
+   "exercises": [
+    "Final: in no more than five sentences, say what bomb warfare could do in Vietnam, what it could not, and what decided which.",
+    "State the three things the standard says a room must have, and say which of them this workbook has been about.",
+    "Turn to page 1 and do the first exercise again. Has the number changed?"
+   ],
+   "answers": [
+    "It could stop an army in the open, hold a besieged base, drop a bridge once precision arrived, and end a negotiation that was already ended. It could not make a decided government undecide, could not cut a supply line built to be cut, and could not find a peasant army under a canopy. What decided which was the target: bombing worked where there was something bombable and failed where the enemy had arranged that there was not, and the enemy had nine years to arrange it.",
+    "An ending, a gauge, and a prediction with its error stated. This workbook has been about the gauge — the tonnage — and about why the prediction misses: because the numbers were a lever and not a curve.",
+    "No. The number is the same 2,300 tons a day. What has changed is that you can now say what it was for and what it did, which is what “understanding bomb warfare” meant at the top of the workbook."
+   ]
+  }
+ ],
+ "sources": [
+  "Mark Clodfelter, The Limits of Air Power (1989)",
+  "Earl Tilford, Setup (1991)",
+  "Ben Kiernan and Taylor Owen, Bombs over Cambodia (2006); Kiernan, The Pol Pot Regime (1996)",
+  "Legacies of War; Mines Advisory Group; UXO Lao annual reports",
+  "Pentagon Papers, vol. IV, Rolling Thunder; the Jason reports of 1966–67",
+  "US Air Force Historical Research Agency sortie and tonnage tables"
+ ],
+ "text": "Ten pages on bomb warfare, each a lesson and an exercise with the answer folded under it, from scale to the lever.",
+ "wovenBy": "the bridge"
+}

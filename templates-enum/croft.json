@@ -1,0 +1,58 @@
+{
+ "id": "enum-croft",
+ "kind": "enum",
+ "family": "croft",
+ "path": "templates-enum/croft.json",
+ "note": "The fixed vocabulary of templates-croft/, mined from 21 of its 21 templates by enums.mjs. Kept in templates-enum/, never inside templates-croft/ itself, so nothing that scans templates-croft/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 21,
+ "sampledFiles": 21,
+ "fields": {
+  "kind": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 21,
+   "values": [
+    "croft"
+   ]
+  },
+  "seat": {
+   "type": "string",
+   "distinct": 12,
+   "samples": 21,
+   "values": [
+    "the borrowed hour",
+    "the cold store",
+    "the counted step",
+    "the fourth watch",
+    "the long gallery",
+    "the lower flue",
+    "the ninth arch",
+    "the open ledger",
+    "the quiet lamp",
+    "the salt stair",
+    "the thin wall",
+    "the turned key"
+   ]
+  },
+  "yield": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 21,
+   "values": [
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  "cap": {
+   "type": "number",
+   "distinct": 1,
+   "samples": 21,
+   "values": [
+    30
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

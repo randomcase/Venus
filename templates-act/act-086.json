@@ -1,0 +1,17 @@
+{
+ "id": "act-086",
+ "order": 86,
+ "year": 9,
+ "day": 3084,
+ "parties": [
+  "achilles",
+  "priam"
+ ],
+ "actor": "Achilles",
+ "with": "Priam",
+ "verb": "read",
+ "object": "the birds and counselled retreat",
+ "place": "among the ships",
+ "side": "fleet",
+ "text": "Achilles and Priam read the birds and counselled retreat, among the ships, in the ninth year."
+}

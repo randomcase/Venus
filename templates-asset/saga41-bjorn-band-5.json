@@ -1,0 +1,16 @@
+{
+ "id": "saga41-bjorn-band-5",
+ "kind": "band",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "name": "skirmishers of Bjornsdottir",
+ "strength": 11,
+ "raids": false,
+ "cost": 1330,
+ "upkeep": 3,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 11; eats 3 nitrogen a day.",
+ "wovenBy": "bjorn",
+ "saga": 41
+}

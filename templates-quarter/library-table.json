@@ -1,0 +1,8 @@
+{
+ "id": "library-table",
+ "kind": "table",
+ "room": "library",
+ "name": "the long table",
+ "text": "One table down the middle of the room, long enough that nobody has to sit near anybody.",
+ "wovenBy": "the bridge"
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-034",
+ "bench": "fleet",
+ "order": 34,
+ "year": 4,
+ "day": 1207,
+ "parties": [
+  "calchas"
+ ],
+ "actor": "Calchas",
+ "with": null,
+ "verb": "stole",
+ "object": "the horses of Rhesus by night",
+ "place": "at Aulis",
+ "side": "fleet",
+ "text": "Calchas stole the horses of Rhesus by night, at Aulis, in the fourth year."
+}

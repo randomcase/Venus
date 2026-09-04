@@ -1,0 +1,16 @@
+{
+ "id": "parcel-63-15",
+ "kind": "parcel",
+ "x": 63,
+ "y": 15,
+ "region": "Ulfrun Regio",
+ "clan": "ingrid",
+ "resource": "record",
+ "period": 13,
+ "terrain": "tessera",
+ "fertility": 0.6,
+ "yield": 1.24,
+ "text": "tessera, folded highland that holds less, in Ulfrun Regio, sown from a cairn for record.",
+ "wovenBy": "ingrid-pile-9",
+ "chain": "seven deep"
+}

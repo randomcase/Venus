@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Chromium-to-Chromium Webhook & Agent Watchdog Console</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --accent: #58a6ff;
+      --green: #238636;
+      --gold: #d29922;
+      --red: #da3633;
+      --text: #c9d1d9;
+      --border: #30363d;
+    }
+    body {
+      margin: 0;
+      padding: 24px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      color: #fff;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .card h3 {
+      margin: 0 0 16px;
+      font-size: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      color: #fff;
+    }
+    .input-field {
+      width: 100%;
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      color: #fff;
+      font-family: monospace;
+      font-size: 13px;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+    }
+    .btn {
+      background: var(--green);
+      color: #fff;
+      border: 1px solid rgba(240, 246, 252, 0.1);
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #2ea043; }
+    .log-box {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 12px;
+      height: 220px;
+      overflow-y: auto;
+      color: #7ee787;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .badge-green { background: rgba(35, 134, 54, 0.2); color: #3fb950; border: 1px solid #238636; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>⚡ Chromium Webhook Engine & Agent Watchdog</h1>
+    <p style="margin: 0; color: #8b949e; font-size: 14px;">
+      Http4s 0.23.23 (Scala 3.3.1) · Cats-Effect 3.5.2 · Automated GitHub CI Notifications · Anti-Hang Watchdog
+    </p>
+  </div>
+
+  <div class="grid">
+    <!-- Card 1: Emitter -->
+    <div class="card">
+      <h3>🚀 Chromium Interface (Sender Client)</h3>
+      <label style="font-size: 12px; margin-bottom: 4px; display: block;">Target Webhook Route:</label>
+      <input class="input-field" value="/api/v1/webhook/dispatch" readonly>
+
+      <label style="font-size: 12px; margin-bottom: 4px; display: block;">Webhook JSON Payload:</label>
+      <textarea class="input-field" id="payloadArea" rows="5">{
+  "event": "DOM_TRANSFER_TRIGGER",
+  "clientSource": "Chromium-A",
+  "clientTarget": "Chromium-B",
+  "stateHash": "a9f84b12",
+  "timestamp": 1770938000
+}</textarea>
+
+      <button class="btn" onclick="sendWebhook()">Dispatch Webhook via Http4s</button>
+    </div>
+
+    <!-- Card 2: Watchdog & CI/CD Telemetry -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 16px;">
+        <h3 style="margin: 0; border: none; padding: 0;">🛰️ Agent(0) Task Watchdog & CI Log</h3>
+        <span class="badge badge-green">WATCHDOG: ACTIVE</span>
+      </div>
+
+      <div class="log-box" id="logBox">
+[INFO] Agent Webhook Watchdog online on Http4s Ember.
+[INFO] Monitoring active fibers: 0 hanging tasks detected.
+[INFO] GitHub CI Relay initialized for Venus-Planetary/Nexus-Platform.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function sendWebhook() {
+      const payload = document.getElementById('payloadArea').value;
+      const logBox = document.getElementById('logBox');
+      const time = new Date().toLocaleTimeString();
+      
+      logBox.innerHTML += `\n<span style="color: #58a6ff;">[${time}] DISPATCHING -> POST /api/v1/webhook/dispatch</span>`;
+      logBox.innerHTML += `\n<span style="color: #d29922;">[${time}] WATCHDOG -> Registered Active Task [task_wh_${Math.floor(Math.random()*9000+1000)}]</span>`;
+      logBox.innerHTML += `\n<span style="color: #7ee787;">[${time}] GITHUB CI -> Triggered workflow dispatch (agent-cicl-audit.yml)</span>`;
+      logBox.innerHTML += `\n<span style="color: #3fb950;">[${time}] RELAY -> Chromium-Client-B received DOM mutation payload</span>`;
+      logBox.innerHTML += `\n<span style="color: #8b949e;">[${time}] WATCHDOG -> Task completed & purged (0ms latency, zero hang)</span>`;
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+  </script>
+</body>
+</html>

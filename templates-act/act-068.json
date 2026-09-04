@@ -1,0 +1,16 @@
+{
+ "id": "act-068",
+ "order": 68,
+ "year": 7,
+ "day": 2426,
+ "parties": [
+  "paris"
+ ],
+ "actor": "Paris",
+ "with": null,
+ "verb": "sent",
+ "object": "an embassy with gifts",
+ "place": "in the assembly",
+ "side": "troy",
+ "text": "Paris sent an embassy with gifts, in the assembly, in the seventh year."
+}

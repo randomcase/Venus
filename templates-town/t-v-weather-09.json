@@ -1,0 +1,15 @@
+{
+ "kind": "inscription",
+ "name": "the inscription over the gate of fog",
+ "text": "Fog on the ridge, keep to the bridge.",
+ "id": "t-v-weather-09",
+ "wovenBy": "v-weather-09",
+ "chain": [
+  "v-weather-09",
+  "weather-09",
+  "l2-weather-1-1",
+  "l3-weather-1",
+  "l4-weather",
+  "loom.mjs"
+ ]
+}

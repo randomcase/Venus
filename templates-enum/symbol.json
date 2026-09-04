@@ -1,0 +1,102 @@
+{
+ "id": "enum-symbol",
+ "kind": "enum",
+ "family": "symbol",
+ "path": "templates-enum/symbol.json",
+ "note": "The fixed vocabulary of templates-symbol/, mined from 3 of its 3 templates by enums.mjs. Kept in templates-enum/, never inside templates-symbol/ itself, so nothing that scans templates-symbol/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 3,
+ "sampledFiles": 3,
+ "fields": {
+  "id": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "ground",
+    "newworld",
+    "sky"
+   ]
+  },
+  "order": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    1,
+    2,
+    3
+   ]
+  },
+  "domain": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "The ground",
+    "The new world",
+    "The sky"
+   ]
+  },
+  "tradition": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "Islamic astronomy",
+    "Rastafari",
+    "Taoism, and wu xing"
+   ]
+  },
+  "era": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "8th century onward",
+    "from 1930",
+    "Warring States period onward, c. 4th century BCE"
+   ]
+  },
+  "seat": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "Baghdad, Cairo, Córdoba, Samarkand",
+    "China",
+    "Jamaica"
+   ]
+  },
+  "shape": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "the eight-pointed star",
+    "the five-phase pentagon, with both cycles drawn",
+    "the Lion of Judah"
+   ]
+  },
+  "glyph": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "☯",
+    "✦",
+    "🦁"
+   ]
+  },
+  "tool": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 3,
+   "values": [
+    "the astrolabe",
+    "the compass",
+    "the drum"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

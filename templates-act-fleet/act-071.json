@@ -1,0 +1,18 @@
+{
+ "id": "act-071",
+ "bench": "fleet",
+ "order": 71,
+ "year": 8,
+ "day": 2532,
+ "parties": [
+  "menelaus",
+  "ajax"
+ ],
+ "actor": "Menelaus",
+ "with": "Ajax",
+ "verb": "dragged",
+ "object": "a body three times round the wall",
+ "place": "among the ships",
+ "side": "fleet",
+ "text": "Menelaus and Ajax dragged a body three times round the wall, among the ships, in the eighth year."
+}

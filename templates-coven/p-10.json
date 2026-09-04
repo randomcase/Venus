@@ -1,0 +1,31 @@
+{
+ "id": "p-10",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Zephen Quillune",
+ "syndicate": "syn-4",
+ "tranche": 4,
+ "doors": [
+  29,
+  38
+ ],
+ "house": "the ninth arch",
+ "sigil": {
+  "ring": 2,
+  "bars": 2,
+  "chord": 0,
+  "turn": 331
+ },
+ "keeps": "the names of everyone who came through",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "Urbain Grandier",
+ "readsId": "grandier",
+ "reason": "Convicted on the testimony of possessed nuns.",
+ "spell": "Unmake",
+ "spellId": "unmake",
+ "glyph": "✖",
+ "share": "55dd26",
+ "text": "Zephen quillune of the ninth arch, keeps a door for the 4th tranche, doors 29 to 38. Keeps the names of everyone who came through. Reads Urbain Grandier.",
+ "wovenBy": "grandier"
+}

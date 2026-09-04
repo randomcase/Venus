@@ -1,0 +1,23 @@
+{
+ "id": "write-negative",
+ "type": "write",
+ "tier": 2,
+ "title": "State a negative so a reader can check it",
+ "unlocks": "the-zero-counter",
+ "ground": "A sentence saying \"no opinion carries a drafter’s name\" is a claim a reader has to take. A counter named `named`, declared, incremented by nothing, and printed, is the same claim in a form they can watch fail to move.",
+ "task": "Find a negative claim in your own work — something you assert is absent. Build the instrument that lets a reader verify the absence without trusting you, then write 200 words on why the sentence was not enough.",
+ "rubric": [
+  {
+   "band": "The instrument exists",
+   "test": "Can a reader operate it without reading the source?"
+  },
+  {
+   "band": "It could move",
+   "test": "Is there a path by which the number WOULD change? A counter nothing could ever increment proves nothing."
+  },
+  {
+   "band": "The prose does not repeat the instrument",
+   "test": "Does the writing say something the counter cannot?"
+  }
+ ]
+}

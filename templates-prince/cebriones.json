@@ -1,0 +1,19 @@
+{
+ "id": "cebriones",
+ "order": 14,
+ "name": "Cebriones",
+ "kind": "charioteer",
+ "glyph": "⚡",
+ "colour": "#f2c98a",
+ "cost": 18000,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 0,
+  "damage": 0,
+  "rate": 0,
+  "bolt": 9,
+  "boltEvery": 6
+ },
+ "does": "No bow. Every six days he drives out and strikes the strongest thing on the field, dead ground or not.",
+ "text": "The charioteer, Hector's half-brother. Patroclus threw the stone; here the stone is his."
+}

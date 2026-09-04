@@ -1,0 +1,22 @@
+{
+ "id": "syn-7",
+ "kind": "syndicate",
+ "tranche": 7,
+ "holds": 1000000,
+ "doors": [
+  58,
+  66
+ ],
+ "doorCount": 9,
+ "custodians": [
+  "p-19",
+  "p-20",
+  "p-21"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 7th syndicate",
+ "seat": "the cold store",
+ "text": "Holds one tranche of a million against doors 58 to 66. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

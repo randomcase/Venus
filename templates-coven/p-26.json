@@ -1,0 +1,31 @@
+{
+ "id": "p-26",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Bramael Sableis",
+ "syndicate": "syn-9",
+ "tranche": 9,
+ "doors": [
+  77,
+  85
+ ],
+ "house": "the open ledger",
+ "sigil": {
+  "ring": 3,
+  "bars": 3,
+  "chord": 4,
+  "turn": 8
+ },
+ "keeps": "the replay, event by event",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Ge Hong",
+ "readsId": "gehong",
+ "reason": "The Baopuzi contains the earliest known description of smallpox symptoms and practical chemistry alongside the immortality material.",
+ "spell": "Shut the gate",
+ "spellId": "gate",
+ "glyph": "◫",
+ "share": "3ce35a",
+ "text": "Bramael sableis of the open ledger, keeps the book for the 9th tranche, doors 77 to 85. Keeps the replay, event by event. Reads Ge Hong.",
+ "wovenBy": "gehong"
+}

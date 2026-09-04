@@ -1,0 +1,14 @@
+{
+ "id": "l2-field-1-1",
+ "depth": 2,
+ "wovenBy": "l3-field-1",
+ "kind": "field",
+ "name": "The field mould 1.1: peat, walled",
+ "fixed": {
+  "soil": "peat",
+  "lie": "walled"
+ },
+ "open": [
+  "size"
+ ]
+}

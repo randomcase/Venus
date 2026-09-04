@@ -1,0 +1,9 @@
+{
+ "id": "library-chair-glass",
+ "kind": "chair",
+ "room": "library",
+ "name": "a reading chair in glass fibre",
+ "text": "Upholstered in glass fibre, which survives Venus well. E-glass is attacked by acid; C-glass and ECR are formulated against it. The distinction matters and is the kind of thing a specification gets wrong once.",
+ "wovenBy": "glass",
+ "seat": 8
+}

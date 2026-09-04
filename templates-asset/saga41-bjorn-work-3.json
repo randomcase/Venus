@@ -1,0 +1,16 @@
+{
+ "id": "saga41-bjorn-work-3",
+ "kind": "work",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "house": "Fixing bed",
+ "resource": "nitrogen",
+ "period": 3,
+ "tier": 3,
+ "yield": 19,
+ "cost": 6840,
+ "name": "Fixing bed 3 of Bjornsdottir",
+ "text": "Three beds on rotation. None of them is ever idle and none is ever finished. Yields 19 nitrogen every 3 days.",
+ "wovenBy": "bjorn",
+ "saga": 41
+}

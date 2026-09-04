@@ -1,0 +1,9 @@
+{
+ "id": "workshop-bench-dh-ratio",
+ "kind": "workbench",
+ "room": "workshop",
+ "name": "the deuterium to hydrogen, venus against earth bench",
+ "text": "A bench for one figure: Deuterium to hydrogen, Venus against Earth, 150 times give or take 50. Wrong if nothing that changes the conclusion.",
+ "wovenBy": "dh-ratio",
+ "bay": 7
+}

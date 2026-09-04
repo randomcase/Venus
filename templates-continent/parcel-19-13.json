@@ -1,0 +1,16 @@
+{
+ "id": "parcel-19-13",
+ "kind": "parcel",
+ "x": 19,
+ "y": 13,
+ "region": "Ovda Regio",
+ "clan": "hrafn",
+ "resource": "hydrogen",
+ "period": 2,
+ "terrain": "chasma",
+ "fertility": 0.8,
+ "yield": 1.73,
+ "text": "the floor of a chasma, sheltered, in Ovda Regio, sown from a cairn for hydrogen.",
+ "wovenBy": "hrafn-pile-6",
+ "chain": "seven deep"
+}

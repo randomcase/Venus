@@ -1,0 +1,9 @@
+{
+ "id": "verdict-006",
+ "bench": "fleet",
+ "order": 6,
+ "act": "act-006",
+ "vote": "vote-006",
+ "verdict": "no fault",
+ "text": "No fault found in what Achilles did. The act stands and the war goes on."
+}

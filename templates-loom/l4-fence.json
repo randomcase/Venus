@@ -1,0 +1,24 @@
+{
+ "id": "l4-fence",
+ "depth": 4,
+ "wovenBy": "loom.mjs",
+ "kind": "fence",
+ "name": "The fence loom",
+ "slots": {
+  "wall": [
+   "hedge",
+   "dry stone",
+   "post and rail",
+   "ditch and bank",
+   "wattle"
+  ],
+  "keeps": [
+   "the geese in",
+   "the deer out",
+   "the wind off",
+   "the cow home"
+  ]
+ },
+ "gives": "a field kept, which is a field that does not lose its yield",
+ "weaves": 2
+}

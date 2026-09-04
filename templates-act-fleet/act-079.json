@@ -1,0 +1,18 @@
+{
+ "id": "act-079",
+ "bench": "fleet",
+ "order": 79,
+ "year": 8,
+ "day": 2827,
+ "parties": [
+  "agamemnon",
+  "thersites"
+ ],
+ "actor": "Agamemnon",
+ "with": "Thersites",
+ "verb": "drew",
+ "object": "lots for the duel with Hector",
+ "place": "on the beach at dawn",
+ "side": "fleet",
+ "text": "Agamemnon and Thersites drew lots for the duel with Hector, on the beach at dawn, in the eighth year."
+}

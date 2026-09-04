@@ -1,0 +1,12 @@
+{
+ "id": "l2-market-1-1",
+ "depth": 2,
+ "wovenBy": "l3-market-1",
+ "kind": "market",
+ "name": "The market mould 1.1: the port, 30",
+ "fixed": {
+  "where": "the port",
+  "every": 30
+ },
+ "open": []
+}

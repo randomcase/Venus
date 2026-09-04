@@ -1,0 +1,32 @@
+{
+ "id": "rules-village",
+ "kind": "rules",
+ "deck": "village",
+ "path": "templates-rules/village.json",
+ "rules": {
+  "cap": 21000000,
+  "awayHours": 8,
+  "secondsPerDay": 1,
+  "tradeFeeds": 2,
+  "prosperityBase": 0.6,
+  "prosperityFed": 0.4,
+  "prosperityIdle": 0.5,
+  "squareBonus": 0.05,
+  "keepDefault": 0.8,
+  "noteThreshold": 5
+ },
+ "notes": {
+  "cap": "HEZE that can ever be issued across every deck; a unit of account inside the files, never a token",
+  "awayHours": "the most time a deck will catch up on when you come back",
+  "secondsPerDay": "how long a day is, in real seconds",
+  "tradeFeeds": "households each trade feeds",
+  "prosperityBase": "prosperity with everyone housed and nobody fed",
+  "prosperityFed": "prosperity added when everyone housed is fed",
+  "prosperityIdle": "prosperity with no households",
+  "squareBonus": "prosperity added per square",
+  "keepDefault": "share of a trade's pay kept with no lane built",
+  "noteThreshold": "grain arriving below this is not written in the record"
+ },
+ "text": "The rulebook of the village. Keep a changed copy in the browser through the editor in the quarter and the village plays by it on its next load; write it into the yard and it plays by it for good.",
+ "wovenBy": "rules.mjs"
+}

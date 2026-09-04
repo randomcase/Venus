@@ -1,0 +1,16 @@
+{
+ "id": "saga41-sigrid-band-12",
+ "kind": "band",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "period": 7,
+ "name": "skirmishers of Sigrdrifa",
+ "strength": 12,
+ "raids": true,
+ "cost": 1362,
+ "upkeep": 3,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 12; eats 3 biomass a day.",
+ "wovenBy": "sigrid",
+ "saga": 41
+}

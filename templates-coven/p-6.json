@@ -1,0 +1,31 @@
+{
+ "id": "p-6",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Orrax Vesswyn",
+ "syndicate": "syn-2",
+ "tranche": 2,
+ "doors": [
+  10,
+  19
+ ],
+ "house": "the lower flue",
+ "sigil": {
+  "ring": 1,
+  "bars": 4,
+  "chord": 3,
+  "turn": 141
+ },
+ "keeps": "the crossing, and the six months between",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Paracelsus",
+ "readsId": "paracelsus",
+ "reason": "\"The dose makes the poison\" is his, and it is the founding sentence of toxicology.",
+ "spell": "Unmake",
+ "spellId": "unmake",
+ "glyph": "✖",
+ "share": "1433d1",
+ "text": "Orrax vesswyn of the lower flue, carries between for the 2nd tranche, doors 10 to 19. Keeps the crossing, and the six months between. Reads Paracelsus.",
+ "wovenBy": "paracelsus"
+}

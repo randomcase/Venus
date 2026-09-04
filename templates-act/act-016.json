@@ -1,0 +1,16 @@
+{
+ "id": "act-016",
+ "order": 16,
+ "year": 2,
+ "day": 556,
+ "parties": [
+  "achilles"
+ ],
+ "actor": "Achilles",
+ "with": null,
+ "verb": "counted",
+ "object": "the ships by contingent",
+ "place": "in Priam's hall",
+ "side": "fleet",
+ "text": "Achilles counted the ships by contingent, in Priam's hall, in the second year."
+}

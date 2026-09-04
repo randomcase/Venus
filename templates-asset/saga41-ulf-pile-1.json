@@ -1,0 +1,13 @@
+{
+ "id": "saga41-ulf-pile-1",
+ "kind": "pile",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "resource": "silicate",
+ "name": "a longhouse loft for silicate",
+ "holds": 600,
+ "cost": 720,
+ "text": "Holds 600 silicate. What is not piled is not yours by morning.",
+ "wovenBy": "ulf",
+ "saga": 41
+}

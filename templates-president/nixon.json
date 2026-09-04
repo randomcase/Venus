@@ -1,0 +1,253 @@
+{
+ "id": "nixon",
+ "kind": "president",
+ "order": 4,
+ "name": "Richard Nixon",
+ "term": [
+  1969,
+  1974
+ ],
+ "party": "Republican",
+ "role": "Vietnamization: began pulling US troops out while shifting the fighting to the South Vietnamese army; widened the air war into Cambodia and Laos; signed the Paris Peace Accords; resigned twenty months before Saigon fell.",
+ "numbers": [
+  {
+   "k": "US troops on arrival",
+   "v": "536,100"
+  },
+  {
+   "k": "US troops at end of term",
+   "v": "about 50 (Aug 1974); the last combat troops left 29 March 1973"
+  },
+  {
+   "k": "US deaths during term",
+   "v": "~21,200 (1969–1974)"
+  },
+  {
+   "k": "Bomb tonnage on Cambodia",
+   "v": "~500,000 tons, 1969–1973, most of it after the ceasefire in Vietnam"
+  },
+  {
+   "k": "Aid to Saigon voted for FY1975",
+   "v": "$700 million, of $1.4 billion requested"
+  }
+ ],
+ "decisions": [
+  [
+   "1969-03-18",
+   "Operation Menu: secret bombing of Cambodia begins, with falsified records."
+  ],
+  [
+   "1969-06-08",
+   "Midway: first withdrawal of 25,000 announced; Vietnamization named by Laird."
+  ],
+  [
+   "1969-11-03",
+   "'Silent majority' speech."
+  ],
+  [
+   "1970-04-30",
+   "Cambodian incursion announced; Kent State four days later."
+  ],
+  [
+   "1971-02",
+   "Lam Son 719: ARVN into Laos without US ground troops; the test of Vietnamization, failed."
+  ],
+  [
+   "1972-02",
+   "Beijing; then Moscow in May. The war becomes a detail in a larger deal."
+  ],
+  [
+   "1972-05-08",
+   "Linebacker and the mining of Haiphong in answer to the Easter Offensive."
+  ],
+  [
+   "1972-10-26",
+   "Kissinger: 'peace is at hand', twelve days before the election."
+  ],
+  [
+   "1972-12-18",
+   "Linebacker II, the Christmas bombing, to bring Hanoi back and Thieu along."
+  ],
+  [
+   "1973-01-27",
+   "Paris Peace Accords signed. Thieu given private letters promising a 'full force' response to violations; Congress never sees them."
+  ],
+  [
+   "1973-08-15",
+   "Case–Church takes effect: no more US combat in Indochina."
+  ],
+  [
+   "1974-08-09",
+   "Resigns. The promised response to violations goes with him."
+  ]
+ ],
+ "advisers": [
+  {
+   "who": "Henry Kissinger",
+   "post": "National Security Adviser; Secretary of State from 1973",
+   "from": 1969,
+   "to": 1977,
+   "note": "Ran the secret talks with Le Duc Tho from 1970; the 'decent interval'; the Nobel he accepted and Tho declined."
+  },
+  {
+   "who": "William P. Rogers",
+   "post": "Secretary of State",
+   "from": 1969,
+   "to": 1973,
+   "note": "Kept out of the Vietnam channel by design."
+  },
+  {
+   "who": "Melvin Laird",
+   "post": "Secretary of Defense",
+   "from": 1969,
+   "to": 1973,
+   "note": "Invented the word Vietnamization and pushed withdrawals faster than Kissinger wanted."
+  },
+  {
+   "who": "Elliot Richardson / James Schlesinger",
+   "post": "Secretary of Defense",
+   "from": 1973,
+   "to": 1975,
+   "note": "Schlesinger carried the aid fight into Ford's term."
+  },
+  {
+   "who": "Gen. Creighton Abrams",
+   "post": "Commander, MACV; Army Chief of Staff from 1972",
+   "from": 1968,
+   "to": 1974,
+   "note": "Ran the withdrawal and the Cambodia incursion; built the ARVN that held in 1972 and broke in 1975."
+  },
+  {
+   "who": "Gen. Fred C. Weyand",
+   "post": "Commander, MACV; last",
+   "from": 1972,
+   "to": 1973,
+   "note": "Furled the MACV colours 29 March 1973; as Army Chief of Staff went back in April 1975 to report that Saigon could not hold without aid."
+  },
+  {
+   "who": "Gen. Earle G. Wheeler",
+   "post": "Chairman, Joint Chiefs",
+   "from": 1964,
+   "to": 1970,
+   "note": "Carried over."
+  },
+  {
+   "who": "Adm. Thomas H. Moorer",
+   "post": "Chairman, Joint Chiefs",
+   "from": 1970,
+   "to": 1974,
+   "note": "Linebacker and the mining; the Moorer–Radford affair, the JCS spying on the NSC."
+  },
+  {
+   "who": "Gen. Alexander Haig",
+   "post": "Deputy National Security Adviser; Chief of Staff from 1973",
+   "from": 1969,
+   "to": 1974,
+   "note": "Kissinger's deputy and Saigon courier; carried the pressure to Thieu in October 1972."
+  },
+  {
+   "who": "Ellsworth Bunker",
+   "post": "Ambassador to South Vietnam",
+   "from": 1967,
+   "to": 1973,
+   "note": "Carried over."
+  },
+  {
+   "who": "Graham Martin",
+   "post": "Ambassador to South Vietnam",
+   "from": 1973,
+   "to": 1975,
+   "note": "Refused to plan the evacuation until the last day; left on a helicopter from the embassy roof."
+  },
+  {
+   "who": "Richard Helms",
+   "post": "Director of Central Intelligence",
+   "from": 1966,
+   "to": 1973,
+   "note": "Carried over."
+  },
+  {
+   "who": "William Colby",
+   "post": "Director of Central Intelligence",
+   "from": 1973,
+   "to": 1976,
+   "note": ""
+  },
+  {
+   "who": "Adm. John S. McCain Jr.",
+   "post": "Commander in Chief, Pacific",
+   "from": 1968,
+   "to": 1972,
+   "note": "His son was a prisoner in Hanoi throughout."
+  },
+  {
+   "who": "H. R. Haldeman",
+   "post": "White House Chief of Staff",
+   "from": 1969,
+   "to": 1973,
+   "note": "Kept the diary; the domestic side of every decision."
+  },
+  {
+   "who": "John Ehrlichman",
+   "post": "Domestic Affairs Adviser",
+   "from": 1969,
+   "to": 1973,
+   "note": "The Plumbers were created after the Pentagon Papers."
+  },
+  {
+   "who": "Spiro Agnew",
+   "post": "Vice President",
+   "from": 1969,
+   "to": 1973,
+   "note": "The attack on the press and the 'nattering nabobs'."
+  },
+  {
+   "who": "Gerald Ford",
+   "post": "Vice President; then President",
+   "from": 1973,
+   "to": 1977,
+   "note": "Not in the four. Inherited the ending."
+  }
+ ],
+ "text": "Nixon: out in four years, with the air war widened to two more countries, a treaty with private promises, and no one left to keep them.",
+ "wovenBy": "the bridge",
+ "impeachment": {
+  "when": "1974-07-27 to 1974-07-30",
+  "where": "House Judiciary Committee",
+  "articles": [
+   [
+    "I",
+    "Obstruction of justice, the Watergate cover-up",
+    "adopted 27–11"
+   ],
+   [
+    "II",
+    "Abuse of power: the IRS, the FBI, the CIA, the Plumbers",
+    "adopted 28–10"
+   ],
+   [
+    "III",
+    "Contempt of Congress: the subpoenas",
+    "adopted 21–17"
+   ],
+   [
+    "IV",
+    "The secret bombing of Cambodia, 1969–1970, concealed from Congress",
+    "rejected 12–26 — the one Vietnam article, and the committee would not carry it"
+   ],
+   [
+    "V",
+    "Taxes and the improvements at San Clemente and Key Biscayne",
+    "rejected 12–26"
+   ]
+  ],
+  "resigned": "1974-08-09",
+  "note": "The war he ran was put to the committee once, as Article IV, and voted down by both parties on the ground that Congress had known enough and funded it anyway. He resigned before the full House voted."
+ },
+ "break": {
+  "from": "1974-08-09",
+  "to": "1975-04-30",
+  "days": 264,
+  "what": "From the resignation to the Fall of Saigon: 264 days. The private letters to Thieu promising a “full force” response to violations were his; Congress had never seen them; Ford inherited a promise with no one to keep it. The break is the interval in which the guarantee behind Vietnamization turned out to be one man."
+ }
+}

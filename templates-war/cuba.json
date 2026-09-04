@@ -1,0 +1,497 @@
+{
+ "id": "cuba",
+ "kind": "war-room",
+ "order": 3,
+ "respondsTo": "vietnam",
+ "name": "Cuba, a separate nation",
+ "also": "the Bay of Pigs, the missile crisis, and the Cuban response",
+ "theatre": "Cuba, the Florida Straits, Washington, Moscow, Havana; the ExComm room in the White House and the Tank",
+ "from": "1961-04-17",
+ "to": "1962-11-20",
+ "sides": [
+  {
+   "side": "Cuba",
+   "who": "Fidel Castro, Raúl Castro, Che Guevara; 270,000 mobilised in October 1962",
+   "backed": "USSR: 42,000 troops, 36 R-12 missiles delivered, 24 launchers, Luna tactical rockets, and the authority — briefly — to use them"
+  },
+  {
+   "side": "United States",
+   "who": "Kennedy and the ExComm; the Joint Chiefs; Second Fleet; SAC at DEFCON 2",
+   "backed": "OAS, unanimously, on 23 October; NATO allies informed, not consulted"
+  }
+ ],
+ "chain": [
+  {
+   "who": "John F. Kennedy",
+   "role": "President",
+   "from": 1961,
+   "to": 1963,
+   "did": "Let the Bay of Pigs go ahead and refused the air cover that might have saved it; eighteen months later chose the quarantine over the strike his Chiefs wanted, traded the Jupiters in Turkey in secret, and did not tell the Chiefs that either."
+  },
+  {
+   "who": "Nikita Khrushchev",
+   "role": "First Secretary",
+   "from": 1962,
+   "to": 1962,
+   "did": "Put the missiles in to protect Cuba and to even a strategic count he was losing; took them out without asking Havana."
+  },
+  {
+   "who": "Fidel Castro",
+   "role": "Prime Minister of Cuba",
+   "from": 1962,
+   "to": 1962,
+   "did": "Accepted the missiles as a socialist duty and wanted them announced, not hidden; on 26 October wrote to Khrushchev that if the Americans invaded, the USSR should strike first; on 28 October learned of the withdrawal from the radio."
+  },
+  {
+   "who": "The ExComm",
+   "role": "Executive Committee of the NSC",
+   "from": 1962,
+   "to": 1962,
+   "did": "Thirteen days of meetings, taped. Rusk, McNamara, Bundy, Robert Kennedy, Taylor, Sorensen, Ball, Gilpatric, Thompson, Dillon, Acheson (early), McCone, Lovett, Nitze, Johnson."
+  },
+  {
+   "who": "The Joint Chiefs",
+   "role": "Taylor, Wheeler, Anderson, LeMay, Shoup",
+   "from": 1962,
+   "to": 1962,
+   "did": "Unanimous for an air strike followed by invasion; told so on 19 October; overruled. The Chiefs’ own position is recorded here once, and not repeated per day, because it did not change."
+  }
+ ],
+ "phases": [
+  {
+   "from": 1961,
+   "to": 1961,
+   "name": "Bay of Pigs",
+   "text": "Brigade 2506 lands 17 April 1961; Castro’s militia and the air force he still had beat it in three days; 1,189 captured, ransomed in December 1962 for $53 million in food and medicine."
+  },
+  {
+   "from": 1962,
+   "to": 1962,
+   "name": "Anadyr",
+   "text": "Khrushchev decides in May; ships sail from July; missiles arrive in September; the U-2 photographs them on 14 October."
+  },
+  {
+   "from": 1962,
+   "to": 1962,
+   "name": "Thirteen days",
+   "text": "16–28 October: the ExComm, the quarantine, the letters, the U-2 shot down, the Jupiter trade."
+  },
+  {
+   "from": 1962,
+   "to": 1962,
+   "name": "The Cuban response",
+   "text": "Castro refuses UN inspection; his five points; the IL-28 bombers argued over into November; Mikoyan in Havana for three weeks; the quarantine lifted 20 November."
+  }
+ ],
+ "gauge": {
+  "unit": "Soviet ballistic missiles in Cuba, by date (R-12, delivered)",
+  "series": [
+   [
+    1002,
+    0
+   ],
+   [
+    1008,
+    6
+   ],
+   [
+    1014,
+    20
+   ],
+   [
+    1016,
+    24
+   ],
+   [
+    1022,
+    36
+   ],
+   [
+    1028,
+    36
+   ],
+   [
+    1105,
+    24
+   ],
+   [
+    1109,
+    0
+   ]
+  ]
+ },
+ "days": [
+  [
+   "1962-10-01",
+   "Washington",
+   "McNamara orders CINCLANT to be ready for a Cuba blockade or strike by 20 October; the readiness date is a coincidence the tapes never mention."
+  ],
+  [
+   "1962-10-02",
+   "Havana",
+   "Castro tells a rally that Cuba will be defended; the missiles are not mentioned, on Moscow’s instruction, and he resents the instruction."
+  ],
+  [
+   "1962-10-03",
+   "Washington",
+   "Congress passes the joint resolution on Cuba: force is authorised if Cuba threatens the hemisphere."
+  ],
+  [
+   "1962-10-04",
+   "Moscow",
+   "The Indigirka docks at Mariel with the nuclear warheads aboard; no one in Washington knows."
+  ],
+  [
+   "1962-10-05",
+   "Washington",
+   "McCone, back from his honeymoon, argues the Soviets would not build SAM sites unless there was something to hide; the U-2s are grounded over western Cuba because of SAM risk."
+  ],
+  [
+   "1962-10-06",
+   "Washington",
+   "Contingency orders to Atlantic Command: prepare for air strikes and an invasion."
+  ],
+  [
+   "1962-10-07",
+   "Havana",
+   "Cuban President Dorticós at the UN: if attacked, Cuba has the weapons it wishes it did not need. It is taken as bluster."
+  ],
+  [
+   "1962-10-08",
+   "Washington",
+   "Dorticós’s speech is read at State and set aside."
+  ],
+  [
+   "1962-10-09",
+   "Washington",
+   "Kennedy approves a U-2 flight over western Cuba, weather permitting."
+  ],
+  [
+   "1962-10-10",
+   "Washington",
+   "Senator Keating says on the floor that there are missile bases in Cuba; the administration says there is no evidence."
+  ],
+  [
+   "1962-10-11",
+   "Havana",
+   "Soviet units finish the San Cristóbal sites’ concrete; Cuban troops are kept out of the compounds."
+  ],
+  [
+   "1962-10-12",
+   "Washington",
+   "Responsibility for U-2 flights over Cuba is transferred from the CIA to SAC."
+  ],
+  [
+   "1962-10-13",
+   "Washington",
+   "Bad weather; the flight is postponed."
+  ],
+  [
+   "1962-10-14",
+   "Washington",
+   "Major Heyser’s U-2 flies over San Cristóbal at 0731 and takes 928 photographs in six minutes."
+  ],
+  [
+   "1962-10-15",
+   "Washington",
+   "NPIC analysts identify SS-4 medium-range launchers by evening; Bundy decides to let the president sleep."
+  ],
+  [
+   "1962-10-16",
+   "Washington",
+   "Bundy tells Kennedy at 0845. First ExComm meeting at 1150, taped. Kennedy: “I don’t know quite what kind of a world we live in after we’ve struck Cuba.” McNamara sets out three tracks: talk, blockade, strike. Rusk, first draft: “We could carry out an air strike without any warning.” No decision."
+  ],
+  [
+   "1962-10-17",
+   "Washington",
+   "Kennedy keeps his schedule in Connecticut to hide the crisis; the ExComm meets without him; McNamara moves to the blockade."
+  ],
+  [
+   "1962-10-18",
+   "Washington",
+   "Gromyko in the Oval Office says Soviet aid to Cuba is defensive; Kennedy, with the photographs in his desk, does not show them. Evening tape, Kennedy dictating: the consensus is for a blockade, “since it puts the burden on the Soviets.”"
+  ],
+  [
+   "1962-10-19",
+   "Washington",
+   "Kennedy meets the Joint Chiefs, taped. LeMay: the blockade is “almost as bad as the appeasement at Munich”; Kennedy replies that if the Soviets take Berlin “I’m sure you’d all recommend the use of nuclear weapons,” and leaves. Afterward, off tape, to O’Donnell: the Chiefs have one advantage, that if he listens to them none of them will be alive to say they were wrong. That is the Chiefs’ position for the whole crisis; it is not restated below."
+  ],
+  [
+   "1962-10-20",
+   "Washington",
+   "Kennedy flies back from Chicago with a “cold”. Formal decision: quarantine, not strike. Adlai Stevenson argues for offering the Jupiters and Guantánamo; he is shouted down and half of it happens anyway."
+  ],
+  [
+   "1962-10-21",
+   "Havana",
+   "Soviet General Pliyev reports the R-12 regiments nearly ready; Castro is not shown the readiness reports."
+  ],
+  [
+   "1962-10-22",
+   "Washington",
+   "Kennedy to the nation at 1900: the missiles, the quarantine, and “a full retaliatory response upon the Soviet Union” for any launch from Cuba. DEFCON 3. Congressional leaders, briefed at 1700, wanted invasion; Fulbright and Russell both."
+  ],
+  [
+   "1962-10-22",
+   "Havana",
+   "Castro orders general mobilisation; 270,000 under arms within days. Cuban radio calls it aggression."
+  ],
+  [
+   "1962-10-23",
+   "Moscow",
+   "Khrushchev’s letter: the quarantine is piracy; ships will not comply. Privately he orders the ships carrying missiles to stop."
+  ],
+  [
+   "1962-10-23",
+   "Washington",
+   "OAS votes 19–0 for the quarantine; Kennedy signs the proclamation at 1906. Robert Kennedy sees Dobrynin at the embassy that night."
+  ],
+  [
+   "1962-10-24",
+   "Washington",
+   "Quarantine in force at 1000. SAC goes to DEFCON 2, in the clear, so Moscow can hear. The ExComm learns that the Soviet ships nearest the line have stopped or turned. Rusk to Bundy: “We’re eyeball to eyeball, and I think the other fellow just blinked.”"
+  ],
+  [
+   "1962-10-25",
+   "Washington",
+   "Stevenson at the UN to Zorin: “I am prepared to wait for my answer until hell freezes over.” The tanker Bucharest is let through. Kennedy, on tape, on how the Soviet leader might see it: he does not want a war either."
+  ],
+  [
+   "1962-10-26",
+   "Moscow",
+   "Khrushchev’s long letter, dictated, arrives in four parts through the evening: the missiles will go if the US promises not to invade. “We and you ought not now to pull on the ends of the rope in which you have tied the knot of war.”"
+  ],
+  [
+   "1962-10-26",
+   "Havana",
+   "Castro, after a night at the Soviet embassy, writes to Khrushchev: if the imperialists invade, “that would be the moment to eliminate such danger forever” — a first strike. The letter reaches Moscow the next day and frightens Khrushchev more than Kennedy did."
+  ],
+  [
+   "1962-10-27",
+   "Washington",
+   "“Black Saturday.” A second Khrushchev letter, public, adds the Jupiters in Turkey. Major Anderson’s U-2 is shot down over Banes by a Soviet SAM crew acting without Moscow’s order; another U-2 strays over Chukotka. The ExComm, taped, on the shootdown; McNamara: “this is a change in the pattern.” Kennedy decides to answer the first letter and ignore the second. Robert Kennedy to Dobrynin at 1945: withdraw and there will be no invasion; the Jupiters will go in four or five months, and that part must never be said aloud."
+  ],
+  [
+   "1962-10-27",
+   "Havana",
+   "Castro orders Cuban anti-aircraft to fire on low-level flights; Cuban guns hit an RF-8. He is told the U-2 was shot down by Soviets and is pleased."
+  ],
+  [
+   "1962-10-28",
+   "Moscow",
+   "Khrushchev’s answer broadcast on Radio Moscow at 0900 Washington time, before the letter can be delivered, to be sure it arrives in time: the missiles will be dismantled and crated."
+  ],
+  [
+   "1962-10-28",
+   "Havana",
+   "Castro hears it on the radio. Guevara’s aide records that he kicked a wall and broke a mirror. Castro issues the five points: end the embargo, end the subversion, end the raids, end the overflights, return Guantánamo. None is granted."
+  ],
+  [
+   "1962-10-29",
+   "Washington",
+   "The ExComm turns to verification; the Chiefs, on paper, call the Soviet message a cover for delay and recommend the strike proceed on the 30th unless there is “irrefutable evidence”. Kennedy files it."
+  ],
+  [
+   "1962-10-30",
+   "Havana",
+   "U Thant arrives from the UN; Castro refuses inspection on Cuban soil. It is the Cuban response in one sentence: the deal was made over his head and will not be verified on his ground."
+  ],
+  [
+   "1962-10-31",
+   "Havana",
+   "U Thant leaves with nothing. Kennedy suspends the quarantine for his visit and resumes it."
+  ],
+  [
+   "1962-11-01",
+   "Havana",
+   "Castro on television for ninety minutes: the missiles were Cuba’s business; the inspection will not happen; the Soviets are comrades, and were wrong."
+  ],
+  [
+   "1962-11-02",
+   "Havana",
+   "Mikoyan arrives from Moscow to calm Castro; his wife dies in Moscow the next day and he stays in Havana."
+  ],
+  [
+   "1962-11-03",
+   "Havana",
+   "Mikoyan and Castro, first session: Castro repeats the five points; Mikoyan repeats that the missiles are Soviet property."
+  ],
+  [
+   "1962-11-04",
+   "Washington",
+   "Low-level reconnaissance continues; the ExComm now argues about the IL-28 bombers, which Kennedy had called offensive on the 22nd and Khrushchev had not mentioned on the 28th."
+  ],
+  [
+   "1962-11-05",
+   "Havana",
+   "Soviet ships begin loading the R-12s at Mariel and Casilda, on deck, uncrated, so the Navy can photograph them at sea."
+  ],
+  [
+   "1962-11-06",
+   "Washington",
+   "Midterm elections; the Democrats hold the Senate and lose four House seats, less than expected."
+  ],
+  [
+   "1962-11-07",
+   "Washington",
+   "Destroyers pull alongside Soviet freighters at sea; tarpaulins are drawn back; the missiles are counted. Forty-two, the number Moscow gave."
+  ],
+  [
+   "1962-11-08",
+   "Havana",
+   "Castro tells Mikoyan the Luna tactical rockets were promised to Cuba and should stay; Mikoyan says no, and later that no nuclear weapon will stay."
+  ],
+  [
+   "1962-11-09",
+   "Washington",
+   "The last R-12s leave Cuban waters. The gauge reads zero. The Chiefs ask that the quarantine continue until the IL-28s go."
+  ],
+  [
+   "1962-11-10",
+   "Havana",
+   "Mikoyan, again: the bombers. Castro: not for the Americans’ asking."
+  ],
+  [
+   "1962-11-11",
+   "Washington",
+   "Kennedy, on tape, on the bombers: they matter less than the missiles and more than nothing; he will not invade over them and will not lift the quarantine without them."
+  ],
+  [
+   "1962-11-12",
+   "Moscow",
+   "Khrushchev offers to remove the IL-28s “in due course”; Kennedy wants a date."
+  ],
+  [
+   "1962-11-13",
+   "Havana",
+   "Castro tells Mikoyan he will keep the anti-aircraft guns firing at low-level flights; Mikoyan asks him not to; the flights continue and the guns do not fire."
+  ],
+  [
+   "1962-11-14",
+   "Washington",
+   "Robert Kennedy to Dobrynin: thirty days for the bombers, or the quarantine stays."
+  ],
+  [
+   "1962-11-15",
+   "Havana",
+   "Castro writes to U Thant that Cuban forces will fire on overflights from now on. They do not."
+  ],
+  [
+   "1962-11-16",
+   "Havana",
+   "Mikoyan, last sessions: Castro agrees not to obstruct the bombers’ removal; he does not agree to it."
+  ],
+  [
+   "1962-11-17",
+   "Moscow",
+   "Khrushchev decides the IL-28s will go within thirty days."
+  ],
+  [
+   "1962-11-18",
+   "Washington",
+   "The ExComm drafts the announcement; the Chiefs ask that the no-invasion pledge be conditional on inspection. It is."
+  ],
+  [
+   "1962-11-19",
+   "Moscow",
+   "Khrushchev’s note: the bombers within thirty days; Kennedy takes it."
+  ],
+  [
+   "1962-11-20",
+   "Washington",
+   "Kennedy’s press conference: the bombers are going; the quarantine is lifted tonight; SAC stands down from DEFCON 2 the next day. Cuba was not at the table on any of the fifty-one days."
+  ]
+ ],
+ "cost": [
+  {
+   "k": "US dead",
+   "v": "1 (Maj. Rudolf Anderson, U-2, 27 Oct); 11 more in reconnaissance and transport crashes"
+  },
+  {
+   "k": "Cuban dead, Bay of Pigs",
+   "v": "176 killed; brigade 118 killed, 1,189 captured"
+  },
+  {
+   "k": "Soviet troops in Cuba, October 1962",
+   "v": "about 42,000; Washington estimated 10,000"
+  },
+  {
+   "k": "Nuclear warheads in Cuba",
+   "v": "158, including tactical; Washington did not know of the tactical ones until 1992"
+  },
+  {
+   "k": "Days Cuba was consulted on its own crisis",
+   "v": "0 of 51"
+  }
+ ],
+ "prediction": {
+  "ending": "1962-11-20",
+  "endingName": "Quarantine lifted",
+  "unit": "Soviet ballistic missiles in Cuba, delivered, by date (Oct 2 = day 0)",
+  "series": [
+   [
+    "1962-10-28",
+    36
+   ],
+   [
+    "1962-11-05",
+    30
+   ],
+   [
+    "1962-11-07",
+    12
+   ],
+   [
+    "1962-11-09",
+    0
+   ]
+  ],
+  "fitFrom": "1962-10-28",
+  "marks": [
+   [
+    "1962-10-14",
+    "U-2 photographs"
+   ],
+   [
+    "1962-10-22",
+    "the speech"
+   ],
+   [
+    "1962-10-24",
+    "quarantine; DEFCON 2"
+   ],
+   [
+    "1962-10-27",
+    "Black Saturday"
+   ],
+   [
+    "1962-10-28",
+    "withdrawal announced"
+   ],
+   [
+    "1962-11-09",
+    "last missiles at sea"
+   ],
+   [
+    "1962-11-20",
+    "quarantine lifted"
+   ]
+  ],
+  "note": "Fitted to the missile count after the 28th, the line reaches zero within two days of 9 November, the day the last missiles actually sailed. The quarantine outlasted the missiles by eleven days over the bombers, which the numbers do not see; that is the error."
+ },
+ "outcome": "Missiles out, bombers out, Jupiters out in April 1963 without announcement, no invasion, no inspection, Castro in power for another forty-six years, and a hotline.",
+ "open": [
+  "Whether Kennedy would have traded the Jupiters publicly on the 29th if Khrushchev had not accepted on the 28th; Rusk’s 1987 letter says the Cordier channel was ready.",
+  "What Pliyev would have done with the Lunas if the invasion had come; the 1962 order allowing local use was withdrawn on 22 October, and the withdrawal reached him.",
+  "Whether the Cuban response — no inspection, the five points, the guns — changed anything, or only proved that the two large powers had settled it between themselves."
+ ],
+ "sources": [
+  "The Presidential Recordings: John F. Kennedy, vols. 2–3 (Miller Center / Norton), the ExComm tapes",
+  "National Security Archive, The Cuban Missile Crisis, 1962: A National Security Archive Documents Reader",
+  "Sergo Mikoyan, The Soviet Cuban Missile Crisis (2012), the Mikoyan–Castro record",
+  "Michael Dobbs, One Minute to Midnight (2008)",
+  "Fursenko and Naftali, One Hell of a Gamble (1997)"
+ ],
+ "text": "Cuba as a separate nation: the Bay of Pigs, the fifty-one days from 1 October to 20 November 1962 one line per day, back and forth between Washington, Moscow and Havana, with the tapes quoted briefly and the Chiefs’ position stated once.",
+ "wovenBy": "the bridge"
+}

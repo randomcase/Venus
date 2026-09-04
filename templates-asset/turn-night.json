@@ -1,0 +1,10 @@
+{
+ "id": "turn-night",
+ "kind": "turn",
+ "name": "the two-day night",
+ "does": "works ×0.6, raids ×0.7",
+ "mul": 0.6,
+ "days": 2,
+ "text": "Venus turns once in four days; the two-day night is a two days of it. works ×0.6, raids ×0.7.",
+ "wovenBy": "the planet"
+}

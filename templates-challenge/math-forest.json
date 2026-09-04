@@ -1,0 +1,27 @@
+{
+ "id": "math-forest",
+ "type": "math",
+ "tier": 2,
+ "title": "Cost the forest, and say what you assumed",
+ "unlocks": "hydrogen",
+ "ground": "90,000 square miles of forest, in hydrogen. Biomass at an assumed 200 t/ha is 4,662 Mt at ~6% hydrogen; held water at an assumed 100 kg/m² is 23,310 Mt at 11.2%. Total 2,888 Mt.",
+ "task": "Redo the calculation with your own two assumptions, show every division, and then write 150 words explaining which assumption the answer is most sensitive to and how you know.",
+ "rubric": [
+  {
+   "band": "The arithmetic is shown",
+   "test": "Is every figure shown as a division a reader can repeat?"
+  },
+  {
+   "band": "The assumptions are labelled",
+   "test": "Are the two assumed inputs marked as assumed, in the working and not only in the prose?"
+  },
+  {
+   "band": "The sensitivity is argued, not asserted",
+   "test": "Did you vary each input and report the swing, or did you reason about it in your head and state a conclusion?"
+  },
+  {
+   "band": "The conclusion survives",
+   "test": "Does the shipping answer — six orders of magnitude short — hold under both of your assumptions? If it does not, say so."
+  }
+ ]
+}

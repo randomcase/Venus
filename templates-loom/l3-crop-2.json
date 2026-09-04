@@ -1,0 +1,15 @@
+{
+ "id": "l3-crop-2",
+ "depth": 3,
+ "wovenBy": "l4-crop",
+ "kind": "crop",
+ "name": "The crop pattern 2: rye",
+ "fixed": {
+  "plant": "rye"
+ },
+ "open": [
+  "season",
+  "days"
+ ],
+ "weaves": 2
+}

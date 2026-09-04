@@ -1,0 +1,27 @@
+{
+ "id": "prose-scene",
+ "name": "Prose scene",
+ "kind": "prose",
+ "order": 2,
+ "beats": [
+  {
+   "name": "Want",
+   "ask": "What does somebody in this scene want, in this scene, concretely?"
+  },
+  {
+   "name": "Obstacle",
+   "ask": "What is between them and it — and is it a person?"
+  },
+  {
+   "name": "Turn",
+   "ask": "What changes? A scene where nothing changes is a description."
+  },
+  {
+   "name": "Cost",
+   "ask": "What did it cost, and who pays later?"
+  }
+ ],
+ "note": "No line rules. A scene is a unit of change: somebody wants something, something is in the way, the situation turns, and the turn costs. The four beats are not an outline to fill in — they are the four questions you can ask a finished draft to find out whether it is a scene or a passage.",
+ "ground": "This is the working shape used across screenwriting and fiction craft alike, and it is descriptive rather than prescriptive: it names what scenes that work turn out to have.",
+ "ask": "If you cut this scene, what in the next one stops making sense?"
+}

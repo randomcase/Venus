@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-hrafn-band-8",
+ "kind": "band",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "name": "housecarls of Hrafnsson",
+ "strength": 7,
+ "raids": true,
+ "cost": 858,
+ "upkeep": 2,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 7; eats 2 hydrogen a day.",
+ "wovenBy": "hrafn",
+ "saga": 8191
+}

@@ -1,0 +1,9 @@
+{
+ "id": "verdict-100",
+ "bench": "fleet",
+ "order": 100,
+ "act": "act-100",
+ "vote": "vote-100",
+ "verdict": "no fault",
+ "text": "No fault found in what Neoptolemus did. The act stands and the war goes on."
+}

@@ -1,0 +1,16 @@
+{
+ "id": "act-070",
+ "order": 70,
+ "year": 7,
+ "day": 2499,
+ "parties": [
+  "menelaus"
+ ],
+ "actor": "Menelaus",
+ "with": null,
+ "verb": "returned",
+ "object": "Chryseis to her father",
+ "place": "at the tomb of Ilus",
+ "side": "fleet",
+ "text": "Menelaus returned Chryseis to her father, at the tomb of Ilus, in the seventh year."
+}

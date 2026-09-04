@@ -1,0 +1,14 @@
+{
+ "id": "l3-fence-1",
+ "depth": 3,
+ "wovenBy": "l4-fence",
+ "kind": "fence",
+ "name": "The fence pattern 1: ditch and bank",
+ "fixed": {
+  "wall": "ditch and bank"
+ },
+ "open": [
+  "keeps"
+ ],
+ "weaves": 2
+}

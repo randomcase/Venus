@@ -1,0 +1,17 @@
+{
+ "id": "act-090",
+ "order": 90,
+ "year": 9,
+ "day": 3227,
+ "parties": [
+  "ajax",
+  "agamemnon"
+ ],
+ "actor": "Ajax",
+ "with": "Agamemnon",
+ "verb": "held",
+ "object": "the gate against the fleet",
+ "place": "by the river",
+ "side": "fleet",
+ "text": "Ajax and Agamemnon held the gate against the fleet, by the river, in the ninth year."
+}

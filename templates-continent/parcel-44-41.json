@@ -1,0 +1,16 @@
+{
+ "id": "parcel-44-41",
+ "kind": "parcel",
+ "x": 44,
+ "y": 41,
+ "region": "Diana Chasma",
+ "clan": "thorvald",
+ "resource": "signal",
+ "period": 11,
+ "terrain": "plains",
+ "fertility": 1,
+ "yield": 1.5,
+ "text": "volcanic plains, the easy ground, in Diana Chasma, sown from a longhouse loft for signal.",
+ "wovenBy": "thorvald-pile-3",
+ "chain": "seven deep"
+}

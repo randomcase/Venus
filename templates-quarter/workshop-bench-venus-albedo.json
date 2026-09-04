@@ -1,0 +1,9 @@
+{
+ "id": "workshop-bench-venus-albedo",
+ "kind": "workbench",
+ "room": "workshop",
+ "name": "the bond albedo of venus bench",
+ "text": "A bench for one figure: Bond albedo of Venus, 0.77 fraction give or take 0.02. Wrong if it is nearer 0.",
+ "wovenBy": "venus-albedo",
+ "bay": 5
+}

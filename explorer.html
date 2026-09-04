@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The explorer &middot; the yard, edited from inside it</title>
+<!-- Needs venus-app.mjs: a plain static server has no tree, read, save or run. -->
+<style>
+  :root{
+    --bg:#0a0d11; --panel:#0f141a; --edge:#1c2530; --edge2:#2a3745;
+    --ink:#dce3ea; --dim:#8792a0; --faint:#57616d;
+    --gold:#c9a227; --moss:#7d9d6a; --rust:#c4674f; --cool:#5f92a8; --plum:#9a7bb0;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);overflow:hidden;
+    font:13px/1.5 var(--mono);
+    display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100vh}
+
+  header{display:flex;align-items:center;gap:14px;padding:9px 14px;
+    background:var(--panel);border-bottom:1px solid var(--edge);flex-wrap:wrap}
+  header h1{margin:0;font:500 15px/1.2 var(--serif);letter-spacing:.04em}
+  header h1 s{text-decoration:none;color:var(--gold);font:400 8px/1 var(--mono);
+    letter-spacing:.24em;text-transform:uppercase;display:block;margin-top:3px}
+  header .p{color:var(--faint);font-size:11px}
+  header .p b{color:var(--ink);font-weight:400}
+  header .p i{font-style:normal;color:var(--gold)}
+  header .sp{margin-left:auto;display:flex;gap:7px}
+  header button{background:#161d25;border:1px solid var(--edge2);color:var(--ink);
+    padding:7px 13px;cursor:pointer;font:400 10px/1 var(--mono);letter-spacing:.09em}
+  header button:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+  header button:disabled{color:var(--faint);border-color:#1a222b;cursor:default}
+  header button.run:hover:not(:disabled){border-color:var(--moss);color:var(--moss)}
+
+  main{display:grid;grid-template-columns:250px minmax(0,1fr) 360px;min-height:0}
+  @media (max-width:1100px){ main{grid-template-columns:210px minmax(0,1fr)} #say{display:none} }
+
+  #tree{overflow-y:auto;background:var(--panel);border-right:1px solid var(--edge);
+    padding:8px 0}
+  #tree .d{padding:7px 12px 4px;color:var(--gold);font-size:9px;letter-spacing:.16em;
+    text-transform:uppercase;margin-top:6px}
+  #tree a{display:flex;gap:8px;padding:4px 12px;color:var(--dim);text-decoration:none;
+    cursor:pointer;font-size:11.5px}
+  #tree a:hover{background:#141b23;color:var(--ink)}
+  #tree a.on{background:#18212b;color:var(--gold)}
+  #tree a u{margin-left:auto;text-decoration:none;color:var(--faint);font-size:9px}
+  #tree a.gen{color:var(--plum)} #tree a.gen.on{color:var(--gold)}
+
+  #mid{display:flex;flex-direction:column;min-width:0;min-height:0}
+  #tabs{display:flex;gap:0;background:var(--panel);border-bottom:1px solid var(--edge);
+    overflow-x:auto;flex:none}
+  #tabs div{padding:8px 14px;border-right:1px solid var(--edge);cursor:pointer;
+    color:var(--faint);font-size:11px;white-space:nowrap;display:flex;gap:7px;
+    align-items:center}
+  #tabs div.on{color:var(--ink);background:var(--bg)}
+  #tabs div i{font-style:normal;color:var(--rust);font-size:14px;line-height:0}
+  #tabs div b{font-weight:400;color:var(--faint);font-size:13px}
+  #tabs div b:hover{color:var(--rust)}
+
+  #wrap{flex:1;overflow:auto;display:flex;min-height:0;background:var(--bg)}
+  #gut{flex:none;width:52px;padding:12px 9px 0 0;text-align:right;color:#3c4652;
+    font:400 12px/20px var(--mono);user-select:none;
+    border-right:1px solid var(--edge);background:#0c1116}
+  #stack{flex:1;position:relative;min-width:0}
+  #hl,#ed{margin:0;padding:12px 16px 40vh 12px;border:0;
+    font:400 12.5px/20px var(--mono);white-space:pre;tab-size:2;
+    overflow-wrap:normal}
+  #hl{position:absolute;inset:0;pointer-events:none;color:var(--ink);overflow:hidden}
+  #ed{position:relative;width:100%;min-height:100%;display:block;resize:none;
+    background:transparent;outline:none;color:transparent;caret-color:var(--gold)}
+  #ed::selection{background:rgba(201,162,39,.25)}
+  .k{color:#b083c9}.s{color:#8fae6b}.c{color:#5c6672;font-style:italic}
+  .n{color:#d19a4e}.p{color:#7b8794}.t{color:#5fa8bd}.a{color:#c98a5e}
+
+  #say{overflow-y:auto;background:var(--panel);border-left:1px solid var(--edge);
+    padding:12px 14px}
+  #say h4{margin:0 0 9px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold)}
+  #say pre{margin:0;white-space:pre-wrap;word-break:break-word;
+    font:400 10.5px/1.65 var(--mono);color:var(--dim)}
+  #say pre.ok{color:var(--moss)} #say pre.bad{color:var(--rust)}
+  #say .hint{margin:14px 0 0;padding-top:12px;border-top:1px solid var(--edge);
+    font:400 11px/1.7 var(--serif);color:var(--faint)}
+  #say .hint b{color:var(--dim)}
+
+  footer{display:flex;align-items:center;gap:16px;padding:7px 14px;
+    background:var(--panel);border-top:1px solid var(--edge);
+    font-size:10px;color:var(--faint)}
+  footer b{color:var(--dim);font-weight:400}
+  footer .sp{margin-left:auto}
+  footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>The explorer<s>the yard, edited from inside it</s></h1>
+  <div class="p" id="where">nothing open</div>
+  <div class="sp">
+    <button id="save" disabled>save &nbsp;ctrl+S</button>
+    <button id="run" class="run" disabled>run &nbsp;ctrl+R</button>
+    <button id="open" disabled>open the board</button>
+  </div>
+</header>
+<main>
+  <nav id="tree"></nav>
+  <div id="mid">
+    <div id="tabs"></div>
+    <div id="wrap"><div id="gut"></div><div id="stack"><pre id="hl" aria-hidden="true"></pre><textarea id="ed" spellcheck="false" autocomplete="off" wrap="off"></textarea></div></div>
+  </div>
+  <aside id="say"><h4>what it said</h4><pre id="out">Nothing run yet.</pre><p class="hint">Open a <b>.mjs</b> and press run. It executes here, in this folder, and prints what the generator printed &mdash; which is the loop the whole yard is built on. Edit, run, the board changes, open the board.<br><br><b>Nothing autosaves.</b> A dot on the tab means the buffer differs from disk. That is the entire ceremony.</p></aside>
+</main>
+<footer>
+  <span>files <b id="f-n">0</b></span>
+  <span>open <b id="f-open">0</b></span>
+  <span id="f-dirty"></span>
+  <span class="sp"><a href="/arcade.html">the arcade</a> &middot; <a href="/dev.html">the hub</a> &middot; <a href="/writing.html">the notebook</a></span>
+</footer>
+
+<script>
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+let FILES = [];
+const open = new Map();     /* path -> { body, disk } */
+let cur = null;
+
+/* ══ highlighting. Same approach the notebook uses: a painted layer under a
+   transparent textarea, identical metrics or the ink slides off. ══════ */
+const KW = /\b(const|let|var|function|return|if|else|for|of|in|while|do|break|continue|new|class|extends|import|export|from|default|await|async|try|catch|finally|throw|typeof|instanceof|delete|void|yield|static|this|super|null|undefined|true|false)\b/g;
+function tok(text, ext) {
+  const E = esc(text);
+  if (ext === 'mjs' || ext === 'js' || ext === 'json')
+    return E
+      .replace(/(\/\*[\s\S]*?\*\/|\/\/[^\n]*)/g, '<i class="c">$1</i>')
+      .replace(/('(?:[^'\n\\]|\\.)*'|&quot;(?:[^&\n]|&(?!quot;))*&quot;|`(?:[^`\\]|\\.)*`)/g, '<i class="s">$1</i>')
+      .replace(/\b(\d[\d_.eE+-]*)\b/g, '<i class="n">$1</i>')
+      .replace(KW, '<i class="k">$&</i>');
+  if (ext === 'css')
+    return E.replace(/(\/\*[\s\S]*?\*\/)/g, '<i class="c">$1</i>')
+      .replace(/^(\s*)([a-z-]+)(\s*:)/gm, '$1<i class="a">$2</i><i class="p">$3</i>');
+  if (ext === 'html')
+    return E.replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<i class="c">$1</i>')
+      .replace(/(&lt;\/?)([a-zA-Z][\w-]*)/g, '<i class="p">$1</i><i class="t">$2</i>')
+      .replace(/([a-zA-Z-]+)(=)(&quot;[^&]*&quot;)/g, '<i class="a">$1</i><i class="p">$2</i><i class="s">$3</i>');
+  if (ext === 'md')
+    return E.replace(/^(#+ .*)$/gm, '<i class="t">$1</i>')
+      .replace(/^(- .*)$/gm, '<i class="a">$1</i>');
+  return E;
+}
+const extOf = (p) => (p.split('.').pop() || '').toLowerCase();
+
+function paintEditor() {
+  const f = open.get(cur);
+  if (!f) { $('#hl').innerHTML = ''; $('#gut').innerHTML = ''; $('#ed').value = ''; return; }
+  $('#hl').innerHTML = tok(f.body, extOf(cur)) + ' ';
+  const n = f.body.split('\n').length;
+  $('#gut').innerHTML = Array.from({ length: n }, (_, i) => i + 1).join('<br>');
+}
+
+/* ══ the tree ══════════════════════════════════════════════════════════ */
+async function loadTree() {
+  FILES = await (await fetch('/api/tree')).json();
+  const byDir = new Map();
+  for (const f of FILES) {
+    if (f.dir) continue;
+    const i = f.path.lastIndexOf('/');
+    const d = i < 0 ? 'the yard' : f.path.slice(0, i);
+    if (!byDir.has(d)) byDir.set(d, []);
+    byDir.get(d).push(f);
+  }
+  const el = $('#tree');
+  el.innerHTML = '';
+  for (const [d, list] of byDir) {
+    const h = document.createElement('div');
+    h.className = 'd'; h.textContent = d + '  (' + list.length + ')';
+    el.appendChild(h);
+    for (const f of list) {
+      const a = document.createElement('a');
+      a.className = extOf(f.path) === 'mjs' ? 'gen' : '';
+      a.dataset.p = f.path;
+      a.innerHTML = '<span>' + esc(f.path.split('/').pop()) + '</span><u>' +
+        (f.size > 9999 ? Math.round(f.size / 1024) + 'k' : f.size) + '</u>';
+      a.onclick = () => openFile(f.path);
+      el.appendChild(a);
+    }
+  }
+  $('#f-n').textContent = FILES.filter((f) => !f.dir).length;
+}
+
+/* ══ open, save, run ═══════════════════════════════════════════════════ */
+async function openFile(p) {
+  if (!open.has(p)) {
+    const r = await fetch('/api/read?f=' + encodeURIComponent(p));
+    const j = await r.json();
+    if (!r.ok) { say(j.error, 'bad'); return; }
+    open.set(p, { body: j.body, disk: j.body });
+  }
+  cur = p;
+  $('#ed').value = open.get(p).body;
+  paintTabs(); paintEditor(); marks();
+  $('#ed').focus();
+}
+
+function paintTabs() {
+  const t = $('#tabs'); t.innerHTML = '';
+  for (const [p, f] of open) {
+    const d = document.createElement('div');
+    d.className = p === cur ? 'on' : '';
+    d.innerHTML = (f.body !== f.disk ? '<i>&bull;</i>' : '') +
+      '<span>' + esc(p.split('/').pop()) + '</span><b>&times;</b>';
+    d.onclick = (e) => {
+      if (e.target.tagName === 'B') {
+        open.delete(p);
+        if (cur === p) { cur = open.keys().next().value || null;
+          $('#ed').value = cur ? open.get(cur).body : ''; }
+        paintTabs(); paintEditor(); marks();
+      } else openFile(p);
+    };
+    t.appendChild(d);
+  }
+  document.querySelectorAll('#tree a').forEach((a) =>
+    a.classList.toggle('on', a.dataset.p === cur));
+}
+
+function marks() {
+  const f = cur && open.get(cur);
+  const dirty = [...open.values()].filter((x) => x.body !== x.disk).length;
+  $('#where').innerHTML = cur
+    ? '<b>' + esc(cur) + '</b>' + (f.body !== f.disk ? ' <i>&bull; unsaved</i>' : '')
+    : 'nothing open';
+  $('#save').disabled = !f || f.body === f.disk;
+  $('#run').disabled = !cur || extOf(cur) !== 'mjs';
+  $('#open').disabled = !cur || !/\.(html|mjs)$/.test(cur);
+  $('#f-open').textContent = open.size;
+  $('#f-dirty').innerHTML = dirty ? 'unsaved <b>' + dirty + '</b>' : '';
+}
+
+function say(text, cls) {
+  const o = $('#out'); o.className = cls || ''; o.textContent = text;
+}
+
+async function save() {
+  const f = cur && open.get(cur);
+  if (!f || f.body === f.disk) return;
+  const r = await fetch('/api/save', { method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ path: cur, body: f.body }) });
+  const j = await r.json();
+  if (!r.ok) return say('not saved: ' + j.error, 'bad');
+  f.disk = f.body;
+  paintTabs(); marks(); loadTree();
+  say('saved ' + j.path + '  (' + j.bytes.toLocaleString() + ' bytes)', 'ok');
+}
+
+async function runIt() {
+  if (!cur || extOf(cur) !== 'mjs') return;
+  const f = open.get(cur);
+  if (f && f.body !== f.disk) await save();
+  say('running ' + cur + ' ...');
+  const r = await fetch('/api/run', { method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ path: cur }) });
+  const j = await r.json();
+  say(j.out, j.ok ? 'ok' : 'bad');
+  loadTree();
+}
+
+$('#save').onclick = save;
+$('#run').onclick = runIt;
+$('#open').onclick = () => {
+  if (!cur) return;
+  const board = cur.endsWith('.mjs') ? cur.replace(/\.mjs$/, '.html') : cur;
+  window.open('/' + board, '_blank');
+};
+
+$('#ed').addEventListener('input', (e) => {
+  const f = open.get(cur);
+  if (!f) return;
+  f.body = e.target.value;
+  paintEditor(); paintTabs(); marks();
+});
+$('#ed').addEventListener('scroll', () => {
+  $('#hl').style.transform = 'translate(' + (-$('#ed').scrollLeft) + 'px,' +
+    (-$('#ed').scrollTop) + 'px)';
+}, { passive: true });
+$('#wrap').addEventListener('scroll', () => {
+  $('#hl').style.transform = 'translateY(' + (-$('#wrap').scrollTop) + 'px)';
+}, { passive: true });
+$('#ed').addEventListener('keydown', (e) => {
+  if (e.key === 'Tab' && !e.ctrlKey && !e.metaKey) {
+    e.preventDefault();
+    const el = e.target, a = el.selectionStart, b = el.selectionEnd;
+    el.value = el.value.slice(0, a) + '  ' + el.value.slice(b);
+    el.selectionStart = el.selectionEnd = a + 2;
+    el.dispatchEvent(new Event('input'));
+  }
+});
+addEventListener('keydown', (e) => {
+  if (!(e.ctrlKey || e.metaKey)) return;
+  const k = e.key.toLowerCase();
+  if (k === 's') { e.preventDefault(); save(); }
+  if (k === 'r') { e.preventDefault(); runIt(); }
+});
+
+loadTree().then(() => {
+  say('The tree is the yard. Open a generator and press run — it executes ' +
+      'here, in this folder, and prints what it printed. Nothing is written ' +
+      'until you save.');
+}).catch(() => {
+  say('No file API. This board needs venus-app.mjs — a plain static server ' +
+      'has no tree, read, save or run.\n\nStart it with:  node venus-app.mjs', 'bad');
+});
+</script>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

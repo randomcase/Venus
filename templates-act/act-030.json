@@ -1,0 +1,16 @@
+{
+ "id": "act-030",
+ "order": 30,
+ "year": 3,
+ "day": 1059,
+ "parties": [
+  "paris"
+ ],
+ "actor": "Paris",
+ "with": null,
+ "verb": "returned",
+ "object": "Chryseis to her father",
+ "place": "by the river",
+ "side": "troy",
+ "text": "Paris returned Chryseis to her father, by the river, in the third year."
+}

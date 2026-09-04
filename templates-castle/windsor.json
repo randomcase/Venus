@@ -1,0 +1,63 @@
+{
+ "id": "windsor",
+ "order": 1,
+ "name": "Windsor",
+ "era": "1070 onward",
+ "kind": "accreted",
+ "ground": "A chalk bluff above the Thames, chosen because it is thirty metres higher than everything around it and a day’s march from London. Every other decision here follows from those two facts and nothing follows from taste.",
+ "motte": {
+  "diameter": 60,
+  "height": 15,
+  "note": "Thrown up in the 1070s. The Round Tower sits on it."
+ },
+ "keep": {
+  "name": "The Round Tower",
+  "diameter": 30,
+  "height": 20,
+  "shape": "round",
+  "note": "Round because a round tower has no corner to undermine."
+ },
+ "wards": [
+  {
+   "id": "upper",
+   "name": "Upper Ward",
+   "w": 180,
+   "d": 120,
+   "wall": 8,
+   "note": "The private side. State apartments along the north."
+  },
+  {
+   "id": "lower",
+   "name": "Lower Ward",
+   "w": 200,
+   "d": 110,
+   "wall": 8,
+   "note": "The public side. The chapel, and everybody who is not the household."
+  }
+ ],
+ "towers": 14,
+ "axis": {
+  "name": "The Long Walk",
+  "length_m": 4260,
+  "note": "Four and a quarter kilometres, dead straight, and it exists so that the castle is the only thing at the end of it."
+ },
+ "figures": [
+  {
+   "what": "the site",
+   "value": "about 13 acres inside the walls"
+  },
+  {
+   "what": "the motte",
+   "value": "15 m of piled chalk, dug from the ditch around it"
+  },
+  {
+   "what": "the Long Walk",
+   "value": "4.26 km — 2.65 miles"
+  },
+  {
+   "what": "continuously occupied",
+   "value": "since the 1070s, which no other castle manages"
+  }
+ ],
+ "lesson": "It is not symmetrical and was never meant to be. Two wards of different sizes either side of a mound, because the mound came first and everything else went where there was room. A plan like this cannot be designed; it can only be arrived at."
+}

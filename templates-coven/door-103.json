@@ -1,0 +1,11 @@
+{
+ "id": "door-103",
+ "kind": "door",
+ "door": 103,
+ "syndicate": "syn-11",
+ "tranche": 11,
+ "keeper": "p-31",
+ "share": 111111.11,
+ "text": "Door 103 of 200. Draws on the 11th tranche, kept by Tarnic Yarrith, signed with two of three. A unit issued here is the same unit as one issued at door 1 and at door 200.",
+ "wovenBy": "syn-11"
+}

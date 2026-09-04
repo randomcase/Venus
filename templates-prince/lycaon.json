@@ -1,0 +1,19 @@
+{
+ "id": "lycaon",
+ "order": 12,
+ "name": "Lycaon",
+ "kind": "net",
+ "glyph": "⌇",
+ "colour": "#6b8fa8",
+ "cost": 9500,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 90,
+  "damage": 0.6,
+  "rate": 1.0,
+  "slow": 0.5,
+  "slowFor": 3
+ },
+ "does": "Nets. What he touches walks at half pace for three days.",
+ "text": "Sold into Lemnos for a bowl, came back, and met Achilles at the river. He knows what being held is."
+}

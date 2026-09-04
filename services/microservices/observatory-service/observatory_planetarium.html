@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Celestial Observatory & 3D Planetarium Star Checkout</title>
+  <style>
+    body {
+      background: #02040a;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    .dome-badge {
+      background: #38bdf8;
+      color: #000;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 20px;
+    }
+    .starfield-canvas {
+      width: 100%;
+      height: 440px;
+      background: radial-gradient(circle at 50% 50%, #0f172a, #02040a);
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      display: block;
+      cursor: crosshair;
+    }
+    .panel {
+      background: rgba(18, 26, 43, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .star-card {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .star-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+    .star-selected {
+      border-color: #38bdf8;
+      background: #0f172a;
+    }
+    .btn {
+      background: #38bdf8;
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      font-size: 14px;
+    }
+    .btn:hover { background: #7dd3fc; }
+    .btn-return {
+      background: #ef4444;
+      color: #fff;
+      margin-top: 8px;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .avail { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+    .busy { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+    .crypto-box {
+      margin-top: 14px;
+      background: #020617;
+      border: 1px solid #1e293b;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 11px;
+      color: #10b981;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1 style="margin:0 0 4px; font-size:24px;">🪐 Celestial Observatory & Planetarium</h1>
+        <span style="color:#94a3b8; font-size:13px;">3D Celestial Coordinates • Spectroscopic Telemetry • Star Checkout System</span>
+      </div>
+      <span class="dome-badge">🔭 Dome Telescope: ONLINE</span>
+    </div>
+
+    <div class="grid">
+      <!-- Left: 3D Interactive Starfield Canvas -->
+      <div>
+        <canvas id="starfield" class="starfield-canvas"></canvas>
+        <div style="margin-top:14px; display:grid; grid-template-columns: repeat(4, 1fr); gap:10px;" id="starCatalogList"></div>
+      </div>
+
+      <!-- Right: Star Checkout & Telemetry Panel -->
+      <div class="panel">
+        <h3 style="margin-top:0; color:#38bdf8; border-bottom:1px solid #1e293b; padding-bottom:8px;">🌟 Stellar Spectroscopic Target</h3>
+
+        <div id="targetDetails">
+          <div style="font-size:18px; font-weight:bold; color:#fff;" id="starName">Select a Celestial Star</div>
+          <div style="font-size:12px; color:#94a3b8; margin-top:2px;" id="starCoords">Coordinates: RA -- / Dec --</div>
+          <hr style="border:0; border-top:1px solid rgba(255,255,255,0.05); margin:10px 0;">
+          <div style="font-size:13px;"><strong>Constellation:</strong> <span id="starConst">--</span></div>
+          <div style="font-size:13px; margin-top:4px;"><strong>Spectral Class:</strong> <span id="starSpect">--</span></div>
+          <div style="font-size:13px; margin-top:4px;"><strong>Distance:</strong> <span id="starDist">--</span></div>
+          <div style="font-size:13px; margin-top:4px;"><strong>Luminosity:</strong> <span id="starLum">--</span></div>
+          <div style="font-size:13px; margin-top:4px;"><strong>Status:</strong> <span id="starStatusBadge" class="status-badge avail">AVAILABLE</span></div>
+        </div>
+
+        <div style="margin-top:10px;">
+          <label style="font-size:12px; color:#94a3b8; font-weight:bold;">Observer / Agent Name:</label>
+          <input type="text" id="observerInput" value="Observer_Alpha_01" style="width:100%; background:#030712; border:1px solid #334155; color:#fff; padding:8px 12px; border-radius:6px; margin:6px 0 12px 0; box-sizing:border-box;">
+          
+          <button class="btn" id="btnCheckout" onclick="checkoutSelectedStar()">🔭 Check Out Star for Observation</button>
+          <button class="btn btn-return" id="btnReturn" style="display:none;" onclick="returnSelectedStar()">↩️ Return Star to Public Catalog</button>
+        </div>
+
+        <div class="crypto-box" id="certBox">
+          🔒 Observation Token: 7a9f2c10b42f790184b2e89ca17482f6e91024bc6831aeef559102ca74e289bf
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const stars = [
+      { id: "alpha-vir-spica", name: "Spica", bayer: "α Virginis", const: "Virgo", spect: "B1III-IV", dist: "250.0 LY", lum: "12,100 L☉", ra: "13h 25m 11.58s", dec: "-11° 09′ 40.8″", color: "#60a5fa", x: 420, y: 220, size: 8, status: "AVAILABLE" },
+      { id: "beta-ori-rigel", name: "Rigel", bayer: "β Orionis", const: "Orion", spect: "B8Ia", dist: "860.0 LY", lum: "120,000 L☉", ra: "05h 14m 32.27s", dec: "-08° 12′ 05.9″", color: "#93c5fd", x: 180, y: 310, size: 10, status: "AVAILABLE" },
+      { id: "alpha-ori-betelgeuse", name: "Betelgeuse", bayer: "α Orionis", const: "Orion", spect: "M1-2Ia-ab", dist: "642.5 LY", lum: "126,000 L☉", ra: "05h 55m 10.31s", dec: "+07° 24′ 25.4″", color: "#f87171", x: 210, y: 150, size: 11, status: "AVAILABLE" },
+      { id: "alpha-cma-sirius", name: "Sirius", bayer: "α Canis Majoris", const: "Canis Major", spect: "A1V", dist: "8.6 LY", lum: "25.4 L☉", ra: "06h 45m 08.92s", dec: "-16° 42′ 58.0″", color: "#ffffff", x: 300, y: 360, size: 12, status: "AVAILABLE" },
+      { id: "alpha-lyr-vega", name: "Vega", bayer: "α Lyrae", const: "Lyra", spect: "A0V", dist: "25.0 LY", lum: "40.1 L☉", ra: "18h 36m 56.34s", dec: "+38° 47′ 01.3″", color: "#bfdbfe", x: 580, y: 110, size: 9, status: "AVAILABLE" },
+      { id: "zeta-vir-heze", name: "Heze", bayer: "ζ Virginis", const: "Virgo", spect: "A3V", dist: "74.1 LY", lum: "18.0 L☉", ra: "13h 34m 41.60s", dec: "-00° 35′ 45.0″", color: "#fef08a", x: 460, y: 190, size: 6, status: "AVAILABLE" }
+    ];
+
+    let selectedStar = stars[0];
+
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = 440;
+      drawStarfield();
+    }
+
+    function drawStarfield() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Background random cosmic dust
+      for (let i = 0; i < 80; i++) {
+        const bgX = (i * 73) % canvas.width;
+        const bgY = (i * 97) % canvas.height;
+        ctx.fillStyle = "rgba(255, 255, 255, 0.25)";
+        ctx.fillRect(bgX, bgY, 1.5, 1.5);
+      }
+
+      // Draw Starfield Nodes
+      stars.forEach(s => {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fillStyle = s.color;
+        ctx.shadowColor = s.color;
+        ctx.shadowBlur = 15;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Label
+        ctx.fillStyle = "#cbd5e1";
+        ctx.font = "11px monospace";
+        ctx.fillText(s.name, s.x + s.size + 4, s.y + 4);
+
+        if (selectedStar && selectedStar.id === s.id) {
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.size + 8, 0, Math.PI * 2);
+          ctx.strokeStyle = "#38bdf8";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+      });
+    }
+
+    function renderCatalog() {
+      const container = document.getElementById('starCatalogList');
+      container.innerHTML = stars.map(s => `
+        <div class="star-card ${selectedStar && selectedStar.id === s.id ? 'star-selected' : ''}" onclick="selectStar('${s.id}')">
+          <div style="font-weight:bold; font-size:13px; color:#fff;">${s.name}</div>
+          <div style="font-size:10px; color:#94a3b8; margin:2px 0;">${s.const}</div>
+          <span class="status-badge ${s.status === 'AVAILABLE' ? 'avail' : 'busy'}">${s.status}</span>
+        </div>
+      `).join('');
+    }
+
+    function selectStar(id) {
+      selectedStar = stars.find(s => s.id === id);
+      document.getElementById('starName').innerText = `${selectedStar.name} (${selectedStar.bayer})`;
+      document.getElementById('starCoords').innerText = `Coordinates: RA ${selectedStar.ra} | Dec ${selectedStar.dec}`;
+      document.getElementById('starConst').innerText = selectedStar.const;
+      document.getElementById('starSpect').innerText = selectedStar.spect;
+      document.getElementById('starDist').innerText = selectedStar.dist;
+      document.getElementById('starLum').innerText = selectedStar.lum;
+
+      const badge = document.getElementById('starStatusBadge');
+      badge.innerText = selectedStar.status;
+      badge.className = `status-badge ${selectedStar.status === 'AVAILABLE' ? 'avail' : 'busy'}`;
+
+      if (selectedStar.status === 'CHECKED_OUT') {
+        document.getElementById('btnCheckout').style.display = 'none';
+        document.getElementById('btnReturn').style.display = 'block';
+      } else {
+        document.getElementById('btnCheckout').style.display = 'block';
+        document.getElementById('btnReturn').style.display = 'none';
+      }
+
+      drawStarfield();
+      renderCatalog();
+    }
+
+    function checkoutSelectedStar() {
+      const observer = document.getElementById('observerInput').value || 'Observer_1';
+      selectedStar.status = 'CHECKED_OUT';
+      const token = Array.from(crypto.getRandomValues(new Uint8Array(32)))
+        .map(b => b.toString(16).padStart(2, '0')).join('');
+      document.getElementById('certBox').innerText = `🔒 Observation Certificate SHA-256: ${token}`;
+      alert(`Telescope Slewed to ${selectedStar.name}! Checked out to ${observer}.`);
+      selectStar(selectedStar.id);
+    }
+
+    function returnSelectedStar() {
+      selectedStar.status = 'AVAILABLE';
+      alert(`Star ${selectedStar.name} returned to public observatory catalog.`);
+      selectStar(selectedStar.id);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    window.onload = () => {
+      resizeCanvas();
+      selectStar(stars[0].id);
+    };
+  </script>
+</body>
+</html>

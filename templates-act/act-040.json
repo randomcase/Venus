@@ -1,0 +1,16 @@
+{
+ "id": "act-040",
+ "order": 40,
+ "year": 4,
+ "day": 1419,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "withdrew",
+ "object": "from the field and sat down",
+ "place": "at the fig tree",
+ "side": "fleet",
+ "text": "Agamemnon withdrew from the field and sat down, at the fig tree, in the fourth year."
+}

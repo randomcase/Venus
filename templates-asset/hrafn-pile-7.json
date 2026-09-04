@@ -1,0 +1,12 @@
+{
+ "id": "hrafn-pile-7",
+ "kind": "pile",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "name": "a sealed cistern for hydrogen",
+ "holds": 700,
+ "cost": 840,
+ "text": "Holds 700 hydrogen. What is not piled is not yours by morning.",
+ "wovenBy": "hrafn"
+}

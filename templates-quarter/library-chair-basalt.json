@@ -1,0 +1,9 @@
+{
+ "id": "library-chair-basalt",
+ "kind": "chair",
+ "room": "library",
+ "name": "a reading chair in basalt fibre",
+ "text": "Upholstered in basalt fibre, which survives Venus well. Spun from melted rock, better in acid than E-glass, and made from the commonest rock on the Venusian surface. The one material on this list that could in principle be sourced there.",
+ "wovenBy": "basalt",
+ "seat": 9
+}

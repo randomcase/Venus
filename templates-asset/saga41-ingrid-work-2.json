@@ -1,0 +1,16 @@
+{
+ "id": "saga41-ingrid-work-2",
+ "kind": "work",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "house": "Scriptorium",
+ "resource": "record",
+ "period": 13,
+ "tier": 2,
+ "yield": 2,
+ "cost": 480,
+ "name": "Scriptorium 2 of Ingridsdottir",
+ "text": "A second book, for the things the first one refused. Yields 2 record every 13 days.",
+ "wovenBy": "ingrid",
+ "saga": 41
+}

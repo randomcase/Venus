@@ -1,0 +1,22 @@
+{
+ "id": "syn-5",
+ "kind": "syndicate",
+ "tranche": 5,
+ "holds": 1000000,
+ "doors": [
+  39,
+  47
+ ],
+ "doorCount": 9,
+ "custodians": [
+  "p-13",
+  "p-14",
+  "p-15"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 5th syndicate",
+ "seat": "the lower flue",
+ "text": "Holds one tranche of a million against doors 39 to 47. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

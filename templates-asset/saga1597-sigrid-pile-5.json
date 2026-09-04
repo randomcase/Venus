@@ -1,0 +1,13 @@
+{
+ "id": "saga1597-sigrid-pile-5",
+ "kind": "pile",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "name": "a sealed cistern for biomass",
+ "holds": 200,
+ "cost": 240,
+ "text": "Holds 200 biomass. What is not piled is not yours by morning.",
+ "wovenBy": "sigrid",
+ "saga": 1597
+}

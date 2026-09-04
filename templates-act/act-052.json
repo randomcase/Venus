@@ -1,0 +1,16 @@
+{
+ "id": "act-052",
+ "order": 52,
+ "year": 6,
+ "day": 1849,
+ "parties": [
+  "patroclus"
+ ],
+ "actor": "Patroclus",
+ "with": null,
+ "verb": "withdrew",
+ "object": "from the field and sat down",
+ "place": "on the plain of Scamander",
+ "side": "fleet",
+ "text": "Patroclus withdrew from the field and sat down, on the plain of Scamander, in the sixth year."
+}

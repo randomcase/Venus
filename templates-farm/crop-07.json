@@ -1,0 +1,12 @@
+{
+ "id": "crop-07",
+ "depth": 1,
+ "wovenBy": "l2-crop-2-1",
+ "kind": "crop",
+ "plant": "rye",
+ "season": "summer",
+ "days": 40,
+ "name": "rye, summer-sown, 40 days",
+ "seed": 90,
+ "harvest": 147
+}

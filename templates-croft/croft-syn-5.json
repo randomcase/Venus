@@ -1,0 +1,12 @@
+{
+ "id": "croft-syn-5",
+ "kind": "croft",
+ "syndicate": "syn-5",
+ "tranche": 5,
+ "seat": "the lower flue",
+ "period": 11,
+ "yield": 3,
+ "cap": 30,
+ "text": "The croft at the lower flue, growing sealing wax for the 5th syndicate every 11 days.",
+ "wovenBy": "syn-5"
+}

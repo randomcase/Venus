@@ -1,0 +1,42 @@
+{
+ "id": "ingrid",
+ "order": 6,
+ "name": "Ingridsdottir",
+ "house": "Scriptorium",
+ "resource": "record",
+ "period": 13,
+ "base": 1,
+ "saga": "They keep the register of what was looked for and not found. It is the smallest output on the board and the least negotiable line on the manifest, because a base that only counts hits quietly stops reporting misses, and the misses are most of the work.",
+ "tiers": [
+  {
+   "n": 1,
+   "houses": 1,
+   "note": "One scribe. One book. Mostly blank, on purpose.",
+   "yield": 1
+  },
+  {
+   "n": 2,
+   "houses": 2,
+   "note": "A second book, for the things the first one refused.",
+   "yield": 2
+  },
+  {
+   "n": 3,
+   "houses": 3,
+   "note": "Somebody reads back three years and does not repeat a search.",
+   "yield": 4
+  },
+  {
+   "n": 4,
+   "houses": 4,
+   "note": "The register is now cheaper than the searching it prevents.",
+   "yield": 6
+  },
+  {
+   "n": 5,
+   "houses": 5,
+   "note": "Nine books. Nobody has ever thanked them and the ledger is still the reason.",
+   "yield": 9
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+{
+ "id": "saga8191-bjorn-band-11",
+ "kind": "band",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "name": "longship crew of Bjornsdottir",
+ "strength": 14,
+ "raids": false,
+ "cost": 1619,
+ "upkeep": 3,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 14; eats 3 nitrogen a day.",
+ "wovenBy": "bjorn",
+ "saga": 8191
+}

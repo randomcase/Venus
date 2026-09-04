@@ -1,0 +1,30 @@
+{
+ "id": "enum-verdict-fleet",
+ "kind": "enum",
+ "family": "verdict-fleet",
+ "path": "templates-enum/verdict-fleet.json",
+ "note": "The fixed vocabulary of templates-verdict-fleet/, mined from 100 of its 100 templates by enums.mjs. Kept in templates-enum/, never inside templates-verdict-fleet/ itself, so nothing that scans templates-verdict-fleet/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 100,
+ "sampledFiles": 100,
+ "fields": {
+  "bench": {
+   "type": "string",
+   "distinct": 1,
+   "samples": 100,
+   "values": [
+    "fleet"
+   ]
+  },
+  "verdict": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 100,
+   "values": [
+    "no fault",
+    "the fleet bears it",
+    "Troy bears it"
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

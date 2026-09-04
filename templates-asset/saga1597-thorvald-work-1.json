@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-thorvald-work-1",
+ "kind": "work",
+ "clan": "thorvald",
+ "clanName": "Thorvaldsson",
+ "house": "Relay mast",
+ "resource": "signal",
+ "period": 11,
+ "tier": 1,
+ "yield": 6,
+ "cost": 720,
+ "name": "Relay mast 1 of Thorvaldsson",
+ "text": "One mast. Everything routes through it, which is the problem. Yields 6 signal every 11 days.",
+ "wovenBy": "thorvald",
+ "saga": 1597
+}

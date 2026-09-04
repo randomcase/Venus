@@ -1,0 +1,18 @@
+{
+ "kind": "guild",
+ "name": "the guild of dark bread",
+ "dues": 132,
+ "members": 3,
+ "cost": 8898,
+ "text": "dark bread, by charter. Three households in the guild; dues of 132 HEZE a day.",
+ "id": "t-v-crop-07",
+ "wovenBy": "v-crop-07",
+ "chain": [
+  "v-crop-07",
+  "crop-07",
+  "l2-crop-2-1",
+  "l3-crop-2",
+  "l4-crop",
+  "loom.mjs"
+ ]
+}

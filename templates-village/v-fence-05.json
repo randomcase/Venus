@@ -1,0 +1,16 @@
+{
+ "kind": "lane",
+ "name": "the lane along the ditch and bank",
+ "keep": 0.97,
+ "cost": 534,
+ "text": "A lane that keeps the deer out; the village loses ×0.97 less to the road.",
+ "id": "v-fence-05",
+ "wovenBy": "fence-05",
+ "chain": [
+  "fence-05",
+  "l2-fence-1-1",
+  "l3-fence-1",
+  "l4-fence",
+  "loom.mjs"
+ ]
+}

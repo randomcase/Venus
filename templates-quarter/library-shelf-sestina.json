@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-sestina",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of sestina",
+ "text": "Six end-words, no rhyme, and a fixed spiral that retires each word through every position before returning it.",
+ "wovenBy": "sestina",
+ "bay": 10
+}

@@ -1,0 +1,16 @@
+{
+ "id": "the-seed-bank",
+ "name": "The Seed Bank",
+ "patron": "The yard, in perpetuity, ahead of any other line.",
+ "holds": "The founder populations. Six thousand four hundred species at a thousand each.",
+ "because": "It produces nothing at all until the day it is needed, and on that day it cannot be started. A store that only pays out in an emergency is worthless by every measure applied before the emergency.",
+ "produces_mostly": "nothing, until it is the only thing",
+ "study": "Drift under storage. What a thousand founders of a given species actually keeps after fifty years in a bank rather than in a forest, which is a question nobody can answer from Earth data because nobody on Earth has needed to.",
+ "stream": {
+  "cadence": "every window",
+  "term": "perpetual"
+ },
+ "ends_when": "never",
+ "unconditional": true,
+ "anchor": "Vavilov’s collection was held through the siege of Leningrad by staff who starved beside edible seed. No milestone in that."
+}

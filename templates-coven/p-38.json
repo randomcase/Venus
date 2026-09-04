@@ -1,0 +1,31 @@
+{
+ "id": "p-38",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Kelwyn Pellwyn",
+ "syndicate": "syn-13",
+ "tranche": 13,
+ "doors": [
+  115,
+  123
+ ],
+ "house": "the quiet lamp",
+ "sigil": {
+  "ring": 3,
+  "bars": 2,
+  "chord": 2,
+  "turn": 295
+ },
+ "keeps": "the checkpoint, and what it was taken over",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "Johannes Junius",
+ "readsId": "junius",
+ "reason": "His letter to his daughter survives, written from the cell: the confession was false and extracted, and he said so in writing while he still could.",
+ "spell": "Ward",
+ "spellId": "ward",
+ "glyph": "◈",
+ "share": "8367b3",
+ "text": "Kelwyn pellwyn of the quiet lamp, keeps the book for the 13th tranche, doors 115 to 123. Keeps the checkpoint, and what it was taken over. Reads Johannes Junius.",
+ "wovenBy": "junius"
+}

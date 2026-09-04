@@ -1,0 +1,12 @@
+{
+ "id": "l2-weather-1-2",
+ "depth": 2,
+ "wovenBy": "l3-weather-1",
+ "kind": "weather",
+ "name": "The weather mould 1.2: fog, 3",
+ "fixed": {
+  "sky": "fog",
+  "lasts": 3
+ },
+ "open": []
+}

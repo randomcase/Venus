@@ -1,0 +1,31 @@
+{
+ "id": "p-47",
+ "kind": "practitioner",
+ "office": "wizard",
+ "name": "Vessor Quillael",
+ "syndicate": "syn-16",
+ "tranche": 16,
+ "doors": [
+  143,
+  152
+ ],
+ "house": "the shut window",
+ "sigil": {
+  "ring": 2,
+  "bars": 3,
+  "chord": 1,
+  "turn": 176
+ },
+ "keeps": "the arithmetic nobody else wants to do",
+ "does": "Replays the chain from nothing and says whether the balance is the sum of the events. Signs when it is.",
+ "office_is": "keeps the book",
+ "reads": "John Fian",
+ "readsId": "fian",
+ "reason": "Accused of raising the storm that struck James VI’s ship.",
+ "spell": "Bolt",
+ "spellId": "bolt",
+ "glyph": "⟊",
+ "share": "781469",
+ "text": "Vessor quillael of the shut window, keeps the book for the 16th tranche, doors 143 to 152. Keeps the arithmetic nobody else wants to do. Reads John Fian.",
+ "wovenBy": "fian"
+}

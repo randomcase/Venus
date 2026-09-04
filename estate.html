@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The upkeep &middot; what a castle costs to keep</title>
+<!-- No off-origin requests. Every figure computed in estate.mjs from the plans. -->
+<style>
+  :root{
+    --paper:#f7f4ec; --paper2:#efe9db; --ink:#23211c; --dim:#605b51;
+    --faint:#8f887b; --rule:#ddd6c6; --edge:#c9bfa9;
+    --ink2:#7a3f2e; --good:#42663a; --gold:#8a6a1c; --cool:#2f5560;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:17px/1.72 var(--serif);padding:48px 22px 100px}
+  main{max-width:880px;margin:0 auto}
+  a{color:var(--cool)}
+  .kick{margin:0 0 9px;font:400 9px/1 var(--mono);letter-spacing:.34em;
+    text-transform:uppercase;color:var(--ink2)}
+  h1{margin:0 0 8px;font:500 43px/1.06 var(--serif);letter-spacing:-.01em}
+  .sub{margin:0 0 8px;font:italic 400 19px/1.5 var(--serif);color:var(--dim);max-width:62ch}
+  .warn{margin:20px 0 34px;padding:14px 16px;background:var(--paper2);
+    border-left:2px solid var(--ink2);font:400 13px/1.7 var(--serif);color:var(--dim)}
+  .warn b{color:var(--ink)}
+  h2{margin:50px 0 12px;font:500 27px/1.2 var(--serif);
+    padding-bottom:8px;border-bottom:1px solid var(--rule)}
+  h2 s{text-decoration:none;display:block;margin-bottom:5px;
+    font:400 8.5px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink2)}
+  p{margin:0 0 15px;max-width:74ch} b{font-weight:600}
+  .scroll{overflow-x:auto;margin:22px 0}
+  table{width:100%;border-collapse:collapse;min-width:640px;font:400 12.5px/1.5 var(--mono)}
+  th{text-align:right;padding:0 11px 9px 0;color:var(--faint);font-weight:400;
+    font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;
+    border-bottom:1px solid var(--edge)}
+  th:first-child,td:first-child{text-align:left}
+  td{padding:9px 11px 9px 0;border-bottom:1px solid var(--rule);text-align:right;
+    font-variant-numeric:tabular-nums}
+  td.d{text-align:left;color:var(--dim);font:400 13.5px/1.4 var(--serif)}
+  tr.no td{background:#f6ece8} tr.yes td{background:#eef2ea}
+  .plan{margin:26px 0;border:1px solid var(--edge);background:var(--paper2)}
+  .plan header{padding:15px 18px;border-bottom:1px solid var(--edge);
+    display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .plan h3{margin:0;font:600 21px/1.2 var(--serif)}
+  .plan header span{font:400 9px/1 var(--mono);letter-spacing:.16em;
+    text-transform:uppercase;color:var(--faint)}
+  .plan header u{margin-left:auto;text-decoration:none;font:400 20px/1 var(--mono);
+    color:var(--ink2);font-variant-numeric:tabular-nums}
+  .plan .body{padding:16px 18px}
+  .bars{margin:0 0 14px}
+  .b{display:flex;align-items:center;gap:10px;margin-bottom:7px;
+    font:400 11px/1.3 var(--mono)}
+  .b span{width:118px;color:var(--dim);flex:none}
+  .b .t{flex:1;height:15px;background:#e3dbc9;position:relative;overflow:hidden}
+  .b .t i{display:block;height:100%;background:var(--cool)}
+  .b .t i.ok{background:var(--good)}
+  .b .t i.no{background:var(--ink2)}
+  .b u{width:150px;text-align:right;text-decoration:none;color:var(--faint);
+    font-size:10px;flex:none}
+  .verdict{margin:0;padding:12px 14px;background:var(--paper);
+    border-left:2px solid var(--edge);font:400 14px/1.7 var(--serif);color:var(--dim)}
+  .verdict.no{border-left-color:var(--ink2)}
+  .verdict.yes{border-left-color:var(--good)}
+  .find{margin:30px 0;padding:22px 24px;background:#f1ece0;border-left:3px solid var(--ink2)}
+  .find h4{margin:0 0 10px;font:400 8.5px/1 var(--mono);letter-spacing:.22em;
+    text-transform:uppercase;color:var(--ink2)}
+  .assume{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));
+    gap:1px;background:var(--edge);border:1px solid var(--edge);margin:20px 0}
+  .assume div{background:var(--paper);padding:12px 14px}
+  .assume u{display:block;text-decoration:none;font:400 8px/1.3 var(--mono);
+    letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-bottom:5px}
+  .assume b{font:400 16px/1.3 var(--mono);color:var(--ink);font-weight:400}
+  footer{margin-top:66px;padding-top:20px;border-top:1px solid var(--rule);
+    color:var(--faint);font:400 11.5px/1.85 var(--mono)}
+</style>
+</head>
+<body>
+<main>
+<p class="kick">Venus yard &middot; the estate</p>
+<h1>The upkeep</h1>
+<p class="sub">Buying the castle is the cheap part. This works out the other part from the fabric rather than from a rule of thumb, and then checks the two against each other.</p>
+<div class="warn"><b>Read this first.</b> Every rate below is an assumption and is printed where you can see it. They are order-of-magnitude figures from commonly quoted ranges &mdash; not appraisals, not quotations, and not advice. What the page is actually for is the <b>shape</b> of the answer: which costs dominate, how the ceilings on each revenue model compare to the rates, and at what size the arithmetic stops closing. Those conclusions survive quite large errors in the inputs. The dollar totals do not.</div>
+<h2><s>the method</s>From the fabric, not from the value</h2>
+<p>The usual figure is <b>one to three per cent of value, annually</b>. It is unfalsifiable, because it rests on a number nobody can establish &mdash; what is Malbork worth? There is no comparable and no buyer.</p>
+<p>So this goes the other way. The plans already declare metres of wall, wall height, ward dimensions and keep height. Those give square metres of pointing, square metres of roof and cubic metres to heat, and those have trades and prices attached. Then, at the end, the fabric-derived total is divided by two per cent to see what value the rule of thumb would have implied &mdash; and where that implied value is absurd, one of the two methods is wrong.</p>
+<div class="assume">
+  <div><u>lime repointing</u><b>$300/m&sup2;</b>, every 90 yrs</div>
+  <div><u>roof covering</u><b>$420/m&sup2;</b>, every 80 yrs</div>
+  <div><u>heating</u><b>$26/m&sup2;</b> a year</div>
+  <div><u>like-for-like rebuild</u><b>$4200/m&sup2;</b></div>
+  <div><u>insurance</u><b>0.35%</b> of rebuild</div>
+  <div><u>custodian</u><b>$62,000</b>, 0.9 per hectare</div>
+</div>
+<h2><s>the outflow</s>What each one costs a year</h2>
+<div class="scroll"><table>
+<tr><th>plan</th><th>hectares</th><th>wall face</th><th>floor</th><th>pointing</th><th>roof</th><th>heat</th><th>insurance</th><th>staff</th><th>total</th></tr>
+<tr><td class="d">Windsor</td><td>4.4</td><td>19,520 m&sup2;</td><td>18,358 m&sup2;</td><td>$65k</td><td>$40k</td><td>$263k</td><td>$270k</td><td>$248k</td><td><b>$886k</b></td></tr>
+<tr><td class="d">Versailles</td><td>4.7</td><td>0 m&sup2;</td><td>21,312 m&sup2;</td><td>$0k</td><td>$47k</td><td>$305k</td><td>$313k</td><td>$310k</td><td><b>$975k</b></td></tr>
+<tr><td class="d">The Deck Keep</td><td>5.5</td><td>12,800 m&sup2;</td><td>20,442 m&sup2;</td><td>$43k</td><td>$45k</td><td>$292k</td><td>$300k</td><td>$310k</td><td><b>$991k</b></td></tr>
+<tr><td class="d">Krak des Chevaliers</td><td>4.2</td><td>36,240 m&sup2;</td><td>20,580 m&sup2;</td><td>$121k</td><td>$45k</td><td>$294k</td><td>$303k</td><td>$248k</td><td><b>$1.0M</b></td></tr>
+<tr><td class="d">Himeji</td><td>3.9</td><td>28,160 m&sup2;</td><td>25,475 m&sup2;</td><td>$94k</td><td>$56k</td><td>$364k</td><td>$374k</td><td>$248k</td><td><b>$1.1M</b></td></tr>
+<tr><td class="d">Malbork</td><td>12.5</td><td>68,000 m&sup2;</td><td>49,768 m&sup2;</td><td>$227k</td><td>$110k</td><td>$712k</td><td>$732k</td><td>$744k</td><td><b>$2.5M</b></td></tr>
+<tr><td class="d">Neuschwanstein</td><td>0.5</td><td>0 m&sup2;</td><td>16,236 m&sup2;</td><td>$0k</td><td>$36k</td><td>$232k</td><td>$239k</td><td>$62k</td><td><b>$569k</b></td></tr>
+<tr><td class="d">The Theodosian Walls</td><td>22.8</td><td>547,440 m&sup2;</td><td>80,950 m&sup2;</td><td>$1.8M</td><td>$178k</td><td>$1.2M</td><td>$1.2M</td><td>$1.3M</td><td><b>$5.7M</b></td></tr>
+</table></div>
+<p>Two things fall out immediately. <b>Insurance and staff dominate</b> &mdash; not stonework, which is what everyone pictures. And the pointing bill is genuinely small per year <em>because it is spread over ninety</em>; the danger with a masonry cycle is not the annual figure but that skipping it for thirty years converts a maintenance line into a reconstruction line.</p>
+<h2><s>the four models</s>The ceiling matters more than the rate</h2>
+<p>Each model is costed the same way: what one unit earns, and how many units a year the fabric and the location actually permit. A castle charging $10,000 a night that fills nine nights has a smaller business than one charging $900 that fills two hundred, and prospectuses quote the rate.</p>
+<article class="plan">
+  <header><h3>Windsor</h3><span>4.4 ha &middot; accreted</span><u>$886k/yr</u></header>
+  <div class="body">
+    <div class="bars">
+      <div class="b"><span>Exclusive hire</span><div class="t"><i class="" style="width:41%"></i></div><u>120 of 120 nights</u></div>
+      <div class="b"><span>Weddings and galas</span><div class="t"><i class="" style="width:61%"></i></div><u>45 of 45 events</u></div>
+      <div class="b"><span>Film and television</span><div class="t"><i class="" style="width:37%"></i></div><u>22 of 22 days</u></div>
+      <div class="b"><span>Ticketed visiting</span><div class="t"><i class="ok" style="width:100%"></i></div><u>46,628 of 1,500,000 tickets</u></div>
+    </div>
+    <p class="verdict yes">Closes on <b>ticketed visiting</b> alone. forty minutes from a capital city of nine million.</p>
+  </div>
+</article>
+<article class="plan">
+  <header><h3>Versailles</h3><span>4.7 ha &middot; axial</span><u>$975k/yr</u></header>
+  <div class="body">
+    <div class="bars">
+      <div class="b"><span>Exclusive hire</span><div class="t"><i class="" style="width:37%"></i></div><u>120 of 120 nights</u></div>
+      <div class="b"><span>Weddings and galas</span><div class="t"><i class="" style="width:55%"></i></div><u>45 of 45 events</u></div>
+      <div class="b"><span>Film and television</span><div class="t"><i class="" style="width:34%"></i></div><u>22 of 22 days</u></div>
+      <div class="b"><span>Ticketed visiting</span><div class="t"><i class="ok" style="width:100%"></i></div><u>51,318 of 8,100,000 tickets</u></div>
+    </div>
+    <p class="verdict yes">Closes on <b>ticketed visiting</b> alone. on the Paris RER, and the single most visited palace on earth.</p>
+  </div>
+</article>
+<article class="plan">
+  <header><h3>Krak des Chevaliers</h3><span>4.2 ha &middot; concentric</span><u>$1.0M/yr</u></header>
+  <div class="body">
+    <div class="bars">
+      <div class="b"><span>Exclusive hire</span><div class="t"><i class="" style="width:36%"></i></div><u>120 of 120 nights</u></div>
+      <div class="b"><span>Weddings and galas</span><div class="t"><i class="" style="width:53%"></i></div><u>45 of 45 events</u></div>
+      <div class="b"><span>Film and television</span><div class="t"><i class="" style="width:33%"></i></div><u>22 of 22 days</u></div>
+      <div class="b"><span>Ticketed visiting</span><div class="t"><i class="" style="width:23%"></i></div><u>12,000 of 12,000 tickets</u></div>
+    </div>
+    <p class="verdict no">No single model closes it. All four at full stretch would raise <b>144%</b> of the outflow — so it can be done, by running four businesses at once and filling every one of them to the ceiling. That is a different proposition from owning a castle. a conflict zone; the number is what it is for reasons that are not about the building.</p>
+  </div>
+</article>
+<article class="plan">
+  <header><h3>Himeji</h3><span>3.9 ha &middot; spiral</span><u>$1.1M/yr</u></header>
+  <div class="body">
+    <div class="bars">
+      <div class="b"><span>Exclusive hire</span><div class="t"><i class="" style="width:32%"></i></div><u>120 of 120 nights</u></div>
+      <div class="b"><span>Weddings and galas</span><div class="t"><i class="" style="width:48%"></i></div><u>45 of 45 events</u></div>
+      <div class="b"><span>Film and television</span><div class="t"><i class="" style="width:29%"></i></div><u>22 of 22 days</u></div>
+      <div class="b"><span>Ticketed visiting</span><div class="t"><i class="ok" style="width:100%"></i></div><u>59,832 of 1,800,000 tickets</u></div>
+    </div>
+    <p class="verdict yes">Closes on <b>ticketed visiting</b> alone. on the Sanyo Shinkansen, a station away from the gate.</p>
+  </div>
+</article>
+<article class="plan">
+  <header><h3>Malbork</h3><span>12.5 ha &middot; three-ward</span><u>$2.5M/yr</u></header>
+  <div class="body">
+    <div class="bars">
+      <div class="b"><span>Exclusive hire</span><div class="t"><i class="" style="width:14%"></i></div><u>120 of 120 nights</u></div>
+      <div class="b"><span>Weddings and galas</span><div class="t"><i class="" style="width:21%"></i></div><u>45 of 45 events</u></div>
+      <div class="b"><span>Film and television</span><div class="t"><i class="" style="width:13%"></i></div><u>22 of 22 days</u></div>
+      <div class="b"><span>Ticketed visiting</span><div class="t"><i class="ok" style="width:100%"></i></div><u>132,825 of 550,000 tickets</u></div>
+    </div>
+    <p class="verdict yes">Closes on <b>ticketed visiting</b> alone. rural northern Poland, and the number reflects it.</p>
+  </div>
+</article>
+<article class="plan">
+  <header><h3>Neuschwanstein</h3><span>0.5 ha &middot; theatrical</span><u>$569k/yr</u></header>
+  <div class="body">
+    <div class="bars">
+      <div class="b"><span>Exclusive hire</span><div class="t"><i class="" style="width:63%"></i></div><u>120 of 120 nights</u></div>
+      <div class="b"><span>Weddings and galas</span><div class="t"><i class="" style="width:95%"></i></div><u>45 of 45 events</u></div>
+      <div class="b"><span>Film and television</span><div class="t"><i class="" style="width:58%"></i></div><u>22 of 22 days</u></div>
+      <div class="b"><span>Ticketed visiting</span><div class="t"><i class="ok" style="width:100%"></i></div><u>29,929 of 1,400,000 tickets</u></div>
+    </div>
+    <p class="verdict yes">Closes on <b>ticketed visiting</b> alone. an Alpine village with a shuttle bus, and still the most visited castle on earth.</p>
+  </div>
+</article>
+<article class="plan">
+  <header><h3>The Theodosian Walls</h3><span>22.8 ha &middot; triple-line</span><u>$5.7M/yr</u></header>
+  <div class="body">
+    <div class="bars">
+      <div class="b"><span>Exclusive hire</span><div class="t"><i class="" style="width:6%"></i></div><u>120 of 120 nights</u></div>
+      <div class="b"><span>Weddings and galas</span><div class="t"><i class="" style="width:10%"></i></div><u>45 of 45 events</u></div>
+      <div class="b"><span>Film and television</span><div class="t"><i class="" style="width:6%"></i></div><u>22 of 22 days</u></div>
+      <div class="b"><span>Ticketed visiting</span><div class="t"><i class="no" style="width:0%"></i></div><u>no tickets possible</u></div>
+    </div>
+    <p class="verdict no">No single model closes it. All four at full stretch would raise <b>22%</b> of the outflow, which is not enough. unknown.</p>
+  </div>
+</article>
+<div class="find">
+  <h4>the finding</h4>
+  <p>I expected the break to be at <b>size</b> and the arithmetic refuses it. Neuschwanstein at 0.5 hectares and Malbork at 12.5 — 23 times the area — both close, and they close on the same model. The one that fails on every model is Krak des Chevaliers at 4.2 ha, which is in the middle of the range.</p>
+  <p><b>Every plan that closes, closes on the gate.</b> Not on hospitality, not on weddings, not on film. Those three have hard ceilings in units — there are only so many Saturdays, and a bigger hall does not create more of them — so their maximum take is fixed no matter what you charge. Ticketing is the only model whose ceiling scales with anything at all.</p>
+  <p>And what it scales with is not the building. It is <b>the road</b>. Krak des Chevaliers fails because 12,000 people a year can reach it. Malbork is 3.0 times larger, costs 2.5 times as much to keep, and closes comfortably because 550,000 people come. The constraint was never the rate and it was never the acreage.</p>
+  <p>Two corollaries, and they are the useful part if you are actually looking. <b>Buy for the road before you buy for the building</b> &mdash; the access figure is the only input in this whole model that sets a ceiling rather than a rate, and it is the one you cannot change afterwards. And <b>buy the smallest thing that does the job</b>, because every additional hectare adds outflow the day you sign and adds revenue only if it adds units, which it almost never does.</p>
+  <p>The reason the largest castles are publicly held turns out not to be about size either. It is that the ones worth keeping are frequently the ones nobody can conveniently reach, and a state can hold a building whose ceiling is zero. A private owner cannot, whatever the rate card says.</p>
+</div>
+<h2><s>the check</s>What the rule of thumb would have implied</h2>
+<div class="scroll"><table>
+<tr><th>plan</th><th>fabric outflow</th><th>value implied at 2%</th><th>rebuild cost</th><th>does that make sense?</th></tr>
+<tr class="yes"><td class="d">Windsor</td><td>$886k</td><td>$44.3M</td><td>$77.1M</td><td class="d">yes — within a factor of the rebuild cost</td></tr>
+<tr class="yes"><td class="d">Versailles</td><td>$975k</td><td>$48.8M</td><td>$89.5M</td><td class="d">yes — within a factor of the rebuild cost</td></tr>
+<tr class="yes"><td class="d">Krak des Chevaliers</td><td>$1.0M</td><td>$50.5M</td><td>$86.4M</td><td class="d">yes — within a factor of the rebuild cost</td></tr>
+<tr class="yes"><td class="d">Himeji</td><td>$1.1M</td><td>$56.8M</td><td>$107.0M</td><td class="d">yes — within a factor of the rebuild cost</td></tr>
+<tr class="yes"><td class="d">Malbork</td><td>$2.5M</td><td>$126.2M</td><td>$209.0M</td><td class="d">yes — within a factor of the rebuild cost</td></tr>
+<tr class="yes"><td class="d">Neuschwanstein</td><td>$569k</td><td>$28.4M</td><td>$68.2M</td><td class="d">yes — within a factor of the rebuild cost</td></tr>
+<tr class="yes"><td class="d">The Theodosian Walls</td><td>$5.7M</td><td>$282.6M</td><td>$340.0M</td><td class="d">yes — within a factor of the rebuild cost</td></tr>
+</table></div>
+<p>Where the implied value exceeds what it would cost to build the thing from nothing, the rule of thumb has broken &mdash; nobody pays more than replacement for a building they must then maintain. Where it comes in far under, the fabric method is probably over-charging somewhere. The two methods agreeing within a factor is the most either of them earns.</p>
+<h2><s>and the one that is not on Earth</s>The Deck Keep</h2>
+<p>Its outflow computes to <b>$991k a year</b> on the same rates, and every one of those rates is wrong for it. There is no lime mortar at fifty-five kilometres, no roofer, no insurer writing like-for-like on a pressure vessel above Venus, and <b>no visitors at all</b> &mdash; the only model with a ceiling that scales is the one model that is unavailable.</p>
+<p>Which is the honest end of this document. Every private model here converts a building into a venue, and a venue needs people who can get there. The deck cannot be a venue, so it cannot be paid for this way, and that is not a gap in the analysis — it is the analysis. It has to be held the way the largest castles on Earth are held: by somebody who has decided the thing should exist and is not asking it to pay.</p>
+<footer>
+Computed by <a href="estate.mjs">estate.mjs</a> from the 8 plans in templates-castle/. Fabric quantities are derived from the ward dimensions, wall heights and keep heights each plan declares; every unit rate is an assumption printed above. Not appraisals, not advice.<br>
+<a href="castle.html">the castle</a> &middot; <a href="dev.html">the hub</a> &middot; <a href="paper.html">the white paper</a>
+</footer>
+</main>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

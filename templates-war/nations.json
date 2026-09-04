@@ -1,0 +1,409 @@
+{
+ "id": "nations",
+ "kind": "nations",
+ "order": 4,
+ "name": "Vietnam during the spread of communism",
+ "also": "communism as an idea, every nation involved, and three lenses: our war room, the war theatre, the war itself",
+ "premise": "It did not begin here. The Americans were advised to resist in this manner — by advisers, by money, by a client government, and not by an army of their own — and the adviser was Dwight D. Eisenhower, in April 1954, when he refused the air strike at Dien Bien Phu and chose instead to build a South. Everything the four presidents managed afterward was the working-out of that manner of resistance.",
+ "idea": [
+  {
+   "when": 1848,
+   "what": "Marx and Engels, the Manifesto: class struggle, the abolition of private property in the means of production, the workers of the world."
+  },
+  {
+   "when": 1917,
+   "what": "Lenin: a vanguard party seizes a state and holds it. The idea acquires an army and a capital."
+  },
+  {
+   "when": 1919,
+   "what": "The Comintern: the idea exported, with instructions. Anti-colonial nationalists are told that their enemy is the same as the workers’ enemy."
+  },
+  {
+   "when": 1920,
+   "what": "Nguyen Ai Quoc — Ho Chi Minh — votes at Tours to found the French Communist Party, because it was the one party that would talk about Indochina."
+  },
+  {
+   "when": 1930,
+   "what": "The Indochinese Communist Party founded in Hong Kong. The idea now has a Vietnamese branch, and the branch is also the national movement."
+  },
+  {
+   "when": 1941,
+   "what": "The Viet Minh: a communist-led front that fights Japan and then France, and is armed for a season by the American OSS."
+  },
+  {
+   "when": 1946,
+   "what": "Kennan’s Long Telegram: the idea is expansive and must be contained. Containment becomes the American answer, and Vietnam becomes a place where it is applied."
+  },
+  {
+   "when": 1949,
+   "what": "China goes communist; Mao recognises Ho in January 1950; Truman recognises Bao Dai a month later and starts paying France’s war."
+  },
+  {
+   "when": 1950,
+   "what": "NSC-68: any loss anywhere is a loss everywhere. Korea, that June, seems to prove it."
+  },
+  {
+   "when": 1954,
+   "what": "The domino theory, in Eisenhower’s words, on 7 April. Dien Bien Phu falls on 7 May. Geneva divides the country at the 17th parallel, temporarily."
+  },
+  {
+   "when": 1960,
+   "what": "The Sino-Soviet split. The idea now has two capitals that dislike each other, both of which arm Hanoi, each to outdo the other. Washington reads this slowly."
+  },
+  {
+   "when": 1975,
+   "what": "Saigon falls. The dominoes that fall are Cambodia and Laos; Thailand, Malaysia, Indonesia and the Philippines do not, and in 1979 communist Vietnam and communist China go to war with each other."
+  }
+ ],
+ "nations": [
+  {
+   "nation": "North Vietnam",
+   "side": "North",
+   "role": "belligerent",
+   "peak": "PAVN about 500,000 in the South by 1975",
+   "deaths": "about 1,100,000 military (with the Viet Cong; Hanoi’s 1995 figure); 50,000–70,000 civilians under bombing",
+   "note": "The state whose idea it was."
+  },
+  {
+   "nation": "Viet Cong / NLF / PRG",
+   "side": "North",
+   "role": "belligerent",
+   "peak": "about 300,000 in 1968",
+   "deaths": "counted with the North",
+   "note": "The southern insurgency; a party front from 1960, a provisional government from 1969."
+  },
+  {
+   "nation": "Pathet Lao",
+   "side": "North",
+   "role": "belligerent",
+   "peak": "about 48,000",
+   "deaths": "within the Laos figure",
+   "note": "Won Laos in December 1975."
+  },
+  {
+   "nation": "Khmer Rouge",
+   "side": "North",
+   "role": "belligerent",
+   "peak": "about 70,000 by 1975",
+   "deaths": "within the Cambodia figure",
+   "note": "Took Phnom Penh on 17 April 1975, thirteen days before Saigon; then killed a quarter of Cambodia."
+  },
+  {
+   "nation": "Soviet Union",
+   "side": "North",
+   "role": "supplier",
+   "peak": "about 3,000 advisers and SAM crews in the North",
+   "deaths": "16 acknowledged",
+   "note": "SAMs, MiGs, trucks, oil, and about $2 billion a year by the end; the Sino-Soviet rivalry paid for Hanoi’s war."
+  },
+  {
+   "nation": "China",
+   "side": "North",
+   "role": "supplier; troops in the North",
+   "peak": "about 170,000 engineering and anti-aircraft troops, 1965–1969",
+   "deaths": "about 1,100 killed, 4,200 wounded (Chinese figures)",
+   "note": "Kept the railways running under the bombing; withdrew as Hanoi leaned toward Moscow."
+  },
+  {
+   "nation": "North Korea",
+   "side": "North",
+   "role": "pilots",
+   "peak": "one fighter regiment, 1967–1969",
+   "deaths": "14 buried at Bac Giang",
+   "note": ""
+  },
+  {
+   "nation": "Cuba",
+   "side": "North",
+   "role": "engineers, medical, some advisers",
+   "peak": "a few hundred",
+   "deaths": "unknown",
+   "note": "A separate nation; see its own room."
+  },
+  {
+   "nation": "Czechoslovakia, East Germany, Poland, Bulgaria, Hungary, Romania",
+   "side": "North",
+   "role": "supplier",
+   "peak": "",
+   "deaths": "",
+   "note": "Small arms, training, medical aid, and the ICC/ICCS seats that Poland and Hungary used to Hanoi’s advantage."
+  },
+  {
+   "nation": "South Vietnam",
+   "side": "South",
+   "role": "belligerent",
+   "peak": "ARVN about 1,000,000 under arms in 1973",
+   "deaths": "200,000–250,000 military; civilians in the South up to 1,500,000 or more",
+   "note": "The state that was built to resist in this manner, and that did the most dying for it."
+  },
+  {
+   "nation": "United States",
+   "side": "South",
+   "role": "belligerent",
+   "peak": "543,400 (April 1969)",
+   "deaths": "58,220",
+   "note": "The adviser."
+  },
+  {
+   "nation": "South Korea",
+   "side": "South",
+   "role": "belligerent",
+   "peak": "about 50,000; 320,000 served in rotation",
+   "deaths": "5,099",
+   "note": "The largest ally; paid for by Washington; two divisions and a Marine brigade."
+  },
+  {
+   "nation": "Australia",
+   "side": "South",
+   "role": "belligerent",
+   "peak": "7,672 (1969); about 60,000 served",
+   "deaths": "526",
+   "note": "Task force at Nui Dat; conscripts by lottery; Long Tan."
+  },
+  {
+   "nation": "Thailand",
+   "side": "South",
+   "role": "belligerent; host",
+   "peak": "11,568 (1970)",
+   "deaths": "351",
+   "note": "The Queen’s Cobras and the Black Panthers in Vietnam; the air bases at Udorn, Korat, Takhli, Ubon, Nakhon Phanom and U-Tapao flew most of the air war."
+  },
+  {
+   "nation": "New Zealand",
+   "side": "South",
+   "role": "belligerent",
+   "peak": "552 (1968)",
+   "deaths": "37",
+   "note": "Artillery and two rifle companies with the Australians."
+  },
+  {
+   "nation": "Taiwan",
+   "side": "South",
+   "role": "advisers, transport, covert",
+   "peak": "about 30 advisers; C-46 aircrews",
+   "deaths": "25",
+   "note": ""
+  },
+  {
+   "nation": "Philippines",
+   "side": "South",
+   "role": "civic action",
+   "peak": "about 2,000 (PHILCAG)",
+   "deaths": "9",
+   "note": "Engineers and medics at Tay Ninh, 1966–1969."
+  },
+  {
+   "nation": "Kingdom of Laos",
+   "side": "South",
+   "role": "belligerent, on its own ground",
+   "peak": "Royal Lao Army about 60,000; Hmong irregulars 30,000 under Vang Pao",
+   "deaths": "28,000–115,000 in Laos overall; the most-bombed country per head in history",
+   "note": "The secret war, run by the CIA from Long Tieng."
+  },
+  {
+   "nation": "Khmer Republic (Cambodia)",
+   "side": "South",
+   "role": "belligerent, from 1970",
+   "peak": "FANK about 200,000 on paper",
+   "deaths": "about 273,000 from bombing, incursion and the civil war before 1975",
+   "note": "Sihanouk’s neutrality ended by the coup of March 1970; the incursion came six weeks later."
+  },
+  {
+   "nation": "Spain",
+   "side": "South",
+   "role": "medical team",
+   "peak": "about 30",
+   "deaths": "0",
+   "note": "Franco’s token, at Go Cong."
+  },
+  {
+   "nation": "West Germany",
+   "side": "South",
+   "role": "hospital ship",
+   "peak": "the Helgoland at Da Nang, 1966–1972",
+   "deaths": "0",
+   "note": ""
+  },
+  {
+   "nation": "United Kingdom",
+   "side": "South",
+   "role": "advisers; refused troops",
+   "peak": "BRIAM, Thompson’s mission, 1961–1965",
+   "deaths": "0",
+   "note": "Wilson refused Johnson’s request for even a bagpipe band; Thompson’s counter-insurgency advice was taken in part."
+  },
+  {
+   "nation": "Japan",
+   "side": "South",
+   "role": "host; economy",
+   "peak": "Okinawa’s B-52s and the repair yards",
+   "deaths": "0",
+   "note": "The war paid for much of Japan’s 1960s growth."
+  },
+  {
+   "nation": "Canada",
+   "side": "neutral",
+   "role": "ICC and ICCS; refuge; volunteers",
+   "peak": "",
+   "deaths": "about 110 Canadians who enlisted in US forces",
+   "note": "Took in the resisters and sold the Americans nickel, ammunition and Agent Orange testing at Gagetown."
+  },
+  {
+   "nation": "India, Poland (ICC 1954); Indonesia, Hungary, Poland, Canada (ICCS 1973)",
+   "side": "neutral",
+   "role": "supervision",
+   "peak": "",
+   "deaths": "",
+   "note": "Commissions that could report and could not act; Iran replaced Canada in the ICCS in July 1973."
+  },
+  {
+   "nation": "France",
+   "side": "neutral",
+   "role": "the former power; the host of the talks",
+   "peak": "",
+   "deaths": "about 75,000 French Union dead in the first war, 1946–1954",
+   "note": "De Gaulle told Kennedy in 1961 it was a bottomless swamp; the Paris talks sat in the Hotel Majestic, once the German headquarters."
+  },
+  {
+   "nation": "Sweden",
+   "side": "neutral",
+   "role": "refuge; recognition",
+   "peak": "",
+   "deaths": "",
+   "note": "Recognised Hanoi in 1969, first in the West; took the deserters."
+  }
+ ],
+ "deaths": {
+  "total": "1,400,000 to 3,800,000, the great majority Vietnamese",
+  "rows": [
+   [
+    "North Vietnam and Viet Cong, military",
+    "~1,100,000"
+   ],
+   [
+    "North Vietnam, civilians under bombing",
+    "50,000–70,000"
+   ],
+   [
+    "South Vietnam, military",
+    "200,000–250,000"
+   ],
+   [
+    "South Vietnam, civilians",
+    "up to 1,500,000 or more"
+   ],
+   [
+    "Cambodia",
+    "~273,000"
+   ],
+   [
+    "Laos",
+    "28,000–115,000"
+   ],
+   [
+    "United States",
+    "58,220"
+   ],
+   [
+    "South Korea",
+    "5,099"
+   ],
+   [
+    "Australia",
+    "526"
+   ],
+   [
+    "Thailand",
+    "351"
+   ],
+   [
+    "New Zealand",
+    "37"
+   ],
+   [
+    "Taiwan",
+    "25"
+   ],
+   [
+    "Philippines",
+    "9"
+   ]
+  ],
+  "note": "Record-keeping was inconsistent and contested; every figure not from the US or its allies is an approximation, and the allied figures are exact only for their own dead."
+ },
+ "lenses": [
+  {
+   "lens": "Our war room",
+   "text": "The room is American and it is in this repository: the chain of five presidents, the gauge of troops by year, the line fitted to the provinces lost. It sees decisions. It does not see Hanoi’s Politburo, which had a room of its own with a longer horizon, or Saigon’s palace, which had the least say of the three."
+  },
+  {
+   "lens": "The war theatre",
+   "text": "Indochina, not Vietnam: the Ho Chi Minh Trail ran through Laos and Cambodia, the air bases were in Thailand, the B-52s flew from Guam and Okinawa, the fleet sat at Yankee Station, and the treaty was signed in Paris. Twenty-seven nations appear in the table; the fighting touched four countries and the bombing three."
+  },
+  {
+   "lens": "The war itself",
+   "text": "Depending on where the count starts, it was thirty years (1945, the August Revolution), twenty (1955, the American date), or ten (1965, the Marines). For the Vietnamese it was one war with several foreigners in it — Japan, France, the United States, then China in 1979 — and the idea, communism, was the vehicle of a nationalism older than any of them. That is what the American room could not see from inside: it was containing an idea, and fighting a nation."
+  }
+ ],
+ "sources": [
+  "Wikipedia, Vietnam War casualties, and the sources it cites (Hirschman et al. 1995; Lewy 1978; Hanoi 1995 release)",
+  "Britannica, Vietnam War: casualties",
+  "Encyclopaedia of the Vietnam War (Tucker, ed.), allied contributions",
+  "Qiang Zhai, China and the Vietnam Wars, 1950–1975 (2000)",
+  "Ilya Gaiduk, The Soviet Union and the Vietnam War (1996)",
+  "Fredrik Logevall, Embers of War (2012), on 1954"
+ ],
+ "text": "Every nation in the Vietnam War, the idea that was being contained, the deaths as best they are known, and three lenses on a war that was advised into being in 1954.",
+ "wovenBy": "the bridge",
+ "funding": {
+  "question": "Who funded communism, and why are its ideas traced back further?",
+  "rows": [
+   [
+    "Marx, 1849–1883",
+    "Friedrich Engels, from the profits of Ermen & Engels, his family’s cotton mill in Manchester. Marx lived for thirty years largely on Engels’s money and Engels finished Capital after he died. The bank behind the idea was a textile firm and a friend."
+   ],
+   [
+    "The ideas, before Marx",
+    "Hegel for the dialectic; Ricardo and Smith for the labour theory of value; Saint-Simon, Fourier, Owen and Babeuf for socialism; Rousseau for the critique of property. Common ownership itself is traced back further still, and honestly — Plato’s guardians, the Acts of the Apostles, Müntzer in 1525, Winstanley’s Diggers in 1649 — which is why the idea cannot be pinned to one funder: it was old before anyone paid for it."
+   ],
+   [
+    "Lenin, 1917",
+    "The German Imperial government, through Alexander Parvus and the Foreign Office, financed Bolshevik propaganda and arranged the sealed train from Zürich in April 1917, to take Russia out of the war. The sum is disputed; the fact is documented in the German archives. Germany funded its own defeat in 1918 by the same means."
+   ],
+   [
+    "The parties abroad, 1919–1943",
+    "The Comintern, from the Soviet state: confiscated gold and jewels at first, budget later. Ho Chi Minh was a Comintern agent on its payroll in the 1920s and 1930s."
+   ],
+   [
+    "Hanoi, 1950–1975",
+    "China from 1950, the Soviet Union from the late 1950s, each outbidding the other after the split: about $2 billion a year in Soviet aid by the end, and Chinese troops keeping the railways open under the bombing."
+   ],
+   [
+    "The myth",
+    "That a hidden syndicate of bankers — the names usually given are Schiff, Warburg, Rothschild — funded the Bolsheviks. This is false and it is the Protocols of the Elders of Zion in another coat. Jacob Schiff funded the Provisional Government of Kerensky and denounced the Bolsheviks; the Warburgs lost their Russian interests to them. The claim was spread by White émigrés in 1919 and by Henry Ford in 1920 and has no documentary basis. It is named here so it cannot be mistaken for the row above it."
+   ]
+  ],
+  "hiddenSyndicate": "Why is a hidden syndicate bad? In this repository the answer is technical and it is the same one lesson four gives: a checkpoint you cannot recompute is a claim, not a proof, and a syndicate whose doors are hidden cannot be audited by its neighbours, so nothing it carries can be trusted at the interval. In history the answer is the mirror of that: a claim that a hidden syndicate is behind an event cannot be recomputed either, which is exactly why such claims are made. An unfalsifiable funder is the shape a libel takes."
+ },
+ "comparison": {
+  "question": "Why was the Holocaust reclassified, and compared to communism’s dead?",
+  "rows": [
+   [
+    "1986, the Historikerstreit",
+    "Ernst Nolte argued in the FAZ that the Gulag was the “original” and Auschwitz a reaction to it; Habermas and most German historians replied that this relativised a crime that was singular in kind — the industrial murder of a people for being born — and that comparison was being used to excuse. The argument was about whether the Holocaust could be filed as one atrocity among the century’s, and the answer of the profession was no."
+   ],
+   [
+    "1997, The Black Book of Communism",
+    "Courtois’s introduction put communism’s dead at about 100 million and compared the class terror to the racial one. The book’s own contributors, Werth and Margolin, objected to the introduction; the figure was contested and the comparison became a political standard for the post-Soviet right."
+   ],
+   [
+    "2008–2019, the declarations",
+    "The Prague Declaration (2008) and the European Parliament’s resolution of September 2019 treated Nazi and Stalinist crimes as equivalent and set 23 August as a joint day of remembrance. Baltic and Polish governments pushed it as recognition of their own dead; Jewish organisations and many historians objected that “double genocide” was being used in places to obscure local collaboration in the Holocaust."
+   ],
+   [
+    "What the comparison is for",
+    "Comparison is what history does; equation is what politics does with it. Both regimes killed by category; only one built factories for it and hunted infants across a continent for what their grandparents were. The Vietnamese count in this room, 1.4 to 3.8 million, is not on either side of that argument, and it is the number this repository is actually about."
+   ]
+  ]
+ }
+}

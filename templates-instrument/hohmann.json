@@ -1,0 +1,15 @@
+{
+ "id": "hohmann",
+ "order": 5,
+ "quantity": "Minimum-energy transfer, Earth to Venus",
+ "value": 146.1,
+ "unit": "days",
+ "uncertainty": 0.5,
+ "kind": "computed",
+ "method": "Half the period of the transfer ellipse, from vis-viva and Kepler. Reproduces the published 146 d, which is the check that the rest of the transit curve is worth reading.",
+ "used_for": "The whole transit argument, and the six-months-is-a-choice section.",
+ "boards": [
+  "paper.html"
+ ],
+ "wrong_if": "The orbits are treated as circular and coplanar. They are neither, and a real mission planner would get a different number by a day or two depending on the launch window."
+}

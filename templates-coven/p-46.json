@@ -1,0 +1,31 @@
+{
+ "id": "p-46",
+ "kind": "practitioner",
+ "office": "witch",
+ "name": "Kelax Irmith",
+ "syndicate": "syn-16",
+ "tranche": 16,
+ "doors": [
+  143,
+  152
+ ],
+ "house": "the salt stair",
+ "sigil": {
+  "ring": 1,
+  "bars": 2,
+  "chord": 3,
+  "turn": 298
+ },
+ "keeps": "the tally at her own door",
+ "does": "Signs at one door and no other. If she will not sign, that door does not move.",
+ "office_is": "keeps a door",
+ "reads": "Jabir ibn Hayyan (Geber)",
+ "readsId": "jabir",
+ "reason": "The word alchemy carries an Arabic article on the front of it because of this tradition.",
+ "spell": "Bolt",
+ "spellId": "bolt",
+ "glyph": "⟊",
+ "share": "c6e8bd",
+ "text": "Kelax irmith of the salt stair, keeps a door for the 16th tranche, doors 143 to 152. Keeps the tally at her own door. Reads Jabir ibn Hayyan (Geber).",
+ "wovenBy": "jabir"
+}

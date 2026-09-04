@@ -1,0 +1,17 @@
+{
+ "id": "act-056",
+ "bench": "fleet",
+ "order": 56,
+ "year": 6,
+ "day": 1994,
+ "parties": [
+  "odysseus"
+ ],
+ "actor": "Odysseus",
+ "with": null,
+ "verb": "read",
+ "object": "the omen of the snake and the sparrows",
+ "place": "in Agamemnon's hut",
+ "side": "fleet",
+ "text": "Odysseus read the omen of the snake and the sparrows, in Agamemnon's hut, in the sixth year."
+}

@@ -1,0 +1,14 @@
+{
+ "kind": "saying",
+ "name": "a saying about fog",
+ "text": "Fog on the ridge, keep to the bridge.",
+ "id": "v-weather-01",
+ "wovenBy": "weather-01",
+ "chain": [
+  "weather-01",
+  "l2-weather-1-1",
+  "l3-weather-1",
+  "l4-weather",
+  "loom.mjs"
+ ]
+}

@@ -1,0 +1,9 @@
+{
+ "id": "library-shelf-triolet",
+ "kind": "shelf",
+ "room": "library",
+ "name": "a shelf of triolet",
+ "text": "Eight lines, five of them yours.",
+ "wovenBy": "triolet",
+ "bay": 3
+}

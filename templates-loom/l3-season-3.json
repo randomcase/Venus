@@ -1,0 +1,14 @@
+{
+ "id": "l3-season-3",
+ "depth": 3,
+ "wovenBy": "l4-season",
+ "kind": "season",
+ "name": "The season pattern 3: harvest",
+ "fixed": {
+  "turn": "harvest"
+ },
+ "open": [
+  "length"
+ ],
+ "weaves": 2
+}

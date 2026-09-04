@@ -1,0 +1,16 @@
+{
+ "id": "parcel-63-32",
+ "kind": "parcel",
+ "x": 63,
+ "y": 32,
+ "region": "Ulfrun Regio",
+ "clan": "ingrid",
+ "resource": "record",
+ "period": 13,
+ "terrain": "plains",
+ "fertility": 1,
+ "yield": 1.62,
+ "text": "volcanic plains, the easy ground, in Ulfrun Regio, sown from a cairn for record.",
+ "wovenBy": "ingrid-pile-6",
+ "chain": "seven deep"
+}

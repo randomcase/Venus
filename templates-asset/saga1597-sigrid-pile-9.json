@@ -1,0 +1,13 @@
+{
+ "id": "saga1597-sigrid-pile-9",
+ "kind": "pile",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "name": "a cairn for biomass",
+ "holds": 550,
+ "cost": 660,
+ "text": "Holds 550 biomass. What is not piled is not yours by morning.",
+ "wovenBy": "sigrid",
+ "saga": 1597
+}

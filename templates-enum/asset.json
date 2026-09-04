@@ -1,0 +1,251 @@
+{
+ "id": "enum-asset",
+ "kind": "enum",
+ "family": "asset",
+ "path": "templates-enum/asset.json",
+ "note": "The fixed vocabulary of templates-asset/, mined from 660 of its 660 templates by enums.mjs. Kept in templates-enum/, never inside templates-asset/ itself, so nothing that scans templates-asset/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 660,
+ "sampledFiles": 660,
+ "fields": {
+  "kind": {
+   "type": "string",
+   "distinct": 4,
+   "samples": 660,
+   "values": [
+    "band",
+    "pile",
+    "turn",
+    "work"
+   ]
+  },
+  "clan": {
+   "type": "string",
+   "distinct": 6,
+   "samples": 660,
+   "values": [
+    "bjorn",
+    "hrafn",
+    "ingrid",
+    "sigrid",
+    "thorvald",
+    "ulf"
+   ]
+  },
+  "clanName": {
+   "type": "string",
+   "distinct": 6,
+   "samples": 660,
+   "values": [
+    "Bjornsdottir",
+    "Hrafnsson",
+    "Ingridsdottir",
+    "Sigrdrifa",
+    "Thorvaldsson",
+    "Ulfsson"
+   ]
+  },
+  "resource": {
+   "type": "string",
+   "distinct": 6,
+   "samples": 660,
+   "values": [
+    "biomass",
+    "hydrogen",
+    "nitrogen",
+    "record",
+    "signal",
+    "silicate"
+   ]
+  },
+  "period": {
+   "type": "number",
+   "distinct": 6,
+   "samples": 660,
+   "values": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13
+   ]
+  },
+  "strength": {
+   "type": "number",
+   "distinct": 15,
+   "samples": 660,
+   "values": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ]
+  },
+  "raids": {
+   "type": "boolean",
+   "distinct": 2,
+   "samples": 660,
+   "values": [
+    false,
+    true
+   ]
+  },
+  "upkeep": {
+   "type": "number",
+   "distinct": 4,
+   "samples": 660,
+   "values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "wovenBy": {
+   "type": "string",
+   "distinct": 7,
+   "samples": 660,
+   "values": [
+    "bjorn",
+    "hrafn",
+    "ingrid",
+    "sigrid",
+    "the planet",
+    "thorvald",
+    "ulf"
+   ]
+  },
+  "holds": {
+   "type": "number",
+   "distinct": 20,
+   "samples": 660,
+   "values": [
+    50,
+    100,
+    150,
+    200,
+    250,
+    300,
+    350,
+    400,
+    450,
+    500,
+    550,
+    600,
+    650,
+    700,
+    750,
+    800,
+    850,
+    900,
+    950,
+    1000
+   ]
+  },
+  "house": {
+   "type": "string",
+   "distinct": 6,
+   "samples": 660,
+   "values": [
+    "Bed",
+    "Cracking house",
+    "Fixing bed",
+    "Kiln",
+    "Relay mast",
+    "Scriptorium"
+   ]
+  },
+  "tier": {
+   "type": "number",
+   "distinct": 5,
+   "samples": 660,
+   "values": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  "yield": {
+   "type": "number",
+   "distinct": 22,
+   "samples": 660,
+   "values": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    9,
+    11,
+    12,
+    13,
+    15,
+    16,
+    18,
+    19,
+    21,
+    22,
+    25,
+    29,
+    30,
+    40,
+    41
+   ]
+  },
+  "saga": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 660,
+   "values": [
+    41,
+    1597,
+    8191
+   ]
+  },
+  "does": {
+   "type": "string",
+   "distinct": 3,
+   "samples": 660,
+   "values": [
+    "raids ×1.3",
+    "works ×0.6, raids ×0.7",
+    "works ×1.2"
+   ]
+  },
+  "mul": {
+   "type": "number",
+   "distinct": 3,
+   "samples": 660,
+   "values": [
+    0.6,
+    1.2,
+    1.3
+   ]
+  },
+  "days": {
+   "type": "number",
+   "distinct": 2,
+   "samples": 660,
+   "values": [
+    1,
+    2
+   ]
+  }
+ },
+ "wovenBy": "enums.mjs"
+}

@@ -1,0 +1,10 @@
+{
+ "id": "water-06",
+ "depth": 1,
+ "wovenBy": "l2-water-3-2",
+ "kind": "water",
+ "source": "a pond",
+ "holds": 100,
+ "name": "a pond holding 100",
+ "cost": 150
+}

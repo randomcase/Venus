@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The treasury &middot; where the coins actually move</title>
+<!-- No off-origin requests. All state is in this browser. -->
+<style>
+  :root{
+    --bg:#0a0c10; --panel:#11151b; --edge:#1e2630; --edge2:#2c3744;
+    --ink:#dfe4ea; --dim:#8a939e; --faint:#59626d;
+    --gold:#c9a227; --moss:#7d9d6a; --rust:#c4674f; --cool:#6f9fb5;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.7 var(--serif);padding:34px 18px 80px}
+  main{max-width:1180px;margin:0 auto}
+  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+  .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+  h1{margin:0;font:500 36px/1.08 var(--serif)}
+  .top span{font:400 9px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;
+    color:var(--gold)}
+  .intro{margin:0 0 24px;max-width:84ch;color:var(--dim);font-size:15px}
+
+  .picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr));
+    gap:10px;margin-bottom:20px}
+  .pick{background:var(--panel);border:1px solid var(--edge);padding:13px 14px;
+    cursor:pointer;border-top:2px solid var(--edge2)}
+  .pick:hover{border-color:var(--edge2)}
+  .pick.on{border-color:var(--gold);border-top-color:var(--gold);background:#161c24}
+  .pick h4{margin:0 0 6px;font:600 16px/1.25 var(--serif)}
+  .pick .three{display:flex;gap:5px;margin-bottom:8px}
+  .pick .three i{font-style:normal;flex:1;text-align:center;padding:3px 0;
+    font:400 7.5px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;
+    border:1px solid var(--edge2);color:var(--faint)}
+  .pick .three i.y{color:var(--moss);border-color:#33452c}
+  .pick .three i.n{color:var(--rust);border-color:#4a2b22}
+  .pick p{margin:0;font:400 12px/1.55 var(--serif);color:var(--faint)}
+  .pick p b{color:var(--dim);font-weight:400}
+
+  .rig>*{min-width:0}
+  .rig{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px}
+  @media (max-width:960px){
+    /* minmax(0,1fr) and not 1fr: a bare 1fr track keeps min-width:auto,
+       so the widest table inside it refuses to shrink and pushes the whole
+       page sideways no matter how much overflow-x the wrapper declares. */
+    .rig{grid-template-columns:minmax(0,1fr)}
+  }
+  .card{background:var(--panel);border:1px solid var(--edge);padding:15px 17px;
+    margin-bottom:14px}
+  .card h3{margin:0 0 11px;font:400 8.5px/1 var(--mono);letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold)}
+  .card h3 span{color:var(--faint);margin-left:10px;letter-spacing:.04em;
+    text-transform:none}
+
+  /* the wrapper scrolls, not the page: a four-column table on a 375px
+     screen has to go somewhere, and sideways-scrolling the whole body is
+     the one place it must not go. */
+  .wrap{overflow-x:auto}
+  .move{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+  .move select,.move input{background:#0b0f14;border:1px solid var(--edge2);
+    color:var(--ink);padding:8px 9px;font:400 12px/1.2 var(--mono);outline:none}
+  .move input{width:78px}
+  .move button{background:#182029;border:1px solid var(--edge2);color:var(--ink);
+    padding:8px 15px;cursor:pointer;font:400 10px/1 var(--mono);letter-spacing:.09em}
+  .move button:hover{border-color:var(--gold);color:var(--gold)}
+  .move span{color:var(--faint);font:400 11px/1.4 var(--mono)}
+
+  table{width:100%;border-collapse:collapse;font:400 12px/1.5 var(--mono)}
+  th{text-align:right;padding:0 10px 8px 0;color:var(--faint);font-weight:400;
+    font-size:8px;letter-spacing:.14em;text-transform:uppercase;
+    border-bottom:1px solid var(--edge2)}
+  th:first-child,td:first-child{text-align:left}
+  td{padding:7px 10px 7px 0;border-bottom:1px solid #161c23;text-align:right;
+    font-variant-numeric:tabular-nums}
+  td.d{text-align:left;color:var(--dim);font:400 13px/1.4 var(--serif)}
+  td .tag{font:400 9px/1 var(--mono);color:var(--rust);border:1px solid #4a2b22;
+    padding:2px 5px;margin-left:6px}
+
+  .verdict{padding:13px 15px;border-left:3px solid var(--edge2);background:#0e1319;
+    font:400 13.5px/1.7 var(--serif);color:var(--dim);margin-top:12px}
+  .verdict.no{border-left-color:var(--rust);color:#d5b4a8}
+  .verdict.yes{border-left-color:var(--moss);color:#bdd0b0}
+  .verdict b{color:var(--ink)}
+
+  .sw{display:flex;gap:0;margin-bottom:12px;border:1px solid var(--edge2)}
+  .sw button{flex:1;background:none;border:none;color:var(--faint);padding:9px 6px;
+    cursor:pointer;font:400 10px/1.3 var(--mono);letter-spacing:.06em}
+  .sw button.on{background:#1a222b;color:var(--gold)}
+
+  .log{max-height:210px;overflow-y:auto;font:400 10.5px/1.7 var(--mono);
+    color:var(--faint)}
+  .log div{padding:4px 0;border-bottom:1px dotted #1a222b}
+  .log b{color:var(--cool);font-weight:400}
+
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--edge);
+    color:var(--faint);font:400 10.5px/1.85 var(--mono)}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>The treasury</h1><span>where the coins actually move</span></div>
+<p class="intro"><a href="bank.html">bank.html</a> is a ledger <em>view</em> and the base cites it for exactly that &mdash; no key, no balance. So nothing here has ever let a unit change hands, and the arguments about fungibility and choke points have all been made on paper. This makes them on state: the memory switch destroys fungibility while you watch, and the choke test runs over your own transfer history.</p>
+<div class="picks" id="picks"></div>
+<div class="rig">
+  <div>
+    <div class="card"><h3>move it <span id="who"></span></h3>
+      <div class="move">
+        <select id="from"></select><span>pays</span><input id="amt" value="25">
+        <span>to</span><select id="to"></select>
+        <button id="pay">pay</button><button id="reset">start over</button>
+      </div>
+      <div class="wrap"><table id="holdings"></table></div>
+    </div>
+    <div class="card"><h3>the transfer graph <span>who has paid whom</span></h3>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+  <aside>
+    <div class="card"><h3>the ledger&rsquo;s memory</h3>
+      <div class="sw"><button data-m="0" class="on">forgets</button><button data-m="1">remembers</button></div>
+      <div id="fung"></div>
+    </div>
+    <div class="card"><h3>the choke test</h3><div id="choke"></div></div>
+    <div class="card"><h3>reads</h3><div id="reads"></div></div>
+  </aside>
+</div>
+<footer>
+Built by <a href="treasury.mjs">treasury.mjs</a> from 6 designs in templates-coin/. Each declares which of the three it gave up, and the generator refuses one that claims fungibility while its ledger remembers, or that claims all three at once. distinguishable() and chokes() are the routines from <a href="writing.html">lessons two and three</a>, unmodified.<br>
+<a href="bank.html">the ledger view</a> &middot; <a href="reading.html">the reading room</a> &middot; <a href="dev.html">the hub</a>
+</footer>
+</main>
+
+<script>
+const COINS = [{"id":"bearer-note","order":1,"name":"The bearer note","supply":210000,"divisible":100,"supply_rule":"fixed at issue, never changed","remembers":false,"issuers":"plural","redeemers":"plural","reads":0,"gives_up":"double-spend protection","how":"There is no ledger. A note is valid if the note itself checks out — a value and a check digit, verified from the thing in your hand. Nothing is consulted and nothing can be.","honest":"Two people can spend the same note and nothing will notice. That is not a bug that a later version fixes; it is the price of the other two properties, and any design claiming to have avoided it has quietly reintroduced a read.","good_for":"Small, fast, local, and where being cheated occasionally is survivable."},{"id":"the-mark","order":2,"name":"The mark","supply":1000000,"divisible":100,"supply_rule":"issued against work recorded, minted monthly","remembers":true,"issuers":"plural","redeemers":"plural","reads":1,"gives_up":"fungibility","how":"A ledger that records where each unit came from. Every mark carries its history and the history is queryable.","honest":"This is NOT fungible and the file says so rather than pretending. Two marks of the same denomination are distinguishable, which means somebody will price the difference, which means the denomination is a class with a spread inside it. That is the cost of knowing who paid whom.","good_for":"Anywhere provenance is the point — audit, attribution, restitution."},{"id":"deck-hour","order":3,"name":"The deck hour","supply":0,"divisible":4,"supply_rule":"one issued per hour actually worked; no cap","remembers":false,"issuers":"plural","redeemers":"plural","reads":1,"gives_up":"a fixed supply","how":"Issued against work and redeemed against work. The ledger stores balances only and forgets provenance the moment a transfer settles.","honest":"The supply floats with the labour, so it cannot be hoarded against scarcity and it cannot be cornered. It also cannot be saved as a store of value in any meaningful way, which is a real loss and is the trade.","good_for":"A working economy where the unit is meant to move rather than sit."},{"id":"the-ration","order":4,"name":"The ration","supply":0,"divisible":1,"supply_rule":"one per person per day, expires unused","remembers":true,"issuers":"single","redeemers":"single","reads":1,"gives_up":"being money at all, fungibility included","how":"Non-transferable. Issued to a person, spent by that person, expires.","honest":"This is the honest one. A ration is not a currency and calling it one would be the lie. It is an entitlement with a clock on it: issued to a named person, so it remembers, so it is not fungible; non-transferable, so the question of double spending never arises; and single at both ends, so it is maximally captured by design. All of that is acceptable precisely because it is not money. The moment somebody can trade one, every one of those concessions becomes a defect.","good_for":"Making sure everybody eats. Nothing else."},{"id":"the-share","order":5,"name":"The share","supply":1000,"divisible":1,"supply_rule":"fixed per faction at founding","remembers":true,"issuers":"plural","redeemers":"plural","reads":1,"gives_up":"fungibility","how":"Each share names the faction it is in. A share of the Observatory and a share of the Seed Bank are both shares and are not interchangeable.","honest":"Deliberately not fungible, and the non-fungibility is the product. Making shares interchangeable would mean erasing which faction produced what, which is the only information a share carries.","good_for":"Holding a position in something specific, and being seen to."},{"id":"the-tally","order":6,"name":"The tally","supply":0,"divisible":1,"supply_rule":"one stick per debt, split at issue; no cap","remembers":true,"issuers":"plural","redeemers":"plural","reads":0,"gives_up":"fungibility","how":"A stick notched with the amount and split lengthwise. Creditor keeps the stock, debtor the foil. Validity is checked by fitting the two halves together — the grain of the split is the signature, and nothing else is consulted.","honest":"Not fungible and not meant to be: each stick names one debt between two named parties, and the grain that authenticates it is unique to that stick. It also cannot be spent onward without both halves present, which is a real limit and is why tallies circulated as claims rather than as cash.","good_for":"A bilateral debt between two parties who will meet again."}];
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const PEOPLE = ['the mint', 'the bank', 'Hrafn', 'Bjorn', 'Ulf', 'Sigrid'];
+
+let coin = COINS[0], remembers = false;
+let units = [], moves = [], reads = 0;
+
+/* every unit is an object, because that is the only way the memory switch can
+   mean anything: forgetting is deleting a field, not choosing not to look */
+function start() {
+  units = [];
+  remembers = coin.remembers;
+  for (let k = 0; k < 8; k++)
+    units.push({ id: 'u' + k, denom: 25, holder: 'the mint', from: 'mint' });
+  for (let k = 8; k < 12; k++)
+    units.push({ id: 'u' + k, denom: 25, holder: 'the bank', from: 'seized' });
+  moves = []; reads = 0;
+  document.querySelectorAll('.sw button').forEach((b) =>
+    b.classList.toggle('on', (b.dataset.m === '1') === remembers));
+  paint();
+}
+
+/* lesson three, unmodified: two units of the same denomination differing in
+   anything the ledger stores are not interchangeable */
+function distinguishable(ledger) {
+  const groups = {};
+  for (const u of ledger) (groups[u.denom] = groups[u.denom] || []).push(u);
+  for (const g of Object.values(groups)) {
+    const fields = new Set();
+    g.forEach((u) => Object.keys(u).forEach((k) => fields.add(k)));
+    for (const f of fields) {
+      if (f === 'denom' || f === 'id' || f === 'holder') continue;
+      if (new Set(g.map((u) => JSON.stringify(u[f]))).size > 1) return f;
+    }
+  }
+  return null;
+}
+
+/* lesson two, unmodified */
+function reaches(graph, from, to, without) {
+  if (from === without || to === without) return false;
+  const seen = new Set([from]), q = [from];
+  while (q.length) {
+    const n = q.shift();
+    if (n === to) return true;
+    for (const m of graph[n] || [])
+      if (m !== without && !seen.has(m)) { seen.add(m); q.push(m); }
+  }
+  return false;
+}
+function chokes(graph, from, to) {
+  return Object.keys(graph).filter((n) => n !== from && n !== to)
+    .filter((n) => !reaches(graph, from, to, n)).sort();
+}
+
+function pay() {
+  const from = $('#from').value, to = $('#to').value;
+  const want = Math.max(0, Math.round(+$('#amt').value || 0));
+  if (from === to) return;
+  const mine = units.filter((u) => u.holder === from);
+  let moved = 0;
+  for (const u of mine) {
+    if (moved >= want) break;
+    u.holder = to;
+    /* the ledger either records where it came from, or does not. That single
+       line is the whole of fungibility. */
+    if (remembers) u.from = from;
+    else delete u.from;
+    moved += u.denom;
+  }
+  if (!moved) return;
+  reads += coin.reads;                     /* what a validity check consulted */
+  moves.push({ from, to, amount: moved });
+  paint();
+}
+
+function paint() {
+  /* holdings */
+  const held = {};
+  PEOPLE.forEach((p) => { held[p] = units.filter((u) => u.holder === p); });
+  const field = remembers ? distinguishable(units) : null;
+  $('#holdings').innerHTML =
+    '<tr><th>holder</th><th>units</th><th>value</th><th>provenance</th></tr>' +
+    PEOPLE.map((p) => {
+      const h = held[p];
+      const froms = [...new Set(h.map((u) => u.from).filter(Boolean))];
+      return '<tr><td class="d">' + esc(p) + '</td><td>' + h.length + '</td>' +
+        '<td>' + h.reduce((a, u) => a + u.denom, 0) + '</td>' +
+        '<td class="d">' + (froms.length ? froms.map(esc).join(', ') +
+          (froms.length > 1 && field ? '<span class="tag">mixed</span>' : '')
+          : '<span style="color:var(--faint)">not recorded</span>') + '</td></tr>';
+    }).join('');
+
+  /* fungibility, live */
+  $('#fung').innerHTML = field
+    ? '<div class="verdict no">Two units of the same denomination now differ in ' +
+      '<b>' + esc(field) + '</b>. They are <b>not interchangeable</b>, which means ' +
+      'somebody can price one below the other, which means the denomination is a ' +
+      'class with a spread inside it.<br><br>Nothing was added to the coin. The ' +
+      'ledger simply stopped forgetting.</div>'
+    : '<div class="verdict yes">No field distinguishes two units of the same ' +
+      'denomination, so <b>no preference function can be written</b> over them. ' +
+      'That is fungibility, and it is a property of what the ledger keeps rather ' +
+      'than of the coin.</div>';
+
+  /* the choke test over the real transfer history */
+  const g = {};
+  const edge = (a, b) => { (g[a] = g[a] || []).push(b); (g[b] = g[b] || []).push(a); };
+  moves.forEach((m) => edge(m.from, m.to));
+  const nodes = Object.keys(g);
+  let cuts = [], stranded = {};
+  if (nodes.length > 2) {
+    const seen = new Set();
+    for (const a of nodes) for (const b of nodes) {
+      if (a >= b) continue;
+      chokes(g, a, b).forEach((n) => seen.add(n));
+    }
+    cuts = [...seen].sort();
+    /* Naming the cut vertex is only half of it. A ring of peers can close and
+       the bank stay a choke because one party has never paid anybody else —
+       so say WHO gets stranded, since that is the party who has to make one
+       more edge for the graph to stop depending on anyone. */
+    cuts.forEach((n) => {
+      const rest = nodes.filter((x) => x !== n);
+      const seen2 = new Set([rest[0]]), q2 = [rest[0]];
+      while (q2.length) for (const m of g[q2.shift()] || [])
+        if (m !== n && !seen2.has(m)) { seen2.add(m); q2.push(m); }
+      const off = rest.filter((x) => !seen2.has(x));
+      stranded[n] = (off.length <= rest.length - off.length ? off
+        : rest.filter((x) => seen2.has(x)));
+    });
+  }
+  $('#choke').innerHTML = !moves.length
+    ? '<div class="verdict">Nothing has moved yet. Pay somebody and the graph ' +
+      'gets an edge.</div>'
+    : cuts.length
+      ? '<div class="verdict no">Removing <b>' + cuts.map(esc).join('</b> or <b>') +
+        '</b> would disconnect parties who have been trading. ' +
+        cuts.map((n) => '<br><br>Without <b>' + esc(n) + '</b>, ' +
+          (stranded[n] || []).map(esc).join(' and ') + ' can reach nobody. ' +
+          'One payment from ' + esc((stranded[n] || ['them'])[0]) + ' to anyone ' +
+          'outside would end that.').join('') +
+        (cuts.includes('the bank')
+          ? '<br><br>The bank being on that list is the b2p2p2b argument arriving ' +
+            'as a fact about your own ledger rather than as a claim &mdash; and ' +
+            'note that a closed ring of peers does not clear it. One party who ' +
+            'has only ever paid the bank is enough.'
+          : '') + '</div>'
+      : '<div class="verdict yes">No single party&rsquo;s removal disconnects ' +
+        'anybody. The middle is genuinely peer to peer &mdash; for now, and only ' +
+        'because more than one route exists.</div>';
+
+  /* reads */
+  $('#reads').innerHTML = '<div class="verdict' + (coin.reads ? '' : ' yes') + '">' +
+    '<b>' + reads + '</b> read' + (reads === 1 ? '' : 's') + ' so far, at <b>' +
+    coin.reads + '</b> per settlement.<br><br>' +
+    (coin.reads
+      ? 'Every one of those consulted something outside the coin. Whoever can ' +
+        'write to what is read decides whether the coin is money, and that is ' +
+        'true however many copies of it exist.'
+      : 'Nothing is consulted. Validity is checkable from the thing in your ' +
+        'hand — which is why this design has no double-spend protection at all.') +
+    '</div>';
+
+  $('#log').innerHTML = moves.length
+    ? moves.slice().reverse().map((m, i) => '<div><b>' + (moves.length - i) + '</b>  ' +
+      esc(m.from) + ' \u2192 ' + esc(m.to) + '  ' + m.amount + '</div>').join('')
+    : '<div>nothing yet</div>';
+
+  $('#who').textContent = coin.name;
+}
+
+/* ── the designs ────────────────────────────────────────────────────── */
+$('#picks').innerHTML = COINS.map((c, i) => {
+  const k = { fungible: !/fungib/i.test(c.gives_up),
+              safe: !/double-spend/i.test(c.gives_up), free: c.reads === 0 };
+  return '<div class="pick' + (i === 0 ? ' on' : '') + '" data-i="' + i + '">' +
+    '<h4>' + esc(c.name) + '</h4>' +
+    '<div class="three">' +
+      '<i class="' + (k.fungible ? 'y' : 'n') + '">fungible</i>' +
+      '<i class="' + (k.safe ? 'y' : 'n') + '">no double spend</i>' +
+      '<i class="' + (k.free ? 'y' : 'n') + '">no reads</i>' +
+    '</div><p>gives up <b>' + esc(c.gives_up) + '</b></p></div>';
+}).join('');
+$('#picks').onclick = (e) => {
+  const d = e.target.closest('.pick'); if (!d) return;
+  document.querySelectorAll('.pick').forEach((x) => x.classList.toggle('on', x === d));
+  coin = COINS[+d.dataset.i];
+  start();
+};
+
+$('#from').innerHTML = $('#to').innerHTML =
+  PEOPLE.map((p) => '<option>' + esc(p) + '</option>').join('');
+$('#to').value = PEOPLE[2];
+$('#pay').onclick = pay;
+$('#reset').onclick = start;
+document.querySelectorAll('.sw button').forEach((b) => {
+  b.onclick = () => {
+    remembers = b.dataset.m === '1';
+    document.querySelectorAll('.sw button').forEach((x) => x.classList.toggle('on', x === b));
+    /* forgetting is DELETING the field, not declining to look at it */
+    if (!remembers) units.forEach((u) => delete u.from);
+    paint();
+  };
+});
+
+start();
+</script>
+<script src="patron.js"></script>
+<!--toonami--><style>
+  :root{--void:#04050b;--panel:#0a0d1c;--panel2:#0f1430;--edge:#22307a;--ink:#e9f1ff;--dim:#8291c9;--gold:#ffd23f;--venus:#ff7a1a;--ok:#7dff9a;--bad:#ff4f6d;--sea:#3fd4ff;--magenta:#ff4fd8;--serif:"Bahnschrift","Eurostile","Rajdhani","Segoe UI",system-ui,sans-serif}
+  html{background:#04050b}body{background:radial-gradient(1400px 700px at 50% -20%,#151b45 0%,#04050b 62%) fixed;color:var(--ink)}
+  header h1,h1{text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:#fff;text-shadow:0 0 10px var(--sea),0 0 34px rgba(63,212,255,.45)}
+  header small,footer{color:var(--dim)}
+  section,.stat,.board,.map,.clan,.pile,.region,.card{border-color:var(--edge);box-shadow:0 0 0 1px rgba(63,212,255,.07),inset 0 0 28px rgba(63,212,255,.05)}
+  section h2{text-transform:uppercase;letter-spacing:.08em;font-size:14px}section h2 i,.clan h3 small,.stat i{text-transform:none;letter-spacing:0}
+  .stat span,.pile b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+  button{border-color:var(--edge);text-transform:uppercase;letter-spacing:.07em;font-size:11px;background:var(--panel2);color:var(--ink)}button:hover:not(:disabled){border-color:var(--sea);box-shadow:0 0 12px rgba(63,212,255,.35)}
+  button.primary{background:var(--panel2);border-color:var(--magenta);box-shadow:0 0 12px rgba(255,79,216,.35)}
+  .bar{background:var(--void)}.bar div,.bar{box-shadow:0 0 8px rgba(63,212,255,.35)}
+  canvas#scene,canvas#board,canvas#map,canvas#sky,canvas#lane,canvas#street{box-shadow:0 0 0 1px var(--edge),0 0 30px rgba(63,212,255,.12)}
+  #toonami,#toonami i,#toonami b{position:fixed;pointer-events:none;display:block;margin:0;padding:0}#toonami{inset:0;z-index:0}
+  #toonami i{inset:-8%;background-repeat:no-repeat;will-change:transform,opacity;animation:tn-drift-a 41s ease-in-out infinite,tn-blink-a 5.3s ease-in-out infinite 0s}
+  #toonami i:nth-child(1){background-image:radial-gradient(13px circle at 31.3% 24.1%, #fff 0, #d9ff5a 1.9px, rgba(217,255,90,.28) 4.9px, transparent 13px),radial-gradient(16px circle at 16.3% 28.2%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px),radial-gradient(13px circle at 97.3% 96.0%, #fff 0, #c8ff4a 1.8px, rgba(200,255,74,.28) 4.7px, transparent 13px),radial-gradient(10px circle at 87.5% 78.2%, #fff 0, #c8ff4a 1.4px, rgba(200,255,74,.28) 3.6px, transparent 10px),radial-gradient(12px circle at 50.1% 70.3%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(15px circle at 77.3% 35.2%, #fff 0, #fff3a0 2.2px, rgba(255,243,160,.28) 5.7px, transparent 15px),radial-gradient(16px circle at 32.4% 83.9%, #fff 0, #fff3a0 2.3px, rgba(255,243,160,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 42.6% 43.4%, #fff 0, #b6ff7a 2.6px, rgba(182,255,122,.28) 6.8px, transparent 18px),radial-gradient(9px circle at 52.1% 82.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(17px circle at 68.3% 86.0%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(13px circle at 16.9% 80.5%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 79.3% 19.9%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(13px circle at 46.2% 41.1%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(16px circle at 7.5% 63.8%, #fff 0, #c8ff4a 2.3px, rgba(200,255,74,.28) 6.0px, transparent 16px)}
+  #toonami i:nth-child(2){background-image:radial-gradient(18px circle at 42.4% 19.0%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 91.7% 46.0%, #fff 0, #ffe66b 1.7px, rgba(255,230,107,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 8.9% 36.4%, #fff 0, #ffe66b 1.6px, rgba(255,230,107,.28) 4.2px, transparent 11px),radial-gradient(13px circle at 41.1% 77.4%, #fff 0, #d9ff5a 1.8px, rgba(217,255,90,.28) 4.7px, transparent 13px),radial-gradient(11px circle at 18.0% 9.3%, #fff 0, #b6ff7a 1.6px, rgba(182,255,122,.28) 4.2px, transparent 11px),radial-gradient(18px circle at 80.7% 78.8%, #fff 0, #fff3a0 2.5px, rgba(255,243,160,.28) 6.5px, transparent 18px),radial-gradient(12px circle at 0.7% 9.3%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(13px circle at 53.6% 80.2%, #fff 0, #fff3a0 1.9px, rgba(255,243,160,.28) 4.9px, transparent 13px),radial-gradient(10px circle at 31.8% 49.5%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(10px circle at 51.0% 10.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(15px circle at 89.3% 14.9%, #fff 0, #fff3a0 2.1px, rgba(255,243,160,.28) 5.5px, transparent 15px),radial-gradient(14px circle at 88.3% 17.3%, #fff 0, #c8ff4a 2.0px, rgba(200,255,74,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 60.4% 74.0%, #fff 0, #d9ff5a 1.3px, rgba(217,255,90,.28) 3.4px, transparent 9px),radial-gradient(11px circle at 59.3% 59.2%, #fff 0, #c8ff4a 1.6px, rgba(200,255,74,.28) 4.2px, transparent 11px);animation:tn-drift-b 47s ease-in-out infinite,tn-blink-b 6.7s ease-in-out infinite 1.3s}
+  #toonami i:nth-child(3){background-image:radial-gradient(16px circle at 52.5% 29.0%, #fff 0, #b6ff7a 2.3px, rgba(182,255,122,.28) 6.0px, transparent 16px),radial-gradient(16px circle at 77.1% 22.9%, #fff 0, #d9ff5a 2.3px, rgba(217,255,90,.28) 6.0px, transparent 16px),radial-gradient(18px circle at 86.7% 6.0%, #fff 0, #c8ff4a 2.5px, rgba(200,255,74,.28) 6.5px, transparent 18px),radial-gradient(11px circle at 68.8% 61.6%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(10px circle at 32.0% 43.2%, #fff 0, #b6ff7a 1.4px, rgba(182,255,122,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 0.5% 65.6%, #fff 0, #c8ff4a 1.9px, rgba(200,255,74,.28) 4.9px, transparent 13px),radial-gradient(15px circle at 56.2% 33.5%, #fff 0, #ffe66b 2.1px, rgba(255,230,107,.28) 5.5px, transparent 15px),radial-gradient(13px circle at 56.5% 29.9%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(9px circle at 91.8% 70.2%, #fff 0, #b6ff7a 1.3px, rgba(182,255,122,.28) 3.4px, transparent 9px),radial-gradient(12px circle at 13.1% 69.0%, #fff 0, #b6ff7a 1.7px, rgba(182,255,122,.28) 4.4px, transparent 12px),radial-gradient(14px circle at 3.7% 12.4%, #fff 0, #ffe66b 2.0px, rgba(255,230,107,.28) 5.2px, transparent 14px),radial-gradient(9px circle at 15.9% 9.8%, #fff 0, #fff3a0 1.3px, rgba(255,243,160,.28) 3.4px, transparent 9px);animation:tn-drift-c 53s ease-in-out infinite,tn-blink-a 4.3s ease-in-out infinite 2.1s}
+  #toonami i:nth-child(4){background-image:radial-gradient(13px circle at 57.6% 82.6%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(12px circle at 74.4% 66.9%, #fff 0, #fff3a0 1.7px, rgba(255,243,160,.28) 4.4px, transparent 12px),radial-gradient(11px circle at 71.2% 62.9%, #fff 0, #d9ff5a 1.6px, rgba(217,255,90,.28) 4.2px, transparent 11px),radial-gradient(17px circle at 41.3% 30.4%, #fff 0, #c8ff4a 2.4px, rgba(200,255,74,.28) 6.2px, transparent 17px),radial-gradient(18px circle at 13.8% 48.6%, #fff 0, #d9ff5a 2.5px, rgba(217,255,90,.28) 6.5px, transparent 18px),radial-gradient(13px circle at 61.1% 92.1%, #fff 0, #fff3a0 1.8px, rgba(255,243,160,.28) 4.7px, transparent 13px),radial-gradient(13px circle at 14.6% 87.8%, #fff 0, #b6ff7a 1.9px, rgba(182,255,122,.28) 4.9px, transparent 13px),radial-gradient(8px circle at 45.5% 99.7%, #fff 0, #fff3a0 1.2px, rgba(255,243,160,.28) 3.1px, transparent 8px),radial-gradient(13px circle at 45.7% 75.0%, #fff 0, #ffe66b 1.8px, rgba(255,230,107,.28) 4.7px, transparent 13px),radial-gradient(15px circle at 87.3% 53.5%, #fff 0, #b6ff7a 2.1px, rgba(182,255,122,.28) 5.5px, transparent 15px),radial-gradient(10px circle at 27.3% 47.6%, #fff 0, #ffe66b 1.4px, rgba(255,230,107,.28) 3.6px, transparent 10px),radial-gradient(13px circle at 97.7% 86.8%, #fff 0, #ffe66b 1.9px, rgba(255,230,107,.28) 4.9px, transparent 13px);animation:tn-drift-b 37s reverse ease-in-out infinite,tn-blink-b 7.9s ease-in-out infinite .7s}
+  #toonami b{inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+  @keyframes tn-drift-a{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(2.5%,-3%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-b{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-drift-c{0%{transform:translate3d(0,0,0)}33%{transform:translate3d(2%,2.5%,0)}66%{transform:translate3d(-1.5%,-2%,0)}100%{transform:translate3d(0,0,0)}}
+  @keyframes tn-blink-a{0%,35%,100%{opacity:.22}45%{opacity:.95}55%{opacity:.3}}
+  @keyframes tn-blink-b{0%,50%,100%{opacity:.25}62%{opacity:1}70%{opacity:.28}}
+  #toonami em{position:fixed;left:14px;bottom:12px;z-index:4;pointer-events:none;font:700 13px/1 var(--serif);letter-spacing:.38em;color:#ffd23f;text-shadow:0 0 10px rgba(255,210,63,.55);border:3px double #7a5a1e;padding:7px 6px 6px 12px;background:#04050bb8;font-style:normal}
+  #toonami em small{display:block;font:400 9px/1.3 system-ui,sans-serif;letter-spacing:.14em;color:var(--dim);margin-top:5px;text-transform:uppercase}
+  @media (prefers-reduced-motion:reduce){#toonami i{animation:none;opacity:.5}}
+</style>
+<div id="toonami" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em>SPQR<small>the ship Hesperus &middot; the senate and the people of it</small></em></div><!--/toonami-->
+</body>
+</html>

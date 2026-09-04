@@ -1,0 +1,31 @@
+{
+ "id": "p-3",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Elnax Nixor",
+ "syndicate": "syn-1",
+ "tranche": 1,
+ "doors": [
+  1,
+  9
+ ],
+ "house": "the borrowed hour",
+ "sigil": {
+  "ring": 3,
+  "bars": 5,
+  "chord": 3,
+  "turn": 303
+ },
+ "keeps": "the route, which is not written down",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Rev. George Burroughs",
+ "readsId": "burroughs",
+ "reason": "Recited the Lord’s Prayer perfectly on the gallows, which was held to be impossible for a witch.",
+ "spell": "Bolt",
+ "spellId": "bolt",
+ "glyph": "⟊",
+ "share": "b23424",
+ "text": "Elnax nixor of the borrowed hour, carries between for the 1st tranche, doors 1 to 9. Keeps the route, which is not written down. Reads Rev. George Burroughs.",
+ "wovenBy": "burroughs"
+}

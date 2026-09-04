@@ -1,0 +1,1250 @@
+{
+ "title": "The Venus Knowledge Base",
+ "note": "Every entry carries a TEST — the thing you could do that would show it false. An entry without one is an opinion with a heading on it. The generator checks that every cited page exists and reports every entry the yard asserts but never demonstrates.",
+ "classes": {
+  "concept": "a claim about how things work",
+  "mechanism": "a technique, and what it costs",
+  "figure": "a person or a posture, and what it does",
+  "number": "a measured or computed quantity"
+ },
+ "settled": {
+  "settled": "demonstrated on a board you can open, and the demonstration is checkable",
+  "working": "used throughout, argued for, not independently verified",
+  "contested": "the yard has said two things about it and has not reconciled them",
+  "open": "stated, not demonstrated anywhere yet"
+ },
+ "entries": [
+  {
+   "id": "decentralization",
+   "term": "Decentralization",
+   "class": "concept",
+   "settled": "settled",
+   "short": "No participant reads any other. Removing one changes nothing for the rest.",
+   "body": [
+    "Not \"spread out\", not \"many copies\", not \"no company owns it\". Those are consequences people notice and then mistake for the thing. The property is about READS: a system is decentralised exactly to the extent that no component's behaviour is a function of another component's state.",
+    "The automat is the cleanest instance in this yard because it was built to have nothing else in it. Each tribe keeps its own beat, off its own prime, and advances on beats that divide its own period. No tribe queries another. There is no coordinator, no scheduler with a policy, no leader election, no consensus round — the pattern you see on the board is not produced by anything, it is what falls out of several bands not talking.",
+    "Which is why removing one is a non-event. Delete a tribe and the remaining ones do not slow down, re-balance, or notice. That is not resilience bolted on afterwards; there is no failure mode to be resilient to, because there was never a dependency to break."
+   ],
+   "test": "Delete one component. If any other component's behaviour changes — timing, output, ordering, anything — it was not decentralised, and the coupling you just found is the real architecture.",
+   "evidence": [
+    {
+     "page": "automat.html",
+     "what": "140-odd tribes across 45 boards; no tribe reads another, and the orbit is the lcm rather than a schedule"
+    },
+    {
+     "page": "ecosystem.html",
+     "what": "twelve orders; take one out and the board shows exactly which capabilities stop and which genuinely do not"
+    },
+    {
+     "page": "mycelium.html",
+     "what": "the network that routes around a cut rather than reporting it"
+    }
+   ],
+   "see": [
+    "fungibility",
+    "the-orbit",
+    "the-minimum-cycle"
+   ]
+  },
+  {
+   "id": "fungibility",
+   "term": "Fungibility",
+   "class": "concept",
+   "settled": "settled",
+   "short": "No unit is worth more than another, and there is no way to write the function that would prefer one.",
+   "body": [
+    "The test is constructive and it is the whole of the idea: try to write the preference. If you can write a function that ranks two units, they are not fungible, and the ranking is where the rent will be collected. If you cannot write it — not \"choose not to\", cannot — they are.",
+    "This is why the automat has no scoring function. Not as restraint, as a structural fact: there is no goal state to compare an arrangement against, so there is nothing for a ranking to be a ranking of. Every arrangement is reachable from every other and none is worth more, which means there is no arrangement anybody can be induced to reach and none anybody can be charged to leave.",
+    "The correction that produced this entry is worth keeping. Early in this repository's life the advice was to add a loss condition and a scarcity to make a game feel like a game. That advice was wrong in a specific way: fungibility exists to remove exactly those two things, and putting them back is not balancing a system, it is un-building it."
+   ],
+   "test": "Write the preference function over two units. If it compiles, they are not fungible. If it does not, ask what the syndicate would have to add before it could — that addition is the attack.",
+   "evidence": [
+    {
+     "page": "theory.md",
+     "what": "the argument in full: fungibility removes the individual loss condition and the scarcity rent"
+    },
+    {
+     "page": "buddha.html",
+     "what": "one substance, two nouns; the matter counter reads 1 on both sides and the capability counter does not"
+    },
+    {
+     "page": "automat.html",
+     "what": "no scoring function, no goal state, no termination test anywhere in the file"
+    }
+   ],
+   "see": [
+    "the-rename",
+    "decentralization",
+    "the-wallet"
+   ],
+   "game": {
+    "unlock": "Let the commons read bare, and watch nothing fail."
+   }
+  },
+  {
+   "id": "the-minimum-cycle",
+   "term": "What it takes to start something",
+   "class": "concept",
+   "settled": "settled",
+   "short": "Not the most important thing. The smallest closed loop in which every part is fed by another part.",
+   "body": [
+    "The instinct is to start with the root — the biggest, the most depended-upon, the one everything else needs. This yard tested that instinct and it fails, visibly, on a board you can open. Turn on Zeus alone in the twelve-sector economy: nought working, one broken. Add Hera: still nought, still broken. Turn on all four roots — the four sectors with the most downstream dependents — and you get two capabilities and nobody eating.",
+    "A root is not a start, because a root is defined by what depends on IT and a start is defined by what feeds IT. Those are different arrows. Something with no inputs produces nothing on its own; it only becomes productive once the things that consume its output exist and return something to it.",
+    "So the thing you need is a CYCLE: the smallest set whose members feed each other with no external input required. Not the most important sector — the shortest closed loop. In practice that loop is nearly always unglamorous and involves food, water, and somebody keeping time, because those are the three that everything else quietly assumes. The dependency graph will tell you which loop is shortest; it will not tell you which node is most important, and it does not need to.",
+    "The same shape appears in the fourteen terraforming profiles. The envelope has ten downstream dependents — the most of anything on the board — and its own status is only \"derived\". The most-depended-on thing in the system is a thing nobody has independently established. That is normal, and it is exactly why you do not start there."
+   ],
+   "test": "Invert the dependency graph and look for cycles, not for maxima. If your proposed start has no path back to itself, it is a root and not a start, and it will sit idle producing nothing until you build the return arrow.",
+   "evidence": [
+    {
+     "page": "economy.html",
+     "what": "Zeus alone: 0 working, 1 broken. All four roots: 2 capabilities, nobody eating"
+    },
+    {
+     "page": "sumer.html",
+     "what": "the same twelve, 1,500 years earlier — Nisaba holds grain AND writing, which collapses two nodes into one and shortens the loop"
+    },
+    {
+     "page": "profiles/index.html",
+     "what": "14 requirements, 6 settled; the envelope has 10 downstream and is only derived"
+    }
+   ],
+   "see": [
+    "decentralization",
+    "hydrogen",
+    "the-substrate"
+   ],
+   "game": {
+    "unlock": "Build every root the template has, and nothing else, until it is clear that nothing is happening."
+   }
+  },
+  {
+   "id": "the-window",
+   "term": "The window",
+   "class": "number",
+   "settled": "settled",
+   "short": "583.92 days between one departure and the next. Nothing you can spend shortens the wait.",
+   "body": [
+    "The window is the synodic period — how long it takes Earth and Venus to return to the same relative position — and it comes straight out of the two orbital periods with nothing else in it:",
+    "1 ÷ (1÷224.701 − 1÷365.256) = 583.9 days. Venus goes round in 224.701 days, Earth in 365.256, and the difference in angular rate is the whole calculation. Call it 584 days, nineteen and a bit months, one year seven months.",
+    "The windows themselves nearly repeat on a longer cycle, and this is the useful part for anybody planning more than one: five synodic periods is 2,919.6 days, eight Earth years is 2,922.0, and thirteen Venus years is 2,921.1. All three land within two and a half days of each other. So the pattern of departures you get in one eight-year block is very close to the pattern you get in the next, which means a schedule can be written once and reused, and the drift is small enough to absorb.",
+    "The operational fact is that this is a deadline nobody negotiated. Most schedules can be bought forward with more money, more people, or a different contractor. This one is set by two orbital periods, and a launch that is not ready waits 584 days — not for a review, not for a decision, for geometry."
+   ],
+   "test": "Ask what would shorten it. If the answer offered is budget, headcount, or a better vendor, that is a different constraint being described. The only thing that moves a departure inside the window is propellant, and what it buys is a worse transfer, not an earlier arrival.",
+   "evidence": [
+    {
+     "page": "supply.html",
+     "what": "both paths, and a departure window only when the alignment allows it"
+    },
+    {
+     "page": "ships/index.html",
+     "what": "seven logs against a 584-day window"
+    },
+    {
+     "page": "profiles/clock.html",
+     "what": "the clocks requirement — 116.75 d solar day against the transit cadence"
+    },
+    {
+     "page": "cruise-control.html",
+     "what": "one lane, one file of hulls, one control"
+    }
+   ],
+   "see": [
+    "the-passage",
+    "the-relay",
+    "superrotation"
+   ],
+   "game": {
+    "unlock": "Let a window open."
+   }
+  },
+  {
+   "id": "the-passage",
+   "term": "The passage",
+   "class": "number",
+   "settled": "settled",
+   "short": "146 days out, on the minimum-energy path. The fast way there is not the straight one.",
+   "body": [
+    "The minimum-energy transfer is half an ellipse with Earth's orbit at one end and Venus's at the other, and its duration falls out of one line of Kepler:",
+    "semi-major axis = (1.0000 + 0.7233) ÷ 2 = 0.86165 AU. Orbital period = 0.86165^1.5 = 0.7998 years = 292.1 days. You fly half of it: 146 days. About 3.5 km/s from low Earth orbit to get on it.",
+    "IT IS A STRAIGHT SHOT AND IT IS NOT A STRAIGHT LINE, and the difference is why it is quick. You are not driving to Venus; you are letting go and falling toward the Sun, and Venus arrives at the far end of the fall. A straight line at constant speed would need thrust the whole way and propellant to match. The ellipse costs one burn and then nothing.",
+    "For scale, since the Moon is the only trip anybody has a feel for: the Moon is 384,400 km, and Venus at its closest is about 99 Earth–Moon distances. Apollo took roughly three days to the Moon; at that average speed Venus would take the better part of a year. It takes 146 days instead, because falling beats driving.",
+    "The three-to-five months quoted in the ships' logs is the same number with the variants included — 146 days is 4.8 months on the minimum-energy path, and the shorter figures are bought with propellant."
+   ],
+   "test": "Compute the transfer period from the two semi-major axes and halve it. If a quoted passage time is much shorter than that, it is not a minimum-energy transfer, and the difference is propellant somebody has to launch. Ask for the delta-v alongside the duration; a duration on its own is not a plan.",
+   "evidence": [
+    {
+     "page": "supply.html",
+     "what": "the long arc — about 146 days, roughly 3.5 km/s from low Earth orbit"
+    },
+    {
+     "page": "ships/index.html",
+     "what": "seven ships, 23 log entries, 146-day passage"
+    },
+    {
+     "page": "convoy.html",
+     "what": "eight hulls in four pairs; a pair is the unit and sails together"
+    },
+    {
+     "page": "chain.html",
+     "what": "the three legs of a run, and what each can still say"
+    }
+   ],
+   "see": [
+    "the-window",
+    "the-relay",
+    "the-light-delay"
+   ],
+   "game": {
+    "unlock": "Complete one leg of the relay, either way."
+   }
+  },
+  {
+   "id": "the-light-delay",
+   "term": "The light delay",
+   "class": "number",
+   "settled": "settled",
+   "short": "2.2 minutes at closest, 14.3 at furthest, one way. There is no live conversation with Venus.",
+   "body": [
+    "Venus and Earth run between about 39.5 and 258 million km apart on actual approaches — the geometric extremes are 38.2 and 261.0, from Earth's perihelion minus Venus's aphelion and both aphelia added, but the orbits are not aligned to deliver those often.",
+    "Divide by 299,792.458 km/s: 39.5 million gives 131.8 seconds, 2.20 minutes. 258 million gives 860.6 seconds, 14.34 minutes. Those are one way. A question and its answer is 4.4 minutes at best and 28.7 at worst.",
+    "THAT NUMBER IS AN OPERATIONS CONSTRAINT BEFORE IT IS A COMMUNICATIONS ONE. Any procedure whose correct response has to arrive in under about four and a half minutes cannot be run from Earth, at any point in the cycle, ever. Not with better equipment and not with more staff. It has to be decided at the far end, which means the authority to decide it has to be there before the situation is.",
+    "The Moon is 1.28 light-seconds. Apollo could be talked through a problem in real time and repeatedly was. Venus cannot be, and every procedure written on the assumption that somebody can be asked needs rewriting for a place where they cannot.",
+    "The practical shape of this is already in the yard. Signals are built to be read by weight before colour resolves, because a code for a channel with no back-channel has to survive being read badly. The bridge recomputes the derived figures from an incoming manifest rather than believing them, because there is nobody to query about a discrepancy inside a quarter of an hour."
+   ],
+   "test": "Time your loops. List every procedure whose correct response must arrive in under 4.4 minutes. That list is not a communications problem — it is the exact scope of the authority you have to delegate to the far end before departure, and it is the same list whether Venus is near or far.",
+   "evidence": [
+    {
+     "page": "signals.html",
+     "what": "sixteen states sorted by how many lamps are lit — weight first, because that is what a person reads at distance in bad light"
+    },
+    {
+     "page": "chain.html",
+     "what": "three legs, each further from the authority that can say no, and each able to say less"
+    },
+    {
+     "page": "bridge.html",
+     "what": "a manifest comes in and the derived figures are recomputed rather than believed"
+    },
+    {
+     "page": "supply.html",
+     "what": "the two paths, and what each commits before anyone can be asked"
+    }
+   ],
+   "see": [
+    "the-relay",
+    "the-passage",
+    "superrotation",
+    "the-injector"
+   ],
+   "game": {
+    "unlock": "Fly past the three-quarter mark, where the correction lag passes two minutes."
+   }
+  },
+  {
+   "id": "the-relay",
+   "term": "The relay",
+   "class": "mechanism",
+   "settled": "settled",
+   "short": "A relay race, not a haul. The baton crosses the whole distance; no runner does. Nothing is lost at the exchange and the runner goes home and starts again.",
+   "body": [
+    "A haul is one carrier from origin to destination, and its cost is the whole distance every time. A relay is stations and handoffs, each leg sized to what that leg can actually do, and the baton is the only thing that goes the whole way.",
+    "THE EXCHANGE IS THE INSTRUMENT AND NOTHING MAY BE DROPPED IN IT. In a relay race the exchange zone is the only place the baton can be lost, which is why it is the part that gets practised — the running is fitness, the handoff is skill. Same here: a leg that arrives is not the achievement, a leg that transfers cleanly is. Convoy releases in pairs and the markup does not offer half a pair, which is a stronger guarantee than a rule saying not to.",
+    "AND THE RUNNER GOES HOME AND STARTS OFF RIGHT. The hull is not the baton. It hands over and cycles back on its own clock, which is a different clock from the cargo's — outbound is 146 days, the return is set by the same synodic geometry rather than by the ship, so a hull either waits at the far end for its alignment or spends propellant to shorten the wait. Either way the cargo does not wait with it. That is the whole reason to relay rather than shuttle: the baton keeps moving while the runners reset.",
+    "The legs are not equal and are not meant to be. Earth departure carries sixteen states and can refuse. The middle leg carries eight and can only pace. Arrival carries four and can only receive. Each is further from the authority that can say no, and that is the light delay drawn as a chain rather than described — by the time a decision could be sent, the leg it applied to has already run.",
+    "The practical payoff is scheduling. A haul has to catch the 584-day window whole. A relay only needs each leg to catch its own, so the cadence becomes a pipeline with more than one thing in flight at a time rather than a gate that opens twice in three years."
+   ],
+   "test": "Ask who is responsible for the cargo at the midpoint. If it is the same party as at departure, it is a haul with extra stops and you are paying the whole distance. In a relay the answer is a station, with different authority from the one before it, and there is a defined moment when responsibility changed hands.",
+   "evidence": [
+    {
+     "page": "chain.html",
+     "what": "B2 / P2P / 2B — three legs, 16 / 8 / 4 states, strictly decreasing in what each can say"
+    },
+    {
+     "page": "convoy.html",
+     "what": "eight hulls in four pairs; nothing on the board can release half a pair"
+    },
+    {
+     "page": "supply.html",
+     "what": "two paths that diverge at departure and reconverge in the cloud layer"
+    },
+    {
+     "page": "cruise-control.html",
+     "what": "one lane, one file of hulls, and no stop on a hull any more"
+    }
+   ],
+   "see": [
+    "the-window",
+    "the-passage",
+    "the-light-delay",
+    "the-injector",
+    "the-baton",
+    "the-exchange"
+   ],
+   "game": {
+    "unlock": "Take a delivery that carries a held window with it — two or more at once."
+   }
+  },
+  {
+   "id": "the-baton",
+   "term": "The baton",
+   "class": "concept",
+   "settled": "settled",
+   "short": "The only object in the system whose journey is the point. The hull is not the baton, and confusing the two is the commonest error there is.",
+   "body": [
+    "Everything else in a relay exists to move it. The runners, the stations, the schedule, the exchange zones — none of those are going anywhere in the sense that matters; they cycle, they reset, they go home. One object crosses the whole distance and it is not any of them.",
+    "MOST SYSTEMS CANNOT NAME THEIR BATON, and that is why they optimise runners. Hull utilisation, desk throughput, cases disposed, seats filled, uptime — every one of those is a measurement of a carrier, and a system can improve all of them at once while the baton sits at a station. The relay reports one thing for exactly this reason: where the baton is. Not how the hull did.",
+    "THE BATON HAS NO STATE EXCEPT POSITION. It does not accumulate merit from a clean handoff or wear from a late one. A baton that waited a full 584-day window at an exchange and a baton that went straight through are the same baton when they reach Venus, differing only in when. That is fungibility applied to cargo, and it is the whole reason a held baton is not a loss: held and handed produce an identical object at the far end.",
+    "AND IT IS THE ONE THING THAT MUST NOT BE DROPPED, which is why the exchange is the part that gets practised. The running is fitness. The handoff is skill. A relay does not fail in the middle of a leg — it fails in the two seconds where the object is in nobody's hand, and every design decision worth making is about that moment. convoy.html releases in pairs and the markup does not offer half a pair, which is a stronger guarantee than a rule saying not to.",
+    "NAMING YOURS IS A DECISION AND IT TELLS YOU WHAT TO MEASURE. In this yard the supply line's baton is hydrogen — it cannot be made at Venus at any price, so everything wet is downstream of whether it arrives. The court's baton is the opinion, not the disposal: forty disposals a day and twelve opinions, and the twelve are what binds. The ledger's baton is the record itself. Three different systems, three different objects, and in each case the metrics that felt natural were about the carriers."
+   ],
+   "test": "Name the baton, then read your own dashboard. If what it measures is carriers — utilisation, throughput, disposals, uptime — and not the baton's position, you are optimising the things that go home at the end of the shift. Ask where the baton is and how long it has been there; if nobody owns that number, nobody is watching the only journey in the system.",
+   "evidence": [
+    {
+     "page": "game.html",
+     "what": "the relay reports one thing — aboard, held at an exchange, or at Venus — and the hull cycles on its own clock"
+    },
+    {
+     "page": "convoy.html",
+     "what": "eight hulls in four pairs, and nothing on the board can release half a pair"
+    },
+    {
+     "page": "profiles/hydrogen.html",
+     "what": "the supply line's actual baton: 2.06% H in H2SO4, ~136,000 m3 of cloud per kg of water, and it cannot be made there at any price"
+    },
+    {
+     "page": "bench.html",
+     "what": "forty disposals and twelve opinions — the disposal is the runner and the opinion is what crosses"
+    }
+   ],
+   "see": [
+    "the-relay",
+    "the-injector",
+    "hydrogen",
+    "the-wallet",
+    "the-exchange",
+    "the-exchange-rate"
+   ],
+   "game": {
+    "unlock": "Put a manifest line into Plant, and ship the thing that harvests rather than the harvest."
+   }
+  },
+  {
+   "id": "the-exchange",
+   "term": "The exchange",
+   "class": "mechanism",
+   "settled": "settled",
+   "short": "The only place a relay fails, and the only place authority changes. For the length of it the object has either two owners or none.",
+   "body": [
+    "A relay does not fail in the middle of a leg. The legs are long, visible and measured, and they are not where anything goes wrong. It fails in the seconds where the baton is in nobody's hand — and that is where the design attention belongs and almost never goes, because the exchange is short and looks like nothing.",
+    "THE HAZARD IS THAT RESPONSIBILITY DOES NOT TRANSFER AT AN INSTANT. It transfers over an interval, and inside the interval there are only two possibilities and both are bad. Two owners: each is entitled to assume the other has it, and both assumptions are reasonable. No owner: nobody is watching and nobody is wrong for not watching. Every dropped baton in any system is one of those two, and neither is a competence failure — they are the arithmetic of an undefined boundary.",
+    "SO THE FIX IS A DEFINED MOMENT, checkable after the fact by somebody who was not there. Not a period, not a handover process, not a shared understanding: an event, with a name. convoy.html releases in pairs and the markup does not offer half a pair, which is a defined moment enforced by structure rather than by a rule anybody has to remember. contract.html states the boundary as an inequality — gas within budget, or escalate, or burn — so the disposition of any form is a fact rather than a judgement. persist.html gives every state a name you can type, which means the moment it changed is in the URL.",
+    "AND THE EXCHANGE IS WHERE AUTHORITY CHANGES, not the leg. The chain's three legs carry sixteen, eight and four states, and the decrease does not happen gradually along the way — it happens AT the handoffs, because that is the only place a decision about who may say what can actually be taken. A leg is a period during which nothing is decided.",
+    "The court has three handoffs in it and only two of them have a defined moment. The Master disposes: that is an event, dated, on the list. A clerk drafts and a judge signs: that is an event, and the signature is on the page. But the moment the reasoning became the JUDGE'S reasoning rather than the drafter's has no name, no date and no record, and that is exactly why the name never appears anywhere."
+   ],
+   "test": "Ask both parties when responsibility changed hands and check whether they name the same event. If either names a period rather than an event, or if they name different events, you have found the gap — and it is the same gap whether or not anything has fallen through it yet. Then ask who could verify the answer without having been present.",
+   "evidence": [
+    {
+     "page": "game.html",
+     "what": "two exchange zones, and the baton is either aboard or held at one — never in between"
+    },
+    {
+     "page": "convoy.html",
+     "what": "a pair is the unit and the markup cannot release half of one; structure rather than a rule"
+    },
+    {
+     "page": "chain.html",
+     "what": "16 / 8 / 4 states — the decrease happens at the handoffs, not along the legs"
+    },
+    {
+     "page": "contract.html",
+     "what": "gas within budget, escalate, or burn — the disposition is a fact and not a judgement"
+    },
+    {
+     "page": "bench.html",
+     "what": "three handoffs, two with a defined moment; the third is why no drafter is named"
+    }
+   ],
+   "see": [
+    "the-baton",
+    "the-relay",
+    "the-attribution-gap",
+    "the-gas"
+   ],
+   "game": {
+    "unlock": "Miss an exchange and have the baton held at a station."
+   }
+  },
+  {
+   "id": "the-injector",
+   "term": "The injector",
+   "class": "figure",
+   "settled": "settled",
+   "short": "What the operator of an automated thing actually is. Two verbs: start it, and stop it. Steering is not on the list.",
+   "body": [
+    "Automation does not remove the operator. It changes the operator's verbs, and the change is bigger than it looks: a continuous control surface — many small corrections, made constantly, each one cheap and each one revisable — collapses into a handful of discrete injections. Fewer decisions, and every one of them heavier, because each is now committed for the whole duration of a run.",
+    "THE MIDDLE IS THE PART THAT CHANGED. In the relay you cannot correct once it is flying, and the reason is physical rather than a design choice: by arrival your picture of the hull is 4.94 minutes old and anything you send is 4.94 minutes from landing. Most automated systems are in the same position and disguise it. The operator believes intervention is available, and it is, and it is useless — by the time a problem is perceived the system has already acted on it several times. Calling yourself an injector is not a diminishment. It is admitting the thing that was true anyway.",
+    "SO THE SKILL IS TIMING, NOT INTERVENTION. The relay has exactly one decision in it and it is when to leave: at the top of the window the passage is 146 days, and two hundred days off the top it is 236. Ninety days, bought or lost, in the one press you actually get. An injector who spends their attention wishing they could steer is spending it on the one thing they do not have, and not on the one thing they do.",
+    "AND THE STOP IS NOT A CONTROL, IT IS A REFUSAL. Shutdown does not adjust, tune, pause or reset — it stops, and nothing it stops is undone. That is a different verb from adjustment and the difference is the diagnostic: if mid-run adjustment is on the operator's list, the thing is not automated, it is ASSISTED. Assisted is a perfectly good design. It simply has different failure modes, needs different training, and should not be described with the other word.",
+    "The same shape is already elsewhere in this yard. The automat has four lights and one stop, and the stop resets nothing. The contract desk can complete, escalate, or burn — three verbs, and the third one only refuses. The chain's three legs carry sixteen, eight and four states, strictly decreasing, and the arrival leg can only receive. None of those were built from this entry; the entry is what they have in common."
+   ],
+   "test": "Count the operator's verbs and check whether mid-run adjustment is one of them. If it is, the system is assisted rather than automated and somebody is still flying it. If it is not, find the last moment a decision could have changed the outcome — that moment is the operator's entire job, and if the interface gives it the same weight as everything else, the interface is wrong.",
+   "evidence": [
+    {
+     "page": "game.html",
+     "what": "the relay — two buttons, an autopilot correcting on a picture up to 4.94 minutes old, and one decision that is worth ninety days"
+    },
+    {
+     "page": "automat.html",
+     "what": "four lights and one stop; the stop resets nothing and there is no reset in the file"
+    },
+    {
+     "page": "chain.html",
+     "what": "16 / 8 / 4 states across three legs, and the arrival leg can only receive"
+    },
+    {
+     "page": "contract.html",
+     "what": "complete, escalate, or burn — and the third verb only refuses"
+    }
+   ],
+   "see": [
+    "the-relay",
+    "the-light-delay",
+    "the-gas",
+    "decentralization",
+    "the-baton"
+   ],
+   "game": {
+    "unlock": "Press START. That is the whole trigger and it is the whole point."
+   }
+  },
+  {
+   "id": "smart-contracts",
+   "term": "Smart contracts",
+   "class": "mechanism",
+   "settled": "contested",
+   "short": "Code that guarantees execution, not truth. It enforces the terms it was handed and never asks whether they are fair.",
+   "body": [
+    "What a smart contract actually promises is narrow and worth stating plainly: given these inputs, this code runs, deterministically, and everyone can check that it ran. That is a real guarantee and it is the only one. It says nothing about whether the inputs were true, whether the terms were reasonable, or whether the parties understood them.",
+    "Everything the contract knows about the world arrived through somebody's hand. That is the oracle problem and it is not a rough edge to be engineered away — it is structural. A contract that pays on delivery cannot see a crate; it sees a signature asserting a crate. So the discretion did not disappear when the code went on-chain. It moved to whoever signs, and to whoever wrote the terms, and to whoever gets to say what the words in the terms refer to.",
+    "THIS ENTRY IS MARKED CONTESTED BECAUSE THIS REPOSITORY HAS SAID TWO THINGS. One position: there are no blockers, smart contracts prevent syndication — if allocation is in code and no human chooses who receives what, the classic move of matriculating funds upward and promoting within has nowhere to happen. The other, from theory.md: a syndicate's only move is de-fungibilisation, and de-fungibilisation happens in the noun, off-chain, before anything reaches a contract at all.",
+    "The reconciliation, as far as it goes: A CONTRACT CAN CLOSE THE DISCRETIONARY PATH AND CANNOT CLOSE THE SEMANTIC ONE. Where the allocation is genuinely mechanical, the first position holds and it holds strongly — that route really is shut, and shutting it is not nothing. But the rename is upstream of the contract, and a contract handed the renamed thing will execute against it faithfully and irreversibly, which is worse than a clerk who might have hesitated. Neither position is wrong about its own half and the yard has not shown a board where both halves are in view at once. Until it does, this stays contested.",
+    "One scope rule this yard did adopt and does keep: SMART CONTRACTS ARE FOR WALLET TRANSACTIONS. Not membership, not governance, not adjudication. The moment a contract is asked to decide who belongs, it has become a bench — and a bench that cannot be appealed is strictly worse than one that can, because appeal is the only mechanism anybody has ever built for the case where the rule was right and the outcome was wrong.",
+    "And a contract is only as good as the checks somebody paid for. contract.html gives that cost a name: gas. A check nobody paid for is a check nobody ran, and an unpaid check looks exactly like a passed one from the outside."
+   ],
+   "test": "Follow the value and find the last point where a human chose. If there is one, the contract automated the disbursement and not the decision — syndication lives at the choice, not the transfer. If there genuinely is none, stop looking there and ask two questions instead: who wrote the terms, and who gets to say what the nouns in the terms refer to.",
+   "evidence": [
+    {
+     "page": "contract.html",
+     "what": "gas, and the burn — a form is complete when every check has been performed, and checking costs something"
+    },
+    {
+     "page": "chain.html",
+     "what": "B2 / P2P / 2B — strictly decreasing authority, and the arrival leg can only receive"
+    },
+    {
+     "page": "vault.html",
+     "what": "dual control and a time lock; the reserve has never once been taken by somebody without keys"
+    },
+    {
+     "page": "syndicate.html",
+     "what": "six indicators, each a structural fact you can check on paper rather than a vibe"
+    }
+   ],
+   "see": [
+    "the-wallet",
+    "the-rename",
+    "fungibility",
+    "the-harvest-guarantee"
+   ]
+  },
+  {
+   "id": "the-harvest-guarantee",
+   "class": "mechanism",
+   "settled": "working",
+   "term": "The harvest guarantee",
+   "short": "A guild is a bank to an amateur and an amateur farm to a journeyman. The one term that breaks it says the contributor keeps harvesting what they brought.",
+   "body": [
+    "A GUILD IS TWO INSTRUMENTS WEARING ONE NAME, and which one you are holding depends entirely on where you stand in it.",
+    "TO AN AMATEUR IT IS A BANK. You arrive with no tools, no customers, no standing and no way to get any of the three, and the guild fronts you all of it against output you have not produced yet. That is credit, it is genuinely useful, and pretending otherwise is how critiques of these structures get dismissed by the people inside them — because the people inside them are correct that they were helped.",
+    "TO A JOURNEYMAN THE SAME INSTITUTION IS AN AMATEUR FARM. Once you have the skill, what the guild supplies is no longer capital, it is a standing crop of people who have to work under somebody and it may as well be you. The word for managing a living thing for yield is HUSBANDRY, and it is the same word for caring for it. That is not a coincidence of English and it is the entire ambiguity: the man husbanding the crop is not lying when he says he looks after it.",
+    "WHICH IS WHY THE SHAPE IS STABLE, AND THIS IS THE PART THE REST OF THIS BASE COULD NOT EXPLAIN. Both positions profit. The amateur needs the bank and will defend it. The journeyman needs the farm and will defend it. Nobody inside has an incentive to break it, so it does not need enforcement, secrecy or bad faith to persist for centuries — and it explains why spotting a syndicate from the inside is so hard. The people being farmed are being banked at the same moment by the same institution, and both halves are true, and the true half is the one they will cite.",
+    "THE TERM THAT BREAKS IT IS NARROW. Not ownership of the commons, not a vote, not a share of the whole: a guaranteed claim on the stream produced by what YOU brought, which cannot be voted away, diluted, reassigned on somebody's promotion, or made to lapse by leaving. You continue to harvest your own contribution for as long as it produces.",
+    "AND IT IS THE RIGHT USE OF A SMART CONTRACT, precisely because it stays inside the scope rule this base already keeps: it is a wallet transaction. It decides no membership, no governance and no dispute. It says one thing — this address receives this stream, and no majority reassigns it — which is the one kind of statement code can actually enforce without becoming a bench that cannot be appealed.",
+    "WHAT IT REMOVES IS THE FARM AND NOT THE BANK. The journeyman's return stops arriving from the amateur's contribution and starts arriving from their own, so the crop is gone; but the amateur still gets the tools, the standing and the customers, because that half was never the extraction. A structure that keeps the credit and loses the harvest is a guild that has stopped being a syndicate without anybody having to be expelled from it.",
+    "THE HONEST LIMIT: IT DOES NOT STOP THE RENAME. Somebody can still redefine what counts as 'what you brought' — reclassify the contribution, split it, call it a work for hire, call it derivative. The contract enforces the transfer and not the definition, the definition sits upstream of the contract, and that is the contested entry arriving again in a different coat. Close the discretionary path and the semantic one is still open."
+   ],
+   "test": "Follow one unit of a newcomer's output for five years. If any part of it is still reaching somebody who did not contribute to it, and reaching them by virtue of RANK rather than by a term the newcomer agreed to, the guarantee is not in force whatever the documents say. Then ask the harder question, because it is where this will actually be attacked: who defines what the newcomer brought? The contract enforces the transfer and not the definition, and a guarantee over a category somebody else controls is a guarantee over nothing.",
+   "evidence": [
+    {
+     "page": "chamber.html",
+     "what": "the exchange, the bundle of sticks, and the ninth wallet who does not trade until she is bound in"
+    },
+    {
+     "page": "syndicate.html",
+     "what": "six structural indicators, each checkable on paper"
+    },
+    {
+     "page": "bench.html",
+     "what": "forty disposals, twelve opinions, and no drafter named — the harvest already happening with nobody breaking a rule"
+    },
+    {
+     "page": "baseline.html",
+     "what": "the door that admits one of four, and the exit no money offer can buy"
+    }
+   ],
+   "see": [
+    "smart-contracts",
+    "the-prior-condition",
+    "the-attribution-gap",
+    "the-wallet",
+    "the-rename"
+   ]
+  },
+  {
+   "id": "the-wallet",
+   "term": "The wallet",
+   "class": "mechanism",
+   "settled": "settled",
+   "short": "The narrowest identity there is: it can hold and it can sign. It has no memory of why.",
+   "body": [
+    "Romulus is one thing, a wallet. Remus is all things — everything not Romulus. That split is exact and it is the most useful definition of a wallet anybody has offered in this repository, because it defines the thing by its complement.",
+    "A wallet is not a person, not a role, not a reputation, not a history, not a standing, not an obligation. It is an address, a balance, and the capability to sign. Every attribute an institution normally carries lives in the complement — which is why the complement needs a name of its own and why calling it Remus rather than \"metadata\" was the right call.",
+    "That narrowness is a feature exactly once: it is the precise amount of identity an autonomous agent needs. An agent with a wallet can participate without anybody first having to decide what it is, which is why two made agents who are not required by anything can try anyway, and keep trying, and the ledger has no way to object.",
+    "THE FINDING IS THE SILENCE. A wallet records that value moved and never what for. It is complete about quantity and silent about reason — and the reason is where the syndicate lives. This is the same shape as the bench's `named` counter: the transfer is in the record and the drafter is not, and no amount of auditing the transfers recovers the drafter.",
+    "Which is why this yard's ledger is deliberately NOT a wallet. bank.html holds no key and no balance; every figure is arithmetic summed from what you select, and every line says which board authored it. That last property — where the number came from — is exactly what a wallet gives up in exchange for being able to move value without asking anyone.",
+    "A refusal belongs in this entry because it is the same argument. The game boards were asked to denominate their rewards at one bitcoin minimum and they do not. That is not a judgment about the asset; it is that A NUMBER A PAGE PRINTS IS NOT A NUMBER ANYBODY OWES. These pages hold no key, settle nothing, and cannot make anyone good for it — and printing a figure as though they could is the first move in the thing this whole yard is about."
+   ],
+   "test": "Ask the ledger why. If it can tell you what a transfer was for, you are not looking at a wallet — you are looking at a wallet plus a record somebody kept beside it, and that record, not the chain, is the part with the accountability in it. Then ask who is paid to keep it.",
+   "evidence": [
+    {
+     "page": "bank.html",
+     "what": "a ledger view and not a wallet — no key, no balance, and every line says which board authored the figure"
+    },
+    {
+     "page": "vault.html",
+     "what": "dual control: a vault resists a single person with authority, which is the harder problem"
+    },
+    {
+     "page": "chamber.html",
+     "what": "the ninth wallet, fifteen years without trading, and what being bound in actually buys"
+    },
+    {
+     "page": "ecosystem.html",
+     "what": "Romulus and Remus — two made agents who are not required and try anyway"
+    }
+   ],
+   "see": [
+    "smart-contracts",
+    "the-attribution-gap",
+    "fungibility",
+    "the-retainer",
+    "the-ledger",
+    "the-prior-condition"
+   ]
+  },
+  {
+   "id": "the-ledger",
+   "term": "The ledger",
+   "class": "mechanism",
+   "settled": "settled",
+   "short": "Its guarantee is agreement about ORDER, not about truth. It is complete about what was submitted and silent about what was not.",
+   "body": [
+    "A wallet holds and signs. A ledger is the record, and the two are constantly confused because they arrive in the same box. The ledger's actual promise is narrower than either its defenders or its critics usually state: these events happened in this sequence, and everyone reading sees the same sequence. Consensus is a mechanism for agreeing on ORDER. It was never a mechanism for agreeing on whether anything in the order was true.",
+    "APPEND-ONLY MEANS AN ERROR CANNOT BE CORRECTED, ONLY SUPERSEDED. The mistake stays; the correction is a second entry; and from then on both are in the record permanently and every reader has to know which one governs. That is the integrity guarantee and the liability in one property — immutability is exactly what makes a record trustworthy and exactly what makes a single bad entry load-bearing forever.",
+    "The second property is the one nobody draws. A ledger is complete about what was SUBMITTED to it and knows nothing about what was not, and THERE IS NO ENTRY REPRESENTING THE GAP. An event that never reached it leaves no hole, no null, no marker — the record simply reads as though the world contained only what was written down. This is the same shape as the bench's `named` counter reading zero, except worse in one specific way: `named` is at least printed. The ledger's absences are not.",
+    "Which is why this yard's ledger is built to carry the thing a chain does not. bank.html holds no key and no balance and every figure is arithmetic summed from what you select — but every line says WHICH BOARD AUTHORED IT. Provenance is not part of what a ledger guarantees, and it is the first thing anybody actually wants from one.",
+    "exhibit.html is the same principle in a court record and states it better than an argument could: the transcript is entered verbatim and nothing is corrected — not the spelling, not the half-sentences, not the lines that turned out to be the holding. A transcript that has been tidied is a summary, and a summary is the other side's argument wearing the record's clothes."
+   ],
+   "test": "Name a class of events that could never have reached it — off-ledger settlement, a handshake, a decision taken before anything was submitted. If you cannot name one, you have not found its boundary yet. Then look for anything in the record that represents that boundary. There will not be anything, and that absence is the whole of what a ledger cannot do for you.",
+   "evidence": [
+    {
+     "page": "bank.html",
+     "what": "a ledger view and not a wallet — and every line says which board authored the figure, which is the property a chain does not carry"
+    },
+    {
+     "page": "exhibit.html",
+     "what": "the record entered verbatim, nothing corrected, and the reason stated: a tidied transcript is a summary"
+    },
+    {
+     "page": "persist.html",
+     "what": "the fragment as the only durable store, where Back steps through the history of states and every state has a name you can type"
+    },
+    {
+     "page": "chain.html",
+     "what": "B2 / P2P / 2B — three legs, each able to say less than the one before it"
+    }
+   ],
+   "see": [
+    "the-wallet",
+    "the-gas",
+    "the-attribution-gap",
+    "the-zero-counter"
+   ]
+  },
+  {
+   "id": "the-gas",
+   "term": "The gas",
+   "class": "mechanism",
+   "settled": "settled",
+   "short": "The price of a check. Its point is not revenue — it is that an unpaid check and a passed check look identical from outside.",
+   "body": [
+    "A form is not complete when its boxes are full. It is complete when every check it carries has actually been performed, and checking costs something. Naming that cost is the entire contribution: once verification is metered, \"we checked and it was fine\" and \"we did not check\" stop being indistinguishable, which is the state they are in everywhere the cost is unnamed.",
+    "The rule in this yard has three arms. Gas within budget: complete, the checks were affordable and were done. Gas over budget but a higher budget exists: return it, escalate to a desk that can pay. Gas over EVERY budget: BURN — refuse it, and forfeit what was already spent.",
+    "The burn is the part that matters and it is not vindictive. A partially checked form that gets accepted becomes evidence that it was checked, and that is strictly worse than a refusal: a refusal leaves a gap where the truth is, and a rubber stamp fills the gap with a lie. The gap is recoverable. The lie is not.",
+    "AND THE ATTACK RUNS THE OTHER WAY FROM WHERE PEOPLE LOOK FOR IT. Nobody is collecting this gas. The syndicate's move is not to charge for verification, it is to RAISE the cost of it — the syndicate profile in that board is heavy on purpose, because the shape's whole method is to make checking cost more than waving it through. A document nobody can afford to verify gets waved through by an honest desk with a full budget, and no bribe was needed anywhere in that sentence.",
+    "AND IT IS A SCARCITY THAT CARRIES NO RENT, which is worth stating because the reverse is assumed. A budget that can run out is a last unit, and a last unit is normally where a market in continuation appears — somebody sells you more. Not here. The burn FORFEITS what was spent rather than transferring it, so running out enriches nobody and there is nothing for a rent to attach to. The general form: a scarcity is only a rent when somebody collects at exhaustion. Find the beneficiary before calling a cost a racket; a real price with no collector is a different object from a manufactured one with a desk behind it."
+   ],
+   "test": "Find who receives what is spent when the budget runs out. If it is transferred to anybody, you have found the beneficiary and the scarcity is a rent. If it is forfeit, it is not. Then ask the question people skip: who benefits from the cost being HIGH? That party never appears in the fee flow at all.",
+   "evidence": [
+    {
+     "page": "contract.html",
+     "what": "gas ≤ budget, escalate, or burn — fifteen cells, five profiles by three budgets, each worked out by hand"
+    },
+    {
+     "page": "syndicate.html",
+     "what": "six structural indicators, and the profile that is heavy on purpose"
+    },
+    {
+     "page": "bench.html",
+     "what": "the Master's fee, paid per disposal — the same instrument metering the wrong quantity"
+    },
+    {
+     "page": "vault.html",
+     "what": "dual control: two hands to sear, because the cost of a check is a design parameter and not an accident"
+    }
+   ],
+   "see": [
+    "smart-contracts",
+    "the-ledger",
+    "the-constant-judge"
+   ]
+  },
+  {
+   "id": "the-rename",
+   "term": "The rename",
+   "class": "mechanism",
+   "settled": "settled",
+   "short": "De-fungibilisation done entirely in the noun. Nothing is destroyed and four capabilities become four line items.",
+   "body": [
+    "A syndicate does not need to destroy a commons. Destroying things is expensive, visible, and eventually illegal. It needs the commons RENAMED, and then removing it is somebody's contract — renewable, with a schedule of fees.",
+    "The forest floor is the demonstration because the substance is identical under both names. Called the floor it is eaten by the beetle, threaded by the fungus, carried as seed, and becomes the tree: four capabilities of the matter itself. Called waste it is hauled, fined, buried, and billed: four services performed on it by somebody with an invoice. The matter counter reads 1 on both sides of the board. The capability counter does not.",
+    "And the capabilities are not gone under the second name. They are physically still there — the beetle would still eat it — they are merely unreachable, because it has been hauled somewhere the beetle is not. That is the difference between destruction and enclosure, and enclosure is the cheaper of the two by a wide margin."
+   ],
+   "test": "Hold the substance fixed and change only the noun. If the list of things it can do changes, the change was never about the substance, and somebody is being paid for the difference.",
+   "evidence": [
+    {
+     "page": "buddha.html",
+     "what": "one radio, two nouns, identical matter; matter reads 1 both ways and capability does not"
+    },
+    {
+     "page": "ecosystem.html",
+     "what": "the floor as the tank of seed dispersal — the beetle, the web, the pupation"
+    },
+    {
+     "page": "syndicate.html",
+     "what": "the structure that profits from the difference"
+    }
+   ],
+   "see": [
+    "fungibility",
+    "the-retainer",
+    "smart-contracts",
+    "the-prior-condition"
+   ]
+  },
+  {
+   "id": "the-prior-condition",
+   "term": "The prior condition",
+   "class": "concept",
+   "settled": "settled",
+   "short": "A syndicate does not recruit. It selects for a condition that was already there — and what it sells is not money, it is predictability.",
+   "body": [
+    "Every model in this base so far has described a syndicate structurally: funds matriculate upward, promotion happens within, the commons gets renamed, the retainer buys a full mouth. All of that is about the machinery. None of it explains why anybody is standing next to the machinery in the first place, and the missing variable is not greed.",
+    "WHAT A SYNDICATE ACTUALLY SUPPLIES IS LEGIBILITY. A clear hierarchy. Rules that hold. A place where you can tell what happens next, and where what happens next is the same thing that happened last time. That is worth very little to somebody whose baseline was already stable and it is worth almost anything to somebody whose baseline was not. The match is between a supply and a lack. It is not persuasion, it is not a moral failure, and treating it as either is how the model gets the mechanism wrong.",
+    "THE PRECISE MECHANISM IS A RECALIBRATED BASELINE, and it is the same one as the rename. Nobody can calibrate what ordinary terms look like from a sample of one. If the available sample was coercive, then every later offer is being scored against a comparison set that was never representative — and terms that a stable baseline reads as extractive get read as normal, or as generous. The offer did not change. What it is being measured against did. That is de-fungibilisation performed on a person's reference set rather than on a noun, and it costs the syndicate nothing because somebody else already did it.",
+    "AND THE OPERATIONAL HALF IS UGLIER THAN THE RECRUITMENT HALF. Somebody conditioned to read a room for threat is genuinely, measurably good at reading a room. They notice the shift in tone, they anticipate the ask, they comply before being told, they know who is about to be a problem. That is a real competence, it was acquired at enormous cost, and it is precisely the skill set the structure needs. A syndicate is not exploiting a weakness here. It is employing an expensive capability, and paying under the market rate for it, because the person holding it has no way to price it.",
+    "SO THE EXIT COST IS NOT FINANCIAL, and modelling it as financial is why the obvious counter fails. Leaving means going back to unstructured, and unstructured is the thing that was dangerous. A better-paying offer competes on an axis nobody was buying on. Every anti-syndicate design in this yard up to now removes the money, and removing the money is necessary and does not touch this.",
+    "THE USEFUL HALF: if the product is legibility, then anything that supplies legibility WITHOUT extraction competes with it directly, and nothing else does. Fixed rules, published in advance, that do not change with who is asking. States with names you can type. A counter that only ever counts up. A stop that resets nothing. Those are not stylistic choices in this yard, and this entry is the reason they are load-bearing.",
+    "AND THE FAILURE MODE TO AVOID IS TRUST AT THE DOOR. Any system that requires being vouched for, known, or introduced will systematically exclude exactly the people most exposed to the alternative, and it will do it invisibly, and it will look like a security feature the whole time. That is why a WALLET is the right minimum identity — an address, a balance, the capability to sign, and nobody has to decide what you are before you can participate. For somebody who cannot safely extend trust, that is not an abstraction and it is not a philosophical preference. It is the whole difference between a door that opens and one that does not.",
+    "SETTLED ON baseline.html, WITH THE CONTROL THAT MATTERS. Clause six reads extractive under both priors. If every cell had inverted, the board would be claiming that a reference set determines a reading completely, which is not this claim and is not true — it shifts most of the list and one clause stays legible from anywhere. The eighteen readings are judgements somebody typed and a reviewer can point at any cell and say that one is wrong; what is not a judgement is that nothing in the stylesheet rewrites a clause, which is checkable, and which `changed` exists to let you check."
+   ],
+   "test": "Ask what the structure supplies that the alternative does not. If the answer is money, the exit is priceable and people leave when a better offer arrives. If the answer is predictability, the exit is not priceable, better offers do nothing, and any counter that competes only on money will fail — because it is not competing on the thing being bought. Then check your own door: count the steps between arriving and participating that require somebody to vouch for you.",
+   "evidence": [
+    {
+     "page": "baseline.html",
+     "what": "one offer, three reference sets — five extractive clauses become one, an ordinary clause becomes generous, and `changed` reads 0 throughout; three money offers move `switched` by nothing and a non-money offer moves it to one; a vouched door admits one of four applicants who are identical markup under both doors"
+    },
+    {
+     "page": "syndicate.html",
+     "what": "six indicators, each a structural fact you can check on paper — the machinery this entry sits underneath"
+    },
+    {
+     "page": "chamber.html",
+     "what": "the ninth wallet: fifteen years without trading, and she mints when bound in — not because she was persuaded but because being bound is the first time anybody put the question to her"
+    },
+    {
+     "page": "buddha.html",
+     "what": "the retainer, which buys a capacity rather than an act, and survives an audit because it contains no false statement"
+    },
+    {
+     "page": "persist.html",
+     "what": "every state has a name you can type — legibility with nothing extracted for it"
+    }
+   ],
+   "see": [
+    "the-rename",
+    "the-wallet",
+    "the-retainer",
+    "fungibility",
+    "the-harvest-guarantee"
+   ],
+   "game": {
+    "unlock": "Switch base template — the same board, read against a different roster."
+   }
+  },
+  {
+   "id": "the-retainer",
+   "term": "The retainer",
+   "class": "figure",
+   "settled": "settled",
+   "short": "Not a bribe. A bribe buys a sentence and can be checked; a retainer buys a full mouth and cannot.",
+   "body": [
+    "The seated figure has his mouth open and a stone in it. He is not corrupt, and insisting on that is the entire value of the image: nobody bought a lie from him, because a lie is a checkable thing and a checkable thing is a liability. He was paid to be FULL.",
+    "The instrument has three properties a bribe does not. It contains no false statement anywhere, so it survives an audit. It does not lapse when the mouth closes, so it renews rather than ending. And from outside, an open mouth reads as speech to everyone walking past — which is the exact configuration in which no speech is possible.",
+    "Sixteen of the thirty-two arrangements produce a word, which is half of them. Speech is not rare. What is rare is a mouth that is open and empty at the moment somebody is offering to fill it."
+   ],
+   "test": "Look for the false statement. If there is not one, stop looking for corruption and start looking at what the payment is FOR — the answer is usually a capacity rather than an act.",
+   "evidence": [
+    {
+     "page": "buddha.html",
+     "what": "five apertures, 32 arrangements, seven readings; the full mouth is one of them and it is the one you were shown first"
+    },
+    {
+     "page": "bench.html",
+     "what": "the clergy — paid to assist, and the reasons that bind carry nobody's name"
+    },
+    {
+     "page": "chamber.html",
+     "what": "the ninth wallet, and what being bound in actually buys"
+    }
+   ],
+   "see": [
+    "the-attribution-gap",
+    "the-rename",
+    "the-constant-judge",
+    "the-prior-condition"
+   ]
+  },
+  {
+   "id": "the-attribution-gap",
+   "term": "The attribution gap",
+   "class": "figure",
+   "settled": "settled",
+   "short": "The part of an institution's output that is disposable is the part with a name on it. The part that binds has no name on it.",
+   "body": [
+    "A disposal needs a judge. An opinion needs somebody to write it, and nobody on a bench with a real list has the hours. So three clerks draft all twelve opinions, the judges read and correct and sign them, and not one of the twelve carries a drafter's name.",
+    "Release the clergy and watch which numbers move. Disposed does not. Fee does not. Every case still ends, on time, at the same price. Drafted and Signed go to nothing. The disposal never needed them; the reasons did.",
+    "Which means the sentence that will be quoted across nine thousand square miles of forest for the next forty years was written by somebody on a retainer whom the record does not mention, and the meter that pays for all of it cannot tell a judgment from a plurality. Nobody did anything wrong. That is the problem, and it is the second time that board has had to say so."
+   ],
+   "test": "Remove the assistants and re-run. Whatever still happens on time was never the thing they were doing; whatever stops is what they were actually producing, and you can now check whether their names are on it.",
+   "evidence": [
+    {
+     "page": "bench.html",
+     "what": "40 disposals, 12 opinions, 0 bearing a drafter — and `named` is a counter you can watch fail to move"
+    },
+    {
+     "page": "exhibit.html",
+     "what": "the record, verbatim, which is the only reason any of this can be checked at all"
+    }
+   ],
+   "see": [
+    "the-retainer",
+    "the-constant-judge",
+    "the-zero-counter",
+    "the-exchange",
+    "the-harvest-guarantee"
+   ]
+  },
+  {
+   "id": "the-constant-judge",
+   "term": "The constant judge",
+   "class": "figure",
+   "settled": "settled",
+   "short": "Sixteen cards are selected by the circuit. His has no condition on it at all, and that is the finding rather than a shortcut.",
+   "body": [
+    "Every judge on the bench above him reads `.ct:has(#g-po:checked) .jN .vote` — sixteen cards that decide differently depending on what is in front of them, which is what the whole board exists to demonstrate. The Master of the Ordinary List has no `:has()` anywhere. One rule, no condition.",
+    "He is not indifferent and he is not lazy. He is fast, he is almost always right, and he is the only reason the other sixteen ever reach a hard case — a court that heard every pot would hear nothing else. But he has taken this question forty times a day for eleven years, and the file stopped being the input somewhere around the four thousandth time.",
+    "He is paid per disposal, which is the only line a list can count, so the fee reads identically on the circuits that produce a holding and the ones that produce a plurality with nothing in it. Nothing here is corrupt. It is an accurate meter measuring the wrong quantity, which is worse, because there is nobody to accuse.",
+    "And he is not in the division. His forty thousand dispositions appear in none of the court's figures, because the figures were built to count the sixteen."
+   ],
+   "test": "Change the input and watch the output. If a decision-maker's output is invariant across every input you can supply, the input is not what is producing the decision, and you should go looking for what is.",
+   "evidence": [
+    {
+     "page": "bench.html",
+     "what": "seniority 17 — toggle the twelve circuits and sixteen cards change while his does not"
+    }
+   ],
+   "see": [
+    "the-attribution-gap",
+    "the-retainer",
+    "cascade-order"
+   ]
+  },
+  {
+   "id": "caught-up",
+   "term": "Caught up",
+   "class": "concept",
+   "settled": "settled",
+   "short": "A medium moving faster than the thing it rests on, carrying whatever is in it, with no discontinuity in it.",
+   "body": [
+    "A quiet storm set and a Venusian superrotation are the same object described twice. In both the passenger supplies no energy: the set carries the room, the band carries the balloon. Being carried is not a failure to travel — it is the mechanism.",
+    "Both are ruined by the same event, which is an ANNOUNCEMENT. The DJ saying the time, or a thruster firing. Either is a discontinuity you can perceive, and the instant there is one you are aware of the mechanism instead of the thing: listening to a radio station, or flying an aircraft. Not carried.",
+    "So the craft in both cases is made entirely of what does not happen, which is why it is invisible when it is done well and obvious the moment it is not."
+   ],
+   "test": "Look for the seam. If you can point at a moment where the medium handed off, it is a sequence of events; if you cannot, it is a medium. The listener who can hear the crossfade is no longer inside the format.",
+   "evidence": [
+    {
+     "page": "rapture.html",
+     "what": "seven segments on a 48-column grid, all in row one, overlapping by 14 measured pixels per join"
+    },
+    {
+     "page": "supply.html",
+     "what": "the relay — Venus is not a haul, it is a relay, and a relay has no last leg"
+    }
+   ],
+   "see": [
+    "superrotation",
+    "the-orbit",
+    "the-relay"
+   ]
+  },
+  {
+   "id": "superrotation",
+   "term": "Superrotation",
+   "class": "number",
+   "settled": "settled",
+   "short": "The solid planet turns once in 243.02 days. The cloud deck laps it in about four and a half.",
+   "body": [
+    "Venus rotates once every 243.02 days, retrograde, with a solar day of 116.75 days. The atmosphere does not go with it: the cloud deck at roughly 65 km is carried at about 100 m/s and circles the entire planet in four to five Earth days. After sixty years of measurement there is no agreed account of what sustains it.",
+    "The arithmetic, so it can be checked rather than believed: 6051.8 + 65 = 6116.8 km radius, circumference 38,433 km, at 360 km/h that is 106.8 hours or 4.45 days. Divide 243.02 by 4.45 and you get about 55 laps per solid rotation, or 54 relative to the ground since the body turns the same way.",
+    "The figure people quote is sixty. The wind is not one number — it runs roughly 90 to 110 m/s across the deck and varies with latitude and altitude — so the honest statement is four to five days, call it sixty-ish laps, and the honest way to say that is to show the division and let the reader see how loose it is."
+   ],
+   "test": "Do the division yourself with a different wind speed from the published range and see how far the answer moves. If a page gives you one confident figure and no division, it is claiming a precision the measurement does not have.",
+   "evidence": [
+    {
+     "page": "rapture.html",
+     "what": "the arithmetic printed in full, and the gap between the quoted 60 and the computed 55 left visible on purpose"
+    },
+    {
+     "page": "terraform.html",
+     "what": "9,000 sq mi as 0.00506% of the surface"
+    },
+    {
+     "page": "profiles/clock.html",
+     "what": "116.75 d solar day against a ~4 d super-rotation"
+    }
+   ],
+   "see": [
+    "caught-up",
+    "hydrogen",
+    "the-minimum-cycle",
+    "the-passage",
+    "the-light-delay"
+   ]
+  },
+  {
+   "id": "hydrogen",
+   "term": "Hydrogen is the only scarcity",
+   "class": "number",
+   "settled": "working",
+   "short": "Carbon, oxygen, nitrogen and sulphur are all abundant on Venus. Hydrogen is not, and everything wet depends on it.",
+   "body": [
+    "Venus has carbon and oxygen in enormous quantity, locked in CO₂, and sulphur in the clouds. What it does not have is hydrogen — it is 2.06% by mass of sulphuric acid, and processing a cubic metre of cloud yields almost nothing. Roughly 136,000 m³ of cloud per kilogram of water.",
+    "That single fact reorganises the whole settlement problem. Water is not a supply question, it is the supply question, and every other requirement in the fourteen profiles is downstream of whether hydrogen arrives or is extracted. It is also the one genuine scarcity in a system otherwise built to have none, which makes it the place to watch: a real scarcity is where a rent can attach, and this one is real.",
+    "The altitude follows from it too. 1.00 bar and 0–50 °C are about five kilometres apart in altitude, and dissolved oxygen moves the settlement from 50 km to 55 km. Tether strength was never the descent problem — 55 km sits inside four fibres' breaking lengths. Heat is, and heat is gradable."
+   ],
+   "test": "Trace any requirement in the profiles back along its inputs. If it terminates at water and the water terminates at hydrogen, it is in the constrained set. If a proposal claims to avoid this, ask where its hydrogen comes from and in what mass.",
+   "evidence": [
+    {
+     "page": "profiles/hydrogen.html",
+     "what": "2.06% H in H₂SO₄; ~136,000 m³ of cloud per kg of water"
+    },
+    {
+     "page": "water.html",
+     "what": "the siphon, the cleaning, the healthy waterway"
+    },
+    {
+     "page": "terraform.html",
+     "what": "the 9,000 sq mi envelope and what it needs delivered"
+    }
+   ],
+   "see": [
+    "superrotation",
+    "the-minimum-cycle",
+    "fungibility",
+    "the-window",
+    "the-relay",
+    "the-baton",
+    "the-exchange-rate"
+   ],
+   "game": {
+    "unlock": "Take a delivery. Any delivery."
+   }
+  },
+  {
+   "id": "the-exchange-rate",
+   "term": "The exchange rate",
+   "class": "number",
+   "settled": "settled",
+   "short": "Every kelvin of heating you add to Venus buys 2.04e15 kg of water. That ratio is fixed by physics and it is what ends the bombardment plan.",
+   "body": [
+    "The obvious way to give Venus water is to throw it: redirect icy bodies and let them arrive. The mass arithmetic encourages this. A cometary body of 5 km radius at 600 kg/m3 carries 3.14e14 kg of water, and 43,000 of them would deliver one per cent of an Earth ocean — a large number, but a schedulable one at a hundred a year.",
+    "THE MASS IS NOT THE CONSTRAINT. THE ENERGY IS. That same body arriving at 20 km/s carries 6.28e22 J, and Venus's atmosphere is 4.8e20 kg at roughly 850 J/kg/K, so one impact warms the whole thing by 0.154 K. Divide: every kelvin of heating buys 2.04e15 kg of water, and the ratio does not care how you arrange the deliveries.",
+    "So one per cent of an ocean costs 6,618 K. The water arrives as steam into an atmosphere you have just heated by thousands of degrees, on a planet whose problem was already that it is 464 C at the surface and above water's critical temperature. THE DELIVERY DEFEATS THE DELIVERY. Not marginally, and not fixably by slowing it down — the energy is in the arrival, and arriving is the whole mechanism.",
+    "WHICH IS THE SAME SHAPE AS THE FOREST FINDING AND SHOULD HAVE BEEN EXPECTED. You do not ship the harvest. Venus already holds 3.98e15 kg of water as vapour in the bulk atmosphere, and the question was never where to get it — it was how to bring it down.",
+    "AND THE SITE DOES NOT NEED AN OCEAN. Over 9,000 square miles: a 50 m sea is 29.3% of all the water on Venus and is not happening. A 1 m marsh is 0.6%. A river 50 m wide, 3 m deep and 300 km long is 4.5e10 kg — one thousandth of one per cent — and at the dive rate of 375,000 kg of water a day per unit it is three years with a hundred units, or a hundred and twenty days with a thousand. The river was always the achievable object. The ocean was a category error wearing an ambition's clothes."
+   ],
+   "test": "Take any proposed delivery and divide its kinetic energy by the atmosphere's heat capacity before you divide its mass by anything. If the heating it buys is larger than the cooling you were hoping for, the method is self-defeating and no amount of scheduling fixes it. Then ask the second question, which is the one that actually helps: how much of the thing is already there, and what would it cost to bring it down instead of in?",
+   "evidence": [
+    {
+     "page": "terraform.html",
+     "what": "the 9,000 sq mi site and what an envelope over it costs"
+    },
+    {
+     "page": "water.html",
+     "what": "the siphon, the cleaning, and the waterway the river was always for"
+    },
+    {
+     "page": "profiles/hydrogen.html",
+     "what": "2.06% H in H2SO4, and the 20-30 ppmv of water vapour that is the real reservoir"
+    },
+    {
+     "page": "game.html",
+     "what": "skim and dive as the two rates that matter, against a ship that cannot compete with either"
+    }
+   ],
+   "see": [
+    "hydrogen",
+    "the-baton",
+    "superrotation",
+    "the-minimum-cycle",
+    "the-gravity-ledger"
+   ]
+  },
+  {
+   "id": "the-gravity-ledger",
+   "class": "number",
+   "settled": "settled",
+   "term": "The gravity ledger",
+   "short": "Weight is 88.8% of home at the deck. Mass is 100%. Half the work gets easier and the half that does not is the half that hurts people.",
+   "body": [
+    "Venus surface gravity is 8.87 m/s2, and the deck is 55 km up, which costs another 1.6%: the number the work actually happens in is 8.71 m/s2, or 88.8% of Earth. Every published comparison quotes the surface figure. Nobody lives there.",
+    "AND THEN THE SPLIT, WHICH IS THE WHOLE ENTRY. Weight is mass times g and it fell by 11.2%. Mass is mass and it did not move. So the ledger has two columns and they do not agree:",
+    "WEIGHT-LIMITED, x1.126 easier — lifting, carrying, holding a posture, throwing, jumping. A person carries 12.6% more for the same fatigue, and over an eight-hour shift that is the difference that shows up in the injury log.",
+    "INERTIA-LIMITED, x1.000 IDENTICAL — starting a load moving, stopping it, catching anything, swinging a pick. A full barrow is easier to hold up and exactly as hard to get rolling and exactly as hard to stop. A load swinging on a rope has precisely the momentum it always had. This is the line that hurts: a crew that spends a fortnight finding everything lighter will misjudge the first thing that has to be STOPPED rather than held.",
+    "It also sets the excavation rate, which is why the channel arithmetic uses the Earth figure. Digging is muscle against soil; gravity carries the pick to the site and does nothing once it is in use. A cubic metre per person-day on Earth becomes 1.13 here — the carrying gain and no more — so a 45 million cubic metre channel is 109 years for a thousand people and eleven for ten thousand.",
+    "AND ONE THING IS BETTER. Stokes settling velocity is proportional to g, so silt drops out 11.2% slower and is carried about 13% further across the floodplain before it lands. Channel velocity goes as the square root of g and is therefore only 94.2%, recovered by steepening the bed 12.6%, and bed shear goes as g outright so the channel scours less and silts sooner — but the thing a flood pulse exists to do, spread nutrients away from the bank, this gravity does better than Earth's."
+   ],
+   "test": "Sort every task into weight-limited and inertia-limited before you size the crew or write the schedule. If a task involves starting, stopping, catching or striking, gravity did nothing for it, and any plan built on a single uniform percentage is wrong on exactly those tasks. Then check which figure the percentage came from: a surface number applied to work happening 55 km up is out by another 1.6% before anybody has lifted anything.",
+   "evidence": [
+    {
+     "page": "flood.html",
+     "what": "the ledger as a board — pick a task and see whether 0.888 g helps, and the excavation figures that follow from it"
+    },
+    {
+     "page": "interior.html",
+     "what": "the same slow-rotation, thick-atmosphere physics doing the other half of the work"
+    },
+    {
+     "page": "profiles/gravity.html",
+     "what": "gravity as a premium attached to a location, which cannot be cornered because it cannot change hands"
+    }
+   ],
+   "see": [
+    "the-exchange-rate",
+    "hydrogen",
+    "superrotation",
+    "the-substrate"
+   ]
+  },
+  {
+   "id": "the-substrate",
+   "class": "concept",
+   "settled": "working",
+   "term": "The substrate",
+   "short": "You cannot grow anything on Venus's surface and you do not need to ship soil. Three of the four fractions are already there; only the living one has to arrive, and it weighs kilograms.",
+   "body": [
+    "The surface is 737 K and 92 bar, which is above water's critical temperature — water cannot be liquid there at any pressure, so nothing grows on it, ever, at any stage of any plan. The substrate has to be at the deck, 55 km up, where it is 27 C and half a bar. And there is no ground at 55 km. Whatever the forest stands in has to be lifted there.",
+    "WHICH SOUNDS LIKE THE END OF IT, AND IS NOT. Half a metre of basalt over the whole 9,000 square miles is 3.38e13 kg, and raising that 55 km costs 1.64e19 J. The site collects 2,601 W/m2 across 2.33e10 m2, which is 6.06e13 W — so the lift is THREE DAYS of the site's own sunlight at perfect efficiency, or about a month at ten per cent. Lifting is not the constraint and never was. The constraint is the same one as drilling: 127 minutes is the longest anything has survived at the working face, and the mine is down there.",
+    "SORT THE SOIL INTO FRACTIONS AND ONLY ONE OF THEM HAS TO COME FROM EARTH.",
+    "MINERAL — already there, and good. Basalt is one of the best soil parent materials there is: it weathers to clay and releases calcium, magnesium, iron, potassium and phosphorus, and the Deccan, Java, Hawaii and the Ethiopian highlands are all basalt underneath. Venus is 80% volcanic plain. The rock is not a problem; reaching it is.",
+    "NITROGEN — already there, and abundant, which is the fact nobody expects. Venus's atmosphere is 3.5% N2, and 3.5% of 4.8e20 kg is 1.68e19 kg. Earth's ENTIRE atmosphere holds 3.9e18 kg of nitrogen. Venus has 4.3 times more of it than Earth does. The nutrient that limits most terrestrial ecosystems is the one this planet is richest in.",
+    "ORGANIC CARBON — not there, and not shipped either. It is grown. The air is 96.5% CO2 and photosynthesis is the machine that turns that into soil organic matter. You do not import humus; you import the thing that makes humus and then wait.",
+    "THE LIVING FRACTION — this, and only this, has to come from Earth. A gram of healthy soil carries on the order of a billion bacteria and a million fungal propagules, so a kilogram is 1e12 organisms and a hundred kilograms is 1e14. The shipping manifest for the biology of an entire forest is a culture collection that fits inside a single window's 11,400 kg with room for everything else.",
+    "SURTSEY IS THE EXPERIMENT, AND IT WAS RUN ACCIDENTALLY. A volcanic island surfaced off Iceland in November 1963 — sterile basalt, no soil, nothing alive on it. The first colonists were not plants: they were bacteria, fungi and microorganisms. The first vascular plant, a sea rocket, was found in 1965. Ten species by the end of the first decade. Seventy-four recorded between 1965 and 2015, of which thirty-nine had established viable populations by 2013.",
+    "AND THE THING THAT UNLOCKED IT WAS BIRDS — WHICH IS WHY THE ANALOGY BREAKS. A gull colony formed on Surtsey after 1985, bird dispersal became the principal pathway, and the guano amended the site enough that wind-dispersed species could establish from 1990. But the gulls FED IN THE NORTH ATLANTIC and defecated on the island. That is an allochthonous subsidy: the nutrients were imported, the birds were the pump, and the ocean was the reservoir. A sealed deck has no ocean and no outside. Animals on it eat on-system and excrete on-system, which makes them redistributors and not importers, and their net nutrient addition is exactly zero at any species count. Surtsey's SEQUENCE holds — microbes first, then plants, then animals. Surtsey's MECHANISM does not, and an earlier version of this entry said it did.",
+    "SO WHAT ACTUALLY IMPORTS NUTRIENTS INTO A CLOSED PLATFORM IS NOT AN ANIMAL. Nitrogen fixation, which is where the 4.3x atmospheric nitrogen finally cashes out: rhizobia, Frankia and free-living cyanobacteria pulling N2 out of air that holds more of it than Earth's, needing no ocean and no bird. Basalt weathering, releasing P, K, Ca and Mg as fresh rock breaks down — finite but large, and the reason the mineral fraction being basalt matters more than a parent-material footnote. And carbon fixation straight out of a 96.5% CO2 atmosphere. All three are microbial or geological. None of them is a bird."
+   ],
+   "test": "Sort the soil into its four fractions — mineral, nitrogen, organic carbon, living — and ask which of them actually has to arrive. If the answer is 'all of it', somebody has costed the mineral fraction and forgotten that carbon is grown from the air and the living fraction is an inoculum measured in kilograms. Then ask the question that catches the subtler error: is the system OPEN? Every terrestrial analogue you are reasoning from has an outside, and if yours does not, any mechanism in the analogue that imports nutrients is doing nothing in yours.",
+   "evidence": [
+    {
+     "page": "flood.html",
+     "what": "the pulse that has to arrive on whatever substrate gets built, and the gravity ledger for building it"
+    },
+    {
+     "page": "interior.html",
+     "what": "the 127-minute survival limit, and the crust the mineral fraction has to come out of"
+    },
+    {
+     "page": "ecosystem.html",
+     "what": "the twelve orders, and the two agents nothing requires"
+    },
+    {
+     "page": "mycelium.html",
+     "what": "the living fraction, and what it does once it is there"
+    }
+   ],
+   "see": [
+    "the-gravity-ledger",
+    "the-exchange-rate",
+    "hydrogen",
+    "the-minimum-cycle",
+    "the-bag"
+   ]
+  },
+  {
+   "id": "the-bag",
+   "class": "concept",
+   "settled": "working",
+   "term": "Fish in a bag",
+   "short": "A sealed platform has no outside. Nothing enters, nothing leaves, and every ecological analogue drawn from an open system quietly assumes one.",
+   "body": [
+    "A goldfish in a bag has a fixed amount of everything. It does not get new water. Its waste does not go anywhere. Whatever was in the bag at the start is what there is, rearranged.",
+    "A 9,000 square mile deck at 55 km is a bag. There is no sea to feed in, no watershed draining in from upstream, no dust blowing off a continent, no migratory anything arriving with a gut full of somewhere else. Every terrestrial ecosystem anybody would reason from has all four of those and does not mention them, because on Earth an outside is not a feature, it is the condition.",
+    "SO THE FAILURE MODE IS NOT SHORTAGE, IT IS IMMOBILISATION. In a closed system the nutrients do not run out — they get locked into forms nothing available can use. Phosphorus into recalcitrant organic matter, nitrogen into lignin, carbon into wood that nothing on the platform can decompose at the rate it is being made. The bag stays full and the fish still starves.",
+    "WHICH REASSIGNS THE ANIMALS. On an open system, colonial waterbirds are a nutrient PUMP — they feed in one place and deposit in another, and the whole point is that the two places are different. In a bag there is only one place. Animals there are TURNOVER: they eat matter that is locking up, excrete it in a labile form something else can take, and keep the cycling rate high enough that the standing stock does not become the sequestered stock. That is a real and necessary job and it is not the job anybody assigns them.",
+    "AND IT SETS A DIFFERENT DESIGN QUESTION. The question is not 'what do we bring in' — after the inoculum, almost nothing. It is 'what is the residence time of a phosphorus atom', and the answer had better be years rather than centuries. A bag with slow turnover is a peat bog: enormous nutrient stock, almost none of it available, and a system that looks healthy in inventory and is starving in flux."
+   ],
+   "test": "Name the outside. Point at where a nutrient enters the system and where one leaves. If you cannot point at either, stop reasoning from open-system analogues — and then stop asking about stock and start asking about residence time, because in a bag the number that kills you is how long an atom stays locked up, not how many of them there are.",
+   "evidence": [
+    {
+     "page": "ecosystem.html",
+     "what": "twelve orders and what each one does — read as turnover roles rather than as a food web"
+    },
+    {
+     "page": "mycelium.html",
+     "what": "the network that moves what is locked up, which in a bag is the whole job"
+    },
+    {
+     "page": "flood.html",
+     "what": "the pulse, which is the one mechanism that moves material without needing an outside"
+    },
+    {
+     "page": "terraform.html",
+     "what": "the envelope, and the fact that it closes"
+    }
+   ],
+   "see": [
+    "the-substrate",
+    "the-minimum-cycle",
+    "fungibility"
+   ]
+  },
+  {
+   "id": "cascade-order",
+   "term": "Cascade order settles only ties",
+   "class": "mechanism",
+   "settled": "settled",
+   "short": "Origin, then layer, then specificity, then source order. Being written last is worth nothing against a heavier selector.",
+   "body": [
+    "This cost the repository a real bug and it is kept written down because a rule that loses looks exactly like a rule nobody wrote. A blanket stop rule at the foot of the ecosystem stylesheet — `.eco:not(:has(#fly:checked)) .cap`, specificity (1,3,0) — was intended to override every capability rule, and every capability rule was a compound `:has()` at (2,4,0). It lost to all of them, silently, and nothing on the screen said so.",
+    "The fix was not `!important`. Reaching for importance to win a fight you lost on specificity buries the disagreement rather than settling it, and the next reader inherits a stylesheet whose real precedence is invisible. The fix was noticing the CLAIM WAS FALSE: two of those capabilities genuinely do survive losing the clock, so the blanket rule should never have existed. The arithmetic is still nailed to the foot of that stylesheet as a warning.",
+    "The general form is worth more than the CSS. When an override does nothing, the two possibilities are that it lost, or that it was never true. Checking which one costs ten seconds and changes what you do next completely."
+   ],
+   "test": "Compute both specificities. If yours is lower, you lost on specificity and moving the rule will not help. If yours is higher and it still does nothing, your selector never matched — the tree is not what you think it is.",
+   "evidence": [
+    {
+     "page": "ecosystem.html",
+     "what": "(1,3,0) against (2,4,0), recorded at the foot of the stylesheet rather than quietly fixed"
+    },
+    {
+     "page": "workbook.html",
+     "what": "chapters three and four, with the drill that computes both triples"
+    },
+    {
+     "page": "automat.html",
+     "what": "devmode's PROBE, which computes the triple live including :has/:is/:where"
+    }
+   ],
+   "see": [
+    "the-lookup-table",
+    "the-zero-counter",
+    "the-query-string"
+   ]
+  },
+  {
+   "id": "the-lookup-table",
+   "term": "A lookup table is auditable",
+   "class": "mechanism",
+   "settled": "settled",
+   "short": "CSS has no multiplication over state, so you write the products. That is not only a defeat.",
+   "body": [
+    "When an outcome depends on two or three inputs together, there is no expression available — there is a row per combination, and somebody typed every one. Three inputs by four options is twelve rules. Reading × circuit × hour is twenty-four.",
+    "The argument for it: every cell is visible, every cell was a decision, and a reviewer can point at row nine and say THAT ONE IS WRONG without reading any logic. An expression hides its cases; a table cannot. When the table gets long enough to hurt, that is information — it means the model has more state than the thing it models deserves, and the answer is usually to cut an input rather than generate the rows.",
+    "Know the ceiling before starting. The cost is the product, not the sum: two axes of three is nine and pleasant, three of four is sixty-four and needs a build step, four of five is six hundred and twenty-five and you should have reduced the model. Past about twenty rows this repository generates them from JSON — the page stays scriptless; the authoring does not have to be.",
+    "And check first whether you wanted a count rather than a combination. Half the tables people write by hand were a counter."
+   ],
+   "test": "Ask whether the outcome depends on WHICH or on HOW MANY. If how many, it is one counter and no table. If which, count the product before you start typing.",
+   "evidence": [
+    {
+     "page": "pulse.html",
+     "what": "24 enumerated circuits — reading × circuit × hour × text"
+    },
+    {
+     "page": "bench.html",
+     "what": "17 judges × 12 circuits, and the one card with no condition on it"
+    },
+    {
+     "page": "workbook.html",
+     "what": "chapter seven, with the ceiling stated in rows"
+    }
+   ],
+   "see": [
+    "cascade-order",
+    "the-zero-counter",
+    "the-query-string"
+   ]
+  },
+  {
+   "id": "the-zero-counter",
+   "term": "The counter that prints zero",
+   "class": "mechanism",
+   "settled": "settled",
+   "short": "Declare it, increment it with nothing, print it. The only way a stylesheet can state a negative.",
+   "body": [
+    "A sentence saying \"no opinion carries a drafter's name\" is a claim the reader has to take. A counter named `named`, declared on the body, incremented by no rule anywhere in the file, and printed in the tally, is the same claim in a form the reader can watch fail to move while they change every control on the page.",
+    "It is used three times in this yard and it is the same instrument each time: `named` on the bench, `gaps` on the quiet storm set, `burn` on the aerostat riding the air. In each case the interesting number is the one that stays at zero under every setting, and the only way to make a zero legible is to give it somewhere to have gone up.",
+    "The cost is that a reader must trust the file — a counter incremented nowhere is indistinguishable from a counter someone forgot to wire. Which is why the pages that use it say so in the stylesheet, in the comment next to the declaration, where the person checking is already looking."
+   ],
+   "test": "Search the stylesheet for the counter's name. If `counter-increment` mentions it anywhere, the zero is a result; if it does not, the zero is an assertion — and the page should say which.",
+   "evidence": [
+    {
+     "page": "bench.html",
+     "what": "`named` — 40 disposed, 12 drafted, 0 bearing a drafter, under every setting"
+    },
+    {
+     "page": "rapture.html",
+     "what": "`gaps` in a set built out of overlaps"
+    },
+    {
+     "page": "buddha.html",
+     "what": "the matter counter reading 1 under both nouns while the capability counter moves"
+    }
+   ],
+   "see": [
+    "the-attribution-gap",
+    "the-lookup-table",
+    "cascade-order"
+   ]
+  },
+  {
+   "id": "the-query-string",
+   "term": "The half of the URL CSS cannot read",
+   "class": "mechanism",
+   "settled": "settled",
+   "short": "CSS reads the fragment through :target. It cannot read the query. Nothing can. So that is where the script layer lives.",
+   "body": [
+    "A document has exactly one `:target` at a time, and the fragment is the only durable state a scriptless page has — it survives reload, it is in the bookmark, it goes in a message, Back is undo. The query string is the other half of the same address and it is invisible to the style layer completely.",
+    "That asymmetry is not a limitation to work around, it is a channel. `automat.js` and `devmode.js` are wired into every page in this yard and are inert unless the address carries `?run` or `?dev`. Open a board plainly and nothing runs and the stylesheet decides everything, exactly as before. Open it with a query and a script is pressing the controls — and the two layers cannot collide, because they read different halves of the same URL.",
+    "The claim was never that there is no script file. It was that the logic is the cascade, and that is intact and now checkable from inside the page."
+   ],
+   "test": "Open any board without a query string and count the script tags that do anything. Then open it with ?dev and use CENSUS, which counts them for you and says which are inert.",
+   "evidence": [
+    {
+     "page": "persist.html",
+     "what": "six states, no inputs at all, every control a link — and the query stated as write-only"
+    },
+    {
+     "page": "automat.html",
+     "what": "the channel, and 45 boards driven through it"
+    },
+    {
+     "page": "workbook.html",
+     "what": "chapter eight, and the honest answer to wanting two independent durable axes"
+    }
+   ],
+   "see": [
+    "the-orbit",
+    "cascade-order",
+    "decentralization"
+   ]
+  },
+  {
+   "id": "the-orbit",
+   "term": "The orbit",
+   "class": "number",
+   "settled": "settled",
+   "short": "lcm over the tribes of (period × steps). The beats before a board is in an arrangement it has held before.",
+   "body": [
+    "It is the honest measure of an endless thing, and it is computed in two places independently — in the HUD at runtime and in the generator that builds the wall — rather than asserted in either.",
+    "It matters because \"endless\" is cheap to claim. A run whose components all move on period 1 only ever visits the diagonal of its state space and returns to the start almost immediately; it looks endless and is a short loop. Coprime periods make the combined orbit the lcm, which for a board with a sixteen-checkbox bank leaves the safe integers early enough that the arithmetic has to be done in BigInt.",
+    "So the number is a claim you can check about a property you would otherwise have to take on faith, which is the same move as the zero counter and the printed division."
+   ],
+   "test": "Set every period to 1 and compute the orbit again. If a system's endlessness survives that, it was structural; if the orbit collapses to the number of steps in one component, the endlessness was the cadences and not the design.",
+   "evidence": [
+    {
+     "page": "automat.html",
+     "what": "an orbit on every tile, computed from the board's own controls"
+    },
+    {
+     "page": "rapture.html",
+     "what": "a set with no last record and a superrotation with no last lap"
+    },
+    {
+     "page": "clans.html",
+     "what": "six cadences chosen pairwise coprime, so the lcm is their product and the board does not repeat for 30,030 firings — the orbit as a design decision rather than an observation"
+    }
+   ],
+   "see": [
+    "decentralization",
+    "caught-up"
+   ]
+  },
+  {
+   "id": "syndication",
+   "term": "Syndication",
+   "class": "concept",
+   "settled": "settled",
+   "short": "Two or more, acting as one, sitting where everything has to pass. Not one — one is a monopoly. It taxes the rate, never the stock.",
+   "body": [
+    "YOU ALONE CANNOT BE A SYNDICATE, and that is not a nicety of usage, it is the whole structure. A single party whose removal disconnects two others is a cut vertex, and a cut vertex is a monopoly or a bottleneck. A syndicate is a COMBINATION: a set of two or more whose members are individually removable and collectively not. They are a cut SET, and they behave as one.",
+    "The consequence is the useful part and it is not obvious. Remove any single member of a syndicate and nothing happens, because the others cover. Which means the standard test for centralisation — delete one component and see whether anything else moves — is STRUCTURALLY BLIND to syndication. It will return a clean result on an arrangement that is entirely captured. To find a syndicate you have to delete combinations, and combinations are where nobody looks because there are so many more of them.",
+    "So the procedure has two halves. Find the minimal sets whose removal disconnects: sets where the whole set cuts and no proper subset of it does. Then ask whether the members are CORRELATED — do they price, refuse and time together? A minimal cut set of independent parties is just thin redundancy and it is fine. The same set moving in step is a syndicate, and no member of it has to know that.",
+    "NOW THE HALF THAT IS USUALLY GOT WRONG. Syndication is a hindrance and not a loss factor. It acts on the RATE at which you gain and never on the STOCK you already hold. A toll makes the road slower and the journey dearer; it does not reach into the cart. Everything a syndicate can do sits in that sentence — slow you, lengthen your path, price your passage, refuse you a turn — and not one of those subtracts what you already brought.",
+    "Which is why a base can run on a law that nothing ever goes down and still take this seriously. The two do not conflict. Being syndicated means climbing at a worse rate than you otherwise would have, forever, and seeing it requires comparing yourself against a counterfactual rather than against yesterday. That is exactly why it is invisible from inside, and it is the second reason to trust the structural test over the felt experience.",
+    "A party that takes what you already hold is not a syndicate. That is confiscation: a different mechanism with a different remedy. You can be robbed by somebody holding no position at all, and you can be thoroughly syndicated by people who never take a thing."
+   ],
+   "test": "Three ways to break this and they are not equally easy. FIRST, the cheap one: find a genuine syndicate that is a single party. If you can, the combination requirement is wrong and the word means something closer to bottleneck. SECOND: find a minimal cut set of two or more whose members demonstrably do NOT move together — independent pricing, independent refusals, independent timing — and which everybody nonetheless agrees is a syndicate. That would mean correlation is not required and the shape alone is enough. THIRD, and this is the load-bearing one: find a case where the set removes what was already earned rather than slowing what is earned next, and show it is syndication rather than confiscation wearing its coat. If that case stands, the hindrance-not-loss claim is false, and this entry and the +1 law cannot both survive it.",
+   "evidence": [
+    {
+     "page": "syndicate.html",
+     "what": "six indicators, each a structural fact checkable on paper rather than a vibe — and none of them requires anybody to be villainous or even aware"
+    },
+    {
+     "page": "corps.html",
+     "what": "the cut-vertex routine over a command tree names 7 of 20, every node with more than one neighbour — the worked example of what syndication is NOT, since each of those is one party alone"
+    },
+    {
+     "page": "missouri.html",
+     "what": "ten sites all closing on one revenue model whose ceiling is set by the road: too much of one thing arrived at by choosing on the wrong number, with nobody combining and nobody at fault"
+    }
+   ],
+   "see": [
+    "decentralization",
+    "fungibility",
+    "the-relay",
+    "the-gas"
+   ]
+  }
+ ]
+}

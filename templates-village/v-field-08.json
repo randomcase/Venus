@@ -1,0 +1,16 @@
+{
+ "kind": "holding",
+ "name": "the smallholding on high peat field of 8",
+ "grows": 16,
+ "cost": 3200,
+ "text": "A household grows 16 of its own a day and asks for nothing.",
+ "id": "v-field-08",
+ "wovenBy": "field-08",
+ "chain": [
+  "field-08",
+  "l2-field-1-2",
+  "l3-field-1",
+  "l4-field",
+  "loom.mjs"
+ ]
+}

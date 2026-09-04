@@ -1,0 +1,22 @@
+{
+ "id": "syn-9",
+ "kind": "syndicate",
+ "tranche": 9,
+ "holds": 1000000,
+ "doors": [
+  77,
+  85
+ ],
+ "doorCount": 9,
+ "custodians": [
+  "p-25",
+  "p-26",
+  "p-27"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 9th syndicate",
+ "seat": "the long gallery",
+ "text": "Holds one tranche of a million against doors 77 to 85. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

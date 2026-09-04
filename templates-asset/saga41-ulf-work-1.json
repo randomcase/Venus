@@ -1,0 +1,16 @@
+{
+ "id": "saga41-ulf-work-1",
+ "kind": "work",
+ "clan": "ulf",
+ "clanName": "Ulfsson",
+ "house": "Kiln",
+ "resource": "silicate",
+ "period": 5,
+ "tier": 1,
+ "yield": 4,
+ "cost": 480,
+ "name": "Kiln 1 of Ulfsson",
+ "text": "One kiln, fired on daylight. Yields 4 silicate every 5 days.",
+ "wovenBy": "ulf",
+ "saga": 41
+}

@@ -1,0 +1,14 @@
+{
+ "id": "l3-water-1",
+ "depth": 3,
+ "wovenBy": "l4-water",
+ "kind": "water",
+ "name": "The water pattern 1: a well",
+ "fixed": {
+  "source": "a well"
+ },
+ "open": [
+  "holds"
+ ],
+ "weaves": 2
+}

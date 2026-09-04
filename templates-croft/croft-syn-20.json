@@ -1,0 +1,12 @@
+{
+ "id": "croft-syn-20",
+ "kind": "croft",
+ "syndicate": "syn-20",
+ "tranche": 20,
+ "seat": "the long gallery",
+ "period": 71,
+ "yield": 3,
+ "cap": 30,
+ "text": "The croft at the long gallery, growing sealing wax for the 20th syndicate every 71 days.",
+ "wovenBy": "syn-20"
+}

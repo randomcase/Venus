@@ -1,0 +1,12 @@
+{
+ "id": "weather-01",
+ "depth": 1,
+ "wovenBy": "l2-weather-1-1",
+ "kind": "weather",
+ "sky": "fog",
+ "lasts": 5,
+ "name": "fog for 5 days",
+ "mul": 0.95,
+ "p": 0.0022,
+ "water": 0
+}

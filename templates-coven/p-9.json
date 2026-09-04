@@ -1,0 +1,31 @@
+{
+ "id": "p-9",
+ "kind": "practitioner",
+ "office": "warlock",
+ "name": "Dornune Asheth",
+ "syndicate": "syn-3",
+ "tranche": 3,
+ "doors": [
+  20,
+  28
+ ],
+ "house": "the quiet lamp",
+ "sigil": {
+  "ring": 1,
+  "bars": 3,
+  "chord": 5,
+  "turn": 255
+ },
+ "keeps": "what one world owes another and has not said",
+ "does": "Carries the chain across at the syndication and brings the other world's back. Signs for what he carried and for nothing else.",
+ "office_is": "carries between",
+ "reads": "Giles Corey",
+ "readsId": "corey",
+ "reason": "Refused to plead, so there was no conviction and no forfeiture.",
+ "spell": "Bolt",
+ "spellId": "bolt",
+ "glyph": "⟊",
+ "share": "507928",
+ "text": "Dornune asheth of the quiet lamp, carries between for the 3rd tranche, doors 20 to 28. Keeps what one world owes another and has not said. Reads Giles Corey.",
+ "wovenBy": "corey"
+}

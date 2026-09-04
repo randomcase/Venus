@@ -1,0 +1,48 @@
+{
+ "id": "eisenhower",
+ "kind": "president",
+ "order": 1,
+ "name": "Dwight D. Eisenhower",
+ "term": [1953, 1961],
+ "party": "Republican",
+ "role": "Managed early involvement: refused to intervene at Dien Bien Phu, declined to sign the Geneva Accords, built the Diem government, and sent the first military advisers.",
+ "numbers": [
+  { "k": "US troops in Vietnam at end of term", "v": "900 (Dec 1960)" },
+  { "k": "US deaths during term", "v": "9 (1956–1960)" },
+  { "k": "Aid to Saigon", "v": "about $1.6 billion, 1955–1961, most of it military" },
+  { "k": "Advisers on arrival", "v": "MAAG Indochina, 342 men, inherited from Truman" }
+ ],
+ "decisions": [
+  ["1954-04-07", "The 'falling domino' press conference: the principle that would justify everything after him."],
+  ["1954-04", "Refuses Operation Vulture, the air strike to save Dien Bien Phu, after Ridgway's estimate of what a ground war would cost and after Britain declines to join."],
+  ["1954-07", "Does not sign the Geneva Accords; the US 'takes note' and promises not to disturb them by force."],
+  ["1954-10-23", "Letter to Diem offering direct aid, bypassing the French: the start of the American client."],
+  ["1955-11-01", "MAAG Vietnam takes over training of the South Vietnamese army from France — the date the US Department of Defense uses for the war's start."],
+  ["1956-07", "Backs Diem's refusal to hold the reunification election the Accords called for."],
+  ["1960-12", "Leaves office with about 900 advisers in country and a warning to Kennedy about Laos, not Vietnam."]
+ ],
+ "advisers": [
+  { "who": "John Foster Dulles", "post": "Secretary of State", "from": 1953, "to": 1959, "note": "Architect of SEATO and of the decision to build a separate South; wanted to intervene at Dien Bien Phu and was overruled." },
+  { "who": "Christian Herter", "post": "Secretary of State", "from": 1959, "to": 1961, "note": "Succeeded Dulles; Vietnam policy on autopilot." },
+  { "who": "Charles E. Wilson", "post": "Secretary of Defense", "from": 1953, "to": 1957, "note": "Ex-GM; opposed a ground war in Asia on cost." },
+  { "who": "Neil McElroy", "post": "Secretary of Defense", "from": 1957, "to": 1959, "note": "" },
+  { "who": "Thomas S. Gates Jr.", "post": "Secretary of Defense", "from": 1959, "to": 1961, "note": "" },
+  { "who": "Allen Dulles", "post": "Director of Central Intelligence", "from": 1953, "to": 1961, "note": "Ran the covert side, including the Saigon Military Mission." },
+  { "who": "Adm. Arthur Radford", "post": "Chairman, Joint Chiefs", "from": 1953, "to": 1957, "note": "Proposed the Dien Bien Phu strike, Vulture." },
+  { "who": "Gen. Matthew Ridgway", "post": "Army Chief of Staff", "from": 1953, "to": 1955, "note": "His staff study of what an Indochina ground war would need — seven divisions and more — is the reason there was not one in 1954." },
+  { "who": "Gen. Nathan Twining", "post": "Chairman, Joint Chiefs", "from": 1957, "to": 1960, "note": "" },
+  { "who": "Gen. Lyman Lemnitzer", "post": "Chairman, Joint Chiefs", "from": 1960, "to": 1962, "note": "Carried over to Kennedy." },
+  { "who": "Lt. Gen. John O'Daniel", "post": "Chief, MAAG Indochina", "from": 1954, "to": 1955, "note": "'Iron Mike'; pushed for the US to take over training." },
+  { "who": "Lt. Gen. Samuel T. Williams", "post": "Chief, MAAG Vietnam", "from": 1955, "to": 1960, "note": "'Hanging Sam'; built the ARVN as a conventional army to fight a Korean-style invasion, which was the wrong war." },
+  { "who": "Col. Edward Lansdale", "post": "Saigon Military Mission, CIA", "from": 1954, "to": 1956, "note": "Diem's adviser and promoter; the covert operations north of the line; the model for two novels." },
+  { "who": "Gen. J. Lawton Collins", "post": "Special representative in Saigon", "from": 1954, "to": 1955, "note": "Recommended dropping Diem; overruled after Diem beat the sects in April 1955." },
+  { "who": "G. Frederick Reinhardt", "post": "Ambassador to South Vietnam", "from": 1955, "to": 1957, "note": "" },
+  { "who": "Elbridge Durbrow", "post": "Ambassador to South Vietnam", "from": 1957, "to": 1961, "note": "Reported Diem's decline and was ignored." },
+  { "who": "Richard Nixon", "post": "Vice President", "from": 1953, "to": 1961, "note": "Publicly floated sending troops in April 1954; later inherited the war he had argued for." },
+  { "who": "Walter Bedell Smith", "post": "Under Secretary of State", "from": 1953, "to": 1954, "note": "Led the US delegation at Geneva." },
+  { "who": "Robert Cutler", "post": "National Security Adviser", "from": 1953, "to": 1955, "note": "First to hold the title." },
+  { "who": "Gordon Gray", "post": "National Security Adviser", "from": 1958, "to": 1961, "note": "" }
+ ],
+ "text": "Eisenhower: the president who said no to Dien Bien Phu, yes to Diem, and left 900 advisers and a domino theory to his successor.",
+ "wovenBy": "the bridge"
+}

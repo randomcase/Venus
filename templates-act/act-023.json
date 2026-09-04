@@ -1,0 +1,17 @@
+{
+ "id": "act-023",
+ "order": 23,
+ "year": 3,
+ "day": 811,
+ "parties": [
+  "deiphobus",
+  "paris"
+ ],
+ "actor": "Deiphobus",
+ "with": "Paris",
+ "verb": "took",
+ "object": "Briseis from the tent",
+ "place": "on the plain of Scamander",
+ "side": "troy",
+ "text": "Deiphobus and Paris took Briseis from the tent, on the plain of Scamander, in the third year."
+}

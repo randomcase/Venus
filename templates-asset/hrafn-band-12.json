@@ -1,0 +1,15 @@
+{
+ "id": "hrafn-band-12",
+ "kind": "band",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "period": 2,
+ "name": "longship crew of Hrafnsson",
+ "strength": 9,
+ "raids": true,
+ "cost": 973,
+ "upkeep": 2,
+ "text": "Raids on the clan's period, taking a share of what the others have piled. Strength 9; eats 2 hydrogen a day.",
+ "wovenBy": "hrafn"
+}

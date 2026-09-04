@@ -1,0 +1,13 @@
+{
+ "id": "saga1597-hrafn-pile-2",
+ "kind": "pile",
+ "clan": "hrafn",
+ "clanName": "Hrafnsson",
+ "resource": "hydrogen",
+ "name": "a longhouse loft for hydrogen",
+ "holds": 450,
+ "cost": 540,
+ "text": "Holds 450 hydrogen. What is not piled is not yours by morning.",
+ "wovenBy": "hrafn",
+ "saga": 1597
+}

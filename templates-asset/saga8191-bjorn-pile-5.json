@@ -1,0 +1,13 @@
+{
+ "id": "saga8191-bjorn-pile-5",
+ "kind": "pile",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "name": "a buried hoard for nitrogen",
+ "holds": 350,
+ "cost": 420,
+ "text": "Holds 350 nitrogen. What is not piled is not yours by morning.",
+ "wovenBy": "bjorn",
+ "saga": 8191
+}

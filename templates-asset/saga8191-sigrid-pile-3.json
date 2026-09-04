@@ -1,0 +1,13 @@
+{
+ "id": "saga8191-sigrid-pile-3",
+ "kind": "pile",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "name": "a raft of barrels for biomass",
+ "holds": 150,
+ "cost": 180,
+ "text": "Holds 150 biomass. What is not piled is not yours by morning.",
+ "wovenBy": "sigrid",
+ "saga": 8191
+}

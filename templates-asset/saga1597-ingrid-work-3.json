@@ -1,0 +1,16 @@
+{
+ "id": "saga1597-ingrid-work-3",
+ "kind": "work",
+ "clan": "ingrid",
+ "clanName": "Ingridsdottir",
+ "house": "Scriptorium",
+ "resource": "record",
+ "period": 13,
+ "tier": 3,
+ "yield": 4,
+ "cost": 1440,
+ "name": "Scriptorium 3 of Ingridsdottir",
+ "text": "Somebody reads back three years and does not repeat a search. Yields 4 record every 13 days.",
+ "wovenBy": "ingrid",
+ "saga": 1597
+}

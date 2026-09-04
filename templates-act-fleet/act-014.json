@@ -1,0 +1,17 @@
+{
+ "id": "act-014",
+ "bench": "fleet",
+ "order": 14,
+ "year": 2,
+ "day": 492,
+ "parties": [
+  "agamemnon"
+ ],
+ "actor": "Agamemnon",
+ "with": null,
+ "verb": "spoke",
+ "object": "against the kings in the assembly",
+ "place": "in the assembly by the ships",
+ "side": "fleet",
+ "text": "Agamemnon spoke against the kings in the assembly, in the assembly by the ships, in the second year."
+}

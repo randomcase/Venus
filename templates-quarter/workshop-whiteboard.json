@@ -1,0 +1,8 @@
+{
+ "id": "workshop-whiteboard",
+ "kind": "whiteboard",
+ "room": "workshop",
+ "name": "the whiteboard",
+ "text": "The surface on its own. Whatever is on it is on it until it is wiped.",
+ "wovenBy": "whiteboard.html"
+}

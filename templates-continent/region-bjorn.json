@@ -1,0 +1,15 @@
+{
+ "id": "region-bjorn",
+ "kind": "region",
+ "name": "Thetis Regio",
+ "clan": "bjorn",
+ "clanName": "Bjornsdottir",
+ "resource": "nitrogen",
+ "period": 3,
+ "seat": [
+  19,
+  23
+ ],
+ "parcels": 1406,
+ "wovenBy": "bjorn"
+}

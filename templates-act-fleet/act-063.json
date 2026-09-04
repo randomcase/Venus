@@ -1,0 +1,17 @@
+{
+ "id": "act-063",
+ "bench": "fleet",
+ "order": 63,
+ "year": 7,
+ "day": 2254,
+ "parties": [
+  "ajax"
+ ],
+ "actor": "Ajax",
+ "with": null,
+ "verb": "counted",
+ "object": "the ships by contingent",
+ "place": "in the assembly by the ships",
+ "side": "fleet",
+ "text": "Ajax counted the ships by contingent, in the assembly by the ships, in the seventh year."
+}

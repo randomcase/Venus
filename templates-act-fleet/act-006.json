@@ -1,0 +1,18 @@
+{
+ "id": "act-006",
+ "bench": "fleet",
+ "order": 6,
+ "year": 1,
+ "day": 201,
+ "parties": [
+  "achilles",
+  "odysseus"
+ ],
+ "actor": "Achilles",
+ "with": "Odysseus",
+ "verb": "refused",
+ "object": "the ransom for Chryseis",
+ "place": "on the beach at dawn",
+ "side": "fleet",
+ "text": "Achilles and Odysseus refused the ransom for Chryseis, on the beach at dawn, in the first year."
+}

@@ -1,0 +1,11 @@
+{
+ "id": "enum-demon",
+ "kind": "enum",
+ "family": "demon",
+ "path": "templates-enum/demon.json",
+ "note": "The fixed vocabulary of templates-demon/, mined from 5 of its 5 templates by enums.mjs. Kept in templates-enum/, never inside templates-demon/ itself, so nothing that scans templates-demon/ for its own templates ever trips over this file. A field with more than 100 distinct values, or one that is close to a different value in every file, is not here — it is data, not an enum. Edit the source templates and re-run enums.mjs to update this.",
+ "totalFiles": 5,
+ "sampledFiles": 5,
+ "fields": {},
+ "wovenBy": "enums.mjs"
+}

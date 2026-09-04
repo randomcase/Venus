@@ -1,0 +1,14 @@
+{
+ "id": "follow-one-unit",
+ "layer": "fungibility",
+ "entry": "the-harvest-guarantee",
+ "giver": "A newcomer four ranks down, who cannot see past the desk above them.",
+ "object": "Trace one unit of a newcomer’s output through five ranks for a notional five years, and add up what reaches people who did not contribute to it.",
+ "done": "You can state the fraction reaching non-contributors, and say for each part whether it arrived by an agreed term or by rank.",
+ "produces": [
+  "a number",
+  "an attribution for each part of it"
+ ],
+ "requires": [],
+ "note": "The harvest-guarantee test. guild.html does the arithmetic for one ladder; the quest is to do it for a real one."
+}

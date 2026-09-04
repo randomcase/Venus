@@ -1,0 +1,17 @@
+{
+ "id": "act-009",
+ "bench": "fleet",
+ "order": 9,
+ "year": 1,
+ "day": 315,
+ "parties": [
+  "diomedes"
+ ],
+ "actor": "Diomedes",
+ "with": null,
+ "verb": "sacrificed",
+ "object": "at Aulis for a wind",
+ "place": "at the wall round the camp",
+ "side": "fleet",
+ "text": "Diomedes sacrificed at Aulis for a wind, at the wall round the camp, in the first year."
+}

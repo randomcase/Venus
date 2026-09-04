@@ -1,0 +1,17 @@
+{
+ "id": "act-042",
+ "bench": "fleet",
+ "order": 42,
+ "year": 5,
+ "day": 1480,
+ "parties": [
+  "menelaus"
+ ],
+ "actor": "Menelaus",
+ "with": null,
+ "verb": "tested",
+ "object": "the army by ordering it home",
+ "place": "in Agamemnon's hut",
+ "side": "fleet",
+ "text": "Menelaus tested the army by ordering it home, in Agamemnon's hut, in the fifth year."
+}

@@ -1,0 +1,17 @@
+{
+ "id": "act-010",
+ "bench": "fleet",
+ "order": 10,
+ "year": 1,
+ "day": 344,
+ "parties": [
+  "ajax"
+ ],
+ "actor": "Ajax",
+ "with": null,
+ "verb": "went out",
+ "object": "in borrowed armour",
+ "place": "on the plain",
+ "side": "fleet",
+ "text": "Ajax went out in borrowed armour, on the plain, in the first year."
+}

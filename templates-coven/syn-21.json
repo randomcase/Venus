@@ -1,0 +1,22 @@
+{
+ "id": "syn-21",
+ "kind": "syndicate",
+ "tranche": 21,
+ "holds": 1000000,
+ "doors": [
+  191,
+  200
+ ],
+ "doorCount": 10,
+ "custodians": [
+  "p-61",
+  "p-62",
+  "p-63"
+ ],
+ "quorum": 2,
+ "of": 3,
+ "name": "The 21st syndicate",
+ "seat": "the counted step",
+ "text": "Holds one tranche of a million against doors 191 to 200. Two of its three sign or nothing moves: the witch at the door, the wizard over the book, the warlock who carries. Reconciles at every syndication.",
+ "wovenBy": "the docket"
+}

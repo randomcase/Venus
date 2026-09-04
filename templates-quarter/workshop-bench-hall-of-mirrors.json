@@ -1,0 +1,9 @@
+{
+ "id": "workshop-bench-hall-of-mirrors",
+ "kind": "workbench",
+ "room": "workshop",
+ "name": "the hall of mirrors, length bench",
+ "text": "A bench for one figure: Hall of Mirrors, length, 73 metres give or take 1. Wrong if sources disagree by a metre or so about where the room is measured from.",
+ "wovenBy": "hall-of-mirrors",
+ "bay": 10
+}

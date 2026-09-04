@@ -1,0 +1,13 @@
+{
+ "id": "regime-5",
+ "kind": "regime",
+ "degree": 5,
+ "tickers": 4096,
+ "aFarm": 1024,
+ "pxACell": 16,
+ "named": false,
+ "visual": true,
+ "name": "Degree 5, 4,096. This is where complexity becomes visual.",
+ "text": "No cell is a thing any more; the board is a texture, and the eye stops reading tickers and starts reading weather. Everything after this is more of the same, smaller.",
+ "wovenBy": "market.mjs"
+}

@@ -1,0 +1,25 @@
+{
+ "id": "l4-water",
+ "depth": 4,
+ "wovenBy": "loom.mjs",
+ "kind": "water",
+ "name": "The water loom",
+ "slots": {
+  "source": [
+   "a well",
+   "a spring",
+   "a leat",
+   "a pond",
+   "a cistern",
+   "rain barrels"
+  ],
+  "holds": [
+   100,
+   250,
+   500,
+   1000
+  ]
+ },
+ "gives": "water held against the dry weathers",
+ "weaves": 3
+}

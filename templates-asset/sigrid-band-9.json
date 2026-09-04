@@ -1,0 +1,15 @@
+{
+ "id": "sigrid-band-9",
+ "kind": "band",
+ "clan": "sigrid",
+ "clanName": "Sigrdrifa",
+ "resource": "biomass",
+ "period": 7,
+ "name": "skirmishers of Sigrdrifa",
+ "strength": 7,
+ "raids": false,
+ "cost": 677,
+ "upkeep": 2,
+ "text": "Holds the ford on the clan's period; raids against you break on it. Strength 7; eats 2 biomass a day.",
+ "wovenBy": "sigrid"
+}

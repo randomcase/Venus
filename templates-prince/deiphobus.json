@@ -1,0 +1,19 @@
+{
+ "id": "deiphobus",
+ "order": 3,
+ "name": "Deiphobus",
+ "kind": "spear",
+ "glyph": "⟋",
+ "colour": "#b07a4a",
+ "cost": 11000,
+ "upgradeMul": 1.6,
+ "stats": {
+  "range": 100,
+  "damage": 4,
+  "rate": 1.0,
+  "pairWith": "paris",
+  "pairMul": 1.3
+ },
+ "does": "A spear at middle reach. Beside Paris he is a third stronger, and so is Paris.",
+ "text": "Paris' shadow. The pair the single test cannot see; put them together and see it."
+}

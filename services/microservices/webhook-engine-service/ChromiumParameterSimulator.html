@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🪐 Playwright Chromium Ingestion & Parameter Simulator</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(18, 26, 43, 0.85);
+      --accent: #38bdf8;
+      --green: #10b981;
+      --gold: #f59e0b;
+      --text: #f1f5f9;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    body {
+      margin: 0;
+      padding: 24px;
+      background: radial-gradient(circle at 50% 0%, #1e293b, var(--bg));
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .control-group {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #94a3b8;
+    }
+    select, input[type="range"], input[type="text"] {
+      width: 100%;
+      background: #030712;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 10px 0;
+      font-size: 14px;
+    }
+    .token-box {
+      font-family: monospace;
+      font-size: 12px;
+      word-break: break-all;
+      background: #020617;
+      border: 1px solid #1e293b;
+      padding: 12px;
+      border-radius: 6px;
+      color: var(--green);
+      margin-top: 10px;
+    }
+    .btn {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: all 0.2s;
+    }
+    .btn:hover { background: #7dd3fc; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0 0 6px;">🪐 Playwright Chromium Ingestion & Parameter Simulator</h1>
+      <p style="margin: 0; color: #94a3b8; font-size: 14px;">
+        Visualizing Image Formats, Layout Transcription Sizing & Unified SHA-256 Hashing Latencies
+      </p>
+    </div>
+
+    <div class="grid">
+      <!-- Left: Simulator Controls -->
+      <div class="card">
+        <h3 style="margin-top: 0;">⚙️ Pipeline Controls</h3>
+
+        <div class="control-group">
+          <label>Target Webhook URL:</label>
+          <input type="text" id="targetUrl" value="https://scala-lang.org">
+        </div>
+
+        <div class="control-group">
+          <label>Screenshot Image Format:</label>
+          <select id="imgFormat" onchange="recalculate()">
+            <option value="PNG_HIGH">PNG (Lossless / High Resolution - 1.8 MB)</option>
+            <option value="JPEG_80">JPEG (80% Quality - 420 KB)</option>
+            <option value="WEBP_OPT">WEBP (Optimized Vector - 280 KB)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>DOM Layout Text Density: <span id="textVal" style="color: var(--accent);">50,000 Chars</span></label>
+          <input type="range" id="textSlider" min="1000" max="200000" step="5000" value="50000" oninput="recalculate()">
+        </div>
+
+        <div class="control-group">
+          <label>Batch Concurrency Pool (Pekko Actors):</label>
+          <select id="concurrencyPool" onchange="recalculate()">
+            <option value="4">4 Parallel Chromium Workers</option>
+            <option value="8">8 Parallel Chromium Workers</option>
+            <option value="16">16 Parallel Chromium Workers (Cluster Mode)</option>
+          </select>
+        </div>
+
+        <button class="btn" onclick="simulateExecution()">🚀 Trigger Simulated Webhook Capture</button>
+      </div>
+
+      <!-- Right: Performance Telemetry -->
+      <div class="card">
+        <h3 style="margin-top: 0;">📊 Ingestion Telemetry & Identity Hash</h3>
+
+        <div class="stat-row">
+          <span>Total Ingested Payload Size:</span>
+          <strong id="statSize" style="color: var(--accent);">1.85 MB</strong>
+        </div>
+
+        <div class="stat-row">
+          <span>Chromium Render & Snapshot Latency:</span>
+          <strong id="statRender">142 ms</strong>
+        </div>
+
+        <div class="stat-row">
+          <span>SHA-256 Digest Computation Time:</span>
+          <strong id="statHashTime" style="color: var(--green);">1.2 ms</strong>
+        </div>
+
+        <div class="stat-row">
+          <span>Estimated Throughput:</span>
+          <strong id="statThroughput" style="color: var(--gold);">56 Jobs/sec</strong>
+        </div>
+
+        <label style="margin-top: 14px;">Unified Cryptographic Identity Token:</label>
+        <div class="token-box" id="tokenBox">
+          7b4f2c9e81a3d4f560e2b9c718a2456e3b0c44298fc1c149afbf4c8996fb9242
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function recalculate() {
+      const chars = parseInt(document.getElementById('textSlider').value);
+      document.getElementById('textVal').innerText = `${chars.toLocaleString()} Chars`;
+
+      const format = document.getElementById('imgFormat').value;
+      let imgBytes = 1800000;
+      if (format === 'JPEG_80') imgBytes = 420000;
+      if (format === 'WEBP_OPT') imgBytes = 280000;
+
+      const totalMb = ((imgBytes + chars) / (1024 * 1024)).toFixed(2);
+      document.getElementById('statSize').innerText = `${totalMb} MB`;
+
+      const workers = parseInt(document.getElementById('concurrencyPool').value);
+      const estThroughput = Math.round(workers * (1000 / 180));
+      document.getElementById('statThroughput').innerText = `${estThroughput} Jobs/sec`;
+    }
+
+    function simulateExecution() {
+      recalculate();
+      const token = Array.from(crypto.getRandomValues(new Uint8Array(32)))
+        .map(b => b.toString(16).padStart(2, '0')).join('');
+      document.getElementById('tokenBox').innerText = token;
+      alert('Chromium Playwright Webhook simulation executed successfully! Hash generated & artifacts stored.');
+    }
+
+    recalculate();
+  </script>
+</body>
+</html>

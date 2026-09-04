@@ -1,0 +1,15 @@
+{
+ "id": "l3-field-2",
+ "depth": 3,
+ "wovenBy": "l4-field",
+ "kind": "field",
+ "name": "The field pattern 2: sand",
+ "fixed": {
+  "soil": "sand"
+ },
+ "open": [
+  "lie",
+  "size"
+ ],
+ "weaves": 2
+}
